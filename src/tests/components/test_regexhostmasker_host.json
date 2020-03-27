@@ -1,0 +1,11 @@
+{
+    "id": "FizzyAde::Pingnoo::RegExHostMasker",
+    "matchItems": [
+        {
+            "matchExpression": "([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.test\\.co\\.uk)",
+            "matchFlags": 20,
+            "matchHopString": "",
+            "matchReplacementString": "<hidden>.[domain]"
+        }
+    ]
+}

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/Pingnoo">
+        <file>appicon.ico</file>
+    </qresource>
+</RCC>

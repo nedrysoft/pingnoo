@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/FizzyAde/MapWidget/">
+        <file>map.qml</file>
+    </qresource>
+</RCC>

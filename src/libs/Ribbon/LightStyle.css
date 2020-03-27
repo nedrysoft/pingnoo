@@ -1,0 +1,21 @@
+QWidget {
+    font-family: "Open Sans";
+}
+
+QPushButton {
+    border: 0px;
+    padding: 3px;
+}
+
+QToolButton {
+    border: 0px;
+    padding: 3px;
+}
+
+QToolButton::hover {
+    background: rgb(209, 198, 197)
+}
+
+QPushButton::hover {
+    background: rgb(209, 198, 197)
+}

@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/RibbonIcons">
+        <file>Icons/icons8-copy-48.png</file>
+        <file>Icons/icons8-cut-48.png</file>
+        <file>Icons/icons8-paste-48.png</file>
+    </qresource>
+</RCC>

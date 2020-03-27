@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/FizzyAde/Utils/FontAwesome">
+        <file alias="Free-Brands.otf">fontawesome/otfs/Font Awesome 5 Brands-Regular-400.otf</file>
+        <file alias="Free-Regular.otf">fontawesome/otfs/Font Awesome 5 Free-Regular-400.otf</file>
+        <file alias="Free-Solid.otf">fontawesome/otfs/Font Awesome 5 Free-Solid-900.otf</file>
+        <file alias="_variables.scss">fontawesome/scss/_variables.scss</file>
+    </qresource>
+</RCC>
