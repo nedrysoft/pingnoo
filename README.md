@@ -74,7 +74,7 @@ The generated application bundle needs to be turned into a deployable applicatio
 
 Furthermore, the gatekeeper requirements in Mac OS mean that the application needs to be signed to run without the need for user intervention in the security settings.
 
-```codesign --deep --force --verbose --verify --sign "Developer ID Application: Adrian Carpenter (5JN9ZQ38G6)" ./Pingnoo.app```
+```codesign --deep --force --verbose --verify --sign "<developer id>" ./Pingnoo.app```
 
 
 # Credits
