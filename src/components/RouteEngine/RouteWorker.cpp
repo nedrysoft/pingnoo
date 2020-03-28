@@ -144,7 +144,6 @@ bool FizzyAde::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddress
     return(false);
 }
 
-
 void FizzyAde::RouteEngine::RouteWorker::doWork()
 {
     auto addressList = QHostInfo::fromName(m_host).addresses();
@@ -153,14 +152,12 @@ void FizzyAde::RouteEngine::RouteWorker::doWork()
 
     m_isRunning = true;
 
-    if (addressList.count())
-    {
+    if (addressList.count()) {
         auto targetAddress = addressList.at(0);
         auto hop = 1;
         auto isComplete = false;
 
-        while ((!isComplete) && (hop<=MaxRouteHops) && (m_isRunning))
-        {
+        while ((!isComplete) && (hop<=MaxRouteHops) && (m_isRunning)) {
             bool hopResponded;
 
             if (targetAddress.protocol()==QAbstractSocket::IPv4Protocol) {

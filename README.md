@@ -2,11 +2,7 @@
 
 Pingnoo (pronounced /pɪŋ ɡəˈnuː/) is an open source combined traceroute and ping application for analysing network connections.  It runs under Windows, Mac OS and Linux.
 
-<div style="display: flex;">
-  <div style="margin-right:10px"><img src="https://imgur.com/mQ52seR.png" style="max-width:100%;" /></div>
-  <div><img src="https://imgur.com/Vo6IVdW.png" style="max-width:100%;" /></div>
-  <div style="margin-left:10px"><img src="https://imgur.com/M2JT4Wq.jpg" style="max-width:100%;" /></div>
-</div>
+<img width="33%" src="https://user-images.githubusercontent.com/55795671/77832022-d5567680-712a-11ea-9680-1998915e4d2e.png"/>&nbsp;<img width="33%" src="https://user-images.githubusercontent.com/55795671/77832028-df787500-712a-11ea-9f8d-9a1c6df83409.png"/>&nbsp;<img width="33%" src="https://user-images.githubusercontent.com/55795671/77832017-cc65a500-712a-11ea-9918-58f9bb675eb9.jpg"/>
 
 ## Requirements 
 
@@ -87,11 +83,12 @@ Furthermore, the gatekeeper requirements in Mac OS mean that the application nee
 
 The following third party libraries/assets have been used in the development of Pingnoo.
 
-- [Qt](https://www.qt.io/download) - cross platform framework licensed under the [GPLv3.](https://www.gnu.org/licenses/gpl-3.0.en.html)
-- [cmake](www.cmake.org) - cross platform project build system license under [BSD license.](https://gitlab.kitware.com/cmake/cmake/raw/master/Copyright.txt)
-- [Catch2](https://github.com/catchorg/Catch2) - unit testing framework licensed under the [BSL-1.0 license](https://github.com/catchorg/Catch2/blob/master/LICENSE.txt).
+- [Qt](https://www.qt.io/download) - cross platform framework, licensed under the [GPLv3.](https://www.gnu.org/licenses/gpl-3.0.en.html)
+- [cmake](www.cmake.org) - cross platform project build system, licensed under [BSD license.](https://gitlab.kitware.com/cmake/cmake/raw/master/Copyright.txt)
+- [Catch2](https://github.com/catchorg/Catch2) - unit testing framework, licensed under the [BSL-1.0 license](https://github.com/catchorg/Catch2/blob/master/LICENSE.txt).
 - [GSL](https://github.com/Microsoft/GSL) - guidelines support library for C++, licensed under the [MIT license.](https://github.com/microsoft/GSL/blob/master/LICENSE)
-- [Font Awesome](https://fontawesome.com) - Glyph based icon font, licensed under the  [SIL OFL 1.1 License.](https://scripts.sil.org/OFL)
+- [Font Awesome](https://fontawesome.com) - Glyph based icon font, licensed under the [SIL OFL 1.1 License.](https://scripts.sil.org/OFL)
+- [QCustomPlot](https://www.qcustomplot.com/) - charting library for Qt, licensed under the [GPLv3.](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 # License
 
