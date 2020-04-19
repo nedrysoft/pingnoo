@@ -27,6 +27,8 @@ pingnoo_add_sources(
     qcustomplot.h
 )
 
+pingnoo_set_description("QCustomPlot library extension")
+
 pingnoo_add_compiler_options(WIN32 "/wd4996")
 
 pingnoo_use_qt_libraries(Widgets PrintSupport)

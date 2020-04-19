@@ -26,6 +26,8 @@ pingnoo_add_sources(
     MapResources.qrc
 )
 
+pingnoo_set_description("Map support widget extension")
+
 pingnoo_use_qt_libraries(QuickWidgets)
 
 pingnoo_end_shared_library()

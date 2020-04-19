@@ -61,6 +61,8 @@ pingnoo_add_sources(
     StatusBarManager.h
 )
 
+pingnoo_set_description("Core application support component")
+
 pingnoo_use_qt_libraries(Network Widgets)
 
 pingnoo_use_shared_library(ComponentSystem)

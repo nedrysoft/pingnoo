@@ -26,6 +26,8 @@ pingnoo_add_sources(
     AppNap_mac.mm
 )
 
+pingnoo_set_description("Application Nap extension")
+
 pingnoo_use_qt_libraries(Core)
 
 pingnoo_use_frameworks("Foundation" "Cocoa")

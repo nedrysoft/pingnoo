@@ -4,7 +4,23 @@ Pingnoo (pronounced /pɪŋ ɡəˈnuː/) is an open source combined traceroute an
 
 <img width="33%" src="https://user-images.githubusercontent.com/55795671/77832022-d5567680-712a-11ea-9680-1998915e4d2e.png"/>&nbsp;<img width="33%" src="https://user-images.githubusercontent.com/55795671/77832028-df787500-712a-11ea-9f8d-9a1c6df83409.png"/>&nbsp;<img width="33%" src="https://user-images.githubusercontent.com/55795671/77832017-cc65a500-712a-11ea-9918-58f9bb675eb9.jpg"/>
 
-## Requirements 
+## Installation
+
+Binary distributions can be found under the assets on the [github releases](https://github.com/fizzyade/pingnoo/releases) page.
+
+- **Windows**.  The application is supplied as an installer executable, download and run the installer to install the application, this will create a shortcut which can be used to launch the software.
+
+- **Mac OS**.  The application is supplied as a dmg disk image.  Download and open the disk image and drag the Pingnoo icon into the Applications folder, the application can then be launched by double clicking on the Pingnoo icon in Applications.
+
+- **Linux**.  The application is supplied as an AppImage.  Download the application and then from the terminal run the command:
+
+  `chmod +x <downloaded filename>`
+
+  The application requires RAW socket access, therefore currently you will either need to follow the instructions outlined in the Linux Notes section regarding setuid, this will allow you to directly run the application.  Alternatively you can launch from the terminal by using:
+
+  `sudo ./<downloaded filename>`
+
+## Requirements (Development)
 
 - Qt 5 libraries (Requirement for development)
 - cmake for building the application
@@ -24,6 +40,33 @@ The following configurations are used for development.
 - ***Windows*** - 32 & 64-bit using MSVC 2017 Community Edition
 - ***Windows*** - 32 & 64-bit using mingw-g++
 - ***Mac OS*** - 64-bit using clang from xcode command line tools
+
+### Deployment
+
+The deploy.py python script is used to create runnable/installable binaries for the given operating system.
+
+- ***Linux*** - Generates a stand-alone AppImage for easy use.
+- ***Windows*** - Generates an installer for easy deployment.
+- ***Mac OS*** - Generates a DMG file for easy deployment.
+
+The script requires python 3.6 or later, curl and the [colorama](https://github.com/tartley/colorama) python module to enhance the console output, the colorama module can be installed using pip:
+
+`pip3 install colorama`
+
+The script provides the following parameters:
+
+- `--qtdir="<path to qt>"` - the path to the version of qt that the application was built against
+- `--curlbin="<path to curl binary>"` - the path to the curl binary, i.e `"/usr/bin/curl"`.
+- `--arch="<x64|x86>"` - the architecture to deploy
+- `--type=<release|debug>` - the build type to deploy
+- `--cert="<cert>"` - the value of this is dependent on the platform, for Windows and Mac OS it is the name of the certificate to be used, for Linux it is the gpg2 key identifier.
+- `--timeserver="<name>"` - windows only, the name of the time server to be used during signing
+- `--appleid="<email>"` - *Mac OS only*, the Apple ID of the developer account used to sign the binary
+- `--password="<password>"` - *Mac OS only*, the password of the Apple ID.  The password can be stored in the keychain and accessed using `"@keychain:<identifier>"` instead of passing the actual password to the script.
+
+The script will use the curl binary to obtain any tools required for the deployment process.
+
+The resulting asset will be placed in the deployment folder.
 
 ### Linux Notes
 
@@ -62,7 +105,7 @@ Debugging memory leaks can be done with valgrind, but as above the application r
 
 #### Unit Tests
 
-Set the`Pingnoo_Build_Tests` option to `ON` to generate a binary which performs unit tests.
+Set the `Pingnoo_Build_Tests` option to `ON` to generate a binary which performs unit tests.
 
 #### Ribbon Bar
 
@@ -70,25 +113,30 @@ The user interface uses a Ribbon style toolbar (as seen in applications such as 
 
 #### Mac OS
 
-The generated application bundle needs to be turned into a deployable application bundle so that it runs without the need for the end user to install the Qt libraries.  This is achieved by running the macdeployqt application inside the folder where the generated Pingnoo.app bundle resides.
-
-```/Users/adriancarpenter/Qt/5.14.1/clang_64/bin/macdeployqt ./Pingnoo.app``` 
-
-Furthermore, the gatekeeper requirements in Mac OS mean that the application needs to be signed to run without the need for user intervention in the security settings.
-
-```codesign --deep --force --verbose --verify --sign "<developer id>" ./Pingnoo.app```
-
+The gatekeeper requirements in Mac OS mean that the application needs to be signed and notarized to run without user interaction for allowing the application to run.  You will require a full developer account to obtain a code signing certificate that is valid for gatekeeper authentication.
 
 # Credits
 
-The following third party libraries/assets have been used in the development of Pingnoo.
+The following third party libraries/assets/tools/services have been used in the development of Pingnoo.
 
-- [Qt](https://www.qt.io/download) - cross platform framework, licensed under the [GPLv3.](https://www.gnu.org/licenses/gpl-3.0.en.html)
-- [cmake](www.cmake.org) - cross platform project build system, licensed under [BSD license.](https://gitlab.kitware.com/cmake/cmake/raw/master/Copyright.txt)
+- [Qt](https://www.qt.io/download) - cross platform framework, licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html).
+- [cmake](www.cmake.org) - cross platform project build system, licensed under [BSD license](https://gitlab.kitware.com/cmake/cmake/raw/master/Copyright.txt).
 - [Catch2](https://github.com/catchorg/Catch2) - unit testing framework, licensed under the [BSL-1.0 license](https://github.com/catchorg/Catch2/blob/master/LICENSE.txt).
-- [GSL](https://github.com/Microsoft/GSL) - guidelines support library for C++, licensed under the [MIT license.](https://github.com/microsoft/GSL/blob/master/LICENSE)
-- [Font Awesome](https://fontawesome.com) - Glyph based icon font, licensed under the [SIL OFL 1.1 License.](https://scripts.sil.org/OFL)
-- [QCustomPlot](https://www.qcustomplot.com/) - charting library for Qt, licensed under the [GPLv3.](https://www.gnu.org/licenses/gpl-3.0.en.html)
+- [GSL](https://github.com/Microsoft/GSL) - guidelines support library for C++, licensed under the [MIT license](https://github.com/microsoft/GSL/blob/master/LICENSE).
+- [Font Awesome](https://fontawesome.com) - glyph based icon font, licensed under the [SIL OFL 1.1 License](https://scripts.sil.org/OFL).
+- [QCustomPlot](https://www.qcustomplot.com/) - charting library for Qt, licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html).
+- [macdeployqtfix](https://github.com/arl/macdeployqtfix) - finishes the job that macdeployqt starts, licensed under the [MIT License](https://github.com/arl/macdeployqtfix/blob/master/LICENSE).
+- [linuxdeployqt](https://github.com/probonopd/linuxdeployqt) - creates deployable linux binaries, licensed under the [GPLv3 License](https://github.com/probonopd/linuxdeployqt/blob/master/LICENSE.GPLv3).
+- [create-dmg](https://github.com/andreyvit/create-dmg) - automates the creation of Mac OS DMG files, licensed under the [MIT License](https://github.com/andreyvit/create-dmg/blob/master/LICENSE).
+- [colorama](https://github.com/tartley/colorama) - python module for terminal colour, licensed under the [BSD License](https://github.com/tartley/colorama/blob/master/LICENSE.txt).
+
+In addition, the following commercially licensed tools/services have also been used.
+
+- [SmartCard Tools](https://www.mgtek.com/smartcard) - code signing tool, allows automation of signing using a smartcard token.
+- [Certum Code Signing Certificate](https://en.sklep.certum.pl/data-safety/code-signing-certificates/open-source-code-signing-1022.html) - open source code signing certificate for signing Windows binaries.
+- [AdvancedInstaller](https://www.advancedinstaller.com/) - Installer creator for windows, license kindly provided by them for free.
+- [Affinity Designer](https://www.serif.com/designer) - Vector artwork design application.
+- [Affinity Photo](https://www.serif.com/photo) - Bitmap artwork design application.
 
 # License
 

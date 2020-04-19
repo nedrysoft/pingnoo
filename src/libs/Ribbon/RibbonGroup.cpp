@@ -44,7 +44,7 @@ FizzyAde::Ribbon::RibbonGroup::RibbonGroup(QWidget *parent) :
 
     setGroupName(QString("Group"));
 
-    auto styleSheet = QFile();
+    QFile styleSheet;
 
     styleSheet.setFileName(":/FizzyAde/Ribbon/LightStyle.css");
 
@@ -79,7 +79,7 @@ FizzyAde::Ribbon::RibbonGroup::RibbonGroup(QWidget *parent) :
 
 void FizzyAde::Ribbon::RibbonGroup::paintEvent(QPaintEvent *event)
 {
-    auto painter = QPainter(this);
+    QPainter painter(this);
     auto rect = this->rect();
     auto  currentTheme = FizzyAde::Ribbon::Light;
 
@@ -95,14 +95,14 @@ void FizzyAde::Ribbon::RibbonGroup::paintEvent(QPaintEvent *event)
 
     painter.setFont(m_font);
 
-    painter.setPen(RibbonWidget::TextColor[currentTheme]);
+    painter.setPen(Ribbon::TextColor[currentTheme]);
 
     painter.drawText(rect, m_groupName, Qt::AlignBottom | Qt::AlignHCenter);
 
-    painter.setPen(RibbonWidget::GroupDividerColor[currentTheme]);
+    painter.setPen(Ribbon::GroupDividerColor[currentTheme]);
 
-    auto startPoint = QPoint(this->rect().right()-1, this->rect().top()+RibbonWidget::GroupDividerMargin);
-    auto endPoint = QPoint(this->rect().right()-1, this->rect().bottom()-RibbonWidget::GroupDividerMargin);
+    auto startPoint = QPoint(this->rect().right()-1, this->rect().top()+Ribbon::GroupDividerMargin);
+    auto endPoint = QPoint(this->rect().right()-1, this->rect().bottom()-Ribbon::GroupDividerMargin);
 
     painter.drawLine(startPoint, endPoint);
 

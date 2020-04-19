@@ -30,6 +30,7 @@ pingnoo_add_sources(
     PublicIPHostMaskerSpec.h
 )
 
+pingnoo_set_description("ip masker for public ip component")
 
 pingnoo_use_qt_libraries(Network)
 

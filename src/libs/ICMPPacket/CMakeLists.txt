@@ -27,6 +27,8 @@ pingnoo_add_sources(
     windows_ip_icmp.h
 )
 
+pingnoo_set_description("ICMP packet decoder/encoder extension")
+
 pingnoo_use_qt_libraries(Network)
 
 pingnoo_end_shared_library()

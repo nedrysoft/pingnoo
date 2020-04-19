@@ -35,6 +35,42 @@ namespace FizzyAde::Ribbon
         Dark = 1
     };
 
+    static constexpr QRgb TextColor[] = {                                       //! Colour of text on the control
+        qRgb(73, 69, 66),
+        qRgb(0xDC, 0xDC, 0xDC)
+    };
+
+
+    static constexpr QRgb TabBarBackgroundColor[] = {                           //! Background colour of the tab bar
+        qRgb(246, 243, 247),
+        qRgb(0x2d, 0x2d, 0x2d)
+    };
+
+    static constexpr QRgb TabHoverColor[] = {                                   //! Highlight colour of a tab when hovered over
+        qRgb(254, 251, 255),
+        TabBarBackgroundColor[Dark]
+    };
+
+    static constexpr QRgb TabSelectedColor[] = {                                //! Colour of a tab when the mouse is being held down
+        qRgb(51, 84, 151),
+        qRgb(0xdf, 0xdf, 0xdf)
+    };
+
+    static constexpr QRgb RibbonBorderColor[] = {                               //! Colour of the ribbon divider at the bottom of the control
+        qRgb(214, 211, 207),
+        qRgb(0, 0, 0)
+    };
+
+    static constexpr QRgb GroupDividerColor[] = {                               //! Colour of the group divider
+        qRgb(180, 178, 173),
+        qRgb(0x57, 0x57, 0x57)
+    };
+
+    static constexpr int TabBarHeight = 28;                                     //! Height of the tab bar portion of the control
+    static constexpr int RibbonBarHeight = 100;                                 //! Height of the entire control
+    static constexpr int TabHighlightHeight = 3;                                //! Height of the highlight mark on the selected page
+    static constexpr int GroupDividerMargin = 2;                                //! Width of the group divider
+
     /**
      * Ribbon Bar Widget
      *
@@ -46,45 +82,6 @@ namespace FizzyAde::Ribbon
         public QTabWidget
     {
         Q_OBJECT
-
-    private:
-
-        static constexpr int test[] = {10, 20};
-
-        static constexpr int TabBarHeight = 28;                                     //! Height of the tab bar portion of the control
-        static constexpr int RibbonBarHeight = 100;                                 //! Height of the entire control
-        static constexpr int TabHighlightHeight = 3;                                //! Height of the highlight mark on the selected page
-        static constexpr int GroupDividerMargin = 2;                                //! Width of the group divider
-
-        static constexpr QRgb TabBarBackgroundColor[] = {                           //! Background colour of the tab bar
-            qRgb(246, 243, 247),
-            qRgb(0x2d, 0x2d, 0x2d)
-        };
-
-        static constexpr QRgb TabHoverColor[] = {                                   //! Highlight colour of a tab when hovered over
-            qRgb(254, 251, 255),
-            TabBarBackgroundColor[Dark]
-        };
-
-        static constexpr QRgb TabSelectedColor[] = {                                //! Colour of a tab when the mouse is being held down
-            qRgb(51, 84, 151),
-            qRgb(0xdf, 0xdf, 0xdf)
-        };
-
-        static constexpr QRgb RibbonBorderColor[] = {                               //! Colour of the ribbon divider at the bottom of the control
-            qRgb(214, 211, 207),
-            qRgb(0, 0, 0)
-        };
-
-        static constexpr QRgb GroupDividerColor[] = {                               //! Colour of the group divider
-            qRgb(180, 178, 173),
-            qRgb(0x57, 0x57, 0x57)
-        };
-
-        static constexpr QRgb TextColor[] = {                                       //! Colour of text on the control
-            qRgb(73, 69, 66),
-            qRgb(0xDC, 0xDC, 0xDC)
-        };
 
     public:
         RibbonWidget(QWidget *parent = nullptr);

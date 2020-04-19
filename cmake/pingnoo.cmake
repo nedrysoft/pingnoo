@@ -37,19 +37,19 @@ endif()
 if (CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(PINGNOO_PLATFORM_ARCH "x64")
 else()
-    set(PINGNOO_PLATFORM_ARCH "x32")
+    set(PINGNOO_PLATFORM_ARCH "x86")
 endif()
 
 set(PINGNOO_LIBRARIES_SOURCE_DIR "${PINGNOO_SOURCE_DIR}/libs")
 set(PINGNOO_COMPONENTS_SOURCE_DIR "${PINGNOO_SOURCE_DIR}/components")
 
 if(APPLE)
-    set(PINGNOO_BINARY_ROOT "${PINGNOO_BINARY_DIR}/${PINGNOO_PLATFORM_TARGET}/${PINGNOO_PLATFORM_ARCH}/${CMAKE_BUILD_TYPE}")
+    set(PINGNOO_BINARY_ROOT "${PINGNOO_BINARY_DIR}/${PINGNOO_PLATFORM_ARCH}/${CMAKE_BUILD_TYPE}")
     set(PINGNOO_APPLICATION_BINARY "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/MacOS/${PROJECT_NAME}")
     set(PINGNOO_LIBRARIES_BINARY_DIR "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/Frameworks")
     set(PINGNOO_COMPONENTS_BINARY_DIR "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/PlugIns")
 else()
-    set(PINGNOO_BINARY_ROOT "${PINGNOO_BINARY_DIR}/${PINGNOO_PLATFORM_TARGET}/${PINGNOO_PLATFORM_ARCH}/${CMAKE_BUILD_TYPE}")
+    set(PINGNOO_BINARY_ROOT "${PINGNOO_BINARY_DIR}/${PINGNOO_PLATFORM_ARCH}/${CMAKE_BUILD_TYPE}")
     set(PINGNOO_APPLICATION_BINARY "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
     set(PINGNOO_LIBRARIES_BINARY_DIR "${PINGNOO_BINARY_ROOT}")
     set(PINGNOO_COMPONENTS_BINARY_DIR "${PINGNOO_BINARY_ROOT}/Components")
@@ -122,6 +122,8 @@ macro(pingnoo_start_component)
     string(TOUPPER ${pingnooCurrentProjectName} pingnooCurrentProjectNameUpperCase)
 
     add_definitions("-DFIZZYADE_COMPONENT_${pingnooCurrentProjectNameUpperCase}_EXPORT")
+    add_definitions("-DFIZZYADE_MODULE_FILENAME=\"${pingnooCurrentProjectName}.dll\"")
+    add_definitions("-DFIZZYADE_MODULE_NAME=\"${pingnooCurrentProjectName}\"")
 
     set(pingnooComponentDependenciesList "")
 endmacro(pingnoo_start_component)
@@ -130,6 +132,10 @@ macro(pingnoo_end_component)
     if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/metadata.json.in" AND NOT IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/metadata.json.in")
         include_directories(${CMAKE_CURRENT_BINARY_DIR})
         configure_file("metadata.json.in" "metadata.json")
+    endif()
+
+    if (WIN32)
+        target_sources(${pingnooCurrentProjectName} "PRIVATE" "${PINGNOO_SOURCE_DIR}/common/version.rc")
     endif()
 
     pingnoo_set_component_outputs()
@@ -148,11 +154,17 @@ macro(pingnoo_start_shared_library)
     string(TOUPPER ${pingnooCurrentProjectName} pingnooCurrentProjectNameUpperCase)
 
     add_definitions("-DFIZZYADE_LIBRARY_${pingnooCurrentProjectNameUpperCase}_EXPORT")
+    add_definitions("-DFIZZYADE_MODULE_FILENAME=\"${pingnooCurrentProjectName}.dll\"")
+    add_definitions("-DFIZZYADE_MODULE_NAME=\"${pingnooCurrentProjectName}\"")
 endmacro(pingnoo_start_shared_library)
 
 macro(pingnoo_end_shared_library)
     if(UNIX)
         target_compile_options(${pingnooCurrentProjectName} PRIVATE -Wno-deprecated-declarations -Wno-deprecated)
+    endif()
+
+    if (WIN32)
+        target_sources(${pingnooCurrentProjectName} "PRIVATE" "${PINGNOO_SOURCE_DIR}/common/version.rc")
     endif()
 
     pingnoo_set_library_outputs()
@@ -192,10 +204,16 @@ macro(pingnoo_start_executable)
 
     set(CMAKE_BUILD_RPATH "@executable_path/../Frameworks")
 
+    add_definitions("-DFIZZYADE_MODULE_FILENAME=\"${pingnooCurrentProjectName}.exe\"")
+    add_definitions("-DFIZZYADE_MODULE_NAME=\"${pingnooCurrentProjectName}\"")
 endmacro(pingnoo_start_executable)
 
 macro(pingnoo_end_executable)
     set_target_properties(${pingnooCurrentProjectName} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PINGNOO_BINARY_ROOT}")
+
+    if (WIN32)
+        target_sources(${pingnooCurrentProjectName} "PRIVATE" "${PINGNOO_SOURCE_DIR}/common/version.rc")
+    endif()
 
     pingnoo_sign(${PINGNOO_APPLICATION_BINARY})
 endmacro(pingnoo_end_executable)
@@ -339,6 +357,10 @@ macro(pingnoo_set_component_metadata pingnooComponentVersion pingnooComponentCat
     endif()
 endmacro(pingnoo_set_component_metadata)
 
+macro(pingnoo_set_description description)
+    add_definitions("-DVER_FILEDESCRIPTION_STR=\"${description}\"")
+endmacro()
+
 macro(pingnoo_add_optional_command systemName optionName optionDescription optionDefault)
     if(${CMAKE_SYSTEM_NAME} STREQUAL ${systemName})
         option(Pingnoo_${optionName} optionDescription optionDefault)
@@ -356,7 +378,5 @@ macro(pingnoo_add_optional_command systemName optionName optionDescription optio
 endmacro()
 
 macro(pingnoo_sign filename)
-    if(APPLE)
-        add_custom_command(TARGET ${pingnooCurrentProjectName} POST_BUILD COMMAND codesign --force --verify --timestamp -o runtime --sign \"Developer ID Application: Adrian Carpenter \(5JN9ZQ38G6\)\" ${filename})
-    endif()
+
 endmacro()

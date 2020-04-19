@@ -25,6 +25,7 @@
 #include <QApplication>
 #include <QDebug>
 #include <QDir>
+#include <QProcessEnvironment>
 
 #if defined(Q_OS_MAC)
 #include <CoreFoundation/CoreFoundation.h>
@@ -57,7 +58,13 @@ int main(int argc, char **argv)
 
     componentLoader->addComponents(componentPath);
 #else
-    componentLoader->addComponents("Components");
+
+    if (QProcessEnvironment::systemEnvironment().contains("APPDIR")) {
+        componentLoader->addComponents(QProcessEnvironment::systemEnvironment().value("APPDIR")+"/Components");
+    } else {
+        componentLoader->addComponents("Components");
+    }
+
 #endif
 
     componentLoader->loadComponents();

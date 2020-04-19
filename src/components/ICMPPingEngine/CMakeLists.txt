@@ -43,6 +43,8 @@ pingnoo_add_sources(
     Utils.h
 )
 
+pingnoo_set_description("ICMP ping engine component")
+
 pingnoo_use_qt_libraries(Network)
 
 pingnoo_use_component(Core)

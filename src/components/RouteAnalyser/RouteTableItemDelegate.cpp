@@ -357,7 +357,7 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintHop(FizzyAde::RouteAn
 QRgb FizzyAde::RouteAnalyser::RouteTableItemDelegate::getInterpolatedColour(const QMap<double, QRgb> &keyFrames, double value) const
 {
     constexpr auto interpolationTime = 1000.0;
-    auto colourInterpolator = QVariantAnimation();
+    QVariantAnimation colourInterpolator;
     auto keyFrameKeys = keyFrames.keys();
 
     value = qMin<double>(qMax<double>(value, 0), 1);

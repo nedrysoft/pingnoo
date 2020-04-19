@@ -33,6 +33,8 @@ pingnoo_add_sources(
     IInterface.h
 )
 
+pingnoo_set_description("Loadable Component System extension")
+
 pingnoo_use_qt_libraries(Core)
 
 pingnoo_end_shared_library()

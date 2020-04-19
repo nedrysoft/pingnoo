@@ -26,6 +26,8 @@ pingnoo_add_sources(
     FontAwesome.qrc
 )
 
+pingnoo_set_description("FontAwesome helper extension")
+
 pingnoo_use_qt_libraries(Widgets)
 
 pingnoo_end_shared_library()

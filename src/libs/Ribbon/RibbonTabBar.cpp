@@ -105,7 +105,7 @@ QSize FizzyAde::Ribbon::RibbonTabBar::tabSizeHint(int index) const
 {
     auto size = QTabBar::tabSizeHint(index);
 
-    size.setHeight(FizzyAde::Ribbon::RibbonWidget::TabBarHeight);
+    size.setHeight(Ribbon::TabBarHeight);
 
     return(size);
 }
@@ -118,8 +118,8 @@ void FizzyAde::Ribbon::RibbonTabBar::paintEvent(QPaintEvent *event)
     auto cursorPos = this->mapFromGlobal(globalCursorPos);
     auto hoveredTab = tabAt(cursorPos);
     auto backgroundColor = QColor();
-    auto painter = QPainter(this);
-    auto  currentTheme = FizzyAde::Ribbon::Light;
+    QPainter painter(this);
+    auto  currentTheme = Ribbon::Light;
 
     if (FizzyAde::Utils::ThemeSupport::isDarkMode()) {
         currentTheme = FizzyAde::Ribbon::Dark;
@@ -137,9 +137,9 @@ void FizzyAde::Ribbon::RibbonTabBar::paintEvent(QPaintEvent *event)
         auto rect = tabRect(tabIndex);
 
         if (hoveredTab==tabIndex) {
-            backgroundColor = FizzyAde::Ribbon::RibbonWidget::TabHoverColor[currentTheme];
+            backgroundColor = Ribbon::TabHoverColor[currentTheme];
         } else {
-            backgroundColor = FizzyAde::Ribbon::RibbonWidget::TabBarBackgroundColor[currentTheme];
+            backgroundColor = Ribbon::TabBarBackgroundColor[currentTheme];
         }
 
         if (tabIndex==currentIndex()) {
@@ -150,11 +150,11 @@ void FizzyAde::Ribbon::RibbonTabBar::paintEvent(QPaintEvent *event)
 
         painter.fillRect(rect, backgroundColor);
 
-        painter.setPen(RibbonWidget::TextColor[currentTheme]);
+        painter.setPen(Ribbon::TextColor[currentTheme]);
 
         painter.drawText(rect, Qt::AlignHCenter | Qt::AlignVCenter, tabText(tabIndex), &textRect);
 
-        rect.setTop(rect.bottom()-FizzyAde::Ribbon::RibbonWidget::TabHighlightHeight);
+        rect.setTop(rect.bottom()-Ribbon::TabHighlightHeight);
 
         if (hoveredTab!=tabIndex) {
             rect.setLeft(textRect.left());
@@ -162,7 +162,7 @@ void FizzyAde::Ribbon::RibbonTabBar::paintEvent(QPaintEvent *event)
         }
 
         if (tabIndex==currentIndex()) {
-            painter.fillRect(rect, FizzyAde::Ribbon::RibbonWidget::TabSelectedColor[currentTheme]);
+            painter.fillRect(rect, Ribbon::TabSelectedColor[currentTheme]);
         }
     }
 

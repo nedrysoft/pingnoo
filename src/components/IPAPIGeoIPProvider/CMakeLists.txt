@@ -32,6 +32,8 @@ pingnoo_add_sources(
     IPAPIGeoIPProviderSpec.h
 )
 
+pingnoo_set_description("ipapi.com geo ip lookup component")
+
 pingnoo_use_qt_libraries(Network Sql)
 
 pingnoo_use_component(Core)

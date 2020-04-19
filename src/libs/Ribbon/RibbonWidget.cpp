@@ -44,7 +44,7 @@ FizzyAde::Ribbon::RibbonWidget::RibbonWidget(QWidget *parent) :
 void FizzyAde::Ribbon::RibbonWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
-    auto painter = QPainter(this);
+    QPainter painter(this);
     auto rect = this->rect();
     auto  currentTheme = FizzyAde::Ribbon::Light;
 

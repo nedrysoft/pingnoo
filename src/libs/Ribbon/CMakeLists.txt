@@ -38,6 +38,8 @@ pingnoo_add_sources(
 pingnoo_use_frameworks("AppKit" "Cocoa")
 pingnoo_use_system_libraries(APPLE stdc++ objc)
 
+pingnoo_set_description("Ribbon Bar widget extension")
+
 pingnoo_use_qt_libraries(Widgets)
 
 pingnoo_end_shared_library()

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Pingnoo
+Exec=Pingnoo
+Icon=Pingnoo
+Comment=Pingnoo, an open source network ping analyser
+Terminal=false
+Categories=Network;
+Name[en_GB]=Pingnoo.desktop

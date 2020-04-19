@@ -30,6 +30,8 @@ pingnoo_add_sources(
     RegExHostMaskerSpec.h
 )
 
+pingnoo_set_description("Regular Expression masker component")
+
 pingnoo_use_qt_libraries(Core)
 
 pingnoo_use_component(Core)

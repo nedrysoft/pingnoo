@@ -1,7 +1,10 @@
 .DS_Store
 bin
+*.AppImage
 *.pro.user
 *.pro.user.*
 CMakeLists.txt.user
 CMakeLists.txt.user.*
 debug.xml
+Deployment
+*.log

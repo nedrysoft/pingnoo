@@ -1,0 +1,100 @@
+/*
+ * Copyright (C) 2020 Adrian Carpenter
+ *
+ * This file is part of pingnoo (https://github.com/fizzyade/pingnoo)
+ * An open source ping path analyser
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include <windows.h>
+#include "PingnooVersion.h"
+
+#if !defined(VER_COMPANYNAME_STR)
+#define VER_COMPANYNAME_STR         "fizzyade.com"
+#endif
+
+#if !defined(VER_FILEDESCRIPTION_STR)
+#define VER_FILEDESCRIPTION_STR     FIZZYADE_MODULE_NAME
+#endif
+
+#if !defined(VER_LEGALCOPYRIGHT_STR)
+#define VER_LEGALCOPYRIGHT_STR      "Copyright (C) 2020 Adrian Carpenter"
+#endif
+
+#if !defined(VER_ORIGINALFILENAME_STR)
+#define VER_ORIGINALFILENAME_STR    FIZZYADE_MODULE_FILENAME
+#endif
+
+#if !defined(VER_PRODUCTNAME_STR)
+#define VER_PRODUCTNAME_STR         "Pingnoo"
+#endif
+
+#if !defined(VER_FILEVERSION)
+#define VER_FILEVERSION             PINGNOO_VERSION
+#endif
+
+#if !defined(VER_FILEVERSION_STR)
+#define VER_FILEVERSION_STR         PINGNOO_VERSION_STRING"\0"
+#endif
+
+#if !defined(VER_PRODUCTVERSION)
+#define VER_PRODUCTVERSION          PINGNOO_VERSION
+#endif
+
+#if !defined(VER_PRODUCTVERSION_STR)
+#define VER_PRODUCTVERSION_STR      PINGNOO_VERSION_STRING"\0"
+#endif
+
+#ifndef DEBUG
+#define VER_DEBUG                   0
+#else
+#define VER_DEBUG                   VS_FF_DEBUG
+#endif
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     VER_FILEVERSION
+PRODUCTVERSION  VER_PRODUCTVERSION
+FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+//FILEFLAGS       (VER_PRIVATEBUILD|VER_PRERELEASE|VER_DEBUG)
+FILEOS          VOS__WINDOWS32
+FILETYPE        VFT_DLL
+FILESUBTYPE     VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "CompanyName",      VER_COMPANYNAME_STR
+            VALUE "FileDescription",  VER_FILEDESCRIPTION_STR
+            VALUE "FileVersion",      VER_FILEVERSION_STR
+            VALUE "LegalCopyright",   VER_LEGALCOPYRIGHT_STR
+            VALUE "OriginalFilename", VER_ORIGINALFILENAME_STR
+            VALUE "ProductName",      VER_PRODUCTNAME_STR
+            VALUE "ProductVersion",   VER_PRODUCTVERSION_STR
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        /* The following line should only be modified for localized versions.     */
+        /* It consists of any number of WORD,WORD pairs, with each pair           */
+        /* describing a language,codepage combination supported by the file.      */
+        /*                                                                        */
+        /* For example, a file might have values "0x409,1252" indicating that it  */
+        /* supports English language (0x409) in the Windows ANSI codepage (1252). */
+
+        VALUE "Translation", 0x809, 1252
+    END
+END

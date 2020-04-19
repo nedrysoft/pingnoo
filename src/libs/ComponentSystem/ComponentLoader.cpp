@@ -80,7 +80,7 @@ void FizzyAde::ComponentSystem::ComponentLoader::addComponents(const QString &co
     }
 #endif
 
-    auto dir = QDirIterator(componentFolder);
+    QDirIterator dir(componentFolder);
 
     // find compatible components, and create a list of components to consider for loading
 
@@ -224,6 +224,7 @@ void FizzyAde::ComponentSystem::ComponentLoader::loadComponents()
         auto pluginLoader = new QPluginLoader(component->filename());
 
         if (!pluginLoader->load()) {
+            qDebug() << pluginLoader->errorString();
             component->m_loadError |= FizzyAde::ComponentSystem::ComponentLoader::LoadError;
 
             delete pluginLoader;
