@@ -204,6 +204,9 @@ macro(pingnoo_start_executable)
 
     set(CMAKE_BUILD_RPATH "@executable_path/../Frameworks")
 
+
+
+
     add_definitions("-DFIZZYADE_MODULE_FILENAME=\"${pingnooCurrentProjectName}.exe\"")
     add_definitions("-DFIZZYADE_MODULE_NAME=\"${pingnooCurrentProjectName}\"")
 endmacro(pingnoo_start_executable)
@@ -212,6 +215,7 @@ macro(pingnoo_end_executable)
     set_target_properties(${pingnooCurrentProjectName} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PINGNOO_BINARY_ROOT}")
 
     if (WIN32)
+        set_property(TARGET ${pingnooCurrentProjectName} PROPERTY WIN32_EXECUTABLE true)
         target_sources(${pingnooCurrentProjectName} "PRIVATE" "${PINGNOO_SOURCE_DIR}/common/version.rc")
     endif()
 

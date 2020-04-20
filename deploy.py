@@ -62,6 +62,7 @@ def endMessage(state, message=None):
         else:
             sys.stdout.write(Style.BRIGHT+'['+Fore.RED+'✘'+Fore.RESET+']\r\n')
 
+
     if not state and message:
         print('\r\n'+Fore.RED+'ERROR: '+Fore.RESET+message)
 
@@ -92,7 +93,7 @@ def macSignBinary(file, cert):
     return(execute(f'codesign --verify --timestamp -o runtime --force --sign "{cert}" "{file}"')[0])
 
 def winSignBinary(file, cert, timeserver):
-    return(execute(f'tools\\smartcardtools\\x64\\scsigntool sign /n "{cert}" /t {timeserver} /fd sha1 /v "{file}"')[0])
+    return(execute(f'tools\\smartcardtools\\x64\\scsigntool sign /n "{cert}" /t {timeserver} /fd sha256 /v "{file}"')[0])
 
 def notarizeFile(file, username, password):
     uuidPattern = re.compile(r'RequestUUID\s=\s(?P<requestUUID>[a-f|0-9]{8}-[a-f|0-9]{4}-[a-f|0-9]{4}-[a-f|0-9]{4}-[a-f|0-9]{12})\n')
@@ -305,20 +306,20 @@ if platform.system()=="Windows":
 
     # sign the installer file
 
-    if args.cert:
-        startMessage('Signing installer...')
+    #if args.cert:
+    #    startMessage('Signing installer...')
 
-        if winSignBinary(file, args.cert, args.timeserver):
-            endMessage(False, f'there was a problem signing the installer.')
-            exit(1)
+    #    if winSignBinary('deployment\\Pingnoo.exe', args.cert, args.timeserver):
+    #        endMessage(False, f'there was a problem signing the installer.')
+    #        exit(1)
 
-        endMessage(True)
+    #    endMessage(True)
 
     endTime = time.time()
 
     # done!
 
-    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Installer at \"bin\\deployment\\Pingnoo.exe\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.')
+    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Installer at \"deployment\\Pingnoo.exe\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.')
 
     print(Style.BRIGHT+f'\r\nTotal time taken to perform deployment was '+timeDelta(endTime-startTime)+'.')
 

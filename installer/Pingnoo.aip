@@ -21,14 +21,15 @@
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
     <ROW Property="ARPHELPLINK" Value="https://github.com/fizzyade/pingnoo"/>
     <ROW Property="ARPNOREPAIR" Value="1" MultiBuildValue="MsiBuild:1"/>
+    <ROW Property="ARPPRODUCTICON" Value="appicon.exe" Type="8"/>
     <ROW Property="ARPSYSTEMCOMPONENT" Value="1"/>
     <ROW Property="ARPURLINFOABOUT" Value="https://github.com/fizzyade/pingnoo"/>
     <ROW Property="AppLogoIcon" Value="applogoicon" MultiBuildValue="MsiBuild:largeappicon.jpg" Type="1" MsiKey="AppLogoIcon"/>
     <ROW Property="Manufacturer" Value="fizzyade.com"/>
-    <ROW Property="ProductCode" Value="1033:{E2EAE673-1909-40BB-B06E-7F50B71C8A84} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{0EE91AD7-D1C4-4FC1-824D-E28B1E421687} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Pingnoo"/>
-    <ROW Property="ProductVersion" Value="1.0.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="0.0.0.0" Type="32" TargetFile="Pingnoo.exe"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{7B5720CF-1A50-43B0-A4BF-2317A53D4E7F}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="MsiBuild:Windows 9x/ME" ValueLocId="-"/>
@@ -44,6 +45,8 @@
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
     <ROW Directory="Components_Dir" Directory_Parent="Deploy_Dir" DefaultDir="COMPON~1|Components"/>
     <ROW Directory="Deploy_Dir" Directory_Parent="APPDIR" DefaultDir=".:Deploy"/>
+    <ROW Directory="DesktopFolder" Directory_Parent="TARGETDIR" DefaultDir="DESKTO~1|DesktopFolder" IsPseudoRoot="1"/>
+    <ROW Directory="ProgramMenuFolder" Directory_Parent="TARGETDIR" DefaultDir="PROGRA~1|ProgramMenuFolder" IsPseudoRoot="1"/>
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
     <ROW Directory="bearer_Dir" Directory_Parent="Deploy_Dir" DefaultDir="bearer"/>
     <ROW Directory="iconengines_Dir" Directory_Parent="Deploy_Dir" DefaultDir="ICONEN~1|iconengines"/>
@@ -54,7 +57,7 @@
     <ROW Directory="translations_Dir" Directory_Parent="Deploy_Dir" DefaultDir="TRANSL~1|translations"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
-    <ROW Component="AI_CustomARPName" ComponentId="{5A4D34F2-598C-4F68-8EA6-0A7B8AD3ED5E}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
+    <ROW Component="AI_CustomARPName" ComponentId="{3FC7C7BC-8E8F-49DD-AF26-53C22872653E}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
     <ROW Component="AI_ExePath" ComponentId="{2440C8AA-02F2-483E-ACC6-4DD5B77054F0}" Directory_="APPDIR" Attributes="4" KeyPath="AI_ExePath"/>
     <ROW Component="APPDIR" ComponentId="{E15F8E41-1A56-4B0C-AC7B-8C57637000D0}" Directory_="APPDIR" Attributes="0"/>
     <ROW Component="AppNap.dll" ComponentId="{754EFBA5-8315-4AE9-8694-EC07BCAC2E89}" Directory_="Deploy_Dir" Attributes="256" KeyPath="AppNap.dll"/>
@@ -71,47 +74,40 @@
     <ROW Component="ProductInformation" ComponentId="{D4E7BD0D-EFF7-4C1E-8A77-8E650056B697}" Directory_="APPDIR" Attributes="260" KeyPath="Version"/>
     <ROW Component="PublicIPHostMasker.dll" ComponentId="{DEF30C29-91FF-4A2E-AD63-C943F71E53A9}" Directory_="Components_Dir" Attributes="256" KeyPath="PublicIPHostMasker.dll"/>
     <ROW Component="QCustomPlot.dll" ComponentId="{C9E25CA2-B368-4612-88D8-A1A98698F662}" Directory_="Deploy_Dir" Attributes="256" KeyPath="QCustomPlot.dll"/>
-    <ROW Component="Qt5Cored.dll" ComponentId="{76E9ED26-0844-409C-A152-4A97A438AB14}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5Cored.dll"/>
-    <ROW Component="Qt5Guid.dll" ComponentId="{6880DF4C-B283-4ED9-A417-7B9B4272BFE6}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5Guid.dll"/>
-    <ROW Component="Qt5Networkd.dll" ComponentId="{FD7E9DA3-FA93-4B32-9683-E3130B5560A6}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5Networkd.dll"/>
-    <ROW Component="Qt5PrintSupportd.dll" ComponentId="{ABF93854-475F-4F9C-9186-9A98AEE71272}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5PrintSupportd.dll"/>
-    <ROW Component="Qt5QmlModelsd.dll" ComponentId="{52B1BDFC-7223-4B2B-B784-3A6567ECC413}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5QmlModelsd.dll"/>
-    <ROW Component="Qt5Qmld.dll" ComponentId="{B442AAAC-C886-46CC-90D8-F40E7CAAA8FB}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5Qmld.dll"/>
-    <ROW Component="Qt5QuickWidgetsd.dll" ComponentId="{98AC89DE-592B-416A-AF33-CADDD6F182E6}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5QuickWidgetsd.dll"/>
-    <ROW Component="Qt5Quickd.dll" ComponentId="{0F2644A4-C166-4971-9A6F-281A83249E70}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5Quickd.dll"/>
-    <ROW Component="Qt5Svgd.dll" ComponentId="{C658AB4B-5FAF-4687-BFDF-E426070F6ED7}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5Svgd.dll"/>
-    <ROW Component="Qt5Widgetsd.dll" ComponentId="{D5FE16C1-1300-4F4E-9B3E-A49C90537EB5}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5Widgetsd.dll"/>
+    <ROW Component="Qt5Core.dll" ComponentId="{E9436CD4-878D-4EE9-A70D-C08FB87C45B6}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5Core.dll"/>
+    <ROW Component="Qt5Gui.dll" ComponentId="{D241CED0-29F7-450F-947C-B1EF84DC3A59}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5Gui.dll"/>
+    <ROW Component="Qt5Network.dll" ComponentId="{A27317D3-52D1-4436-A9B7-58657F451723}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5Network.dll"/>
+    <ROW Component="Qt5PrintSupport.dll" ComponentId="{56AE7120-2871-4359-8A36-46A76E074BC6}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5PrintSupport.dll"/>
+    <ROW Component="Qt5Qml.dll" ComponentId="{4F6B9C55-5F91-4ACB-866C-357A7A9AA755}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5Qml.dll"/>
+    <ROW Component="Qt5QmlModels.dll" ComponentId="{55031CA5-9236-4E71-9722-5A0BA2139493}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5QmlModels.dll"/>
+    <ROW Component="Qt5Quick.dll" ComponentId="{F637BFC3-200D-4D80-956A-9C485CEEF24B}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5Quick.dll"/>
+    <ROW Component="Qt5QuickWidgets.dll" ComponentId="{9AF5D82F-235F-4C8C-ACA6-12A1EAB003B5}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5QuickWidgets.dll"/>
+    <ROW Component="Qt5Svg.dll" ComponentId="{4A0E60C4-F660-46A9-B174-B7C27A66347C}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5Svg.dll"/>
+    <ROW Component="Qt5Widgets.dll" ComponentId="{00C0EB47-0CD9-4290-BCFF-A6217E468D56}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Qt5Widgets.dll"/>
     <ROW Component="RegExHostMasker.dll" ComponentId="{6238AAC2-FA46-40BA-A5E6-40BD3906C4F9}" Directory_="Components_Dir" Attributes="256" KeyPath="RegExHostMasker.dll"/>
     <ROW Component="Ribbon.dll" ComponentId="{4D213A44-ECF3-48A1-A571-BA3E51593108}" Directory_="Deploy_Dir" Attributes="256" KeyPath="Ribbon.dll"/>
     <ROW Component="RouteAnalyser.dll" ComponentId="{CD85D8E9-CB7B-4E5F-9197-D08AC61EC184}" Directory_="Components_Dir" Attributes="256" KeyPath="RouteAnalyser.dll"/>
     <ROW Component="RouteEngine.dll" ComponentId="{31835CDC-FC9B-46B0-835A-E8C2CEF1ADDB}" Directory_="Components_Dir" Attributes="256" KeyPath="RouteEngine.dll"/>
-    <ROW Component="concrt140d.dll" ComponentId="{77D459B9-AACF-4981-8BC9-8DBBA548C086}" Directory_="Deploy_Dir" Attributes="256" KeyPath="concrt140d.dll"/>
     <ROW Component="d3dcompiler_47.dll" ComponentId="{A8419548-5916-41E5-83F9-494FA14ED299}" Directory_="Deploy_Dir" Attributes="256" KeyPath="d3dcompiler_47.dll"/>
-    <ROW Component="libEGLd.dll" ComponentId="{841F2F5F-36CE-42A6-8F3D-85E0E7D3CFA8}" Directory_="Deploy_Dir" Attributes="256" KeyPath="libEGLd.dll"/>
-    <ROW Component="libGLESv2d.dll" ComponentId="{380D9180-3BDE-4DB3-8E6C-A7AFEAD848CD}" Directory_="Deploy_Dir" Attributes="256" KeyPath="libGLESv2d.dll"/>
-    <ROW Component="msvcp140_1d.dll" ComponentId="{F26A11BC-7A56-4B9D-9ED9-3E0575B607CF}" Directory_="Deploy_Dir" Attributes="256" KeyPath="msvcp140_1d.dll"/>
-    <ROW Component="msvcp140_2d.dll" ComponentId="{A7191B4C-A8C1-4E65-B52C-06ACF564D8B7}" Directory_="Deploy_Dir" Attributes="256" KeyPath="msvcp140_2d.dll"/>
-    <ROW Component="msvcp140d.dll" ComponentId="{21D37755-0B8C-43B1-B10B-359026F6BC53}" Directory_="Deploy_Dir" Attributes="256" KeyPath="msvcp140d.dll"/>
-    <ROW Component="msvcp140d_codecvt_ids.dll" ComponentId="{B7C09BEB-29B3-43C6-8AB8-55D721BA7B73}" Directory_="Deploy_Dir" Attributes="256" KeyPath="msvcp140d_codecvt_ids.dll"/>
+    <ROW Component="libEGL.dll" ComponentId="{F628E2F0-0E7A-4864-9C14-C718725DA798}" Directory_="Deploy_Dir" Attributes="256" KeyPath="libEGL.dll"/>
+    <ROW Component="libGLESv2.dll" ComponentId="{2BA31287-1659-4773-B0A1-69E629EFA586}" Directory_="Deploy_Dir" Attributes="256" KeyPath="libGLESv2.dll"/>
     <ROW Component="opengl32sw.dll" ComponentId="{8F89D133-5343-46EC-A847-182BBD2EF8E0}" Directory_="Deploy_Dir" Attributes="256" KeyPath="opengl32sw.dll"/>
-    <ROW Component="qgenericbearerd.dll" ComponentId="{39B49E97-AB72-482A-8322-463AA9733D2E}" Directory_="bearer_Dir" Attributes="256" KeyPath="qgenericbearerd.dll"/>
-    <ROW Component="qgifd.dll" ComponentId="{AE60DF2D-A2C3-426F-A2E7-34A3DCEF7E4F}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qgifd.dll"/>
-    <ROW Component="qicnsd.dll" ComponentId="{52E70718-2D3C-4758-A0EC-0FFA4529B964}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qicnsd.dll"/>
-    <ROW Component="qicod.dll" ComponentId="{F3951C00-BA07-4ABD-85FD-85C9358B7346}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qicod.dll"/>
-    <ROW Component="qjpegd.dll" ComponentId="{8C6537DB-E98D-46CA-88B3-E8086DACF116}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qjpegd.dll"/>
-    <ROW Component="qsvgd.dll" ComponentId="{8BE3B2CA-4E17-457B-84D1-0C724D2A6F73}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qsvgd.dll"/>
-    <ROW Component="qsvgicond.dll" ComponentId="{9BE9BDC2-C0FC-4FCB-813C-E3260A2E18AB}" Directory_="iconengines_Dir" Attributes="256" KeyPath="qsvgicond.dll"/>
+    <ROW Component="qgenericbearer.dll" ComponentId="{B30E54AB-9504-43D8-BBB7-5896BBF4B060}" Directory_="bearer_Dir" Attributes="256" KeyPath="qgenericbearer.dll"/>
+    <ROW Component="qgif.dll" ComponentId="{56B519F7-0E1D-4664-9E19-9A344C7BB378}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qgif.dll"/>
+    <ROW Component="qicns.dll" ComponentId="{C31F59DB-C0A3-48C4-9D0F-9F4D402DE4F6}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qicns.dll"/>
+    <ROW Component="qico.dll" ComponentId="{6D125DBB-3C6D-44C8-8616-8644E917429C}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qico.dll"/>
+    <ROW Component="qjpeg.dll" ComponentId="{1CAD7A3C-6831-42AA-87CF-6952E42BEDD5}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qjpeg.dll"/>
+    <ROW Component="qsvg.dll" ComponentId="{F05A1D00-45F0-4ED1-95EA-7511E0FA1194}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qsvg.dll"/>
+    <ROW Component="qsvgicon.dll" ComponentId="{F9023249-55C6-4930-9E65-AE59172B03DF}" Directory_="iconengines_Dir" Attributes="256" KeyPath="qsvgicon.dll"/>
     <ROW Component="qt_ar.qm" ComponentId="{6995513E-758C-4035-9F0A-A6E6C4BB593A}" Directory_="translations_Dir" Attributes="0" KeyPath="qt_ar.qm" Type="0"/>
-    <ROW Component="qtgad.dll" ComponentId="{46295CB0-1685-4215-A465-B209F5C52DED}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qtgad.dll"/>
-    <ROW Component="qtiffd.dll" ComponentId="{774A2B1A-0BA8-454F-8024-B24E9E2F3574}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qtiffd.dll"/>
-    <ROW Component="qwbmpd.dll" ComponentId="{5BC9075C-EF57-4760-8FB5-14BD79B3B8A5}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qwbmpd.dll"/>
-    <ROW Component="qwebpd.dll" ComponentId="{B8363316-F9C8-4F09-9D33-EC0E5F53A46C}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qwebpd.dll"/>
-    <ROW Component="qwindowsd.dll" ComponentId="{06B47A61-C941-4F45-885C-7671C105642C}" Directory_="platforms_Dir" Attributes="256" KeyPath="qwindowsd.dll"/>
-    <ROW Component="qwindowsvistastyled.dll" ComponentId="{79E0ED86-706F-4FEC-BBAD-9D906E702376}" Directory_="styles_Dir" Attributes="256" KeyPath="qwindowsvistastyled.dll"/>
-    <ROW Component="vccorlib140d.dll" ComponentId="{51E3D797-9A8B-440E-AC2D-BA74A1006521}" Directory_="Deploy_Dir" Attributes="256" KeyPath="vccorlib140d.dll"/>
-    <ROW Component="vcruntime140_1d.dll" ComponentId="{ED63F2E3-6C3F-4500-974E-B633996ADD80}" Directory_="Deploy_Dir" Attributes="256" KeyPath="vcruntime140_1d.dll"/>
-    <ROW Component="vcruntime140d.dll" ComponentId="{EDB0216B-031B-4DDC-BFF8-544D5C52C533}" Directory_="Deploy_Dir" Attributes="256" KeyPath="vcruntime140d.dll"/>
-    <ROW Component="windowsprintersupportd.dll" ComponentId="{50F8D46E-362F-431C-B5D9-B87ED2FA8294}" Directory_="printsupport_Dir" Attributes="256" KeyPath="windowsprintersupportd.dll"/>
+    <ROW Component="qtga.dll" ComponentId="{7F68ED7C-D2DB-4C34-BF9D-D0AC30DDF135}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qtga.dll"/>
+    <ROW Component="qtiff.dll" ComponentId="{0AC136BA-43C7-4FB9-8257-670640B97E82}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qtiff.dll"/>
+    <ROW Component="qwbmp.dll" ComponentId="{19BA8418-BFA7-44C6-98B3-5169A6A78B85}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qwbmp.dll"/>
+    <ROW Component="qwebp.dll" ComponentId="{3D8B2471-627F-408F-B226-30E76605DE58}" Directory_="imageformats_Dir" Attributes="256" KeyPath="qwebp.dll"/>
+    <ROW Component="qwindows.dll" ComponentId="{BBEC324B-B6C2-4DBB-86F2-1D28A69054CA}" Directory_="platforms_Dir" Attributes="256" KeyPath="qwindows.dll"/>
+    <ROW Component="qwindowsvistastyle.dll" ComponentId="{C3D77C26-775B-44C5-8B1D-76E510A19C3A}" Directory_="styles_Dir" Attributes="256" KeyPath="qwindowsvistastyle.dll"/>
+    <ROW Component="vc_redist.x64.exe" ComponentId="{22F05FD6-F374-4D69-B7AF-28490E2AA851}" Directory_="Deploy_Dir" Attributes="0" KeyPath="vc_redist.x64.exe"/>
+    <ROW Component="windowsprintersupport.dll" ComponentId="{7778D09A-F2F3-446A-B752-BC8352A8DA8B}" Directory_="printsupport_Dir" Attributes="256" KeyPath="windowsprintersupport.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
     <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0"/>
@@ -119,7 +115,6 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
     <ROW File="AppNap.dll" Component_="AppNap.dll" FileName="AppNap.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\AppNap.dll" SelfReg="false"/>
-    <ROW File="qgenericbearerd.dll" Component_="qgenericbearerd.dll" FileName="QGENER~1.DLL|qgenericbearerd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\bearer\qgenericbearerd.dll" SelfReg="false"/>
     <ROW File="Core.dll" Component_="Core.dll" FileName="Core.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Components\Core.dll" SelfReg="false"/>
     <ROW File="HostIPGeoIPProvider.dll" Component_="HostIPGeoIPProvider.dll" FileName="HOSTIP~1.DLL|HostIPGeoIPProvider.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Components\HostIPGeoIPProvider.dll" SelfReg="false"/>
     <ROW File="ICMPPingEngine.dll" Component_="ICMPPingEngine.dll" FileName="ICMPPI~1.DLL|ICMPPingEngine.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Components\ICMPPingEngine.dll" SelfReg="false"/>
@@ -129,45 +124,15 @@
     <ROW File="RouteAnalyser.dll" Component_="RouteAnalyser.dll" FileName="ROUTEA~1.DLL|RouteAnalyser.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Components\RouteAnalyser.dll" SelfReg="false"/>
     <ROW File="RouteEngine.dll" Component_="RouteEngine.dll" FileName="ROUTEE~1.DLL|RouteEngine.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Components\RouteEngine.dll" SelfReg="false"/>
     <ROW File="ComponentSystem.dll" Component_="ComponentSystem.dll" FileName="COMPON~1.DLL|ComponentSystem.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\ComponentSystem.dll" SelfReg="false"/>
-    <ROW File="concrt140d.dll" Component_="concrt140d.dll" FileName="CONCRT~1.DLL|concrt140d.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\concrt140d.dll" SelfReg="false"/>
     <ROW File="d3dcompiler_47.dll" Component_="d3dcompiler_47.dll" FileName="D3DCOM~1.DLL|d3dcompiler_47.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\d3dcompiler_47.dll" SelfReg="false"/>
     <ROW File="FontAwesome.dll" Component_="FontAwesome.dll" FileName="FONTAW~1.DLL|FontAwesome.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\FontAwesome.dll" SelfReg="false"/>
     <ROW File="ICMPPacket.dll" Component_="ICMPPacket.dll" FileName="ICMPPA~1.DLL|ICMPPacket.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\ICMPPacket.dll" SelfReg="false"/>
     <ROW File="ICMPSocket.dll" Component_="ICMPSocket.dll" FileName="ICMPSO~1.DLL|ICMPSocket.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\ICMPSocket.dll" SelfReg="false"/>
-    <ROW File="qsvgicond.dll" Component_="qsvgicond.dll" FileName="QSVGIC~1.DLL|qsvgicond.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\iconengines\qsvgicond.dll" SelfReg="false"/>
-    <ROW File="qgifd.dll" Component_="qgifd.dll" FileName="qgifd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qgifd.dll" SelfReg="false"/>
-    <ROW File="qicnsd.dll" Component_="qicnsd.dll" FileName="qicnsd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qicnsd.dll" SelfReg="false"/>
-    <ROW File="qicod.dll" Component_="qicod.dll" FileName="qicod.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qicod.dll" SelfReg="false"/>
-    <ROW File="qjpegd.dll" Component_="qjpegd.dll" FileName="qjpegd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qjpegd.dll" SelfReg="false"/>
-    <ROW File="qsvgd.dll" Component_="qsvgd.dll" FileName="qsvgd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qsvgd.dll" SelfReg="false"/>
-    <ROW File="qtgad.dll" Component_="qtgad.dll" FileName="qtgad.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qtgad.dll" SelfReg="false"/>
-    <ROW File="qtiffd.dll" Component_="qtiffd.dll" FileName="qtiffd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qtiffd.dll" SelfReg="false"/>
-    <ROW File="qwbmpd.dll" Component_="qwbmpd.dll" FileName="qwbmpd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qwbmpd.dll" SelfReg="false"/>
-    <ROW File="qwebpd.dll" Component_="qwebpd.dll" FileName="qwebpd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qwebpd.dll" SelfReg="false"/>
-    <ROW File="libEGLd.dll" Component_="libEGLd.dll" FileName="libEGLd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\libEGLd.dll" SelfReg="false"/>
-    <ROW File="libGLESv2d.dll" Component_="libGLESv2d.dll" FileName="LIBGLE~1.DLL|libGLESv2d.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\libGLESv2d.dll" SelfReg="false"/>
     <ROW File="MapWidget.dll" Component_="MapWidget.dll" FileName="MAPWID~1.DLL|MapWidget.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\MapWidget.dll" SelfReg="false"/>
-    <ROW File="msvcp140d.dll" Component_="msvcp140d.dll" FileName="MSVCP1~1.DLL|msvcp140d.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\msvcp140d.dll" SelfReg="false"/>
-    <ROW File="msvcp140d_codecvt_ids.dll" Component_="msvcp140d_codecvt_ids.dll" FileName="MSVCP1~2.DLL|msvcp140d_codecvt_ids.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\msvcp140d_codecvt_ids.dll" SelfReg="false"/>
-    <ROW File="msvcp140_1d.dll" Component_="msvcp140_1d.dll" FileName="MSVCP1~3.DLL|msvcp140_1d.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\msvcp140_1d.dll" SelfReg="false"/>
-    <ROW File="msvcp140_2d.dll" Component_="msvcp140_2d.dll" FileName="MSVCP1~4.DLL|msvcp140_2d.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\msvcp140_2d.dll" SelfReg="false"/>
     <ROW File="opengl32sw.dll" Component_="opengl32sw.dll" FileName="OPENGL~1.DLL|opengl32sw.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\opengl32sw.dll" SelfReg="false"/>
-    <ROW File="Pingnoo.exe" Component_="Pingnoo.exe" FileName="Pingnoo.exe" Attributes="0" SourcePath="..\bin\x64\Deploy\Pingnoo.exe" SelfReg="false" DigSign="true"/>
-    <ROW File="qwindowsd.dll" Component_="qwindowsd.dll" FileName="QWINDO~1.DLL|qwindowsd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\platforms\qwindowsd.dll" SelfReg="false"/>
-    <ROW File="windowsprintersupportd.dll" Component_="windowsprintersupportd.dll" FileName="WINDOW~1.DLL|windowsprintersupportd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\printsupport\windowsprintersupportd.dll" SelfReg="false"/>
+    <ROW File="Pingnoo.exe" Component_="Pingnoo.exe" FileName="Pingnoo.exe" Attributes="0" SourcePath="..\bin\x64\Deploy\Pingnoo.exe" SelfReg="false"/>
     <ROW File="QCustomPlot.dll" Component_="QCustomPlot.dll" FileName="QCUSTO~1.DLL|QCustomPlot.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\QCustomPlot.dll" SelfReg="false"/>
-    <ROW File="Qt5Cored.dll" Component_="Qt5Cored.dll" FileName="Qt5Cored.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5Cored.dll" SelfReg="false"/>
-    <ROW File="Qt5Guid.dll" Component_="Qt5Guid.dll" FileName="Qt5Guid.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5Guid.dll" SelfReg="false"/>
-    <ROW File="Qt5Networkd.dll" Component_="Qt5Networkd.dll" FileName="QT5NET~1.DLL|Qt5Networkd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5Networkd.dll" SelfReg="false"/>
-    <ROW File="Qt5PrintSupportd.dll" Component_="Qt5PrintSupportd.dll" FileName="QT5PRI~1.DLL|Qt5PrintSupportd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5PrintSupportd.dll" SelfReg="false"/>
-    <ROW File="Qt5Qmld.dll" Component_="Qt5Qmld.dll" FileName="Qt5Qmld.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5Qmld.dll" SelfReg="false"/>
-    <ROW File="Qt5QmlModelsd.dll" Component_="Qt5QmlModelsd.dll" FileName="QT5QML~1.DLL|Qt5QmlModelsd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5QmlModelsd.dll" SelfReg="false"/>
-    <ROW File="Qt5Quickd.dll" Component_="Qt5Quickd.dll" FileName="QT5QUI~1.DLL|Qt5Quickd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5Quickd.dll" SelfReg="false"/>
-    <ROW File="Qt5QuickWidgetsd.dll" Component_="Qt5QuickWidgetsd.dll" FileName="QT5QUI~2.DLL|Qt5QuickWidgetsd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5QuickWidgetsd.dll" SelfReg="false"/>
-    <ROW File="Qt5Svgd.dll" Component_="Qt5Svgd.dll" FileName="Qt5Svgd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5Svgd.dll" SelfReg="false"/>
-    <ROW File="Qt5Widgetsd.dll" Component_="Qt5Widgetsd.dll" FileName="QT5WID~1.DLL|Qt5Widgetsd.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5Widgetsd.dll" SelfReg="false"/>
     <ROW File="Ribbon.dll" Component_="Ribbon.dll" FileName="Ribbon.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Ribbon.dll" SelfReg="false"/>
-    <ROW File="qwindowsvistastyled.dll" Component_="qwindowsvistastyled.dll" FileName="QWINDO~1.DLL|qwindowsvistastyled.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\styles\qwindowsvistastyled.dll" SelfReg="false"/>
     <ROW File="qt_ar.qm" Component_="qt_ar.qm" FileName="qt_ar.qm" Attributes="0" SourcePath="..\bin\x64\Deploy\translations\qt_ar.qm" SelfReg="false"/>
     <ROW File="qt_bg.qm" Component_="qt_ar.qm" FileName="qt_bg.qm" Attributes="0" SourcePath="..\bin\x64\Deploy\translations\qt_bg.qm" SelfReg="false"/>
     <ROW File="qt_ca.qm" Component_="qt_ar.qm" FileName="qt_ca.qm" Attributes="0" SourcePath="..\bin\x64\Deploy\translations\qt_ca.qm" SelfReg="false"/>
@@ -190,22 +155,46 @@
     <ROW File="qt_sk.qm" Component_="qt_ar.qm" FileName="qt_sk.qm" Attributes="0" SourcePath="..\bin\x64\Deploy\translations\qt_sk.qm" SelfReg="false"/>
     <ROW File="qt_uk.qm" Component_="qt_ar.qm" FileName="qt_uk.qm" Attributes="0" SourcePath="..\bin\x64\Deploy\translations\qt_uk.qm" SelfReg="false"/>
     <ROW File="qt_zh_TW.qm" Component_="qt_ar.qm" FileName="qt_zh_TW.qm" Attributes="0" SourcePath="..\bin\x64\Deploy\translations\qt_zh_TW.qm" SelfReg="false"/>
-    <ROW File="vccorlib140d.dll" Component_="vccorlib140d.dll" FileName="VCCORL~1.DLL|vccorlib140d.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\vccorlib140d.dll" SelfReg="false"/>
-    <ROW File="vcruntime140d.dll" Component_="vcruntime140d.dll" FileName="VCRUNT~1.DLL|vcruntime140d.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\vcruntime140d.dll" SelfReg="false"/>
-    <ROW File="vcruntime140_1d.dll" Component_="vcruntime140_1d.dll" FileName="VCRUNT~2.DLL|vcruntime140_1d.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\vcruntime140_1d.dll" SelfReg="false"/>
+    <ROW File="qgenericbearer.dll" Component_="qgenericbearer.dll" FileName="QGENER~2.DLL|qgenericbearer.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\bearer\qgenericbearer.dll" SelfReg="false"/>
+    <ROW File="qsvgicon.dll" Component_="qsvgicon.dll" FileName="qsvgicon.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\iconengines\qsvgicon.dll" SelfReg="false"/>
+    <ROW File="qgif.dll" Component_="qgif.dll" FileName="qgif.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qgif.dll" SelfReg="false"/>
+    <ROW File="qicns.dll" Component_="qicns.dll" FileName="qicns.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qicns.dll" SelfReg="false"/>
+    <ROW File="qico.dll" Component_="qico.dll" FileName="qico.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qico.dll" SelfReg="false"/>
+    <ROW File="qjpeg.dll" Component_="qjpeg.dll" FileName="qjpeg.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qjpeg.dll" SelfReg="false"/>
+    <ROW File="qsvg.dll" Component_="qsvg.dll" FileName="qsvg.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qsvg.dll" SelfReg="false"/>
+    <ROW File="qtga.dll" Component_="qtga.dll" FileName="qtga.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qtga.dll" SelfReg="false"/>
+    <ROW File="qtiff.dll" Component_="qtiff.dll" FileName="qtiff.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qtiff.dll" SelfReg="false"/>
+    <ROW File="qwbmp.dll" Component_="qwbmp.dll" FileName="qwbmp.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qwbmp.dll" SelfReg="false"/>
+    <ROW File="qwebp.dll" Component_="qwebp.dll" FileName="qwebp.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\imageformats\qwebp.dll" SelfReg="false"/>
+    <ROW File="libEGL.dll" Component_="libEGL.dll" FileName="libEGL.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\libEGL.dll" SelfReg="false"/>
+    <ROW File="libGLESv2.dll" Component_="libGLESv2.dll" FileName="LIBGLE~2.DLL|libGLESv2.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\libGLESv2.dll" SelfReg="false"/>
+    <ROW File="qwindows.dll" Component_="qwindows.dll" FileName="qwindows.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\platforms\qwindows.dll" SelfReg="false"/>
+    <ROW File="windowsprintersupport.dll" Component_="windowsprintersupport.dll" FileName="WINDOW~2.DLL|windowsprintersupport.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\printsupport\windowsprintersupport.dll" SelfReg="false"/>
+    <ROW File="Qt5Core.dll" Component_="Qt5Core.dll" FileName="Qt5Core.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5Core.dll" SelfReg="false"/>
+    <ROW File="Qt5Gui.dll" Component_="Qt5Gui.dll" FileName="Qt5Gui.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5Gui.dll" SelfReg="false"/>
+    <ROW File="Qt5Network.dll" Component_="Qt5Network.dll" FileName="QT5NET~2.DLL|Qt5Network.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5Network.dll" SelfReg="false"/>
+    <ROW File="Qt5PrintSupport.dll" Component_="Qt5PrintSupport.dll" FileName="QT5PRI~2.DLL|Qt5PrintSupport.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5PrintSupport.dll" SelfReg="false"/>
+    <ROW File="Qt5Qml.dll" Component_="Qt5Qml.dll" FileName="Qt5Qml.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5Qml.dll" SelfReg="false"/>
+    <ROW File="Qt5QmlModels.dll" Component_="Qt5QmlModels.dll" FileName="QT5QML~2.DLL|Qt5QmlModels.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5QmlModels.dll" SelfReg="false"/>
+    <ROW File="Qt5Quick.dll" Component_="Qt5Quick.dll" FileName="Qt5Quick.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5Quick.dll" SelfReg="false"/>
+    <ROW File="Qt5QuickWidgets.dll" Component_="Qt5QuickWidgets.dll" FileName="QT5QUI~3.DLL|Qt5QuickWidgets.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5QuickWidgets.dll" SelfReg="false"/>
+    <ROW File="Qt5Svg.dll" Component_="Qt5Svg.dll" FileName="Qt5Svg.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5Svg.dll" SelfReg="false"/>
+    <ROW File="Qt5Widgets.dll" Component_="Qt5Widgets.dll" FileName="QT5WID~2.DLL|Qt5Widgets.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\Qt5Widgets.dll" SelfReg="false"/>
+    <ROW File="qwindowsvistastyle.dll" Component_="qwindowsvistastyle.dll" FileName="QWINDO~2.DLL|qwindowsvistastyle.dll" Attributes="0" SourcePath="..\bin\x64\Deploy\styles\qwindowsvistastyle.dll" SelfReg="false"/>
+    <ROW File="vc_redist.x64.exe" Component_="vc_redist.x64.exe" FileName="VC_RED~1.EXE|vc_redist.x64.exe" Attributes="0" SourcePath="..\bin\x64\Deploy\vc_redist.x64.exe" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="MsiBuild" BuildName="MsiBuild" BuildOrder="1" BuildType="1" PackageFolder="..\deployment" PackageFileName="Pingnoo" Languages="en" InstallationType="4" PackageType="1" FilesInsideExe="true" ExtUI="true" UseLargeSchema="true"/>
+    <ROW BuildKey="MsiBuild" BuildName="MsiBuild" BuildOrder="1" BuildType="1" PackageFolder="..\deployment" PackageFileName="Pingnoo" Languages="en" InstallationType="4" PackageType="1" FilesInsideExe="true" ExtUI="true" UseLargeSchema="true" MsiPackageType="x64"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
     <ROW Path="&lt;AI_DICTS&gt;ui_en.ail"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DigCertStoreComponent">
-    <ROW TimeStampUrl="http://timestamp.digicert.com" SignerDescription="[|ProductName]" SignOptions="0" SignTool="0" UseSha256="1" Thumbprint="3759d7a7c2b6294133bbdcf100a9ddf172044fd8 Subject: Open Source Developer, Adrian Carpenter&#10;Issuer: Certum Code Signing CA SHA2&#10;Valid from 04/03/2020 to 04/03/2021&#10;User\MY"/>
+    <ROW TimeStampUrl="http://timestamp.digicert.com" SignerDescription="[|ProductName]" SignOptions="7" SignTool="0" UseSha256="1" Thumbprint="3759d7a7c2b6294133bbdcf100a9ddf172044fd8 Subject: Open Source Developer, Adrian Carpenter&#10;Issuer: Certum Code Signing CA SHA2&#10;Valid from 04/03/2020 to 04/03/2021&#10;User\MY"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.FragmentComponent">
     <ROW Fragment="CommonUI.aip" Path="&lt;AI_FRAGS&gt;CommonUI.aip"/>
@@ -342,7 +331,7 @@
     <ROW Action="AI_RunFinishActions" Type="1" Source="aicustact.dll" Target="RunFinishActions" WithoutSeq="true"/>
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
-    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="MsiBuild:[ProgramFilesFolder]\[ProductName]"/>
+    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="MsiBuild:[ProgramFiles64Folder]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
   </COMPONENT>
@@ -350,7 +339,6 @@
     <ROW Feature_="MainFeature" Component_="APPDIR"/>
     <ROW Feature_="MainFeature" Component_="ProductInformation"/>
     <ROW Feature_="MainFeature" Component_="AppNap.dll"/>
-    <ROW Feature_="MainFeature" Component_="qgenericbearerd.dll"/>
     <ROW Feature_="MainFeature" Component_="Core.dll"/>
     <ROW Feature_="MainFeature" Component_="HostIPGeoIPProvider.dll"/>
     <ROW Feature_="MainFeature" Component_="ICMPPingEngine.dll"/>
@@ -360,51 +348,48 @@
     <ROW Feature_="MainFeature" Component_="RouteAnalyser.dll"/>
     <ROW Feature_="MainFeature" Component_="RouteEngine.dll"/>
     <ROW Feature_="MainFeature" Component_="ComponentSystem.dll"/>
-    <ROW Feature_="MainFeature" Component_="concrt140d.dll"/>
     <ROW Feature_="MainFeature" Component_="d3dcompiler_47.dll"/>
     <ROW Feature_="MainFeature" Component_="FontAwesome.dll"/>
     <ROW Feature_="MainFeature" Component_="ICMPPacket.dll"/>
     <ROW Feature_="MainFeature" Component_="ICMPSocket.dll"/>
-    <ROW Feature_="MainFeature" Component_="qsvgicond.dll"/>
-    <ROW Feature_="MainFeature" Component_="qgifd.dll"/>
-    <ROW Feature_="MainFeature" Component_="qicnsd.dll"/>
-    <ROW Feature_="MainFeature" Component_="qicod.dll"/>
-    <ROW Feature_="MainFeature" Component_="qjpegd.dll"/>
-    <ROW Feature_="MainFeature" Component_="qsvgd.dll"/>
-    <ROW Feature_="MainFeature" Component_="qtgad.dll"/>
-    <ROW Feature_="MainFeature" Component_="qtiffd.dll"/>
-    <ROW Feature_="MainFeature" Component_="qwbmpd.dll"/>
-    <ROW Feature_="MainFeature" Component_="qwebpd.dll"/>
-    <ROW Feature_="MainFeature" Component_="libEGLd.dll"/>
-    <ROW Feature_="MainFeature" Component_="libGLESv2d.dll"/>
     <ROW Feature_="MainFeature" Component_="MapWidget.dll"/>
-    <ROW Feature_="MainFeature" Component_="msvcp140d.dll"/>
-    <ROW Feature_="MainFeature" Component_="msvcp140d_codecvt_ids.dll"/>
-    <ROW Feature_="MainFeature" Component_="msvcp140_1d.dll"/>
-    <ROW Feature_="MainFeature" Component_="msvcp140_2d.dll"/>
     <ROW Feature_="MainFeature" Component_="opengl32sw.dll"/>
     <ROW Feature_="MainFeature" Component_="Pingnoo.exe"/>
-    <ROW Feature_="MainFeature" Component_="qwindowsd.dll"/>
-    <ROW Feature_="MainFeature" Component_="windowsprintersupportd.dll"/>
     <ROW Feature_="MainFeature" Component_="QCustomPlot.dll"/>
-    <ROW Feature_="MainFeature" Component_="Qt5Cored.dll"/>
-    <ROW Feature_="MainFeature" Component_="Qt5Guid.dll"/>
-    <ROW Feature_="MainFeature" Component_="Qt5Networkd.dll"/>
-    <ROW Feature_="MainFeature" Component_="Qt5PrintSupportd.dll"/>
-    <ROW Feature_="MainFeature" Component_="Qt5Qmld.dll"/>
-    <ROW Feature_="MainFeature" Component_="Qt5QmlModelsd.dll"/>
-    <ROW Feature_="MainFeature" Component_="Qt5Quickd.dll"/>
-    <ROW Feature_="MainFeature" Component_="Qt5QuickWidgetsd.dll"/>
-    <ROW Feature_="MainFeature" Component_="Qt5Svgd.dll"/>
-    <ROW Feature_="MainFeature" Component_="Qt5Widgetsd.dll"/>
     <ROW Feature_="MainFeature" Component_="Ribbon.dll"/>
-    <ROW Feature_="MainFeature" Component_="qwindowsvistastyled.dll"/>
     <ROW Feature_="MainFeature" Component_="qt_ar.qm"/>
     <ROW Feature_="MainFeature" Component_="AI_ExePath"/>
     <ROW Feature_="MainFeature" Component_="AI_CustomARPName"/>
-    <ROW Feature_="MainFeature" Component_="vccorlib140d.dll"/>
-    <ROW Feature_="MainFeature" Component_="vcruntime140d.dll"/>
-    <ROW Feature_="MainFeature" Component_="vcruntime140_1d.dll"/>
+    <ROW Feature_="MainFeature" Component_="qgenericbearer.dll"/>
+    <ROW Feature_="MainFeature" Component_="qsvgicon.dll"/>
+    <ROW Feature_="MainFeature" Component_="qgif.dll"/>
+    <ROW Feature_="MainFeature" Component_="qicns.dll"/>
+    <ROW Feature_="MainFeature" Component_="qico.dll"/>
+    <ROW Feature_="MainFeature" Component_="qjpeg.dll"/>
+    <ROW Feature_="MainFeature" Component_="qsvg.dll"/>
+    <ROW Feature_="MainFeature" Component_="qtga.dll"/>
+    <ROW Feature_="MainFeature" Component_="qtiff.dll"/>
+    <ROW Feature_="MainFeature" Component_="qwbmp.dll"/>
+    <ROW Feature_="MainFeature" Component_="qwebp.dll"/>
+    <ROW Feature_="MainFeature" Component_="libEGL.dll"/>
+    <ROW Feature_="MainFeature" Component_="libGLESv2.dll"/>
+    <ROW Feature_="MainFeature" Component_="qwindows.dll"/>
+    <ROW Feature_="MainFeature" Component_="windowsprintersupport.dll"/>
+    <ROW Feature_="MainFeature" Component_="Qt5Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="Qt5Gui.dll"/>
+    <ROW Feature_="MainFeature" Component_="Qt5Network.dll"/>
+    <ROW Feature_="MainFeature" Component_="Qt5PrintSupport.dll"/>
+    <ROW Feature_="MainFeature" Component_="Qt5Qml.dll"/>
+    <ROW Feature_="MainFeature" Component_="Qt5QmlModels.dll"/>
+    <ROW Feature_="MainFeature" Component_="Qt5Quick.dll"/>
+    <ROW Feature_="MainFeature" Component_="Qt5QuickWidgets.dll"/>
+    <ROW Feature_="MainFeature" Component_="Qt5Svg.dll"/>
+    <ROW Feature_="MainFeature" Component_="Qt5Widgets.dll"/>
+    <ROW Feature_="MainFeature" Component_="qwindowsvistastyle.dll"/>
+    <ROW Feature_="MainFeature" Component_="vc_redist.x64.exe"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
+    <ROW Name="appicon.exe" SourcePath="..\src\app\appicon.ico" Index="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
@@ -446,6 +431,9 @@
     <ROW Condition="SETUPEXEDIR OR (REMOVE=&quot;ALL&quot;)" Description="This package can only be run from a bootstrapper." DescriptionLocId="AI.LaunchCondition.RequireBootstrapper" IsPredefined="true" Builds="MsiBuild"/>
     <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="MsiBuild"/>
   </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiMergeModsComponent">
+    <ROW Module="Microsoft_VC141_CRT_x64.msm" Path="..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\14.16.27012\MergeModules\Microsoft_VC141_CRT_x64.msm" Feature="MainFeature" Directory="APPDIR" Order="1"/>
+  </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRegLocatorComponent">
     <ROW Signature_="AI_EXE_PATH_CU" Root="1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Type="2"/>
     <ROW Signature_="AI_EXE_PATH_LM" Root="2" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Type="2"/>
@@ -473,6 +461,10 @@
     <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
     <ROW Registry="VersionMajor" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="VersionMajor" Value="#1" Component_="AI_CustomARPName"/>
     <ROW Registry="VersionMinor" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="VersionMinor" Value="#0" Component_="AI_CustomARPName"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
+    <ROW Shortcut="Pingnoo" Directory_="ProgramMenuFolder" Name="Pingnoo" Component_="Pingnoo.exe" Target="[#Pingnoo.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="Deploy_Dir"/>
+    <ROW Shortcut="Pingnoo_1" Directory_="DesktopFolder" Name="Pingnoo" Component_="Pingnoo.exe" Target="[#Pingnoo.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="Deploy_Dir"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="surface"/>
