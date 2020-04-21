@@ -306,14 +306,14 @@ if platform.system()=="Windows":
 
     # sign the installer file
 
-    #if args.cert:
-    #    startMessage('Signing installer...')
+    if args.cert:
+        startMessage('Signing installer...')
 
-    #    if winSignBinary('deployment\\Pingnoo.exe', args.cert, args.timeserver):
-    #        endMessage(False, f'there was a problem signing the installer.')
-    #        exit(1)
+        if winSignBinary('deployment\\Pingnoo.exe', args.cert, args.timeserver):
+            endMessage(False, f'there was a problem signing the installer.')
+            exit(1)
 
-    #    endMessage(True)
+        endMessage(True)
 
     endTime = time.time()
 

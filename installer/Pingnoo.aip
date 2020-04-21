@@ -194,7 +194,7 @@
     <ROW Path="&lt;AI_DICTS&gt;ui_en.ail"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DigCertStoreComponent">
-    <ROW TimeStampUrl="http://timestamp.digicert.com" SignerDescription="[|ProductName]" SignOptions="7" SignTool="0" UseSha256="1" Thumbprint="3759d7a7c2b6294133bbdcf100a9ddf172044fd8 Subject: Open Source Developer, Adrian Carpenter&#10;Issuer: Certum Code Signing CA SHA2&#10;Valid from 04/03/2020 to 04/03/2021&#10;User\MY"/>
+    <ROW TimeStampUrl="http://timestamp.digicert.com" SignerDescription="[|ProductName]" SignOptions="7" SignTool="0" UseSha256="1" Thumbprint="7253d6182ebc622eb16ec676969c67e967018db9 Subject: TestCert_2020-4-21_11-50-9&#10;Issuer: TestCert_2020-4-21_11-50-9&#10;Valid from 04/21/2020 to 04/21/2021&#10;User\MY"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.FragmentComponent">
     <ROW Fragment="CommonUI.aip" Path="&lt;AI_FRAGS&gt;CommonUI.aip"/>
