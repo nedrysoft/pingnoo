@@ -28,8 +28,27 @@ import subprocess
 import sys
 import logging
 import datetime
+import enum
 
-from colorama import Fore, Back, Style, init
+if platform.python_version_tuple()<('3','6','0'):
+    print('requires python >= 3.6')
+    quit(1)
+
+try:
+    from colorama import Fore, Back, Style, init
+
+    init(autoreset=True)
+
+except ModuleNotFoundError:
+    class Style:
+        BRIGHT = ''
+        RESET = ''
+
+    class Fore:
+        GREEN = ''
+        RED = ''
+        CYAN = ''
+        RESET = ''
 
 def timeDelta(seconds):
     seconds = abs(int(seconds))
@@ -141,10 +160,6 @@ def notarizeFile(file, username, password):
 
 # application entry point
 
-if platform.python_version_tuple()<('3','6','0'):
-    print('requires python >= 3.6')
-    quit(1)
-
 parser = argparse.ArgumentParser(description='Pingnoo deployment tool')
 
 parser.add_argument('--qtdir', type=str, nargs='?', help='path to qt')
@@ -155,6 +170,7 @@ parser.add_argument('--cert', type=str, nargs='?', help='certificate id to sign 
 
 if platform.system()=="Windows":
     parser.add_argument('--timeserver', type=str, default='http://time.certum.pl/', nargs='?', help='time server to use for signing')
+    parser.add_argument('--scsigntool', type=str, nargs='?', help='path to scsigntool root')
 
 if platform.system()=="Darwin":
     parser.add_argument('--appleid', type=str, nargs='?', help='apple id to use for notarization')
@@ -166,8 +182,6 @@ buildArch = args.arch
 buildType = args.type.capitalize()
 
 if platform.system()=="Windows":
-    init(autoreset=True)
-
     print(Style.BRIGHT+'Deployment process started at '+str(datetime.datetime.now())+'\r\n')
 
     startTime = time.time()
@@ -326,8 +340,6 @@ if platform.system()=="Windows":
     exit(0)
 
 if platform.system()=="Linux" :
-    init(autoreset=True)
-
     print(Style.BRIGHT+'Deployment process started at '+str(datetime.datetime.now())+'\r\n')
 
     startTime = time.time()
@@ -428,13 +440,13 @@ if platform.system()=="Linux" :
     os.makedirs(f'bin/{buildArch}/Deploy/usr/share/icons/hicolor/128x128/apps')
     os.makedirs(f'bin/{buildArch}/Deploy/usr/share/applications')
 
-    shutil.copy2(f'bin/{buildArch}/Debug/Pingnoo', f'bin/{buildArch}/Deploy/usr/bin')
+    shutil.copy2(f'bin/{buildArch}/{buildArch}/Pingnoo', f'bin/{buildArch}/Deploy/usr/bin')
     shutil.copy2(f'installer/Pingnoo.png', f'bin/{buildArch}/Deploy/usr/share/icons/hicolor/128x128/apps')
     shutil.copy2(f'installer/Pingnoo.desktop', f'bin/{buildArch}/Deploy/usr/share/applications')
     shutil.copy2(f'installer/AppRun', f'bin/{buildArch}/Deploy/')
-    shutil.copytree(f'bin/{buildArch}/Debug/Components', f'bin/{buildArch}/Deploy/Components', symlinks=True)
+    shutil.copytree(f'bin/{buildArch}/{buildArch}/Components', f'bin/{buildArch}/Deploy/Components', symlinks=True)
 
-    for file in glob.glob(f'bin/{buildArch}/Debug/*.so') :
+    for file in glob.glob(f'bin/{buildArch}/{buildArch}/*.so') :
         shutil.copy2(file, f'bin/{buildArch}/Deploy/usr/lib')
 
     endMessage(True)
@@ -475,8 +487,6 @@ if platform.system()=="Linux" :
     exit(0)
 
 if platform.system()=="Darwin":
-    init(autoreset=True)
-
     print(Style.BRIGHT+'Deployment process started at '+str(datetime.datetime.now())+'\r\n')
 
     startTime = time.time()
