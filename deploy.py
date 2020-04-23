@@ -440,13 +440,13 @@ if platform.system()=="Linux" :
     os.makedirs(f'bin/{buildArch}/Deploy/usr/share/icons/hicolor/128x128/apps')
     os.makedirs(f'bin/{buildArch}/Deploy/usr/share/applications')
 
-    shutil.copy2(f'bin/{buildArch}/{buildArch}/Pingnoo', f'bin/{buildArch}/Deploy/usr/bin')
+    shutil.copy2(f'bin/{buildArch}/{buildType}/Pingnoo', f'bin/{buildArch}/Deploy/usr/bin')
     shutil.copy2(f'installer/Pingnoo.png', f'bin/{buildArch}/Deploy/usr/share/icons/hicolor/128x128/apps')
     shutil.copy2(f'installer/Pingnoo.desktop', f'bin/{buildArch}/Deploy/usr/share/applications')
     shutil.copy2(f'installer/AppRun', f'bin/{buildArch}/Deploy/')
-    shutil.copytree(f'bin/{buildArch}/{buildArch}/Components', f'bin/{buildArch}/Deploy/Components', symlinks=True)
+    shutil.copytree(f'bin/{buildArch}/{buildType}/Components', f'bin/{buildArch}/Deploy/Components', symlinks=True)
 
-    for file in glob.glob(f'bin/{buildArch}/{buildArch}/*.so') :
+    for file in glob.glob(f'bin/{buildArch}/{buildType}/*.so') :
         shutil.copy2(file, f'bin/{buildArch}/Deploy/usr/lib')
 
     endMessage(True)
