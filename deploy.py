@@ -111,8 +111,8 @@ def run(command) :
 def macSignBinary(file, cert):
     return(execute(f'codesign --verify --timestamp -o runtime --force --sign "{cert}" "{file}"')[0])
 
-def winSignBinary(file, cert, timeserver):
-    return(execute(f'tools\\smartcardtools\\x64\\scsigntool sign /n "{cert}" /t {timeserver} /fd sha256 /v "{file}"')[0])
+def winSignBinary(signtool, file, cert, timeserver):
+    return(execute(f'{signtool} sign /n "{cert}" /t {timeserver} /fd sha256 /v "{file}"')[0])
 
 def notarizeFile(file, username, password):
     uuidPattern = re.compile(r'RequestUUID\s=\s(?P<requestUUID>[a-f|0-9]{8}-[a-f|0-9]{4}-[a-f|0-9]{4}-[a-f|0-9]{4}-[a-f|0-9]{12})\n')
@@ -168,9 +168,13 @@ parser.add_argument('--arch', choices=['x86', 'x64'], type=str, default='x64', n
 parser.add_argument('--type', choices=['release', 'debug'], default='release', type=str, nargs='?', help='type of build to deploy')
 parser.add_argument('--cert', type=str, nargs='?', help='certificate id to sign with')
 
+if platform.system()=="Linux":
+    parser.add_argument('--linuxdeployqt', type=str, default='tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage', nargs='?', help='path to linuxdeployqt')
+    parser.add_argument('--appimagetool', type=str, default='tools/appimagetool/appimagetool-x86_64.AppImage', nargs='?', help='path to appimagetool')
+
 if platform.system()=="Windows":
     parser.add_argument('--timeserver', type=str, default='http://time.certum.pl/', nargs='?', help='time server to use for signing')
-    parser.add_argument('--scsigntool', type=str, nargs='?', help='path to scsigntool root')
+    parser.add_argument('--signtool', type=str, nargs='?', default='tools\\smartcardtools\\x64\\ScSignTool.exe', help='path to signing binary')
 
 if platform.system()=="Darwin":
     parser.add_argument('--appleid', type=str, nargs='?', help='apple id to use for notarization')
@@ -224,8 +228,10 @@ if platform.system()=="Windows":
 
     tempdir = os.path.normpath(tempfile.mkdtemp())
 
+    signtool = args.signtool
+
     if args.cert:
-        if not os.path.exists('tools\\smartcardtools\\x86\\ScSignTool.exe'):
+        if not os.path.exists(signtool):
             startMessage('Downloading SmartCardTools...')
 
             if execute(f'cd \"{tempdir}\" && \"{curl}\" -LJO https://www.mgtek.com/files/smartcardtools.zip')[0]:
@@ -239,6 +245,8 @@ if platform.system()=="Windows":
             if execute(f'\"{tempdir}\\unzip\" \"{tempdir}\\smartcardtools.zip\" -d tools\\smartcardtools')[0]:
                 endMessage(False, 'unable to unzip SmartCardTools.')
                 exit(1)
+
+            signtool = 'tools\\smartcardtools\\x86\\ScSignTool.exe'
 
             endMessage(True)
 
@@ -287,7 +295,7 @@ if platform.system()=="Windows":
         startMessage('Signing binaries...')
 
         for file in signList:
-            if winSignBinary(file, args.cert, args.timeserver):
+            if winSignBinary(signtool, file, args.cert, args.timeserver):
                 endMessage(False, f'there was a problem signing a file ({file}).')
                 exit(1)
 
@@ -391,9 +399,11 @@ if platform.system()=="Linux" :
 
     # download linuxdeployqt
 
-    startMessage('Downloading linuxdeployqt...')
+    linuxdeployqt = args.linuxdeployqt
 
-    if not os.path.isfile('tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage') :
+    if not os.path.isfile(linuxdeployqt) :
+        startMessage('Downloading linuxdeployqt...')
+
         if not os.path.exists('tools/linuxdeployqt'):
             os.mkdir('tools/linuxdeployqt')
 
@@ -405,11 +415,15 @@ if platform.system()=="Linux" :
             endMessage(False, 'unable to set permissions on linuxdeployqt.')
             exit(1)
 
-    endMessage(True)
+        linuxdeployqt = 'tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage'
 
-    startMessage('Downloading appimagetool...')
+        endMessage(True)
 
-    if not os.path.isfile('tools/appimagetool/appimagetool-x86_64.AppImage') :
+    appimagetool = args.appimagetool
+
+    if not os.path.isfile(appimagetool):
+        startMessage('Downloading appimagetool...')
+
         if not os.path.exists('tools/appimagetool'):
             os.mkdir('tools/appimagetool')
 
@@ -421,7 +435,9 @@ if platform.system()=="Linux" :
             endMessage(False, 'unable to set permissions on appimagetool.')
             exit(1)
 
-    endMessage(True)
+        appimagetool = 'tools/appimagetool/appimagetool-x86_64.AppImage'
+
+        endMessage(True)
 
     # remove previous deployment files and copy current binaries
 
@@ -455,7 +471,7 @@ if platform.system()=="Linux" :
 
     startMessage('Running linuxdeployqt...')
 
-    if execute(f'tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage \'bin/{buildArch}/Deploy/usr/share/applications/Pingnoo.desktop\' -qmake=\'{qtdir}/bin/qmake\' -exclude-libs=\'libqsqlodbc,libqsqlpsql\'')[0]:
+    if execute(f'{linuxdeployqt} \'bin/{buildArch}/Deploy/usr/share/applications/Pingnoo.desktop\' -qmake=\'{qtdir}/bin/qmake\' -exclude-libs=\'libqsqlodbc,libqsqlpsql\'')[0]:
         endMessage(False, 'there was a problem running linuxdeployqt.')
         exit(1)
 
@@ -470,7 +486,7 @@ if platform.system()=="Linux" :
 
     startMessage('Creating AppImage...')
 
-    if execute(f'cd deployment; ../tools/appimagetool/appimagetool-x86_64.AppImage -g {signParameters}../bin/{buildArch}/Deploy')[0]:
+    if execute(f'{appimagetool} -g {signParameters} bin/{buildArch}/Deploy deployment/Pingnoo-x86_64.AppImage')[0]:
         endMessage(False, 'there was a problem creating the AppImage.')
         exit(1)   
 
