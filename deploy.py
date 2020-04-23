@@ -109,10 +109,10 @@ def run(command) :
     return stream.read()
 
 def macSignBinary(file, cert):
-    return(execute(f'codesign --verify --timestamp -o runtime --force --sign "{cert}" "{file}"')[0])
+    return(execute(f'codesign --verify --timestamp -o runtime --force --sign "{cert}" "{file}"'))
 
 def winSignBinary(signtool, file, cert, timeserver):
-    return(execute(f'{signtool} sign /n "{cert}" /t {timeserver} /fd sha256 /v "{file}"')[0])
+    return(execute(f'{signtool} sign /n "{cert}" /t {timeserver} /fd sha256 /v "{file}"'))
 
 def notarizeFile(file, username, password):
     uuidPattern = re.compile(r'RequestUUID\s=\s(?P<requestUUID>[a-f|0-9]{8}-[a-f|0-9]{4}-[a-f|0-9]{4}-[a-f|0-9]{4}-[a-f|0-9]{12})\n')
@@ -234,19 +234,25 @@ if platform.system()=="Windows":
         if not os.path.exists(signtool):
             startMessage('Downloading SmartCardTools...')
 
-            if execute(f'cd \"{tempdir}\" && \"{curl}\" -LJO https://www.mgtek.com/files/smartcardtools.zip')[0]:
-                endMessage(False, 'unable to download SmartCardTools.')
+            resultCode, resultOutput = execute(f'cd \"{tempdir}\" && \"{curl}\" -LJO https://www.mgtek.com/files/smartcardtools.zip')
+
+            if resultCode:
+                endMessage(False, f'unable to download SmartCardTools.\r\n\r\n{resultOutput}\r\n')
                 exit(1)
 
-            if execute(f'cd \"{tempdir}\" && \"{curl}\" -LJO ftp://ftp.info-zip.org/pub/infozip/win32/unz600xn.exe & unz600xn -jo unzip.exe')[0]:
-                endMessage(False, 'unable to download info-zip tools.')
+            resultCode, resultOutput = execute(f'cd \"{tempdir}\" && \"{curl}\" -LJO ftp://ftp.info-zip.org/pub/infozip/win32/unz600xn.exe & unz600xn -jo unzip.exe')
+
+            if resultCode:
+                endMessage(False, f'unable to download info-zip tools.\r\n\r\n{resultOutput}\r\n')
                 exit(1)
 
-            if execute(f'\"{tempdir}\\unzip\" \"{tempdir}\\smartcardtools.zip\" -d tools\\smartcardtools')[0]:
-                endMessage(False, 'unable to unzip SmartCardTools.')
+            resultCode, resultOutput = execute(f'\"{tempdir}\\unzip\" \"{tempdir}\\smartcardtools.zip\" -d tools\\smartcardtools')
+
+            if resultCode:
+                endMessage(False, f'unable to unzip SmartCardTools.\r\n\r\n{resultOutput}\r\n')
                 exit(1)
 
-            signtool = 'tools\\smartcardtools\\x86\\ScSignTool.exe'
+            signtool = 'tools\\smartcardtools\\x64\\ScSignTool.exe'
 
             endMessage(True)
 
@@ -295,8 +301,10 @@ if platform.system()=="Windows":
         startMessage('Signing binaries...')
 
         for file in signList:
-            if winSignBinary(signtool, file, args.cert, args.timeserver):
-                endMessage(False, f'there was a problem signing a file ({file}).')
+            resultCode, resultOutput = winSignBinary(signtool, file, args.cert, args.timeserver)
+
+            if resultCode:
+                endMessage(False, f'there was a problem signing a file ({file}).\r\n\r\n{resultOutput}\r\n')
                 exit(1)
 
         endMessage(True)
@@ -310,8 +318,10 @@ if platform.system()=="Windows":
 
     startMessage('Running windeployqt...')
 
-    if execute(f'{windeployqt} --dir {deployDir} {filesString}')[0]:
-        endMessage(False, 'there was a problem running windeployqt.')
+    resultCode, resultOutput = execute(f'{windeployqt} --dir {deployDir} {filesString}')
+
+    if resultCode:
+        endMessage(False, f'there was a problem running windeployqt.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
     endMessage(True)    
@@ -320,8 +330,10 @@ if platform.system()=="Windows":
 
     startMessage('Creating installer...')
 
-    if execute(f'AdvancedInstaller.com /build installer\\Pingnoo.aip')[0]:
-        endMessage(False, 'there was a problem creating the installer.')
+    resultCode, resultOutput = execute(f'AdvancedInstaller.com /build installer\\Pingnoo.aip')
+
+    if resultCode:
+        endMessage(False, f'there was a problem creating the installer.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
     endMessage(True)  
@@ -331,8 +343,10 @@ if platform.system()=="Windows":
     if args.cert:
         startMessage('Signing installer...')
 
-        if winSignBinary('deployment\\Pingnoo.exe', args.cert, args.timeserver):
-            endMessage(False, f'there was a problem signing the installer.')
+        resultCode, resultOutput = winSignBinary('deployment\\Pingnoo.exe', args.cert, args.timeserver)
+
+        if resultCode:
+            endMessage(False, f'there was a problem signing the installer.\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
         endMessage(True)
@@ -407,12 +421,16 @@ if platform.system()=="Linux" :
         if not os.path.exists('tools/linuxdeployqt'):
             os.mkdir('tools/linuxdeployqt')
 
-        if execute('cd tools/linuxdeployqt; curl -LJO https://github.com/probonopd/linuxdeployqt/releases/download/6/linuxdeployqt-6-x86_64.AppImage')[0]:
-            endMessage(False, 'unable to download linuxdeployqt.')
+        resultCode, resultOutput = execute('cd tools/linuxdeployqt; curl -LJO https://github.com/probonopd/linuxdeployqt/releases/download/6/linuxdeployqt-6-x86_64.AppImage')
+
+        if resultCode:
+            endMessage(False, f'unable to download linuxdeployqt.\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
-        if execute('chmod +x tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage')[0]:
-            endMessage(False, 'unable to set permissions on linuxdeployqt.')
+        resultCode, resultOutput = execute('chmod +x tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage')
+
+        if resultCode:
+            endMessage(False, f'unable to set permissions on linuxdeployqt.\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
         linuxdeployqt = 'tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage'
@@ -427,12 +445,16 @@ if platform.system()=="Linux" :
         if not os.path.exists('tools/appimagetool'):
             os.mkdir('tools/appimagetool')
 
-        if execute('cd tools/appimagetool; curl -LJO https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage')[0]:
-            endMessage(False, 'unable to download appimagetool.')
+        resultCode, resultOutput = execute('cd tools/appimagetool; curl -LJO https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage')
+
+        if resultCode:
+            endMessage(False, f'unable to download appimagetool.\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
-        if execute('chmod +x tools/appimagetool/appimagetool-x86_64.AppImage')[0]:
-            endMessage(False, 'unable to set permissions on appimagetool.')
+        resultCode, resultOutput = execute('chmod +x tools/appimagetool/appimagetool-x86_64.AppImage')
+
+        if resultCode:
+            endMessage(False, f'unable to set permissions on appimagetool.\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
         appimagetool = 'tools/appimagetool/appimagetool-x86_64.AppImage'
@@ -471,8 +493,10 @@ if platform.system()=="Linux" :
 
     startMessage('Running linuxdeployqt...')
 
-    if execute(f'{linuxdeployqt} \'bin/{buildArch}/Deploy/usr/share/applications/Pingnoo.desktop\' -qmake=\'{qtdir}/bin/qmake\' -exclude-libs=\'libqsqlodbc,libqsqlpsql\'')[0]:
-        endMessage(False, 'there was a problem running linuxdeployqt.')
+    resultCode, resultOutput = execute(f'{linuxdeployqt} \'bin/{buildArch}/Deploy/usr/share/applications/Pingnoo.desktop\' -qmake=\'{qtdir}/bin/qmake\' -exclude-libs=\'libqsqlodbc,libqsqlpsql\'')
+
+    if resultCode:
+        endMessage(False, f'there was a problem running linuxdeployqt.\r\n\r\n{resultCode}\r\n')
         exit(1)
 
     endMessage(True)
@@ -486,8 +510,10 @@ if platform.system()=="Linux" :
 
     startMessage('Creating AppImage...')
 
-    if execute(f'{appimagetool} -g {signParameters} bin/{buildArch}/Deploy deployment/Pingnoo-x86_64.AppImage')[0]:
-        endMessage(False, 'there was a problem creating the AppImage.')
+    resultCode, resultOutput = execute(f'{appimagetool} -g {signParameters} bin/{buildArch}/Deploy deployment/Pingnoo-x86_64.AppImage')
+
+    if resultCode:
+        endMessage(False, f'there was a problem creating the AppImage.\r\n\r\n{resultCode}\r\n')
         exit(1)   
 
     endMessage(True)
@@ -556,8 +582,10 @@ if platform.system()=="Darwin":
 
     startMessage('Running macdeployqt...')
 
-    if execute(f'{qtdir}/bin/macdeployqt bin/{buildArch}/Deploy/Pingnoo.app -no-strip')[0]:
-        endMessage(False, 'there was a problem running macdeployqt.')
+    resultCode, resultOutput = execute(f'{qtdir}/bin/macdeployqt bin/{buildArch}/Deploy/Pingnoo.app -no-strip')
+
+    if resultCode:
+        endMessage(False, f'there was a problem running macdeployqt.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
     endMessage(True)
@@ -598,17 +626,21 @@ if platform.system()=="Darwin":
     startMessage('Signing binaries...')
 
     for file in glob.glob(f'bin/{buildArch}/Deploy/Pingnoo.app/**/*.framework', recursive=True):
-        if macSignBinary(file, args.cert):
-            endMessage(False, f'there was a problem signing a file ({file}).')
+        resultCode, resultOutput = macSignBinary(file, args.cert)
+        if resultCode:
+            endMessage(False, f'there was a problem signing a file ({file}).\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
     for file in glob.glob(f'bin/{buildArch}/Deploy/Pingnoo.app/**/*.dylib', recursive=True):
-        if macSignBinary(file, args.cert):
-            endMessage(False, f'there was a problem signing a file ({file}).')
+        resultCode, resultOutput = macSignBinary(file, args.cert)
+        if resultCode:
+            endMessage(False, f'there was a problem signing a file ({file}).\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
-    if macSignBinary(f'bin/{buildArch}/Deploy/Pingnoo.app', args.cert):
-        endMessage(False, f'there was a problem signing a file ({file}).')
+    resultCode, resultOutput = macSignBinary(f'bin/{buildArch}/Deploy/Pingnoo.app', args.cert)
+
+    if resultCode:
+        endMessage(False, f'there was a problem signing a file ({file}).\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
     endMessage(True)
@@ -617,8 +649,10 @@ if platform.system()=="Darwin":
     
     startMessage('Creating zip archive...')
 
-    if execute(f'ditto -ck --sequesterRsrc --keepParent bin/{buildArch}/Deploy/Pingnoo.app bin/{buildArch}/Deploy/Pingnoo.zip')[0]:
-        endMessage(False, 'there was a problem generating the application zip.')
+    resultCode, resultOutput = execute(f'ditto -ck --sequesterRsrc --keepParent bin/{buildArch}/Deploy/Pingnoo.app bin/{buildArch}/Deploy/Pingnoo.zip')
+
+    if resultCode:
+        endMessage(False, f'there was a problem generating the application zip.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
     endMessage(True)
@@ -635,8 +669,10 @@ if platform.system()=="Darwin":
 
     startMessage('Stapling notarization ticket to binary...')
 
-    if execute(f'xcrun stapler staple bin/{buildArch}/Deploy/Pingnoo.app')[0]:
-        endMessage(False, f'there was a problem stapling the ticket to application.')
+    resultCode, resultOutput = execute(f'xcrun stapler staple bin/{buildArch}/Deploy/Pingnoo.app')
+
+    if resultCode:
+        endMessage(False, f'there was a problem stapling the ticket to application.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
     endMessage(True)
@@ -645,12 +681,16 @@ if platform.system()=="Darwin":
 
     startMessage('Creating installation dmg...')
 
-    if execute('tiffutil -cat artwork/background.tiff artwork/background@2x.tiff -out artwork/pingnoo_background.tiff')[0]:
-        endMessage(False, f'there was a problem creating the combined tiff.')
+    resultCode, resultOutput = execute('tiffutil -cat artwork/background.tiff artwork/background@2x.tiff -out artwork/pingnoo_background.tiff')
+
+    if resultCode:
+        endMessage(False, f'there was a problem creating the combined tiff.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
-    if execute(f'tools/create-dmg/create-dmg --volname "Pingnoo" --background ./artwork/pingnoo_background.tiff --window-size 768 534 --icon-size 160 --icon Pingnoo.app 199 276 --app-drop-link 569 276 ./bin/{buildArch}/Deploy/Pingnoo.dmg bin/{buildArch}/Deploy/Pingnoo.app')[0]:
-        endMessage(False, f'there was a problem creating the dmg.')
+    resultCode, resultOutput = execute(f'tools/create-dmg/create-dmg --volname "Pingnoo" --background ./artwork/pingnoo_background.tiff --window-size 768 534 --icon-size 160 --icon Pingnoo.app 199 276 --app-drop-link 569 276 ./bin/{buildArch}/Deploy/Pingnoo.dmg bin/{buildArch}/Deploy/Pingnoo.app')
+
+    if resultCode:
+        endMessage(False, f'there was a problem creating the dmg.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
     endMessage(True)
@@ -659,8 +699,10 @@ if platform.system()=="Darwin":
 
     startMessage('Signing dmg...')
 
-    if macSignBinary(f'./bin/{buildArch}/Deploy/Pingnoo.dmg', args.cert):
-        endMessage(False, f'there was a problem signing the dmg.')
+    resultCode, resultOutput = macSignBinary(f'./bin/{buildArch}/Deploy/Pingnoo.dmg', args.cert)
+
+    if resultCode:
+        endMessage(False, f'there was a problem signing the dmg.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
     endMessage(True)
@@ -677,8 +719,10 @@ if platform.system()=="Darwin":
 
     startMessage('Stapling notarization ticket to dmg...')
 
-    if execute(f'xcrun stapler staple bin/{buildArch}/Deploy/Pingnoo.dmg')[0]:
-        endMessage(False, f'there was a problem stapling the ticket to dmg.')
+    resultCode, resultOutput = execute(f'xcrun stapler staple bin/{buildArch}/Deploy/Pingnoo.dmg')
+
+    if resultCode:
+        endMessage(False, f'there was a problem stapling the ticket to dmg.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
     endMessage(True)
