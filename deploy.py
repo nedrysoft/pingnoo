@@ -343,7 +343,7 @@ if platform.system()=="Windows":
     if args.cert:
         startMessage('Signing installer...')
 
-        resultCode, resultOutput = winSignBinary('deployment\\Pingnoo.exe', args.cert, args.timeserver)
+        resultCode, resultOutput = winSignBinary(signtool, 'deployment\\Pingnoo.exe', args.cert, args.timeserver)
 
         if resultCode:
             endMessage(False, f'there was a problem signing the installer.\r\n\r\n{resultOutput}\r\n')
