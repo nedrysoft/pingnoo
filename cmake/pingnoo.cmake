@@ -34,10 +34,21 @@ else()
     set(PINGNOO_PLATFORM_TARGET "Linux")
 endif()
 
-if (CMAKE_SIZEOF_VOID_P EQUAL 8)
-    set(PINGNOO_PLATFORM_ARCH "x64")
+# Experimental macOS arm64 support
+#
+# - assumes that the cmake configuration of the arm64 kit sets CMAKE_CXX_FLAGS
+#.  to select arm64 compilation.  This results in the cmake configuration requiring
+#.  only minor changes to set the correct output folder for the binaries
+#
+
+if(CMAKE_CXX_FLAGS MATCHES "-arch arm64")
+    set(PINGNOO_PLATFORM_ARCH "arm64")
 else()
-    set(PINGNOO_PLATFORM_ARCH "x86")
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+        set(PINGNOO_PLATFORM_ARCH "x86_64")
+    else()
+        set(PINGNOO_PLATFORM_ARCH "x86_32")
+    endif()
 endif()
 
 set(PINGNOO_LIBRARIES_SOURCE_DIR "${PINGNOO_SOURCE_DIR}/libs")
@@ -203,9 +214,6 @@ macro(pingnoo_start_executable)
     set(pingnooCurrentProjectType "EXECUTABLE")
 
     set(CMAKE_BUILD_RPATH "@executable_path/../Frameworks")
-
-
-
 
     add_definitions("-DFIZZYADE_MODULE_FILENAME=\"${pingnooCurrentProjectName}.exe\"")
     add_definitions("-DFIZZYADE_MODULE_NAME=\"${pingnooCurrentProjectName}\"")
