@@ -34,14 +34,7 @@ else()
     set(PINGNOO_PLATFORM_TARGET "Linux")
 endif()
 
-# Experimental macOS arm64 support
-#
-# - assumes that the cmake configuration of the arm64 kit sets CMAKE_CXX_FLAGS
-#.  to select arm64 compilation.  This results in the cmake configuration requiring
-#.  only minor changes to set the correct output folder for the binaries
-#
-
-if(CMAKE_CXX_FLAGS MATCHES "-arch arm64")
+if((APPLE) AND (CMAKE_OSX_ARCHITECTURES MATCHES "arm64"))
     set(PINGNOO_PLATFORM_ARCH "arm64")
 else()
     if(CMAKE_SIZEOF_VOID_P EQUAL 8)
