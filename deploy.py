@@ -164,7 +164,12 @@ parser = argparse.ArgumentParser(description='Pingnoo deployment tool')
 
 parser.add_argument('--qtdir', type=str, nargs='?', help='path to qt')
 parser.add_argument('--curlbin', type=str, nargs='?', help='path to curl binary')
-parser.add_argument('--arch', choices=['x86', 'x64'], type=str, default='x64', nargs='?', help='architecture type to deploy')
+
+if platform.system()=="Darwin":
+    parser.add_argument('--arch', choices=['x86_64', 'arm64', 'universal'], type=str, default='x64_64', nargs='?', help='architecture type to deploy')
+else:
+    parser.add_argument('--arch', choices=['x86', 'x64'], type=str, default='x64', nargs='?', help='architecture type to deploy')
+
 parser.add_argument('--type', choices=['release', 'debug'], default='release', type=str, nargs='?', help='type of build to deploy')
 parser.add_argument('--cert', type=str, nargs='?', help='certificate id to sign with')
 
@@ -574,11 +579,47 @@ if platform.system()=="Darwin":
     
     os.makedirs(f'bin/{buildArch}/Deploy')
 
-    shutil.copytree(f'bin/{buildArch}/{buildType}/Pingnoo.app', f'bin/{buildArch}/Deploy/Pingnoo.app', symlinks=True)
-
     endMessage(True)
 
+    if not buildArch=="universal":
+        shutil.copytree(f'bin/{buildArch}/{buildType}/Pingnoo.app', f'bin/{buildArch}/Deploy/Pingnoo.app', symlinks=True)
+    else:
+        if not os.path.isfile('tools/makeuniversal/makeuniversal'):
+            shutil.rmtree(f'tools/makeuniversal')
+
+            startMessage('Cloning makeuniversal...')
+
+            resultCode, resultOutput = execute('cd tools;git clone https://github.com/fizzyade/makeuniversal.git')
+
+            if resultCode:
+                endMessage(False, f'unable to clone makeuniversal.\r\n\r\n{resultOutput}\r\n')
+                exit(1)
+
+            endMessage(True)
+
+            startMessage('Building makeuniversal...')
+
+            resultCode, resultOutput = execute(f'cd tools/makeuniversal;{qtdir}/bin/qmake;make')
+
+            if resultCode:
+                endMessage(False, f'error building makeuniversal.\r\n\r\n{resultOutput}\r\n')
+                exit(1)
+
+            endMessage(True)
+
+            startMessage('Running makeuniversal...')
+
+            resultCode, resultOutput = execute(f'tools/makeuniversal/makeuniversal bin/universal/{buildType}/Deploy/Pingnoo.app bin/x86_64/{buildType}/Pingnoo.app bin/arm64/{buildType}/Pingnoo.app')
+
+            if resultCode:
+                endMessage(False, f'error building makeuniversal.\r\n\r\n{resultOutput}\r\n')
+                exit(1)
+
+            endMessage(True)
+
     # run standard qt deployment tool
+
+    exit(0)
 
     startMessage('Running macdeployqt...')
 

@@ -8,3 +8,5 @@ CMakeLists.txt.user.*
 debug.xml
 Deployment
 *.log
+
+tools/makeuniversal
