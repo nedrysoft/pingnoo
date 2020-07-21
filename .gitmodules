@@ -1,6 +1,0 @@
-[submodule "tools/create-dmg"]
-	path = tools/create-dmg
-	url = https://github.com/andreyvit/create-dmg.git
-[submodule "tools/macdeployqtfix"]
-	path = tools/macdeployqtfix
-	url = https://github.com/iltommi/macdeployqtfix.git

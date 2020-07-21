@@ -164,7 +164,12 @@ parser = argparse.ArgumentParser(description='Pingnoo deployment tool')
 
 parser.add_argument('--qtdir', type=str, nargs='?', help='path to qt')
 parser.add_argument('--curlbin', type=str, nargs='?', help='path to curl binary')
-parser.add_argument('--arch', choices=['x86', 'x64'], type=str, default='x64', nargs='?', help='architecture type to deploy')
+
+if platform.system()=="Darwin":
+    parser.add_argument('--arch', choices=['x86_64', 'arm64', 'universal'], type=str, default='x64_64', nargs='?', help='architecture type to deploy')
+else:
+    parser.add_argument('--arch', choices=['x86', 'x64'], type=str, default='x64', nargs='?', help='architecture type to deploy')
+
 parser.add_argument('--type', choices=['release', 'debug'], default='release', type=str, nargs='?', help='type of build to deploy')
 parser.add_argument('--cert', type=str, nargs='?', help='certificate id to sign with')
 
@@ -569,14 +574,77 @@ if platform.system()=="Darwin":
     
     os.makedirs(f'deployment')
 
-    if os.path.exists(f'bin/{buildArch}/Deploy/'):
-        shutil.rmtree(f'bin/{buildArch}/Deploy/')
+    if os.path.exists(f'bin/{buildArch}/Deploy'):
+        shutil.rmtree(f'bin/{buildArch}/Deploy')
     
     os.makedirs(f'bin/{buildArch}/Deploy')
 
-    shutil.copytree(f'bin/{buildArch}/{buildType}/Pingnoo.app', f'bin/{buildArch}/Deploy/Pingnoo.app', symlinks=True)
-
     endMessage(True)
+
+    if not os.path.isfile('tools/macdeployqtfix/macdeployqtfix.py'):
+        if os.path.exists('tools/macdeployqtfix'):
+            shutil.rmtree(f'tools/macdeployqtfix')
+
+        startMessage('Cloning macdeployqtfix...')
+
+        resultCode, resultOutput = execute('cd tools;git clone https://github.com/fizzyade/macdeployqtfix.git')
+
+        if resultCode:
+            endMessage(False, f'unable to clone macdeployqtfix.\r\n\r\n{resultOutput}\r\n')
+            exit(1)
+
+        endMessage(True)
+
+    if not os.path.isfile('tools/create-dmg/create-dmg'):
+        if os.path.exists('tools/create-dmg'):
+            shutil.rmtree(f'tools/create-dmg')
+
+        startMessage('Cloning create-dmg...')
+
+        resultCode, resultOutput = execute('cd tools;git clone https://github.com/andreyvit/create-dmg.git')
+
+        if resultCode:
+            endMessage(False, f'unable to clone create-dmg.\r\n\r\n{resultOutput}\r\n')
+            exit(1)
+
+        endMessage(True)
+
+    if not buildArch=="universal":
+        shutil.copytree(f'bin/{buildArch}/{buildType}/Pingnoo.app', f'bin/{buildArch}/Deploy/Pingnoo.app', symlinks=True)
+    else:
+        if not os.path.isfile('tools/makeuniversal/makeuniversal'):
+            if os.path.exists('tools/makeuniversal'):
+                shutil.rmtree(f'tools/makeuniversal')
+
+            startMessage('Cloning makeuniversal...')
+
+            resultCode, resultOutput = execute('cd tools;git clone https://github.com/fizzyade/makeuniversal.git')
+
+            if resultCode:
+                endMessage(False, f'unable to clone makeuniversal.\r\n\r\n{resultOutput}\r\n')
+                exit(1)
+
+            endMessage(True)
+
+            startMessage('Building makeuniversal...')
+
+            resultCode, resultOutput = execute(f'cd tools/makeuniversal;{qtdir}/bin/qmake;make')
+
+            if resultCode:
+                endMessage(False, f'error building makeuniversal.\r\n\r\n{resultOutput}\r\n')
+                exit(1)
+
+            endMessage(True)
+
+        startMessage('Running makeuniversal...')
+
+        resultCode, resultOutput = execute(f'tools/makeuniversal/makeuniversal bin/universal/Deploy/Pingnoo.app bin/x86_64/{buildType}/Pingnoo.app bin/arm64/{buildType}/Pingnoo.app')
+
+        if resultCode:
+            endMessage(False, f'error building makeuniversal.\r\n\r\n{resultOutput}\r\n')
+            exit(1)
+
+        endMessage(True)
 
     # run standard qt deployment tool
 
@@ -737,7 +805,7 @@ if platform.system()=="Darwin":
 
     # done!
 
-    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Installer at \"deployment/Pingnoo.dmg\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.')
+    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Disk Image at \"deployment/Pingnoo.dmg\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.')
 
     print(Style.BRIGHT+f'\r\nTotal time taken to perform deployment was '+timeDelta(endTime-startTime)+'.')
 
