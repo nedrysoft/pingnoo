@@ -574,18 +574,47 @@ if platform.system()=="Darwin":
     
     os.makedirs(f'deployment')
 
-    if os.path.exists(f'bin/{buildArch}/Deploy/'):
-        shutil.rmtree(f'bin/{buildArch}/Deploy/')
+    if os.path.exists(f'bin/{buildArch}/Deploy'):
+        shutil.rmtree(f'bin/{buildArch}/Deploy')
     
     os.makedirs(f'bin/{buildArch}/Deploy')
 
     endMessage(True)
 
+    if not os.path.isfile('tools/macdeployqtfix/macdeployqtfix.py'):
+        if os.path.exists('tools/macdeployqtfix'):
+            shutil.rmtree(f'tools/macdeployqtfix')
+
+        startMessage('Cloning macdeployqtfix...')
+
+        resultCode, resultOutput = execute('cd tools;git clone https://github.com/fizzyade/macdeployqtfix.git')
+
+        if resultCode:
+            endMessage(False, f'unable to clone macdeployqtfix.\r\n\r\n{resultOutput}\r\n')
+            exit(1)
+
+        endMessage(True)
+
+    if not os.path.isfile('tools/create-dmg/create-dmg'):
+        if os.path.exists('tools/create-dmg'):
+            shutil.rmtree(f'tools/create-dmg')
+
+        startMessage('Cloning create-dmg...')
+
+        resultCode, resultOutput = execute('cd tools;git clone https://github.com/andreyvit/create-dmg.git')
+
+        if resultCode:
+            endMessage(False, f'unable to clone create-dmg.\r\n\r\n{resultOutput}\r\n')
+            exit(1)
+
+        endMessage(True)
+
     if not buildArch=="universal":
         shutil.copytree(f'bin/{buildArch}/{buildType}/Pingnoo.app', f'bin/{buildArch}/Deploy/Pingnoo.app', symlinks=True)
     else:
         if not os.path.isfile('tools/makeuniversal/makeuniversal'):
-            shutil.rmtree(f'tools/makeuniversal')
+            if os.path.exists('tools/makeuniversal'):
+                shutil.rmtree(f'tools/makeuniversal')
 
             startMessage('Cloning makeuniversal...')
 
@@ -607,19 +636,17 @@ if platform.system()=="Darwin":
 
             endMessage(True)
 
-            startMessage('Running makeuniversal...')
+        startMessage('Running makeuniversal...')
 
-            resultCode, resultOutput = execute(f'tools/makeuniversal/makeuniversal bin/universal/{buildType}/Deploy/Pingnoo.app bin/x86_64/{buildType}/Pingnoo.app bin/arm64/{buildType}/Pingnoo.app')
+        resultCode, resultOutput = execute(f'tools/makeuniversal/makeuniversal bin/universal/Deploy/Pingnoo.app bin/x86_64/{buildType}/Pingnoo.app bin/arm64/{buildType}/Pingnoo.app')
 
-            if resultCode:
-                endMessage(False, f'error building makeuniversal.\r\n\r\n{resultOutput}\r\n')
-                exit(1)
+        if resultCode:
+            endMessage(False, f'error building makeuniversal.\r\n\r\n{resultOutput}\r\n')
+            exit(1)
 
-            endMessage(True)
+        endMessage(True)
 
     # run standard qt deployment tool
-
-    exit(0)
 
     startMessage('Running macdeployqt...')
 
@@ -778,7 +805,7 @@ if platform.system()=="Darwin":
 
     # done!
 
-    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Installer at \"deployment/Pingnoo.dmg\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.')
+    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Disk Image at \"deployment/Pingnoo.dmg\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.')
 
     print(Style.BRIGHT+f'\r\nTotal time taken to perform deployment was '+timeDelta(endTime-startTime)+'.')
 

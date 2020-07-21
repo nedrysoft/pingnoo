@@ -10,3 +10,7 @@ Deployment
 *.log
 
 tools/makeuniversal
+
+tools/create-dmg
+
+tools/macdeployqtfix
