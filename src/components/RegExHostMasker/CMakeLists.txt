@@ -38,6 +38,6 @@ pingnoo_use_component(Core)
 
 pingnoo_use_shared_library(ComponentSystem)
 
-pingnoo_set_component_metadata("1.0.0" "Host Maskers" "Provides a regular expression based host masker")
+pingnoo_set_component_metadata("Host Maskers" "Provides a regular expression based host masker")
 
 pingnoo_end_component()

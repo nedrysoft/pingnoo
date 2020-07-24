@@ -42,6 +42,6 @@ pingnoo_use_shared_library(ComponentSystem)
 pingnoo_use_shared_library(ICMPPacket)
 pingnoo_use_shared_library(ICMPSocket)
 
-pingnoo_set_component_metadata("1.0.0" "Route Engines" "Provides a route trace engine")
+pingnoo_set_component_metadata("Route Engines" "Provides a route trace engine")
 
 pingnoo_end_component()

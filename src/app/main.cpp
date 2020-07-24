@@ -26,6 +26,8 @@
 #include <QDebug>
 #include <QDir>
 #include <QProcessEnvironment>
+#include <QStandardPaths>
+#include <QString>
 
 #if defined(Q_OS_MAC)
 #include <CoreFoundation/CoreFoundation.h>
@@ -33,6 +35,9 @@
 
 int main(int argc, char **argv)
 {
+    qApp->setApplicationName("Pingnoo");
+    qApp->setOrganizationName("FizzyAde");
+
     auto componentLoader = new FizzyAde::ComponentSystem::ComponentLoader;
     auto applicationInstance = new QApplication(argc, argv);
     auto appNap = FizzyAde::AppNap::AppNap::getInstance();
@@ -56,7 +61,32 @@ int main(int argc, char **argv)
         componentPath = dir.absolutePath()+"/PlugIns";
     }
 
+    auto componentManager = FizzyAde::ComponentSystem::IComponentManager::getInstance();
+
+    componentManager->addObject(componentLoader);
+
     componentLoader->addComponents(componentPath);
+
+    auto extraLibrarySearchPaths = QStringList() << "Frameworks" << "PlugIns";
+
+    auto dataPaths = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+
+    for(auto searchPath : dataPaths) {
+        for(auto folderPath : extraLibrarySearchPaths) {
+            auto folderName = searchPath+"/"+qApp->organizationName()+"/"+qApp->applicationName()+"/"+folderPath;
+
+            if (QDir(folderName).exists())
+                qApp->addLibraryPath(folderName);
+        }
+    }
+
+    for(auto searchPath : dataPaths) {
+        auto folderName = searchPath+"/"+qApp->organizationName()+"/"+qApp->applicationName()+"/PlugIns";
+
+        if (QDir(folderName).exists()) {
+            componentLoader->addComponents(folderName);
+        }
+    }
 #else
 
     if (QProcessEnvironment::systemEnvironment().contains("APPDIR")) {
@@ -67,10 +97,15 @@ int main(int argc, char **argv)
 
 #endif
 
-    componentLoader->loadComponents();
+    componentLoader->loadComponents([](FizzyAde::ComponentSystem::Component *component)->bool {
+        if (component->identifier()=="ipapigeoipprovider.fizzyade.com") {
+            return false;
+        }
+        return true;
+    });
 
     for(FizzyAde::ComponentSystem::Component *component : componentLoader->components()) {
-        qDebug() << component->name() << component->version() << component->isLoaded() << component->loadError() << component->missingDependencies();
+        qDebug() << component->filename() << component->name() << component->versionString() << component->isLoaded() << component->loadStatus() << component->missingDependencies();
     }
 
     auto exitCode = QApplication::exec();

@@ -54,6 +54,6 @@ pingnoo_use_component(Core)
 pingnoo_use_shared_library(ComponentSystem)
 pingnoo_use_shared_library(QCustomPlot)
 
-pingnoo_set_component_metadata("1.0.0" "Views" "Provides the route visualiser system")
+pingnoo_set_component_metadata("Views" "Provides the route visualiser system")
 
 pingnoo_end_component()

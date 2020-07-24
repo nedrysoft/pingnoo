@@ -53,6 +53,6 @@ pingnoo_use_shared_library(ComponentSystem)
 pingnoo_use_shared_library(ICMPPacket)
 pingnoo_use_shared_library(ICMPSocket)
 
-pingnoo_set_component_metadata("1.0.0" "Ping Engines" "Provides an socket based ICMP ping engine")
+pingnoo_set_component_metadata("Ping Engines" "Provides an socket based ICMP ping engine")
 
 pingnoo_end_component()

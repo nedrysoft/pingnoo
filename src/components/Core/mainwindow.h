@@ -49,6 +49,8 @@ namespace FizzyAde::Core
 
         void onCutButtonClicked();
 
+        void on_toolButton_clicked();
+
     private:
         void createDefaultCommands();
         void createCommand(QString commandId, QAbstractButton *button);

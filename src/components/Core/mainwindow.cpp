@@ -21,6 +21,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "ComponentSystem/IComponentManager.h"
+#include "ComponentSystem/ComponentLoader.h"
+#include "ComponentSystem/Component.h"
 #include "Core/ICore.h"
 #include "Core/IEditor.h"
 #include "Core/ICommandManager.h"
@@ -29,6 +31,7 @@
 #include "Pingnoo.h"
 #include <QDebug>
 #include <QApplication>
+#include "ComponentViewerDialog.h"
 
 FizzyAde::Core::MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -202,4 +205,11 @@ void FizzyAde::Core::MainWindow::addMenuCommand(QString menuId, QString commandI
     auto command = commandManager->findCommand(commandId);
 
     menu->addCommand(command);
+}
+
+void FizzyAde::Core::MainWindow::on_toolButton_clicked()
+{
+    ComponentViewerDialog componentViewerDialog(FizzyAde::ComponentSystem::getObject<QMainWindow>());
+
+    componentViewerDialog.exec();
 }

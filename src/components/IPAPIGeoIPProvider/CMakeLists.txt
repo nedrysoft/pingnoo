@@ -40,6 +40,6 @@ pingnoo_use_component(Core)
 
 pingnoo_use_shared_library(ComponentSystem)
 
-pingnoo_set_component_metadata("1.0.0" "Geo IP Providers" "Provides an ip-api geo lookup")
+pingnoo_set_component_metadata("Geo IP Providers" "Provides an ip-api geo lookup")
 
 pingnoo_end_component()

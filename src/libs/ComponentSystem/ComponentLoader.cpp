@@ -42,6 +42,7 @@ constexpr unsigned int QtPatchBitShift = 0;
 FizzyAde::ComponentSystem::ComponentLoader::ComponentLoader(QObject *parent)
     : QObject(parent)
 {
+    //qRegisterMetaType<FizzyAde::ComponentSystem::Component *>();
 }
 
 FizzyAde::ComponentSystem::ComponentLoader::~ComponentLoader()
@@ -136,11 +137,11 @@ void FizzyAde::ComponentSystem::ComponentLoader::addComponents(const QString &co
         auto component = new FizzyAde::ComponentSystem::Component(componentName.toString(), componentFilename, metaDataObject);
 
         if (componentQtVersion.majorVersion()!=applicationQtVersion.majorVersion()) {
-            component->m_loadError |= IncompatibleQtVersion;
+            component->m_loadStatus |= IncompatibleQtVersion;
         }
 
         if (m_componentSearchList.contains(componentName.toString())) {
-            component->m_loadError |= NameClash;
+            component->m_loadStatus |= NameClash;
         }
 
         m_componentSearchList[componentName.toString()] = component;
@@ -149,7 +150,7 @@ void FizzyAde::ComponentSystem::ComponentLoader::addComponents(const QString &co
     }
 }
 
-void FizzyAde::ComponentSystem::ComponentLoader::loadComponents()
+void FizzyAde::ComponentSystem::ComponentLoader::loadComponents(std::function <bool (FizzyAde::ComponentSystem::Component *)> loadFunction)
 {
     QList<FizzyAde::ComponentSystem::Component *> componentLoadList;
     QList<FizzyAde::ComponentSystem::Component *> resolvedLoadList;
@@ -163,7 +164,7 @@ void FizzyAde::ComponentSystem::ComponentLoader::loadComponents()
 
         auto component = componentIterator.value();
 
-        if (component->m_loadError) {
+        if (component->m_loadStatus) {
             continue;
         }
 
@@ -179,11 +180,11 @@ void FizzyAde::ComponentSystem::ComponentLoader::loadComponents()
                 component->addDependency(m_componentSearchList[dependencyName], QVersionNumber::fromString(dependencyVersion));
             else {
                 component->m_missingDependencies.append(dependencyName);
-                component->m_loadError |= MissingDependency;
+                component->m_loadStatus |= MissingDependency;
             }
         }
 
-        if (!component->m_loadError) {
+        if (!component->m_loadStatus) {
             componentLoadList.append(component);
         }
     }
@@ -209,14 +210,21 @@ void FizzyAde::ComponentSystem::ComponentLoader::loadComponents()
     // load the components that we have satisfied dependencies for
 
     for(auto component : resolvedLoadList) {
-        if (component->m_loadError) {
+        if (component->m_loadStatus) {
             continue;
         }
 
         component->validateDependencies();
 
-        if (component->m_loadError) {
+        if (component->m_loadStatus) {
             continue;
+        }
+
+        if (loadFunction) {
+            if (!loadFunction(component)) {
+                component->m_loadStatus |= FizzyAde::ComponentSystem::ComponentLoader::Disabled;
+                continue;
+            }
         }
 
         // check if dependencies are loaded, if not then this component cannot be loaded
@@ -225,7 +233,7 @@ void FizzyAde::ComponentSystem::ComponentLoader::loadComponents()
 
         if (!pluginLoader->load()) {
             qDebug() << pluginLoader->errorString();
-            component->m_loadError |= FizzyAde::ComponentSystem::ComponentLoader::LoadError;
+            component->m_loadStatus |= FizzyAde::ComponentSystem::ComponentLoader::LoadStatus;
 
             delete pluginLoader;
 
@@ -235,7 +243,7 @@ void FizzyAde::ComponentSystem::ComponentLoader::loadComponents()
         auto componentInterface = qobject_cast<FizzyAde::ComponentSystem::IComponentInterface *>(pluginLoader->instance());
 
         if (!componentInterface) {
-            component->m_loadError |= FizzyAde::ComponentSystem::ComponentLoader::MissingInterface;
+            component->m_loadStatus |= FizzyAde::ComponentSystem::ComponentLoader::MissingInterface;
 
             delete pluginLoader;
 
