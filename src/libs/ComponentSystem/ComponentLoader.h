@@ -49,19 +49,19 @@ namespace FizzyAde::ComponentSystem
 
     public:
         /**
-         * LoadError
+         * LoadStatus
          *
-         * Bit flags for load errors, can be used to determine why a
-         * component was not loaded.
+         * Bit flags for load status
          */
-        enum LoadError
+        enum LoadStatus
         {
+            Loaded = 0,
             IncompatibleQtVersion = 1,
             NameClash = 2,
             MissingDependency = 4,
             Disabled = 8,
             IncompatibleVersion = 16,
-            LoadError = 32,
+            LoadStatus = 32,
             MissingInterface = 64
         };
 
@@ -94,7 +94,7 @@ namespace FizzyAde::ComponentSystem
          * Loads the components
          *
          */
-        void loadComponents();
+        void loadComponents(std::function <bool (FizzyAde::ComponentSystem::Component *)> loadFunction = nullptr);
 
         /**
          * components

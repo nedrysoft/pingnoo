@@ -47,7 +47,7 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::Core::ICommand)
 
     public:
-        Command();
+        Command(QString id);
         ~Command();
 
         /**
@@ -80,6 +80,7 @@ namespace FizzyAde::Core
         QMap<int, QAction *> m_actions;
 
         FizzyAde::Core::ActionProxy *m_action;
+        QString m_id;
     };
 }
 

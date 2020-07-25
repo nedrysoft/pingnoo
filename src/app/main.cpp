@@ -26,6 +26,10 @@
 #include <QDebug>
 #include <QDir>
 #include <QProcessEnvironment>
+#include <QStandardPaths>
+#include <QString>
+#include <QSettings>
+#include <QJsonDocument>
 
 #if defined(Q_OS_MAC)
 #include <CoreFoundation/CoreFoundation.h>
@@ -33,6 +37,9 @@
 
 int main(int argc, char **argv)
 {
+    qApp->setApplicationName("Pingnoo");
+    qApp->setOrganizationName("FizzyAde");
+
     auto componentLoader = new FizzyAde::ComponentSystem::ComponentLoader;
     auto applicationInstance = new QApplication(argc, argv);
     auto appNap = FizzyAde::AppNap::AppNap::getInstance();
@@ -56,9 +63,33 @@ int main(int argc, char **argv)
         componentPath = dir.absolutePath()+"/PlugIns";
     }
 
-    componentLoader->addComponents(componentPath);
-#else
+    auto componentManager = FizzyAde::ComponentSystem::IComponentManager::getInstance();
 
+    componentManager->addObject(componentLoader);
+
+    componentLoader->addComponents(componentPath);
+
+    auto extraLibrarySearchPaths = QStringList() << "Frameworks" << "PlugIns";
+
+    auto dataPaths = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+
+    for(auto searchPath : dataPaths) {
+        for(auto folderPath : extraLibrarySearchPaths) {
+            auto folderName = searchPath+"/"+qApp->organizationName()+"/"+qApp->applicationName()+"/"+folderPath;
+
+            if (QDir(folderName).exists())
+                qApp->addLibraryPath(folderName);
+        }
+    }
+
+    for(auto searchPath : dataPaths) {
+        auto folderName = searchPath+"/"+qApp->organizationName()+"/"+qApp->applicationName()+"/PlugIns";
+
+        if (QDir(folderName).exists()) {
+            componentLoader->addComponents(folderName);
+        }
+    }
+#else    
     if (QProcessEnvironment::systemEnvironment().contains("APPDIR")) {
         componentLoader->addComponents(QProcessEnvironment::systemEnvironment().value("APPDIR")+"/Components");
     } else {
@@ -67,11 +98,30 @@ int main(int argc, char **argv)
 
 #endif
 
-    componentLoader->loadComponents();
+    QString appSettingsFilename = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).at(0)+"/"+qApp->organizationName()+"/"+qApp->applicationName()+"/appSettings.json";
+    QFile settingsFile(appSettingsFilename);
+    QVariantList disabledComponents;
 
-    for(FizzyAde::ComponentSystem::Component *component : componentLoader->components()) {
-        qDebug() << component->name() << component->version() << component->isLoaded() << component->loadError() << component->missingDependencies();
+    settingsFile.open(QFile::ReadOnly);
+
+    if (settingsFile.isOpen()) {
+        auto settings = QJsonDocument::fromJson(settingsFile.readAll()).toVariant();
+
+        if (settings.isValid()) {
+            auto settingsMap = settings.toMap();
+
+            if (settingsMap.contains("disabledComponents")) {
+                disabledComponents = settingsMap["disabledComponents"].toList();
+            }
+        }
     }
+
+    componentLoader->loadComponents([disabledComponents](FizzyAde::ComponentSystem::Component *component)->bool {
+        if (disabledComponents.contains((component->name()+"."+component->vendor()).toLower())) {
+            return false;
+        }
+        return true;
+    });
 
     auto exitCode = QApplication::exec();
 

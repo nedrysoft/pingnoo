@@ -23,6 +23,7 @@
 
 #include <QString>
 #include <QMap>
+#include <QIcon>
 
 #if (defined(FIZZYADE_LIBRARY_FONTAWESOME_EXPORT))
 #define FIZZYADE_FONTAWESOME_DLLSPEC Q_DECL_EXPORT
@@ -45,6 +46,7 @@ namespace FizzyAde::FontAwesome
             static QString solidName();
 
             static QString richText(QString string);
+            static QIcon icon(QString glpyhName, int pointSize, QColor colour);
 
         private:
             int m_brandsId;

@@ -59,6 +59,15 @@ pingnoo_add_sources(
     Menu.h
     StatusBarManager.cpp
     StatusBarManager.h
+    ComponentViewerDialog.cpp
+    ComponentViewerDialog.h
+    ComponentViewerDialog.ui
+    ComponentDetailsDialog.cpp
+    ComponentDetailsDialog.h
+    ComponentDetailsDialog.ui
+    AboutDialog.cpp
+    AboutDialog.h
+    AboutDialog.ui
 )
 
 pingnoo_set_description("Core application support component")
@@ -67,7 +76,8 @@ pingnoo_use_qt_libraries(Network Widgets)
 
 pingnoo_use_shared_library(ComponentSystem)
 pingnoo_use_shared_library(Ribbon)
+pingnoo_use_shared_library(FontAwesome)
 
-pingnoo_set_component_metadata("1.0.0" "Core" "Provides core services to components.")
+pingnoo_set_component_metadata("Core" "Provides core services to components.")
 
 pingnoo_end_component()

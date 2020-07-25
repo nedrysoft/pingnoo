@@ -21,11 +21,12 @@
 #include "Component.h"
 #include "ComponentLoader.h"
 #include <QDebug>
+#include <QJsonArray>
 
 FizzyAde::ComponentSystem::Component::Component()
 {
     m_isLoaded = false;
-    m_loadError = 0;
+    m_loadStatus = 0;
 }
 
 FizzyAde::ComponentSystem::Component::Component(QString name, QString filename, QJsonObject metadata)
@@ -34,7 +35,7 @@ FizzyAde::ComponentSystem::Component::Component(QString name, QString filename, 
     m_filename = std::move(filename);
     m_metadata = std::move(metadata);
     m_isLoaded = false;
-    m_loadError = 0;
+    m_loadStatus = 0;
 }
 
 void FizzyAde::ComponentSystem::Component::addDependency(Component *dependency, QVersionNumber versionNumber)
@@ -63,9 +64,9 @@ bool FizzyAde::ComponentSystem::Component::isLoaded()
     return(m_isLoaded);
 }
 
-int FizzyAde::ComponentSystem::Component::loadError()
+int FizzyAde::ComponentSystem::Component::loadStatus()
 {
-    return(m_loadError);
+    return(m_loadStatus);
 }
 
 QStringList FizzyAde::ComponentSystem::Component::missingDependencies()
@@ -81,14 +82,103 @@ QVersionNumber FizzyAde::ComponentSystem::Component::version()
     return(QVersionNumber::fromString(componentVersion));
 }
 
+QString FizzyAde::ComponentSystem::Component::versionString()
+{
+    auto componentMetadata = m_metadata["MetaData"].toObject();
+    auto componentVersion = componentMetadata["Version"].toString();
+    auto componentBranch = componentMetadata["Branch"].toString();
+    auto componentRevision = componentMetadata["Revision"].toString();
+
+    return(QString("%1-%2 (%3)").arg(componentVersion).arg(componentBranch).arg(componentRevision));
+}
+
+QString FizzyAde::ComponentSystem::Component::identifier()
+{
+    auto componentMetadata = m_metadata["MetaData"].toObject();
+
+    return (componentMetadata["Name"].toString()+"."+componentMetadata["Vendor"].toString()).toLower();
+}
+
+QString FizzyAde::ComponentSystem::Component::category()
+{
+    auto componentMetadata = m_metadata["MetaData"].toObject();
+
+    return componentMetadata["Category"].toString();
+}
+
+QString FizzyAde::ComponentSystem::Component::vendor()
+{
+    auto componentMetadata = m_metadata["MetaData"].toObject();
+
+    return componentMetadata["Vendor"].toString();
+}
+
+QString FizzyAde::ComponentSystem::Component::license()
+{
+    QString licenseText;
+    auto componentMetadata = m_metadata["MetaData"].toObject();
+
+    auto licenseContent = componentMetadata["License"].toArray();
+
+    for(auto object : licenseContent) {
+        licenseText += object.toString() + "\r\n";
+    }
+
+    return licenseText;
+}
+
+QString FizzyAde::ComponentSystem::Component::copyright()
+{
+    auto componentMetadata = m_metadata["MetaData"].toObject();
+
+    return componentMetadata["Copyright"].toString();
+}
+
+QString FizzyAde::ComponentSystem::Component::description()
+{
+    QString descriptionText;
+    auto componentMetadata = m_metadata["MetaData"].toObject();
+
+    auto licenseContent = componentMetadata["Description"].toArray();
+
+    for(auto object : licenseContent) {
+        descriptionText += object.toString() + "\r\n";
+    }
+
+    return descriptionText;
+}
+
+QString FizzyAde::ComponentSystem::Component::url()
+{
+    auto componentMetadata = m_metadata["MetaData"].toObject();
+
+    return componentMetadata["Url"].toString();
+}
+
+QString FizzyAde::ComponentSystem::Component::dependencies()
+{
+    QString dependencyText;
+    auto componentMetadata = m_metadata["MetaData"].toObject();
+
+    auto licenseContent = componentMetadata["Dependencies"].toArray();
+
+    for(auto object : licenseContent) {
+        auto dependency = object.toObject();
+
+        dependencyText += QString("%1 (%2)\r\n").arg(dependency["Name"].toString()).arg(dependency["Version"].toString());
+    }
+
+    return dependencyText;
+}
+
 void FizzyAde::ComponentSystem::Component::validateDependencies()
 {
     for(auto dependency : m_dependencies) {
         if (!dependency->isLoaded()) {
-            m_loadError |= FizzyAde::ComponentSystem::ComponentLoader::MissingDependency;
+            m_loadStatus |= FizzyAde::ComponentSystem::ComponentLoader::MissingDependency;
         } else {
             if (dependency->version()<m_dependencyVersions[dependency]) {
-                m_loadError |= FizzyAde::ComponentSystem::ComponentLoader::IncompatibleVersion;
+                m_loadStatus |= FizzyAde::ComponentSystem::ComponentLoader::IncompatibleVersion;
             }
         }
     }

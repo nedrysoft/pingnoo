@@ -106,16 +106,15 @@ namespace FizzyAde::ComponentSystem
         bool isLoaded();
 
         /**
-         * loadError
+         * loadStatus
          *
-         * Returns the bit flags of the reasons that this
-         * component was not loaded
+         * Returns a bit flag of the load status
          *
-         * @sa ComponentLoader::LoadError
+         * @sa ComponentLoader::LoadStatus
          *
          * @return The reason the component was not loaded
          */
-        int loadError();
+        int loadStatus();
 
         /**
          * missingDependencies
@@ -138,6 +137,87 @@ namespace FizzyAde::ComponentSystem
         QVersionNumber version();
 
         /**
+         * versionString
+         *
+         * Returns the formatted version string of the component
+         *
+         * @return The version string
+         */
+        QString versionString();
+
+        /**
+         * identifier
+         *
+         * Returns the reverse dns identifier of the component
+         *
+         * @return The identifer
+         */
+        QString identifier();
+
+        /**
+         * category
+         *
+         * Returns category of the component
+         *
+         * @return The section
+         */
+        QString category();
+
+        /**
+         * vendor
+         *
+         * Returns the vendor of the component
+         *
+         * @return The vendor
+         */
+        QString vendor();
+
+        /**
+         * license
+         *
+         * Returns the license text of the component
+         *
+         * @return The license text
+         */
+        QString license();
+
+        /**
+         * copyright
+         *
+         * Returns the copyright text of the component
+         *
+         * @return The copyright text
+         */
+        QString copyright();
+
+        /**
+         * description
+         *
+         * Returns the description text of the component
+         *
+         * @return The description text
+         */
+        QString description();
+
+        /**
+         * url
+         *
+         * Returns the URL of the component
+         *
+         * @return The URL
+         */
+        QString url();
+
+        /**
+         * dependencies
+         *
+         * Returns the dependencies of the component
+         *
+         * @return The dependencies
+         */
+        QString dependencies();
+
+        /**
          * validateDependencies
          *
          * Validates all dependencies to ensure they are loaded
@@ -155,10 +235,12 @@ namespace FizzyAde::ComponentSystem
         QList<FizzyAde::ComponentSystem::Component *> m_dependencies;
         QJsonObject m_metadata;
         bool m_isLoaded;
-        int m_loadError;
+        int m_loadStatus;
         QList<QString> m_missingDependencies;
         QMap<FizzyAde::ComponentSystem::Component *, QVersionNumber> m_dependencyVersions;
     };
 }
+
+Q_DECLARE_METATYPE(FizzyAde::ComponentSystem::Component *)
 
 #endif // FIZZYADE_COMPONENTSYSTEM_COMPONENT_H

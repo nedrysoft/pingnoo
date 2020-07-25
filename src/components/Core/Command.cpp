@@ -23,9 +23,10 @@
 #include "IContextManager.h"
 #include <QDebug>
 
-FizzyAde::Core::Command::Command()
+FizzyAde::Core::Command::Command(QString id)
 {
     m_action = new ActionProxy();
+    m_id = id;
 }
 
 FizzyAde::Core::Command::~Command()
@@ -58,7 +59,11 @@ void FizzyAde::Core::Command::setContext(int contextId)
     if (m_actions.contains(contextId)) {
         m_action->setActive(m_actions[contextId]);
     } else {
-        m_action->setActive(nullptr);
+        if (m_actions.contains(FizzyAde::Core::GlobalContext)) {
+             m_action->setActive(m_actions[FizzyAde::Core::GlobalContext]);
+        } else {
+            m_action->setActive(nullptr);
+        }
     }
 }
 

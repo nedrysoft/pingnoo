@@ -1,11 +1,12 @@
 {
     "Name" : "@pingnooComponentName@",
     "Version" : "@pingnooComponentVersion@",
+    "Branch" : "@pingnooComponentBranch@",
+    "Revision" : "@pingnooComponentRevision@",
     "CompatVersion" : "1.0.0",
     "Vendor" : "fizzyade.com",
     "Copyright" : "(C) 2020 Adrian Carpenter",
     "License" : [
-        "",
         "Copyright (C) 2020 Adrian Carpenter",
         "",
         "This file is part of pingnoo (https://github.com/fizzyade/pingnoo)",

@@ -23,6 +23,7 @@
 #include <QFontDatabase>
 #include <QFile>
 #include <QDebug>
+#include <QPainter>
 
 constexpr auto BaseHex = 16;
 
@@ -35,9 +36,9 @@ FizzyAde::FontAwesome::FontAwesome *FizzyAde::FontAwesome::FontAwesome::getInsta
 
 FizzyAde::FontAwesome::FontAwesome::FontAwesome()
 {
-    m_regularId = QFontDatabase::addApplicationFont(":/FizzyAde/FontAwesome/Free-Regular.otf");
-    m_solidId = QFontDatabase::addApplicationFont(":/FizzyAde/FontAwesome/Free-Solid.otf");
-    m_brandsId = QFontDatabase::addApplicationFont(":/FizzyAde/FontAwesome/Free-Brands.otf");
+    m_regularId = QFontDatabase::addApplicationFont(":/FizzyAde/Utils/FontAwesome/Free-Regular.otf");
+    m_solidId = QFontDatabase::addApplicationFont(":/FizzyAde/Utils/FontAwesome/Free-Solid.otf");
+    m_brandsId = QFontDatabase::addApplicationFont(":/FizzyAde/Utils/FontAwesome/Free-Brands.otf");
 
     if (QFontDatabase::applicationFontFamilies(m_regularId).count()) {
         m_regularName = QFontDatabase::applicationFontFamilies(m_regularId).at(0);
@@ -51,7 +52,7 @@ FizzyAde::FontAwesome::FontAwesome::FontAwesome()
         m_brandsName = QFontDatabase::applicationFontFamilies(m_brandsId).at(0);
     }
 
-    QFile scssFile(":/FizzyAde/FontAwesome/_variables.scss");
+    QFile scssFile(":/FizzyAde/Utils/FontAwesome/_variables.scss");
 
     if (scssFile.open(QFile::ReadOnly)) {
         auto scssContent = QString::fromUtf8(scssFile.readAll());
@@ -75,12 +76,12 @@ FizzyAde::FontAwesome::FontAwesome::FontAwesome()
 
     m_styleString = QString(R"(
         <style>
-            .fas {
+            .far {
                 font-family:'%1';
                 font-weight:900
             }
 
-            .far {
+            .fas {
                 font-family:'%2';
                 font-weight:400
             }
@@ -157,4 +158,61 @@ QString FizzyAde::FontAwesome::FontAwesome::richText(QString string)
     }
 
     return(QString("<html>%1<body>%2</body></html>").arg(getInstance()->m_styleString, string));
+}
+
+QIcon FizzyAde::FontAwesome::FontAwesome::icon(QString glpyhName, int pointSize, QColor colour)
+{
+    QPixmap pixmap(pointSize, pointSize);
+
+    pixmap.fill(Qt::transparent);
+
+    auto expression = QRegularExpression(R"((far|fas|fab) ([a-z|\-|0-9]*))");
+    auto match = QRegularExpressionMatch();
+    auto searchIndex = 0;
+
+    while(glpyhName.indexOf(expression, searchIndex, &match)>=0) {
+        if (!match.hasMatch()) {
+            break;
+        }
+
+        if (match.capturedTexts().count()==3) {
+            auto iconFont = match.capturedTexts().at(1);
+            auto iconId = match.capturedTexts().at(2);
+            auto iconCode = 0;
+            QFont::Weight fontWeight;
+            QString fontName;
+
+            if (getInstance()->m_glyphMap.contains(iconId)) {
+                iconCode = getInstance()->m_glyphMap[iconId].toInt(nullptr, 16);
+            } else {
+                if ( (iconId.size()>=1) && ((iconId.size()<=4)) ) {
+                    iconCode = iconId.toInt(nullptr, BaseHex);
+                }
+            }
+
+            if (iconFont=="fab") {
+                fontName = brandsName();
+                fontWeight = QFont::Normal;
+            } else if (iconFont=="fas") {
+                fontName = solidName();
+                fontWeight = QFont::Bold;
+            } else {
+                fontName = regularName();
+                fontWeight = QFont::Normal;
+            }
+
+            auto *painter = new QPainter(&pixmap);
+
+            painter->setPen(colour);
+            painter->setFont(QFont(fontName, pointSize, fontWeight));
+            painter->drawText(QRect(0, 0, pointSize, pointSize), Qt::AlignHCenter | Qt::AlignVCenter, QChar(iconCode));
+            painter->end();
+
+            delete painter;
+
+            break;
+       }
+    }
+
+    return(QIcon(pixmap));
 }
