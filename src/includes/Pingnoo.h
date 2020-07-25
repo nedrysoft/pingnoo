@@ -34,21 +34,28 @@ namespace Pingnoo::Constants
     constexpr auto menuApplication = "Menu.Pingnoo";
     constexpr auto menuFile = "Menu.File";
     constexpr auto menuEdit = "Menu.Edit";
+    constexpr auto menuHelp = "Menu.Help";
 
     constexpr auto fileOpen = "Menu.File.Open";
+
+    constexpr auto helpAbout = "Menu.Help.About";
+    constexpr auto helpAboutComponents = "Menu.Help.AboutComponents";
 
     const QMap<QString, QString> commandStringMap =
     {
         {editCut, QT_TR_NOOP("Cut")},
         {editCopy, QT_TR_NOOP("Copy")},
         {editPaste, QT_TR_NOOP("Paste")},
-        {fileOpen, QT_TR_NOOP("Open...")}
+        {fileOpen, QT_TR_NOOP("Open...")},
+        {helpAbout, QT_TR_NOOP("About Pingnoo")},
+        {helpAboutComponents, QT_TR_NOOP("About Components...")}
     };
 
     const QMap<QString, QString> menuStringMap =
     {
         {menuFile, QT_TR_NOOP("File")},
         {menuEdit, QT_TR_NOOP("Edit")},
+        {menuHelp, QT_TR_NOOP("Help")},
         {menuApplication, QT_TR_NOOP("Pingnoo")}
     };
 

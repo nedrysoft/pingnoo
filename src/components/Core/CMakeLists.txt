@@ -65,6 +65,9 @@ pingnoo_add_sources(
     ComponentDetailsDialog.cpp
     ComponentDetailsDialog.h
     ComponentDetailsDialog.ui
+    AboutDialog.cpp
+    AboutDialog.h
+    AboutDialog.ui
 )
 
 pingnoo_set_description("Core application support component")

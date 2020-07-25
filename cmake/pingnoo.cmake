@@ -53,6 +53,12 @@ else()
     string(STRIP "${PINGNOO_GIT_HASH}" PINGNOO_GIT_HASH)
 endif()
 
+add_definitions("-DPINGNOO_GIT_YEAR=\"${PINGNOO_GIT_YEAR}\"")
+add_definitions("-DPINGNOO_GIT_MONTH=\"${PINGNOO_GIT_MONTH}\"")
+add_definitions("-DPINGNOO_GIT_DAY=\"${PINGNOO_GIT_DAY}\"")
+add_definitions("-DPINGNOO_GIT_BRANCH=\"${PINGNOO_GIT_BRANCH}\"")
+add_definitions("-DPINGNOO_GIT_HASH=\"${PINGNOO_GIT_HASH}\"")
+
 if (WIN32)
     set(PINGNOO_PLATFORM_TARGET "Windows")
 elseif(APPLE)

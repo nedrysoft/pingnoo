@@ -121,3 +121,26 @@ void ComponentViewerDialog::on_componentsTreeWidget_itemDoubleClicked(QTreeWidge
         detailsDialog.exec();
     }
 }
+
+QStringList ComponentViewerDialog::disabledComponents()
+{
+    QStringList disabledComponentList;
+
+    for (auto categoryIndex=0;categoryIndex<ui->componentsTreeWidget->topLevelItemCount();categoryIndex++) {
+        auto categoryItem = ui->componentsTreeWidget->topLevelItem(categoryIndex);
+
+        for (auto itemIndex=0;itemIndex<categoryItem->childCount();itemIndex++) {
+            auto componentItem = categoryItem->child(itemIndex);
+
+            if (componentItem->checkState(1)==Qt::Unchecked) {
+                FizzyAde::ComponentSystem::Component *component = componentItem->data(0, Qt::UserRole).value<FizzyAde::ComponentSystem::Component *>();
+
+                if (component) {
+                    disabledComponentList.append((component->name()+"."+component->vendor()).toLower());
+                }
+            }
+        }
+    }
+
+    return disabledComponentList;
+}

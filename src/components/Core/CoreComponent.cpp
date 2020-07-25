@@ -47,6 +47,5 @@ void CoreComponent::initialisationFinishedEvent()
         FizzyAde::Core::ICommandManager::getInstance()->setContext(newContext);
     });
 
-    qDebug() << "core opened";
     core->open();
 }

@@ -21,6 +21,7 @@
 #include "CommandManager.h"
 #include "ICore.h"
 #include "Command.h"
+#include "IContextManager.h"
 #include "Menu.h"
 #include "Pingnoo.h"
 #include <QDebug>
@@ -37,15 +38,20 @@ FizzyAde::Core::ICommand *FizzyAde::Core::CommandManager::registerAction(QAction
         auto command = m_commandMap[id];
 
         command->registerAction(action, contexts);
+        command->setContext(FizzyAde::Core::IContextManager::getInstance()->context());
+
+        command->setActive(action->isEnabled());
 
         return(command);
     }
 
-    auto command = new Command();
+    auto command = new Command(id);
 
     command->registerAction(action, contexts);
 
     command->action()->setText(action->text());
+
+    command->setContext(FizzyAde::Core::IContextManager::getInstance()->context());
 
     m_commandMap[id] = command;
 

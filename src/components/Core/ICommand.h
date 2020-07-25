@@ -88,7 +88,6 @@ namespace FizzyAde::Core
 
             connect(this->action(), &QAction::changed, [this, widget] {
                 widget->setEnabled(this->active());
-                qDebug() << "set widget enabled" << this->active();
             });
         }
 

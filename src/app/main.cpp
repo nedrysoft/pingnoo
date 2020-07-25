@@ -28,6 +28,8 @@
 #include <QProcessEnvironment>
 #include <QStandardPaths>
 #include <QString>
+#include <QSettings>
+#include <QJsonDocument>
 
 #if defined(Q_OS_MAC)
 #include <CoreFoundation/CoreFoundation.h>
@@ -87,8 +89,7 @@ int main(int argc, char **argv)
             componentLoader->addComponents(folderName);
         }
     }
-#else
-
+#else    
     if (QProcessEnvironment::systemEnvironment().contains("APPDIR")) {
         componentLoader->addComponents(QProcessEnvironment::systemEnvironment().value("APPDIR")+"/Components");
     } else {
@@ -97,16 +98,30 @@ int main(int argc, char **argv)
 
 #endif
 
-    componentLoader->loadComponents([](FizzyAde::ComponentSystem::Component *component)->bool {
-        if (component->identifier()=="ipapigeoipprovider.fizzyade.com") {
+    QString appSettingsFilename = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).at(0)+"/"+qApp->organizationName()+"/"+qApp->applicationName()+"/appSettings.json";
+    QFile settingsFile(appSettingsFilename);
+    QVariantList disabledComponents;
+
+    settingsFile.open(QFile::ReadOnly);
+
+    if (settingsFile.isOpen()) {
+        auto settings = QJsonDocument::fromJson(settingsFile.readAll()).toVariant();
+
+        if (settings.isValid()) {
+            auto settingsMap = settings.toMap();
+
+            if (settingsMap.contains("disabledComponents")) {
+                disabledComponents = settingsMap["disabledComponents"].toList();
+            }
+        }
+    }
+
+    componentLoader->loadComponents([disabledComponents](FizzyAde::ComponentSystem::Component *component)->bool {
+        if (disabledComponents.contains((component->name()+"."+component->vendor()).toLower())) {
             return false;
         }
         return true;
     });
-
-    for(FizzyAde::ComponentSystem::Component *component : componentLoader->components()) {
-        qDebug() << component->filename() << component->name() << component->versionString() << component->isLoaded() << component->loadStatus() << component->missingDependencies();
-    }
 
     auto exitCode = QApplication::exec();
 

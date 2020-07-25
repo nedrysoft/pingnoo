@@ -18,31 +18,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_COMPONENTVIEWERDIALOG_H
-#define FIZZYADE_CORE_COMPONENTVIEWERDIALOG_H
+#include "AboutDialog.h"
+#include "ui_AboutDialog.h"
+#include <QDebug>
 
-#include <QDialog>
-#include <QTreeWidgetItem>
+AboutDialog::AboutDialog(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::AboutDialog)
+{
+    ui->setupUi(this);
 
-namespace Ui {
-class ComponentViewerDialog;
+    ui->titleLabel->setTextFormat(Qt::RichText);
+    ui->titleLabel->setText(QString("<span style=\"font-size:16pt; font-weight:600;\">Pingnoo %1.%2.%3-%4</span>").arg(PINGNOO_GIT_YEAR).arg(PINGNOO_GIT_MONTH).arg(PINGNOO_GIT_DAY).arg(PINGNOO_GIT_BRANCH));
+
+    ui->buildTimeLabel->setText(QString("Built on %1 %2").arg(__DATE__).arg(__TIME__));
+
+    ui->buildRevisionLabel->setText(QString("From revision <a href=\"https://github.com/fizzyade/pingnoo/commit/%1\">%1</a>").arg(PINGNOO_GIT_HASH));
 }
 
-class ComponentViewerDialog : public QDialog
+AboutDialog::~AboutDialog()
 {
-    Q_OBJECT
-
-public:
-    explicit ComponentViewerDialog(QWidget *parent = nullptr);
-    ~ComponentViewerDialog();
-
-    QStringList disabledComponents();
-
-private slots:
-    void on_componentsTreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
-
-private:
-    Ui::ComponentViewerDialog *ui;
-};
-
-#endif // FIZZYADE_CORE_COMPONENTVIEWERDIALOG_H
+    delete ui;
+}

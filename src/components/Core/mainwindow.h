@@ -23,6 +23,7 @@
 
 #include <QMainWindow>
 #include <QAbstractButton>
+#include <QAction>
 
 namespace FizzyAde::Core
 {
@@ -53,14 +54,21 @@ namespace FizzyAde::Core
 
     private:
         void createDefaultCommands();
-        void createCommand(QString commandId, QAbstractButton *button);
+        void registerDefaultCommands();
+
+        void createCommand(QString commandId, QAbstractButton *button, QAction::MenuRole menuRole=QAction::NoRole);
+        void addMenuCommand(QString menuId, QString commandId);
+
         FizzyAde::Core::IMenu *createMenu(QString menuId, QString parentMenuId=QString());
         FizzyAde::Core::IMenu *findMenu(QString menuId);
-        void addMenuCommand(QString menuId, QString commandId);
+
     protected:
 
     private:
         Ui::MainWindow *ui;
+
+        QAction *m_aboutComponentsAction;
+        QAction *m_aboutAction;
 
         /*
         QLabel *m_pointInfoLabel;

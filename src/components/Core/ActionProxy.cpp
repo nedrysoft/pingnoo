@@ -36,6 +36,10 @@ void FizzyAde::Core::ActionProxy::setActive(QAction *action)
 
     m_action = action;
 
+    if (action) {
+        setMenuRole(action->menuRole());
+    }
+
     connectAction();
 }
 

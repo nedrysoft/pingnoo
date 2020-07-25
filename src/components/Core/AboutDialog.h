@@ -18,31 +18,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_COMPONENTVIEWERDIALOG_H
-#define FIZZYADE_CORE_COMPONENTVIEWERDIALOG_H
+#ifndef ABOUTDIALOG_H
+#define ABOUTDIALOG_H
 
 #include <QDialog>
-#include <QTreeWidgetItem>
 
 namespace Ui {
-class ComponentViewerDialog;
+class AboutDialog;
 }
 
-class ComponentViewerDialog : public QDialog
+class AboutDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit ComponentViewerDialog(QWidget *parent = nullptr);
-    ~ComponentViewerDialog();
-
-    QStringList disabledComponents();
-
-private slots:
-    void on_componentsTreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
+    explicit AboutDialog(QWidget *parent = nullptr);
+    ~AboutDialog();
 
 private:
-    Ui::ComponentViewerDialog *ui;
+    Ui::AboutDialog *ui;
 };
 
-#endif // FIZZYADE_CORE_COMPONENTVIEWERDIALOG_H
+#endif // ABOUTDIALOG_H

@@ -32,6 +32,11 @@
 #include <QDebug>
 #include <QApplication>
 #include "ComponentViewerDialog.h"
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QStandardPaths>
+#include "AboutDialog.h"
 
 FizzyAde::Core::MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -114,6 +119,7 @@ void FizzyAde::Core::MainWindow::onCutButtonClicked()
 void FizzyAde::Core::MainWindow::initialise()
 {
     createDefaultCommands();
+    registerDefaultCommands();
 
     auto editors = FizzyAde::ComponentSystem::getObjects<FizzyAde::Core::IEditor>();
 
@@ -128,13 +134,19 @@ void FizzyAde::Core::MainWindow::createDefaultCommands()
     createCommand(Pingnoo::Constants::editCopy, ui->copyButton);
     createCommand(Pingnoo::Constants::editPaste, ui->pasteButton);
     createCommand(Pingnoo::Constants::fileOpen, nullptr);
+    createCommand(Pingnoo::Constants::helpAbout, nullptr, QAction::ApplicationSpecificRole);
+    createCommand(Pingnoo::Constants::helpAboutComponents, nullptr, QAction::ApplicationSpecificRole);
 
     createMenu(Pingnoo::Constants::applicationMenuBar);
 
     createMenu(Pingnoo::Constants::menuFile, Pingnoo::Constants::applicationMenuBar);
     createMenu(Pingnoo::Constants::menuEdit, Pingnoo::Constants::applicationMenuBar);
+    createMenu(Pingnoo::Constants::menuHelp, Pingnoo::Constants::applicationMenuBar);
 
     addMenuCommand(Pingnoo::Constants::menuFile, Pingnoo::Constants::fileOpen);
+
+    addMenuCommand(Pingnoo::Constants::menuHelp, Pingnoo::Constants::helpAbout);
+    addMenuCommand(Pingnoo::Constants::menuHelp, Pingnoo::Constants::helpAboutComponents);
 
     addMenuCommand(Pingnoo::Constants::menuEdit, Pingnoo::Constants::editCut);
     addMenuCommand(Pingnoo::Constants::menuEdit, Pingnoo::Constants::editCopy);
@@ -145,7 +157,63 @@ void FizzyAde::Core::MainWindow::createDefaultCommands()
     }
 }
 
-void FizzyAde::Core::MainWindow::createCommand(QString commandId, QAbstractButton *button)
+void FizzyAde::Core::MainWindow::registerDefaultCommands()
+{
+    auto commandManager = FizzyAde::Core::ICommandManager::getInstance();
+
+    m_aboutComponentsAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::helpAboutComponents));
+
+    m_aboutComponentsAction->setEnabled(true);
+    m_aboutComponentsAction->setMenuRole(QAction::ApplicationSpecificRole);
+
+    commandManager->registerAction(m_aboutComponentsAction, Pingnoo::Constants::helpAboutComponents);
+
+    connect(m_aboutComponentsAction, &QAction::triggered, [](bool) {
+        ComponentViewerDialog componentViewerDialog(FizzyAde::ComponentSystem::getObject<QMainWindow>());
+
+        if (componentViewerDialog.exec()) {
+            QString appSettingsFilename = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).at(0)+"/"+qApp->organizationName()+"/"+qApp->applicationName()+"/appSettings.json";
+            QFile settingsFile(appSettingsFilename);
+            QVariantList disabledPlugins;
+
+            settingsFile.open(QFile::ReadOnly);
+
+            auto loadedSettings = QJsonDocument::fromJson(settingsFile.readAll());
+
+            QJsonArray disabledComponents = QJsonArray::fromStringList(componentViewerDialog.disabledComponents());
+
+            auto rootObject = loadedSettings.object();
+
+            rootObject["disabledComponents"] = disabledComponents;
+
+            settingsFile.close();
+
+            settingsFile.open(QFile::WriteOnly | QFile::Truncate);
+
+            QJsonDocument saveDocument(rootObject);
+
+            settingsFile.write(saveDocument.toJson());
+
+            settingsFile.close();
+        }
+    });
+
+    m_aboutAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::helpAbout));
+
+    m_aboutAction->setEnabled(true);
+    m_aboutAction->setMenuRole(QAction::ApplicationSpecificRole);
+
+    commandManager->registerAction(m_aboutAction, Pingnoo::Constants::helpAbout);
+
+    connect(m_aboutAction, &QAction::triggered, [](bool) {
+        AboutDialog aboutDialog;
+
+        aboutDialog.exec();
+    });
+
+}
+
+void FizzyAde::Core::MainWindow::createCommand(QString commandId, QAbstractButton *button, QAction::MenuRole menuRole)
 {
     auto commandManager = FizzyAde::Core::ICommandManager::getInstance();
 
@@ -154,6 +222,8 @@ void FizzyAde::Core::MainWindow::createCommand(QString commandId, QAbstractButto
     }
 
     auto action = new QAction(Pingnoo::Constants::commandText(commandId));
+
+    action->setMenuRole(menuRole);
 
     auto command = commandManager->registerAction(action, commandId);
 
@@ -209,7 +279,5 @@ void FizzyAde::Core::MainWindow::addMenuCommand(QString menuId, QString commandI
 
 void FizzyAde::Core::MainWindow::on_toolButton_clicked()
 {
-    ComponentViewerDialog componentViewerDialog(FizzyAde::ComponentSystem::getObject<QMainWindow>());
 
-    componentViewerDialog.exec();
 }
