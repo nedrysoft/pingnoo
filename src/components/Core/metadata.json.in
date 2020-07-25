@@ -33,5 +33,6 @@
     "Description" : [
         "@pingnooComponentDescription@"
     ],
-    "Url" : "https://github.com/fizzyade/pingnoo"
+    "Url" : "https://github.com/fizzyade/pingnoo",
+    "CanBeDisabled" : false
 }

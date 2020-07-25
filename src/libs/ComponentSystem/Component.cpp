@@ -171,6 +171,17 @@ QString FizzyAde::ComponentSystem::Component::dependencies()
     return dependencyText;
 }
 
+bool FizzyAde::ComponentSystem::Component::canBeDisabled()
+{
+    auto componentMetadata = m_metadata["MetaData"].toObject();
+
+    if (componentMetadata.contains("CanBeDisabled")) {
+        return componentMetadata["CanBeDisabled"].toBool();
+    }
+
+    return true;
+}
+
 void FizzyAde::ComponentSystem::Component::validateDependencies()
 {
     for(auto dependency : m_dependencies) {

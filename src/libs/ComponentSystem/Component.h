@@ -218,6 +218,15 @@ namespace FizzyAde::ComponentSystem
         QString dependencies();
 
         /**
+         * canBeDisabled
+         *
+         * Returns whether the component can be disabled by the user
+         *
+         * @return State
+         */
+        bool canBeDisabled();
+
+        /**
          * validateDependencies
          *
          * Validates all dependencies to ensure they are loaded

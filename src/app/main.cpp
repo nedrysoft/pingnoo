@@ -117,6 +117,10 @@ int main(int argc, char **argv)
     }
 
     componentLoader->loadComponents([disabledComponents](FizzyAde::ComponentSystem::Component *component)->bool {
+        if (component->canBeDisabled()==false) {
+            return true;
+        }
+
         if (disabledComponents.contains((component->name()+"."+component->vendor()).toLower())) {
             return false;
         }

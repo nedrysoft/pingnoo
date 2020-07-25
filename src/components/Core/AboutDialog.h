@@ -36,6 +36,9 @@ public:
     ~AboutDialog();
 
 private:
+    QString compiler();
+
+private:
     Ui::AboutDialog *ui;
 };
 

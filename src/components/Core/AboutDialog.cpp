@@ -21,6 +21,8 @@
 #include "AboutDialog.h"
 #include "ui_AboutDialog.h"
 #include <QDebug>
+#include <QLibraryInfo>
+#include <QSysInfo>
 
 AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent),
@@ -34,9 +36,35 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui->buildTimeLabel->setText(QString("Built on %1 %2").arg(__DATE__).arg(__TIME__));
 
     ui->buildRevisionLabel->setText(QString("From revision <a href=\"https://github.com/fizzyade/pingnoo/commit/%1\">%1</a>").arg(PINGNOO_GIT_HASH));
+
+    ui->qtVersionLabel->setText(QString("Based on Qt %1.%2.%3 (%4, %5 bit), runtime Qt %6").arg(QT_VERSION_MAJOR).arg(QT_VERSION_MINOR).arg(QT_VERSION_PATCH).arg(compiler()).arg(QSysInfo::WordSize).arg(QLibraryInfo::version().toString()));
 }
 
 AboutDialog::~AboutDialog()
 {
     delete ui;
+}
+
+QString AboutDialog::compiler()
+{
+#if defined(Q_CC_CLANG)
+    QString suffix;
+#if defined(__apple_build_version__)
+    suffix = QString(" (Apple)");
+#endif
+    return QString("Clang %1.%2.%3").arg(__clang_major__).arg(__clang_minor__).arg(suffix);
+#elif defined(Q_CC_GNU)
+    return QString("GCC %1").arg(__VERSION__);
+#elif defined(Q_CC_MSVC)
+    if (_MSC_VER > 1999) {
+        return QString("MSVC <unknown>");
+    } else if (_MSC_VER >= 1920) {
+        return QString("MSVC 2019");
+    } else if if (_MSC_VER >= 1910) {
+        return QString("MSVC 2017");
+    } else if (_MSC_VER >= 1900) {
+        return QString("MSVC 2015");
+    }
+#endif
+    return QString("<unknown compiler>");
 }

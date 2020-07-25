@@ -70,10 +70,22 @@ if(Pingnoo_Build_RibbonDesignerPlugin)
         RibbonGroupPlugin.cpp
 	RibbonGroupPlugin.h
         RibbonWidgetsCollection.cpp
-	RibbonWidgetsCollection.h
+        RibbonWidgetsCollection.h
+
     )
 
+    if(APPLE)
+        target_sources(${PROJECT_NAME} "PRIVATE"
+            ThemeSupport.mm
+            ThemeSupport.h
+        )
+    endif()
+
     target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::UiPlugin)
+
+    if(APPLE)
+        target_link_libraries(${PROJECT_NAME} "-framework AppKit" "-framework Cocoa")
+    endif()
 
     set(PLUGIN_OUTPUT_DIR ${PINGNOO_BINARY_DIR}/Designer/${CMAKE_LIBRARY_ARCHITECTURE}/${Qt5_VERSION})
 

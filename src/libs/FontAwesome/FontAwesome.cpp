@@ -36,9 +36,9 @@ FizzyAde::FontAwesome::FontAwesome *FizzyAde::FontAwesome::FontAwesome::getInsta
 
 FizzyAde::FontAwesome::FontAwesome::FontAwesome()
 {
-    m_regularId = QFontDatabase::addApplicationFont(":/FizzyAde/Utils/FontAwesome/Free-Regular.otf");
-    m_solidId = QFontDatabase::addApplicationFont(":/FizzyAde/Utils/FontAwesome/Free-Solid.otf");
-    m_brandsId = QFontDatabase::addApplicationFont(":/FizzyAde/Utils/FontAwesome/Free-Brands.otf");
+    m_regularId = QFontDatabase::addApplicationFont(":/FizzyAde/FontAwesome/Free-Regular.otf");
+    m_solidId = QFontDatabase::addApplicationFont(":/FizzyAde/FontAwesome/Free-Solid.otf");
+    m_brandsId = QFontDatabase::addApplicationFont(":/FizzyAde/FontAwesome/Free-Brands.otf");
 
     if (QFontDatabase::applicationFontFamilies(m_regularId).count()) {
         m_regularName = QFontDatabase::applicationFontFamilies(m_regularId).at(0);
@@ -52,7 +52,7 @@ FizzyAde::FontAwesome::FontAwesome::FontAwesome()
         m_brandsName = QFontDatabase::applicationFontFamilies(m_brandsId).at(0);
     }
 
-    QFile scssFile(":/FizzyAde/Utils/FontAwesome/_variables.scss");
+    QFile scssFile(":/FizzyAde/FontAwesome/_variables.scss");
 
     if (scssFile.open(QFile::ReadOnly)) {
         auto scssContent = QString::fromUtf8(scssFile.readAll());

@@ -37,7 +37,7 @@ ComponentViewerDialog::ComponentViewerDialog(QWidget *parent) :
     auto crossIcon = FizzyAde::FontAwesome::FontAwesome::icon("fas fa-times", 16, Qt::darkRed);
     auto tickIcon = FizzyAde::FontAwesome::FontAwesome::icon("fas fa-check", 16, Qt::darkGreen);
 
-    ui->componentsTreeWidget->setHeaderLabels(QStringList() << "Name" << "Load" << "Version" << "Vendor");
+    ui->componentsTreeWidget->setHeaderLabels(QStringList() << tr("Name") << tr("Load") << tr("Version") << tr("Vendor"));
 
     ui->componentsTreeWidget->setColumnWidth(0, 300);
     ui->componentsTreeWidget->setColumnWidth(1, 50);
@@ -84,10 +84,15 @@ ComponentViewerDialog::ComponentViewerDialog(QWidget *parent) :
 
             componentItem->setText(0, component->name());
 
-            if (component->loadStatus() == FizzyAde::ComponentSystem::ComponentLoader::Disabled) {
-                componentItem->setCheckState(1, Qt::Unchecked);
+            if (component->canBeDisabled()==false) {
+                componentItem->setData(1, Qt::CheckStateRole, Qt::Checked);
+                componentItem->setDisabled(true);
             } else {
-                componentItem->setCheckState(1, Qt::Checked);
+                if (component->loadStatus() == FizzyAde::ComponentSystem::ComponentLoader::Disabled) {
+                    componentItem->setCheckState(1, Qt::Unchecked);
+                } else {
+                    componentItem->setCheckState(1, Qt::Checked);
+                }
             }
 
             componentItem->setText(2, component->versionString());
