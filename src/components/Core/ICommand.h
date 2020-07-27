@@ -74,7 +74,7 @@ namespace FizzyAde::Core
         /**
          * Attaches a command to an abstract push button
          *
-         * Binds to the buttons signals and then emits the appropraite
+         * Binds to the buttons signals and then emits the appropriate
          * signals from the push button
          *
          * @param[in] widget the abstract button subclassed widget

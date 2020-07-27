@@ -27,9 +27,9 @@
 #include "ComponentDetailsDialog.h"
 #include "FontAwesome/FontAwesome.h"
 
-ComponentViewerDialog::ComponentViewerDialog(QWidget *parent) :
+FizzyAde::Core::ComponentViewerDialog::ComponentViewerDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ComponentViewerDialog)
+    ui(new FizzyAde::Core::Ui::ComponentViewerDialog)
 {
     ui->setupUi(this);
 
@@ -109,12 +109,12 @@ ComponentViewerDialog::ComponentViewerDialog(QWidget *parent) :
     ui->componentsTreeWidget->expandAll();
 }
 
-ComponentViewerDialog::~ComponentViewerDialog()
+FizzyAde::Core::ComponentViewerDialog::~ComponentViewerDialog()
 {
     delete ui;
 }
 
-void ComponentViewerDialog::on_componentsTreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
+void FizzyAde::Core::ComponentViewerDialog::on_componentsTreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     Q_UNUSED(column)
 
@@ -127,7 +127,7 @@ void ComponentViewerDialog::on_componentsTreeWidget_itemDoubleClicked(QTreeWidge
     }
 }
 
-QStringList ComponentViewerDialog::disabledComponents()
+QStringList FizzyAde::Core::ComponentViewerDialog::disabledComponents()
 {
     QStringList disabledComponentList;
 

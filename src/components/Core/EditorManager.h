@@ -18,41 +18,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_CORE_H
-#define FIZZYADE_CORE_CORE_H
+#ifndef FIZZYADE_CORE_EDITORMANAGER_H
+#define FIZZYADE_CORE_EDITORMANAGER_H
 
-#include "mainwindow.h"
-#include "ICore.h"
+#include "IEditorManager.h"
 #include <QObject>
 #include <QString>
-#include <QPointer>
+#include <QMap>
+#include <QTabWidget>
 
 namespace FizzyAde::Core
 {
-    enum IPVersion
-    {
-        V4 = 4,
-        V6 = 6
-    };
 
-    class Core :
-        public FizzyAde::Core::ICore
+    /**
+     * EditorManager implementation
+     *
+     * Provides the implementation of an IEditorManager
+     *
+     */
+    class EditorManager :
+        public FizzyAde::Core::IEditorManager
     {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::ICore)
+        Q_INTERFACES(FizzyAde::Core::IEditorManager)
 
     public:
-        Core();
-        ~Core();
+        EditorManager(QTabWidget *tabWidget);
 
-        virtual QMainWindow *mainWindow();
-
-        void open(void);
+        /**
+         * @sa IEditorManager
+         */
+        virtual int openEditor(IEditor *editor);
 
     private:
-        QPointer<MainWindow> m_mainWindow;
+        QTabWidget *m_tabWidget;
     };
 }
 
-#endif // FIZZYADE_CORE_CORE_H
+#endif // FIZZYADE_CORE_EDITORMANAGER_H

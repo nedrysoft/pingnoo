@@ -34,14 +34,15 @@
 
 using namespace std::chrono_literals;
 
-constexpr int TransmitRetries = 1;//5;
+constexpr int TransmitRetries = 1;
 constexpr int MaxRouteHops = 64;
-constexpr auto DefaultReplyTimeout = 1s;//3s;
+constexpr auto DefaultReplyTimeout = 1s;
 constexpr int PingPayloadLength = 52;
 
-FizzyAde::RouteEngine::RouteWorker::RouteWorker()
+FizzyAde::RouteEngine::RouteWorker::RouteWorker(FizzyAde::Core::IPVersion ipVersion)
 {
     m_isRunning = false;
+    m_ipVersion = ipVersion;
 }
 
 FizzyAde::RouteEngine::RouteWorker::~RouteWorker() = default;
@@ -71,9 +72,17 @@ bool FizzyAde::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddress
 
         QByteArray receiveBuffer;
 
-        result = socket->recvfrom(receiveBuffer, *returnAddress, DefaultReplyTimeout);
+        std::chrono::milliseconds responseTimeout = DefaultReplyTimeout;
 
-        if (result!=-1) {
+        while(responseTimeout.count()>0) {
+            auto startTime = std::chrono::system_clock::now();
+
+            if (socket->recvfrom(receiveBuffer, *returnAddress, responseTimeout)==-1) {
+                break;
+            }
+
+            auto endTime = std::chrono::system_clock::now();
+
             auto responsePacket = FizzyAde::ICMPPacket::ICMPPacket::fromData(receiveBuffer, FizzyAde::ICMPPacket::V4);
 
             if (responsePacket.resultCode()!=FizzyAde::ICMPPacket::Invalid) {
@@ -87,7 +96,11 @@ bool FizzyAde::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddress
                     return(true);
                 }
             }
-        }
+
+            std::chrono::milliseconds diff = std::chrono::duration_cast<std::chrono::milliseconds>(endTime-startTime);
+
+            responseTimeout -= diff;
+         }
     }
 
     delete socket;
@@ -120,9 +133,17 @@ bool FizzyAde::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddress
 
         QByteArray receiveBuffer;
 
-        result = socket->recvfrom(receiveBuffer, *returnAddress, DefaultReplyTimeout);
+        std::chrono::milliseconds responseTimeout = DefaultReplyTimeout;
 
-        if (result!=-1) {
+        while(responseTimeout.count()>0) {
+            auto startTime = std::chrono::system_clock::now();
+
+            if (socket->recvfrom(receiveBuffer, *returnAddress, responseTimeout)==-1) {
+                break;
+            }
+
+            auto endTime = std::chrono::system_clock::now();
+
             auto responsePacket = FizzyAde::ICMPPacket::ICMPPacket::fromData(receiveBuffer, FizzyAde::ICMPPacket::V6);
 
             if (responsePacket.resultCode()!=FizzyAde::ICMPPacket::Invalid) {
@@ -136,6 +157,10 @@ bool FizzyAde::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddress
                     return(true);
                 }
             }
+
+            std::chrono::milliseconds diff = std::chrono::duration_cast<std::chrono::milliseconds>(endTime-startTime);
+
+            responseTimeout -= diff;
         }
     }
 
@@ -149,13 +174,27 @@ void FizzyAde::RouteEngine::RouteWorker::doWork()
     auto addressList = QHostInfo::fromName(m_host).addresses();
     auto route = FizzyAde::Core::RouteList();
     auto hopAddress = QHostAddress();
+    auto isComplete = false;
+    auto actualTargetAddress = QHostAddress();
 
     m_isRunning = true;
 
-    if (addressList.count()) {
-        auto targetAddress = addressList.at(0);
+    for(auto targetAddress : addressList) {
         auto hop = 1;
-        auto isComplete = false;
+
+        if (m_ipVersion==FizzyAde::Core::IPVersion::V4) {
+            if (targetAddress.protocol()!=QAbstractSocket::IPv4Protocol) {
+                continue;
+            }
+        } else if (m_ipVersion==FizzyAde::Core::IPVersion::V6) {
+            if (targetAddress.protocol()!=QAbstractSocket::IPv6Protocol) {
+                continue;
+            }
+        } else {
+            continue;
+        }
+
+        route = FizzyAde::Core::RouteList();
 
         while ((!isComplete) && (hop<=MaxRouteHops) && (m_isRunning)) {
             bool hopResponded;
@@ -177,13 +216,20 @@ void FizzyAde::RouteEngine::RouteWorker::doWork()
             hop++;
         }
 
+        actualTargetAddress = targetAddress;
+
         if (isComplete) {
-            emit result(addressList.first(), route);
-        } else {
-            emit result(addressList.first(), FizzyAde::Core::RouteList());
+            break;
         }
     }
+
+    if (isComplete) {
+        emit result(actualTargetAddress, route);
+    } else {
+        emit result(actualTargetAddress, FizzyAde::Core::RouteList());
+    }
 }
+
 
 void FizzyAde::RouteEngine::RouteWorker::setHost(QString host)
 {

@@ -26,6 +26,7 @@
 #include "Core/IPingEngine.h"
 #include "Core/IPingEngineFactory.h"
 #include "Core/IRouteEngine.h"
+#include "Core/IRouteEngineFactory.h"
 #include "Core/IHostMasker.h"
 #include "Core/IGeoIPProvider.h"
 #include "Core/IContextManager.h"
@@ -79,7 +80,7 @@ QMap<int, QPair<QString, QString> > &FizzyAde::RouteAnalyser::RouteAnalyserWidge
     return(map);
 }
 
-FizzyAde::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyserWidget(QWidget *parent) : QWidget(parent)
+FizzyAde::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyserWidget(QString targetHost, FizzyAde::Core::IPVersion ipVersion, double interval, FizzyAde::Core::IPingEngineFactory *pingEngineFactory, QWidget *parent) : QWidget(parent)
 {
     auto maskerConfig = QString(R"|({"id":"FizzyAde::RegExHostMasker::RegExHostMasker","matchItems":[{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"},{"matchExpression":"(?<host>(.+))\\.fizzyade\\.(?<domain>(.+))","matchFlags":20,"matchHopString":"","matchReplacementString":"[host].<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"}]})|");
 
@@ -91,12 +92,18 @@ FizzyAde::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyser
         hostMasker->loadConfiguration(doc.object());
     }
 
-    auto routeEngine = FizzyAde::ComponentSystem::getObject<FizzyAde::Core::IRouteEngine>();
+    auto routeEngineFactory = FizzyAde::ComponentSystem::getObject<FizzyAde::Core::IRouteEngineFactory>();
+
+    if (!routeEngineFactory) {
+        return;
+    }
+
+    auto routeEngine = routeEngineFactory->createEngine();
 
     if (routeEngine) {
         connect(routeEngine, &FizzyAde::Core::IRouteEngine::result, this, &FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult);
 
-        routeEngine->findRoute("1.1.1.1");
+        routeEngine->findRoute(targetHost, ipVersion);
     }
 
     auto routeGraphDelegate = new FizzyAde::RouteAnalyser::RouteTableItemDelegate;
@@ -104,6 +111,9 @@ FizzyAde::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyser
     connect(this, &QObject::destroyed, routeGraphDelegate, [routeGraphDelegate] (QObject *) {
         delete routeGraphDelegate;
     });
+
+    m_pingEngineFactory = pingEngineFactory;
+    m_interval = interval;
 
     m_scrollArea = new QScrollArea();
 
@@ -233,23 +243,29 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onPingResult(FizzyAde::Core::
 
 void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddress &routeHostAddress, const FizzyAde::Core::RouteList &route)
 {
-    auto pingEngineFactory = FizzyAde::ComponentSystem::getObject<FizzyAde::Core::IPingEngineFactory>();
+    FizzyAde::Core::IRouteEngine *routeEngine = qobject_cast<FizzyAde::Core::IRouteEngine *>(this->sender());
     auto hop = 1;
     auto geoIP = FizzyAde::ComponentSystem::getObject<FizzyAde::Core::IGeoIPProvider>();
 
-    if (!pingEngineFactory) {
+    if (routeEngine) {
+        disconnect(routeEngine, &FizzyAde::Core::IRouteEngine::result, this, &FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult);
+    }
+
+    if (!m_pingEngineFactory) {
         return;
     }
 
     if (routeHostAddress.protocol()==QAbstractSocket::IPv4Protocol) {
-        m_pingEngine = pingEngineFactory->createEngine(FizzyAde::Core::V4);
+        m_pingEngine = m_pingEngineFactory->createEngine(FizzyAde::Core::V4);
     } else if (routeHostAddress.protocol()==QAbstractSocket::IPv6Protocol) {
-        m_pingEngine = pingEngineFactory->createEngine(FizzyAde::Core::V6);
+        m_pingEngine = m_pingEngineFactory->createEngine(FizzyAde::Core::V6);
     }  else {
         return;
     }
 
-    m_pingEngine->setInterval(DefaultPingInterval);
+    auto interval = std::chrono::duration<double, std::ratio<1,1> >(m_interval);
+
+    m_pingEngine->setInterval(std::chrono::duration_cast<std::chrono::milliseconds>(interval));
 
     connect(m_pingEngine, &FizzyAde::Core::IPingEngine::result, this, &FizzyAde::RouteAnalyser::RouteAnalyserWidget::onPingResult);
 
@@ -324,7 +340,7 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddr
              */
 
             connect(customPlot, &QCustomPlot::mouseWheel, [this] (QWheelEvent *event) {
-                m_scrollArea->verticalScrollBar()->setValue(m_scrollArea->verticalScrollBar()->value() - event->delta());
+                m_scrollArea->verticalScrollBar()->setValue(m_scrollArea->verticalScrollBar()->value() - event->angleDelta().y());
             });
 
             /**

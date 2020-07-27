@@ -26,7 +26,7 @@
 #include <QHostAddress>
 #include <QRandomGenerator>
 
-constexpr int TotalTargetSockets = 10;
+constexpr int TotalTargetSockets = 255;
 
 class FizzyAde::ICMPPingEngine::ICMPPingTargetData
 {

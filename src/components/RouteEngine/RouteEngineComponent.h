@@ -22,7 +22,7 @@
 #define FIZZYADE_ROUTEENGINE_ROUTEENGINECOMPONENT_H
 
 #include "RouteEngineSpec.h"
-#include "RouteEngine.h"
+#include "RouteEngineFactory.h"
 #include "ComponentSystem/IComponentInterface.h"
 
 class FIZZYADE_ROUTEENGINE_DLLSPEC RouteEngineComponent :
@@ -42,7 +42,7 @@ public:
     virtual void initialiseEvent();
 
 private:
-    FizzyAde::RouteEngine::RouteEngine *m_routeEngine;
+    FizzyAde::RouteEngine::RouteEngineFactory *m_routeEngineFactory;
 
 };
 

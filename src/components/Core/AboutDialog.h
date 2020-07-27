@@ -18,28 +18,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ABOUTDIALOG_H
-#define ABOUTDIALOG_H
+#ifndef FIZZYADE_CORE_ABOUTDIALOG_H
+#define FIZZYADE_CORE_ABOUTDIALOG_H
 
 #include <QDialog>
 
-namespace Ui {
-class AboutDialog;
+namespace FizzyAde::Core
+{
+    namespace Ui
+    {
+        class AboutDialog;
+    }
+
+    class AboutDialog : public QDialog
+    {
+        Q_OBJECT
+
+    public:
+        explicit AboutDialog(QWidget *parent = nullptr);
+        ~AboutDialog();
+
+    private:
+        QString compiler();
+
+    private:
+        Ui::AboutDialog *ui;
+    };
 }
 
-class AboutDialog : public QDialog
-{
-    Q_OBJECT
-
-public:
-    explicit AboutDialog(QWidget *parent = nullptr);
-    ~AboutDialog();
-
-private:
-    QString compiler();
-
-private:
-    Ui::AboutDialog *ui;
-};
-
-#endif // ABOUTDIALOG_H
+#endif // FIZZYADE_CORE_ABOUTDIALOG_H

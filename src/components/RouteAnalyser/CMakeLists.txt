@@ -43,6 +43,9 @@ pingnoo_add_sources(
     Utils.h
     ThemeSupport.mm
     ThemeSupport.h
+    NewTargetDialog.cpp
+    NewTargetDialog.h
+    NewTargetDialog.ui
 )
 
 pingnoo_set_description("Route analyser component")

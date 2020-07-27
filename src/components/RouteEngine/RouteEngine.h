@@ -25,6 +25,7 @@
 #include <QObject>
 #include <QList>
 #include <QHostAddress>
+#include <Core/Core.h>
 
 class QThread;
 
@@ -61,11 +62,12 @@ namespace FizzyAde::RouteEngine
         /**
          * @sa IRouteEngine
          */
-        virtual void findRoute(QString host);
+        virtual void findRoute(QString host, FizzyAde::Core::IPVersion ipVersion=FizzyAde::Core::IPVersion::V4);
 
     private:
         QThread *m_workerThread;                     //! The route finder thread
         RouteWorker *m_worker;                       //! The thread worker for route finder
+        FizzyAde::Core::IPVersion m_ipVersion;       //! The IP version to use for the route finder instance
     };
 }
 

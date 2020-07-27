@@ -68,6 +68,10 @@ pingnoo_add_sources(
     AboutDialog.cpp
     AboutDialog.h
     AboutDialog.ui
+    IEditorManager.h
+    EditorManager.cpp
+    EditorManager.h
+    IRouteEngineFactory.h
 )
 
 pingnoo_set_description("Core application support component")

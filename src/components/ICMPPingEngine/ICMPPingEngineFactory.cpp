@@ -52,3 +52,8 @@ bool FizzyAde::ICMPPingEngine::ICMPPingEngineFactory::loadConfiguration(QJsonObj
     return(false);
 }
 
+QString FizzyAde::ICMPPingEngine::ICMPPingEngineFactory::description()
+{
+    return(tr("ICMP Ping Engine"));
+}
+

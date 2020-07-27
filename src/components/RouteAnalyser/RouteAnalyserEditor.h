@@ -24,7 +24,13 @@
 #include "ComponentSystem/IInterface.h"
 #include "Core/IEditor.h"
 #include "Core/IConfiguration.h"
+#include "Core/Core.h"
 #include <QObject>
+
+namespace FizzyAde::Core
+{
+    class IPingEngineFactory;
+}
 
 namespace FizzyAde::RouteAnalyser
 {
@@ -52,9 +58,38 @@ namespace FizzyAde::RouteAnalyser
         RouteAnalyserEditor(int contextId);
 
         /**
+         * Sets the ping engine to be used by this instance.
+         *
+         * @param[in] pingEngineFactory the ping engine factory
+         */
+        void setPingEngine(FizzyAde::Core::IPingEngineFactory *pingEngineFactory);
+
+        /**
+         * Sets the target.
+         *
+         * @param[in] target the ping target
+         */
+        void setTarget(QString target);
+
+        /**
+         * Sets the IP Version used by this ping target.
+         *
+         * @param[in] ipVersion the IP version
+         */
+        void setIPVersion(FizzyAde::Core::IPVersion ipVersion);
+
+        /**
+         * Sets the ping interval used by this ping target.
+         *
+         * @param[in] interval the interval time period
+         */
+        void setInterval(double interval);
+
+        /**
          * @sa IEditor
          */
         virtual QWidget *widget();
+        virtual QString displayName();
 
         /**
          * @sa IConfiguration
@@ -67,6 +102,11 @@ namespace FizzyAde::RouteAnalyser
     protected:
 
         int m_contextId;
+        FizzyAde::Core::IPingEngineFactory *m_pingEngineFactory;
+        QString m_pingTarget;
+        FizzyAde::Core::IPVersion m_ipVersion;
+        double m_interval;
+
     };
 }
 

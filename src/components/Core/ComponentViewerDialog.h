@@ -24,25 +24,29 @@
 #include <QDialog>
 #include <QTreeWidgetItem>
 
-namespace Ui {
-class ComponentViewerDialog;
-}
-
-class ComponentViewerDialog : public QDialog
+namespace FizzyAde::Core
 {
-    Q_OBJECT
+    namespace Ui
+    {
+        class ComponentViewerDialog;
+    }
 
-public:
-    explicit ComponentViewerDialog(QWidget *parent = nullptr);
-    ~ComponentViewerDialog();
+    class ComponentViewerDialog : public QDialog
+    {
+        Q_OBJECT
 
-    QStringList disabledComponents();
+    public:
+        explicit ComponentViewerDialog(QWidget *parent = nullptr);
+        ~ComponentViewerDialog();
 
-private slots:
-    void on_componentsTreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
+        QStringList disabledComponents();
 
-private:
-    Ui::ComponentViewerDialog *ui;
-};
+    private slots:
+        void on_componentsTreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
+
+    private:
+        Ui::ComponentViewerDialog *ui;
+    };
+}
 
 #endif // FIZZYADE_CORE_COMPONENTVIEWERDIALOG_H

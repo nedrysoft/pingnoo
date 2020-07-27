@@ -23,6 +23,7 @@
 #include "ComponentSystem/IComponentManager.h"
 #include "ComponentSystem/ComponentLoader.h"
 #include "ComponentSystem/Component.h"
+#include "EditorManager.h"
 #include "Core/ICore.h"
 #include "Core/IEditor.h"
 #include "Core/ICommandManager.h"
@@ -121,11 +122,13 @@ void FizzyAde::Core::MainWindow::initialise()
     createDefaultCommands();
     registerDefaultCommands();
 
-    auto editors = FizzyAde::ComponentSystem::getObjects<FizzyAde::Core::IEditor>();
+    FizzyAde::ComponentSystem::addObject(new FizzyAde::Core::EditorManager(ui->editorTabWidget));
+
+    /*auto editors = FizzyAde::ComponentSystem::getObjects<FizzyAde::Core::IEditor>();
 
     for (auto editor : editors) {
         ui->editorTabWidget->addTab(editor->widget(), "Route Analyser");
-    }
+    }*/
 }
 
 void FizzyAde::Core::MainWindow::createDefaultCommands()

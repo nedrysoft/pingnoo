@@ -18,41 +18,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_CORE_H
-#define FIZZYADE_CORE_CORE_H
+#ifndef FIZZYADE_CORE_IEDITORMANAGER_H
+#define FIZZYADE_CORE_IEDITORMANAGER_H
 
-#include "mainwindow.h"
-#include "ICore.h"
+#include "CoreSpec.h"
+#include "ComponentSystem/IInterface.h"
+#include "ComponentSystem/IComponentManager.h"
 #include <QObject>
-#include <QString>
-#include <QPointer>
 
 namespace FizzyAde::Core
 {
-    enum IPVersion
-    {
-        V4 = 4,
-        V6 = 6
-    };
+    class IEditor;
 
-    class Core :
-        public FizzyAde::Core::ICore
+    /**
+     * Interface definition of an application editor manager
+     *
+     * Manages the open editors in the application.
+     *
+     */
+
+    class FIZZYADE_CORE_DLLSPEC IEditorManager :
+        public FizzyAde::ComponentSystem::IInterface
     {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::ICore)
-
     public:
-        Core();
-        ~Core();
+        static IEditorManager *getInstance()
+        {
+            return(ComponentSystem::getObject<IEditorManager>());
+        }
 
-        virtual QMainWindow *mainWindow();
+        virtual int openEditor(IEditor *editor) = 0;
 
-        void open(void);
-
-    private:
-        QPointer<MainWindow> m_mainWindow;
+        //Q_SIGNAL void contextChanged(int newContext, int previousContext);
     };
 }
 
-#endif // FIZZYADE_CORE_CORE_H
+Q_DECLARE_INTERFACE(FizzyAde::Core::IEditorManager, "com.fizzyade.core.IEditorManager/1.0.0")
+
+#endif // FIZZYADE_CORE_IEDITORMANAGER_H

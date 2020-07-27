@@ -21,6 +21,7 @@
 #ifndef FIZZYADE_CORE_IPINGENGINEFACTORY_H
 #define FIZZYADE_CORE_IPINGENGINEFACTORY_H
 
+#include "Core.h"
 #include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
 #include "IConfiguration.h"
@@ -28,12 +29,6 @@
 namespace FizzyAde::Core
 {
     class IPingEngine;
-
-    enum IPVersion
-    {
-        V4 = 4,
-        V6 = 6
-    };
 
     /**
      * Interface definition of a ping engine
@@ -63,6 +58,14 @@ namespace FizzyAde::Core
          *
          */
         virtual FizzyAde::Core::IPingEngine *createEngine(FizzyAde::Core::IPVersion version) = 0;
+
+        /**
+         * Returns the description of the ping engine
+         *
+         * @return description
+         *
+         */
+        virtual QString description() = 0;
     };
 }
 

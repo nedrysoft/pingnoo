@@ -45,24 +45,32 @@ bool FizzyAde::RouteAnalyser::RouteAnalyserEditor::loadConfiguration(QJsonObject
 
 QWidget *FizzyAde::RouteAnalyser::RouteAnalyserEditor::widget()
 {
-    static auto visualiserWidget = new FizzyAde::RouteAnalyser::RouteAnalyserWidget();
-
-    static auto commandManager = FizzyAde::Core::ICommandManager::getInstance();
-
-    if (commandManager) {
-        QAction *action = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::editCut));
-
-        connect(action, &QAction::triggered, [&] (bool) {
-            qDebug() << "action triggered (route analyser) !";
-        });
-
-        commandManager->registerAction(action, Pingnoo::Constants::editCut, m_contextId);
-
-        FizzyAde::Core::IContextManager::getInstance()->setContext(m_contextId);
-
-        action->setEnabled(false);
-        action->setEnabled(true);
-    }
+    auto visualiserWidget = new FizzyAde::RouteAnalyser::RouteAnalyserWidget(m_pingTarget, m_ipVersion, m_interval, m_pingEngineFactory);
 
     return(visualiserWidget);
+}
+
+void FizzyAde::RouteAnalyser::RouteAnalyserEditor::setPingEngine(FizzyAde::Core::IPingEngineFactory *pingEngineFactory)
+{
+    m_pingEngineFactory = pingEngineFactory;
+}
+
+void FizzyAde::RouteAnalyser::RouteAnalyserEditor::setTarget(QString target)
+{
+    m_pingTarget = target;
+}
+
+QString FizzyAde::RouteAnalyser::RouteAnalyserEditor::displayName()
+{
+    return m_pingTarget;
+}
+
+void FizzyAde::RouteAnalyser::RouteAnalyserEditor::setIPVersion(FizzyAde::Core::IPVersion ipVersion)
+{
+    m_ipVersion = ipVersion;
+}
+
+void FizzyAde::RouteAnalyser::RouteAnalyserEditor::setInterval(double interval)
+{
+    m_interval = interval;
 }

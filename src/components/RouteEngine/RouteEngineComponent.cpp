@@ -19,27 +19,27 @@
  */
 
 #include "RouteEngineComponent.h"
-#include "RouteEngine.h"
+#include "RouteEngineFactory.h"
 #include "ComponentSystem/IComponentManager.h"
 #include <QDebug>
 
 RouteEngineComponent::RouteEngineComponent()
 {
-    m_routeEngine = nullptr;
+    m_routeEngineFactory = nullptr;
 }
 
 RouteEngineComponent::~RouteEngineComponent()
 {
-    if (m_routeEngine) {
-        delete m_routeEngine;
+    if (m_routeEngineFactory) {
+        delete m_routeEngineFactory;
 
-        FizzyAde::ComponentSystem::removeObject(m_routeEngine);
+        FizzyAde::ComponentSystem::removeObject(m_routeEngineFactory);
     }
 }
 
 void RouteEngineComponent::initialiseEvent()
 {
-    m_routeEngine = new FizzyAde::RouteEngine::RouteEngine();
+    m_routeEngineFactory = new FizzyAde::RouteEngine::RouteEngineFactory();
 
-    FizzyAde::ComponentSystem::addObject(m_routeEngine);
+    FizzyAde::ComponentSystem::addObject(m_routeEngineFactory);
 }

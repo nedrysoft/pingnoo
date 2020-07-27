@@ -18,51 +18,52 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_IEDITOR_H
-#define FIZZYADE_CORE_IEDITOR_H
+#ifndef FIZZYADE_ROUTEENGINE_ROUTEENGINEFACTORY_H
+#define FIZZYADE_ROUTEENGINE_ROUTEENGINEFACTORY_H
 
-#include "CoreSpec.h"
+#include "Core/IRouteEngineFactory.h"
 #include "ComponentSystem/IInterface.h"
-#include <QWidget>
+#include <memory>
 
-namespace FizzyAde::Core
+namespace FizzyAde::RouteEngine
 {
+    class RouteEngineFactoryData;
+    class RouteEngine;
+
     /**
-     * Interface definition of a editor
+     * Factory class for RouteEngine
      *
-     * An editor is an editor window that contains a widget and is managed
-     * by the application.
+     * Creates instances of RouteEngine
      *
      */
 
-    class FIZZYADE_CORE_DLLSPEC IEditor :
-        public FizzyAde::ComponentSystem::IInterface
+    class RouteEngineFactory :
+        public FizzyAde::Core::IRouteEngineFactory
     {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::ComponentSystem::IInterface)
+        Q_INTERFACES(FizzyAde::Core::IRouteEngineFactory)
 
     public:
-        virtual ~IEditor() {}
+        RouteEngineFactory();
+        ~RouteEngineFactory();
 
         /**
-         * Returns the widget for this editor
-         *
-         * @return the widget
-         *
+         * @sa IRouteEngineFactory
          */
-        virtual QWidget *widget() = 0;
+        virtual FizzyAde::Core::IRouteEngine *createEngine();
+        virtual QString description();
 
         /**
-         * Returns the display name for this editor
-         *
-         * @return display name
-         *
+         * @sa IConfiguration
          */
-        virtual QString displayName() = 0;
+        virtual QJsonObject saveConfiguration();
+        virtual bool loadConfiguration(QJsonObject configuration);
+
+    protected:
+        std::shared_ptr<RouteEngineFactoryData> d;
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::IEditor, "com.fizzyade.core.IEditor/1.0.0")
 
-#endif // FIZZYADE_CORE_IEDITOR_H
+#endif // FIZZYADE_ROUTEENGINE_ROUTEENGINEFACTORY_H

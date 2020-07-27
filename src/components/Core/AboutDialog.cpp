@@ -24,9 +24,9 @@
 #include <QLibraryInfo>
 #include <QSysInfo>
 
-AboutDialog::AboutDialog(QWidget *parent) :
+FizzyAde::Core::AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::AboutDialog)
+    ui(new FizzyAde::Core::Ui::AboutDialog)
 {
     ui->setupUi(this);
 
@@ -40,19 +40,18 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui->qtVersionLabel->setText(QString("Based on Qt %1.%2.%3 (%4, %5 bit), runtime Qt %6").arg(QT_VERSION_MAJOR).arg(QT_VERSION_MINOR).arg(QT_VERSION_PATCH).arg(compiler()).arg(QSysInfo::WordSize).arg(QLibraryInfo::version().toString()));
 }
 
-AboutDialog::~AboutDialog()
+FizzyAde::Core::AboutDialog::~AboutDialog()
 {
     delete ui;
 }
 
-QString AboutDialog::compiler()
+QString FizzyAde::Core::AboutDialog::compiler()
 {
 #if defined(Q_CC_CLANG)
-    QString suffix;
 #if defined(__apple_build_version__)
-    suffix = QString(" (Apple)");
+    return QString("Clang %1.%2 (Apple)").arg(__clang_major__).arg(__clang_minor__);
 #endif
-    return QString("Clang %1.%2.%3").arg(__clang_major__).arg(__clang_minor__).arg(suffix);
+    return QString("Clang %1.%2").arg(__clang_major__).arg(__clang_minor__);
 #elif defined(Q_CC_GNU)
     return QString("GCC %1").arg(__VERSION__);
 #elif defined(Q_CC_MSVC)

@@ -23,8 +23,10 @@
 #include "PingResult.h"
 #include "ContextManager.h"
 #include "CommandManager.h"
+#include "EditorManager.h"
 #include "Core.h"
 #include "IRouteEngine.h"
+#include "IPingEngineFactory.h"
 #include <QDebug>
 
 void CoreComponent::initialiseEvent()
@@ -32,6 +34,7 @@ void CoreComponent::initialiseEvent()
     qRegisterMetaType<FizzyAde::Core::PingResult>("FizzyAde::Core::PingResult");
     qRegisterMetaType<FizzyAde::Core::RouteList>("FizzyAde::Core::RouteList");
     qRegisterMetaType<QHostAddress>("QHostAddress");
+    qRegisterMetaType<FizzyAde::Core::IPingEngineFactory *>("FizzyAde::Core::IPingEngineFactory *");
 
     FizzyAde::ComponentSystem::addObject(new FizzyAde::Core::Core());
     FizzyAde::ComponentSystem::addObject(new FizzyAde::Core::ContextManager());

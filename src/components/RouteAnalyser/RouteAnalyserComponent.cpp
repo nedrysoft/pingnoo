@@ -23,7 +23,12 @@
 #include "ComponentSystem/IComponentManager.h"
 #include "Core/ICore.h"
 #include "Core/IContextManager.h"
+#include "Core/ICommandManager.h"
+#include "Core/IEditorManager.h"
+#include "Core/IEditor.h"
+#include "Pingnoo.h"
 #include <QDebug>
+#include "NewTargetDialog.h"
 
 RouteAnalyserComponent::RouteAnalyserComponent() = default;
 
@@ -31,14 +36,6 @@ RouteAnalyserComponent::~RouteAnalyserComponent() = default;
 
 void RouteAnalyserComponent::initialiseEvent()
 {
-    auto core = FizzyAde::Core::ICore::getInstance();
-
-    if (core) {
-        connect(core, &FizzyAde::Core::ICore::coreOpened, [&] () {
-            // do something when core is opened
-        });
-    }
-
     auto contextManager = FizzyAde::Core::IContextManager::getInstance();
 
     if (contextManager) {
@@ -49,9 +46,66 @@ void RouteAnalyserComponent::initialiseEvent()
             Q_UNUSED(previousContext)
         });
     }
+
+    auto core = FizzyAde::Core::ICore::getInstance();
+
+    if (core) {
+        connect(core, &FizzyAde::Core::ICore::coreOpened, [&] () {
+            auto commandManager = FizzyAde::Core::ICommandManager::getInstance();
+
+            if (commandManager) {
+                // create New Target... action
+
+                auto action = new QAction(tr("New Target..."));
+
+                connect(action, &QAction::triggered, [this]() {
+                    FizzyAde::RouteAnalyser::NewTargetDialog newTargetDialog;
+
+                    if (newTargetDialog.exec()) {
+                        auto editorManager = FizzyAde::Core::IEditorManager::getInstance();
+
+                        if (editorManager) {
+                            FizzyAde::RouteAnalyser::RouteAnalyserEditor *editor = new FizzyAde::RouteAnalyser::RouteAnalyserEditor(m_editorContextId);
+
+                            editor->setPingEngine(newTargetDialog.pingEngineFactory());
+                            editor->setTarget(newTargetDialog.pingTarget());
+                            editor->setIPVersion(newTargetDialog.ipVersion());
+                            editor->setInterval(newTargetDialog.interval());
+
+                            editorManager->openEditor(editor);
+                        }
+                    }
+                });
+
+                // register File/New Target... menu option global context
+
+                auto command = commandManager->registerAction(action, "Menu.File.NewTarget");
+
+                auto menu = commandManager->findMenu(Pingnoo::Constants::menuFile);
+
+                menu->addCommand(command);
+
+                // create Edit/Cut action for this context
+
+                action = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::editCut));
+
+                connect(action, &QAction::triggered, [&] (bool) {
+                    qDebug() << "action triggered (route analyser) !";
+                });
+
+                // register Edit/Cut menu option for this context
+
+                commandManager->registerAction(action, Pingnoo::Constants::editCut, m_editorContextId);
+
+                FizzyAde::Core::IContextManager::getInstance()->setContext(m_editorContextId);
+
+                action->setEnabled(true);
+            }
+        });
+    }
 }
 
 void RouteAnalyserComponent::initialisationFinishedEvent()
 {
-    FizzyAde::ComponentSystem::addObject(new FizzyAde::RouteAnalyser::RouteAnalyserEditor(m_editorContextId));
+
 }

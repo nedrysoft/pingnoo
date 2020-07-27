@@ -56,11 +56,11 @@ FizzyAde::RouteEngine::RouteEngine::~RouteEngine()
     }
 }
 
-void FizzyAde::RouteEngine::RouteEngine::findRoute(QString host)
+void FizzyAde::RouteEngine::RouteEngine::findRoute(QString host, FizzyAde::Core::IPVersion ipVersion)
 {
     m_workerThread = new QThread();
 
-    m_worker = new FizzyAde::RouteEngine::RouteWorker();
+    m_worker = new FizzyAde::RouteEngine::RouteWorker(ipVersion);
 
     m_worker->setHost(host);
 

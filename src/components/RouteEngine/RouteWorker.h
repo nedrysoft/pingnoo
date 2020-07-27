@@ -42,7 +42,7 @@ namespace FizzyAde::RouteEngine
         Q_OBJECT
 
     public:
-        RouteWorker();
+        RouteWorker(FizzyAde::Core::IPVersion ipVersion);
         ~RouteWorker();
 
         /**
@@ -105,6 +105,7 @@ namespace FizzyAde::RouteEngine
 
     private:
         QString m_host;                     //! The host that is being queried
+        FizzyAde::Core::IPVersion m_ipVersion; //! The IP version to be used
 
     };
 }

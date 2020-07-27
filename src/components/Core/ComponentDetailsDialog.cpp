@@ -21,9 +21,9 @@
 #include "ComponentDetailsDialog.h"
 #include "ui_ComponentDetailsDialog.h"
 
-ComponentDetailsDialog::ComponentDetailsDialog(FizzyAde::ComponentSystem::Component *component, QWidget *parent) :
+FizzyAde::Core::ComponentDetailsDialog::ComponentDetailsDialog(FizzyAde::ComponentSystem::Component *component, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ComponentDetailsDialog)
+    ui(new FizzyAde::Core::Ui::ComponentDetailsDialog)
 {
     ui->setupUi(this);
 
@@ -39,7 +39,7 @@ ComponentDetailsDialog::ComponentDetailsDialog(FizzyAde::ComponentSystem::Compon
     ui->locationLineEdit->setText(component->filename());
 }
 
-ComponentDetailsDialog::~ComponentDetailsDialog()
+FizzyAde::Core::ComponentDetailsDialog::~ComponentDetailsDialog()
 {
     delete ui;
 }

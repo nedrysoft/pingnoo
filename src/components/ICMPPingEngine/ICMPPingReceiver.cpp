@@ -66,6 +66,8 @@ void FizzyAde::ICMPPingEngine::ICMPPingReceiver::doWork()
 
             auto responsePacket = FizzyAde::ICMPPacket::ICMPPacket::fromData(receiveBuffer, static_cast<FizzyAde::ICMPPacket::IPVersion>(m_engine->version()));
 
+            //qDebug() << QThread::currentThreadId() << "ping result" << responsePacket.resultCode() << responsePacket.id() << responsePacket.sequence();
+
             if (responsePacket.resultCode()==FizzyAde::ICMPPacket::Invalid) {
                 continue;
             }

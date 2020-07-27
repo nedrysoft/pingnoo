@@ -30,6 +30,8 @@ pingnoo_add_sources(
     RouteEngineSpec.h
     RouteWorker.cpp
     RouteWorker.h
+    RouteEngineFactory.cpp
+    RouteEngineFactory.h
 )
 
 pingnoo_set_description("Route detection component")

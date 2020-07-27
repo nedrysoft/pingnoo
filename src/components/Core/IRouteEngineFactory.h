@@ -18,56 +18,56 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_IROUTEENGINE_H
-#define FIZZYADE_CORE_IROUTEENGINE_H
+#ifndef FIZZYADE_CORE_IROUTEENGINEFACTORY_H
+#define FIZZYADE_CORE_IROUTEENGINEFACTORY_H
 
 #include "CoreSpec.h"
-#include "Core.h"
 #include "ComponentSystem/IInterface.h"
-#include <QObject>
-#include <QHostAddress>
+#include "Core/Core.h"
+#include "IConfiguration.h"
 
 namespace FizzyAde::Core
 {
-    typedef QList<QHostAddress> RouteList;
+    class IRouteEngine;
 
     /**
-     * Interface definition of a route discovery engine
+     * Interface definition of a route engine
      *
-     * Provides the means of discovering the route to a
-     * given host
+     * An engine implements the logic of determining the route
+     * to a target host.
      *
      */
 
-    class FIZZYADE_CORE_DLLSPEC IRouteEngine :
-        public FizzyAde::ComponentSystem::IInterface
+    class FIZZYADE_CORE_DLLSPEC IRouteEngineFactory :
+        public FizzyAde::ComponentSystem::IInterface,
+        public FizzyAde::Core::IConfiguration
     {
         Q_OBJECT
 
         Q_INTERFACES(FizzyAde::ComponentSystem::IInterface)
+        Q_INTERFACES(FizzyAde::Core::IConfiguration)
 
     public:
-         virtual ~IRouteEngine() {}
+        virtual ~IRouteEngineFactory() {}
 
         /**
-         * Starts route discovery for a host
+         * Creates a IRouteEngine instance
          *
-         * @param[in] host the host name or address to be traced
-         * @param[in] ipVersion the IP version to be used for the trace
+         * @return returns instance
          *
          */
-        virtual void findRoute(QString host, FizzyAde::Core::IPVersion ipVersion) = 0;
+        virtual FizzyAde::Core::IRouteEngine *createEngine() = 0;
 
         /**
-         * Signal emitted when the route discovery is completed
+         * Returns the description of the route engine
          *
-         * @param[in] result the discovered route
+         * @return description
          *
          */
-        Q_SIGNAL void result(const QHostAddress &hostAddress, const FizzyAde::Core::RouteList &result);
+        virtual QString description() = 0;
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::IRouteEngine, "com.fizzyade.core.IRouteEngine/1.0.0")
+Q_DECLARE_INTERFACE(FizzyAde::Core::IRouteEngineFactory, "com.fizzyade.core.IRouteEngineFactory/1.0.0")
 
-#endif // FIZZYADE_CORE_IROUTEENGINE_H
+#endif // FIZZYADE_CORE_IROUTEENGINEFACTORY_H

@@ -24,20 +24,24 @@
 #include <QDialog>
 #include "ComponentSystem/Component.h"
 
-namespace Ui {
-class ComponentDetailsDialog;
-}
-
-class ComponentDetailsDialog : public QDialog
+namespace FizzyAde::Core
 {
-    Q_OBJECT
+    namespace Ui
+    {
+        class ComponentDetailsDialog;
+    }
 
-public:
-    explicit ComponentDetailsDialog(FizzyAde::ComponentSystem::Component *component, QWidget *parent = nullptr);
-    ~ComponentDetailsDialog();
+    class ComponentDetailsDialog : public QDialog
+    {
+        Q_OBJECT
 
-private:
-    Ui::ComponentDetailsDialog *ui;
-};
+    public:
+        explicit ComponentDetailsDialog(FizzyAde::ComponentSystem::Component *component, QWidget *parent = nullptr);
+        ~ComponentDetailsDialog();
+
+    private:
+        Ui::ComponentDetailsDialog *ui;
+    };
+}
 
 #endif // FIZZYADE_CORE_COMPONENTDETAILSDIALOG_H
