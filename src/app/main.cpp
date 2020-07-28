@@ -46,6 +46,10 @@ int main(int argc, char **argv)
 
     appNap->prevent("App Nap has been disabled as it interferes with thread timing.");
 
+    auto componentManager = FizzyAde::ComponentSystem::IComponentManager::getInstance();
+
+    componentManager->addObject(componentLoader);
+
 #ifdef Q_OS_MAC
     CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
     CFStringRef macPath = CFURLCopyFileSystemPath(appUrlRef, kCFURLPOSIXPathStyle);
@@ -62,10 +66,6 @@ int main(int argc, char **argv)
 
         componentPath = dir.absolutePath()+"/PlugIns";
     }
-
-    auto componentManager = FizzyAde::ComponentSystem::IComponentManager::getInstance();
-
-    componentManager->addObject(componentLoader);
 
     componentLoader->addComponents(componentPath);
 
