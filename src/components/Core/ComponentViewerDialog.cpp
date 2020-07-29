@@ -33,9 +33,9 @@ FizzyAde::Core::ComponentViewerDialog::ComponentViewerDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    auto minusIcon = FizzyAde::FontAwesome::FontAwesome::icon("fas fa-minus", 16, Qt::darkRed);
-    auto crossIcon = FizzyAde::FontAwesome::FontAwesome::icon("fas fa-times", 16, Qt::darkRed);
-    auto tickIcon = FizzyAde::FontAwesome::FontAwesome::icon("fas fa-check", 16, Qt::darkGreen);
+    auto minusIcon = FizzyAde::FontAwesome::icon("fas fa-minus", 16, Qt::darkRed);
+    auto crossIcon = FizzyAde::FontAwesome::icon("fas fa-times", 16, Qt::darkRed);
+    auto tickIcon = FizzyAde::FontAwesome::icon("fas fa-check", 16, Qt::darkGreen);
 
     ui->componentsTreeWidget->setHeaderLabels(QStringList() << tr("Name") << tr("Load") << tr("Version") << tr("Vendor"));
 

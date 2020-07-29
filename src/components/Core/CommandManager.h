@@ -59,8 +59,8 @@ namespace FizzyAde::Core
         virtual FizzyAde::Core::ICommand *findCommand(const QString &identifier);
     private:
 
-        QMap<QString, Command *> m_commandMap;
-        QMap<QString, FizzyAde::Core::Menu *> m_menuMap;
+        QMap<QString, Command *> m_commandMap;                          //! Map containing commands registered in this manager
+        QMap<QString, FizzyAde::Core::Menu *> m_menuMap;                //! Map containing all menus registered in this manager
     };
 }
 

@@ -44,30 +44,30 @@ FizzyAde::Core::PingResult::PingResult(unsigned long sampleNumber, PingResultCod
 
 unsigned long FizzyAde::Core::PingResult::sampleNumber()
 {
-    return(m_sampleNumber);
+    return m_sampleNumber;
 }
 
 std::chrono::system_clock::time_point FizzyAde::Core::PingResult::requestTime()
 {
-    return(m_requestTime);
+    return m_requestTime;
 }
 
 FizzyAde::Core::PingResult::PingResultCode FizzyAde::Core::PingResult::code()
 {
-    return(m_code);
+    return m_code;
 }
 
 QHostAddress FizzyAde::Core::PingResult::hostAddress()
 {
-    return(m_hostAddress);
+    return m_hostAddress;
 }
 
 std::chrono::duration<double> FizzyAde::Core::PingResult::roundTripTime()
 {
-    return(m_roundTripTime);
+    return m_roundTripTime;
 }
 
 FizzyAde::Core::IPingTarget *FizzyAde::Core::PingResult::target()
 {
-    return(m_target);
+    return m_target;
 }

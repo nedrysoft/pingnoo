@@ -132,5 +132,5 @@ int main(int argc, char **argv)
     delete componentLoader;
     delete applicationInstance;
 
-    return(exitCode);
+    return exitCode;
 }

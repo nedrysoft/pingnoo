@@ -98,12 +98,12 @@ bool FizzyAde::RegExHostMasker::RegExHostMasker::applyMask(int hop, const QStrin
         }
     }
 
-    return(returnValue);
+    return returnValue;
 }
 
 bool FizzyAde::RegExHostMasker::RegExHostMasker::mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress)
 {
-    return(applyMask(hop, hostName, hostAddress, maskedHostName, maskedHostAddress));
+    return applyMask(hop, hostName, hostAddress, maskedHostName, maskedHostAddress);
 }
 
 void FizzyAde::RegExHostMasker::RegExHostMasker::add(unsigned int matchFlags, QString matchExpression, QString replacementString, QString hopString)
@@ -138,7 +138,7 @@ QJsonObject FizzyAde::RegExHostMasker::RegExHostMasker::saveConfiguration()
 
     rootObject.insert("matchItems", itemArray);
 
-    return(rootObject);
+    return rootObject;
 }
 
 bool FizzyAde::RegExHostMasker::RegExHostMasker::loadConfiguration(QJsonObject configuration)
@@ -146,7 +146,7 @@ bool FizzyAde::RegExHostMasker::RegExHostMasker::loadConfiguration(QJsonObject c
     Q_UNUSED(configuration)
 
     if (configuration["id"]!=this->metaObject()->className()) {
-        return(false);
+        return false;
     }
 
     auto array = configuration["matchItems"].toArray();
@@ -157,6 +157,6 @@ bool FizzyAde::RegExHostMasker::RegExHostMasker::loadConfiguration(QJsonObject c
         add(item["matchFlags"].toVariant().toUInt(), item["matchExpression"].toString(), item["matchReplacementString"].toString(), item["matchHopString"].toString());
     }
 
-    return(false);
+    return false;
 }
 

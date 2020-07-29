@@ -31,15 +31,15 @@ FizzyAde::Ribbon::RibbonFontManager *FizzyAde::Ribbon::RibbonFontManager::getIns
 {
     static auto instance = new RibbonFontManager();
 
-    return(instance);
+    return instance;
 }
 
 QString FizzyAde::Ribbon::RibbonFontManager::normalFont()
 {
-    return(QFontDatabase::applicationFontFamilies(m_regularFontId).at(0));
+    return QFontDatabase::applicationFontFamilies(m_regularFontId).at(0);
 }
 
 QString FizzyAde::Ribbon::RibbonFontManager::boldFont()
 {
-    return(QFontDatabase::applicationFontFamilies(m_boldFontId).at(0));
+    return QFontDatabase::applicationFontFamilies(m_boldFontId).at(0);
 }

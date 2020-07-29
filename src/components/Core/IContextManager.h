@@ -49,7 +49,7 @@ namespace FizzyAde::Core
     public:
         static IContextManager *getInstance()
         {
-            return(ComponentSystem::getObject<IContextManager>());
+            return ComponentSystem::getObject<IContextManager>();
         }
 
         virtual int registerContext(QString contextIdentifier) = 0;

@@ -33,21 +33,21 @@ FizzyAde::RouteAnalyser::RouteAnalyserEditor::RouteAnalyserEditor(int contextId)
 
 QJsonObject FizzyAde::RouteAnalyser::RouteAnalyserEditor::saveConfiguration()
 {
-    return(QJsonObject());
+    return QJsonObject();
 }
 
 bool FizzyAde::RouteAnalyser::RouteAnalyserEditor::loadConfiguration(QJsonObject configuration)
 {
     Q_UNUSED(configuration)
 
-    return(false);
+    return false;
 }
 
 QWidget *FizzyAde::RouteAnalyser::RouteAnalyserEditor::widget()
 {
     auto visualiserWidget = new FizzyAde::RouteAnalyser::RouteAnalyserWidget(m_pingTarget, m_ipVersion, m_interval, m_pingEngineFactory);
 
-    return(visualiserWidget);
+    return visualiserWidget;
 }
 
 void FizzyAde::RouteAnalyser::RouteAnalyserEditor::setPingEngine(FizzyAde::Core::IPingEngineFactory *pingEngineFactory)

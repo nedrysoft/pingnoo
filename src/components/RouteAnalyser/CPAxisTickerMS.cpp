@@ -28,5 +28,5 @@ QString FizzyAde::RouteAnalyser::CPAxisTickerMS::getTickLabel (double tick, cons
     Q_UNUSED(formatChar)
     Q_UNUSED(precision)
 
-    return(QString("%1").arg(tick*MILLISECONDS_PER_SECOND));
+    return QString("%1").arg(tick*MILLISECONDS_PER_SECOND);
 }

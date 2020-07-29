@@ -47,7 +47,7 @@ namespace FizzyAde::Core
          */
         static IRibbonBarManager *getInstance()
         {
-            return(ComponentSystem::getObject<IRibbonBarManager>());
+            return ComponentSystem::getObject<IRibbonBarManager>();
         }
 
     public:

@@ -103,11 +103,11 @@ FizzyAde::ICMPPacket::ICMPPacket::ICMPPacket(uint16_t id, uint16_t sequence, Res
 FizzyAde::ICMPPacket::ICMPPacket FizzyAde::ICMPPacket::ICMPPacket::fromData(const QByteArray &dataBuffer, FizzyAde::ICMPPacket::IPVersion version)
 {
     if (version==FizzyAde::ICMPPacket::V4) {
-        return(fromData_v4(dataBuffer));
+        return fromData_v4(dataBuffer);
     } else if (version==FizzyAde::ICMPPacket::V6) {
-        return(fromData_v6(dataBuffer));
+        return fromData_v6(dataBuffer);
     } else {
-        return(ICMPPacket());
+        return ICMPPacket();
     }
 }
 
@@ -135,7 +135,7 @@ FizzyAde::ICMPPacket::ICMPPacket FizzyAde::ICMPPacket::ICMPPacket::fromData_v4(c
             received_id = qFromBigEndian<uint16_t>(icmp_response->icmp_hun.ih_idseq.icd_id);
             received_sequence = qFromBigEndian<uint16_t>(icmp_response->icmp_hun.ih_idseq.icd_seq);
 
-            return(ICMPPacket(received_id, received_sequence, EchoReply));
+            return ICMPPacket(received_id, received_sequence, EchoReply);
         }
 
         if (icmp_response->icmp_type==ICMP_TIMXCEED) {
@@ -152,11 +152,11 @@ FizzyAde::ICMPPacket::ICMPPacket FizzyAde::ICMPPacket::ICMPPacket::fromData_v4(c
 
             received_sequence = qFromBigEndian<uint16_t>(received_icmp_request->icmp_hun.ih_idseq.icd_seq);
 
-            return(ICMPPacket(received_id, received_sequence, TimeExceeded));
+            return ICMPPacket(received_id, received_sequence, TimeExceeded);
         }
     }
 
-    return(ICMPPacket());
+    return ICMPPacket();
 }
 
 FizzyAde::ICMPPacket::ICMPPacket FizzyAde::ICMPPacket::ICMPPacket::fromData_v6(const QByteArray &dataBuffer)
@@ -173,7 +173,7 @@ FizzyAde::ICMPPacket::ICMPPacket FizzyAde::ICMPPacket::ICMPPacket::fromData_v6(c
             received_id = qFromBigEndian<uint16_t>(icmp_response->icmp_hun.ih_idseq.icd_id);
             received_sequence = qFromBigEndian<uint16_t>(icmp_response->icmp_hun.ih_idseq.icd_seq);
 
-            return(ICMPPacket(received_id, received_sequence, EchoReply));
+            return ICMPPacket(received_id, received_sequence, EchoReply);
         }
 
         if (icmp_response->icmp_type==3) {
@@ -184,11 +184,11 @@ FizzyAde::ICMPPacket::ICMPPacket FizzyAde::ICMPPacket::ICMPPacket::fromData_v6(c
             received_id = qFromBigEndian<uint16_t>(rx_icmp_request->icmp_hun.ih_idseq.icd_id);
             received_sequence = qFromBigEndian<uint16_t>(rx_icmp_request->icmp_hun.ih_idseq.icd_seq);
 
-            return(ICMPPacket(received_id, received_sequence, TimeExceeded));
+            return ICMPPacket(received_id, received_sequence, TimeExceeded);
         }
     }
 
-    return(ICMPPacket());
+    return ICMPPacket();
 }
 
 
@@ -209,32 +209,32 @@ uint16_t FizzyAde::ICMPPacket::ICMPPacket::checksum(void *buffer, int length)
     checksum = (checksum >> (sizeof(uint16_t)*CHAR_BIT)) + (checksum & UINT16_MAX);
     checksum += (checksum >> (sizeof(uint16_t)*CHAR_BIT));
 
-    return(static_cast<uint16_t>(~checksum));
+    return static_cast<uint16_t>(~checksum);
 }
 
 FizzyAde::ICMPPacket::ResultCode FizzyAde::ICMPPacket::ICMPPacket::resultCode()
 {
-    return(m_resultCode);
+    return m_resultCode;
 }
 
 uint16_t FizzyAde::ICMPPacket::ICMPPacket::id()
 {
-    return(m_id);
+    return m_id;
 }
 
 uint16_t FizzyAde::ICMPPacket::ICMPPacket::sequence()
 {
-    return(m_sequence);
+    return m_sequence;
 }
 
 QByteArray FizzyAde::ICMPPacket::ICMPPacket::pingPacket(uint16_t id, uint16_t sequence, int payLoadLength, const QHostAddress &destinationAddress, FizzyAde::ICMPPacket::IPVersion version)
 {
     if (version==FizzyAde::ICMPPacket::V4) {
-        return(pingPacket_v4(id, sequence, payLoadLength, destinationAddress));
+        return pingPacket_v4(id, sequence, payLoadLength, destinationAddress);
     } else if (version==FizzyAde::ICMPPacket::V6) {
-        return(pingPacket_v6(id, sequence, payLoadLength, destinationAddress));
+        return pingPacket_v6(id, sequence, payLoadLength, destinationAddress);
     } else {
-        return(QByteArray());
+        return QByteArray();
     }
 }
 
@@ -264,7 +264,7 @@ QByteArray FizzyAde::ICMPPacket::ICMPPacket::pingPacket_v6(uint16_t id, uint16_t
 
     icmp_request->icmp_cksum = FizzyAde::ICMPPacket::ICMPPacket::checksum(icmp_v6, echoRequestLength);
 
-    return(QByteArray(reinterpret_cast<char *>(icmp_request), icmp_v6->header.packetLength));
+    return QByteArray(reinterpret_cast<char *>(icmp_request), icmp_v6->header.packetLength);
 }
 
 QByteArray FizzyAde::ICMPPacket::ICMPPacket::pingPacket_v4(uint16_t id, uint16_t sequence, int payLoadLength, const QHostAddress &destinationAddress)
@@ -282,7 +282,7 @@ QByteArray FizzyAde::ICMPPacket::ICMPPacket::pingPacket_v4(uint16_t id, uint16_t
 
     icmp_request->icmp_cksum = FizzyAde::ICMPPacket::ICMPPacket::checksum(icmp_request, echoRequestLength);
 
-    return(QByteArray(reinterpret_cast<const char *>(icmp_request), echoRequestLength));
+    return QByteArray(reinterpret_cast<const char *>(icmp_request), echoRequestLength);
 }
 
 

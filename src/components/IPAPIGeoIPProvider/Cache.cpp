@@ -140,9 +140,9 @@ bool FizzyAde::IPAPIGeoIPProvider::Cache::find(const QString &name, QJsonObject 
             object["org"] = QJsonValue::fromVariant(query.value("org"));
             object["asn"] = QJsonValue::fromVariant(query.value("asn"));
 
-            return(true);
+            return true;
         }
     }
 
-    return(false);
+    return false;
 }

@@ -207,7 +207,7 @@ FizzyAde::Core::IPingTarget *FizzyAde::ICMPPingEngine::ICMPPingEngine::addTarget
 
     d->m_transmitterWorker->addTarget(target);
 
-    return(target);
+    return target;
 }
 
 FizzyAde::Core::IPingTarget *FizzyAde::ICMPPingEngine::ICMPPingEngine::addTarget(QHostAddress hostAddress, int ttl)
@@ -218,24 +218,24 @@ FizzyAde::Core::IPingTarget *FizzyAde::ICMPPingEngine::ICMPPingEngine::addTarget
 
     d->m_targetList.append(target);
 
-    return(target);
+    return target;
 }
 
 bool FizzyAde::ICMPPingEngine::ICMPPingEngine::removeTarget(FizzyAde::Core::IPingTarget *target)
 {
     Q_UNUSED(target)
 
-    return(true);
+    return true;
 }
 
 bool FizzyAde::ICMPPingEngine::ICMPPingEngine::start()
 {
-    return(true);
+    return true;
 }
 
 bool FizzyAde::ICMPPingEngine::ICMPPingEngine::stop()
 {
-    return(true);
+    return true;
 }
 
 void FizzyAde::ICMPPingEngine::ICMPPingEngine::addRequest(FizzyAde::ICMPPingEngine::ICMPPingItem *pingItem)
@@ -266,22 +266,22 @@ FizzyAde::ICMPPingEngine::ICMPPingItem *FizzyAde::ICMPPingEngine::ICMPPingEngine
     QMutexLocker locker(&d->m_requestsMutex);
 
     if (d->m_pingRequests.contains(id)) {
-        return(d->m_pingRequests[id]);
+        return d->m_pingRequests[id];
     }
 
-    return(nullptr);
+    return nullptr;
 }
 
 bool FizzyAde::ICMPPingEngine::ICMPPingEngine::setInterval(std::chrono::milliseconds interval)
 {
-    return(d->m_transmitterWorker->setInterval(interval));
+    return d->m_transmitterWorker->setInterval(interval);
 }
 
 bool FizzyAde::ICMPPingEngine::ICMPPingEngine::setTimeout(std::chrono::milliseconds timeout)
 {
     d->m_timeout = timeout;
 
-    return(true);
+    return true;
 }
 
 void FizzyAde::ICMPPingEngine::ICMPPingEngine::timeoutRequests()
@@ -320,14 +320,14 @@ void FizzyAde::ICMPPingEngine::ICMPPingEngine::timeoutRequests()
 
 QJsonObject FizzyAde::ICMPPingEngine::ICMPPingEngine::saveConfiguration()
 {
-    return(QJsonObject());
+    return QJsonObject();
 }
 
 bool FizzyAde::ICMPPingEngine::ICMPPingEngine::loadConfiguration(QJsonObject configuration)
 {
     Q_UNUSED(configuration)
 
-    return(false);
+    return false;
 }
 
 void FizzyAde::ICMPPingEngine::ICMPPingEngine::setEpoch(std::chrono::system_clock::time_point epoch)
@@ -337,10 +337,10 @@ void FizzyAde::ICMPPingEngine::ICMPPingEngine::setEpoch(std::chrono::system_cloc
 
 std::chrono::system_clock::time_point FizzyAde::ICMPPingEngine::ICMPPingEngine::epoch()
 {
-    return(d->m_epoch);
+    return d->m_epoch;
 }
 
 FizzyAde::Core::IPVersion FizzyAde::ICMPPingEngine::ICMPPingEngine::version()
 {
-    return(d->m_version);
+    return d->m_version;
 }

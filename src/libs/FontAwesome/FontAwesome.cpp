@@ -27,14 +27,14 @@
 
 constexpr auto BaseHex = 16;
 
-FizzyAde::FontAwesome::FontAwesome *FizzyAde::FontAwesome::FontAwesome::getInstance()
+FizzyAde::FontAwesome *FizzyAde::FontAwesome::getInstance()
 {
     static auto instance = new FontAwesome();
 
-    return(instance);
+    return instance;
 }
 
-FizzyAde::FontAwesome::FontAwesome::FontAwesome()
+FizzyAde::FontAwesome::FontAwesome()
 {
     m_regularId = QFontDatabase::addApplicationFont(":/FizzyAde/FontAwesome/Free-Regular.otf");
     m_solidId = QFontDatabase::addApplicationFont(":/FizzyAde/FontAwesome/Free-Solid.otf");
@@ -99,22 +99,22 @@ FizzyAde::FontAwesome::FontAwesome::FontAwesome()
     )").arg(m_regularName, m_solidName, m_brandsName);
 }
 
-QString FizzyAde::FontAwesome::FontAwesome::regularName()
+QString FizzyAde::FontAwesome::regularName()
 {
-    return(getInstance()->m_regularName);
+    return getInstance()->m_regularName;
 }
 
-QString FizzyAde::FontAwesome::FontAwesome::solidName()
+QString FizzyAde::FontAwesome::solidName()
 {
-    return(getInstance()->m_solidName);
+    return getInstance()->m_solidName;
 }
 
-QString FizzyAde::FontAwesome::FontAwesome::brandsName()
+QString FizzyAde::FontAwesome::brandsName()
 {
-    return(getInstance()->m_brandsName);
+    return getInstance()->m_brandsName;
 }
 
-QString FizzyAde::FontAwesome::FontAwesome::richText(QString string)
+QString FizzyAde::FontAwesome::richText(QString string)
 {
     auto expression = QRegularExpression(R"(\[(far|fas|fab) ([a-z|\-|0-9]*)\])");
     auto match = QRegularExpressionMatch();
@@ -157,10 +157,10 @@ QString FizzyAde::FontAwesome::FontAwesome::richText(QString string)
         }
     }
 
-    return(QString("<html>%1<body>%2</body></html>").arg(getInstance()->m_styleString, string));
+    return QString("<html>%1<body>%2</body></html>").arg(getInstance()->m_styleString, string);
 }
 
-QIcon FizzyAde::FontAwesome::FontAwesome::icon(QString glpyhName, int pointSize, QColor colour)
+QIcon FizzyAde::FontAwesome::icon(QString glpyhName, int pointSize, QColor colour)
 {
     QPixmap pixmap(pointSize, pointSize);
 
@@ -214,5 +214,5 @@ QIcon FizzyAde::FontAwesome::FontAwesome::icon(QString glpyhName, int pointSize,
        }
     }
 
-    return(QIcon(pixmap));
+    return QIcon(pixmap);
 }

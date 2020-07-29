@@ -114,9 +114,9 @@ bool FizzyAde::HostIPGeoIPProvider::Cache::find(const QString &name, QJsonObject
             object["countryCode"] = QJsonValue::fromVariant(query.value("countryCode"));
             object["city"] = QJsonValue::fromVariant(query.value("city"));
 
-            return(true);
+            return true;
         }
     }
 
-    return(false);
+    return false;
 }

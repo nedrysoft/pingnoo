@@ -83,86 +83,86 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paint(QPainter *painter, c
     }
 
     switch(index.column()) {
-    case FizzyAde::RouteAnalyser::PingData::Graph: {
-        paintGraph(pingData, painter, option, index);
+        case FizzyAde::RouteAnalyser::PingData::Graph: {
+            paintGraph(pingData, painter, option, index);
 
-        break;
-    }
+            break;
+        }
 
-    case FizzyAde::RouteAnalyser::PingData::Hop: {
-        paintHop(pingData, painter, option, index);
+        case FizzyAde::RouteAnalyser::PingData::Hop: {
+            paintHop(pingData, painter, option, index);
 
-        break;
-    }
+            break;
+        }
 
-    case FizzyAde::RouteAnalyser::PingData::Location: {
-        paintBackground(pingData, painter, option, index);
-        paintLocation(pingData, painter, option, index);
+        case FizzyAde::RouteAnalyser::PingData::Location: {
+            paintBackground(pingData, painter, option, index);
+            paintLocation(pingData, painter, option, index);
 
-        break;
-    }
+            break;
+        }
 
-    case FizzyAde::RouteAnalyser::PingData::IP: {
-        paintBackground(pingData, painter, option, index);
-        paintText(pingData->hostAddress(), painter, option, index);
+        case FizzyAde::RouteAnalyser::PingData::IP: {
+            paintBackground(pingData, painter, option, index);
+            paintText(pingData->hostAddress(), painter, option, index);
 
-        break;
-    }
+            break;
+        }
 
-    case FizzyAde::RouteAnalyser::PingData::HostName: {
-        paintBackground(pingData, painter, option, index);
-        paintText(pingData->hostName(), painter, option, index);
+        case FizzyAde::RouteAnalyser::PingData::HostName: {
+            paintBackground(pingData, painter, option, index);
+            paintText(pingData->hostName(), painter, option, index);
 
-        break;
-    }
+            break;
+        }
 
-    case FizzyAde::RouteAnalyser::PingData::MinimumLatency: {
-        paintBackground(pingData, painter, option, index);
-        paintText(QString("%1").arg(std::chrono::duration_cast<milliseconds_double>(pingData->m_minimumLatency).count(), 2, 'f', 2), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
+        case FizzyAde::RouteAnalyser::PingData::MinimumLatency: {
+            paintBackground(pingData, painter, option, index);
+            paintText(QString("%1").arg(std::chrono::duration_cast<milliseconds_double>(pingData->m_minimumLatency).count(), 2, 'f', 2), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
 
-        break;
-    }
+            break;
+        }
 
-    case FizzyAde::RouteAnalyser::PingData::MaximumLatency: {
-        paintBackground(pingData, painter, option, index);
-        paintText(QString("%1").arg(std::chrono::duration_cast<milliseconds_double>(pingData->m_maximumLatency).count(), 2, 'f', 2), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
+        case FizzyAde::RouteAnalyser::PingData::MaximumLatency: {
+            paintBackground(pingData, painter, option, index);
+            paintText(QString("%1").arg(std::chrono::duration_cast<milliseconds_double>(pingData->m_maximumLatency).count(), 2, 'f', 2), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
 
-        break;
-    }
+            break;
+        }
 
-    case FizzyAde::RouteAnalyser::PingData::AverageLatency: {
-        paintBackground(pingData, painter, option, index);
-        paintText(QString("%1").arg(std::chrono::duration_cast<milliseconds_double>(pingData->m_averageLatency).count(), 2, 'f', 2), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
+        case FizzyAde::RouteAnalyser::PingData::AverageLatency: {
+            paintBackground(pingData, painter, option, index);
+            paintText(QString("%1").arg(std::chrono::duration_cast<milliseconds_double>(pingData->m_averageLatency).count(), 2, 'f', 2), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
 
-        break;
-    }
+            break;
+        }
 
-    case FizzyAde::RouteAnalyser::PingData::CurrentLatency: {
-        paintBackground(pingData, painter, option, index);
-        paintText(QString("%1").arg(std::chrono::duration_cast<milliseconds_double>(pingData->m_currentLatency).count(), 2, 'f', 2), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
+        case FizzyAde::RouteAnalyser::PingData::CurrentLatency: {
+            paintBackground(pingData, painter, option, index);
+            paintText(QString("%1").arg(std::chrono::duration_cast<milliseconds_double>(pingData->m_currentLatency).count(), 2, 'f', 2), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
 
-        break;
-    }
+            break;
+        }
 
-    case FizzyAde::RouteAnalyser::PingData::PacketLoss: {
-        paintBackground(pingData, painter, option, index);
-        paintText(QString("%1").arg(pingData->packetLoss(), 2, 'f', 2), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
+        case FizzyAde::RouteAnalyser::PingData::PacketLoss: {
+            paintBackground(pingData, painter, option, index);
+            paintText(QString("%1").arg(pingData->packetLoss(), 2, 'f', 2), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
 
-        break;
-    }
+            break;
+        }
 
-    case FizzyAde::RouteAnalyser::PingData::Count: {
-        paintBackground(pingData, painter, option, index);
-        paintText(QString("%1").arg(pingData->count()), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
+        case FizzyAde::RouteAnalyser::PingData::Count: {
+            paintBackground(pingData, painter, option, index);
+            paintText(QString("%1").arg(pingData->count()), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
 
-        break;
-    }
+            break;
+        }
 
-    default: {
-        QStyledItemDelegate::paint(painter, option, index);
+        default: {
+            QStyledItemDelegate::paint(painter, option, index);
 
-        break;
-    }
+            break;
+        }
     }
 }
 
@@ -377,7 +377,7 @@ QRgb FizzyAde::RouteAnalyser::RouteTableItemDelegate::getInterpolatedColour(cons
 
     auto colour = colourInterpolator.currentValue().value<QColor>();
 
-    return(colour.rgb());
+    return colour.rgb();
 }
 
 void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintGraph(FizzyAde::RouteAnalyser::PingData *pingData, QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -642,7 +642,7 @@ QModelIndex FizzyAde::RouteAnalyser::RouteTableItemDelegate::getSibling(QModelIn
         }
     }
 
-    return(modelIndex);
+    return modelIndex;
 }
 
 FizzyAde::RouteAnalyser::PingData *FizzyAde::RouteAnalyser::RouteTableItemDelegate::getSiblingData(QModelIndex modelIndex, int adjustment, const QTableView *tableView, QRect &rect) const
@@ -652,8 +652,8 @@ FizzyAde::RouteAnalyser::PingData *FizzyAde::RouteAnalyser::RouteTableItemDelega
     if (nextModelIndex.isValid()) {
         rect = tableView->visualRect(nextModelIndex);
 
-        return(nextModelIndex.siblingAtColumn(0).data(Qt::UserRole+1).value<FizzyAde::RouteAnalyser::PingData *>());
+        return nextModelIndex.siblingAtColumn(0).data(Qt::UserRole+1).value<FizzyAde::RouteAnalyser::PingData *>();
     }
 
-    return(nullptr);
+    return nullptr;
 }

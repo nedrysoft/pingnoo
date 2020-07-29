@@ -50,7 +50,7 @@ FizzyAde::RouteEngine::RouteWorker::~RouteWorker() = default;
 bool FizzyAde::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddress, int ttl, QHostAddress *returnAddress, bool *isComplete)
 {
     if (!m_isRunning) {
-        return(false);
+        return false;
     }
 
     auto socket = FizzyAde::ICMPSocket::ICMPSocket::createWriteSocket(ttl, FizzyAde::ICMPSocket::V4);
@@ -93,7 +93,7 @@ bool FizzyAde::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddress
 
                     delete socket;
 
-                    return(true);
+                    return true;
                 }
             }
 
@@ -105,13 +105,13 @@ bool FizzyAde::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddress
 
     delete socket;
 
-    return(false);
+    return false;
 }
 
 bool FizzyAde::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddress, int hopLimit, QHostAddress *returnAddress, bool *isComplete)
 {
     if (!m_isRunning) {
-        return(false);
+        return false;
     }
 
     auto socket = FizzyAde::ICMPSocket::ICMPSocket::createWriteSocket(hopLimit, FizzyAde::ICMPSocket::V6);
@@ -154,7 +154,7 @@ bool FizzyAde::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddress
 
                     delete socket;
 
-                    return(true);
+                    return true;
                 }
             }
 
@@ -166,7 +166,7 @@ bool FizzyAde::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddress
 
     delete socket;
 
-    return(false);
+    return false;
 }
 
 void FizzyAde::RouteEngine::RouteWorker::doWork()

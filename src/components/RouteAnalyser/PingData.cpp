@@ -74,7 +74,7 @@ void FizzyAde::RouteAnalyser::PingData::setHop(int hop)
 
 int FizzyAde::RouteAnalyser::PingData::hop()
 {
-    return(m_hop);
+    return m_hop;
 }
 
 void FizzyAde::RouteAnalyser::PingData::setHostAddress(QString hostAddress)
@@ -88,7 +88,7 @@ void FizzyAde::RouteAnalyser::PingData::setHostAddress(QString hostAddress)
 
 QString FizzyAde::RouteAnalyser::PingData::hostAddress()
 {
-    return(m_hostAddress);
+    return m_hostAddress;
 }
 
 void FizzyAde::RouteAnalyser::PingData::setHostName(QString hostName)
@@ -102,12 +102,12 @@ void FizzyAde::RouteAnalyser::PingData::setHostName(QString hostName)
 
 QString FizzyAde::RouteAnalyser::PingData::hostName()
 {
-    return(m_hostName);
+    return m_hostName;
 }
 
 double FizzyAde::RouteAnalyser::PingData::packetLoss()
 {
-    return((static_cast<double>(m_timeoutPacketCount)/static_cast<double>(m_replyPacketCount+m_timeoutPacketCount))*100.0);
+    return (static_cast<double>(m_timeoutPacketCount)/static_cast<double>(m_replyPacketCount+m_timeoutPacketCount))*100.0;
 }
 
 void FizzyAde::RouteAnalyser::PingData::updateItem(FizzyAde::Core::PingResult result)
@@ -184,7 +184,7 @@ void FizzyAde::RouteAnalyser::PingData::setCustomPlot(QCustomPlot *customPlot)
 
 QCustomPlot *FizzyAde::RouteAnalyser::PingData::customPlot()
 {
-    return(m_customPlot);
+    return m_customPlot;
 }
 
 void FizzyAde::RouteAnalyser::PingData::setJitterPlot(QCustomPlot *jitterPlot)
@@ -194,12 +194,12 @@ void FizzyAde::RouteAnalyser::PingData::setJitterPlot(QCustomPlot *jitterPlot)
 
 QCustomPlot *FizzyAde::RouteAnalyser::PingData::jitterPlot()
 {
-    return(m_jitterPlot);
+    return m_jitterPlot;
 }
 
 QString FizzyAde::RouteAnalyser::PingData::location()
 {
-    return(m_location);
+    return m_location;
 }
 
 void FizzyAde::RouteAnalyser::PingData::setLocation(const QString &location)
@@ -213,7 +213,7 @@ void FizzyAde::RouteAnalyser::PingData::setLocation(const QString &location)
 
 bool FizzyAde::RouteAnalyser::PingData::hopValid()
 {
-    return(m_hopValid);
+    return m_hopValid;
 }
 
 void FizzyAde::RouteAnalyser::PingData::setHopValid(bool hopValid)
@@ -237,32 +237,32 @@ void FizzyAde::RouteAnalyser::PingData::setHistoricalLatency(std::chrono::durati
 double FizzyAde::RouteAnalyser::PingData::latency(int field)
 {
     switch(field) {
-    case MinimumLatency: {
-        return(m_minimumLatency.count());
-    }
-    case MaximumLatency: {
-        return(m_maximumLatency.count());
-    }
-    case CurrentLatency: {
-        return(m_currentLatency.count());
-    }
-    case AverageLatency: {
-        return(m_averageLatency.count());
-    }
-    case HistoricalLatency: {
-        return(m_historicalLatency.count());
-    }
+        case MinimumLatency: {
+            return m_minimumLatency.count();
+        }
+        case MaximumLatency: {
+            return m_maximumLatency.count();
+        }
+        case CurrentLatency: {
+            return m_currentLatency.count();
+        }
+        case AverageLatency: {
+            return m_averageLatency.count();
+        }
+        case HistoricalLatency: {
+            return m_historicalLatency.count();
+        }
     }
 
-    return(0);
+    return 0;
 }
 
 QStandardItemModel *FizzyAde::RouteAnalyser::PingData::tableModel()
 {
-    return(m_tableModel);
+    return m_tableModel;
 }
 
 unsigned long FizzyAde::RouteAnalyser::PingData::count()
 {
-    return(m_count);
+    return m_count;
 }

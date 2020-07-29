@@ -36,7 +36,7 @@ FizzyAde::Core::Command::~Command()
 
 QAction *FizzyAde::Core::Command::action()
 {
-    return(m_action);
+    return m_action;
 }
 
 void FizzyAde::Core::Command::registerAction(QAction *action, const FizzyAde::Core::ContextList &contexts)
@@ -74,5 +74,5 @@ void FizzyAde::Core::Command::setActive(bool state)
 
 bool FizzyAde::Core::Command::active()
 {
-    return(m_action->isEnabled());
+    return m_action->isEnabled();
 }

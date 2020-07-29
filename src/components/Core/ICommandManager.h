@@ -54,7 +54,7 @@ namespace FizzyAde::Core
          */
         static ICommandManager *getInstance()
         {
-            return(ComponentSystem::getObject<ICommandManager>());
+            return ComponentSystem::getObject<ICommandManager>();
         }
 
         /**
@@ -77,7 +77,7 @@ namespace FizzyAde::Core
          */
         virtual FizzyAde::Core::ICommand *registerAction(QAction *action, QString id, int contextId = FizzyAde::Core::GlobalContext)
         {
-            return(registerAction(action, id, FizzyAde::Core::ContextList() << contextId));
+            return registerAction(action, id, FizzyAde::Core::ContextList() << contextId);
         }
 
         /**

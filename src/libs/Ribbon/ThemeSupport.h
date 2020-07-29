@@ -33,7 +33,7 @@ namespace FizzyAde::Utils
 #else
             static bool isDarkMode()
             {
-                return(false);
+                return false;
             }
 #endif
     };

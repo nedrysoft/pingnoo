@@ -29,12 +29,21 @@
 
 namespace FizzyAde::Core
 {
+    /**
+     * IP version enumeration
+     */
     enum IPVersion
     {
         V4 = 4,
         V6 = 6
     };
 
+    /**
+     * Core class
+     *
+     * Provides an implemention of ICore which provides the main window for the
+     * application
+     */
     class Core :
         public FizzyAde::Core::ICore
     {
@@ -43,15 +52,35 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::Core::ICore)
 
     public:
+        /**
+         * Constructor
+         */
         Core();
+
+        /**
+         * Destructor
+         */
         ~Core();
 
+        /**
+         * Returns the main window
+         *
+         * Returns a pointer to the main window, this function always returns the same
+         * QMainWindow pointer so can be called by any part of the application to get a
+         * handle to the main window
+         */
         virtual QMainWindow *mainWindow();
 
+        /**
+         * Open the core
+         *
+         * Should be called after the plugins are loaded to initialise the application,
+         * the Core implemention provides logic to ensure this happens in a sane manner
+         */
         void open(void);
 
     private:
-        QPointer<MainWindow> m_mainWindow;
+        QPointer<MainWindow> m_mainWindow;                      //! The QMainWindow smart pointer
     };
 }
 

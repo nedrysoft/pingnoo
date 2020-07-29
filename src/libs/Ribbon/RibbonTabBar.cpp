@@ -59,46 +59,46 @@ bool FizzyAde::Ribbon::RibbonTabBar::eventFilter(QObject *obj, QEvent *event)
 
     switch(event->type())
     {
-    case QEvent::Enter: {
-        auto enterEvent = reinterpret_cast<QEnterEvent *>(event);
+        case QEvent::Enter: {
+            auto enterEvent = reinterpret_cast<QEnterEvent *>(event);
 
-        lastTabIndex = this->tabAt(enterEvent->pos());
+            lastTabIndex = this->tabAt(enterEvent->pos());
 
-        m_mouseInWidget = true;
+            m_mouseInWidget = true;
 
-        update();
-
-        break;
-    }
-
-    case QEvent::Leave: {
-        lastTabIndex = -1;
-
-        m_mouseInWidget = false;
-
-        update();
-
-        break;
-    }
-
-    case QEvent::MouseMove: {
-        auto mouseEvent = reinterpret_cast<QMouseEvent *>(event);
-
-        if (lastTabIndex != this->tabAt(mouseEvent->pos())) {
             update();
 
-            lastTabIndex = this->tabAt(mouseEvent->pos());
+            break;
         }
 
-        break;
+        case QEvent::Leave: {
+            lastTabIndex = -1;
+
+            m_mouseInWidget = false;
+
+            update();
+
+            break;
+        }
+
+        case QEvent::MouseMove: {
+            auto mouseEvent = reinterpret_cast<QMouseEvent *>(event);
+
+            if (lastTabIndex != this->tabAt(mouseEvent->pos())) {
+                update();
+
+                lastTabIndex = this->tabAt(mouseEvent->pos());
+            }
+
+            break;
+        }
+
+        default: {
+            break;
+        }
     }
 
-    default: {
-        break;
-    }
-    }
-
-    return(false);
+    return false;
 }
 
 QSize FizzyAde::Ribbon::RibbonTabBar::tabSizeHint(int index) const
@@ -107,7 +107,7 @@ QSize FizzyAde::Ribbon::RibbonTabBar::tabSizeHint(int index) const
 
     size.setHeight(Ribbon::TabBarHeight);
 
-    return(size);
+    return size;
 }
 
 void FizzyAde::Ribbon::RibbonTabBar::paintEvent(QPaintEvent *event)

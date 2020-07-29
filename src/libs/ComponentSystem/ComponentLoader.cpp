@@ -274,7 +274,7 @@ void FizzyAde::ComponentSystem::ComponentLoader::loadComponents(std::function <b
 
 QList<FizzyAde::ComponentSystem::Component *> FizzyAde::ComponentSystem::ComponentLoader::components()
 {
-    return(m_componentSearchList.values());
+    return m_componentSearchList.values();
 }
 
 void FizzyAde::ComponentSystem::ComponentLoader::resolve(FizzyAde::ComponentSystem::Component *component, QList<FizzyAde::ComponentSystem::Component *> &resolvedList)

@@ -80,7 +80,7 @@ namespace FizzyAde::ICMPPacket
 
             dataStream >> data;
 
-            return(data);
+            return data;
         }
 
     private:

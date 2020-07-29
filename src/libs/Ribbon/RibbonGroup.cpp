@@ -113,7 +113,7 @@ void FizzyAde::Ribbon::RibbonGroup::paintEvent(QPaintEvent *event)
 
 QString FizzyAde::Ribbon::RibbonGroup::groupName() const
 {
-    return(m_groupName);
+    return m_groupName;
 }
 
 void FizzyAde::Ribbon::RibbonGroup::setGroupName(const QString &groupName)

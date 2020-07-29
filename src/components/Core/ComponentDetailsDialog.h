@@ -31,16 +31,33 @@ namespace FizzyAde::Core
         class ComponentDetailsDialog;
     }
 
+    /**
+     * ComponentDetailsDialog
+     *
+     * Dialog that shows the metadata information embedded in
+     * a component.
+     *
+     */
     class ComponentDetailsDialog : public QDialog
     {
         Q_OBJECT
 
     public:
+        /**
+         * Constructor
+         *
+         * @param[in] component Pointer to the component instance to be viewed
+         * @param[in] parent Parent widget
+         */
         explicit ComponentDetailsDialog(FizzyAde::ComponentSystem::Component *component, QWidget *parent = nullptr);
+
+        /**
+         * Destructor
+         */
         ~ComponentDetailsDialog();
 
     private:
-        Ui::ComponentDetailsDialog *ui;
+        Ui::ComponentDetailsDialog *ui;                         //! The generated ui class for the dialog
     };
 }
 

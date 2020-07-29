@@ -24,6 +24,13 @@
 #include "ComponentSystem/IComponentInterface.h"
 #include "CoreSpec.h"
 
+/**
+ * The Core component
+ *
+ * The core component provides the SDK base for the application, it provides the core
+ * mechanisms that allow other components to extend the application
+ *
+ */
 class FIZZYADE_CORE_DLLSPEC CoreComponent :
     public QObject,
     public FizzyAde::ComponentSystem::IComponentInterface
@@ -35,11 +42,16 @@ class FIZZYADE_CORE_DLLSPEC CoreComponent :
     Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
 
 public:
+    /**
+     * Creates an instance of the component
+     */
     CoreComponent() = default;
 
+    /**
+     * @sa IComponentInterface
+     */
     virtual void initialiseEvent();
     virtual void initialisationFinishedEvent();
-
 };
 
 #endif // FIZZYADE_CORE_CORECOMPONENT_H

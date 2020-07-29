@@ -31,7 +31,7 @@
 #define FIZZYADE_FONTAWESOME_DLLSPEC Q_DECL_IMPORT
 #endif
 
-namespace FizzyAde::FontAwesome
+namespace FizzyAde
 {
     class FIZZYADE_FONTAWESOME_DLLSPEC FontAwesome
     {

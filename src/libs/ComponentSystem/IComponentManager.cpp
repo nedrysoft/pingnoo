@@ -27,7 +27,7 @@ FizzyAde::ComponentSystem::IComponentManager *FizzyAde::ComponentSystem::ICompon
 {
     static auto componentManager = new IComponentManager();
 
-    return(componentManager);
+    return componentManager;
 }
 
 void FizzyAde::ComponentSystem::IComponentManager::addObject(QObject *object)
@@ -42,5 +42,5 @@ void FizzyAde::ComponentSystem::IComponentManager::removeObject(QObject *object)
 
 QList<QObject *> FizzyAde::ComponentSystem::IComponentManager::allObjects()
 {
-    return(m_objectList);
+    return m_objectList;
 }

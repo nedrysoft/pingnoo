@@ -103,7 +103,7 @@ bool FizzyAde::ICMPPingEngine::ICMPPingTransmitter::setInterval(std::chrono::mil
 {
     m_interval = interval;
 
-    return(true);
+    return true;
 }
 
 void FizzyAde::ICMPPingEngine::ICMPPingTransmitter::addTarget(FizzyAde::ICMPPingEngine::ICMPPingTarget *target)

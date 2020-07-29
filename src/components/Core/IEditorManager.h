@@ -45,7 +45,7 @@ namespace FizzyAde::Core
     public:
         static IEditorManager *getInstance()
         {
-            return(ComponentSystem::getObject<IEditorManager>());
+            return ComponentSystem::getObject<IEditorManager>();
         }
 
         virtual int openEditor(IEditor *editor) = 0;

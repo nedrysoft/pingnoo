@@ -47,7 +47,7 @@ namespace FizzyAde::Core
          */
         static IStatusBarManager *getInstance()
         {
-            return(ComponentSystem::getObject<IStatusBarManager>());
+            return ComponentSystem::getObject<IStatusBarManager>();
         }
 
     public:

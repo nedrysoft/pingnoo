@@ -30,19 +30,40 @@ namespace FizzyAde::Core
         class AboutDialog;
     }
 
+    /**
+     * AboutDialog
+     *
+     * Dialog that shows the the information about the current
+     * build of the software.
+     *
+     */
+
     class AboutDialog : public QDialog
     {
         Q_OBJECT
 
     public:
+
+        /**
+         * Constructor
+         */
         explicit AboutDialog(QWidget *parent = nullptr);
+
+        /**
+         * Destructor
+         */
         ~AboutDialog();
 
     private:
+        /**
+         * Return compiler information
+         *
+         * @return the compiler inform ation
+         */
         QString compiler();
 
     private:
-        Ui::AboutDialog *ui;
+        Ui::AboutDialog *ui;                    //! The generated ui class for the dialog
     };
 }
 

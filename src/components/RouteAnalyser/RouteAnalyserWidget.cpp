@@ -56,7 +56,6 @@ constexpr auto RoundTripGraph = 0;
 constexpr auto TimeoutGraph = 1;
 constexpr std::chrono::duration<double> DefaultMaxLatency = 0.01s;
 constexpr std::chrono::duration<double> DefaultTimeWindow = 10min;
-constexpr auto DefaultPingInterval = 1s;
 constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
 
@@ -77,7 +76,7 @@ QMap<int, QPair<QString, QString> > &FizzyAde::RouteAnalyser::RouteAnalyserWidge
         {FizzyAde::RouteAnalyser::PingData::Graph, {"",""}}
     };
 
-    return(map);
+    return map;
 }
 
 FizzyAde::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyserWidget(QString targetHost, FizzyAde::Core::IPVersion ipVersion, double interval, FizzyAde::Core::IPingEngineFactory *pingEngineFactory, QWidget *parent) : QWidget(parent)
@@ -194,48 +193,48 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onPingResult(FizzyAde::Core::
     }
 
     switch(result.code()) {
-    case FizzyAde::Core::PingResult::Ok:
-    case FizzyAde::Core::PingResult::TimeExceeded: {
-        QCPRange graphRange = customPlot->yAxis->range();
-        auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
+        case FizzyAde::Core::PingResult::Ok:
+        case FizzyAde::Core::PingResult::TimeExceeded: {
+            QCPRange graphRange = customPlot->yAxis->range();
+            auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
 
-        customPlot->graph(RoundTripGraph)->addData(requestTime.count(), result.roundTripTime().count());
-        customPlot->graph(TimeoutGraph)->addData(requestTime.count(), 0);
+            customPlot->graph(RoundTripGraph)->addData(requestTime.count(), result.roundTripTime().count());
+            customPlot->graph(TimeoutGraph)->addData(requestTime.count(), 0);
 
-        pingData->updateItem(result);
+            pingData->updateItem(result);
 
-        // individual vertical range
+            // individual vertical range
 
-        if (result.roundTripTime().count()>graphRange.upper)
-            customPlot->yAxis->setRange(0, result.roundTripTime().count());
+            if (result.roundTripTime().count()>graphRange.upper)
+                customPlot->yAxis->setRange(0, result.roundTripTime().count());
 
-        // normalised vertical range
+            // normalised vertical range
 
-        /*
-        auto graphMaxLatency = m_tableView->property("graphMaxLatency").toDouble();
+            /*
+            auto graphMaxLatency = m_tableView->property("graphMaxLatency").toDouble();
 
-        if (graphMaxLatency>graphRange.upper) {
-            for (QCustomPlot *customPlot : m_plotList) {
-                customPlot->yAxis->setRange(0, graphMaxLatency);
-                customPlot->replot();
-            }
-        }*/
+            if (graphMaxLatency>graphRange.upper) {
+                for (QCustomPlot *customPlot : m_plotList) {
+                    customPlot->yAxis->setRange(0, graphMaxLatency);
+                    customPlot->replot();
+                }
+            }*/
 
-        m_tableView->viewport()->update();
+            m_tableView->viewport()->update();
 
-        break;
-    }
+            break;
+        }
 
-    case FizzyAde::Core::PingResult::NoReply: {
-        auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
+        case FizzyAde::Core::PingResult::NoReply: {
+            auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
 
-        customPlot->graph(RoundTripGraph)->addData(requestTime.count(), 0);
-        customPlot->graph(TimeoutGraph)->addData(requestTime.count(), 1);
+            customPlot->graph(RoundTripGraph)->addData(requestTime.count(), 0);
+            customPlot->graph(TimeoutGraph)->addData(requestTime.count(), 1);
 
-        pingData->updateItem(result);
+            pingData->updateItem(result);
 
-        break;
-    }
+            break;
+        }
     }
 
     customPlot->replot();
@@ -557,5 +556,5 @@ bool FizzyAde::RouteAnalyser::RouteAnalyserWidget::eventFilter(QObject *watched,
 {
     emit filteredEvent(watched, event);
 
-    return(QWidget::eventFilter(watched, event));
+    return QWidget::eventFilter(watched, event);
 }

@@ -96,7 +96,7 @@ namespace FizzyAde::ComponentSystem
      */
     inline void addObject(QObject *object)
     {
-        return(IComponentManager::getInstance()->addObject(object));
+        return IComponentManager::getInstance()->addObject(object);
     }
 
     /**
@@ -106,7 +106,7 @@ namespace FizzyAde::ComponentSystem
      */
     inline void removeObject(QObject *object)
     {
-        return(IComponentManager::getInstance()->removeObject(object));
+        return IComponentManager::getInstance()->removeObject(object);
     }
 
     /**
@@ -116,7 +116,7 @@ namespace FizzyAde::ComponentSystem
      */
     inline QList<QObject *> allObjects()
     {
-        return(IComponentManager::getInstance()->allObjects());
+        return IComponentManager::getInstance()->allObjects();
     }
 
     /**
@@ -132,10 +132,10 @@ namespace FizzyAde::ComponentSystem
             auto castObject = qobject_cast<T *>(object);
 
             if (castObject)
-                return(castObject);
+                return castObject;
         }
 
-        return(nullptr);
+        return nullptr;
     }
 
     /**
@@ -156,7 +156,7 @@ namespace FizzyAde::ComponentSystem
                 objectList.append(castObject);
         }
 
-        return(objectList);
+        return objectList;
     }
 }
 

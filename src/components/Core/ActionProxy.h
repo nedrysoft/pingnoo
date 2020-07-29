@@ -68,7 +68,7 @@ namespace FizzyAde::Core
         void disconnectAction();
 
     private:
-        QPointer<QAction> m_action;
+        QPointer<QAction> m_action;                         //! Pointer to active action
     };
 }
 

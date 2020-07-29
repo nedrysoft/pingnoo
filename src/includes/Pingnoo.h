@@ -62,17 +62,17 @@ namespace Pingnoo::Constants
     inline QString commandText(const QString &string)
     {
         if (commandStringMap.contains(string))
-            return(QObject::tr(commandStringMap[string].toUtf8()));
+            return QObject::tr(commandStringMap[string].toUtf8());
 
-        return(string);
+        return string;
     }
 
     inline QString menuText(const QString &string)
     {
         if (menuStringMap.contains(string))
-            return(QObject::tr(menuStringMap[string].toUtf8()));
+            return QObject::tr(menuStringMap[string].toUtf8());
 
-        return(string);
+        return string;
     }
 }
 

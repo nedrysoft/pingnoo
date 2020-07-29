@@ -42,7 +42,7 @@ FizzyAde::Core::ICommand *FizzyAde::Core::CommandManager::registerAction(QAction
 
         command->setActive(action->isEnabled());
 
-        return(command);
+        return command;
     }
 
     auto command = new Command(id);
@@ -55,7 +55,7 @@ FizzyAde::Core::ICommand *FizzyAde::Core::CommandManager::registerAction(QAction
 
     m_commandMap[id] = command;
 
-    return(command);
+    return command;
 }
 
 void FizzyAde::Core::CommandManager::setContext(int contextId)
@@ -77,7 +77,7 @@ FizzyAde::Core::IMenu *FizzyAde::Core::CommandManager::createMenu(const QString 
     FizzyAde::Core::Menu *newMenu = nullptr;
 
     if (m_menuMap.contains(identifier)) {
-        return(m_menuMap[identifier]);
+        return m_menuMap[identifier];
     }
 
     if (!parentMenu) {
@@ -106,24 +106,24 @@ FizzyAde::Core::IMenu *FizzyAde::Core::CommandManager::createMenu(const QString 
 
     m_menuMap[identifier] = newMenu;
 
-    return(newMenu);
+    return newMenu;
 }
 
 FizzyAde::Core::IMenu *FizzyAde::Core::CommandManager::findMenu(const QString &identifier)
 {
     if (m_menuMap.contains(identifier)) {
-        return(m_menuMap[identifier]);
+        return m_menuMap[identifier];
     }
 
-    return(nullptr);
+    return nullptr;
 }
 
 FizzyAde::Core::ICommand *FizzyAde::Core::CommandManager::findCommand(const QString &identifier)
 {
     if (m_commandMap.contains(identifier)) {
-        return(m_commandMap[identifier]);
+        return m_commandMap[identifier];
     }
 
-    return(nullptr);
+    return nullptr;
 }
 

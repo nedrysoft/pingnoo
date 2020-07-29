@@ -43,6 +43,9 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::Core::IContextManager)
 
     public:
+        /**
+         * Constructor
+         */
         ContextManager();
 
         /**
@@ -53,9 +56,9 @@ namespace FizzyAde::Core
         virtual int context();
 
     private:
-        int m_nextContextId;
-        int m_currentContextId;
-        QMap<QString, int> m_contextIds;
+        int m_nextContextId;                                //! The next available context id available to register
+        int m_currentContextId;                             //! The currently selected context id
+        QMap<QString, int> m_contextIds;                    //! The list of registered context ids
     };
 }
 

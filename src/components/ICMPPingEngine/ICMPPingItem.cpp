@@ -46,7 +46,7 @@ void FizzyAde::ICMPPingEngine::ICMPPingItem::setSequenceId(uint16_t sequence)
 
 uint16_t FizzyAde::ICMPPingEngine::ICMPPingItem::sequenceId()
 {
-    return(m_sequenceId);
+    return m_sequenceId;
 }
 
 void FizzyAde::ICMPPingEngine::ICMPPingItem::setTransmitTime(std::chrono::high_resolution_clock::time_point time, std::chrono::system_clock::time_point epoch)
@@ -62,12 +62,12 @@ void FizzyAde::ICMPPingEngine::ICMPPingItem::setServiced(bool serviced)
 
 bool FizzyAde::ICMPPingEngine::ICMPPingItem::serviced()
 {
-    return(m_serviced);
+    return m_serviced;
 }
 
 uint16_t FizzyAde::ICMPPingEngine::ICMPPingItem::id()
 {
-    return(m_id);
+    return m_id;
 }
 
 void FizzyAde::ICMPPingEngine::ICMPPingItem::setTarget(FizzyAde::ICMPPingEngine::ICMPPingTarget *target)
@@ -77,17 +77,17 @@ void FizzyAde::ICMPPingEngine::ICMPPingItem::setTarget(FizzyAde::ICMPPingEngine:
 
 FizzyAde::ICMPPingEngine::ICMPPingTarget *FizzyAde::ICMPPingEngine::ICMPPingItem::target()
 {
-    return(m_target);
+    return m_target;
 }
 
 std::chrono::high_resolution_clock::time_point FizzyAde::ICMPPingEngine::ICMPPingItem::transmitTime()
 {
-    return(m_transmitTime);
+    return m_transmitTime;
 }
 
 std::chrono::system_clock::time_point FizzyAde::ICMPPingEngine::ICMPPingItem::transmitEpoch()
 {
-    return(m_transmitEpoch);
+    return m_transmitEpoch;
 }
 
 void FizzyAde::ICMPPingEngine::ICMPPingItem::setSampleNumber(unsigned long sampleNumber)
@@ -97,7 +97,7 @@ void FizzyAde::ICMPPingEngine::ICMPPingItem::setSampleNumber(unsigned long sampl
 
 unsigned long FizzyAde::ICMPPingEngine::ICMPPingItem::sampleNumber()
 {
-    return(m_sampleNumber);
+    return m_sampleNumber;
 }
 
 void FizzyAde::ICMPPingEngine::ICMPPingItem::lock()

@@ -82,12 +82,12 @@ void FizzyAde::ICMPPingEngine::ICMPPingTarget::setHostAddress(QHostAddress hostA
 
 QHostAddress FizzyAde::ICMPPingEngine::ICMPPingTarget::hostAddress()
 {
-    return(d->m_hostAddress);
+    return d->m_hostAddress;
 }
 
 FizzyAde::Core::IPingEngine *FizzyAde::ICMPPingEngine::ICMPPingTarget::engine()
 {
-    return(d->m_engine);
+    return d->m_engine;
 }
 
 FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPPingEngine::ICMPPingTarget::socket()
@@ -104,17 +104,17 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPPingEngine::ICMPPingTarget::sock
 
     d->m_currentSocket = (d->m_currentSocket+1) % d->m_socketList.count();
 
-    return(socket);
+    return socket;
 }
 
 uint16_t FizzyAde::ICMPPingEngine::ICMPPingTarget::id()
 {
-    return(d->m_id);
+    return d->m_id;
 }
 
 void *FizzyAde::ICMPPingEngine::ICMPPingTarget::userData()
 {
-    return(d->m_userData);
+    return d->m_userData;
 }
 
 void FizzyAde::ICMPPingEngine::ICMPPingTarget::setUserData(void *data)
@@ -124,12 +124,12 @@ void FizzyAde::ICMPPingEngine::ICMPPingTarget::setUserData(void *data)
 
 QJsonObject FizzyAde::ICMPPingEngine::ICMPPingTarget::saveConfiguration()
 {
-    return(QJsonObject());
+    return QJsonObject();
 }
 
 bool FizzyAde::ICMPPingEngine::ICMPPingTarget::loadConfiguration(QJsonObject configuration)
 {
     Q_UNUSED(configuration)
 
-    return(false);
+    return false;
 }

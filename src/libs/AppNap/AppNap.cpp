@@ -31,7 +31,7 @@ FizzyAde::AppNap::AppNap *FizzyAde::AppNap::AppNap::getInstance()
 {
     static auto instance = new FizzyAde::AppNap::AppNap();
 
-    return(instance);
+    return instance;
 }
 
 void FizzyAde::AppNap::AppNap::prevent(const QString &reason)

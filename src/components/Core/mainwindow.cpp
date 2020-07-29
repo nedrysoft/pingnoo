@@ -242,7 +242,7 @@ FizzyAde::Core::IMenu *FizzyAde::Core::MainWindow::createMenu(QString menuId, QS
     auto commandManager = FizzyAde::Core::ICommandManager::getInstance();
 
     if (!commandManager) {
-        return(nullptr);
+        return nullptr;
     }
 
     FizzyAde::Core::IMenu *parentMenu = nullptr;
@@ -251,7 +251,7 @@ FizzyAde::Core::IMenu *FizzyAde::Core::MainWindow::createMenu(QString menuId, QS
         parentMenu = commandManager->findMenu(parentMenuId);
     }
 
-    return(commandManager->createMenu(menuId, parentMenu));
+    return commandManager->createMenu(menuId, parentMenu);
 }
 
 FizzyAde::Core::IMenu *FizzyAde::Core::MainWindow::findMenu(QString menuId)
@@ -259,10 +259,10 @@ FizzyAde::Core::IMenu *FizzyAde::Core::MainWindow::findMenu(QString menuId)
     auto commandManager = FizzyAde::Core::ICommandManager::getInstance();
 
     if (!commandManager) {
-        return(nullptr);
+        return nullptr;
     }
 
-    return(commandManager->findMenu(menuId));
+    return commandManager->findMenu(menuId);
 }
 
 void FizzyAde::Core::MainWindow::addMenuCommand(QString menuId, QString commandId)

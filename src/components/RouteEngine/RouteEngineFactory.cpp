@@ -37,23 +37,23 @@ FizzyAde::Core::IRouteEngine *FizzyAde::RouteEngine::RouteEngineFactory::createE
 
     d->m_engineList.append(engineInstance);
 
-    return(engineInstance);
+    return engineInstance;
 }
 
 QJsonObject FizzyAde::RouteEngine::RouteEngineFactory::saveConfiguration()
 {
-    return(QJsonObject());
+    return QJsonObject();
 }
 
 bool FizzyAde::RouteEngine::RouteEngineFactory::loadConfiguration(QJsonObject configuration)
 {
     Q_UNUSED(configuration)
 
-    return(false);
+    return false;
 }
 
 QString FizzyAde::RouteEngine::RouteEngineFactory::description()
 {
-    return(tr("Route Engine"));
+    return tr("Route Engine");
 }
 

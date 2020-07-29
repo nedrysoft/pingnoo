@@ -48,20 +48,20 @@ FizzyAde::Core::IPingEngineFactory *FizzyAde::RouteAnalyser::NewTargetDialog::pi
 
 QString FizzyAde::RouteAnalyser::NewTargetDialog::pingTarget()
 {
-    return(ui->hostLineEdit->text());
+    return ui->hostLineEdit->text();
 }
 
 FizzyAde::Core::IPVersion FizzyAde::RouteAnalyser::NewTargetDialog::ipVersion()
 {
     if (ui->ipv4RadioButton->isChecked()) {
-        return(FizzyAde::Core::IPVersion::V4);
+        return FizzyAde::Core::IPVersion::V4;
     } else {
-        return(FizzyAde::Core::IPVersion::V6);
+        return FizzyAde::Core::IPVersion::V6;
     }
 }
 
 double FizzyAde::RouteAnalyser::NewTargetDialog::interval()
 {
-    return(ui->intervalDoubleSpinBox->value());
+    return ui->intervalDoubleSpinBox->value();
 }
 

@@ -37,23 +37,23 @@ FizzyAde::Core::IPingEngine *FizzyAde::ICMPPingEngine::ICMPPingEngineFactory::cr
 
     d->m_engineList.append(engineInstance);
 
-    return(engineInstance);
+    return engineInstance;
 }
 
 QJsonObject FizzyAde::ICMPPingEngine::ICMPPingEngineFactory::saveConfiguration()
 {
-    return(QJsonObject());
+    return QJsonObject();
 }
 
 bool FizzyAde::ICMPPingEngine::ICMPPingEngineFactory::loadConfiguration(QJsonObject configuration)
 {
     Q_UNUSED(configuration)
 
-    return(false);
+    return false;
 }
 
 QString FizzyAde::ICMPPingEngine::ICMPPingEngineFactory::description()
 {
-    return(tr("ICMP Ping Engine"));
+    return tr("ICMP Ping Engine");
 }
 

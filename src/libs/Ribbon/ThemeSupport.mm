@@ -33,9 +33,9 @@ bool FizzyAde::Utils::ThemeSupport::isDarkMode()
             NSAppearanceNameDarkAqua
         ]];
 
-        return([basicAppearance isEqualToString:NSAppearanceNameDarkAqua]==YES);
+        return [basicAppearance isEqualToString:NSAppearanceNameDarkAqua]==YES;
     } else {
-        return(false);
+        return false;
     }
 }
 

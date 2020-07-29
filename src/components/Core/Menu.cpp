@@ -46,24 +46,24 @@ FizzyAde::Core::Menu::Menu(QMenu *menu) :
 FizzyAde::Core::MenuTypes FizzyAde::Core::Menu::type()
 {
     if (m_menuBar) {
-        return(FizzyAde::Core::MenuTypes::isMenuBar);
+        return FizzyAde::Core::MenuTypes::isMenuBar;
     }
 
     if (m_menu && (!qobject_cast<QMenuBar *>(m_menu->parent()))) {
-        return(FizzyAde::Core::MenuTypes::isSubMenu);
+        return FizzyAde::Core::MenuTypes::isSubMenu;
     }
 
-    return(FizzyAde::Core::MenuTypes::isMenu);
+    return FizzyAde::Core::MenuTypes::isMenu;
 }
 
 QMenu *FizzyAde::Core::Menu::menu()
 {
-    return(m_menu);
+    return m_menu;
 }
 
 QMenuBar *FizzyAde::Core::Menu::menuBar()
 {
-    return(m_menuBar);
+    return m_menuBar;
 }
 
 void FizzyAde::Core::Menu::addCommand(FizzyAde::Core::ICommand *command)

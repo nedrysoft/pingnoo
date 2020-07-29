@@ -37,7 +37,7 @@ namespace FizzyAde::Core
     public:
         static ICore *getInstance()
         {
-            return(ComponentSystem::getObject<ICore>());
+            return ComponentSystem::getObject<ICore>();
         }
 
         virtual QMainWindow *mainWindow() = 0;
@@ -50,9 +50,9 @@ namespace FizzyAde::Core
         auto core = ICore::getInstance();
 
         if (core)
-            return(core->mainWindow());
+            return core->mainWindow();
 
-        return(nullptr);
+        return nullptr;
     }
 }
 

@@ -41,5 +41,5 @@ void FizzyAde::Core::Core::open()
 
 QMainWindow *FizzyAde::Core::Core::mainWindow()
 {
-    return(m_mainWindow);
+    return m_mainWindow;
 }

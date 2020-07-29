@@ -68,18 +68,18 @@ bool FizzyAde::PublicIPHostMasker::PublicIPHostMasker::mask(int hop, const QStri
         maskedHostAddress = tr("<hidden>");
     }
 
-    return(true);
+    return true;
 }
 
 QJsonObject FizzyAde::PublicIPHostMasker::PublicIPHostMasker::saveConfiguration()
 {
-    return(QJsonObject());
+    return QJsonObject();
 }
 
 bool FizzyAde::PublicIPHostMasker::PublicIPHostMasker::loadConfiguration(QJsonObject configuration)
 {
     Q_UNUSED(configuration)
 
-    return(false);
+    return false;
 }
 

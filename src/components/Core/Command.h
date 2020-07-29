@@ -47,7 +47,14 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::Core::ICommand)
 
     public:
+        /**
+         * Constructs a command with the given id
+         */
         Command(QString id);
+
+        /**
+         * Destructor
+         */
         ~Command();
 
         /**
@@ -77,10 +84,10 @@ namespace FizzyAde::Core
 
     private:
 
-        QMap<int, QAction *> m_actions;
+        QMap<int, QAction *> m_actions;                     //! Map containing actions stored by context key
 
-        FizzyAde::Core::ActionProxy *m_action;
-        QString m_id;
+        FizzyAde::Core::ActionProxy *m_action;              //! The proxy action used by the UI
+        QString m_id;                                       //! Unique identifier for the command
     };
 }
 

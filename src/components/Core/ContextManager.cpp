@@ -32,7 +32,7 @@ int FizzyAde::Core::ContextManager::registerContext(QString contextIdentifier)
 
     m_contextIds[contextIdentifier] = m_nextContextId;
 
-    return(m_nextContextId++);
+    return m_nextContextId++;
 }
 
 int FizzyAde::Core::ContextManager::setContext(int contextIdentifier)
@@ -41,10 +41,10 @@ int FizzyAde::Core::ContextManager::setContext(int contextIdentifier)
 
     m_currentContextId = contextIdentifier;
 
-    return(0);
+    return 0;
 }
 
 int FizzyAde::Core::ContextManager::context()
 {
-    return(m_currentContextId);
+    return m_currentContextId;
 }

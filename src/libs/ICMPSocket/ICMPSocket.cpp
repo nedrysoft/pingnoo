@@ -77,7 +77,7 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createReadSo
     } else {
         qWarning() << QObject::tr("Unknown IP version");
 
-        return(nullptr);
+        return nullptr;
     }
 
     if (isValid(socketDescriptor)) {
@@ -95,7 +95,7 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createReadSo
     } else {
         qWarning() << QObject::tr("Unknown IP version");
 
-        return(nullptr);
+        return nullptr;
     }
 #elif defined(Q_OS_WIN)
     if (version==FizzyAde::ICMPSocket::V4) {
@@ -105,7 +105,7 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createReadSo
     } else {
         qWarning() << QObject::tr("Unknown IP version");
 
-        return(nullptr);
+        return nullptr;
     }
 
     if (socketDescriptor!=INVALID_SOCKET) {
@@ -147,11 +147,11 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createReadSo
     if (socketDescriptor==-1) {
         qWarning() << QObject::tr("Error creating socket descriptor.");
 
-        return(nullptr);
+        return nullptr;
     }
 #endif
 
-    return(new FizzyAde::ICMPSocket::ICMPSocket(socketDescriptor, version));
+    return new FizzyAde::ICMPSocket::ICMPSocket(socketDescriptor, version);
 }
 
 FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createWriteSocket(int ttl, FizzyAde::ICMPSocket::IPVersion version)
@@ -168,7 +168,7 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createWriteS
     } else {
         qWarning() << QObject::tr("Unknown IP version");
 
-        return(nullptr);
+        return nullptr;
     }
 
     if (isValid(socketDescriptor)) {
@@ -186,7 +186,7 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createWriteS
     } else {
         qWarning() << QObject::tr("Unknown IP version");
 
-        return(nullptr);
+        return nullptr;
     }
 #elif defined(Q_OS_WIN)
     if (version==FizzyAde::ICMPSocket::V4) {
@@ -196,7 +196,7 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createWriteS
     } else {
         qWarning() << QObject::tr("Unknown IP version");
 
-        return(nullptr);
+        return nullptr;
     }
 
     if (isValid(socketDescriptor)) {
@@ -225,7 +225,7 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createWriteS
         qWarning() << QObject::tr("Error creating socket descriptor.");
     }
 
-    return(socketInstance);
+    return socketInstance;
 }
 
 int FizzyAde::ICMPSocket::ICMPSocket::recvfrom(QByteArray &buffer, QHostAddress &receiveAddress, std::chrono::milliseconds timeout)
@@ -268,11 +268,11 @@ int FizzyAde::ICMPSocket::ICMPSocket::recvfrom(QByteArray &buffer, QHostAddress 
                 buffer.resize(result);
             }
 
-            return(result);
+            return result;
         }
     }
 
-    return(-1);
+    return -1;
 }
 
 int FizzyAde::ICMPSocket::ICMPSocket::sendto(QByteArray &buffer, const QHostAddress &hostAddress)
@@ -285,7 +285,7 @@ int FizzyAde::ICMPSocket::ICMPSocket::sendto(QByteArray &buffer, const QHostAddr
         toAddress.sin_family = AF_INET;
         toAddress.sin_addr.s_addr = qToBigEndian<uint32_t>(hostAddress.toIPv4Address());
 
-        return(::sendto(m_socketDescriptor, buffer.data(), buffer.length(), 0, reinterpret_cast<struct sockaddr *>(&toAddress), sizeof(toAddress)));
+        return ::sendto(m_socketDescriptor, buffer.data(), buffer.length(), 0, reinterpret_cast<struct sockaddr *>(&toAddress), sizeof(toAddress));
     } else if (m_version==V6) {
         struct sockaddr_in6 toAddress = {};
 
@@ -294,18 +294,18 @@ int FizzyAde::ICMPSocket::ICMPSocket::sendto(QByteArray &buffer, const QHostAddr
         toAddress.sin6_family = AF_INET6;
         memcpy(toAddress.sin6_addr.s6_addr, &destinationAddress, 16);
 
-        return(::sendto(m_socketDescriptor, buffer.data(), buffer.length(), 0, reinterpret_cast<struct sockaddr *>(&toAddress), sizeof(toAddress)));
+        return ::sendto(m_socketDescriptor, buffer.data(), buffer.length(), 0, reinterpret_cast<struct sockaddr *>(&toAddress), sizeof(toAddress));
     }
 
-    return(-1);
+    return -1;
 }
 
 bool FizzyAde::ICMPSocket::ICMPSocket::isValid(FizzyAde::ICMPSocket::ICMPSocket::socket_t socket)
 {
 #if defined(Q_OS_WIN)
-    return(socket!=INVALID_SOCKET);
+    return socket!=INVALID_SOCKET;
 #else
-    return(socket!=-1);
+    return socket!=-1;
 #endif
 }
 
@@ -345,5 +345,5 @@ void FizzyAde::ICMPSocket::ICMPSocket::setHopLimit(int hopLimit)
 
 FizzyAde::ICMPSocket::IPVersion FizzyAde::ICMPSocket::ICMPSocket::version()
 {
-    return(m_version);
+    return m_version;
 }

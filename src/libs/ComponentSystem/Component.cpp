@@ -46,32 +46,32 @@ void FizzyAde::ComponentSystem::Component::addDependency(Component *dependency, 
 
 QString FizzyAde::ComponentSystem::Component::name()
 {
-    return(m_name);
+    return m_name;
 }
 
 QString FizzyAde::ComponentSystem::Component::filename()
 {
-    return(m_filename);
+    return m_filename;
 }
 
 QJsonObject FizzyAde::ComponentSystem::Component::metadata()
 {
-    return(m_metadata);
+    return m_metadata;
 }
 
 bool FizzyAde::ComponentSystem::Component::isLoaded()
 {
-    return(m_isLoaded);
+    return m_isLoaded;
 }
 
 int FizzyAde::ComponentSystem::Component::loadStatus()
 {
-    return(m_loadStatus);
+    return m_loadStatus;
 }
 
 QStringList FizzyAde::ComponentSystem::Component::missingDependencies()
 {
-    return(m_missingDependencies);
+    return m_missingDependencies;
 }
 
 QVersionNumber FizzyAde::ComponentSystem::Component::version()
@@ -79,7 +79,7 @@ QVersionNumber FizzyAde::ComponentSystem::Component::version()
     auto componentMetadata = m_metadata["MetaData"].toObject();
     auto componentVersion = componentMetadata["Version"].toString();
 
-    return(QVersionNumber::fromString(componentVersion));
+    return QVersionNumber::fromString(componentVersion);
 }
 
 QString FizzyAde::ComponentSystem::Component::versionString()
@@ -89,7 +89,7 @@ QString FizzyAde::ComponentSystem::Component::versionString()
     auto componentBranch = componentMetadata["Branch"].toString();
     auto componentRevision = componentMetadata["Revision"].toString();
 
-    return(QString("%1-%2 (%3)").arg(componentVersion).arg(componentBranch).arg(componentRevision));
+    return QString("%1-%2 (%3)").arg(componentVersion).arg(componentBranch).arg(componentRevision);
 }
 
 QString FizzyAde::ComponentSystem::Component::identifier()
