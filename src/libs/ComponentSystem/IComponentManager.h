@@ -92,7 +92,8 @@ namespace FizzyAde::ComponentSystem
     /**
      * Adds an object to the registry
      *
-     * @param[in] object the object
+     * @param[in]   object      the object
+     *
      */
     inline void addObject(QObject *object)
     {
@@ -102,7 +103,8 @@ namespace FizzyAde::ComponentSystem
     /**
      * Removes an object to the registry
      *
-     * @param[in] object the object
+     * @param[in]   object      the object
+     *
      */
     inline void removeObject(QObject *object)
     {
@@ -112,7 +114,8 @@ namespace FizzyAde::ComponentSystem
     /**
      * Return all registered objects
      *
-     * @returns  the list of objects
+     * @return  the list of objects
+     *
      */
     inline QList<QObject *> allObjects()
     {
@@ -122,7 +125,8 @@ namespace FizzyAde::ComponentSystem
     /**
      * Return the first matching object of type T
      *
-     * @returns the object of type T
+     * @return  the object of type T
+     *
      */
     template <typename T>
     inline T *getObject()
@@ -141,7 +145,8 @@ namespace FizzyAde::ComponentSystem
     /**
      * Returns all objects that implement type T
      *
-     * @returns the list of objects implementing type T
+     * @return  the list of objects implementing type T
+     *
      */
     template <typename T>
     inline QList<T *> getObjects()

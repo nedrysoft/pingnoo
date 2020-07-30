@@ -53,7 +53,7 @@ namespace FizzyAde::Core
         /**
          * Sets host address for this target
          *
-         * @param[in] hostAddress the host address to be pinged
+         * @param[in]   hostAddress     the host address to be pinged
          *
          */
         virtual void setHostAddress(QHostAddress hostAddress) = 0;
@@ -61,7 +61,7 @@ namespace FizzyAde::Core
         /**
          * Returns the host address for this target
          *
-         * @return the host address for this target
+         * @return      the host address for this target
          *
          */
         virtual QHostAddress hostAddress() = 0;
@@ -69,7 +69,7 @@ namespace FizzyAde::Core
         /**
          * Returns the IPingEngine that created this target
          *
-         * @return the IPingEngine that created this target
+         * @return      the IPingEngine that created this target
          *
          */
         virtual IPingEngine *engine() = 0;
@@ -77,7 +77,7 @@ namespace FizzyAde::Core
         /**
          * Returns user data attached to this target
          *
-         * @return the attached user data
+         * @return      the attached user data
          *
          */
         virtual void *userData() = 0;
@@ -85,7 +85,7 @@ namespace FizzyAde::Core
         /**
          * Attaches user data to this target
          *
-         * @param[in] data the user data
+         * @param[in]   data            the user data
          *
          */
         virtual void setUserData(void *data) = 0;

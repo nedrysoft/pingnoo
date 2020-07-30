@@ -49,7 +49,7 @@ namespace FizzyAde::Core
         /**
          * Returns the proxy action
          *
-         * @return returns the proxy action
+         * @return      the proxy action
          *
          */
         virtual QAction *action() = 0;
@@ -57,7 +57,7 @@ namespace FizzyAde::Core
         /**
          * Sets the active state of the command
          *
-         * @param[in] state true if enabled, else false
+         * @param[in]   state       true if enabled, else false
          *
          */
         virtual void setActive(bool state) = 0;
@@ -65,7 +65,7 @@ namespace FizzyAde::Core
         /**
          * Returns the active state of the command
          *
-         * @return state if enabled, else false
+         * @return      true if enabled, else false
          *
          */
         virtual bool active() = 0;
@@ -77,7 +77,7 @@ namespace FizzyAde::Core
          * Binds to the buttons signals and then emits the appropriate
          * signals from the push button
          *
-         * @param[in] widget the abstract button subclassed widget
+         * @param[in]   widget      the abstract button subclassed widget
          *
          */
         virtual void attachToWidget(QAbstractButton *widget)

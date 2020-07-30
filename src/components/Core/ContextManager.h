@@ -45,11 +45,13 @@ namespace FizzyAde::Core
     public:
         /**
          * Constructor
+         *
          */
         ContextManager();
 
         /**
          * @sa IContextManager
+         *
          */
         virtual int registerContext(QString contextIdentifier);
         virtual int setContext(int contextIdentifier);

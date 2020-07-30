@@ -41,6 +41,15 @@ namespace Pingnoo::Constants
     constexpr auto helpAbout = "Menu.Help.About";
     constexpr auto helpAboutComponents = "Menu.Help.AboutComponents";
 
+    constexpr auto defaultGroupTop   = "Group.Top";
+    constexpr auto defaultGroupMiddle   = "Group.Middle";
+    constexpr auto defaultGroupBottom   = "Group.Bottom";
+
+    constexpr auto fileNewGroup = "Group.File.New";
+    constexpr auto fileOpenGroup = "Group.File.Open";
+    constexpr auto fileSaveGroup = "Group.File.Save";
+    constexpr auto fileMiscGroup = "Group.File.Misc";
+
     const QMap<QString, QString> commandStringMap =
     {
         {editCut, QT_TR_NOOP("Cut")},

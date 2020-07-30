@@ -53,15 +53,15 @@ namespace FizzyAde::Core
         /**
          * Replaces a host name/ip
          *
-         * @param[in] hop the hop number for this host & address
-         * @param[in] hostName the host name to be checked
-         * @param[in] hostAddress the host IP to be checked
-         * @param[out] maskedHostName the masked host name
-         * @param[out] maskedHostAddress the masked host IP
-         * @return returns true on replacement, else false
+         * @param[in]   hop                 the hop number for this host & address
+         * @param[in]   hostName            the host name to be checked
+         * @param[in]   hostAddress         the host IP to be checked
+         * @param[out]  maskedHostName      the masked host name
+         * @param[out]  maskedHostAddress   the masked host IP
+         *
+         * @return      returns true on replacement, else false
          *
          */
-
         virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress) = 0;
     };
 }

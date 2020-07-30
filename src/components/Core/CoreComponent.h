@@ -43,12 +43,14 @@ class FIZZYADE_CORE_DLLSPEC CoreComponent :
 
 public:
     /**
-     * Creates an instance of the component
+     * Constructor
+     *
      */
     CoreComponent() = default;
 
     /**
      * @sa IComponentInterface
+     *
      */
     virtual void initialiseEvent();
     virtual void initialisationFinishedEvent();

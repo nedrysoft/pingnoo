@@ -38,6 +38,20 @@ namespace FizzyAde::Core
 
         Q_INTERFACES(FizzyAde::Core::IMenu)
 
+    private:
+        class GroupItem {
+        public:
+            GroupItem(QString id)
+            {
+                m_id = id;
+            }
+
+        public:
+            QString m_id;
+
+            QList<QObject *> m_items;
+        };
+
     public:
         Menu();
         ~Menu();
@@ -54,13 +68,21 @@ namespace FizzyAde::Core
         virtual QMenu *menu();
         virtual QMenuBar *menuBar();
 
-        virtual void addCommand(FizzyAde::Core::ICommand *command);
+        FizzyAde::Core::Menu::GroupItem *findGroup(QString groupIdentifier, int *groupPosition=nullptr);
+
+        virtual void insertGroup(QString groupIdentifier);
+        virtual void appendGroup(QString groupIdentifier);
+        virtual bool addGroupBefore(QString beforeIdentifier, QString groupIdentifier);
+        virtual bool addGroupAfter(QString afterIdentifier, QString groupIdentifier);
+
+        virtual void addCommand(FizzyAde::Core::ICommand *command, QString groupIdentifier=QString());
 
         friend class CommandManager;
 
     private:
         QMenuBar *m_menuBar;
         QMenu *m_menu;
+        QList<GroupItem *> m_groupList;
     };
 }
 

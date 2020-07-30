@@ -71,6 +71,7 @@ namespace FizzyAde::RouteAnalyser
     public:
         /**
          * Required for QVariant meta type
+         *
          */
         PingData() = default;
         ~PingData() = default;
@@ -83,9 +84,10 @@ namespace FizzyAde::RouteAnalyser
          * Creates an entry in the given data table and initialises the row
          * with default information.
          *
-         * @param[in] tableModel the table model
-         * @param[in] hop the hop number of this item
-         * @param[in] hopValid true if the hop responds to ping, else false
+         * @param[in]   tableModel          the table model
+         * @param[in]   hop                 the hop number of this item
+         * @param[in]   hopValid            true if the hop responds to ping, else false
+         *
          */
         PingData(QStandardItemModel *tableModel, int hop, bool hopValid);
 
@@ -95,127 +97,146 @@ namespace FizzyAde::RouteAnalyser
          * This can optionally be drawn on the latency graph when hovering
          * over a chart.
          *
-         * @param[in] latency the latency
+         * @param[in]   latency             the latency
+         *
          */
         void setHistoricalLatency(std::chrono::duration<double> latency);
 
         /**
          * Updates the route table item with the result
          *
-         * @param[in] result the ping result for this hop
+         * @param[in]   result              the ping result for this hop
+         *
          */
         void updateItem(FizzyAde::Core::PingResult result);
 
         /**
          * Sets the hop number for this item
          *
-         * @param[in] hop the hop number
+         * @param[in]   hop                 the hop number
+         *
          */
         void setHop(int hop);
 
         /**
          * Returns the hop number for this route item
          *
-         * @return the hop number
+         * @return      the hop number
+         *
          */
         int hop();
 
         /**
          * Sets the displayed ip address for this route item
          *
-         * @param[in] hostAddress address for this hop
+         * @param[in]   hostAddress         address for this hop
+         *
          */
         void setHostAddress(QString hostAddress);
 
         /**
          * Returns the displayed ip address for this route item
          *
-         * @return the address for this hop
+         * @return      the address for this hop
+         *
          */
         QString hostAddress();
 
         /**
          * Sets the displayed host name for this route item
          *
-         * @param[in] hostName the host name
+         * @param[in]   hostName            the host name
+         *
          */
         void setHostName(QString hostName);
 
         /**
          * Returns the displayed host name for this route item
          *
-         * @return the host name
+         * @return      the host name
+         *
          */
         QString hostName();
 
         /**
          * Sets the location position
          *
-         * @param[in] location the location
+         * @param[in]   location            the location
+         *
          */
         void setLocation(const QString &location);
 
         /**
          * Returns the displayed location
          *
-         * @return the location
+         * @return      the location
+         *
          */
         QString location();
 
         /**
          * Sets the graph associated with this route item
          *
-         * @param[in] customPlot the plot
+         * @param[in]   customPlot          the plot
+         *
          */
         void setCustomPlot(QCustomPlot *customPlot);
 
         /**
          * Sets the jitter graph associated with this route item
          *
-         * @param[in] jitterPlot the plot
+         * @param[in]   jitterPlot          the plot
+         *
          */
         void setJitterPlot(QCustomPlot *jitterPlot);
 
         /**
          * Returns the graph associated with this route item
          *
-         * @return the plot
+         * @return      the plot
+         *
          */
         QCustomPlot *customPlot();
 
         /**
          * Returns the jitter graph associated with this route item
          *
-         * @return the plot
+         * @return      the plot
+         *
          */
         QCustomPlot *jitterPlot();
 
         /**
          * Returns whether this hop is valid
          *
-         * @return true if valid, else false
+         * @return      true if valid, else false
+         *
          */
         bool hopValid();
 
         /**
          * Sets the valid state for this hop
          *
-         * @param hopValid whether the hop is valid
+         * @param[in]   hopValid            whether the hop is valid
+         *
          */
         void setHopValid(bool hopValid);
 
         /**
          * Returns the latency
          *
-         * @param[in] field which latency to retrieve
-         * @return the latency
+         * @param[in]   field which latency to retrieve
+         *
+         * @return      the latency
+         *
          */
         double latency(int field);
 
         /**
          * Returns the packet loss %
          *
-         * @return the packet loss
+         * @return      the packet loss
+         *
          */
         double packetLoss();
     protected:
@@ -226,29 +247,34 @@ namespace FizzyAde::RouteAnalyser
          * Used to calculate the running average of the latency, does
          * not store previous values.
          *
-         * @param[in] previousAverage the current average
-         * @param[in] value the new value to add to the average
-         * @param[in] n the number of values (including the new one) used
-         * @return the plot
+         * @param[in]   previousAverage     the current average
+         * @param[in]   value               the new value to add to the average
+         * @param[in]   n                   the number of values (including the new one) used
+         *
+         * @return      the plot
+         *
          */
         static double runningAverage(double previousAverage, double value, double n);
 
         /**
          * Updates the model so that views refresh
+         *
          */
         void updateModel();
 
         /**
          * Gets the table model associated with this item
          *
-         * @return table model
+         * @return      table model
+         *
          */
         QStandardItemModel *tableModel();
 
         /**
          * Returns the number of samples sent
          *
-         * @return sample count
+         * @return      sample count
+         *
          */
         unsigned long count();
 

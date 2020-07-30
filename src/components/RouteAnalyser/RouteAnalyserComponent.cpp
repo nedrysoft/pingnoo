@@ -83,7 +83,7 @@ void RouteAnalyserComponent::initialiseEvent()
 
                 auto menu = commandManager->findMenu(Pingnoo::Constants::menuFile);
 
-                menu->addCommand(command);
+                menu->addCommand(command, Pingnoo::Constants::fileNewGroup);
 
                 // create Edit/Cut action for this context
 

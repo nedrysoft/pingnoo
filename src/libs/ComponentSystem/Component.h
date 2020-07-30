@@ -41,21 +41,21 @@ namespace FizzyAde::ComponentSystem
     {
     public:
         /**
-         * Component
+         * Constructor
          *
-         * Default constructor
          */
         Component();
 
         /**
-         * Component
+         * Constructor
          *
          * Overriden constructor, creates a component with the given
          * information.
          *
-         * @param[in] name The name of the component
-         * @param[in] filename The filename of the component
-         * @param[in] metadata The metadata from the component file
+         * @param[in]   name            The name of the component
+         * @param[in]   filename        The filename of the component
+         * @param[in]   metadata        The metadata from the component file
+         *
          */
         Component(QString name, QString filename, QJsonObject metadata);
 
@@ -64,8 +64,9 @@ namespace FizzyAde::ComponentSystem
          *
          * Adds a component as a dependency of this component
          *
-         * @param[in] dependency The required dependency
-         * @param[in] versionNumber The required dependency version
+         * @param[in]   dependency      The required dependency
+         * @param[in]   versionNumber   The required dependency version
+         *
          */
         void addDependency(Component *dependency, QVersionNumber versionNumber);
 
@@ -74,7 +75,8 @@ namespace FizzyAde::ComponentSystem
          *
          * Returns the name of the component
          *
-         * @return The component name
+         * @return      The component name
+         *
          */
         QString name();
 
@@ -83,7 +85,8 @@ namespace FizzyAde::ComponentSystem
          *
          * Returns the filename of the component
          *
-         * @return The component filename
+         * @return      The component filename
+         *
          */
         QString filename();
 
@@ -92,7 +95,8 @@ namespace FizzyAde::ComponentSystem
          *
          * Returns the metadata of the component
          *
-         * @return The component metadata
+         * @return      The component metadata
+         *
          */
         QJsonObject metadata();
 
@@ -101,18 +105,18 @@ namespace FizzyAde::ComponentSystem
          *
          * Returns the loaded state of the component
          *
-         * @return True if loaded, false otherwise
+         * @return      True if loaded, false otherwise
+         *
          */
         bool isLoaded();
 
         /**
          * loadStatus
          *
-         * Returns a bit flag of the load status
+         * Returns a bit flag of (ComponentLoader::LoadStatus values) the load status
          *
-         * @sa ComponentLoader::LoadStatus
+         * @return      The reason the component was not loaded
          *
-         * @return The reason the component was not loaded
          */
         int loadStatus();
 
@@ -123,7 +127,8 @@ namespace FizzyAde::ComponentSystem
          * not be available from the ComponentLoader, this can be
          * used to show the names of any missing dependencies.
          *
-         * @return The list of missing dependencies
+         * @return      The list of missing dependencies
+         *
          */
         QStringList missingDependencies();
 
@@ -132,7 +137,8 @@ namespace FizzyAde::ComponentSystem
          *
          * Returns the version number of the component
          *
-         * @return The version
+         * @return      The version
+         *
          */
         QVersionNumber version();
 
@@ -141,7 +147,8 @@ namespace FizzyAde::ComponentSystem
          *
          * Returns the formatted version string of the component
          *
-         * @return The version string
+         * @return      formatted version string
+         *
          */
         QString versionString();
 
@@ -150,7 +157,8 @@ namespace FizzyAde::ComponentSystem
          *
          * Returns the reverse dns identifier of the component
          *
-         * @return The identifer
+         * @return      The identifer
+         *
          */
         QString identifier();
 
@@ -159,7 +167,8 @@ namespace FizzyAde::ComponentSystem
          *
          * Returns category of the component
          *
-         * @return The section
+         * @return      The section
+         *
          */
         QString category();
 
@@ -168,7 +177,8 @@ namespace FizzyAde::ComponentSystem
          *
          * Returns the vendor of the component
          *
-         * @return The vendor
+         * @return      The vendor
+         *
          */
         QString vendor();
 
@@ -177,7 +187,8 @@ namespace FizzyAde::ComponentSystem
          *
          * Returns the license text of the component
          *
-         * @return The license text
+         * @return      The license text
+         *
          */
         QString license();
 
@@ -186,7 +197,8 @@ namespace FizzyAde::ComponentSystem
          *
          * Returns the copyright text of the component
          *
-         * @return The copyright text
+         * @return      The copyright text
+         *
          */
         QString copyright();
 
@@ -195,7 +207,8 @@ namespace FizzyAde::ComponentSystem
          *
          * Returns the description text of the component
          *
-         * @return The description text
+         * @return      The description text
+         *
          */
         QString description();
 
@@ -204,7 +217,8 @@ namespace FizzyAde::ComponentSystem
          *
          * Returns the URL of the component
          *
-         * @return The URL
+         * @return      The URL
+         *
          */
         QString url();
 
@@ -213,7 +227,8 @@ namespace FizzyAde::ComponentSystem
          *
          * Returns the dependencies of the component
          *
-         * @return The dependencies
+         * @return      The dependencies
+         *
          */
         QString dependencies();
 
@@ -222,7 +237,8 @@ namespace FizzyAde::ComponentSystem
          *
          * Returns whether the component can be disabled by the user
          *
-         * @return State
+         * @return      State
+         *
          */
         bool canBeDisabled();
 

@@ -48,7 +48,7 @@ namespace FizzyAde::Core
         /**
          * Returns the widget for this editor
          *
-         * @return the widget
+         * @return      the widget
          *
          */
         virtual QWidget *widget() = 0;
@@ -56,7 +56,7 @@ namespace FizzyAde::Core
         /**
          * Returns the display name for this editor
          *
-         * @return display name
+         * @return      display name
          *
          */
         virtual QString displayName() = 0;

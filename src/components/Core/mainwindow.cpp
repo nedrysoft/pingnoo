@@ -142,7 +142,12 @@ void FizzyAde::Core::MainWindow::createDefaultCommands()
 
     createMenu(Pingnoo::Constants::applicationMenuBar);
 
-    createMenu(Pingnoo::Constants::menuFile, Pingnoo::Constants::applicationMenuBar);
+    auto fileMenu = createMenu(Pingnoo::Constants::menuFile, Pingnoo::Constants::applicationMenuBar);
+
+    fileMenu->addGroupBefore(Pingnoo::Constants::defaultGroupTop, Pingnoo::Constants::fileNewGroup);
+    fileMenu->addGroupAfter(Pingnoo::Constants::fileOpenGroup, Pingnoo::Constants::fileNewGroup);
+    fileMenu->addGroupAfter(Pingnoo::Constants::fileNewGroup, Pingnoo::Constants::fileSaveGroup);
+
     createMenu(Pingnoo::Constants::menuEdit, Pingnoo::Constants::applicationMenuBar);
     createMenu(Pingnoo::Constants::menuHelp, Pingnoo::Constants::applicationMenuBar);
 
@@ -216,12 +221,12 @@ void FizzyAde::Core::MainWindow::registerDefaultCommands()
 
 }
 
-void FizzyAde::Core::MainWindow::createCommand(QString commandId, QAbstractButton *button, QAction::MenuRole menuRole)
+FizzyAde::Core::ICommand *FizzyAde::Core::MainWindow::createCommand(QString commandId, QAbstractButton *button, QAction::MenuRole menuRole)
 {
     auto commandManager = FizzyAde::Core::ICommandManager::getInstance();
 
     if (!commandManager) {
-        return;
+        return nullptr;
     }
 
     auto action = new QAction(Pingnoo::Constants::commandText(commandId));
@@ -235,6 +240,8 @@ void FizzyAde::Core::MainWindow::createCommand(QString commandId, QAbstractButto
     }
 
     action->setEnabled(false);
+
+    return command;
 }
 
 FizzyAde::Core::IMenu *FizzyAde::Core::MainWindow::createMenu(QString menuId, QString parentMenuId)
@@ -277,7 +284,7 @@ void FizzyAde::Core::MainWindow::addMenuCommand(QString menuId, QString commandI
 
     auto command = commandManager->findCommand(commandId);
 
-    menu->addCommand(command);
+    menu->addCommand(command, Pingnoo::Constants::defaultGroupTop);
 }
 
 void FizzyAde::Core::MainWindow::on_toolButton_clicked()

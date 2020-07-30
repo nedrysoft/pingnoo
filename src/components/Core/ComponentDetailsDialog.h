@@ -46,13 +46,15 @@ namespace FizzyAde::Core
         /**
          * Constructor
          *
-         * @param[in] component Pointer to the component instance to be viewed
-         * @param[in] parent Parent widget
+         * @param[in] component     the component instance to be viewed
+         * @param[in] parent        parent widget
+         *
          */
         explicit ComponentDetailsDialog(FizzyAde::ComponentSystem::Component *component, QWidget *parent = nullptr);
 
         /**
          * Destructor
+         *
          */
         ~ComponentDetailsDialog();
 

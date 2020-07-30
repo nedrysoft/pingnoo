@@ -58,6 +58,7 @@ namespace FizzyAde::ICMPPingEngine
 
         /**
          * @sa IPingTarget
+         *
          */
         virtual void setHostAddress(QHostAddress hostAddress);
 
@@ -71,6 +72,7 @@ namespace FizzyAde::ICMPPingEngine
 
         /**
          * @sa IConfiguration
+         *
          */
         virtual QJsonObject saveConfiguration();
         virtual bool loadConfiguration(QJsonObject configuration);

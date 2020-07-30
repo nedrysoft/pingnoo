@@ -54,11 +54,13 @@ namespace FizzyAde::Core
     public:
         /**
          * Constructor
+         *
          */
         Core();
 
         /**
          * Destructor
+         *
          */
         ~Core();
 
@@ -68,6 +70,8 @@ namespace FizzyAde::Core
          * Returns a pointer to the main window, this function always returns the same
          * QMainWindow pointer so can be called by any part of the application to get a
          * handle to the main window
+         *
+         * @return      returns a pointer to the mainwindow
          */
         virtual QMainWindow *mainWindow();
 
@@ -76,8 +80,9 @@ namespace FizzyAde::Core
          *
          * Should be called after the plugins are loaded to initialise the application,
          * the Core implemention provides logic to ensure this happens in a sane manner
+         *
          */
-        void open(void);
+        void open();
 
     private:
         QPointer<MainWindow> m_mainWindow;                      //! The QMainWindow smart pointer

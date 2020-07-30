@@ -73,20 +73,23 @@ namespace FizzyAde::RegExHostMasker
         /**
          * Adds a host name match mask
          *
-         * @param[in] matchFlags a bit mask of values from MatchFlags
-         * @param[in] matchExpression the regular expression used for name matching
-         * @param[in] replacementString the string to be used for replacement
-         * @param[in] hopString optional hop string listing hops this mask is valid for
+         * @param[in]   matchFlags              a bit mask of values from MatchFlags
+         * @param[in]   matchExpression         the regular expression used for name matching
+         * @param[in]   replacementString       the string to be used for replacement
+         * @param[in]   hopString optional      hop string listing hops this mask is valid for
+         *
          */
         void add(unsigned int matchFlags, QString matchExpression, QString replacementString, QString hopString=QString());
 
         /**
          * @sa IHostMasker
+         *
          */
         virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress);
 
         /**
          * @sa IConfiguration
+         *
          */
         virtual QJsonObject saveConfiguration();
         virtual bool loadConfiguration(QJsonObject configuration);
@@ -95,12 +98,14 @@ namespace FizzyAde::RegExHostMasker
         /**
          * Attempts to apply a mask to a string
          *
-         * @param[in] hop the hop number
-         * @param[in] hostName the host name to be checked
-         * @param[in] hostAddress the host address to be checked
-         * @param[out] maskedHostName the masked host name
-         * @param[out] maskedHostAddress the masked host address
-         * @return returns true on a match, else false
+         * @param[in]   hop                     the hop number
+         * @param[in]   hostName                the host name to be checked
+         * @param[in]   hostAddress             the host address to be checked
+         * @param[out]  maskedHostName          the masked host name
+         * @param[out]  maskedHostAddress       the masked host address
+         *
+         * @return      true on a match, else false
+         *
          */
         bool applyMask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress);
 

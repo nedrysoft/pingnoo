@@ -40,6 +40,11 @@ namespace FizzyAde::Ribbon
         Q_OBJECT
 
     public:
+        /**
+         * Constructor
+         *
+         * @param[in] parent parent widget
+         */
         RibbonTabBar(QWidget *parent = nullptr);
 
     protected:

@@ -46,7 +46,8 @@ namespace FizzyAde::AppNap
             /**
              * Gets the AppNap singleton
              *
-             * @return the singleton instance
+             * @return      the singleton instance
+             *
              */
             static FizzyAde::AppNap::AppNap *getInstance();
 
@@ -57,7 +58,8 @@ namespace FizzyAde::AppNap
              * should be matched with a allow to allow the app to enter nap
              * after the section.
              *
-             * @param[in] reason reason for preventing app nap
+             * @param[in]   reason          reason for preventing app nap
+             *
              */
             void prevent(const QString &reason);
 
@@ -65,6 +67,7 @@ namespace FizzyAde::AppNap
              * Allows the app to enter idle nap
              *
              * allows the app to enter the idle nap state
+             *
              */
             void allow();
 

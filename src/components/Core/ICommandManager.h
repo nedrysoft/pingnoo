@@ -50,7 +50,8 @@ namespace FizzyAde::Core
         /**
          * Returns the ICommandManager instance
          *
-         * @return the ICommandManager instance
+         * @return      the ICommandManager instance
+         *
          */
         static ICommandManager *getInstance()
         {
@@ -60,20 +61,27 @@ namespace FizzyAde::Core
         /**
          * Registers an action to the command
          *
-         * @param[in] action the action
-         * @param[in] id the identifier of the command
-         * @param[in] contexts the contexts this action is valid in
-         * @return the configuration
+         * @param[in]   action      the action
+         * @param[in]   id          the identifier of the command
+         * @param[in]   contexts    the contexts this action is valid in
+         *
+         * @return      the configuration
+         *
          */
         virtual FizzyAde::Core::ICommand *registerAction(QAction *action, QString id, const FizzyAde::Core::ContextList &contexts) = 0;
 
         /**
          * Registers an action to the command
          *
-         * @param[in] action the action
-         * @param[in] id the identifier of the command
-         * @param[in] context the contexts this action is valid in
-         * @return the configuration
+         * This function registers an action by command id, if the command already exists
+         * then the action is added for the given context, otherwise a new command is created
+         *
+         * @param[in]   action      the action
+         * @param[in]   id          the identifier of the command
+         * @param[in]   context     the contexts this action is valid in
+         *
+         * @return      the command
+         *
          */
         virtual FizzyAde::Core::ICommand *registerAction(QAction *action, QString id, int contextId = FizzyAde::Core::GlobalContext)
         {
@@ -81,12 +89,45 @@ namespace FizzyAde::Core
         }
 
         /**
+         * Registers an action to an existing command
+         *
+         * This function registers an action to the given command to a single context
+         *
+         * @param[in]   action      the action
+         * @param[in]   command     the command to register the action with
+         * @param[in]   context     the contexts this action is valid in
+         *
+         * @return      true if added, otherwise false
+         *
+         */
+        virtual bool registerAction(QAction *action,  FizzyAde::Core::ICommand *command, int contextId = FizzyAde::Core::GlobalContext)
+        {
+            return registerAction(action, command, FizzyAde::Core::ContextList() << contextId);
+        }
+
+        /**
+         * Registers an action to the command
+         *
+         * This function registers an action to the given command for the
+         * supplied contexts
+         *
+         * @param[in]   action      the action
+         * @param[in]   command     the command to register the action with
+         * @param[in]   contexts    the contexts this action is valid in
+         *
+         * @return      the configuration
+         *
+         */
+        virtual bool registerAction(QAction *action, FizzyAde::Core::ICommand *command, const FizzyAde::Core::ContextList &contexts) = 0;
+
+        /**
          * Sets the currently active context
          *
          * Updates all commands registered so that they connect to the
          * correct QAction for the context
          *
-         * @param[in] contextId the context
+         * @param[in]   contextId the context
+         *
          */
         virtual void setContext(int contextId) = 0;
 

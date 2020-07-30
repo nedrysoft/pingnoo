@@ -41,6 +41,9 @@ namespace FizzyAde::Ribbon
         Q_PROPERTY(QString groupName READ groupName WRITE setGroupName)
 
     public:
+        /**
+         * Constructor
+         */
         explicit RibbonGroup(QWidget *parent = nullptr);
 
         /**

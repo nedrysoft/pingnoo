@@ -52,8 +52,8 @@ namespace FizzyAde::Core
         /**
          * Starts route discovery for a host
          *
-         * @param[in] host the host name or address to be traced
-         * @param[in] ipVersion the IP version to be used for the trace
+         * @param[in]   host        the host name or address to be traced
+         * @param[in]   ipVersion   the IP version to be used for the trace
          *
          */
         virtual void findRoute(QString host, FizzyAde::Core::IPVersion ipVersion) = 0;
@@ -61,7 +61,7 @@ namespace FizzyAde::Core
         /**
          * Signal emitted when the route discovery is completed
          *
-         * @param[in] result the discovered route
+         * @param[in]   result      the discovered route
          *
          */
         Q_SIGNAL void result(const QHostAddress &hostAddress, const FizzyAde::Core::RouteList &result);

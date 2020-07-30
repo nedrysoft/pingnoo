@@ -38,13 +38,15 @@ namespace FizzyAde::RouteAnalyser
     {
     public:
         /**
-         * Constructor for the GraphLatencyLayer
+         * Constructor
+         *
          */
         GraphLatencyLayer(QCustomPlot *customPlot);
 
     protected:
         /**
          * @sa QCPItemRect
+         *
          */
         void draw(QCPPainter *painter);
 

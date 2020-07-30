@@ -47,15 +47,18 @@ namespace FizzyAde::Core
         /**
          * Saves the configuration
          *
-         * @return the configuration
+         * @return      the configuration
+         *
          */
         virtual QJsonObject saveConfiguration() = 0;
 
         /**
          * Loads the configuration
          *
-         * @param configuration the configuration
-         * @return true if loaded, false otherwise
+         * @param[in]   configuration   the configuration
+         *
+         * @return      true if loaded, false otherwise
+         *
          */
         virtual bool loadConfiguration(QJsonObject configuration) = 0;
     };

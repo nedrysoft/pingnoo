@@ -43,7 +43,8 @@ namespace FizzyAde::Core
         /**
          * Returns the IStatusBarManager instance
          *
-         * @return the IStatusBarManager instance
+         * @return      the IStatusBarManager singleton instance
+         *
          */
         static IStatusBarManager *getInstance()
         {

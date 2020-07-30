@@ -46,11 +46,15 @@ namespace FizzyAde::Core
 
         /**
          * Constructor
+         *
+         * @param[in]   parent    parent widget
+         *
          */
         explicit AboutDialog(QWidget *parent = nullptr);
 
         /**
          * Destructor
+         *
          */
         ~AboutDialog();
 
@@ -58,7 +62,8 @@ namespace FizzyAde::Core
         /**
          * Return compiler information
          *
-         * @return the compiler inform ation
+         * @return      the compiler information
+         *
          */
         QString compiler();
 

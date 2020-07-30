@@ -58,6 +58,20 @@ FizzyAde::Core::ICommand *FizzyAde::Core::CommandManager::registerAction(QAction
     return command;
 }
 
+bool FizzyAde::Core::CommandManager::registerAction(QAction *action, FizzyAde::Core::ICommand *command, const FizzyAde::Core::ContextList &contexts)
+{
+    FizzyAde::Core::Command *commandClass = qobject_cast<FizzyAde::Core::Command *>(command);
+
+    if (commandClass) {
+        commandClass->registerAction(action, contexts);
+        commandClass->setContext(FizzyAde::Core::IContextManager::getInstance()->context());
+
+        commandClass->setActive(action->isEnabled());
+    }
+
+    return false;
+}
+
 void FizzyAde::Core::CommandManager::setContext(int contextId)
 {
     auto commandIterator = QMapIterator<QString, Command *>(m_commandMap);

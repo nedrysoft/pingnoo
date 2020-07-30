@@ -46,13 +46,18 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::Core::ICommandManager)
 
     public:
+        /**
+         * Constructor
+         *
+         */
         CommandManager();
 
         /**
          * @sa ICommandManager
+         *
          */
-
         virtual FizzyAde::Core::ICommand *registerAction(QAction *action, QString id, const FizzyAde::Core::ContextList &contexts);
+        virtual bool registerAction(QAction *action, FizzyAde::Core::ICommand *command, const FizzyAde::Core::ContextList &contexts);
         virtual void setContext(int contextId);
         virtual FizzyAde::Core::IMenu *createMenu(const QString &identifier, IMenu *parentMenu=nullptr);
         virtual FizzyAde::Core::IMenu *findMenu(const QString &identifier);

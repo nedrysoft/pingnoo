@@ -53,7 +53,7 @@ namespace FizzyAde::Core
         /**
          * Creates a IRouteEngine instance
          *
-         * @return returns instance
+         * @return      new instance of the route engine
          *
          */
         virtual FizzyAde::Core::IRouteEngine *createEngine() = 0;
@@ -61,7 +61,7 @@ namespace FizzyAde::Core
         /**
          * Returns the description of the route engine
          *
-         * @return description
+         * @return      descriptive name of the route engine
          *
          */
         virtual QString description() = 0;

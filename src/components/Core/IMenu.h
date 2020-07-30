@@ -47,7 +47,12 @@ namespace FizzyAde::Core
         virtual QMenu *menu() = 0;
         virtual QMenuBar *menuBar() = 0;
 
-        virtual void addCommand(FizzyAde::Core::ICommand *command) = 0;
+        virtual void insertGroup(QString groupIdentifier) = 0;
+        virtual void appendGroup(QString groupIdentifier) = 0;
+        virtual bool addGroupBefore(QString beforeIdentifier, QString groupIdentifier)=0;
+        virtual bool addGroupAfter(QString afterIdentifier, QString groupIdentifier)=0;
+
+        virtual void addCommand(FizzyAde::Core::ICommand *command, QString groupIdentifier=QString()) = 0;
 
     public:
 

@@ -47,19 +47,22 @@ namespace FizzyAde::ICMPPingEngine
 
     public:
         /**
-         * constructor
+         * Constructor
          *
-         * @param version Whether this is IPv4 or IPv6
+         * @param[in]   version         Whether this is IPv4 or IPv6
+         *
          */
         ICMPPingEngine(FizzyAde::Core::IPVersion version);
 
         /**
-         * Default destructor
+         * Destructor
+         *
          */
         ~ICMPPingEngine();
 
         /**
          * @sa IPingEngine
+         *
          */
         virtual bool setInterval(std::chrono::milliseconds interval);
         virtual bool setTimeout(std::chrono::milliseconds timeout);
@@ -74,6 +77,7 @@ namespace FizzyAde::ICMPPingEngine
 
         /**
          * @sa IConfiguration
+         *
          */
         virtual QJsonObject saveConfiguration();
         virtual bool loadConfiguration(QJsonObject configuration);
@@ -85,20 +89,23 @@ namespace FizzyAde::ICMPPingEngine
          * Called from the timeout thread.
          *
          * @sa FZICMPPingTimeout
+         *
          */
         void timeoutRequests(void);
 
         /**
          * Adds a ping request to the engine so it can be tracked
          *
-         * @param[in] pingItem the item to be tracked
+         * @param[in]   pingItem        the item to be tracked
+         *
          */
         void addRequest(FizzyAde::ICMPPingEngine::ICMPPingItem *pingItem);
 
         /**
          * Removes a tracked request and deletes the item
          *
-         * @param[in] pingItem the item to be removed
+         * @param[in]   pingItem        the item to be removed
+         *
          */
         void removeRequest(FizzyAde::ICMPPingEngine::ICMPPingItem *pingItem);
 
@@ -107,22 +114,26 @@ namespace FizzyAde::ICMPPingEngine
          *
          * The id is (icmp_id<<16) | icmp_sequence_id
          *
-         * @param[in] id the request to find
-         * @return returns the request if it exists, otherwise NULL
+         * @param[in]   id              the request to find
+         *
+         * @return      returns the request if it exists, otherwise NULL
+         *
          */
         FizzyAde::ICMPPingEngine::ICMPPingItem *getRequest(uint32_t id);
 
         /**
          * Sets the transmission epoch
          *
-         * @param[in] epoch the epoch
+         * @param[in]   epoch           the epoch
+         *
          */
         void setEpoch(std::chrono::system_clock::time_point epoch);
 
         /**
          * Returns the IP version of the engine
          *
-         * @return IP version
+         * @return      IP version
+         *
          */
         FizzyAde::Core::IPVersion version();
 

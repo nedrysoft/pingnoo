@@ -48,11 +48,13 @@ namespace FizzyAde::PublicIPHostMasker
 
         /**
          * @sa IHostMasker
+         *
          */
         virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress);
 
         /**
          * @sa IConfiguration
+         *
          */
         virtual QJsonObject saveConfiguration();
         virtual bool loadConfiguration(QJsonObject configuration);

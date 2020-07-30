@@ -50,17 +50,20 @@ namespace FizzyAde::RouteEngine
 
     public:
         /**
-         * Default constructor
+         * Constructor
+         *
          */
         RouteEngine();
 
         /**
          * destructor
+         *
          */
         ~RouteEngine();
 
         /**
          * @sa IRouteEngine
+         *
          */
         virtual void findRoute(QString host, FizzyAde::Core::IPVersion ipVersion=FizzyAde::Core::IPVersion::V4);
 

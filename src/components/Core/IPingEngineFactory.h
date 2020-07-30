@@ -54,7 +54,9 @@ namespace FizzyAde::Core
         /**
          * Creates a IPingEngine instance
          *
-         * @return returns instance
+         * @param[in]   version     the IP version of the engine
+         *
+         * @return      the newly created ping engine instance
          *
          */
         virtual FizzyAde::Core::IPingEngine *createEngine(FizzyAde::Core::IPVersion version) = 0;
@@ -62,7 +64,7 @@ namespace FizzyAde::Core
         /**
          * Returns the description of the ping engine
          *
-         * @return description
+         * @return      descriptive name of the ping engine
          *
          */
         virtual QString description() = 0;

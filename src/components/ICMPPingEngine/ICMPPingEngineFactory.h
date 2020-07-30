@@ -50,12 +50,14 @@ namespace FizzyAde::ICMPPingEngine {
 
         /**
          * @sa IPingEngineFactory
+         *
          */
         virtual FizzyAde::Core::IPingEngine *createEngine(FizzyAde::Core::IPVersion version);
         virtual QString description();
 
         /**
          * @sa IConfiguration
+         *
          */
         virtual QJsonObject saveConfiguration();
         virtual bool loadConfiguration(QJsonObject configuration);

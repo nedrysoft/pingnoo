@@ -56,8 +56,9 @@ namespace FizzyAde::Core
         /**
          * Sets the measurement interval for this engine instance
          *
-         * @param[in] interval interval time
-         * @return returns true on success, else false
+         * @param[in]   interval        interval time
+         *
+         * @return      returns true on success, else false
          *
          */
         virtual bool setInterval(std::chrono::milliseconds interval) = 0;
@@ -65,8 +66,9 @@ namespace FizzyAde::Core
         /**
          * Sets the reply timeout for this engine instance
          *
-         * @param[in] timeout timeout time
-         * @return returns true on success, else false
+         * @param[in]   timeout         timeout time
+         *
+         * @return      true on success, else false
          *
          */
         virtual bool setTimeout(std::chrono::milliseconds timeout) = 0;
@@ -74,7 +76,7 @@ namespace FizzyAde::Core
         /**
          * Starts ping operations for this engine instance
          *
-         * @return returns true on success, else false
+         * @return      true on success, else false
          *
          */
         virtual bool start() = 0;
@@ -82,7 +84,7 @@ namespace FizzyAde::Core
         /**
          * Stops ping operations for this engine instance
          *
-         * @return returns true on success, else false
+         * @return      true on success, else false
          *
          */
         virtual bool stop() = 0;
@@ -90,8 +92,9 @@ namespace FizzyAde::Core
         /**
          * Adds a ping target to this engine instance
          *
-         * @param[in] hostAddress the host address of the ping target
-         * @return returns a pointer to the created ping target
+         * @param[in]   hostAddress     the host address of the ping target
+         *
+         * @return      returns a pointer to the created ping target
          *
          */
         virtual IPingTarget *addTarget(QHostAddress hostAddress) = 0;
@@ -99,8 +102,9 @@ namespace FizzyAde::Core
         /**
          * Adds a ping target to this engine instance
          *
-         * @param[in] hostAddress the host address of the ping target
-         * @param[in] ttl the time to live to use
+         * @param[in]   hostAddress     the host address of the ping target
+         * @param[in]   ttl             the time to live to use
+         *
          * @return returns a pointer to the created ping target
          *
          */
@@ -109,8 +113,9 @@ namespace FizzyAde::Core
         /**
          * Removes a ping target from this engine instance
          *
-         * @param[in] target the ping target to remove
-         * @return returns true on success, else false
+         * @param[in]   target          the ping target to remove
+         *
+         * @return      true on success, else false
          *
          */
         virtual bool removeTarget(IPingTarget *target) = 0;
@@ -118,7 +123,7 @@ namespace FizzyAde::Core
         /**
          * Returns the epoch
          *
-         * @return returns epoch
+         * @return      the time epoch
          *
          */
         virtual std::chrono::system_clock::time_point epoch() = 0;
@@ -126,7 +131,7 @@ namespace FizzyAde::Core
         /**
          * Signal emitted to indicate the state of a ping request
          *
-         * @param[in] result the result of a ping request
+         * @param[in]   result          the result of a ping request
          *
          */
         Q_SIGNAL void result(FizzyAde::Core::PingResult result);

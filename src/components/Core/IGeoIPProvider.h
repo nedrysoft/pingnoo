@@ -50,7 +50,7 @@ namespace FizzyAde::Core
         /**
          * Performs a host lookup
          *
-         * @param[in] host the host address to be looked up
+         * @param[in]   host        the host address to be looked up
          *
          */
         virtual void lookup(const QString host) = 0;
@@ -58,8 +58,8 @@ namespace FizzyAde::Core
         /**
          * Performs a host lookup
          *
-         * @param[in] host the host address to be looked up
-         * @param[in] function callback function
+         * @param[in]   host        the host address to be looked up
+         * @param[in]   function    callback function
          *
          */
         virtual void lookup(const QString host, FizzyAde::Core::GeoFunction function) = 0;
@@ -67,8 +67,8 @@ namespace FizzyAde::Core
         /**
          * Signal for result
          *
-         * @param[out] host the host
-         * @param[out] result the result
+         * @param[out]  host        the host
+         * @param[out]  result      the result
          *
          */
         Q_SIGNAL void result(const QString host, const QVariantMap result);

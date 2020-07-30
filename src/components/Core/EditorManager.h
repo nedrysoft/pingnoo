@@ -44,10 +44,17 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::Core::IEditorManager)
 
     public:
+        /**
+         * Constructor
+         *
+         * @param[in]   tabWidget       the tab widget that contains the editors
+         *
+         */
         EditorManager(QTabWidget *tabWidget);
 
         /**
          * @sa IEditorManager
+         *
          */
         virtual int openEditor(IEditor *editor);
 

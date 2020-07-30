@@ -51,7 +51,8 @@ namespace FizzyAde::ICMPPingEngine
          * Creates the receiver object and passes in the engine
          * so that the requests can be tagged to the correct engine
          *
-         * @param[in] engine the owner engine
+         * @param[in]   engine          the owner engine
+         *
          */
         ICMPPingReceiver(FizzyAde::ICMPPingEngine::ICMPPingEngine *engine);
 
@@ -59,6 +60,7 @@ namespace FizzyAde::ICMPPingEngine
 
         /**
          * The receiver thread worker
+         *
          */
         void doWork(void);
 
@@ -67,7 +69,8 @@ namespace FizzyAde::ICMPPingEngine
         /**
          * Signals when a response result is available
          *
-         * @param[in] result the result
+         * @param[in]   result          the result
+         *
          */
         void result(FizzyAde::Core::PingResult result);
 

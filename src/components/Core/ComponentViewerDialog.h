@@ -47,12 +47,14 @@ namespace FizzyAde::Core
         /**
          * Constructor
          *
-         * @param[in] parent Parent widget
+         * @param[in]   parent      parent widget
+         *
          */
         explicit ComponentViewerDialog(QWidget *parent = nullptr);
 
         /**
          * Destructor
+         *
          */
         ~ComponentViewerDialog();
 
@@ -64,7 +66,8 @@ namespace FizzyAde::Core
          * in a reverse domain name format which should be stored and queried by the loader
          * at startup.
          *
-         * @return List of disabled components
+         * @return      the list of disabled components
+         *
          */
         QStringList disabledComponents();
 
@@ -75,8 +78,8 @@ namespace FizzyAde::Core
          *
          * Opens the ComponentDetailsDialog for the given component that has been double clicked.
          *
-         * @param[in] item the item that was double clicked
-         * @param[in] column the column that was double clicked
+         * @param[in]   item        the item that was double clicked
+         * @param[in]   column      the column that was double clicked
          */
         void on_componentsTreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
 

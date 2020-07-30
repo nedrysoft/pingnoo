@@ -54,8 +54,8 @@ namespace FizzyAde::IPAPIGeoIPProvider
 
         /**
          * @sa IGeoIPProvider
+         *
          */
-
         virtual void lookup(const QString host);
         virtual void lookup(const QString host, FizzyAde::Core::GeoFunction function);
 

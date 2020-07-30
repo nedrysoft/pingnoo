@@ -46,9 +46,8 @@ namespace FizzyAde::RouteAnalyser
         /**
          * Constructor
          *
-         * Creates a new instance of the new target dialog
+         * @param[in]   parent          parent widget
          *
-         * @param[in] parent parent widget
          */
         explicit NewTargetDialog(QWidget *parent = nullptr);
 
@@ -61,21 +60,24 @@ namespace FizzyAde::RouteAnalyser
         /**
          * The ping engine factory selected
          *
-         * @return the selected IPingEngineFactory
+         * @return      the selected IPingEngineFactory
+         *
          */
         FizzyAde::Core::IPingEngineFactory *pingEngineFactory();
 
         /**
          * The selected target
          *
-         * @return the target (host or ip address)
+         * @return      the target (host or ip address)
+         *
          */
         QString pingTarget();
 
         /**
          * The selected IP version
          *
-         * @return the ip version (V4 or V6)
+         * @return      the ip version (V4 or V6)
+         *
          */
         FizzyAde::Core::IPVersion ipVersion();
 
@@ -85,7 +87,8 @@ namespace FizzyAde::RouteAnalyser
          * The ping interval is the number of seconds between ping clusters,
          * this can be a sub-second value.
          *
-         * @return the ping internal in seconds
+         * @return      the ping internal in seconds
+         *
          */
         double interval();
 

@@ -41,7 +41,9 @@ namespace FizzyAde::Core
     public:
 
         /**
-         * Creates a proxy action
+         * Constructor
+         *
+         * @param[in]   parent      parent object
          *
          */
         ActionProxy(QObject *parent=nullptr);

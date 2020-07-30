@@ -58,12 +58,13 @@ namespace FizzyAde::Core
         /**
          * Constructs a FZPingResult with parameters
          *
-         * @param[in] sampleNumber the count which this result is associated with
-         * @param[in] code the result code
-         * @param[in] hostAddress the IP address that responded to the request
-         * @param[in] requestTime the time the request was sent
-         * @param[in] roundTripTime the time taken for the hop to respond
-         * @param[in] target the target that was pinged
+         * @param[in]   sampleNumber        the count which this result is associated with
+         * @param[in]   code                the result code
+         * @param[in]   hostAddress         the IP address that responded to the request
+         * @param[in]   requestTime         the time the request was sent
+         * @param[in]   roundTripTime       the time taken for the hop to respond
+         * @param[in]   target              the target that was pinged
+         *
          */
         PingResult(unsigned long sampleNumber, PingResultCode code, QHostAddress hostAddress, std::chrono::system_clock::time_point requestTime, std::chrono::duration<double> roundTripTime, FizzyAde::Core::IPingTarget *target);
 
@@ -72,21 +73,24 @@ namespace FizzyAde::Core
         /**
          * The sample number of the request
          *
-         * @return the sample number
+         * @return      the sample number
+         *
          */
         unsigned long sampleNumber();
 
         /**
          * The time of the response
          *
-         * @return the reply time
+         * @return      the reply time
+         *
          */
         std::chrono::system_clock::time_point requestTime();
 
         /**
          * The result code
          *
-         * @return the result number
+         * @return      the result number
+         *
          */
         PingResultCode code();
 
@@ -98,7 +102,8 @@ namespace FizzyAde::Core
          * a time exceeded response will be returned and the IP of last hop
          * that responded will be returned
          *
-         * @return the IP address of the reply
+         * @return      the IP address of the reply
+         *
          */
         QHostAddress hostAddress();
 
@@ -107,14 +112,16 @@ namespace FizzyAde::Core
          *
          * The round trip time from the packet being sent to the response
          *
-         * @return the round trip time
+         * @return      the round trip time
+         *
          */
         std::chrono::duration<double> roundTripTime();
 
         /**
          * The target assosciated with this result
          *
-         * @return the target
+         * @return      the target
+         *
          */
         FizzyAde::Core::IPingTarget *target();
 

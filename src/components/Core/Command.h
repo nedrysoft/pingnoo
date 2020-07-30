@@ -48,17 +48,24 @@ namespace FizzyAde::Core
 
     public:
         /**
-         * Constructs a command with the given id
+         * Constructor
+         *
+         * Constructs a new Command object with the given id
+         *
+         * @param[in]   id      id of the created command
+         *
          */
         Command(QString id);
 
         /**
          * Destructor
+         *
          */
         ~Command();
 
         /**
          * @sa ICommand
+         *
          */
         virtual QAction *action();
         virtual void setActive(bool state);
@@ -68,15 +75,17 @@ namespace FizzyAde::Core
         /**
          * Registers an action to the given contexts
          *
-         * @param[in] action the action
-         * @param[in] contexts the list of contexts this action is used in
+         * @param[in]   action      the action
+         * @param[in]   contexts    the list of contexts this action is used in
+         *
          */
         void registerAction(QAction *action, const FizzyAde::Core::ContextList &contexts);
 
         /**
          * Sets the current context for this command
          *
-         * @param[in] contextId the context id
+         * @param[in]   contextId   the context id
+         *
          */
         void setContext(int contextId);
 

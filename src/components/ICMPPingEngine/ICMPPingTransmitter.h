@@ -53,21 +53,26 @@ namespace FizzyAde::ICMPPingEngine
          * Creates the receiver object and passes in the engine
          * so that the requests can be tagged to the correct engine
          *
-         * @param[in] engine the owner engine
+         * @param[in]   engine          the owner engine
+         *
          */
         ICMPPingTransmitter(FizzyAde::ICMPPingEngine::ICMPPingEngine *engine);
 
         /**
          * Sets the interval between a set of pings
          *
-         * @param[in] interval interval
+         * @param[in]   interval        interval
+         *
+         * @return       true if set, otherwise false
+         *
          */
         bool setInterval(std::chrono::milliseconds interval);
 
         /**
          * Adds a ping target to the transmitter
          *
-         * @param[in] target the target to ping
+         * @param[in]   target          the target to ping
+         *
          */
         void addTarget(FizzyAde::ICMPPingEngine::ICMPPingTarget *target);
 

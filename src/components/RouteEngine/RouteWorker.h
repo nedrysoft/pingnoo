@@ -48,7 +48,8 @@ namespace FizzyAde::RouteEngine
         /**
          * Sets the target host to find the route for
          *
-         * @param[in] host the host
+         * @param[in]   host                the host
+         *
          */
         void setHost(QString host);
 
@@ -60,10 +61,13 @@ namespace FizzyAde::RouteEngine
          * Helper function which returns the hop address and whether it was the
          * final destination.
          *
-         * @param[in] hostAddress the host to ping
-         * @param[in] ttl the TTL used for this ping
-         * @param[out] returnAddress the address that the ping response came from
-         * @param[out] isComplete true if final hop, false if not
+         * @param[in]   hostAddress         the host to ping
+         * @param[in]   ttl                 the TTL used for this ping
+         * @param[out]  returnAddress       the address that the ping response came from
+         * @param[out]  isComplete          true if final hop, false if not
+         *
+         * @return      true if ping sent, otherwise false
+         *
          */
         bool ping_v4(const QHostAddress &hostAddress, int ttl, QHostAddress *returnAddress, bool *isComplete);
 
@@ -73,10 +77,13 @@ namespace FizzyAde::RouteEngine
          * Helper function which returns the hop address and whether it was the
          * final destination.
          *
-         * @param[in] hostAddress the host to ping
-         * @param[in] hopLimit the hop limit used for this ping
-         * @param[out] returnAddress the address that the ping response came from
-         * @param[out] isComplete true if final hop, false if not
+         * @param[in]   hostAddress         the host to ping
+         * @param[in]   hopLimit            the hop limit used for this ping
+         * @param[out]  returnAddress       the address that the ping response came from
+         * @param[out]  isComplete          true if final hop, false if not
+         *
+         * @return      true if ping sent, otherwise false
+         *
          */
 
         bool ping_v6(const QHostAddress &hostAddress, int hopLimit, QHostAddress *returnAddress, bool *isComplete);
@@ -93,8 +100,9 @@ namespace FizzyAde::RouteEngine
         /**
          * Signals when a route is available
          *
-         * @param[in] hostAddress the host address of the target
-         * @param[in] result the list of hops
+         * @param[in]   hostAddress         the host address of the target
+         * @param[in]   result              the list of hops
+         *
          */
         void result(const QHostAddress &hostAddress, const FizzyAde::Core::RouteList &result);
 
