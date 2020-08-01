@@ -58,7 +58,7 @@ namespace FizzyAde::Core
         void registerDefaultCommands();
 
         FizzyAde::Core::ICommand *createCommand(QString commandId, QAbstractButton *button, QAction::MenuRole menuRole=QAction::NoRole);
-        void addMenuCommand(QString menuId, QString commandId);
+        void addMenuCommand(QString commandId, QString menuId, QString groupId=QString());
 
         FizzyAde::Core::IMenu *createMenu(QString menuId, QString parentMenuId=QString());
         FizzyAde::Core::IMenu *findMenu(QString menuId);

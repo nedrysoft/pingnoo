@@ -68,8 +68,6 @@ namespace FizzyAde::Core
         virtual QMenu *menu();
         virtual QMenuBar *menuBar();
 
-        FizzyAde::Core::Menu::GroupItem *findGroup(QString groupIdentifier, int *groupPosition=nullptr);
-
         virtual void insertGroup(QString groupIdentifier);
         virtual void appendGroup(QString groupIdentifier);
         virtual bool addGroupBefore(QString beforeIdentifier, QString groupIdentifier);
@@ -77,12 +75,17 @@ namespace FizzyAde::Core
 
         virtual void addCommand(FizzyAde::Core::ICommand *command, QString groupIdentifier=QString());
 
+    private:
+        QList<GroupItem>::const_iterator findGroup(QString groupIdentifier);
+        QAction *getInsertAction(QList<FizzyAde::Core::Menu::GroupItem>::const_iterator groupIterator);
+        QAction *getAppendAction(QList<FizzyAde::Core::Menu::GroupItem>::const_iterator groupIterator);
+
         friend class CommandManager;
 
     private:
         QMenuBar *m_menuBar;
         QMenu *m_menu;
-        QList<GroupItem *> m_groupList;
+        QList<GroupItem> m_groupList;
     };
 }
 

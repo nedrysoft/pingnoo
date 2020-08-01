@@ -29,9 +29,9 @@ FizzyAde::Core::Menu::Menu()
     m_menuBar = nullptr;
     m_menu = nullptr;
 
-    m_groupList.append(new GroupItem(Pingnoo::Constants::defaultGroupTop));
-    m_groupList.append(new GroupItem(Pingnoo::Constants::defaultGroupMiddle));
-    m_groupList.append(new GroupItem(Pingnoo::Constants::defaultGroupBottom));
+    m_groupList.append(GroupItem(Pingnoo::Constants::defaultGroupTop));
+    m_groupList.append(GroupItem(Pingnoo::Constants::defaultGroupMiddle));
+    m_groupList.append(GroupItem(Pingnoo::Constants::defaultGroupBottom));
 }
 
 FizzyAde::Core::Menu::~Menu() = default;
@@ -71,113 +71,141 @@ QMenuBar *FizzyAde::Core::Menu::menuBar()
     return m_menuBar;
 }
 
-void FizzyAde::Core::Menu::addCommand(FizzyAde::Core::ICommand *command, QString group)
+QAction *FizzyAde::Core::Menu::getInsertAction(QList<FizzyAde::Core::Menu::GroupItem>::const_iterator groupIterator)
 {
-    if (!m_menu || !command) {
-        return;
+    if (groupIterator->m_items.count()) {
+        auto castToCommand = qobject_cast<FizzyAde::Core::ICommand *>(groupIterator->m_items.first());
+
+        if (castToCommand) {
+            return castToCommand->action();
+        }
     }
 
-    qDebug() << "adding command " << command->action()->text() << " to group " << group;
-
-    for(auto group : m_groupList) {
-        qDebug() << "  " << group->m_id;
-    }
-
-    auto groupItem = findGroup(group);
-
-    if (!groupItem) {
-        return;
-    }
-
-    if (!groupItem->m_items.count()) {
-        qDebug() << "  inserting at start " << m_menu->actions().count();
-        groupItem->m_items.insert(0, command);
-
-        m_menu->insertAction(nullptr, command->action());
-
-        return;
-    }
-
-    auto castToCommand = qobject_cast<FizzyAde::Core::ICommand *>(groupItem->m_items.first());
-
-    if (castToCommand) {
-        qDebug() << "  adding before " << castToCommand->action()->text();
-        m_menu->insertAction(castToCommand->action(), command->action());
-
-        return;
-    }
-
-    qDebug() << "Unable to insert menu";
-}
-
-FizzyAde::Core::Menu::GroupItem *FizzyAde::Core::Menu::findGroup(QString groupIdentifier, int *groupPosition)
-{
-    if (groupPosition) {
-        *groupPosition = 0;
-    }
-
-    for (auto item : m_groupList) {
-        if (item->m_id==groupIdentifier) {
-            return item;
+    while(groupIterator!=m_groupList.constEnd()) {
+        if (groupIterator->m_items.count()) {
+            break;
         }
 
-        if (groupPosition) {
-            (*groupPosition)++;
+        groupIterator++;
+    }
+
+    if (groupIterator==m_groupList.constEnd()) {
+        return nullptr;
+    }
+
+    if (groupIterator->m_items.count()) {
+        auto castToCommand = qobject_cast<FizzyAde::Core::ICommand *>(groupIterator->m_items.first());
+
+        if (castToCommand) {
+            return castToCommand->action();
         }
     }
 
     return nullptr;
 }
 
-bool FizzyAde::Core::Menu::addGroupAfter(QString afterIdentifier, QString groupIdentifier)
+QAction *FizzyAde::Core::Menu::getAppendAction(QList<FizzyAde::Core::Menu::GroupItem>::const_iterator groupIterator)
 {
-    int position;
+    groupIterator++;
 
-    auto result = findGroup(afterIdentifier, &position);
+    while(groupIterator!=m_groupList.constEnd()) {
+        if (groupIterator->m_items.count()) {
+            break;
+        }
 
-    if (!result) {
-        return false;
+        groupIterator++;
     }
 
-    if (position==m_groupList.length()-1) {
-        m_groupList.append(new GroupItem(groupIdentifier));
+    if (groupIterator==m_groupList.constEnd()) {
+        return nullptr;
+    }
+
+    if (groupIterator->m_items.count()) {
+        auto castToCommand = qobject_cast<FizzyAde::Core::ICommand *>(groupIterator->m_items.first());
+
+        if (castToCommand) {
+            return castToCommand->action();
+        }
+    }
+
+    return nullptr;
+}
+
+void FizzyAde::Core::Menu::addCommand(FizzyAde::Core::ICommand *command, QString group)
+{
+    if (!m_menu || !command) {
+        return;
+    }
+
+    auto groupIterator = findGroup(group);
+
+    if (groupIterator == m_groupList.constEnd()) {
+        return;
+    }
+
+    auto previousAction = getAppendAction(groupIterator);
+
+    m_menu->insertAction(previousAction, command->action());
+
+    m_groupList[groupIterator-m_groupList.constBegin()].m_items.append(command);
+}
+
+QList<FizzyAde::Core::Menu::GroupItem>::const_iterator FizzyAde::Core::Menu::findGroup(QString groupIdentifier)
+{
+    QList<FizzyAde::Core::Menu::GroupItem>::const_iterator groupIterator = m_groupList.constBegin();
+
+    while(groupIterator!=m_groupList.constEnd()) {
+        if (groupIterator->m_id==groupIdentifier) {
+            break;
+        }
+
+        groupIterator++;
+    }
+
+    return groupIterator;
+}
+
+bool FizzyAde::Core::Menu::addGroupAfter(QString afterIdentifier, QString groupIdentifier)
+{
+    auto groupIterator = findGroup(afterIdentifier);
+
+    if (groupIterator==m_groupList.constEnd()) {
+        m_groupList.append(GroupItem(groupIdentifier));
 
         return true;
     }
 
-    m_groupList.insert(position+1, new GroupItem(groupIdentifier));
+    m_groupList.insert((groupIterator-m_groupList.constBegin())+1, GroupItem(groupIdentifier));
 
-    return(true);
+    return true;
 }
 
 bool FizzyAde::Core::Menu::addGroupBefore(QString beforeIdentifier, QString groupIdentifier)
 {
-    int position;
+    auto groupIterator = findGroup(beforeIdentifier);
 
-    auto result = findGroup(beforeIdentifier, &position);
-
-    if (!result) {
+    if (groupIterator == m_groupList.constEnd()) {
         return false;
     }
 
-    if (position==0) {
-        m_groupList.insert(0, new GroupItem(groupIdentifier));
+    if (groupIterator==m_groupList.constBegin()) {
+        m_groupList.insert(0, GroupItem(groupIdentifier));
 
         return true;
     }
 
-    m_groupList.insert(position, new GroupItem(groupIdentifier));
+    m_groupList.insert(groupIterator-m_groupList.constBegin(), GroupItem(groupIdentifier));
 
-    return(true);
+    return true;
 }
 
 void FizzyAde::Core::Menu::appendGroup(QString groupIdentifier)
 {
-    m_groupList.append(new GroupItem(groupIdentifier));
+    m_groupList.append(GroupItem(groupIdentifier));
 }
 
 void FizzyAde::Core::Menu::insertGroup(QString groupIdentifier)
 {
-    m_groupList.insert(0, new GroupItem(groupIdentifier));
+    m_groupList.insert(0, GroupItem(groupIdentifier));
 }
 
