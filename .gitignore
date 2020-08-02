@@ -8,6 +8,7 @@ CMakeLists.txt.user.*
 debug.xml
 Deployment
 *.log
+*.autosave
 
 tools/makeuniversal
 

@@ -27,40 +27,43 @@
 namespace FizzyAde::Ribbon
 {
     /**
-     * Ribbon Font Manager
+     * @brief           Ribbon Font Manager
      *
-     * Singleton responsible for loading and returning the fonts used
-     * by the ribbon control.  This class cannot be instaniated directly
-     * and the singleton instance can be retrieved using the static
-     * RibbonFontManager::getInstance function.
+     * @details         Singleton responsible for loading and returning the fonts used
+     *                  by the ribbon control.  This class cannot be instaniated directly
+     *                  and the singleton instance can be retrieved using the static
+     *                  RibbonFontManager::getInstance function.
+     *
      */
-
     class RIBBON_WIDGET_EXPORT RibbonFontManager
     {
     private:
+        /**
+         * @brief Constructor
+         */
         RibbonFontManager();
 
     public:
         /**
-         * Returns the singleton instance
+         * @brief       Returns the singleton instance
          *
-         * @return returns the instance of the class
+         * @return      returns the instance of the class
          *
          */
         static FizzyAde::Ribbon::RibbonFontManager *getInstance();
 
         /**
-         * Returns the normal font name
+         * @brief       Returns the normal font name
          *
-         * @return the font famaily name
+         * @return      the font famaily name
          *
          */
         QString normalFont();
 
         /**
-         * Returns the bold font name
+         * @brief       Returns the bold font name
          *
-         * @return the font famaily name
+         * @return      the font famaily name
          *
          */
         QString boldFont();

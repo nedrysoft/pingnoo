@@ -28,12 +28,12 @@
 namespace FizzyAde::Ribbon
 {
     /**
-     * Ribbon Tab Bar Widget
+     * @brief       Ribbon Tab Bar Widget
      *
-     * Subclass of QTabBar to create a lookalike of the Ribbon
-     * bar tab control.
+     * @details     Subclass of QTabBar to create a lookalike of the Ribbon
+     *              bar tab control.
+     *
      */
-
     class RIBBON_WIDGET_EXPORT RibbonTabBar :
         public QTabBar
     {
@@ -41,16 +41,46 @@ namespace FizzyAde::Ribbon
 
     public:
         /**
-         * Constructor
+         * @brief       Constructor
          *
-         * @param[in] parent parent widget
+         * @param[in]   parent              parent widget
+         *
          */
         RibbonTabBar(QWidget *parent = nullptr);
 
     protected:
+        /**
+         * @brief       paintEvent
+         *
+         * @details     Overridden paintEvent for drawing widget
+         *
+         * @param[in]   event           The event information
+         *
+         */
         virtual void paintEvent(QPaintEvent *event);
+
+        /**
+         * @brief       tabSizeHint
+         *
+         * @details     Overridden paintEvent for size widget
+         *
+         * @param[in]   index           The index of the tab
+         *
+         * @return      the calculated size hint for the tab
+         *
+         */
         virtual QSize tabSizeHint(int index) const;
 
+        /**
+         * @brief       eventFilter
+         *
+         * @details     handles widget events passed from Qt
+         *
+         * @param[in]   obj             object that caused the event
+         * @param[in]   event           the event information
+         *
+         * @return      true if event has handled, otherwise false
+         */
         bool eventFilter(QObject * obj, QEvent * event);
 
     private:
