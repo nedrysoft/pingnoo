@@ -25,6 +25,12 @@
 #include "IPAPIGeoIPProvider.h"
 #include "ComponentSystem/IComponentInterface.h"
 
+/**
+ * @brief       IPAPIGeoIPProviderComponent class
+ *
+ * @details     Implements a GEO IP lookup provider using ipapi.com
+ *
+ */
 class FIZZYADE_IPAPIGEOIPPROVIDER_DLLSPEC IPAPIGeoIPProviderComponent :
     public QObject,
     public FizzyAde::ComponentSystem::IComponentInterface
@@ -34,9 +40,22 @@ class FIZZYADE_IPAPIGEOIPPROVIDER_DLLSPEC IPAPIGeoIPProviderComponent :
     Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
 
 public:
+    /**
+     * @brief Constructor
+     *
+     */
     IPAPIGeoIPProviderComponent();
+
+    /**
+     * @brief Destructor
+     *
+     */
     ~IPAPIGeoIPProviderComponent();
 
+    /**
+     * @sa          FizzyAde::ComponentSystem::IComponentInterface
+     *
+     */
     virtual void initialiseEvent();
 
 private:

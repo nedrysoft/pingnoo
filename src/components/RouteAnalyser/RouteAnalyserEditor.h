@@ -37,14 +37,13 @@ namespace FizzyAde::RouteAnalyser
     class RouteAnalyserComponent;
 
     /**
-     * Definition for the built in host masker
+     * @brief       Definition for the built in host masker
      *
-     * This host marker accepts a regular expression to match the host name
-     * or address and allows the masked output to be generated using capture
-     * groups
+     * @details     This host marker accepts a regular expression to match the host name
+     *              or address and allows the masked output to be generated using capture
+     *              groups
      *
      */
-
     class RouteAnalyserEditor :
         public FizzyAde::Core::IEditor,
         public FizzyAde::Core::IConfiguration
@@ -90,14 +89,14 @@ namespace FizzyAde::RouteAnalyser
         void setInterval(double interval);
 
         /**
-         * @sa IEditor
+         * @sa          IEditor
          *
          */
         virtual QWidget *widget();
         virtual QString displayName();
 
         /**
-         * @sa IConfiguration
+         * @sa          IConfiguration
          *
          */
         virtual QJsonObject saveConfiguration();

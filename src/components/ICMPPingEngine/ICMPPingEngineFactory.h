@@ -31,12 +31,11 @@ namespace FizzyAde::ICMPPingEngine {
     class ICMPPingEngine;
 
     /**
-     * Factory class for ICMPPingEngine
+     * @brief       Factory class for ICMPPingEngine
      *
-     * Creates instances of ICMPPingEngine
+     * @details     The factory class for creating instances of the ICMPPingEngine type
      *
      */
-
     class ICMPPingEngineFactory :
         public FizzyAde::Core::IPingEngineFactory
     {
@@ -45,18 +44,27 @@ namespace FizzyAde::ICMPPingEngine {
         Q_INTERFACES(FizzyAde::Core::IPingEngineFactory)
 
     public:
+        /**
+         * @brief       Constructor
+         *
+         */
         ICMPPingEngineFactory();
+
+        /**
+         * @brief       Destructor
+         *
+         */
         ~ICMPPingEngineFactory();
 
         /**
-         * @sa IPingEngineFactory
+         * @sa          IPingEngineFactory
          *
          */
         virtual FizzyAde::Core::IPingEngine *createEngine(FizzyAde::Core::IPVersion version);
         virtual QString description();
 
         /**
-         * @sa IConfiguration
+         * @sa          IConfiguration
          *
          */
         virtual QJsonObject saveConfiguration();

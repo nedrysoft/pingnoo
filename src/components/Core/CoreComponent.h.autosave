@@ -18,21 +18,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ROUTEANALYSER_ROUTEANALYSERCOMPONENT_H
-#define FIZZYADE_ROUTEANALYSER_ROUTEANALYSERCOMPONENT_H
+#ifndef FIZZYADE_CORE_CORECOMPONENT_H
+#define FIZZYADE_CORE_CORECOMPONENT_H
 
-#include "RouteAnalyserSpec.h"
 #include "ComponentSystem/IComponentInterface.h"
-#include "RouteAnalyserEditor.h"
+#include "CoreSpec.h"
 
 /**
- * @brief       RouteAnalyserComponent class
+ * @brief       Core component
  *
- * @details     This component provides a route analyser implementation which
- *              discovers the route to a host
+ * @details     The core component provides the SDK base for the application, it provides the core
+ *              mechanisms that allow other components to extend the application
  *
  */
-class FIZZYADE_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
+class FIZZYADE_CORE_DLLSPEC CoreComponent :
     public QObject,
     public FizzyAde::ComponentSystem::IComponentInterface
 {
@@ -44,28 +43,17 @@ class FIZZYADE_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
 
 public:
     /**
-     * @brief Constructor
+     * @brief       Constructor
      *
      */
-    RouteAnalyserComponent();
+    CoreComponent() = default;
 
     /**
-     * @brief Destructor
-     *
-     */
-    ~RouteAnalyserComponent();
-
-    /**
-     * @sa          FizzyAde::ComponentSystem::IComponentInterface
+     * @sa          IComponentInterface
      *
      */
     virtual void initialiseEvent();
     virtual void initialisationFinishedEvent();
-
-    friend class FizzyAde::RouteAnalyser::RouteAnalyserEditor;
-
-private:
-    int m_editorContextId = 0;
 };
 
-#endif // FIZZYADE_ROUTEANALYSER_ROUTEANALYSERCOMPONENT_H
+#endif // FIZZYADE_CORE_CORECOMPONENT_H

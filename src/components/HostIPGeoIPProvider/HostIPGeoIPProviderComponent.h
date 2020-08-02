@@ -29,6 +29,12 @@ namespace FizzyAde::HostIPGeoIPProvider
     class HostIPGeoIPProvider;
 }
 
+/**
+ * @brief       HostIPGeoIPProviderComponent class
+ *
+ * @details     Implements a GEO IP lookup provider using hostip.com
+ *
+ */
 class FIZZYADE_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
     public QObject,
     public FizzyAde::ComponentSystem::IComponentInterface
@@ -38,9 +44,22 @@ class FIZZYADE_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
     Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
 
 public:
+    /**
+     * @brief Constructor
+     *
+     */
     HostIPGeoIPProviderComponent();
+
+    /**
+     * @brief Destructor
+     *
+     */
     ~HostIPGeoIPProviderComponent();
 
+    /**
+     * @sa FizzyAde::ComponentSystem::IComponentInterface
+     *
+     */
     virtual void initialiseEvent();
 
 private:

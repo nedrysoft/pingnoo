@@ -27,16 +27,23 @@
 namespace FizzyAde::ComponentSystem
 {
     /**
-     * Root IInterface definition
+     * @brief       Root IInterface definition
+     *
+     * @details     All objects that reside in the component system should inherit this
+     *              interface for future compatability.
+     *
      */
-
     class COMPONENT_SYSTEM_DLLSPEC IInterface :
         public QObject
     {
         Q_OBJECT
 
     public:
-        virtual ~IInterface() {}
+        /**
+         * @brief Destructor
+         *
+         */
+        virtual ~IInterface() = default;
 
     };
 }

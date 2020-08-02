@@ -29,19 +29,47 @@
 
 namespace FizzyAde::Core
 {
+    /**
+     * @brief       Interface definition of of the core component object
+     *
+     * @details     provides a mechanism for components to know when the system has
+     *              been initialised, including access to core objects.
+     *
+     */
     class FIZZYADE_CORE_DLLSPEC ICore :
         public FizzyAde::ComponentSystem::IInterface
     {
         Q_OBJECT
 
     public:
+        /**
+         * @brief       Returns the ICore instance
+         *
+         */
         static ICore *getInstance()
         {
             return ComponentSystem::getObject<ICore>();
         }
 
+        /**
+         * @brief       Returns the main window object
+         *
+         * @details     Returns a pointer to a QMainWindow object which is the main window of
+         *              the application
+         *
+         * @return      the QMainWindow pointer
+         *
+         */
         virtual QMainWindow *mainWindow() = 0;
 
+        /**
+         * @brief       Core opened signal
+         *
+         * @details     The signal is emitted after all plugins have been loaded and initialised, allows
+         *              components to do post-initialisation functions knowing that all plugins have
+         *              initialised
+         *
+         */
         Q_SIGNAL void coreOpened(void);
     };
 

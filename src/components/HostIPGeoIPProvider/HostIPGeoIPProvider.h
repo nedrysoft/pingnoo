@@ -32,14 +32,12 @@ namespace FizzyAde::HostIPGeoIPProvider
     class Cache;
 
     /**
-     * Definition for the built in host masker
+     * @brief       Definition for the built in host masker
      *
-     * This host marker accepts a regular expression to match the host name
-     * or address and allows the masked output to be generated using capture
-     * groups
+     * @details     This FizzyAde::Core::IGeoIPProvider provides a country lookup
+     *              for IP addresses using hostip.com
      *
      */
-
     class HostIPGeoIPProvider :
         public FizzyAde::Core::IGeoIPProvider
     {
@@ -48,13 +46,22 @@ namespace FizzyAde::HostIPGeoIPProvider
         Q_INTERFACES(FizzyAde::Core::IGeoIPProvider)
 
     public:
+        /**
+         * @brief       Constructor
+         *
+         */
         HostIPGeoIPProvider();
+
+        /**
+         * @brief       Destructor
+         *
+         */
         ~HostIPGeoIPProvider();
 
         /**
-         * @sa IGeoIPProvider
+         * @sa          IGeoIPProvider
+         *
          */
-
         virtual void lookup(const QString host);
         virtual void lookup(const QString host, FizzyAde::Core::GeoFunction function);
 

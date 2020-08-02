@@ -32,13 +32,12 @@ namespace FizzyAde::Core
     typedef QList<QHostAddress> RouteList;
 
     /**
-     * Interface definition of a route discovery engine
+     * @brief       Interface definition of a route discovery engine
      *
-     * Provides the means of discovering the route to a
-     * given host
+     * @details     Provides the means of discovering the route to a
+     *              given host
      *
      */
-
     class FIZZYADE_CORE_DLLSPEC IRouteEngine :
         public FizzyAde::ComponentSystem::IInterface
     {
@@ -47,10 +46,14 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::ComponentSystem::IInterface)
 
     public:
-         virtual ~IRouteEngine() {}
+         /**
+         * @brief       Constructor
+         *
+         */
+         virtual ~IRouteEngine() = default;
 
         /**
-         * Starts route discovery for a host
+         * @brief       Starts route discovery for a host
          *
          * @param[in]   host        the host name or address to be traced
          * @param[in]   ipVersion   the IP version to be used for the trace
@@ -59,7 +62,7 @@ namespace FizzyAde::Core
         virtual void findRoute(QString host, FizzyAde::Core::IPVersion ipVersion) = 0;
 
         /**
-         * Signal emitted when the route discovery is completed
+         * @brief       Signal emitted when the route discovery is completed
          *
          * @param[in]   result      the discovered route
          *

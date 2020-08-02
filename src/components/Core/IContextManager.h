@@ -33,29 +33,73 @@ namespace FizzyAde::Core
     constexpr int GlobalContext = 0;
 
     /**
-     * Interface definition of an application context manager
+     * @brief       Interface definition of an application context manager
      *
-     * Manages the context of the application.  A context is a state
-     * that the application is in, menu commands are routed appropriately
-     * according to the current context.
+     * @details     Manages the context of the application.  A context is a state
+     *              that the application is in, menu commands are routed appropriately
+     *              according to the current context.
      *
      */
-
     class FIZZYADE_CORE_DLLSPEC IContextManager :
         public FizzyAde::ComponentSystem::IInterface
     {
         Q_OBJECT
 
     public:
+        /**
+         * @brief       Returns the IContextManager instance
+         *
+         */
         static IContextManager *getInstance()
         {
             return ComponentSystem::getObject<IContextManager>();
         }
 
+        /**
+         * @brief       Registers a context with the system
+         *
+         * @details     A context represents a state that the software enters, usually when an editor has
+         *              focus.  The context manager nmaintains this providing a mechanism to update menus
+         *              the reflect the current context state.
+         *
+         * @param[in]   contextIdentifier      the id of the new context
+         *
+         * @return      the numeric identifier of this context
+         *
+         */
         virtual int registerContext(QString contextIdentifier) = 0;
+
+        /**
+         * @brief       Sets the current context
+         *
+         * @details     Sets the currently active context to the given identier
+         *
+         * @param[in]   contextIdentifier      the id of the context being activated
+         *
+         * @return      the status of the context switch
+         *
+         */
         virtual int setContext(int contextIdentifier) = 0;
+
+        /**
+         * @brief       Returns the current context identifier
+         *
+         * @details     Gets the currently active context
+         *
+         * @return      the context identifier
+         *
+         */
         virtual int context() = 0;
 
+        /**
+         * @brief       Context changed signal
+         *
+         * @details     Emitted when the context manager switches context
+         *
+         * @param[in]   newContext          The newly activated context
+         * @param[in]   previousContext     The previous selected context
+         *
+         */
         Q_SIGNAL void contextChanged(int newContext, int previousContext);
     };
 }

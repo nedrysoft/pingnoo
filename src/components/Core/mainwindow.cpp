@@ -293,7 +293,7 @@ void FizzyAde::Core::MainWindow::addMenuCommand(QString commandId, QString menuI
         groupId = Pingnoo::Constants::defaultGroupTop;
     }
 
-    menu->addCommand(command, groupId);
+    menu->appendCommand(command, groupId);
 }
 
 void FizzyAde::Core::MainWindow::on_toolButton_clicked()

@@ -29,6 +29,12 @@ namespace FizzyAde::ICMPPingEngine
     class ICMPPingEngineFactory;
 }
 
+/**
+ * @brief       ICMPPingComponent class
+ *
+ * @details     Implements an ICMP ping (for all platforms)
+ *
+ */
 class FIZZYADE_ICMPPINGENGINE_DLLSPEC ICMPPingComponent :
     public QObject,
     public FizzyAde::ComponentSystem::IComponentInterface
@@ -38,9 +44,22 @@ class FIZZYADE_ICMPPINGENGINE_DLLSPEC ICMPPingComponent :
     Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
 
 public:
+    /**
+     * @brief       Constructor
+     *
+     */
     ICMPPingComponent();
+
+    /**
+     * @brief       Destructor
+     *
+     */
     ~ICMPPingComponent();
 
+    /**
+     * @sa          FizzyAde::ComponentSystem::IComponentInterface
+     *
+     */
     virtual void initialiseEvent();
 
 private:

@@ -33,19 +33,78 @@
 
 namespace FizzyAde
 {
+    /**
+     * @brief           FontAwesome library
+     *
+     * @details         Provides helper functions to make use of the FontAwesome library
+     *
+     */
     class FIZZYADE_FONTAWESOME_DLLSPEC FontAwesome
     {
         private:
+            /**
+             * @brief       get the singleton instance of the font awesome object
+             *
+             * @return      the singleton object
+             */
             static FontAwesome *getInstance();
+
+            /**
+             * @brief       Constructor
+             *
+             */
             FontAwesome();
 
         public:
 
+            /**
+             * @brief       brandsName
+             *
+             * @return      the name of the brands font
+             *
+             */
             static QString brandsName();
+
+            /**
+             * @brief       regularName
+             *
+             * @return      the name of the regular font
+             *
+             */
             static QString regularName();
+
+            /**
+             * @brief       solidName
+             *
+             * @return      the name of the solid font
+             *
+             */
             static QString solidName();
 
+            /**
+             * @brief       richText
+             *
+             * @details     takes a QString with tags in [fas|fab|far <glyph name>] and produces a HTML rich text
+             *              which then includes the respective font awesome glyhs in
+             *
+             * @param[in]   string          text to convert
+             *
+             * @return      the resulting rich text
+             *
+             */
             static QString richText(QString string);
+
+            /**
+             * @brief       icon
+             *
+             * @details     creates q QIcon from the font-awesome glyph in the appropriate colour
+             *
+             * @param[in]   glpyhName       the name of the font awesome glpyh
+             * @param[in]   pointSize       size in points
+             * @param[in]   colour          the colour for the resulting glyph
+             *
+             * @return      the created QIcon
+             */
             static QIcon icon(QString glpyhName, int pointSize, QColor colour);
 
         private:

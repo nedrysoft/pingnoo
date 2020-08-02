@@ -52,7 +52,7 @@ namespace FizzyAde::Core
         CommandManager();
 
         /**
-         * @sa ICommandManager
+         * @sa          ICommandManager
          *
          */
         virtual FizzyAde::Core::ICommand *registerAction(QAction *action, QString id, const FizzyAde::Core::ContextList &contexts);

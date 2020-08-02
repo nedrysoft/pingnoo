@@ -29,8 +29,6 @@
 
 namespace FizzyAde::RegExHostMasker
 {
-    //FIZZYADE_PINGNOO_REGEXHOSTMASKER_DLLSPEC Q_NAMESPACE
-
     class RegExHostMaskerItem
     {
     public:
@@ -45,14 +43,13 @@ namespace FizzyAde::RegExHostMasker
     };
 
     /**
-     * Definition for the regex host masker
+     * @brief       Definition for the regex host masker
      *
-     * This host marker accepts a regular expression to match the host name
-     * or address and allows the masked output to be generated using capture
-     * groups
+     * @details     This host marker accepts a regular expression to match the host name
+     *              or address and allows the masked output to be generated using capture
+     *              groups
      *
      */
-
     class RegExHostMasker :
         public FizzyAde::Core::IHostMasker
     {
@@ -71,7 +68,7 @@ namespace FizzyAde::RegExHostMasker
 
     public:
         /**
-         * Adds a host name match mask
+         * @brief       Adds a host name match mask
          *
          * @param[in]   matchFlags              a bit mask of values from MatchFlags
          * @param[in]   matchExpression         the regular expression used for name matching
@@ -82,13 +79,13 @@ namespace FizzyAde::RegExHostMasker
         void add(unsigned int matchFlags, QString matchExpression, QString replacementString, QString hopString=QString());
 
         /**
-         * @sa IHostMasker
+         * @sa          IHostMasker
          *
          */
         virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress);
 
         /**
-         * @sa IConfiguration
+         * @sa          IConfiguration
          *
          */
         virtual QJsonObject saveConfiguration();
@@ -96,7 +93,7 @@ namespace FizzyAde::RegExHostMasker
 
     private:
         /**
-         * Attempts to apply a mask to a string
+         * @brief       Attempts to apply a mask to a string
          *
          * @param[in]   hop                     the hop number
          * @param[in]   hostName                the host name to be checked

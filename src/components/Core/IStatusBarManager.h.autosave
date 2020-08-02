@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_IRIBBONBARMANAGER_H
-#define FIZZYADE_CORE_IRIBBONBARMANAGER_H
+#ifndef FIZZYADE_CORE_ISTATUSBARMANAGER_H
+#define FIZZYADE_CORE_ISTATUSBARMANAGER_H
 
 #include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
@@ -28,26 +28,26 @@
 namespace FizzyAde::Core
 {
     /**
-     * @brief       IRibbonBarManager interface
+     * @brief       Status Bar Interface
      *
-     * @details     IRibbonBarManager handles the management of status bars
+     * @details     IStatusBarManager handles the management of status bars
      *
      */
-    class FIZZYADE_CORE_DLLSPEC IRibbonBarManager :
+    class FIZZYADE_CORE_DLLSPEC IStatusBarManager :
         public FizzyAde::ComponentSystem::IInterface
     {
         Q_OBJECT
 
     public:
         /**
-         * Returns the IRibbonBarManager instance
+         * @brief       Returns the IStatusBarManager instance
          *
-         * @return      the IRibbonBarManager singleton instance
+         * @return      the IStatusBarManager singleton instance
          *
          */
-        static IRibbonBarManager *getInstance()
+        static IStatusBarManager *getInstance()
         {
-            return ComponentSystem::getObject<IRibbonBarManager>();
+            return ComponentSystem::getObject<IStatusBarManager>();
         }
 
     public:
@@ -55,6 +55,6 @@ namespace FizzyAde::Core
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::IRibbonBarManager, "com.fizzyade.core.IRibbonBarManager/1.0.0")
+Q_DECLARE_INTERFACE(FizzyAde::Core::IStatusBarManager, "com.fizzyade.core.IStatusBarManager/1.0.0")
 
-#endif // FIZZYADE_CORE_IRIBBONBARMANAGER_H
+#endif // FIZZYADE_CORE_ISTATUSBARMANAGER_H

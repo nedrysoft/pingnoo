@@ -34,14 +34,13 @@ namespace FizzyAde::ComponentSystem
     class Component;
 
     /**
-     * Component Loader
+     * @brief       Component Loader
      *
-     * Generic plugin loader, finds compatible components in a given folder
-     * and using the metadatav ensures that any dependencies are available and
-     * that all dependencies are loaded in the correct order.
+     * @details     Generic plugin loader, finds compatible components in a given folder
+     *              and using the metadatav ensures that any dependencies are available and
+     *              that all dependencies are loaded in the correct order.
      *
      */
-
     class COMPONENT_SYSTEM_DLLSPEC ComponentLoader :
         public QObject
     {
@@ -49,9 +48,9 @@ namespace FizzyAde::ComponentSystem
 
     public:
         /**
-         * LoadStatus
+         * @brief       LoadStatus
          *
-         * Bit flags for load status
+         * @details     Bit flags for load status
          *
          */
         enum LoadStatus
@@ -68,24 +67,24 @@ namespace FizzyAde::ComponentSystem
 
     public:
         /**
-         * Constructor
+         * @brief       Constructor
          *
-         * @param[in] parent parent object
+         * @param[in]   parent          parent object
          *
          */
         explicit ComponentLoader(QObject *parent = nullptr);
 
         /**
-         * Destructor
+         * @brief       Destructor
          *
          */
         ~ComponentLoader();
 
         /**
-         * addComponents
+         * @brief       addComponents
          *
-         * Searches the given directory and adds any loadable
-         * components to the list of components to be loaded
+         * @details     Searches the given directory and adds any loadable
+         *              components to the list of components to be loaded
          *
          * @param[in]   componentFolder         Search folder
          *
@@ -93,20 +92,20 @@ namespace FizzyAde::ComponentSystem
         void addComponents(const QString &componentFolder);
 
         /**
-         * loadComponents
+         * @brief       loadComponents
          *
-         * Loads the components
+         * @details     Loads the components
          *
          */
         void loadComponents(std::function <bool (FizzyAde::ComponentSystem::Component *)> loadFunction = nullptr);
 
         /**
-         * components
+         * @brief       components
          *
-         * Returns the list of components that were found, the state
-         * of whether the component was loaded is updated along with
-         * an error code for each component if a component could not
-         * be loaded.
+         * @details     Returns the list of components that were found, the state
+         *              of whether the component was loaded is updated along with
+         *              an error code for each component if a component could not
+         *              be loaded.
          *
          * @return      List of components
          *
@@ -115,11 +114,11 @@ namespace FizzyAde::ComponentSystem
 
     private:
         /**
-         * resolve
+         * @brief       resolve
          *
-         * For a given component, returns a list of components in the order
-         * that they must be loaded in order to satisfy all component and
-         * sub component dependencies.
+         * @details     For a given component, returns a list of components in the order
+         *              that they must be loaded in order to satisfy all component and
+         *              sub component dependencies.
          *
          * @param[in]   component           the component to resolve
          * @param[out]  resolvedList        ordered list of components
@@ -128,14 +127,14 @@ namespace FizzyAde::ComponentSystem
         void resolve(FizzyAde::ComponentSystem::Component *component, QList<FizzyAde::ComponentSystem::Component *> &resolvedList);
 
         /**
-         * resolve
+         * @brief           resolve
          *
-         * For a given component, returns a list of components in the order
-         * that they must be loaded in order to satisfy all component and
-         * sub component dependencies.
+         * @details         For a given component, returns a list of components in the order
+         *                  that they must be loaded in order to satisfy all component and
+         *                  sub component dependencies.
          *
-         * This overload uses a list to mark nodes as already processed, this
-         * allows us to detect circular references.
+         *                  This overload uses a list to mark nodes as already processed, this
+         *                  allows us to detect circular references.
          *
          * @param[in]       component           the component to resolve
          * @param[in,out]   processedList       list of nodes that have already been processed

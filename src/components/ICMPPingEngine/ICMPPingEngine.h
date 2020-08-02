@@ -31,13 +31,12 @@ namespace FizzyAde::ICMPPingEngine
     class ICMPPingItem;
 
     /**
-     * IPingEngine implementation for ICMP
+     * @brief       IPingEngine implementation for ICMP
      *
-     * Implements the IPingEngine interface to implement a ping engine
-     * that uses ICMP echo packets for measurements.
+     * @details     Implements the IPingEngine interface to implement a ping engine
+     *              that uses ICMP echo packets for measurements.
      *
      */
-
     class ICMPPingEngine :
         public FizzyAde::Core::IPingEngine
     {
@@ -47,7 +46,7 @@ namespace FizzyAde::ICMPPingEngine
 
     public:
         /**
-         * Constructor
+         * @brief       Constructor
          *
          * @param[in]   version         Whether this is IPv4 or IPv6
          *
@@ -61,7 +60,7 @@ namespace FizzyAde::ICMPPingEngine
         ~ICMPPingEngine();
 
         /**
-         * @sa IPingEngine
+         * @sa          IPingEngine
          *
          */
         virtual bool setInterval(std::chrono::milliseconds interval);
@@ -76,7 +75,7 @@ namespace FizzyAde::ICMPPingEngine
         virtual std::chrono::system_clock::time_point epoch();
 
         /**
-         * @sa IConfiguration
+         * @sa          IConfiguration
          *
          */
         virtual QJsonObject saveConfiguration();
@@ -84,17 +83,17 @@ namespace FizzyAde::ICMPPingEngine
 
     protected:
         /**
-         * Deletes timed out requests and emits timeout results
+         * @brief       Deletes timed out requests and emits timeout results
          *
-         * Called from the timeout thread.
+         * @details     Called from the timeout thread.
          *
-         * @sa FZICMPPingTimeout
+         * @sa          FZICMPPingTimeout
          *
          */
         void timeoutRequests(void);
 
         /**
-         * Adds a ping request to the engine so it can be tracked
+         * @brief       Adds a ping request to the engine so it can be tracked
          *
          * @param[in]   pingItem        the item to be tracked
          *
@@ -102,7 +101,7 @@ namespace FizzyAde::ICMPPingEngine
         void addRequest(FizzyAde::ICMPPingEngine::ICMPPingItem *pingItem);
 
         /**
-         * Removes a tracked request and deletes the item
+         * @brief       Removes a tracked request and deletes the item
          *
          * @param[in]   pingItem        the item to be removed
          *
@@ -110,9 +109,9 @@ namespace FizzyAde::ICMPPingEngine
         void removeRequest(FizzyAde::ICMPPingEngine::ICMPPingItem *pingItem);
 
         /**
-         * Finds a tracked request by id
+         * @brief       Finds a tracked request by id
          *
-         * The id is (icmp_id<<16) | icmp_sequence_id
+         * @details     The id is (icmp_id<<16) | icmp_sequence_id
          *
          * @param[in]   id              the request to find
          *
@@ -122,7 +121,7 @@ namespace FizzyAde::ICMPPingEngine
         FizzyAde::ICMPPingEngine::ICMPPingItem *getRequest(uint32_t id);
 
         /**
-         * Sets the transmission epoch
+         * @brief       Sets the transmission epoch
          *
          * @param[in]   epoch           the epoch
          *
@@ -130,7 +129,7 @@ namespace FizzyAde::ICMPPingEngine
         void setEpoch(std::chrono::system_clock::time_point epoch);
 
         /**
-         * Returns the IP version of the engine
+         * @brief       Returns the IP version of the engine
          *
          * @return      IP version
          *

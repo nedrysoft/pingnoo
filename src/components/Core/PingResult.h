@@ -32,12 +32,11 @@ namespace FizzyAde::Core
     class IPingTarget;
 
     /**
-     * Ping result
+     * @brief       Ping result
      *
-     * Holds the result of a ping request/response/timeout, this is
-     * passed as a parameter by the ping engine.
+     * @details     Holds the result of a ping request/response/timeout, this is
+     *              passed as a parameter by the ping engine.
      */
-
     class FIZZYADE_CORE_DLLSPEC PingResult
     {
 
@@ -52,11 +51,20 @@ namespace FizzyAde::Core
             TimeExceeded
         };
 
+        /**
+          * @brief       Constructor
+          *
+          */
         PingResult();
+
+        /**
+          * @brief       Destructor
+          *
+          */
         ~PingResult();
 
         /**
-         * Constructs a FZPingResult with parameters
+         * @brief       Constructs a FZPingResult with parameters
          *
          * @param[in]   sampleNumber        the count which this result is associated with
          * @param[in]   code                the result code
@@ -71,7 +79,7 @@ namespace FizzyAde::Core
     public:
 
         /**
-         * The sample number of the request
+         * @brief       The sample number of the request
          *
          * @return      the sample number
          *
@@ -79,7 +87,7 @@ namespace FizzyAde::Core
         unsigned long sampleNumber();
 
         /**
-         * The time of the response
+         * @brief       The time of the response
          *
          * @return      the reply time
          *
@@ -87,7 +95,7 @@ namespace FizzyAde::Core
         std::chrono::system_clock::time_point requestTime();
 
         /**
-         * The result code
+         * @brief       The result code
          *
          * @return      the result number
          *
@@ -95,12 +103,12 @@ namespace FizzyAde::Core
         PingResultCode code();
 
         /**
-         * The host address of the reply
+         * @brief       The host address of the reply
          *
-         * This may differ from the target ip address, if the TTL of the
-         * request was less than the number of hops to the target then
-         * a time exceeded response will be returned and the IP of last hop
-         * that responded will be returned
+         * @details     This may differ from the target ip address, if the TTL of the
+         *              request was less than the number of hops to the target then
+         *              a time exceeded response will be returned and the IP of last hop
+         *              that responded will be returned
          *
          * @return      the IP address of the reply
          *
@@ -108,9 +116,9 @@ namespace FizzyAde::Core
         QHostAddress hostAddress();
 
         /**
-         * The round trip time
+         * @brief       The round trip time
          *
-         * The round trip time from the packet being sent to the response
+         * @details     The round trip time from the packet being sent to the response
          *
          * @return      the round trip time
          *
@@ -118,7 +126,7 @@ namespace FizzyAde::Core
         std::chrono::duration<double> roundTripTime();
 
         /**
-         * The target assosciated with this result
+         * @brief       The target assosciated with this result
          *
          * @return      the target
          *

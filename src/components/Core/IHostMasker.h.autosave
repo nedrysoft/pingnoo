@@ -50,7 +50,7 @@ namespace FizzyAde::Core
     public:
 
         /**
-         * Replaces a host name/ip
+         * @brief       Replaces a host name/ip
          *
          * @param[in]   hop                 the hop number for this host & address
          * @param[in]   hostName            the host name to be checked

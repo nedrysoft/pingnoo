@@ -32,26 +32,25 @@ namespace FizzyAde::RouteAnalyser
     class PingData;
 
     /**
-     * Route table graph item delegate
+     * @brief       Route table graph item delegate
      *
-     * Delegate used to draw the graph item in the
-     * route table
+     * @details     Delegate used to draw the graph item in the
+     *              route table
      *
      */
-
     class RouteTableItemDelegate :
         public QStyledItemDelegate
     {
     public:
 
         /**
-         * Default constructor
+         * @brief       Constructor
          *
          */
         RouteTableItemDelegate(QWidget *parent=0);
 
         /**
-         * Overridden paint function to draw the graph item
+         * @brief       paint implementation to draw the graph item
          *
          */
         void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
@@ -59,12 +58,12 @@ namespace FizzyAde::RouteAnalyser
     private:
 
         /**
-         * Finds a route item sibling
+         * @brief       Finds a route item sibling
          *
-         * Finds the previous or next valid item in the route list, a valid
-         * item is a hop that responded to the ping, ignores items that did
-         * not respond.  Will return invalid model indexes if there is not a
-         * previous/next item that is valid.
+         * @details     Finds the previous or next valid item in the route list, a valid
+         *              item is a hop that responded to the ping, ignores items that did
+         *              not respond.  Will return invalid model indexes if there is not a
+         *              previous/next item that is valid.
          *
          * @param[in]   modelIndex          the starting model index
          * @param[in]   adjustment          set to 1 to look for the next valud, -1 for previous
@@ -75,10 +74,10 @@ namespace FizzyAde::RouteAnalyser
         QModelIndex getSibling(QModelIndex modelIndex, int adjustment) const;
 
         /**
-         * Gets the route sibling data
+         * @brief       Gets the route sibling data
          *
-         * calls getSibling, but returns the PingData associated with the sibling
-         * and the visual rectangle as well.
+         * @details     calls getSibling, but returns the PingData associated with the sibling
+         *              and the visual rectangle as well.
          *
          * @param[in]   modelIndex          the starting model index
          * @param[in]   adjustment          set to 1 to look for the next valud, -1 for previous
@@ -91,7 +90,7 @@ namespace FizzyAde::RouteAnalyser
         FizzyAde::RouteAnalyser::PingData *getSiblingData(QModelIndex modelIndex, int adjustment, const QTableView *tableView, QRect &rect) const;
 
         /**
-         * Paints the graph column
+         * @brief       Paints the graph column
          *
          * @param[in]   pingData            the data for the item
          * @param[in]   painter             the QPainter to draw to
@@ -102,7 +101,7 @@ namespace FizzyAde::RouteAnalyser
         void paintGraph(FizzyAde::RouteAnalyser::PingData *pingData, QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
         /**
-         * Paints the background of a cell
+         * @brief       Paints the background of a cell
          *
          * @param[in]   pingData            the data for the item
          * @param[in]   painter             the QPainter to draw to
@@ -113,7 +112,7 @@ namespace FizzyAde::RouteAnalyser
         void paintBackground(FizzyAde::RouteAnalyser::PingData *pingData, QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
         /**
-         * Paints the location column
+         * @brief       Paints the location column
          *
          * @param[in]   pingData            the data for the item
          * @param[in]   painter             the QPainter to draw to
@@ -124,7 +123,7 @@ namespace FizzyAde::RouteAnalyser
         void paintLocation(FizzyAde::RouteAnalyser::PingData *pingData, QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
         /**
-         * Paints an invalid hop cell
+         * @brief       Paints an invalid hop cell
          *
          * @param[in]   pingData            the data for the item
          * @param[in]   painter             the QPainter to draw to
@@ -135,7 +134,7 @@ namespace FizzyAde::RouteAnalyser
         void paintInvalidHop(FizzyAde::RouteAnalyser::PingData *pingData, QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
         /**
-         * Paints the bubble for hops
+         * @brief       Paints the bubble for hops
          *
          * @param[in]   pingData            the data for the item
          * @param[in]   painter             the QPainter to draw to
@@ -147,7 +146,7 @@ namespace FizzyAde::RouteAnalyser
         void paintBubble(FizzyAde::RouteAnalyser::PingData *pingData, QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index, QRgb bubbleColour) const;
 
         /**
-         * Paints the hop column
+         * @brief       Paints the hop column
          *
          * @param[in]   pingData            the data for the item
          * @param[in]   painter             the QPainter to draw to
@@ -158,10 +157,10 @@ namespace FizzyAde::RouteAnalyser
         void paintHop(FizzyAde::RouteAnalyser::PingData *pingData, QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
         /**
-         * getInterpolatedColour
+         * @brief       getInterpolatedColour
          *
-         * Takes a list of <double, QColor> items and a value
-         * and returns the colour for that point
+         * @details     Takes a list of <double, QColor> items and a value
+         *              and returns the colour for that point
          *
          * @param[in]   keyFrames           the key/colour pair for interpolation
          * @param[in]   value               the point to get the colour for
@@ -172,7 +171,7 @@ namespace FizzyAde::RouteAnalyser
         QRgb getInterpolatedColour(const QMap<double, QRgb> &keyFrames, double value) const;
 
         /**
-         * Paints text in a cell
+         * @brief       Paints text in a cell
          *
          * @param[in]   text                the text to paint
          * @param[in]   painter             the QPainter to draw to
@@ -185,8 +184,7 @@ namespace FizzyAde::RouteAnalyser
         void paintText(const QString &text, QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index, int alignment = Qt::AlignLeft | Qt::AlignVCenter, int flags = 0) const;
 
         /**
-         * Draws a latency line on the graph for the given data
-         * points in the given colour
+         * @brief       Draws a latency line on the graph for the given data points in the given colour
          *
          * @param[in]   field               the data field to use for drawing
          * @param[in]   pingData            the data for the item

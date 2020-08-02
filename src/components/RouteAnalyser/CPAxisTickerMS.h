@@ -26,19 +26,19 @@
 namespace FizzyAde::RouteAnalyser
 {
     /**
-     * Axis ticker class to convert to ms
+     * @brief       Axis ticker class to convert to ms
      *
-     * Displays double time in seconds as integer milliseconds
+     * @details     Axis ticker implemention for QCustomPlot that displays
+     *              double time in seconds as integer milliseconds
      *
      */
-
     class CPAxisTickerMS :
         public QCPAxisTicker
     {
     public:
 
         /**
-         * @sa QCPAxisTicker
+         * @sa          QCPAxisTicker
          */
         virtual QString getTickLabel(double tick, const QLocale &locale, QChar formatChar, int precision);
     };

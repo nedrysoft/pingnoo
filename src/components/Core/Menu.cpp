@@ -131,13 +131,32 @@ QAction *FizzyAde::Core::Menu::getAppendAction(QList<FizzyAde::Core::Menu::Group
     return nullptr;
 }
 
-void FizzyAde::Core::Menu::addCommand(FizzyAde::Core::ICommand *command, QString group)
+void FizzyAde::Core::Menu::insertCommand(FizzyAde::Core::ICommand *command, QString group)
 {
     if (!m_menu || !command) {
         return;
     }
 
     auto groupIterator = findGroup(group);
+
+    if (groupIterator == m_groupList.constEnd()) {
+        return;
+    }
+
+    auto nextAction = getInsertAction(groupIterator);
+
+    m_menu->insertAction(nextAction, command->action());
+
+    m_groupList[groupIterator-m_groupList.constBegin()].m_items.append(command);
+}
+
+void FizzyAde::Core::Menu::appendCommand(FizzyAde::Core::ICommand *command, QString groupIdentifier)
+{
+    if (!m_menu || !command) {
+        return;
+    }
+
+    auto groupIterator = findGroup(groupIdentifier);
 
     if (groupIterator == m_groupList.constEnd()) {
         return;

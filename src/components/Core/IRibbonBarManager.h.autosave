@@ -40,7 +40,7 @@ namespace FizzyAde::Core
 
     public:
         /**
-         * Returns the IRibbonBarManager instance
+         * @brief       Returns the IRibbonBarManager instance
          *
          * @return      the IRibbonBarManager singleton instance
          *

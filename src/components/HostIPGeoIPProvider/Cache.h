@@ -26,13 +26,41 @@
 
 namespace FizzyAde::HostIPGeoIPProvider
 {
+    /**
+     * @brief       Simple cache for GEO IP results
+     *
+     * @details     Provides a simple persistent database for GEOIP results
+     *              to prevent unneccesary lookups
+     *
+     */
     class Cache
     {
     public:
+        /**
+         * @brief   Constructor
+         */
         Cache();
+
+        /**
+         * @brief   Destructor
+         */
         ~Cache();
 
+        /**
+         * @brief           Add a lookup result to the database
+         *
+         * @param[in]       Json result
+         *
+         */
         void add(QJsonObject object);
+
+        /**
+         * @brief           Check if an IP is cached
+         *
+         * @param[in]       host to check
+         * @param[out]      json object containing the host information
+         *
+         */
         bool find(const QString &name, QJsonObject &object);
 
     protected:

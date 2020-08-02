@@ -28,13 +28,12 @@ namespace FizzyAde::ICMPPingEngine
     class ICMPPingEngine;
 
     /**
-     * ICMP packet timeout thread implementation
+     * @brief       ICMP packet timeout thread implementation
      *
-     * Created and used by the ICMP engine, the timeout thread
-     * calls the engine periodically to detect timed out requests
+     * @details     Created and used by the ICMP engine, the timeout thread
+     *              calls the engine periodically to detect timed out requests
      *
      */
-
     class ICMPPingTimeout : public QObject
     {
         Q_OBJECT
@@ -42,10 +41,10 @@ namespace FizzyAde::ICMPPingEngine
     public:
 
         /**
-         * Constructor with engine
+         * @brief       Constructor with engine
          *
-         * Creates the receiver object and passes in the engine
-         * so that the requests can be tagged to the correct engine
+         * @details     Creates the receiver object and passes in the engine
+         *              so that the requests can be tagged to the correct engine
          *
          * @param[in]   engine          the owner engine
          *
@@ -55,7 +54,7 @@ namespace FizzyAde::ICMPPingEngine
     public slots:
 
         /**
-         * The receiver thread worker
+         * @brief       The receiver thread worker
          *
          */
         void doWork(void);
@@ -63,7 +62,7 @@ namespace FizzyAde::ICMPPingEngine
     signals:
 
         /**
-         * Signals when a timeout result is available
+         * @brief       Signals when a timeout result is available
          *
          * @param[in]   result          the result
          *

@@ -31,13 +31,12 @@ namespace FizzyAde::Core
     }
 
     /**
-     * AboutDialog
+     * @brief       AboutDialog
      *
-     * Dialog that shows the the information about the current
-     * build of the software.
+     * @details     Dialog that shows the the information about the current
+     *              build of the software.
      *
      */
-
     class AboutDialog : public QDialog
     {
         Q_OBJECT
@@ -45,7 +44,7 @@ namespace FizzyAde::Core
     public:
 
         /**
-         * Constructor
+         * @brief       Constructor
          *
          * @param[in]   parent    parent widget
          *
@@ -53,14 +52,14 @@ namespace FizzyAde::Core
         explicit AboutDialog(QWidget *parent = nullptr);
 
         /**
-         * Destructor
+         * @brief       Destructor
          *
          */
         ~AboutDialog();
 
     private:
         /**
-         * Return compiler information
+         * @brief       Return compiler information
          *
          * @return      the compiler information
          *

@@ -34,13 +34,12 @@ namespace FizzyAde::RouteEngine
     class RouteWorker;
 
     /**
-     * IRouteEngine implementation
+     * @brief       IRouteEngine implementation
      *
-     * Implements the IRouteEngine to determine the list of
-     * hops between the source and target
+     * @details     Implements the IRouteEngine to determine the list of
+     *              hops between the source and target
      *
      */
-
     class RouteEngine :
         public FizzyAde::Core::IRouteEngine
     {
@@ -50,19 +49,19 @@ namespace FizzyAde::RouteEngine
 
     public:
         /**
-         * Constructor
+         * @brief       Constructor
          *
          */
         RouteEngine();
 
         /**
-         * destructor
+         * @brief       Destructor
          *
          */
         ~RouteEngine();
 
         /**
-         * @sa IRouteEngine
+         * @sa          IRouteEngine
          *
          */
         virtual void findRoute(QString host, FizzyAde::Core::IPVersion ipVersion=FizzyAde::Core::IPVersion::V4);

@@ -28,10 +28,10 @@
 namespace FizzyAde::ComponentSystem
 {
     /**
-     * IComponentManager
+     * @brief       IComponentManager
      *
-     * Singleton instance of the component manager, manages the storing of
-     * objects for any loaded component in a global "registry".
+     * @details     Singleton instance of the component manager, manages the storing of
+     *              objects for any loaded component in a global "registry".
      *
      */
     class COMPONENT_SYSTEM_DLLSPEC IComponentManager :
@@ -40,36 +40,49 @@ namespace FizzyAde::ComponentSystem
         Q_OBJECT
 
     private:
+        /**
+         * @brief       `Constructor
+         *
+         */
         IComponentManager() = default;
+
+        /**
+         * @brief       Destructor
+         *
+         */
         ~IComponentManager();
 
     public:
 
         /**
-         * Add an object to the object registry
+         * @brief       Add an object to the object registry
          *
-         * @param[in] object object to store
+         * @param[in]   object object to store
+         *
          */
         void addObject(QObject *object);
 
         /**
-         * Removes an object to the object registry
+         * @brief       Removes an object to the object registry
          *
-         * @param[in] object object to store
+         * @param[in]   object object to store
+         *
          */
         void removeObject(QObject *object);
 
         /**
-         * Return all objects
+         * @brief       Return all objects
          *
-         * @returns returns a list of all objects
+         * @returns     returns a list of all objects
+         *
          */
         QList<QObject *> allObjects();
 
         /**
-         * Returns the singleton instance to the ComponentManager object
+         * @brief       Returns the singleton instance to the ComponentManager object
          *
-         * @returns the singleton instance
+         * @returns     the singleton instance
+         *
          */
         static IComponentManager *getInstance();
 
@@ -79,18 +92,21 @@ namespace FizzyAde::ComponentSystem
 }
 
 /**
- * Convenience functions to manipulate the object registry
+ * @brief       Convenience functions to manipulate the object registry
  *
- * FizzyAde::ComponentSystem:addObject(object);
- * QList<QObject *> objectList = FizzyAde::ComponentSystem:allObjects();
- * auto object = FizzyAde::ComponentSystem:getObject<IInterface>();
- * QList<IInterface *> objectList = FizzyAde::ComponentSystem:getObjects<IInterface>();
+ * @example     FizzyAde::ComponentSystem:addObject(object);
+ *
+ *              QList<QObject *> objectList = FizzyAde::ComponentSystem:allObjects();
+ *
+ *              auto object = FizzyAde::ComponentSystem:getObject<IInterface>();
+ *
+ *              QList<IInterface *> objectList = FizzyAde::ComponentSystem:getObjects<IInterface>();
  *
  */
 namespace FizzyAde::ComponentSystem
 {
     /**
-     * Adds an object to the registry
+     * @brief       Adds an object to the registry
      *
      * @param[in]   object      the object
      *
@@ -101,7 +117,7 @@ namespace FizzyAde::ComponentSystem
     }
 
     /**
-     * Removes an object to the registry
+     * @brief       Removes an object to the registry
      *
      * @param[in]   object      the object
      *
@@ -112,9 +128,9 @@ namespace FizzyAde::ComponentSystem
     }
 
     /**
-     * Return all registered objects
+     * @brief       Return all registered objects
      *
-     * @return  the list of objects
+     * @return      the list of objects
      *
      */
     inline QList<QObject *> allObjects()
@@ -123,9 +139,9 @@ namespace FizzyAde::ComponentSystem
     }
 
     /**
-     * Return the first matching object of type T
+     * @brief       Return the first matching object of type T
      *
-     * @return  the object of type T
+     * @return      the object of type T
      *
      */
     template <typename T>
@@ -143,9 +159,9 @@ namespace FizzyAde::ComponentSystem
     }
 
     /**
-     * Returns all objects that implement type T
+     * @brief       Returns all objects that implement type T
      *
-     * @return  the list of objects implementing type T
+     * @return      the list of objects implementing type T
      *
      */
     template <typename T>

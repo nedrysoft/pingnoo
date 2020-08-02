@@ -25,6 +25,14 @@
 #include "ComponentSystem/IComponentInterface.h"
 #include "PublicIPHostMasker.h"
 
+/**
+ * @brief       PublicIPHostMaskerComponent class
+ *
+ * @details     This component provides a host masker implementation which
+ *              determines the public IP of the host and then masks this appropriately
+ *              where necessary.  This allows outputs to hide sensitive information.
+ *
+ */
 class FIZZYADE_PUBLICIPHOSTMASKER_DLLSPEC PublicIPHostMaskerComponent :
     public QObject,
     public FizzyAde::ComponentSystem::IComponentInterface
@@ -34,9 +42,22 @@ class FIZZYADE_PUBLICIPHOSTMASKER_DLLSPEC PublicIPHostMaskerComponent :
     Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
 
 public:
+    /**
+     * @brief       Constructor
+     *
+     */
     PublicIPHostMaskerComponent();
+
+    /**
+     * @brief       Destructor
+     *
+     */
     ~PublicIPHostMaskerComponent();
 
+    /**
+     * @sa          FizzyAde::ComponentSystem::IComponentInterface
+     *
+     */
     virtual void initialiseEvent();
 
 private:

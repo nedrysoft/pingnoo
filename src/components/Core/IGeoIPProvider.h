@@ -30,13 +30,12 @@ namespace FizzyAde::Core
     using GeoFunction = std::function <void (const QString &, const QVariantMap &)>;
 
     /**
-     * Interface definition of a ping target
+     * @brief       Interface definition of a ping target
      *
-     * A ping target is used by an IPingEngine to keep track
-     * of destinations to be pinged.
+     * @details     A ping target is used by an IPingEngine to keep track
+     *              of destinations to be pinged.
      *
      */
-
     class FIZZYADE_CORE_DLLSPEC IGeoIPProvider :
         public FizzyAde::ComponentSystem::IInterface
     {
@@ -45,10 +44,13 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::ComponentSystem::IInterface)
 
     public:
-        virtual ~IGeoIPProvider() {}
+        /**
+         * @brief Destructor
+         */
+        virtual ~IGeoIPProvider() = default;
 
         /**
-         * Performs a host lookup
+         * @brief       Performs a host lookup
          *
          * @param[in]   host        the host address to be looked up
          *
@@ -56,7 +58,7 @@ namespace FizzyAde::Core
         virtual void lookup(const QString host) = 0;
 
         /**
-         * Performs a host lookup
+         * @brief       Performs a host lookup
          *
          * @param[in]   host        the host address to be looked up
          * @param[in]   function    callback function
@@ -65,7 +67,7 @@ namespace FizzyAde::Core
         virtual void lookup(const QString host, FizzyAde::Core::GeoFunction function) = 0;
 
         /**
-         * Signal for result
+         * @brief       Signal for result
          *
          * @param[out]  host        the host
          * @param[out]  result      the result

@@ -48,13 +48,13 @@ namespace FizzyAde::Core
 
     public:
         /**
-         * Destructor
+         * @brief       Destructor
          *
          */
         virtual ~IPingTarget() = default;
 
         /**
-         * Sets host address for this target
+         * @brief       Sets host address for this target
          *
          * @param[in]   hostAddress     the host address to be pinged
          *
@@ -62,7 +62,7 @@ namespace FizzyAde::Core
         virtual void setHostAddress(QHostAddress hostAddress) = 0;
 
         /**
-         * Returns the host address for this target
+         * @brief       Returns the host address for this target
          *
          * @return      the host address for this target
          *
@@ -70,7 +70,7 @@ namespace FizzyAde::Core
         virtual QHostAddress hostAddress() = 0;
 
         /**
-         * Returns the IPingEngine that created this target
+         * @brief       Returns the IPingEngine that created this target
          *
          * @return      the IPingEngine that created this target
          *
@@ -78,7 +78,7 @@ namespace FizzyAde::Core
         virtual IPingEngine *engine() = 0;
 
         /**
-         * Returns user data attached to this target
+         * @brief       Returns user data attached to this target
          *
          * @return      the attached user data
          *
@@ -86,7 +86,7 @@ namespace FizzyAde::Core
         virtual void *userData() = 0;
 
         /**
-         * Attaches user data to this target
+         * @brief       Attaches user data to this target
          *
          * @param[in]   data            the user data
          *

@@ -29,24 +29,36 @@
 namespace FizzyAde::RouteEngine
 {
     /**
-     * Route finder thread worker implementation
+     * @brief       Route finder thread worker implementation
      *
-     * Pings the target with an increasing TTL until reaching the target
-     * machine.
+     * @details     Pings the target with an increasing TTL until reaching the target
+     *              machine.
      *
      */
-
     class RouteWorker :
         public QObject
     {
         Q_OBJECT
 
     public:
+        /**
+         * @brief       Constructor
+         *
+         * @details     creates a route worker with the selected IP version
+         *
+         * @param[in]   ipVersion           the ip version to be used
+         *
+         */
         RouteWorker(FizzyAde::Core::IPVersion ipVersion);
+
+        /**
+         * @brief       Destructor
+         *
+         */
         ~RouteWorker();
 
         /**
-         * Sets the target host to find the route for
+         * @brief       Sets the target host to find the route for
          *
          * @param[in]   host                the host
          *
@@ -85,20 +97,20 @@ namespace FizzyAde::RouteEngine
          * @return      true if ping sent, otherwise false
          *
          */
-
         bool ping_v6(const QHostAddress &hostAddress, int hopLimit, QHostAddress *returnAddress, bool *isComplete);
 
     public slots:
 
         /**
-         * The receiver thread worker
+         * @brief       The receiver thread worker
+         *
          */
         void doWork(void);
 
     signals:
 
         /**
-         * Signals when a route is available
+         * @brief       Signals when a route is available
          *
          * @param[in]   hostAddress         the host address of the target
          * @param[in]   result              the list of hops

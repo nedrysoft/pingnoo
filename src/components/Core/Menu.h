@@ -31,6 +31,13 @@
 
 namespace FizzyAde::Core
 {
+    /**
+     * @brief       Implementation of an IMenu
+     *
+     * @details     represents a menu or menubar, allows commands to be registered in
+     *              the menu and allows items to be logically grouped.
+     *
+     */
     class Menu :
         public FizzyAde::Core::IMenu
     {
@@ -53,16 +60,42 @@ namespace FizzyAde::Core
         };
 
     public:
+        /**
+         * @brief       Constructor
+         *
+         */
         Menu();
+
+        /**
+         * @brief       Destructor
+         *
+         */
         ~Menu();
 
+        /**
+         * @brief       Constructor
+         *
+         * @details     Creates an instance of a menu object which represents a menu bar
+         *
+         * @param[in]   menuBar     the menu bar that this instance controls
+         *
+         */
         Menu(QMenuBar *menuBar);
+
+        /**
+         * @brief       Constructor
+         *
+         * @details     Creates an instance of a menu object which represents a menu
+         *
+         * @param[in]   menu        the menu bar that this instance controls
+         *
+         */
         Menu(QMenu *menu);
 
         /**
-         * @sa IMenu
+         * @sa          IMenu
+         *
          */
-
         virtual FizzyAde::Core::MenuTypes type();
 
         virtual QMenu *menu();
@@ -73,7 +106,8 @@ namespace FizzyAde::Core
         virtual bool addGroupBefore(QString beforeIdentifier, QString groupIdentifier);
         virtual bool addGroupAfter(QString afterIdentifier, QString groupIdentifier);
 
-        virtual void addCommand(FizzyAde::Core::ICommand *command, QString groupIdentifier=QString());
+        virtual void appendCommand(FizzyAde::Core::ICommand *command, QString groupIdentifier=QString());
+        virtual void insertCommand(FizzyAde::Core::ICommand *command, QString groupIdentifier=QString());
 
     private:
         QList<GroupItem>::const_iterator findGroup(QString groupIdentifier);

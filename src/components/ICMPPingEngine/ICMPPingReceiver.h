@@ -30,15 +30,14 @@ namespace FizzyAde::ICMPPingEngine
     class ICMPPingEngine;
 
     /**
-     * ICMP packet receiver thread implementation
+     * @brief       ICMP packet receiver thread implementation
      *
-     * Created and used by the ICMP engine, the receiver thread
-     * receives incoming ICMP packet and associates them with
-     * requests that were sent and then signals that a ICMP result
-     * is available
+     * @details     Created and used by the ICMP engine, the receiver thread
+     *              receives incoming ICMP packet and associates them with
+     *              requests that were sent and then signals that a ICMP result
+     *              is available
      *
      */
-
     class ICMPPingReceiver : public QObject
     {
         Q_OBJECT
@@ -46,10 +45,10 @@ namespace FizzyAde::ICMPPingEngine
     public:
 
         /**
-         * Constructor with engine
+         * @brief       Constructor with engine
          *
-         * Creates the receiver object and passes in the engine
-         * so that the requests can be tagged to the correct engine
+         * @details     Creates the receiver object and passes in the engine
+         *              so that the requests can be tagged to the correct engine
          *
          * @param[in]   engine          the owner engine
          *
@@ -59,7 +58,7 @@ namespace FizzyAde::ICMPPingEngine
     private slots:
 
         /**
-         * The receiver thread worker
+         * @brief       The receiver thread worker
          *
          */
         void doWork(void);
@@ -67,7 +66,7 @@ namespace FizzyAde::ICMPPingEngine
     signals:
 
         /**
-         * Signals when a response result is available
+         * @brief       Signals when a response result is available
          *
          * @param[in]   result          the result
          *

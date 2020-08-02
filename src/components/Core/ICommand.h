@@ -31,15 +31,14 @@
 namespace FizzyAde::Core
 {
     /**
-     * ICommand interface
+     * @brief       ICommand interface
      *
-     * ICommand represents an actionable command in the system, commands
-     * are bound to QActions for given contexts, this allows the target of
-     * the command to change depending on the current context that the application
-     * is in.
+     * @details     ICommand represents an actionable command in the system, commands
+     *              are bound to QActions for given contexts, this allows the target of
+     *              the command to change depending on the current context that the application
+     *              is in.
      *
      */
-
     class FIZZYADE_CORE_DLLSPEC ICommand :
         public FizzyAde::ComponentSystem::IInterface
     {
@@ -47,7 +46,7 @@ namespace FizzyAde::Core
 
     public:
         /**
-         * Returns the proxy action
+         * @brief       Returns the proxy action
          *
          * @return      the proxy action
          *
@@ -55,7 +54,7 @@ namespace FizzyAde::Core
         virtual QAction *action() = 0;
 
         /**
-         * Sets the active state of the command
+         * @brief       Sets the active state of the command
          *
          * @param[in]   state       true if enabled, else false
          *
@@ -63,7 +62,7 @@ namespace FizzyAde::Core
         virtual void setActive(bool state) = 0;
 
         /**
-         * Returns the active state of the command
+         * @brief       Returns the active state of the command
          *
          * @return      true if enabled, else false
          *
@@ -72,10 +71,10 @@ namespace FizzyAde::Core
 
     public:
         /**
-         * Attaches a command to an abstract push button
+         * @brief       Attaches a command to an abstract push button
          *
-         * Binds to the buttons signals and then emits the appropriate
-         * signals from the push button
+         * @details     Binds to the buttons signals and then emits the appropriate
+         *              signals from the push button
          *
          * @param[in]   widget      the abstract button subclassed widget
          *

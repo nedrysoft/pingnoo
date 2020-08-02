@@ -25,9 +25,21 @@
 
 namespace FizzyAde::Utils
 {
+    /**
+     * @brief       theme support class
+     *
+     * @details     used by the macOS platform to detect changes between light and dark mode
+     *
+     */
     class ThemeSupport
     {
         public:
+            /**
+             * @brief       Check if dark mode is being used
+             *
+             * @returns     true if dark mode, else false
+             *
+             */
 #if defined(Q_OS_MACOS)
             static bool isDarkMode();
 #else

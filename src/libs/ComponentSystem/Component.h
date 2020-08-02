@@ -32,25 +32,25 @@
 namespace FizzyAde::ComponentSystem
 {
     /**
-     * Component
+     * @brief           Component
      *
-     * Class to hold the information about a component
+     * @details         Class to hold the information about a component
      *
      */
     class COMPONENT_SYSTEM_DLLSPEC Component
     {
     public:
         /**
-         * Constructor
+         * @brief       Constructor
          *
          */
         Component();
 
         /**
-         * Constructor
+         * @brief       Constructor
          *
-         * Overriden constructor, creates a component with the given
-         * information.
+         * @details     Overriden constructor, creates a component with the given
+         *              information.
          *
          * @param[in]   name            The name of the component
          * @param[in]   filename        The filename of the component
@@ -60,9 +60,9 @@ namespace FizzyAde::ComponentSystem
         Component(QString name, QString filename, QJsonObject metadata);
 
         /**
-         * addDependency
+         * @brief       addDependency
          *
-         * Adds a component as a dependency of this component
+         * @details     Adds a component as a dependency of this component
          *
          * @param[in]   dependency      The required dependency
          * @param[in]   versionNumber   The required dependency version
@@ -71,9 +71,9 @@ namespace FizzyAde::ComponentSystem
         void addDependency(Component *dependency, QVersionNumber versionNumber);
 
         /**
-         * name
+         * @brief       name
          *
-         * Returns the name of the component
+         * @details     Returns the name of the component
          *
          * @return      The component name
          *
@@ -81,9 +81,9 @@ namespace FizzyAde::ComponentSystem
         QString name();
 
         /**
-         * filename
+         * @brief       filename
          *
-         * Returns the filename of the component
+         * @details     Returns the filename of the component
          *
          * @return      The component filename
          *
@@ -91,9 +91,9 @@ namespace FizzyAde::ComponentSystem
         QString filename();
 
         /**
-         * metadata
+         * @brief       metadata
          *
-         * Returns the metadata of the component
+         * @details     Returns the metadata of the component
          *
          * @return      The component metadata
          *
@@ -101,9 +101,9 @@ namespace FizzyAde::ComponentSystem
         QJsonObject metadata();
 
         /**
-         * name
+         * @brief       name
          *
-         * Returns the loaded state of the component
+         * @details     Returns the loaded state of the component
          *
          * @return      True if loaded, false otherwise
          *
@@ -111,9 +111,9 @@ namespace FizzyAde::ComponentSystem
         bool isLoaded();
 
         /**
-         * loadStatus
+         * @brief       loadStatus
          *
-         * Returns a bit flag of (ComponentLoader::LoadStatus values) the load status
+         * @details     Returns a bit flag of (ComponentLoader::LoadStatus values) the load status
          *
          * @return      The reason the component was not loaded
          *
@@ -121,11 +121,11 @@ namespace FizzyAde::ComponentSystem
         int loadStatus();
 
         /**
-         * missingDependencies
+         * @brief       missingDependencies
          *
-         * The list of any missing dependencies, as these will
-         * not be available from the ComponentLoader, this can be
-         * used to show the names of any missing dependencies.
+         * @details     The list of any missing dependencies, as these will
+         *              not be available from the ComponentLoader, this can be
+         *              used to show the names of any missing dependencies.
          *
          * @return      The list of missing dependencies
          *
@@ -133,9 +133,9 @@ namespace FizzyAde::ComponentSystem
         QStringList missingDependencies();
 
         /**
-         * version
+         * @brief       version
          *
-         * Returns the version number of the component
+         * @details     Returns the version number of the component
          *
          * @return      The version
          *
@@ -143,9 +143,9 @@ namespace FizzyAde::ComponentSystem
         QVersionNumber version();
 
         /**
-         * versionString
+         * @brief       versionString
          *
-         * Returns the formatted version string of the component
+         * @details     Returns the formatted version string of the component
          *
          * @return      formatted version string
          *
@@ -153,9 +153,9 @@ namespace FizzyAde::ComponentSystem
         QString versionString();
 
         /**
-         * identifier
+         * @brief       identifier
          *
-         * Returns the reverse dns identifier of the component
+         * @details     Returns the reverse dns identifier of the component
          *
          * @return      The identifer
          *
@@ -163,9 +163,9 @@ namespace FizzyAde::ComponentSystem
         QString identifier();
 
         /**
-         * category
+         * @brief       category
          *
-         * Returns category of the component
+         * @details     Returns category of the component
          *
          * @return      The section
          *
@@ -173,9 +173,9 @@ namespace FizzyAde::ComponentSystem
         QString category();
 
         /**
-         * vendor
+         * @brief       vendor
          *
-         * Returns the vendor of the component
+         * @details     Returns the vendor of the component
          *
          * @return      The vendor
          *
@@ -183,9 +183,9 @@ namespace FizzyAde::ComponentSystem
         QString vendor();
 
         /**
-         * license
+         * @brief       license
          *
-         * Returns the license text of the component
+         * @details     Returns the license text of the component
          *
          * @return      The license text
          *
@@ -193,9 +193,9 @@ namespace FizzyAde::ComponentSystem
         QString license();
 
         /**
-         * copyright
+         * @brief       copyright
          *
-         * Returns the copyright text of the component
+         * @details     Returns the copyright text of the component
          *
          * @return      The copyright text
          *
@@ -203,9 +203,9 @@ namespace FizzyAde::ComponentSystem
         QString copyright();
 
         /**
-         * description
+         * @brief       description
          *
-         * Returns the description text of the component
+         * @details     Returns the description text of the component
          *
          * @return      The description text
          *
@@ -213,9 +213,9 @@ namespace FizzyAde::ComponentSystem
         QString description();
 
         /**
-         * url
+         * @brief       url
          *
-         * Returns the URL of the component
+         * @details     Returns the URL of the component
          *
          * @return      The URL
          *
@@ -223,9 +223,9 @@ namespace FizzyAde::ComponentSystem
         QString url();
 
         /**
-         * dependencies
+         * @brief       dependencies
          *
-         * Returns the dependencies of the component
+         * @details     Returns the dependencies of the component
          *
          * @return      The dependencies
          *
@@ -233,9 +233,9 @@ namespace FizzyAde::ComponentSystem
         QString dependencies();
 
         /**
-         * canBeDisabled
+         * @brief       canBeDisabled
          *
-         * Returns whether the component can be disabled by the user
+         * @details     Returns whether the component can be disabled by the user
          *
          * @return      State
          *
@@ -243,11 +243,11 @@ namespace FizzyAde::ComponentSystem
         bool canBeDisabled();
 
         /**
-         * validateDependencies
+         * @brief       validateDependencies
          *
-         * Validates all dependencies to ensure they are loaded
-         * and ensures that the loaded version meets our minimum
-         * requirement.
+         * @details     Validates all dependencies to ensure they are loaded
+         *              and ensures that the loaded version meets our minimum
+         *              requirement.
          *
          */
         void validateDependencies();

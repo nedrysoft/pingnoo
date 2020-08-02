@@ -34,13 +34,12 @@
 namespace FizzyAde::Core
 {
     /**
-     * ICommandManager interface
+     * @brief       ICommandManager interface
      *
-     * ICommandManager manages instances of ICommand, handling context
-     * changes.
+     * @details     ICommandManager manages instances of ICommand, handling context
+     *              changes.
      *
      */
-
     class FIZZYADE_CORE_DLLSPEC ICommandManager :
         public FizzyAde::ComponentSystem::IInterface
     {
@@ -48,7 +47,7 @@ namespace FizzyAde::Core
 
     public:
         /**
-         * Returns the ICommandManager instance
+         * @brief       Returns the ICommandManager instance
          *
          * @return      the ICommandManager instance
          *
@@ -59,7 +58,7 @@ namespace FizzyAde::Core
         }
 
         /**
-         * Registers an action to the command
+         * @brief       Registers an action to the command
          *
          * @param[in]   action      the action
          * @param[in]   id          the identifier of the command
@@ -71,10 +70,10 @@ namespace FizzyAde::Core
         virtual FizzyAde::Core::ICommand *registerAction(QAction *action, QString id, const FizzyAde::Core::ContextList &contexts) = 0;
 
         /**
-         * Registers an action to the command
+         * @brief       Registers an action to the command
          *
-         * This function registers an action by command id, if the command already exists
-         * then the action is added for the given context, otherwise a new command is created
+         * @details     This function registers an action by command id, if the command already exists
+         *              then the action is added for the given context, otherwise a new command is created
          *
          * @param[in]   action      the action
          * @param[in]   id          the identifier of the command
@@ -89,9 +88,9 @@ namespace FizzyAde::Core
         }
 
         /**
-         * Registers an action to an existing command
+         * @brief       Registers an action to an existing command
          *
-         * This function registers an action to the given command to a single context
+         * @details     This function registers an action to the given command to a single context
          *
          * @param[in]   action      the action
          * @param[in]   command     the command to register the action with
@@ -106,10 +105,10 @@ namespace FizzyAde::Core
         }
 
         /**
-         * Registers an action to the command
+         * @brief       Registers an action to the command
          *
-         * This function registers an action to the given command for the
-         * supplied contexts
+         * @details     This function registers an action to the given command for the
+         *              supplied contexts
          *
          * @param[in]   action      the action
          * @param[in]   command     the command to register the action with
@@ -121,18 +120,51 @@ namespace FizzyAde::Core
         virtual bool registerAction(QAction *action, FizzyAde::Core::ICommand *command, const FizzyAde::Core::ContextList &contexts) = 0;
 
         /**
-         * Sets the currently active context
+         * @brief       Sets the currently active context
          *
-         * Updates all commands registered so that they connect to the
-         * correct QAction for the context
+         * @details     Updates all commands registered so that they connect to the
+         *              correct QAction for the context
          *
          * @param[in]   contextId the context
          *
          */
         virtual void setContext(int contextId) = 0;
 
+        /**
+         * @brief       Create a menu
+         *
+         * @details     Creates an menu object that implements IMenu, the given identifier
+         *              should be unique.
+         *
+         * @param[in]   identifier      the unique identifier for this menu
+         * @param[in]   parentMenu      if the case of a submenu, parentMenu should be set to the parent IMenu instance
+         *
+         */
         virtual FizzyAde::Core::IMenu *createMenu(const QString &identifier, IMenu *parentMenu=nullptr) = 0;
+
+        /**
+         * @brief       Find a menu
+         *
+         * @details     Finds a menu by it's unique identifer, application defined constants are located in
+         *              the Pingnoo::Constants namespace in Pingnoo.h
+         *
+         * @param[in]   identifier      the unique identifier for this menu
+         *
+         * @return      the IMenu instance of the requested menu
+         *
+         */
         virtual FizzyAde::Core::IMenu *findMenu(const QString &identifier) = 0;
+
+        /**
+         * @brief       Find a command
+         *
+         * @details     Finds a registered command by identifier
+         *
+         * @param[in]   identifier      the unique identifier for this command
+         *
+         * @return      the ICommand instance
+         *
+         */
         virtual FizzyAde::Core::ICommand *findCommand(const QString &identifier) = 0;
     public:
 

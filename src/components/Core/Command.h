@@ -32,13 +32,12 @@ namespace FizzyAde::Core
     class ActionProxy;
 
     /**
-     * Command implementation
+     * @brief       Command implementation
      *
-     * Provides the implementation of an ICommand for the
-     * CommandManager class
+     * @details     Provides the implementation of an ICommand for the
+     *              CommandManager class
      *
      */
-
     class Command :
         public FizzyAde::Core::ICommand
     {
@@ -48,9 +47,9 @@ namespace FizzyAde::Core
 
     public:
         /**
-         * Constructor
+         * @brief       Constructor
          *
-         * Constructs a new Command object with the given id
+         * @details     Constructs a new Command object with the given id
          *
          * @param[in]   id      id of the created command
          *
@@ -58,7 +57,7 @@ namespace FizzyAde::Core
         Command(QString id);
 
         /**
-         * Destructor
+         * @brief       Destructor
          *
          */
         ~Command();
@@ -73,7 +72,7 @@ namespace FizzyAde::Core
 
     protected:
         /**
-         * Registers an action to the given contexts
+         * @brief       Registers an action to the given contexts
          *
          * @param[in]   action      the action
          * @param[in]   contexts    the list of contexts this action is used in
@@ -82,7 +81,7 @@ namespace FizzyAde::Core
         void registerAction(QAction *action, const FizzyAde::Core::ContextList &contexts);
 
         /**
-         * Sets the current context for this command
+         * @brief       Sets the current context for this command
          *
          * @param[in]   contextId   the context id
          *

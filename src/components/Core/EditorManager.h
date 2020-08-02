@@ -31,9 +31,9 @@ namespace FizzyAde::Core
 {
 
     /**
-     * EditorManager implementation
+     * @brief       EditorManager implementation
      *
-     * Provides the implementation of an IEditorManager
+     * @details     Provides the implementation of an IEditorManager
      *
      */
     class EditorManager :
@@ -45,7 +45,7 @@ namespace FizzyAde::Core
 
     public:
         /**
-         * Constructor
+         * @brief       Constructor
          *
          * @param[in]   tabWidget       the tab widget that contains the editors
          *
