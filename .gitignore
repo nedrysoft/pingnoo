@@ -9,9 +9,7 @@ debug.xml
 Deployment
 *.log
 *.autosave
-
+docs/generated
 tools/makeuniversal
-
 tools/create-dmg
-
 tools/macdeployqtfix
