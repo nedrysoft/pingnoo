@@ -31,32 +31,36 @@ namespace FizzyAde::ComponentSystem
     class ComponentManager;
 
     /**
-     * IComponentInterface
+     * @brief       IComponentInterface
      *
-     * Interface that a component must implement, the plugin system
-     * will call various functions to load and initialise the plugin
-     * at the appropriate time.
+     * @details     Interface that a component must implement, the plugin system
+     *              will call various functions to load and initialise the plugin
+     *              at the appropriate time.
      *
      */
     class COMPONENT_SYSTEM_DLLSPEC IComponentInterface
     {
     public:
+        /**
+         * @brief Destructor
+         *
+         */
         virtual ~IComponentInterface();
 
         /**
-         * initialiseEvent
+         * @brief       initialiseEvent
          *
-         * Called by the component loader after all components have been
-         * loaded, called in load order.
+         * @details     Called by the component loader after all components have been
+         *              loaded, called in load order.
          *
          */
         virtual void initialiseEvent();
 
         /**
-         * initialiseEvent
+         * @brief       initialisationFinishedEvent
          *
-         * Called by the component loader after all components have been
-         * initialised, called in reverse load order.
+         * @details     Called by the component loader after all components have been
+         *              initialised, called in reverse load order.
          *
          */
         virtual void initialisationFinishedEvent();

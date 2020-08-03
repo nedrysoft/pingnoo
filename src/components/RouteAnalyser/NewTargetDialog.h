@@ -32,10 +32,10 @@ namespace FizzyAde::RouteAnalyser
     }
 
     /**
-     * NewTargetDialog
+     * @brief       NewTargetDialog
      *
-     * The dialog displayed when creating a new route analyser instance, allows
-     * the user to select the target, ping engine, interval etc.
+     * @details     The dialog displayed when creating a new route analyser instance, allows
+     *              the user to select the target, ping engine, interval etc.
      *
      */
     class NewTargetDialog : public QDialog
@@ -44,48 +44,51 @@ namespace FizzyAde::RouteAnalyser
 
     public:
         /**
-         * Constructor
+         * @brief       Constructor
          *
-         * Creates a new instance of the new target dialog
+         * @param[in]   parent          parent widget
          *
-         * @param[in] parent parent widget
          */
         explicit NewTargetDialog(QWidget *parent = nullptr);
 
         /**
-         * Destructor
+         * @brief       Destructor
          *
          */
         ~NewTargetDialog();
 
         /**
-         * The ping engine factory selected
+         * @brief       The ping engine factory selected
          *
-         * @return the selected IPingEngineFactory
+         * @return      the selected IPingEngineFactory
+         *
          */
         FizzyAde::Core::IPingEngineFactory *pingEngineFactory();
 
         /**
-         * The selected target
+         * @brief       The selected target
          *
-         * @return the target (host or ip address)
+         * @return      the target (host or ip address)
+         *
          */
         QString pingTarget();
 
         /**
-         * The selected IP version
+         * @brief       The selected IP version
          *
-         * @return the ip version (V4 or V6)
+         * @return      the ip version (V4 or V6)
+         *
          */
         FizzyAde::Core::IPVersion ipVersion();
 
         /**
-         * The ping interval
+         * @brief       The ping interval
          *
-         * The ping interval is the number of seconds between ping clusters,
-         * this can be a sub-second value.
+         * @details     The ping interval is the number of seconds between ping clusters,
+         *              this can be a sub-second value.
          *
-         * @return the ping internal in seconds
+         * @return      the ping internal in seconds
+         *
          */
         double interval();
 

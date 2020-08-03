@@ -37,6 +37,14 @@ Q_FORWARD_DECLARE_OBJC_CLASS(NSObject);
 
 namespace FizzyAde::AppNap
 {
+    /**
+     * @brief       Provides control over sleep modes
+     *
+     * @details     macOS uses a sleep mode system which results in pings not working correctly if
+     *              AppNap is enabled, this class under macOS disables AppNap on startup so that
+     *              the app does not go to sleep.  On other platforms it does nothing.
+     *
+     */
     class FIZZYADE_APPNAP_DLLSPEC AppNap
     {
         private:
@@ -44,34 +52,57 @@ namespace FizzyAde::AppNap
 
         public:
             /**
-             * Gets the AppNap singleton
+             * @brief       Gets the AppNap singleton
              *
-             * @return the singleton instance
+             * @return      the singleton instance
+             *
              */
             static FizzyAde::AppNap::AppNap *getInstance();
 
             /**
-             * Prevents app from idle napping
+             * @brief       Prevents app from idle napping
              *
-             * prevents the app from entering idle state, calls to prevent
-             * should be matched with a allow to allow the app to enter nap
-             * after the section.
+             * @details     prevents the app from entering idle state, calls to prevent
+             *              should be matched with a allow to allow the app to enter nap
+             *              after the section.
              *
-             * @param[in] reason reason for preventing app nap
+             * @param[in]   reason          reason for preventing app nap
+             *
              */
             void prevent(const QString &reason);
 
             /**
-             * Allows the app to enter idle nap
+             * @brief       Allows the app to enter idle nap
              *
-             * allows the app to enter the idle nap state
+             * @details     allows the app to enter the idle nap state
+             *
              */
             void allow();
 
 #if defined(Q_OS_MACOS)
         private:
+            /**
+             * @brief       initialise app nap
+             *
+             * @details     provides a "C" linkage for the objective c code which controls appnap
+             *
+             */
             void mac_init();
+
+            /**
+             * @brief       prevent app nap from being used
+             *
+             * @details     provides a "C" linkage for the objective c code which disables appnap
+             *
+             */
             void mac_prevent(const QString &reason);
+
+            /**
+             * @brief       allow app nap to be used
+             *
+             * @details     provides a "C" linkage for the objective c code which enables appnap
+             *
+             */
             void mac_allow();
 
         private:

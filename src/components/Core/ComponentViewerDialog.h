@@ -32,11 +32,11 @@ namespace FizzyAde::Core
     }
 
     /**
-     * ComponentViewerDialog
+     * @brief       ComponentViewerDialog
      *
-     * Dialog that shows the list of components detected by the
-     * system (although not necessarily loaded).  Allows further
-     * detailed information to be displayed.
+     * @brief       Dialog that shows the list of components detected by the
+     *              system (although not necessarily loaded).  Allows further
+     *              detailed information to be displayed.
      *
      */
     class ComponentViewerDialog : public QDialog
@@ -45,38 +45,41 @@ namespace FizzyAde::Core
 
     public:
         /**
-         * Constructor
+         * @brief       Constructor
          *
-         * @param[in] parent Parent widget
+         * @param[in]   parent      parent widget
+         *
          */
         explicit ComponentViewerDialog(QWidget *parent = nullptr);
 
         /**
-         * Destructor
+         * @brief       Destructor
+         *
          */
         ~ComponentViewerDialog();
 
         /**
-         * Return disabled component list
+         * @brief       Return disabled component list
          *
-         * The dialog allows components to be enabled and disabled from being loaded at the
-         * next startup of the software.  This function returns a list of disabled components
-         * in a reverse domain name format which should be stored and queried by the loader
-         * at startup.
+         * @details     The dialog allows components to be enabled and disabled from being loaded at the
+         *              next startup of the software.  This function returns a list of disabled components
+         *              in a reverse domain name format which should be stored and queried by the loader
+         *              at startup.
          *
-         * @return List of disabled components
+         * @return      the list of disabled components
+         *
          */
         QStringList disabledComponents();
 
     private slots:
 
         /**
-         * Component List double click handler
+         * @brief       Component List double click handler
          *
-         * Opens the ComponentDetailsDialog for the given component that has been double clicked.
+         * @details     Opens the ComponentDetailsDialog for the given component that has been double clicked.
          *
-         * @param[in] item the item that was double clicked
-         * @param[in] column the column that was double clicked
+         * @param[in]   item        the item that was double clicked
+         * @param[in]   column      the column that was double clicked
          */
         void on_componentsTreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
 

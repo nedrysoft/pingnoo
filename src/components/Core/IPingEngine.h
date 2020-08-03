@@ -33,14 +33,13 @@ namespace FizzyAde::Core
     class IPingTarget;
 
     /**
-     * Interface definition of a ping engine
+     * @brief       Interface definition of a ping engine
      *
-     * An engine implements the logic of transmitting, receiving
-     * and associating replies to ping requests, it then signals
-     * when a ping result is available
+     * @details     An engine implements the logic of transmitting, receiving
+     *              and associating replies to ping requests, it then signals
+     *              when a ping result is available
      *
      */
-
     class FIZZYADE_CORE_DLLSPEC IPingEngine :
         public FizzyAde::ComponentSystem::IInterface,
         public FizzyAde::Core::IConfiguration
@@ -51,82 +50,91 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::Core::IConfiguration)
 
     public:
-        virtual ~IPingEngine() {}
+        /**
+         * @brief       Destructor
+         *
+         */
+        virtual ~IPingEngine() = default;
 
         /**
-         * Sets the measurement interval for this engine instance
+         * @brief       Sets the measurement interval for this engine instance
          *
-         * @param[in] interval interval time
-         * @return returns true on success, else false
+         * @param[in]   interval        interval time
+         *
+         * @return      returns true on success, else false
          *
          */
         virtual bool setInterval(std::chrono::milliseconds interval) = 0;
 
         /**
-         * Sets the reply timeout for this engine instance
+         * @brief       Sets the reply timeout for this engine instance
          *
-         * @param[in] timeout timeout time
-         * @return returns true on success, else false
+         * @param[in]   timeout         timeout time
+         *
+         * @return      true on success, else false
          *
          */
         virtual bool setTimeout(std::chrono::milliseconds timeout) = 0;
 
         /**
-         * Starts ping operations for this engine instance
+         * @brief       Starts ping operations for this engine instance
          *
-         * @return returns true on success, else false
+         * @return      true on success, else false
          *
          */
         virtual bool start() = 0;
 
         /**
-         * Stops ping operations for this engine instance
+         * @brief       Stops ping operations for this engine instance
          *
-         * @return returns true on success, else false
+         * @return      true on success, else false
          *
          */
         virtual bool stop() = 0;
 
         /**
-         * Adds a ping target to this engine instance
+         * @brief       Adds a ping target to this engine instance
          *
-         * @param[in] hostAddress the host address of the ping target
-         * @return returns a pointer to the created ping target
+         * @param[in]   hostAddress     the host address of the ping target
+         *
+         * @return      returns a pointer to the created ping target
          *
          */
         virtual IPingTarget *addTarget(QHostAddress hostAddress) = 0;
 
         /**
-         * Adds a ping target to this engine instance
+         * @brief       Adds a ping target to this engine instance
          *
-         * @param[in] hostAddress the host address of the ping target
-         * @param[in] ttl the time to live to use
+         * @param[in]   hostAddress     the host address of the ping target
+         * @param[in]   ttl             the time to live to use
+         *
          * @return returns a pointer to the created ping target
          *
          */
         virtual IPingTarget *addTarget(QHostAddress hostAddress, int ttl) = 0;
 
         /**
-         * Removes a ping target from this engine instance
+         * @brief       Removes a ping target from this engine instance
          *
-         * @param[in] target the ping target to remove
-         * @return returns true on success, else false
+         * @param[in]   target          the ping target to remove
+         *
+         * @return      true on success, else false
          *
          */
         virtual bool removeTarget(IPingTarget *target) = 0;
 
         /**
-         * Returns the epoch
+         * @brief       Returns the epoch
          *
-         * @return returns epoch
+         * @return      the time epoch
          *
          */
         virtual std::chrono::system_clock::time_point epoch() = 0;
 
         /**
-         * Signal emitted to indicate the state of a ping request
+         * @brief       Signal emitted to indicate the state of a ping request
          *
-         * @param[in] result the result of a ping request
+         * @param[in]   result          the result of a ping request
          *
          */
         Q_SIGNAL void result(FizzyAde::Core::PingResult result);

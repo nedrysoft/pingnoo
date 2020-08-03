@@ -32,206 +32,222 @@
 namespace FizzyAde::ComponentSystem
 {
     /**
-     * Component
+     * @brief           Component
      *
-     * Class to hold the information about a component
+     * @details         Class to hold the information about a component
      *
      */
     class COMPONENT_SYSTEM_DLLSPEC Component
     {
     public:
         /**
-         * Component
+         * @brief       Constructor
          *
-         * Default constructor
          */
         Component();
 
         /**
-         * Component
+         * @brief       Constructor
          *
-         * Overriden constructor, creates a component with the given
-         * information.
+         * @details     Overriden constructor, creates a component with the given
+         *              information.
          *
-         * @param[in] name The name of the component
-         * @param[in] filename The filename of the component
-         * @param[in] metadata The metadata from the component file
+         * @param[in]   name            The name of the component
+         * @param[in]   filename        The filename of the component
+         * @param[in]   metadata        The metadata from the component file
+         *
          */
         Component(QString name, QString filename, QJsonObject metadata);
 
         /**
-         * addDependency
+         * @brief       addDependency
          *
-         * Adds a component as a dependency of this component
+         * @details     Adds a component as a dependency of this component
          *
-         * @param[in] dependency The required dependency
-         * @param[in] versionNumber The required dependency version
+         * @param[in]   dependency      The required dependency
+         * @param[in]   versionNumber   The required dependency version
+         *
          */
         void addDependency(Component *dependency, QVersionNumber versionNumber);
 
         /**
-         * name
+         * @brief       name
          *
-         * Returns the name of the component
+         * @details     Returns the name of the component
          *
-         * @return The component name
+         * @return      The component name
+         *
          */
         QString name();
 
         /**
-         * filename
+         * @brief       filename
          *
-         * Returns the filename of the component
+         * @details     Returns the filename of the component
          *
-         * @return The component filename
+         * @return      The component filename
+         *
          */
         QString filename();
 
         /**
-         * metadata
+         * @brief       metadata
          *
-         * Returns the metadata of the component
+         * @details     Returns the metadata of the component
          *
-         * @return The component metadata
+         * @return      The component metadata
+         *
          */
         QJsonObject metadata();
 
         /**
-         * name
+         * @brief       name
          *
-         * Returns the loaded state of the component
+         * @details     Returns the loaded state of the component
          *
-         * @return True if loaded, false otherwise
+         * @return      True if loaded, false otherwise
+         *
          */
         bool isLoaded();
 
         /**
-         * loadStatus
+         * @brief       loadStatus
          *
-         * Returns a bit flag of the load status
+         * @details     Returns a bit flag of (ComponentLoader::LoadStatus values) the load status
          *
-         * @sa ComponentLoader::LoadStatus
+         * @return      The reason the component was not loaded
          *
-         * @return The reason the component was not loaded
          */
         int loadStatus();
 
         /**
-         * missingDependencies
+         * @brief       missingDependencies
          *
-         * The list of any missing dependencies, as these will
-         * not be available from the ComponentLoader, this can be
-         * used to show the names of any missing dependencies.
+         * @details     The list of any missing dependencies, as these will
+         *              not be available from the ComponentLoader, this can be
+         *              used to show the names of any missing dependencies.
          *
-         * @return The list of missing dependencies
+         * @return      The list of missing dependencies
+         *
          */
         QStringList missingDependencies();
 
         /**
-         * version
+         * @brief       version
          *
-         * Returns the version number of the component
+         * @details     Returns the version number of the component
          *
-         * @return The version
+         * @return      The version
+         *
          */
         QVersionNumber version();
 
         /**
-         * versionString
+         * @brief       versionString
          *
-         * Returns the formatted version string of the component
+         * @details     Returns the formatted version string of the component
          *
-         * @return The version string
+         * @return      formatted version string
+         *
          */
         QString versionString();
 
         /**
-         * identifier
+         * @brief       identifier
          *
-         * Returns the reverse dns identifier of the component
+         * @details     Returns the reverse dns identifier of the component
          *
-         * @return The identifer
+         * @return      The identifer
+         *
          */
         QString identifier();
 
         /**
-         * category
+         * @brief       category
          *
-         * Returns category of the component
+         * @details     Returns category of the component
          *
-         * @return The section
+         * @return      The section
+         *
          */
         QString category();
 
         /**
-         * vendor
+         * @brief       vendor
          *
-         * Returns the vendor of the component
+         * @details     Returns the vendor of the component
          *
-         * @return The vendor
+         * @return      The vendor
+         *
          */
         QString vendor();
 
         /**
-         * license
+         * @brief       license
          *
-         * Returns the license text of the component
+         * @details     Returns the license text of the component
          *
-         * @return The license text
+         * @return      The license text
+         *
          */
         QString license();
 
         /**
-         * copyright
+         * @brief       copyright
          *
-         * Returns the copyright text of the component
+         * @details     Returns the copyright text of the component
          *
-         * @return The copyright text
+         * @return      The copyright text
+         *
          */
         QString copyright();
 
         /**
-         * description
+         * @brief       description
          *
-         * Returns the description text of the component
+         * @details     Returns the description text of the component
          *
-         * @return The description text
+         * @return      The description text
+         *
          */
         QString description();
 
         /**
-         * url
+         * @brief       url
          *
-         * Returns the URL of the component
+         * @details     Returns the URL of the component
          *
-         * @return The URL
+         * @return      The URL
+         *
          */
         QString url();
 
         /**
-         * dependencies
+         * @brief       dependencies
          *
-         * Returns the dependencies of the component
+         * @details     Returns the dependencies of the component
          *
-         * @return The dependencies
+         * @return      The dependencies
+         *
          */
         QString dependencies();
 
         /**
-         * canBeDisabled
+         * @brief       canBeDisabled
          *
-         * Returns whether the component can be disabled by the user
+         * @details     Returns whether the component can be disabled by the user
          *
-         * @return State
+         * @return      State
+         *
          */
         bool canBeDisabled();
 
         /**
-         * validateDependencies
+         * @brief       validateDependencies
          *
-         * Validates all dependencies to ensure they are loaded
-         * and ensures that the loaded version meets our minimum
-         * requirement.
+         * @details     Validates all dependencies to ensure they are loaded
+         *              and ensures that the loaded version meets our minimum
+         *              requirement.
          *
          */
         void validateDependencies();

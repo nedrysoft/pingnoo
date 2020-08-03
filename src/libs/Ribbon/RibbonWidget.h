@@ -72,24 +72,38 @@ namespace FizzyAde::Ribbon
     static constexpr int GroupDividerMargin = 2;                                //! Width of the group divider
 
     /**
-     * Ribbon Bar Widget
+     * @brief       Ribbon Bar Widget
      *
-     * Subclass of QTabWidget to create a lookalike of the Ribbon
-     * bar control.
+     * @details     Subclass of QTabWidget to create a lookalike of the Ribbon
+     *              bar control.
+     *
      */
-
     class RIBBON_WIDGET_EXPORT RibbonWidget :
         public QTabWidget
     {
         Q_OBJECT
 
     public:
+        /**
+         * @brief       Constructor
+         *
+         * @param[in]   parent          parent widget
+         *
+         */
         RibbonWidget(QWidget *parent = nullptr);
 
         friend class RibbonTabBar;
         friend class RibbonGroup;
 
     protected:
+        /**
+         * @brief       paintEvent
+         *
+         * @details     Overridden paintEvent for drawing widget
+         *
+         * @param[in]   event           The event information
+         *
+         */
         virtual void paintEvent(QPaintEvent *event);
 
         FizzyAde::Ribbon::RibbonTabBar *m_tabBar;                                  //! The tab bar associated with this ribbon

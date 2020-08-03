@@ -30,9 +30,9 @@ namespace FizzyAde::Core
 {
 
     /**
-     * ContextManager implementation
+     * @brief       ContextManager implementation
      *
-     * Provides the implementation of an IContextManager
+     * @details     Provides the implementation of an IContextManager
      *
      */
     class ContextManager :
@@ -44,12 +44,14 @@ namespace FizzyAde::Core
 
     public:
         /**
-         * Constructor
+         * @brief       Constructor
+         *
          */
         ContextManager();
 
         /**
          * @sa IContextManager
+         *
          */
         virtual int registerContext(QString contextIdentifier);
         virtual int setContext(int contextIdentifier);

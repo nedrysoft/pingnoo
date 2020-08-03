@@ -25,6 +25,13 @@
 #include "RouteEngineFactory.h"
 #include "ComponentSystem/IComponentInterface.h"
 
+/**
+ * @brief       RouteEngineComponent class
+ *
+ * @details     This component provides a route engine implementation which
+ *              discovers the route to a host
+ *
+ */
 class FIZZYADE_ROUTEENGINE_DLLSPEC RouteEngineComponent :
     public QObject,
     public FizzyAde::ComponentSystem::IComponentInterface
@@ -36,9 +43,22 @@ class FIZZYADE_ROUTEENGINE_DLLSPEC RouteEngineComponent :
     Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
 
 public:
+    /**
+     * @brief       Constructor
+     *
+     */
     RouteEngineComponent();
+
+    /**
+     * @brief       Destructor
+     *
+     */
     ~RouteEngineComponent();
 
+    /**
+     * @sa          FizzyAde::ComponentSystem::IComponentInterface
+     *
+     */
     virtual void initialiseEvent();
 
 private:

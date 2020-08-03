@@ -36,6 +36,13 @@ namespace FizzyAde::Core
         isSubMenu
     };
 
+    /**
+     * @brief       Interface definition of a menu
+     *
+     * @details     represents a menu or menubar, allows commands to be registered in
+     *              the menu and allows items to be logically grouped.
+     *
+     */
     class FIZZYADE_CORE_DLLSPEC IMenu :
         public FizzyAde::ComponentSystem::IInterface
     {
@@ -44,13 +51,104 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::ComponentSystem::IInterface)
 
     public:
+        /**
+         * @brief       Return the QMenu if this is a menu
+         *
+         * @return      the menu instance
+         *
+         */
         virtual QMenu *menu() = 0;
+
+        /**
+         * @brief       Return the QMenuBar if this is a menu bar
+         *
+         * @return      the menubar instance
+         *
+         */
         virtual QMenuBar *menuBar() = 0;
 
-        virtual void addCommand(FizzyAde::Core::ICommand *command) = 0;
+        /**
+         * @brief       Adds a new group
+         *
+         * @details     Creates a named grouped section for a menu, allows command to
+         *              be grouped by function.  The group will be inserted at the start of
+         *              the menu.
+         *
+         * @param[in]   groupIdentifier     the identifier of the group
+         *
+         */
+        virtual void insertGroup(QString groupIdentifier) = 0;
+
+        /**
+         * @brief       Adds a new group
+         *
+         * @details     Creates a named grouped section for a menu, allows command to
+         *              be grouped by function.  The group will be appended to the end of
+         *              the menu.
+         *
+         * @param[in]   groupIdentifier     the identifier of the group
+         *
+         */
+        virtual void appendGroup(QString groupIdentifier) = 0;
+
+        /**
+         * @brief       Adds a new group
+         *
+         * @details     Creates a named grouped section for a menu, allows command to
+         *              be grouped by function.  The group will be inserted directly
+         *              before the given existing identifier.
+         *
+         * @param[in]   groupIdentifier     the identifier of the group
+         *
+         * @return      true if added, else false
+         *
+         */
+        virtual bool addGroupBefore(QString beforeIdentifier, QString groupIdentifier)=0;
+
+        /**
+         * @brief       Adds a new group
+         *
+         * @details     Creates a named grouped section for a menu, allows command to
+         *              be grouped by function.  The group will be appended directly after
+         *              the given existing identifier.
+         *
+         * @param[in]   groupIdentifier     the identifier of the group
+         *
+         * @return      true if added, else false
+         *
+         */
+        virtual bool addGroupAfter(QString afterIdentifier, QString groupIdentifier)=0;
+
+        /**
+         * @brief       Adds a command to a group
+         *
+         * @details     The added command will be added to the end of the given group
+         *
+         * @param[in]   command             the command to add
+         * @param[in]   groupIdentifier     the identifier of the group
+         *
+         */
+        virtual void appendCommand(FizzyAde::Core::ICommand *command, QString groupIdentifier=QString()) = 0;
+
+        /**
+         * @brief       Adds a command to a group
+         *
+         * @details     The added command will be inserted at the start of the given group
+         *
+         * @param[in]   command             the command to add
+         * @param[in]   groupIdentifier     the identifier of the group
+         *
+         */
+        virtual void insertCommand(FizzyAde::Core::ICommand *command, QString groupIdentifier=QString()) = 0;
 
     public:
 
+        /**
+         * @brief       Return the type of menu
+         *
+         * @return      a type defined in FizzyAde::Core::MenuTypes
+         *
+         */
         virtual FizzyAde::Core::MenuTypes type() = 0;
     };
 }

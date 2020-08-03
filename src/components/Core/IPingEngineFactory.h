@@ -31,14 +31,13 @@ namespace FizzyAde::Core
     class IPingEngine;
 
     /**
-     * Interface definition of a ping engine
+     * @brief       Interface definition of a ping engine
      *
-     * An engine implements the logic of transmitting, receiving
-     * and associating replies to ping requests, it then signals
-     * when a ping result is available
+     * @details     An engine implements the logic of transmitting, receiving
+     *              and associating replies to ping requests, it then signals
+     *              when a ping result is available
      *
      */
-
     class FIZZYADE_CORE_DLLSPEC IPingEngineFactory :
         public FizzyAde::ComponentSystem::IInterface,
         public FizzyAde::Core::IConfiguration
@@ -49,20 +48,22 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::Core::IConfiguration)
 
     public:
-        virtual ~IPingEngineFactory() {}
+        virtual ~IPingEngineFactory()=default;
 
         /**
-         * Creates a IPingEngine instance
+         * @brief       Creates a IPingEngine instance
          *
-         * @return returns instance
+         * @param[in]   version     the IP version of the engine
+         *
+         * @return      the newly created ping engine instance
          *
          */
         virtual FizzyAde::Core::IPingEngine *createEngine(FizzyAde::Core::IPVersion version) = 0;
 
         /**
-         * Returns the description of the ping engine
+         * @brief       Returns the description of the ping engine
          *
-         * @return description
+         * @return      descriptive name of the ping engine
          *
          */
         virtual QString description() = 0;

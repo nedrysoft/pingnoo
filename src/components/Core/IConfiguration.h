@@ -31,31 +31,33 @@ namespace FizzyAde::Core
     class IPingEngine;
 
     /**
-     * Interface definition of a ping engine
+     * @brief       Interface definition of a ping engine
      *
-     * An engine implements the logic of transmitting, receiving
-     * and associating replies to ping requests, it then signals
-     * when a ping result is available
+     * @details     An engine implements the logic of transmitting, receiving
+     *              and associating replies to ping requests, it then signals
+     *              when a ping result is available
      *
      */
-
     class FIZZYADE_CORE_DLLSPEC IConfiguration
     {
 
     public:
 
         /**
-         * Saves the configuration
+         * @brief       Saves the configuration
          *
-         * @return the configuration
+         * @return      the configuration
+         *
          */
         virtual QJsonObject saveConfiguration() = 0;
 
         /**
-         * Loads the configuration
+         * @brief       Loads the configuration
          *
-         * @param configuration the configuration
-         * @return true if loaded, false otherwise
+         * @param[in]   configuration   the configuration
+         *
+         * @return      true if loaded, false otherwise
+         *
          */
         virtual bool loadConfiguration(QJsonObject configuration) = 0;
     };

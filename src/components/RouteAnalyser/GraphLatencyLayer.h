@@ -27,10 +27,10 @@
 namespace FizzyAde::RouteAnalyser
 {
     /**
-     * Background renderer for the latency information
+     * @brief       Background renderer for the latency information
      *
-     * Draws the background of a chart showing the latency colouring and
-     * markers for the latency levels.
+     * @details     Draws the background of a chart showing the latency colouring and
+     *              markers for the latency levels in a QCustomPlot chart
      *
      */
     class GraphLatencyLayer :
@@ -38,13 +38,15 @@ namespace FizzyAde::RouteAnalyser
     {
     public:
         /**
-         * Constructor for the GraphLatencyLayer
+         * @brief       Constructor
+         *
          */
         GraphLatencyLayer(QCustomPlot *customPlot);
 
     protected:
         /**
-         * @sa QCPItemRect
+         * @sa          QCPItemRect
+         *
          */
         void draw(QCPPainter *painter);
 

@@ -39,10 +39,10 @@ namespace FizzyAde::Core
     };
 
     /**
-     * Core class
+     * @brief       Core class
      *
-     * Provides an implemention of ICore which provides the main window for the
-     * application
+     * @details     Provides an implemention of ICore which provides the main window for the
+     *              application
      */
     class Core :
         public FizzyAde::Core::ICore
@@ -53,31 +53,36 @@ namespace FizzyAde::Core
 
     public:
         /**
-         * Constructor
+         * @brief       Constructor
+         *
          */
         Core();
 
         /**
-         * Destructor
+         * @brief       Destructor
+         *
          */
         ~Core();
 
         /**
-         * Returns the main window
+         * @brief       Returns the main window
          *
-         * Returns a pointer to the main window, this function always returns the same
-         * QMainWindow pointer so can be called by any part of the application to get a
-         * handle to the main window
+         * @details     Returns a pointer to the main window, this function always returns the same
+         *              QMainWindow pointer so can be called by any part of the application to get a
+         *              handle to the main window
+         *
+         * @return      returns a pointer to the mainwindow
          */
         virtual QMainWindow *mainWindow();
 
         /**
-         * Open the core
+         * @brief       Opens the core
          *
-         * Should be called after the plugins are loaded to initialise the application,
-         * the Core implemention provides logic to ensure this happens in a sane manner
+         * @details     Should be called after the plugins are loaded to initialise the application,
+         *              the Core implemention provides logic to ensure this happens in a sane manner
+         *
          */
-        void open(void);
+        void open();
 
     private:
         QPointer<MainWindow> m_mainWindow;                      //! The QMainWindow smart pointer

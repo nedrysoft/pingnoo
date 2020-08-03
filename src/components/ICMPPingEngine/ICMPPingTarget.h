@@ -53,24 +53,37 @@ namespace FizzyAde::ICMPPingEngine
         Q_INTERFACES(FizzyAde::Core::IPingTarget)
 
     public:
+        /**
+         * @brief       Constructor
+         *
+         * @details     Creates a new ping target for a given host and initial TTL
+         *
+         * @param[in]   engine
+         * @param[in]   hostAddress
+         * @param[in]   ttl
+         *
+         */
         ICMPPingTarget(FizzyAde::ICMPPingEngine::ICMPPingEngine *engine, QHostAddress hostAddress, int ttl=0);
+
+        /**
+         * @brief       Destructor
+         */
+
         ~ICMPPingTarget();
 
         /**
-         * @sa IPingTarget
+         * @sa          IPingTarget
+         *
          */
         virtual void setHostAddress(QHostAddress hostAddress);
-
         virtual QHostAddress hostAddress();
-
         virtual FizzyAde::Core::IPingEngine *engine();
-
         virtual void *userData() ;
-
         virtual void setUserData(void *data);
 
         /**
-         * @sa IConfiguration
+         * @sa          IConfiguration
+         *
          */
         virtual QJsonObject saveConfiguration();
         virtual bool loadConfiguration(QJsonObject configuration);
@@ -78,16 +91,16 @@ namespace FizzyAde::ICMPPingEngine
     protected:
 
         /**
-         * Returns socket to be used to send ICMP packets
+         * @brief       Returns socket to be used to send ICMP packets
          *
-         * @return socket
+         * @return      socket
          */
         FizzyAde::ICMPSocket::ICMPSocket *socket();
 
         /**
-         * Returns the ICMP id used for this target
+         * @brief       Returns the ICMP id used for this target
          *
-         * @return the id
+         * @return      the id
          */
         uint16_t id();
 

@@ -37,14 +37,13 @@ namespace FizzyAde::RouteAnalyser
     class RouteAnalyserComponent;
 
     /**
-     * Definition for the built in host masker
+     * @brief       Definition for the built in host masker
      *
-     * This host marker accepts a regular expression to match the host name
-     * or address and allows the masked output to be generated using capture
-     * groups
+     * @details     This host marker accepts a regular expression to match the host name
+     *              or address and allows the masked output to be generated using capture
+     *              groups
      *
      */
-
     class RouteAnalyserEditor :
         public FizzyAde::Core::IEditor,
         public FizzyAde::Core::IConfiguration
@@ -60,39 +59,45 @@ namespace FizzyAde::RouteAnalyser
         /**
          * Sets the ping engine to be used by this instance.
          *
-         * @param[in] pingEngineFactory the ping engine factory
+         * @param[in]   pingEngineFactory       the ping engine factory
+         *
          */
         void setPingEngine(FizzyAde::Core::IPingEngineFactory *pingEngineFactory);
 
         /**
          * Sets the target.
          *
-         * @param[in] target the ping target
+         * @param[in]   target                  the ping target
+         *
          */
         void setTarget(QString target);
 
         /**
          * Sets the IP Version used by this ping target.
          *
-         * @param[in] ipVersion the IP version
+         * @param[in]   ipVersion               the IP version
+         *
          */
         void setIPVersion(FizzyAde::Core::IPVersion ipVersion);
 
         /**
          * Sets the ping interval used by this ping target.
          *
-         * @param[in] interval the interval time period
+         * @param[in]   interval                the interval time period
+         *
          */
         void setInterval(double interval);
 
         /**
-         * @sa IEditor
+         * @sa          IEditor
+         *
          */
         virtual QWidget *widget();
         virtual QString displayName();
 
         /**
-         * @sa IConfiguration
+         * @sa          IConfiguration
+         *
          */
         virtual QJsonObject saveConfiguration();
         virtual bool loadConfiguration(QJsonObject configuration);

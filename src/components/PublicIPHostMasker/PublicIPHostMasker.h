@@ -29,14 +29,13 @@
 namespace FizzyAde::PublicIPHostMasker
 {
     /**
-     * Definition for the built in host masker
+     * @brief       Definition for the built in host masker
      *
-     * This host marker accepts a regular expression to match the host name
-     * or address and allows the masked output to be generated using capture
-     * groups
+     * @details     This host marker accepts a regular expression to match the host name
+     *              or address and allows the masked output to be generated using capture
+     *              groups
      *
      */
-
     class PublicIPHostMasker :
         public FizzyAde::Core::IHostMasker
     {
@@ -47,12 +46,14 @@ namespace FizzyAde::PublicIPHostMasker
     public:
 
         /**
-         * @sa IHostMasker
+         * @sa          IHostMasker
+         *
          */
         virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress);
 
         /**
-         * @sa IConfiguration
+         * @sa          IConfiguration
+         *
          */
         virtual QJsonObject saveConfiguration();
         virtual bool loadConfiguration(QJsonObject configuration);

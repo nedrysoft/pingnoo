@@ -31,26 +31,33 @@ namespace FizzyAde::Core
     class IEditor;
 
     /**
-     * Interface definition of an application editor manager
+     * @brief       Interface definition of an application editor manager
      *
-     * Manages the open editors in the application.
+     * @details     Manages the open editors in the application.
      *
      */
-
     class FIZZYADE_CORE_DLLSPEC IEditorManager :
         public FizzyAde::ComponentSystem::IInterface
     {
         Q_OBJECT
 
     public:
+        /**
+         * @brief       Returns the IContextManager instance
+         *
+         */
         static IEditorManager *getInstance()
         {
             return ComponentSystem::getObject<IEditorManager>();
         }
 
+        /**
+         * @brief       Open an editor window
+         *
+         * @param[in]   editor          the editor to open
+         *
+         */
         virtual int openEditor(IEditor *editor) = 0;
-
-        //Q_SIGNAL void contextChanged(int newContext, int previousContext);
     };
 }
 

@@ -30,124 +30,146 @@ namespace FizzyAde::ICMPPingEngine
     class ICMPPingTarget;
 
     /**
-     * Object used to store information about a tracked request
+     * @brief       Object used to store information about a tracked request
      *
-     * The FZICMPPingTransmitter registers each ping request with the
-     * engine, this class holds the required information to allow
-     * replies to be matched to requests (and timed) and also to allow
-     * timeouts to be discovered.
+     * @details     The FZICMPPingTransmitter registers each ping request with the
+     *              engine, this class holds the required information to allow
+     *              replies to be matched to requests (and timed) and also to allow
+     *              timeouts to be discovered.
      *
      */
-
     class ICMPPingItem : public QObject
     {
         Q_OBJECT
 
     public:
+        /**
+         * @brief       Constructor
+         *
+         */
         ICMPPingItem();
+
+        /**
+         * @brief       Destructor
         ~ICMPPingItem();
 
         /**
-         * Sets the id used in the ping request
+         * @brief       Sets the id used in the ping request
          *
-         * @param[in] id the id to use
+         * @param[in]   id              id for this request
+         *
          */
         void setId(uint16_t id);
 
         /**
-         * Returns the id used in the ping request
+         * @brief       Returns the id used in the ping request
          *
-         * @return the id
+         * @return      id of the request
+         *
          */
         uint16_t id(void);
 
         /**
-         * Sets the sequence id used in the ping request
+         * @brief       Sets the sequence id used in the ping request
          *
-         * @param[in] sequence the sequence id to use
+         * @param[in]   sequence        the sequence id to use
+         *
          */
         void setSequenceId(uint16_t sequence);
 
         /**
-         * Returns the sequence id used in the ping request
+         * @brief       Returns the sequence id used in the ping request
          *
-         * @return the sequence id
+         * @return      the sequence id
+         *
          */
         uint16_t sequenceId();
 
         /**
-         * Marks the request as being serviced, prevents a packet
-         * being flagged as both replied to and timeout in race
-         * condition situations.
+         * @brief       Set whether this request has been serviced
          *
-         * @param[in] serviced true if serviced, else false
+         * @details     Marks the request as being serviced, prevents a packet
+         *              being flagged as both replied to and timeout in race
+         *              condition situations.
+         *
+         * @param[in]   serviced        true if serviced, else false
+         *
          */
         void setServiced(bool serviced);
 
         /**
-         * Returns the serviced status of the request
+         * @brief       Returns the serviced status of the request
          *
-         * @return true if it has been serviced, else false
+         * @return      true if serviced, else false
+         *
          */
         bool serviced();
 
         /**
-         * Sets the sample number for this request
+         * @brief       Sets the sample number for this request
          *
-         * @param[in] sampleNumber the sample number
+         * @param[in]   sampleNumber    the sample number
+         *
          */
         void setSampleNumber(unsigned long sampleNumber);
 
         /**
-         * Returns the sample number for this request
+         * @brief       Returns the sample number for this request
          *
-         * @return the sample number
+         * @return      the sample number
          */
         unsigned long sampleNumber();
 
         /**
-         * Sets the target associated with this request
+         * @brief       Sets the target associated with this request
          *
-         * @param[in] target the target
+         * @param[in]   target            the target
+         *
          */
         void setTarget(FizzyAde::ICMPPingEngine::ICMPPingTarget *target);
 
         /**
-         * Returns the target associated with this request
+         * @brief       Returns the target associated with this request
          *
-         * @return the request
+         * @return      the request
+         *
          */
         FizzyAde::ICMPPingEngine::ICMPPingTarget *target();
 
         /**
-         * Sets the time at which the request was transmitted
+         * @brief       Sets the time at which the request was transmitted
          *
-         * @param[in] time the high resolution clock time
-         * @param[in] epoch the system time
+         * @param[in]   time            the high resolution clock time
+         * @param[in]   epoch           the system time
+         *
          */
         void setTransmitTime(std::chrono::high_resolution_clock::time_point time, std::chrono::system_clock::time_point epoch);
 
         /**
-         * Returns the time at which the request was transmitted
+         * @brief       Returns the time at which the request was transmitted
          *
-         * @return the high resolution clock time when the request was sent
+         * @return      the high resolution clock time when the request was sent
+         *
          */
         std::chrono::high_resolution_clock::time_point transmitTime(void);
 
         /**
-         * Returns the time at which the request was transmitted
+         * @brief       Returns the time at which the request was transmitted
          *
-         * @return the system clock time when the request was sent
+         * @return      the system clock time when the request was sent
+         *
          */
         std::chrono::system_clock::time_point transmitEpoch(void);
 
         /**
-         * Locks the item for exclusive access
+         * @brief       Locks the item for exclusive access
+         *
          */
         void lock(void);
 
         /**
-         * Locks the item for exclusive access
+         * @brief       Locks the item for exclusive access
+         *
          */
         void unlock(void);
 

@@ -28,12 +28,11 @@
 namespace FizzyAde::Core
 {
     /**
-     * IRibbonBarManager interface
+     * @brief       IRibbonBarManager interface
      *
-     * IRibbonBarManager handles the management of status bars
+     * @details     IRibbonBarManager handles the management of status bars
      *
      */
-
     class FIZZYADE_CORE_DLLSPEC IRibbonBarManager :
         public FizzyAde::ComponentSystem::IInterface
     {
@@ -43,7 +42,8 @@ namespace FizzyAde::Core
         /**
          * Returns the IRibbonBarManager instance
          *
-         * @return the IRibbonBarManager instance
+         * @return      the IRibbonBarManager singleton instance
+         *
          */
         static IRibbonBarManager *getInstance()
         {

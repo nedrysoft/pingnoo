@@ -32,12 +32,11 @@ namespace FizzyAde::Core
     class Command;
 
     /**
-     * CommandManager implementation
+     * @brief       CommandManager implementation
      *
-     * Provides the implementation of an ICommandManager
+     * @details     Provides the implementation of an ICommandManager
      *
      */
-
     class CommandManager :
         public FizzyAde::Core::ICommandManager
     {
@@ -46,13 +45,18 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::Core::ICommandManager)
 
     public:
+        /**
+         * @brief       Constructor
+         *
+         */
         CommandManager();
 
         /**
          * @sa ICommandManager
+         *
          */
-
         virtual FizzyAde::Core::ICommand *registerAction(QAction *action, QString id, const FizzyAde::Core::ContextList &contexts);
+        virtual bool registerAction(QAction *action, FizzyAde::Core::ICommand *command, const FizzyAde::Core::ContextList &contexts);
         virtual void setContext(int contextId);
         virtual FizzyAde::Core::IMenu *createMenu(const QString &identifier, IMenu *parentMenu=nullptr);
         virtual FizzyAde::Core::IMenu *findMenu(const QString &identifier);

@@ -29,26 +29,39 @@
 namespace FizzyAde::RouteEngine
 {
     /**
-     * Route finder thread worker implementation
+     * @brief       Route finder thread worker implementation
      *
-     * Pings the target with an increasing TTL until reaching the target
-     * machine.
+     * @details     Pings the target with an increasing TTL until reaching the target
+     *              machine.
      *
      */
-
     class RouteWorker :
         public QObject
     {
         Q_OBJECT
 
     public:
+        /**
+         * @brief       Constructor
+         *
+         * @details     creates a route worker with the selected IP version
+         *
+         * @param[in]   ipVersion           the ip version to be used
+         *
+         */
         RouteWorker(FizzyAde::Core::IPVersion ipVersion);
+
+        /**
+         * @brief       Destructor
+         *
+         */
         ~RouteWorker();
 
         /**
-         * Sets the target host to find the route for
+         * @brief       Sets the target host to find the route for
          *
-         * @param[in] host the host
+         * @param[in]   host                the host
+         *
          */
         void setHost(QString host);
 
@@ -60,10 +73,13 @@ namespace FizzyAde::RouteEngine
          * Helper function which returns the hop address and whether it was the
          * final destination.
          *
-         * @param[in] hostAddress the host to ping
-         * @param[in] ttl the TTL used for this ping
-         * @param[out] returnAddress the address that the ping response came from
-         * @param[out] isComplete true if final hop, false if not
+         * @param[in]   hostAddress         the host to ping
+         * @param[in]   ttl                 the TTL used for this ping
+         * @param[out]  returnAddress       the address that the ping response came from
+         * @param[out]  isComplete          true if final hop, false if not
+         *
+         * @return      true if ping sent, otherwise false
+         *
          */
         bool ping_v4(const QHostAddress &hostAddress, int ttl, QHostAddress *returnAddress, bool *isComplete);
 
@@ -73,28 +89,32 @@ namespace FizzyAde::RouteEngine
          * Helper function which returns the hop address and whether it was the
          * final destination.
          *
-         * @param[in] hostAddress the host to ping
-         * @param[in] hopLimit the hop limit used for this ping
-         * @param[out] returnAddress the address that the ping response came from
-         * @param[out] isComplete true if final hop, false if not
+         * @param[in]   hostAddress         the host to ping
+         * @param[in]   hopLimit            the hop limit used for this ping
+         * @param[out]  returnAddress       the address that the ping response came from
+         * @param[out]  isComplete          true if final hop, false if not
+         *
+         * @return      true if ping sent, otherwise false
+         *
          */
-
         bool ping_v6(const QHostAddress &hostAddress, int hopLimit, QHostAddress *returnAddress, bool *isComplete);
 
     public slots:
 
         /**
-         * The receiver thread worker
+         * @brief       The receiver thread worker
+         *
          */
         void doWork(void);
 
     signals:
 
         /**
-         * Signals when a route is available
+         * @brief       Signals when a route is available
          *
-         * @param[in] hostAddress the host address of the target
-         * @param[in] result the list of hops
+         * @param[in]   hostAddress         the host address of the target
+         * @param[in]   result              the list of hops
+         *
          */
         void result(const QHostAddress &hostAddress, const FizzyAde::Core::RouteList &result);
 

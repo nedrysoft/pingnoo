@@ -24,6 +24,7 @@
 #include <QMainWindow>
 #include <QAbstractButton>
 #include <QAction>
+#include "Command.h"
 
 namespace FizzyAde::Core
 {
@@ -56,8 +57,8 @@ namespace FizzyAde::Core
         void createDefaultCommands();
         void registerDefaultCommands();
 
-        void createCommand(QString commandId, QAbstractButton *button, QAction::MenuRole menuRole=QAction::NoRole);
-        void addMenuCommand(QString menuId, QString commandId);
+        FizzyAde::Core::ICommand *createCommand(QString commandId, QAbstractButton *button, QAction::MenuRole menuRole=QAction::NoRole);
+        void addMenuCommand(QString commandId, QString menuId, QString groupId=QString());
 
         FizzyAde::Core::IMenu *createMenu(QString menuId, QString parentMenuId=QString());
         FizzyAde::Core::IMenu *findMenu(QString menuId);

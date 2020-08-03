@@ -29,6 +29,14 @@ namespace FizzyAde::RegExHostMasker
     class RegExHostMasker;
 }
 
+/**
+ * @brief       RegExHostMaskerComponent class
+ *
+ * @details     This component provides a host masker implementation which
+ *              uses user supplied regular expressions to mask out IP addresses
+ *              or host names.  This allows outputs to hide sensitive information.
+ *
+ */
 class FIZZYADE_REGEXHOSTMASKER_DLLSPEC RegExHostMaskerComponent :
     public QObject,
     public FizzyAde::ComponentSystem::IComponentInterface
@@ -40,9 +48,22 @@ class FIZZYADE_REGEXHOSTMASKER_DLLSPEC RegExHostMaskerComponent :
     Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
 
 public:
-    RegExHostMaskerComponent() ;
+    /**
+     * @brief       Constructor
+     *
+     */
+    RegExHostMaskerComponent();
+
+    /**
+     * @brief       Destructor
+     *
+     */
     ~RegExHostMaskerComponent();
 
+    /**
+     * @sa          FizzyAde::ComponentSystem::IComponentInterface
+     *
+     */
     virtual void initialiseEvent();
 
 private:

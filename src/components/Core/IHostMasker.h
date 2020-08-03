@@ -31,14 +31,13 @@
 namespace FizzyAde::Core
 {
     /**
-     * Interface definition of a host masker
+     * @brief       Interface definition of a host masker
      *
-     * A host masker is used to mask the displayed host names & ip addresses
-     * in the softwares user interface, this allows screen captures to be
-     * taken without requiring further editing
+     * @details     A host masker is used to mask the displayed host names & ip addresses
+     *              in the softwares user interface, this allows screen captures to be
+     *              taken without requiring further editing
      *
      */
-
     class FIZZYADE_CORE_DLLSPEC IHostMasker :
         public FizzyAde::ComponentSystem::IInterface,
         public FizzyAde::Core::IConfiguration
@@ -53,15 +52,15 @@ namespace FizzyAde::Core
         /**
          * Replaces a host name/ip
          *
-         * @param[in] hop the hop number for this host & address
-         * @param[in] hostName the host name to be checked
-         * @param[in] hostAddress the host IP to be checked
-         * @param[out] maskedHostName the masked host name
-         * @param[out] maskedHostAddress the masked host IP
-         * @return returns true on replacement, else false
+         * @param[in]   hop                 the hop number for this host & address
+         * @param[in]   hostName            the host name to be checked
+         * @param[in]   hostAddress         the host IP to be checked
+         * @param[out]  maskedHostName      the masked host name
+         * @param[out]  maskedHostAddress   the masked host IP
+         *
+         * @return      returns true on replacement, else false
          *
          */
-
         virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress) = 0;
     };
 }

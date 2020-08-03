@@ -31,13 +31,12 @@ namespace FizzyAde::Core
     class IPingEngine;
 
     /**
-     * Interface definition of a ping target
+     * @brief       Interface definition of a ping target
      *
-     * A ping target is used by an IPingEngine to keep track
-     * of destinations to be pinged.
+     * @details     A ping target is used by an IPingEngine to keep track
+     *              of destinations to be pinged.
      *
      */
-
     class FIZZYADE_CORE_DLLSPEC IPingTarget :
         public FizzyAde::ComponentSystem::IInterface,
         public FizzyAde::Core::IConfiguration
@@ -48,12 +47,16 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::Core::IConfiguration)
 
     public:
-        virtual ~IPingTarget() {}
+        /**
+         * Destructor
+         *
+         */
+        virtual ~IPingTarget() = default;
 
         /**
          * Sets host address for this target
          *
-         * @param[in] hostAddress the host address to be pinged
+         * @param[in]   hostAddress     the host address to be pinged
          *
          */
         virtual void setHostAddress(QHostAddress hostAddress) = 0;
@@ -61,7 +64,7 @@ namespace FizzyAde::Core
         /**
          * Returns the host address for this target
          *
-         * @return the host address for this target
+         * @return      the host address for this target
          *
          */
         virtual QHostAddress hostAddress() = 0;
@@ -69,7 +72,7 @@ namespace FizzyAde::Core
         /**
          * Returns the IPingEngine that created this target
          *
-         * @return the IPingEngine that created this target
+         * @return      the IPingEngine that created this target
          *
          */
         virtual IPingEngine *engine() = 0;
@@ -77,7 +80,7 @@ namespace FizzyAde::Core
         /**
          * Returns user data attached to this target
          *
-         * @return the attached user data
+         * @return      the attached user data
          *
          */
         virtual void *userData() = 0;
@@ -85,7 +88,7 @@ namespace FizzyAde::Core
         /**
          * Attaches user data to this target
          *
-         * @param[in] data the user data
+         * @param[in]   data            the user data
          *
          */
         virtual void setUserData(void *data) = 0;

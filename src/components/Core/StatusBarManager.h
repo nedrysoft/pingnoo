@@ -25,10 +25,22 @@
 
 namespace FizzyAde::Core
 {
+    /**
+     * @brief       Implementation of IStatusBarManager
+     *
+     * @details     Manages a status bar instance in the application, components
+     *              can use the status bar to display relevant information in any contexts
+     *              that they use.
+     *
+     */
     class StatusBarManager :
         public IStatusBarManager
     {
     public:
+        /**
+         * @brief       Constructor
+         *
+         */
         StatusBarManager();
     };
 }

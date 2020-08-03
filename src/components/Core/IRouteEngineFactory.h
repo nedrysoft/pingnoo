@@ -31,13 +31,12 @@ namespace FizzyAde::Core
     class IRouteEngine;
 
     /**
-     * Interface definition of a route engine
+     * @brief       Interface definition of a route engine
      *
-     * An engine implements the logic of determining the route
-     * to a target host.
+     * @details     An engine implements the logic of determining the route
+     *              to a target host.
      *
      */
-
     class FIZZYADE_CORE_DLLSPEC IRouteEngineFactory :
         public FizzyAde::ComponentSystem::IInterface,
         public FizzyAde::Core::IConfiguration
@@ -48,20 +47,27 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::Core::IConfiguration)
 
     public:
-        virtual ~IRouteEngineFactory() {}
+        /**
+          * @brief       Constructor
+          *
+          */
+        virtual ~IRouteEngineFactory() = default;
 
         /**
-         * Creates a IRouteEngine instance
+         * @brief       Creates a a route engine instance
          *
-         * @return returns instance
+         * @details     Creates and returns a IRouteEngine instance that this engine
+         *              manages.
+         *
+         * @return      new instance of the route engine
          *
          */
         virtual FizzyAde::Core::IRouteEngine *createEngine() = 0;
 
         /**
-         * Returns the description of the route engine
+         * @brief       Returns the description of the route engine
          *
-         * @return description
+         * @return      descriptive name of the route engine
          *
          */
         virtual QString description() = 0;

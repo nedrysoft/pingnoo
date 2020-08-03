@@ -33,14 +33,13 @@ namespace FizzyAde::ICMPPingEngine
     class ICMPPingItem;
 
     /**
-     * ICMP packet transmitter thread implementation
+     * @brief       ICMP packet transmitter thread implementation
      *
-     * Created and used by the ICMP engine, the transmitter thread
-     * creates requests for the associated targets and sends them
-     * at the given period
+     * @details     Created and used by the ICMP engine, the transmitter thread
+     *              creates requests for the associated targets and sends them
+     *              at the given period
      *
      */
-
     class ICMPPingTransmitter : public QObject
     {
         Q_OBJECT
@@ -48,42 +47,47 @@ namespace FizzyAde::ICMPPingEngine
     public:
 
         /**
-         * Constructor with engine
+         * @brief       Constructor
          *
-         * Creates the receiver object and passes in the engine
-         * so that the requests can be tagged to the correct engine
+         * @details     Creates the receiver object and passes in the engine
+         *              so that the requests can be tagged to the correct engine
          *
-         * @param[in] engine the owner engine
+         * @param[in]   engine          the owner engine
+         *
          */
         ICMPPingTransmitter(FizzyAde::ICMPPingEngine::ICMPPingEngine *engine);
 
         /**
-         * Sets the interval between a set of pings
+         * @brief       Sets the interval between a set of pings
          *
-         * @param[in] interval interval
+         * @param[in]   interval        interval
+         *
+         * @return       true if set, otherwise false
+         *
          */
         bool setInterval(std::chrono::milliseconds interval);
 
         /**
-         * Adds a ping target to the transmitter
+         * @brief       Adds a ping target to the transmitter
          *
-         * @param[in] target the target to ping
+         * @param[in]   target          the target to ping
+         *
          */
         void addTarget(FizzyAde::ICMPPingEngine::ICMPPingTarget *target);
 
     private slots:
 
         /**
-         * The receiver thread worker
+         * @brief       The receiver thread worker
          */
         void doWork(void);
 
     signals:
 
         /**
-         * Signals when a transmission result is available
+         * @brief       Signals when a transmission result is available
          *
-         * @param[in] result the result
+         * @param[in]   result          the result
          */
         void result(FizzyAde::Core::PingResult result);
 

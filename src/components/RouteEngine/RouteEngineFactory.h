@@ -50,12 +50,14 @@ namespace FizzyAde::RouteEngine
 
         /**
          * @sa IRouteEngineFactory
+         *
          */
         virtual FizzyAde::Core::IRouteEngine *createEngine();
         virtual QString description();
 
         /**
          * @sa IConfiguration
+         *
          */
         virtual QJsonObject saveConfiguration();
         virtual bool loadConfiguration(QJsonObject configuration);

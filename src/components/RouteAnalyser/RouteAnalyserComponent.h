@@ -25,6 +25,13 @@
 #include "ComponentSystem/IComponentInterface.h"
 #include "RouteAnalyserEditor.h"
 
+/**
+ * @brief       RouteAnalyserComponent class
+ *
+ * @details     This component provides a route analyser implementation which
+ *              discovers the route to a host
+ *
+ */
 class FIZZYADE_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
     public QObject,
     public FizzyAde::ComponentSystem::IComponentInterface
@@ -36,9 +43,22 @@ class FIZZYADE_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
     Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
 
 public:
+    /**
+     * @brief Constructor
+     *
+     */
     RouteAnalyserComponent();
+
+    /**
+     * @brief Destructor
+     *
+     */
     ~RouteAnalyserComponent();
 
+    /**
+     * @sa          FizzyAde::ComponentSystem::IComponentInterface
+     *
+     */
     virtual void initialiseEvent();
     virtual void initialisationFinishedEvent();
 

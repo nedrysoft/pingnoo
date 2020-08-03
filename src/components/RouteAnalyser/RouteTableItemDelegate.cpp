@@ -267,6 +267,10 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(FizzyAde::
 
     painter->save();
 
+    if ((option.state & QStyle::State_Selected) && (!tableView->hasFocus())) {
+        pen.setColor(Qt::white);
+    }
+
     auto rc = option.rect;
 
     if (index.column()==FizzyAde::RouteAnalyser::PingData::Hop) {
@@ -311,6 +315,7 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintBubble(FizzyAde::Rout
 {
     Q_UNUSED(index)
     Q_UNUSED(pingData)
+    auto tableView = qobject_cast<const QTableView *>(option.widget);
     auto bubbleRect = option.rect;
     auto pen = QPen(QBrush(bubbleColour), option.rect.height()-InvalidEntryLineWidth);
 
@@ -319,6 +324,10 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintBubble(FizzyAde::Rout
     bubbleRect.adjust(xOffset+(pen.width()/2), 0, -(xOffset+(pen.width()/2)), 0);
 
     painter->save();
+
+    if ((option.state & QStyle::State_Selected) && (!tableView->hasFocus())) {
+        pen.setColor(Qt::white);
+    }
 
     painter->setPen(pen);
 

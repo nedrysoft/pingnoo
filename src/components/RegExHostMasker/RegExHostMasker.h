@@ -29,8 +29,6 @@
 
 namespace FizzyAde::RegExHostMasker
 {
-    //FIZZYADE_PINGNOO_REGEXHOSTMASKER_DLLSPEC Q_NAMESPACE
-
     class RegExHostMaskerItem
     {
     public:
@@ -45,14 +43,13 @@ namespace FizzyAde::RegExHostMasker
     };
 
     /**
-     * Definition for the regex host masker
+     * @brief       Definition for the regex host masker
      *
-     * This host marker accepts a regular expression to match the host name
-     * or address and allows the masked output to be generated using capture
-     * groups
+     * @details     This host marker accepts a regular expression to match the host name
+     *              or address and allows the masked output to be generated using capture
+     *              groups
      *
      */
-
     class RegExHostMasker :
         public FizzyAde::Core::IHostMasker
     {
@@ -71,36 +68,41 @@ namespace FizzyAde::RegExHostMasker
 
     public:
         /**
-         * Adds a host name match mask
+         * @brief       Adds a host name match mask
          *
-         * @param[in] matchFlags a bit mask of values from MatchFlags
-         * @param[in] matchExpression the regular expression used for name matching
-         * @param[in] replacementString the string to be used for replacement
-         * @param[in] hopString optional hop string listing hops this mask is valid for
+         * @param[in]   matchFlags              a bit mask of values from MatchFlags
+         * @param[in]   matchExpression         the regular expression used for name matching
+         * @param[in]   replacementString       the string to be used for replacement
+         * @param[in]   hopString optional      hop string listing hops this mask is valid for
+         *
          */
         void add(unsigned int matchFlags, QString matchExpression, QString replacementString, QString hopString=QString());
 
         /**
-         * @sa IHostMasker
+         * @sa          IHostMasker
+         *
          */
         virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress);
 
         /**
-         * @sa IConfiguration
+         * @sa          IConfiguration
+         *
          */
         virtual QJsonObject saveConfiguration();
         virtual bool loadConfiguration(QJsonObject configuration);
 
     private:
         /**
-         * Attempts to apply a mask to a string
+         * @brief       Attempts to apply a mask to a string
          *
-         * @param[in] hop the hop number
-         * @param[in] hostName the host name to be checked
-         * @param[in] hostAddress the host address to be checked
-         * @param[out] maskedHostName the masked host name
-         * @param[out] maskedHostAddress the masked host address
-         * @return returns true on a match, else false
+         * @param[in]   hop                     the hop number
+         * @param[in]   hostName                the host name to be checked
+         * @param[in]   hostAddress             the host address to be checked
+         * @param[out]  maskedHostName          the masked host name
+         * @param[out]  maskedHostAddress       the masked host address
+         *
+         * @return      true on a match, else false
+         *
          */
         bool applyMask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress);
 

@@ -28,13 +28,12 @@
 namespace FizzyAde::Core
 {
     /**
-     * Interface definition of a editor
+     * @brief       Interface definition of a editor
      *
-     * An editor is an editor window that contains a widget and is managed
-     * by the application.
+     * @details     An editor is an editor window that contains a widget and is managed
+     *              by the application.
      *
      */
-
     class FIZZYADE_CORE_DLLSPEC IEditor :
         public FizzyAde::ComponentSystem::IInterface
     {
@@ -43,20 +42,24 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::ComponentSystem::IInterface)
 
     public:
-        virtual ~IEditor() {}
+        /**
+         * @brief       Destructor
+         *
+         */
+        virtual ~IEditor() = default;
 
         /**
-         * Returns the widget for this editor
+         * @brief       Returns the widget for this editor
          *
-         * @return the widget
+         * @return      the widget
          *
          */
         virtual QWidget *widget() = 0;
 
         /**
-         * Returns the display name for this editor
+         * @brief       Returns the display name for this editor
          *
-         * @return display name
+         * @return      display name
          *
          */
         virtual QString displayName() = 0;

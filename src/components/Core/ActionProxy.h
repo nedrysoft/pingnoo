@@ -27,27 +27,28 @@
 namespace FizzyAde::Core
 {
     /**
-     * ActionProxy
+     * @brief       ActionProxy
      *
-     * A proxy class for a QAction, allows an Action
-     * to be proxied through, mutliple inputs can be
-     * selected one at a time to be the output.
+     * @details     A proxy class for a QAction, allows an Action
+     *              to be proxied through, mutliple inputs can be
+     *              selected one at a time to be the output.
      *
      */
-
     class ActionProxy :
         public QAction
     {
     public:
 
         /**
-         * Creates a proxy action
+         * @brief       Constructor
+         *
+         * @param[in]   parent      parent object
          *
          */
         ActionProxy(QObject *parent=nullptr);
 
         /**
-         * Sets the currently active target action
+         * @brief       Sets the currently active target action
          *
          * @param[in] action the action to be proxied
          *
@@ -56,13 +57,13 @@ namespace FizzyAde::Core
 
     protected:
         /**
-         * Connects the current action to the proxy
+         * @brief       Connects the current action to the proxy
          *
          */
         void connectAction();
 
         /**
-         * Disconnects the current action from the proxy
+         * @brief       Disconnects the current action from the proxy
          *
          */
         void disconnectAction();

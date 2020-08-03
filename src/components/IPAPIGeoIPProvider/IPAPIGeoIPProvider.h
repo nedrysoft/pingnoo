@@ -33,14 +33,13 @@ namespace FizzyAde::IPAPIGeoIPProvider
     class Cache;
 
     /**
-     * Definition for the built in host masker
+     * @brief       Definition for the built in host masker
      *
-     * This host marker accepts a regular expression to match the host name
-     * or address and allows the masked output to be generated using capture
-     * groups
+     * @details     This host marker accepts a regular expression to match the host name
+     *              or address and allows the masked output to be generated using capture
+     *              groups
      *
      */
-
     class IPAPIGeoIPProvider :
         public FizzyAde::Core::IGeoIPProvider
     {
@@ -49,13 +48,22 @@ namespace FizzyAde::IPAPIGeoIPProvider
         Q_INTERFACES(FizzyAde::Core::IGeoIPProvider)
 
     public:
+        /**
+         * @brief       Constructor
+         *
+         */
         IPAPIGeoIPProvider();
+
+        /**
+         * @brief       Destructor
+         *
+         */
         ~IPAPIGeoIPProvider();
 
         /**
-         * @sa IGeoIPProvider
+         * @sa          IGeoIPProvider
+         *
          */
-
         virtual void lookup(const QString host);
         virtual void lookup(const QString host, FizzyAde::Core::GeoFunction function);
 

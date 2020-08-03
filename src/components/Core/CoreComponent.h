@@ -25,10 +25,10 @@
 #include "CoreSpec.h"
 
 /**
- * The Core component
+ * @brief       Core component
  *
- * The core component provides the SDK base for the application, it provides the core
- * mechanisms that allow other components to extend the application
+ * @details     The core component provides the SDK base for the application, it provides the core
+ *              mechanisms that allow other components to extend the application
  *
  */
 class FIZZYADE_CORE_DLLSPEC CoreComponent :
@@ -43,12 +43,14 @@ class FIZZYADE_CORE_DLLSPEC CoreComponent :
 
 public:
     /**
-     * Creates an instance of the component
+     * @brief       Constructor
+     *
      */
     CoreComponent() = default;
 
     /**
      * @sa IComponentInterface
+     *
      */
     virtual void initialiseEvent();
     virtual void initialisationFinishedEvent();

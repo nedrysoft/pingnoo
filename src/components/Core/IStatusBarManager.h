@@ -28,12 +28,11 @@
 namespace FizzyAde::Core
 {
     /**
-     * IStatusBarManager interface
+     * @brief       Status Bar Interface
      *
-     * IStatusBarManager handles the management of status bars
+     * @details     IStatusBarManager handles the management of status bars
      *
      */
-
     class FIZZYADE_CORE_DLLSPEC IStatusBarManager :
         public FizzyAde::ComponentSystem::IInterface
     {
@@ -43,7 +42,8 @@ namespace FizzyAde::Core
         /**
          * Returns the IStatusBarManager instance
          *
-         * @return the IStatusBarManager instance
+         * @return      the IStatusBarManager singleton instance
+         *
          */
         static IStatusBarManager *getInstance()
         {

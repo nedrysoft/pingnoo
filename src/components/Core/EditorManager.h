@@ -31,9 +31,9 @@ namespace FizzyAde::Core
 {
 
     /**
-     * EditorManager implementation
+     * @brief       EditorManager implementation
      *
-     * Provides the implementation of an IEditorManager
+     * @details     Provides the implementation of an IEditorManager
      *
      */
     class EditorManager :
@@ -44,10 +44,17 @@ namespace FizzyAde::Core
         Q_INTERFACES(FizzyAde::Core::IEditorManager)
 
     public:
+        /**
+         * @brief       Constructor
+         *
+         * @param[in]   tabWidget       the tab widget that contains the editors
+         *
+         */
         EditorManager(QTabWidget *tabWidget);
 
         /**
          * @sa IEditorManager
+         *
          */
         virtual int openEditor(IEditor *editor);
 

@@ -28,11 +28,11 @@
 namespace FizzyAde::Ribbon
 {
     /**
-     * Ribbon Group Widget
+     * @brief       Ribbon Group Widget
      *
-     * Widget to enclose a group of controls
+     * @details     Widget to enclose a group of controls
+     *
      */
-
     class RIBBON_WIDGET_EXPORT RibbonGroup :
         public QWidget
     {
@@ -41,25 +41,39 @@ namespace FizzyAde::Ribbon
         Q_PROPERTY(QString groupName READ groupName WRITE setGroupName)
 
     public:
+        /**
+         * @brief       Constructor
+         *
+         * @param[in]   parent          parent object
+         *
+         */
         explicit RibbonGroup(QWidget *parent = nullptr);
 
         /**
-         * Gets the name of the group
+         * @brief       Gets the name of the group
          *
-         * @return name of the group
+         * @return      name of the group
          *
          */
         QString groupName() const;
 
         /**
-         * Sets the name of the group
+         * @brief       Sets the name of the group
          *
-         * @param[in] name The group name
+         * @param[in]   name            The group name
          *
          */
         void setGroupName(const QString &name);
 
     protected:
+        /**
+         * @brief       paintEvent
+         *
+         * @details     Overridden paintEvent for drawing widget
+         *
+         * @param[in]   event           The event information
+         *
+         */
         virtual void paintEvent(QPaintEvent *event);
 
     signals:
