@@ -51,6 +51,7 @@ namespace FizzyAde::ICMPPingEngine
 
         /**
          * @brief       Destructor
+         */
         ~ICMPPingItem();
 
         /**
