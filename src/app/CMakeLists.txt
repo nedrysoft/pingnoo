@@ -27,6 +27,9 @@ pingnoo_add_sources(
     appicon.rc
     appicon.icns
     windowsicon.qrc
+    SplashScreen.cpp
+    SplashScreen.h
+    app.qrc
 )
 
 pingnoo_use_qt_libraries(Widgets)

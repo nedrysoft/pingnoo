@@ -32,11 +32,9 @@ namespace FizzyAde::HostIPGeoIPProvider
     class Cache;
 
     /**
-     * @brief       Definition for the built in host masker
+     * @brief       IGeoIPProvider implementtation for hostip.com
      *
-     * @details     This FizzyAde::Core::IGeoIPProvider provides a country lookup
-     *              for IP addresses using hostip.com
-     *
+     * @copydoc     Core::FizzyAde::IGeoIPProvider
      */
     class HostIPGeoIPProvider :
         public FizzyAde::Core::IGeoIPProvider
@@ -47,22 +45,23 @@ namespace FizzyAde::HostIPGeoIPProvider
 
     public:
         /**
-         * @brief       Constructor
-         *
+         * @brief       Constructs the geo ip provider.
          */
         HostIPGeoIPProvider();
 
         /**
-         * @brief       Destructor
-         *
+         * @brief       Destroys the geo ip provider.
          */
         ~HostIPGeoIPProvider();
 
         /**
-         * @sa          IGeoIPProvider
-         *
+         * @copydoc     FizzyAde::Core::IGeoIPProvider::lookup(const QString)
          */
         virtual void lookup(const QString host);
+
+        /**
+         * @copydoc     FizzyAde::Core::IGeoIPProvider::lookup(const QString, FizzyAde::Core::GeoFunction)
+         */
         virtual void lookup(const QString host, FizzyAde::Core::GeoFunction function);
 
     private:

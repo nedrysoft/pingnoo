@@ -36,6 +36,10 @@ namespace FizzyAde::ICMPPingEngine
      * @details     Implements the IPingEngine interface to implement a ping engine
      *              that uses ICMP echo packets for measurements.
      *
+     * @see         FizzyAde::ICMPPingEngine::ICCMPPingEngineFactory, FizzyAde::ICMPPingEngine::ICMPPingEngineItem,
+     *              FizzyAde::ICMPPingEngine::ICMPPingEngineReceiver, FizzyAde::ICMPPingEngine::ICMPPingEngine,
+     *              FizzyAde::ICMPPingEngine::ICMPTarget, FizzyAde::ICMPPingEngine::ICMPPingTarget,
+     *              FizzyAde::ICMPPingEngine::ICMPPingEngineTransmitter
      */
     class ICMPPingEngine :
         public FizzyAde::Core::IPingEngine
@@ -46,93 +50,133 @@ namespace FizzyAde::ICMPPingEngine
 
     public:
         /**
-         * @brief       Constructor
+         * @brief       Constructor for ping engine.
          *
-         * @param[in]   version         Whether this is IPv4 or IPv6
+         * @details     Constructor for ping engine.
          *
+         * @param[in]   version is the version of IP to use, FizzyAde::Core::IPVersion::IPv4 or FizzyAde::Core::IPVersion::IPv6.
          */
         ICMPPingEngine(FizzyAde::Core::IPVersion version);
 
         /**
-         * Destructor
+         * @brief       Destroys the ping engine.
          *
+         * @copydoc     Destroys the ping engine.
          */
         ~ICMPPingEngine();
 
         /**
-         * @sa          IPingEngine
-         *
+         * @copydoc     FizzyAde::Core::IPingEngine
          */
         virtual bool setInterval(std::chrono::milliseconds interval);
+
+        /**
+         * @copydoc     FizzyAde::Core::IPingEngine
+         */
         virtual bool setTimeout(std::chrono::milliseconds timeout);
 
+        /**
+         * @copydoc     FizzyAde::Core::IPingEngine
+         */
         virtual bool start();
+
+        /**
+         * @copydoc     FizzyAde::Core::IPingEngine
+         */
         virtual bool stop();
 
+        /**
+         * @copydoc     FizzyAde::Core::IPingEngine
+         */
         virtual FizzyAde::Core::IPingTarget *addTarget(QHostAddress hostAddress);
+
+        /**
+         * @copydoc     FizzyAde::Core::IPingEngine
+         */
         virtual FizzyAde::Core::IPingTarget *addTarget(QHostAddress hostAddress, int ttl);
+
+        /**
+         * @copydoc     FizzyAde::Core::IPingEngine
+         */
         virtual bool removeTarget(FizzyAde::Core::IPingTarget *target);
+
+        /**
+         * @copydoc     FizzyAde::Core::IPingEngine
+         */
         virtual std::chrono::system_clock::time_point epoch();
 
         /**
-         * @sa          IConfiguration
-         *
+         * @copydoc     FizzyAde::Core::IConfiguration
          */
         virtual QJsonObject saveConfiguration();
+
+        /**
+         * @copydoc     FizzyAde::Core::IConfiguration
+         */
         virtual bool loadConfiguration(QJsonObject configuration);
 
     protected:
         /**
-         * @brief       Deletes timed out requests and emits timeout results
+         * @brief       Checks for any timed out requests and removes and notfiies about their removal.
          *
-         * @details     Called from the timeout thread.
+         * @details     Checks for any timed out requests and removes and notfiies about their removal.  This function is called from
+         *              the timeout thread.
          *
-         * @sa          FZICMPPingTimeout
-         *
+         * @see         FizzyAde::ICMPPingEngine::ICMPPingTimeout
          */
         void timeoutRequests(void);
 
         /**
-         * @brief       Adds a ping request to the engine so it can be tracked
+         * @brief       Adds a ping request to the engine so it can be tracked.
          *
-         * @param[in]   pingItem        the item to be tracked
+         * @details     Adds a ping request to the list of requests, the engine maintains a list of currently active requests and uses these
+         *              to correlate responses and handle timeouts.
          *
+         * @param[in]   pingItem is the item being tracked
          */
         void addRequest(FizzyAde::ICMPPingEngine::ICMPPingItem *pingItem);
 
         /**
-         * @brief       Removes a tracked request and deletes the item
+         * @brief       Removes a tracked request and deletes the item.
          *
-         * @param[in]   pingItem        the item to be removed
+         * @details     Removes a tracked request and deletes the item, when a ping response (either an echo reply or ttl exceeded) is received
+         *              the request can be removed from the engine.
          *
+         * @param[in]   pingItem is the item to be removed.
          */
         void removeRequest(FizzyAde::ICMPPingEngine::ICMPPingItem *pingItem);
 
         /**
-         * @brief       Finds a tracked request by id
+         * @brief       Gets a tracked request by id.
          *
-         * @details     The id is (icmp_id<<16) | icmp_sequence_id
+         * @details     Finds the request by the id that was received in the packet, as the engine needs to figure out which response relates
+         *              to a request to figure out the round trip time it uses this identifer which is constructed from the ICMP header
+         *              in the following manner:
          *
-         * @param[in]   id              the request to find
+         *                  (icmp_id<<16) | icmp_sequence_id
          *
-         * @return      returns the request if it exists, otherwise NULL
+         * @param[in]   id is the request to find.
          *
+         * @return      returns the request if found; nullptr otherwise.
          */
         FizzyAde::ICMPPingEngine::ICMPPingItem *getRequest(uint32_t id);
 
         /**
-         * @brief       Sets the transmission epoch
+         * @brief       Sets the transmission epoch.
          *
-         * @param[in]   epoch           the epoch
+         * @brief       Sets the transmission epoch, this is a timestamp that is used to calculate time difference when transmitting.
          *
+         * @param[in]   epoch is the epoch.
          */
         void setEpoch(std::chrono::system_clock::time_point epoch);
 
         /**
-         * @brief       Returns the IP version of the engine
+         * @brief       Gets the IP version of the engine.
          *
-         * @return      IP version
+         * @brief       Gets the IP version of the engine.  An engine should be created for a specific IP version, if multiple IP versions
+         *              are required, then an engine for each version should be created.
          *
+         * @return      the IP version.
          */
         FizzyAde::Core::IPVersion version();
 

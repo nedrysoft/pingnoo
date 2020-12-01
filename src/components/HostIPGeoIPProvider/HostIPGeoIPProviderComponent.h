@@ -24,6 +24,9 @@
 #include "HostIPGeoIPProviderSpec.h"
 #include "ComponentSystem/IComponentInterface.h"
 
+/**
+ * @brief       Namespace for the hostip.com geo ip lookup provider component.
+ */
 namespace FizzyAde::HostIPGeoIPProvider
 {
     class HostIPGeoIPProvider;
@@ -33,7 +36,6 @@ namespace FizzyAde::HostIPGeoIPProvider
  * @brief       HostIPGeoIPProviderComponent class
  *
  * @details     Implements a GEO IP lookup provider using hostip.com
- *
  */
 class FIZZYADE_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
     public QObject,
@@ -45,8 +47,7 @@ class FIZZYADE_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
 
 public:
     /**
-     * @brief Constructor
-     *
+     * @brief   Constructor
      */
     HostIPGeoIPProviderComponent();
 

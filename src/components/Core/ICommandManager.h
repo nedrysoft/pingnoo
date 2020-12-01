@@ -47,7 +47,7 @@ namespace FizzyAde::Core
 
     public:
         /**
-         * @brief       Returns the ICommandManager instance
+         * @brief       Gets the FizzyAde::Core::ICommandManager instance.
          *
          * @return      the ICommandManager instance
          *

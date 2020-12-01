@@ -61,7 +61,7 @@ namespace FizzyAde::Core
         virtual FizzyAde::Core::IPingEngine *createEngine(FizzyAde::Core::IPVersion version) = 0;
 
         /**
-         * @brief       Returns the description of the ping engine
+         * @brief       Gets the descriptive name of the ping engine factory
          *
          * @return      descriptive name of the ping engine
          *

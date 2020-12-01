@@ -65,6 +65,9 @@ namespace FizzyAde::Core
         /**
          * @sa ICommand
          *
+         * @note        Gets a FizzyAde::Core::ActionProxy instance so that the action remains valid after a context switch.
+         *
+         * @see         FizzyAde::Core::ActionProxy
          */
         virtual QAction *action();
         virtual void setActive(bool state);

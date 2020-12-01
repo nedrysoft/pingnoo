@@ -29,7 +29,9 @@
 #include <QStandardPaths>
 #include <QString>
 #include <QSettings>
+#include <QTimer>
 #include <QJsonDocument>
+#include "SplashScreen.h"
 
 #if defined(Q_OS_MAC)
 #include <CoreFoundation/CoreFoundation.h>
@@ -37,12 +39,18 @@
 
 int main(int argc, char **argv)
 {
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
+
     qApp->setApplicationName("Pingnoo");
     qApp->setOrganizationName("FizzyAde");
 
     auto componentLoader = new FizzyAde::ComponentSystem::ComponentLoader;
     auto applicationInstance = new QApplication(argc, argv);
     auto appNap = FizzyAde::AppNap::AppNap::getInstance();
+
+    Nedrysoft::SplashScreen *splashScreen = Nedrysoft::SplashScreen::getInstance();;
+
+    splashScreen->show();
 
     appNap->prevent("App Nap has been disabled as it interferes with thread timing.");
 
@@ -125,6 +133,10 @@ int main(int argc, char **argv)
             return false;
         }
         return true;
+    });
+
+    QTimer::singleShot(3000, [=]() {
+        splashScreen->hide();
     });
 
     auto exitCode = QApplication::exec();

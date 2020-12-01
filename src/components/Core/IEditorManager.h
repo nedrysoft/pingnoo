@@ -43,7 +43,7 @@ namespace FizzyAde::Core
 
     public:
         /**
-         * @brief       Returns the IContextManager instance
+         * @brief       Gets the FizzyAde::Core::IEditorManager instance.
          *
          */
         static IEditorManager *getInstance()

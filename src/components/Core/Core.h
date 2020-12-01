@@ -27,6 +27,12 @@
 #include <QString>
 #include <QPointer>
 
+/**
+ * @brief       Namespace for the core component.
+ *
+ * @details     The core component namespace contains all definitions and functions relating to the core component.  It is a root dependency of
+ *              all other components as it provides all core services.
+ */
 namespace FizzyAde::Core
 {
     /**

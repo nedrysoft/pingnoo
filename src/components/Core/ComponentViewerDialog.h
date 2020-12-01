@@ -59,7 +59,7 @@ namespace FizzyAde::Core
         ~ComponentViewerDialog();
 
         /**
-         * @brief       Return disabled component list
+         * @brief       Gets the list of disabled components
          *
          * @details     The dialog allows components to be enabled and disabled from being loaded at the
          *              next startup of the software.  This function returns a list of disabled components

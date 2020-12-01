@@ -82,7 +82,7 @@ namespace FizzyAde::Core
         virtual int setContext(int contextIdentifier) = 0;
 
         /**
-         * @brief       Returns the current context identifier
+         * @brief       Gets the current context.
          *
          * @details     Gets the currently active context
          *

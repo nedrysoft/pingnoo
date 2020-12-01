@@ -124,7 +124,7 @@ namespace FizzyAde::Core
         virtual bool removeTarget(IPingTarget *target) = 0;
 
         /**
-         * @brief       Returns the epoch
+         * @brief       Gets the epoch for this engine instace.
          *
          * @return      the time epoch
          *

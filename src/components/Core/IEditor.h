@@ -49,7 +49,7 @@ namespace FizzyAde::Core
         virtual ~IEditor() = default;
 
         /**
-         * @brief       Returns the widget for this editor
+         * @brief       Gets the widget for this editor.
          *
          * @return      the widget
          *
@@ -57,9 +57,10 @@ namespace FizzyAde::Core
         virtual QWidget *widget() = 0;
 
         /**
-         * @brief       Returns the display name for this editor
+         * @brief       Geets the display name for this editor
          *
-         * @return      display name
+         * @details     Gets the user displayable name of the editor, this is usually used by the FizzyAde::Core::IEditorManager to display
+         *              the name of the widget in the title.
          *
          */
         virtual QString displayName() = 0;

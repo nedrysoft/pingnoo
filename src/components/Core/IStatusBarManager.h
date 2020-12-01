@@ -28,10 +28,13 @@
 namespace FizzyAde::Core
 {
     /**
-     * @brief       Status Bar Interface
+     * @brief       Interface definition of a status bar manager
      *
-     * @details     IStatusBarManager handles the management of status bars
+     * @details     The status bar manager handles the management of the application status bar, components may use the status bar to display information
+     *              about tasks or results that are running.
      *
+     *              The status bar is normally context sensistve although components may created fixed entries that are shown regardless of the current
+     *              application context.
      */
     class FIZZYADE_CORE_DLLSPEC IStatusBarManager :
         public FizzyAde::ComponentSystem::IInterface
@@ -40,10 +43,9 @@ namespace FizzyAde::Core
 
     public:
         /**
-         * Returns the IStatusBarManager instance
+         * @brief       Gets the FizzyAde::Core::IStatusBarManager instance.
          *
-         * @return      the IStatusBarManager singleton instance
-         *
+         * @details     A convenience function to return the first FizzyAde::Core::IStatusBarManager instance found in the object registry.
          */
         static IStatusBarManager *getInstance()
         {

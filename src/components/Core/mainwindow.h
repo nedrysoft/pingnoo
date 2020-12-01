@@ -26,16 +26,18 @@
 #include <QAction>
 #include "Command.h"
 
-namespace FizzyAde::Core
-{
-    class IMenu;
-}
+/**
+ * @brief       Namespace for the core component user interface.
+ */
+namespace FizzyAde::Core::Ui {}
 
 namespace FizzyAde::Core
 {
     QT_BEGIN_NAMESPACE
     namespace Ui { class MainWindow; }
     QT_END_NAMESPACE
+
+    class IMenu;
 
     class MainWindow : public QMainWindow
     {

@@ -247,6 +247,7 @@ endmacro(pingnoo_start_executable)
 
 macro(pingnoo_end_executable)
     set_target_properties(${pingnooCurrentProjectName} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PINGNOO_BINARY_ROOT}")
+    set_target_properties(${pingnooCurrentProjectName} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.in)
 
     if (WIN32)
         set_property(TARGET ${pingnooCurrentProjectName} PROPERTY WIN32_EXECUTABLE true)

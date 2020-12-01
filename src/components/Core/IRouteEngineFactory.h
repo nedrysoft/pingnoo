@@ -31,11 +31,10 @@ namespace FizzyAde::Core
     class IRouteEngine;
 
     /**
-     * @brief       Interface definition of a route engine
+     * @brief       Interface definition of a route engine factory
      *
-     * @details     An engine implements the logic of determining the route
-     *              to a target host.
-     *
+     * @details     Creates instance of route engines.  Route engines are not instantiaed directly, instead the application finds all route engine factories
+     *              and uses the selected route engine factory to create route engines.
      */
     class FIZZYADE_CORE_DLLSPEC IRouteEngineFactory :
         public FizzyAde::ComponentSystem::IInterface,
@@ -48,27 +47,27 @@ namespace FizzyAde::Core
 
     public:
         /**
-          * @brief       Constructor
-          *
-          */
+         * @brief       Constructs a route engine factory.
+         *
+         * @details     Constructs a route engine factory.
+         */
         virtual ~IRouteEngineFactory() = default;
 
         /**
-         * @brief       Creates a a route engine instance
+         * @brief       Creates a route engine instance.
          *
-         * @details     Creates and returns a IRouteEngine instance that this engine
-         *              manages.
+         * @details     Creates and returns a route engine instance.  The instance is owned by the factory itself and is responsible for its life cycle.
          *
-         * @return      new instance of the route engine
-         *
+         * @return      new instance of the route engine,
          */
         virtual FizzyAde::Core::IRouteEngine *createEngine() = 0;
 
         /**
-         * @brief       Returns the description of the route engine
+         * @brief       Gets the description of the route engine.
          *
-         * @return      descriptive name of the route engine
+         * @brief       Gets the description of the route engine, used to display the name of the enine to the user.
          *
+         * @return      descriptive name of the route engine.
          */
         virtual QString description() = 0;
     };

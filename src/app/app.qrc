@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/app">
+        <file>fonts/Poppins/Poppins-Black.ttf</file>
+        <file>fonts/Poppins/Poppins-BlackItalic.ttf</file>
+        <file>fonts/Poppins/Poppins-Bold.ttf</file>
+        <file>fonts/Poppins/Poppins-BoldItalic.ttf</file>
+        <file>fonts/Poppins/Poppins-ExtraBold.ttf</file>
+        <file>fonts/Poppins/Poppins-ExtraBoldItalic.ttf</file>
+        <file>fonts/Poppins/Poppins-ExtraLight.ttf</file>
+        <file>fonts/Poppins/Poppins-ExtraLightItalic.ttf</file>
+        <file>fonts/Poppins/Poppins-Italic.ttf</file>
+        <file>fonts/Poppins/Poppins-Light.ttf</file>
+        <file>fonts/Poppins/Poppins-LightItalic.ttf</file>
+        <file>fonts/Poppins/Poppins-Medium.ttf</file>
+        <file>fonts/Poppins/Poppins-MediumItalic.ttf</file>
+        <file>fonts/Poppins/Poppins-Regular.ttf</file>
+        <file>fonts/Poppins/Poppins-SemiBold.ttf</file>
+        <file>fonts/Poppins/Poppins-SemiBoldItalic.ttf</file>
+        <file>fonts/Poppins/Poppins-Thin.ttf</file>
+        <file>fonts/Poppins/Poppins-ThinItalic.ttf</file>
+        <file>images/splashscreen@2x.png</file>
+        <file>images/splashscreen.png</file>
+    </qresource>
+</RCC>

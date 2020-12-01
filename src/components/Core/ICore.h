@@ -43,7 +43,7 @@ namespace FizzyAde::Core
 
     public:
         /**
-         * @brief       Returns the ICore instance
+         * @brief       Gets the FizzyAde::Core::ICore instance.
          *
          */
         static ICore *getInstance()
@@ -52,7 +52,7 @@ namespace FizzyAde::Core
         }
 
         /**
-         * @brief       Returns the main window object
+         * @brief       Gets the main window.
          *
          * @details     Returns a pointer to a QMainWindow object which is the main window of
          *              the application
