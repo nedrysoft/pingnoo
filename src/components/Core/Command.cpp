@@ -23,56 +23,49 @@
 #include "IContextManager.h"
 #include <QDebug>
 
-FizzyAde::Core::Command::Command(QString id)
-{
+Nedrysoft::Core::Command::Command(QString id) {
     m_action = new ActionProxy();
     m_id = id;
 }
 
-FizzyAde::Core::Command::~Command()
-{
+Nedrysoft::Core::Command::~Command() {
     delete m_action;
 }
 
-QAction *FizzyAde::Core::Command::action()
-{
+QAction *Nedrysoft::Core::Command::action() {
     return m_action;
 }
 
-void FizzyAde::Core::Command::registerAction(QAction *action, const FizzyAde::Core::ContextList &contexts)
-{
+void Nedrysoft::Core::Command::registerAction(QAction *action, const Nedrysoft::Core::ContextList &contexts) {
     connect(action, &QAction::changed, [action, this] {
         m_action->setEnabled(action->isEnabled());
     });
 
-    for(auto contextId : contexts) {
+    for (auto contextId : contexts) {
         m_actions[contextId] = action;
     }
 
-    if (FizzyAde::Core::IContextManager::getInstance()) {
-        setContext(FizzyAde::Core::IContextManager::getInstance()->context());
+    if (Nedrysoft::Core::IContextManager::getInstance()) {
+        setContext(Nedrysoft::Core::IContextManager::getInstance()->context());
     }
 }
 
-void FizzyAde::Core::Command::setContext(int contextId)
-{
+void Nedrysoft::Core::Command::setContext(int contextId) {
     if (m_actions.contains(contextId)) {
         m_action->setActive(m_actions[contextId]);
     } else {
-        if (m_actions.contains(FizzyAde::Core::GlobalContext)) {
-             m_action->setActive(m_actions[FizzyAde::Core::GlobalContext]);
+        if (m_actions.contains(Nedrysoft::Core::GlobalContext)) {
+            m_action->setActive(m_actions[Nedrysoft::Core::GlobalContext]);
         } else {
             m_action->setActive(nullptr);
         }
     }
 }
 
-void FizzyAde::Core::Command::setActive(bool state)
-{
+void Nedrysoft::Core::Command::setActive(bool state) {
     m_action->setEnabled(state);
 }
 
-bool FizzyAde::Core::Command::active()
-{
+bool Nedrysoft::Core::Command::active() {
     return m_action->isEnabled();
 }

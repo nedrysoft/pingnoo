@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_EDITORMANAGER_H
-#define FIZZYADE_CORE_EDITORMANAGER_H
+#ifndef NEDRYSOFT_CORE_EDITORMANAGER_H
+#define NEDRYSOFT_CORE_EDITORMANAGER_H
 
 #include "IEditorManager.h"
 #include <QObject>
@@ -27,8 +27,7 @@
 #include <QMap>
 #include <QTabWidget>
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
 
     /**
      * @brief       EditorManager implementation
@@ -37,30 +36,29 @@ namespace FizzyAde::Core
      *
      */
     class EditorManager :
-        public FizzyAde::Core::IEditorManager
-    {
+            public Nedrysoft::Core::IEditorManager {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::IEditorManager)
+            Q_INTERFACES(Nedrysoft::Core::IEditorManager)
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         * @param[in]   tabWidget       the tab widget that contains the editors
-         *
-         */
-        EditorManager(QTabWidget *tabWidget);
+        public:
+            /**
+             * @brief       Constructor
+             *
+             * @param[in]   tabWidget       the tab widget that contains the editors
+             *
+             */
+            EditorManager(QTabWidget *tabWidget);
 
-        /**
-         * @sa IEditorManager
-         *
-         */
-        virtual int openEditor(IEditor *editor);
+            /**
+             * @sa IEditorManager
+             *
+             */
+            virtual int openEditor(IEditor *editor);
 
-    private:
-        QTabWidget *m_tabWidget;
+        private:
+            QTabWidget *m_tabWidget;
     };
 }
 
-#endif // FIZZYADE_CORE_EDITORMANAGER_H
+#endif // NEDRYSOFT_CORE_EDITORMANAGER_H

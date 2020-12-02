@@ -18,14 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ROUTEANALYSER_GRAPHLATENCYLAYER_H
-#define FIZZYADE_ROUTEANALYSER_GRAPHLATENCYLAYER_H
+#ifndef NEDRYSOFT_ROUTEANALYSER_GRAPHLATENCYLAYER_H
+#define NEDRYSOFT_ROUTEANALYSER_GRAPHLATENCYLAYER_H
 
 #include "QCustomPlot/qcustomplot.h"
 #include "chrono"
 
-namespace FizzyAde::RouteAnalyser
-{
+namespace Nedrysoft::RouteAnalyser {
     /**
      * @brief       Background renderer for the latency information
      *
@@ -34,26 +33,25 @@ namespace FizzyAde::RouteAnalyser
      *
      */
     class GraphLatencyLayer :
-        public QCPItemRect
-    {
-    public:
-        /**
-         * @brief       Constructor
-         *
-         */
-        GraphLatencyLayer(QCustomPlot *customPlot);
+            public QCPItemRect {
+        public:
+            /**
+             * @brief       Constructor
+             *
+             */
+            GraphLatencyLayer(QCustomPlot *customPlot);
 
-    protected:
-        /**
-         * @sa          QCPItemRect
-         *
-         */
-        void draw(QCPPainter *painter);
+        protected:
+            /**
+             * @sa          QCPItemRect
+             *
+             */
+            void draw(QCPPainter *painter);
 
-    private:
-        std::chrono::duration<double> m_lowRangeLatency = {};            //! The lowest latency seen by this item
-        std::chrono::duration<double> m_midRangeLatency = {};            //! The highest latencty seen by this item
+        private:
+            std::chrono::duration<double> m_lowRangeLatency = {};            //! The lowest latency seen by this item
+            std::chrono::duration<double> m_midRangeLatency = {};            //! The highest latencty seen by this item
     };
 }
 
-#endif // FIZZYADE_ROUTEANALYSER_GRAPHLATENCYLAYER_H
+#endif // NEDRYSOFT_ROUTEANALYSER_GRAPHLATENCYLAYER_H

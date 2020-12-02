@@ -18,14 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_COMPONENTSYSTEM_IINTERFACE_H
-#define FIZZYADE_COMPONENTSYSTEM_IINTERFACE_H
+#ifndef NEDRYSOFT_COMPONENTSYSTEM_IINTERFACE_H
+#define NEDRYSOFT_COMPONENTSYSTEM_IINTERFACE_H
 
 #include "ComponentSystemSpec.h"
 #include <QObject>
 
-namespace FizzyAde::ComponentSystem
-{
+namespace Nedrysoft::ComponentSystem {
     /**
      * @brief       Root IInterface definition
      *
@@ -34,20 +33,19 @@ namespace FizzyAde::ComponentSystem
      *
      */
     class COMPONENT_SYSTEM_DLLSPEC IInterface :
-        public QObject
-    {
+            public QObject {
         Q_OBJECT
 
-    public:
-        /**
-         * @brief Destructor
-         *
-         */
-        virtual ~IInterface() = default;
+        public:
+            /**
+             * @brief Destructor
+             *
+             */
+            virtual ~IInterface() = default;
 
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::ComponentSystem::IInterface, "com.fizzyade.IInterface/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::ComponentSystem::IInterface, "com.fizzyade.IInterface/1.0.0")
 
-#endif // FIZZYADE_COMPONENTSYSTEM_IINTERFACE_H
+#endif // NEDRYSOFT_COMPONENTSYSTEM_IINTERFACE_H

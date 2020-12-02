@@ -29,8 +29,7 @@ ICMPAPIPingComponent::ICMPAPIPingComponent() = default;
 
 ICMPAPIPingComponent::~ICMPAPIPingComponent() = default;
 
-void ICMPAPIPingComponent::initialiseEvent()
-{
+void ICMPAPIPingComponent::initialiseEvent() {
 #if defined(Q_OS_WIN)
     WSADATA wsaData;
 
@@ -39,7 +38,7 @@ void ICMPAPIPingComponent::initialiseEvent()
         qDebug() << "error initialising winsock";
     }
 #endif
-    //FizzyAde::ComponentSystem::addObject(new FizzyAde::Pingnoo::ICMPAPIPingEngineFactory());
+    //Nedrysoft::ComponentSystem::addObject(new Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory());
 }
 
 

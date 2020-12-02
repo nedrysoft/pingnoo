@@ -27,8 +27,9 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 
-bool FizzyAde::PublicIPHostMasker::PublicIPHostMasker::mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress)
-{
+bool
+Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::mask(int hop, const QString &hostName, const QString &hostAddress,
+                                                        QString &maskedHostName, QString &maskedHostAddress) {
     Q_UNUSED(hop)
     Q_UNUSED(hostName)
     Q_UNUSED(hostAddress)
@@ -42,7 +43,7 @@ bool FizzyAde::PublicIPHostMasker::PublicIPHostMasker::mask(int hop, const QStri
         auto manager = new QNetworkAccessManager();
         QNetworkRequest request;
 
-        connect(manager, &QNetworkAccessManager::finished, [=] (QNetworkReply *) {
+        connect(manager, &QNetworkAccessManager::finished, [=](QNetworkReply *) {
             eventLoop->quit();
         });
 
@@ -54,7 +55,8 @@ bool FizzyAde::PublicIPHostMasker::PublicIPHostMasker::mask(int hop, const QStri
 
         auto responseTest(reply->readAll());
 
-        auto matchExpression = QRegularExpression(R"(Current IP Address: (?<ip>([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})))");
+        auto matchExpression = QRegularExpression(
+                R"(Current IP Address: (?<ip>([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})))");
 
         auto expressionMatch = matchExpression.match(responseTest);
 
@@ -63,7 +65,7 @@ bool FizzyAde::PublicIPHostMasker::PublicIPHostMasker::mask(int hop, const QStri
         }
     }
 
-    if (hostAddress==m_publicIP) {
+    if (hostAddress == m_publicIP) {
         maskedHostName = tr("<hidden>");
         maskedHostAddress = tr("<hidden>");
     }
@@ -71,13 +73,11 @@ bool FizzyAde::PublicIPHostMasker::PublicIPHostMasker::mask(int hop, const QStri
     return true;
 }
 
-QJsonObject FizzyAde::PublicIPHostMasker::PublicIPHostMasker::saveConfiguration()
-{
+QJsonObject Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::saveConfiguration() {
     return QJsonObject();
 }
 
-bool FizzyAde::PublicIPHostMasker::PublicIPHostMasker::loadConfiguration(QJsonObject configuration)
-{
+bool Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::loadConfiguration(QJsonObject configuration) {
     Q_UNUSED(configuration)
 
     return false;

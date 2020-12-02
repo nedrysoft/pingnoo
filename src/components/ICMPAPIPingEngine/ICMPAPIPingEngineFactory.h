@@ -18,16 +18,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_PINGNOO_ICMPAPIPINGENGINEFACTORY_H
-#define FIZZYADE_PINGNOO_ICMPAPIPINGENGINEFACTORY_H
+#ifndef NEDRYSOFT_PINGNOO_ICMPAPIPINGENGINEFACTORY_H
+#define NEDRYSOFT_PINGNOO_ICMPAPIPINGENGINEFACTORY_H
 
 #include "ICMPAPIPingEngineSpec.h"
 #include "Core/IPingEngineFactory.h"
 #include "ComponentSystem/IInterface.h"
 
-namespace FizzyAde::Pingnoo {
+namespace Nedrysoft::Pingnoo {
 
     class ICMPAPIPingEngineFactoryData;
+
     class ICMPPingEngine;
 
     /**
@@ -37,31 +38,33 @@ namespace FizzyAde::Pingnoo {
      *
      */
 
-    class ICMPAPIPingEngineFactory : public QObject, public FizzyAde::Core::IPingEngineFactory
-    {
+    class ICMPAPIPingEngineFactory :
+            public QObject, public Nedrysoft::Core::IPingEngineFactory {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::IPingEngineFactory)
+            Q_INTERFACES(Nedrysoft::Core::IPingEngineFactory)
 
-    public:
-        ICMPAPIPingEngineFactory();
-        ~ICMPAPIPingEngineFactory();
+        public:
+            ICMPAPIPingEngineFactory();
 
-        /**
-         * @sa IPingEngineFactory
-         */
-        virtual FizzyAde::Core::IPingEngine *createEngine();
+            ~ICMPAPIPingEngineFactory();
 
-        /**
-         * @sa IConfiguration
-         */
-        virtual QJsonObject saveConfiguration();
-        virtual bool loadConfiguration(QJsonObject configuration);
+            /**
+             * @sa IPingEngineFactory
+             */
+            virtual Nedrysoft::Core::IPingEngine *createEngine();
 
-    protected:
-        std::shared_ptr<ICMPAPIAPIPingEngineFactoryData> d;
+            /**
+             * @sa IConfiguration
+             */
+            virtual QJsonObject saveConfiguration();
+
+            virtual bool loadConfiguration(QJsonObject configuration);
+
+        protected:
+            std::shared_ptr<ICMPAPIAPIPingEngineFactoryData> d;
     };
 }
 
 
-#endif // FIZZYADE_PINGNOO_ICMPAPIPINGENGINEFACTORY_H
+#endif // NEDRYSOFT_PINGNOO_ICMPAPIPINGENGINEFACTORY_H

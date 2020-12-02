@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_REGEXHOSTMASKER_REGEXHOSTMASKER_H
-#define FIZZYADE_REGEXHOSTMASKER_REGEXHOSTMASKER_H
+#ifndef NEDRYSOFT_REGEXHOSTMASKER_REGEXHOSTMASKER_H
+#define NEDRYSOFT_REGEXHOSTMASKER_REGEXHOSTMASKER_H
 
 #include "ComponentSystem/IInterface.h"
 #include "RegExHostMaskerSpec.h"
@@ -27,19 +27,17 @@
 #include <QSet>
 #include <QObject>
 
-namespace FizzyAde::RegExHostMasker
-{
-    class RegExHostMaskerItem
-    {
-    public:
-        QSet<int> m_hops;
+namespace Nedrysoft::RegExHostMasker {
+    class RegExHostMaskerItem {
+        public:
+            QSet<int> m_hops;
 
-        QString m_matchExpression;
-        QString m_replacementString;
-        QString m_addressReplacementString;
-        QString m_hopString;
+            QString m_matchExpression;
+            QString m_replacementString;
+            QString m_addressReplacementString;
+            QString m_hopString;
 
-        unsigned int m_matchFlags;
+            unsigned int m_matchFlags;
     };
 
     /**
@@ -51,65 +49,68 @@ namespace FizzyAde::RegExHostMasker
      *
      */
     class RegExHostMasker :
-        public FizzyAde::Core::IHostMasker
-    {
+            public Nedrysoft::Core::IHostMasker {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::IHostMasker)
+            Q_INTERFACES(Nedrysoft::Core::IHostMasker)
 
-    public:
-        enum MatchFlags {
-            MatchHop = (1<<0),
-            MatchAddress = (1<<1),
-            MatchHost = (1<<2),
-            MaskAddress = (1<<3),
-            MaskHost = (1<<4)
-        };
+        public:
+            enum MatchFlags {
+                MatchHop = ( 1 << 0 ),
+                MatchAddress = ( 1 << 1 ),
+                MatchHost = ( 1 << 2 ),
+                MaskAddress = ( 1 << 3 ),
+                MaskHost = ( 1 << 4 )
+            };
 
-    public:
-        /**
-         * @brief       Adds a host name match mask
-         *
-         * @param[in]   matchFlags              a bit mask of values from MatchFlags
-         * @param[in]   matchExpression         the regular expression used for name matching
-         * @param[in]   replacementString       the string to be used for replacement
-         * @param[in]   hopString optional      hop string listing hops this mask is valid for
-         *
-         */
-        void add(unsigned int matchFlags, QString matchExpression, QString replacementString, QString hopString=QString());
+        public:
+            /**
+             * @brief       Adds a host name match mask
+             *
+             * @param[in]   matchFlags              a bit mask of values from MatchFlags
+             * @param[in]   matchExpression         the regular expression used for name matching
+             * @param[in]   replacementString       the string to be used for replacement
+             * @param[in]   hopString optional      hop string listing hops this mask is valid for
+             *
+             */
+            void add(unsigned int matchFlags, QString matchExpression, QString replacementString,
+                     QString hopString = QString());
 
-        /**
-         * @sa          IHostMasker
-         *
-         */
-        virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress);
+            /**
+             * @sa          IHostMasker
+             *
+             */
+            virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName,
+                              QString &maskedHostAddress);
 
-        /**
-         * @sa          IConfiguration
-         *
-         */
-        virtual QJsonObject saveConfiguration();
-        virtual bool loadConfiguration(QJsonObject configuration);
+            /**
+             * @sa          IConfiguration
+             *
+             */
+            virtual QJsonObject saveConfiguration();
 
-    private:
-        /**
-         * @brief       Attempts to apply a mask to a string
-         *
-         * @param[in]   hop                     the hop number
-         * @param[in]   hostName                the host name to be checked
-         * @param[in]   hostAddress             the host address to be checked
-         * @param[out]  maskedHostName          the masked host name
-         * @param[out]  maskedHostAddress       the masked host address
-         *
-         * @return      true on a match, else false
-         *
-         */
-        bool applyMask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress);
+            virtual bool loadConfiguration(QJsonObject configuration);
 
-    private:
-        QList<RegExHostMaskerItem> m_maskList;
+        private:
+            /**
+             * @brief       Attempts to apply a mask to a string
+             *
+             * @param[in]   hop                     the hop number
+             * @param[in]   hostName                the host name to be checked
+             * @param[in]   hostAddress             the host address to be checked
+             * @param[out]  maskedHostName          the masked host name
+             * @param[out]  maskedHostAddress       the masked host address
+             *
+             * @return      true on a match, else false
+             *
+             */
+            bool applyMask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName,
+                           QString &maskedHostAddress);
+
+        private:
+            QList<RegExHostMaskerItem> m_maskList;
 
     };
 }
 
-#endif // FIZZYADE_REGEXHOSTMASKER_REGEXHOSTMASKER_H
+#endif // NEDRYSOFT_REGEXHOSTMASKER_REGEXHOSTMASKER_H

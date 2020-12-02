@@ -26,20 +26,18 @@
 
 RegExHostMaskerComponent::RegExHostMaskerComponent() = default;
 
-RegExHostMaskerComponent::~RegExHostMaskerComponent()
-{
+RegExHostMaskerComponent::~RegExHostMaskerComponent() {
     for (auto maskerInstance : m_maskerList) {
-        FizzyAde::ComponentSystem::removeObject(maskerInstance);
+        Nedrysoft::ComponentSystem::removeObject(maskerInstance);
 
         delete maskerInstance;
     }
 }
 
-void RegExHostMaskerComponent::initialiseEvent()
-{
-    auto maskerInstance = new FizzyAde::RegExHostMasker::RegExHostMasker();
+void RegExHostMaskerComponent::initialiseEvent() {
+    auto maskerInstance = new Nedrysoft::RegExHostMasker::RegExHostMasker();
 
-    FizzyAde::ComponentSystem::addObject(maskerInstance);
+    Nedrysoft::ComponentSystem::addObject(maskerInstance);
 
     m_maskerList.append(maskerInstance);
 }

@@ -22,97 +22,82 @@
 #include <QTimer>
 #include <QDebug>
 
-class FizzyAde::Pingnoo::ICMPAPIPingItemData
-{
-public:
-    ICMPAPIPingItemData(FizzyAde::Pingnoo::ICMPAPIPingItem *parent)
-    {
-        m_pingItem = parent;
-        m_id = 0;
-        m_sequenceId = 0;
-        m_serviced = false;
-        m_target = nullptr;
-        m_sampleNumber = 0;
-    }
+class Nedrysoft::Pingnoo::ICMPAPIPingItemData {
+    public:
+        ICMPAPIPingItemData(Nedrysoft::Pingnoo::ICMPAPIPingItem *parent) {
+            m_pingItem = parent;
+            m_id = 0;
+            m_sequenceId = 0;
+            m_serviced = false;
+            m_target = nullptr;
+            m_sampleNumber = 0;
+        }
 
-    friend class ICMPAPIPingItem;
+        friend class ICMPAPIPingItem;
 
-private:
-    FizzyAde::Pingnoo::ICMPAPIPingItem* m_pingItem;
+    private:
+        Nedrysoft::Pingnoo::ICMPAPIPingItem *m_pingItem;
 
-    std::chrono::high_resolution_clock::time_point m_transmitTime;
+        std::chrono::high_resolution_clock::time_point m_transmitTime;
 
-    uint16_t m_id;
-    uint16_t m_sequenceId;
+        uint16_t m_id;
+        uint16_t m_sequenceId;
 
-    unsigned long m_sampleNumber;
+        unsigned long m_sampleNumber;
 
-    bool m_serviced;
+        bool m_serviced;
 
-    FizzyAde::Pingnoo::ICMPAPIPingTarget *m_target;
+        Nedrysoft::Pingnoo::ICMPAPIPingTarget *m_target;
 };
 
-FizzyAde::Pingnoo::ICMPAPIPingItem::ICMPAPIPingItem() :
-    d(std::make_shared<FizzyAde::ICMPAPIPingEngine::ICMPAPIPingItemData>(this))
-{
+Nedrysoft::Pingnoo::ICMPAPIPingItem::ICMPAPIPingItem() :
+        d(std::make_shared<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItemData>(this)) {
 }
 
-void FizzyAde::Pingnoo::ICMPAPIPingItem::setId(uint16_t id)
-{
+void Nedrysoft::Pingnoo::ICMPAPIPingItem::setId(uint16_t id) {
     d->m_id = id;
 }
 
-void FizzyAde::Pingnoo::ICMPAPIPingItem::setSequenceId(uint16_t sequence)
-{
+void Nedrysoft::Pingnoo::ICMPAPIPingItem::setSequenceId(uint16_t sequence) {
     d->m_sequenceId = sequence;
 }
 
-uint16_t FizzyAde::Pingnoo::ICMPAPIPingItem::sequenceId()
-{
-    return(d->m_sequenceId);
+uint16_t Nedrysoft::Pingnoo::ICMPAPIPingItem::sequenceId() {
+    return ( d->m_sequenceId );
 }
 
-void FizzyAde::Pingnoo::ICMPAPIPingItem::setTransmitTime(std::chrono::high_resolution_clock::time_point time)
-{
+void Nedrysoft::Pingnoo::ICMPAPIPingItem::setTransmitTime(std::chrono::high_resolution_clock::time_point time) {
     d->m_transmitTime = time;
 }
 
-void FizzyAde::Pingnoo::ICMPAPIPingItem::setServiced(bool serviced)
-{
+void Nedrysoft::Pingnoo::ICMPAPIPingItem::setServiced(bool serviced) {
     d->m_serviced = serviced;
 }
 
-bool FizzyAde::Pingnoo::ICMPAPIPingItem::serviced()
-{
-    return(d->m_serviced);
+bool Nedrysoft::Pingnoo::ICMPAPIPingItem::serviced() {
+    return ( d->m_serviced );
 }
 
-uint16_t FizzyAde::Pingnoo::ICMPAPIPingItem::id()
-{
-    return(d->m_id);
+uint16_t Nedrysoft::Pingnoo::ICMPAPIPingItem::id() {
+    return ( d->m_id );
 }
 
-void FizzyAde::Pingnoo::ICMPAPIPingItem::setTarget(FizzyAde::Pingnoo::ICMPAPIPingTarget *target)
-{
+void Nedrysoft::Pingnoo::ICMPAPIPingItem::setTarget(Nedrysoft::Pingnoo::ICMPAPIPingTarget *target) {
     d->m_target = target;
 }
 
-FizzyAde::Pingnoo::ICMPAPIPingTarget *FizzyAde::Pingnoo::ICMPAPIPingItem::target()
-{
-    return(d->m_target);
+Nedrysoft::Pingnoo::ICMPAPIPingTarget *Nedrysoft::Pingnoo::ICMPAPIPingItem::target() {
+    return ( d->m_target );
 }
 
-std::chrono::high_resolution_clock::time_point FizzyAde::Pingnoo::ICMPAPIPingItem::transmitTime()
-{
-    return(d->m_transmitTime);
+std::chrono::high_resolution_clock::time_point Nedrysoft::Pingnoo::ICMPAPIPingItem::transmitTime() {
+    return ( d->m_transmitTime );
 }
 
-void FizzyAde::Pingnoo::ICMPAPIPingItem::setSampleNumber(unsigned long sampleNumber)
-{
+void Nedrysoft::Pingnoo::ICMPAPIPingItem::setSampleNumber(unsigned long sampleNumber) {
     d->m_sampleNumber = sampleNumber;
 }
 
-unsigned long FizzyAde::Pingnoo::ICMPAPIPingItem::sampleNumber()
-{
-    return(d->m_sampleNumber);
+unsigned long Nedrysoft::Pingnoo::ICMPAPIPingItem::sampleNumber() {
+    return ( d->m_sampleNumber );
 }

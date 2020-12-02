@@ -1,59 +1,52 @@
 #include "ICMPPingEngineFactory.h"
 #include "ICMPPingEngine.h"
 
-class FizzyAde::ICMPPingEngine::ICMPPingEngineFactoryData
-{
+class Nedrysoft::ICMPPingEngine::ICMPPingEngineFactoryData {
 
-public:
-    ICMPPingEngineFactoryData(FizzyAde::ICMPPingEngine::ICMPPingEngineFactory *parent)
-    {
-        m_factory = parent;
-    }
+    public:
+        ICMPPingEngineFactoryData(Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory *parent) {
+            m_factory = parent;
+        }
 
-    friend class ICMPPingEngineFactory;
+        friend class ICMPPingEngineFactory;
 
-private:
-    FizzyAde::ICMPPingEngine::ICMPPingEngineFactory *m_factory;
+    private:
+        Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory *m_factory;
 
-    QList<FizzyAde::ICMPPingEngine::ICMPPingEngine *> m_engineList;
+        QList<Nedrysoft::ICMPPingEngine::ICMPPingEngine *> m_engineList;
 };
 
-FizzyAde::ICMPPingEngine::ICMPPingEngineFactory::ICMPPingEngineFactory() :
-   d(std::make_shared<FizzyAde::ICMPPingEngine::ICMPPingEngineFactoryData>(this))
-{
+Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::ICMPPingEngineFactory() :
+        d(std::make_shared<Nedrysoft::ICMPPingEngine::ICMPPingEngineFactoryData>(this)) {
 
 }
 
-FizzyAde::ICMPPingEngine::ICMPPingEngineFactory::~ICMPPingEngineFactory()
-{
-    for(auto engineInstance : d->m_engineList) {
+Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::~ICMPPingEngineFactory() {
+    for (auto engineInstance : d->m_engineList) {
         delete engineInstance;
     }
 }
 
-FizzyAde::Core::IPingEngine *FizzyAde::ICMPPingEngine::ICMPPingEngineFactory::createEngine(FizzyAde::Core::IPVersion version)
-{
-    auto engineInstance = new FizzyAde::ICMPPingEngine::ICMPPingEngine(version);
+Nedrysoft::Core::IPingEngine *
+Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::createEngine(Nedrysoft::Core::IPVersion version) {
+    auto engineInstance = new Nedrysoft::ICMPPingEngine::ICMPPingEngine(version);
 
     d->m_engineList.append(engineInstance);
 
     return engineInstance;
 }
 
-QJsonObject FizzyAde::ICMPPingEngine::ICMPPingEngineFactory::saveConfiguration()
-{
+QJsonObject Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::saveConfiguration() {
     return QJsonObject();
 }
 
-bool FizzyAde::ICMPPingEngine::ICMPPingEngineFactory::loadConfiguration(QJsonObject configuration)
-{
+bool Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::loadConfiguration(QJsonObject configuration) {
     Q_UNUSED(configuration)
 
     return false;
 }
 
-QString FizzyAde::ICMPPingEngine::ICMPPingEngineFactory::description()
-{
+QString Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::description() {
     return tr("ICMP Ping Engine");
 }
 

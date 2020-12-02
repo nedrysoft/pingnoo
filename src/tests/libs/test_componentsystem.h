@@ -3,8 +3,8 @@
 
 #include <QObject>
 
-class TestObject : public QObject
-{
+class TestObject :
+        public QObject {
     Q_OBJECT
 };
 

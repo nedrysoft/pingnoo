@@ -18,33 +18,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_MAPWIDGET_MAPWIDGET_H
-#define FIZZYADE_MAPWIDGET_MAPWIDGET_H
+#ifndef NEDRYSOFT_MAPWIDGET_MAPWIDGET_H
+#define NEDRYSOFT_MAPWIDGET_MAPWIDGET_H
 
 #include <QWidget>
 #include <QGridLayout>
 
-#if (defined(FIZZYADE_LIBRARY_MAPWIDGET_EXPORT))
-#define FIZZYADE_MAPWIDGET_DLLSPEC Q_DECL_EXPORT
+#if ( defined(NEDRYSOFT_LIBRARY_MAPWIDGET_EXPORT))
+#define NEDRYSOFT_MAPWIDGET_DLLSPEC Q_DECL_EXPORT
 #else
-#define FIZZYADE_MAPWIDGET_DLLSPEC Q_DECL_IMPORT
+#define NEDRYSOFT_MAPWIDGET_DLLSPEC Q_DECL_IMPORT
 #endif
 
 class QQuickWidget;
 
-namespace FizzyAde::MapWidget
-{
-    class FIZZYADE_MAPWIDGET_DLLSPEC MapWidget :
-        public QWidget
-    {
-    public:
-        MapWidget(QWidget *parent=nullptr);
-        ~MapWidget();
+namespace Nedrysoft::MapWidget {
+    class NEDRYSOFT_MAPWIDGET_DLLSPEC MapWidget :
+            public QWidget {
+        public:
+            MapWidget(QWidget *parent = nullptr);
 
-    private:
-        QQuickWidget *m_mapWidget;
-        QGridLayout *m_mapLayout;
+            ~MapWidget();
+
+        private:
+            QQuickWidget *m_mapWidget;
+            QGridLayout *m_mapLayout;
     };
 }
 
-#endif // FIZZYADE_MAPWIDGET_MAPWIDGET_H
+#endif // NEDRYSOFT_MAPWIDGET_MAPWIDGET_H

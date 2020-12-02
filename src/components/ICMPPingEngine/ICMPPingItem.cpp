@@ -23,8 +23,7 @@
 #include <QDebug>
 #include <QMutex>
 
-FizzyAde::ICMPPingEngine::ICMPPingItem::ICMPPingItem()
-{
+Nedrysoft::ICMPPingEngine::ICMPPingItem::ICMPPingItem() {
     m_id = 0;
     m_sequenceId = 0;
     m_serviced = false;
@@ -32,80 +31,66 @@ FizzyAde::ICMPPingEngine::ICMPPingItem::ICMPPingItem()
     m_sampleNumber = 0;
 }
 
-FizzyAde::ICMPPingEngine::ICMPPingItem::~ICMPPingItem() = default;
+Nedrysoft::ICMPPingEngine::ICMPPingItem::~ICMPPingItem() = default;
 
-void FizzyAde::ICMPPingEngine::ICMPPingItem::setId(uint16_t id)
-{
+void Nedrysoft::ICMPPingEngine::ICMPPingItem::setId(uint16_t id) {
     m_id = id;
 }
 
-void FizzyAde::ICMPPingEngine::ICMPPingItem::setSequenceId(uint16_t sequence)
-{
+void Nedrysoft::ICMPPingEngine::ICMPPingItem::setSequenceId(uint16_t sequence) {
     m_sequenceId = sequence;
 }
 
-uint16_t FizzyAde::ICMPPingEngine::ICMPPingItem::sequenceId()
-{
+uint16_t Nedrysoft::ICMPPingEngine::ICMPPingItem::sequenceId() {
     return m_sequenceId;
 }
 
-void FizzyAde::ICMPPingEngine::ICMPPingItem::setTransmitTime(std::chrono::high_resolution_clock::time_point time, std::chrono::system_clock::time_point epoch)
-{
+void Nedrysoft::ICMPPingEngine::ICMPPingItem::setTransmitTime(std::chrono::high_resolution_clock::time_point time,
+                                                              std::chrono::system_clock::time_point epoch) {
     m_transmitTime = time;
     m_transmitEpoch = epoch;
 }
 
-void FizzyAde::ICMPPingEngine::ICMPPingItem::setServiced(bool serviced)
-{
+void Nedrysoft::ICMPPingEngine::ICMPPingItem::setServiced(bool serviced) {
     m_serviced = serviced;
 }
 
-bool FizzyAde::ICMPPingEngine::ICMPPingItem::serviced()
-{
+bool Nedrysoft::ICMPPingEngine::ICMPPingItem::serviced() {
     return m_serviced;
 }
 
-uint16_t FizzyAde::ICMPPingEngine::ICMPPingItem::id()
-{
+uint16_t Nedrysoft::ICMPPingEngine::ICMPPingItem::id() {
     return m_id;
 }
 
-void FizzyAde::ICMPPingEngine::ICMPPingItem::setTarget(FizzyAde::ICMPPingEngine::ICMPPingTarget *target)
-{
+void Nedrysoft::ICMPPingEngine::ICMPPingItem::setTarget(Nedrysoft::ICMPPingEngine::ICMPPingTarget *target) {
     m_target = target;
 }
 
-FizzyAde::ICMPPingEngine::ICMPPingTarget *FizzyAde::ICMPPingEngine::ICMPPingItem::target()
-{
+Nedrysoft::ICMPPingEngine::ICMPPingTarget *Nedrysoft::ICMPPingEngine::ICMPPingItem::target() {
     return m_target;
 }
 
-std::chrono::high_resolution_clock::time_point FizzyAde::ICMPPingEngine::ICMPPingItem::transmitTime()
-{
+std::chrono::high_resolution_clock::time_point Nedrysoft::ICMPPingEngine::ICMPPingItem::transmitTime() {
     return m_transmitTime;
 }
 
-std::chrono::system_clock::time_point FizzyAde::ICMPPingEngine::ICMPPingItem::transmitEpoch()
-{
+std::chrono::system_clock::time_point Nedrysoft::ICMPPingEngine::ICMPPingItem::transmitEpoch() {
     return m_transmitEpoch;
 }
 
-void FizzyAde::ICMPPingEngine::ICMPPingItem::setSampleNumber(unsigned long sampleNumber)
-{
+void Nedrysoft::ICMPPingEngine::ICMPPingItem::setSampleNumber(unsigned long sampleNumber) {
     m_sampleNumber = sampleNumber;
 }
 
-unsigned long FizzyAde::ICMPPingEngine::ICMPPingItem::sampleNumber()
-{
+unsigned long Nedrysoft::ICMPPingEngine::ICMPPingItem::sampleNumber() {
     return m_sampleNumber;
 }
 
-void FizzyAde::ICMPPingEngine::ICMPPingItem::lock()
-{
+void Nedrysoft::ICMPPingEngine::ICMPPingItem::lock() {
     m_mutex.lock();
 }
 
-void FizzyAde::ICMPPingEngine::ICMPPingItem::unlock()
-{
+void Nedrysoft::ICMPPingEngine::ICMPPingItem::unlock() {
     m_mutex.unlock();
 }

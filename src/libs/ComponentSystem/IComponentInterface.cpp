@@ -22,12 +22,10 @@
 #include "IComponentManager.h"
 #include <QDebug>
 
-FizzyAde::ComponentSystem::IComponentInterface::~IComponentInterface() = default;
+Nedrysoft::ComponentSystem::IComponentInterface::~IComponentInterface() = default;
 
-void FizzyAde::ComponentSystem::IComponentInterface::initialiseEvent()
-{
+void Nedrysoft::ComponentSystem::IComponentInterface::initialiseEvent() {
 }
 
-void FizzyAde::ComponentSystem::IComponentInterface::initialisationFinishedEvent()
-{
+void Nedrysoft::ComponentSystem::IComponentInterface::initialisationFinishedEvent() {
 }

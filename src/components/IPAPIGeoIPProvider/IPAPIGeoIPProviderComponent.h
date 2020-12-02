@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_IPAPIGEOIPPROVIDER_IPAPIGEOIPPROVIDERCOMPONENT_H
-#define FIZZYADE_IPAPIGEOIPPROVIDER_IPAPIGEOIPPROVIDERCOMPONENT_H
+#ifndef NEDRYSOFT_IPAPIGEOIPPROVIDER_IPAPIGEOIPPROVIDERCOMPONENT_H
+#define NEDRYSOFT_IPAPIGEOIPPROVIDER_IPAPIGEOIPPROVIDERCOMPONENT_H
 
 #include "IPAPIGeoIPProviderSpec.h"
 #include "IPAPIGeoIPProvider.h"
@@ -31,36 +31,35 @@
  * @details     Implements a GEO IP lookup provider using ipapi.com
  *
  */
-class FIZZYADE_IPAPIGEOIPPROVIDER_DLLSPEC IPAPIGeoIPProviderComponent :
-    public QObject,
-    public FizzyAde::ComponentSystem::IComponentInterface
-{
+class NEDRYSOFT_IPAPIGEOIPPROVIDER_DLLSPEC IPAPIGeoIPProviderComponent :
+        public QObject,
+        public Nedrysoft::ComponentSystem::IComponentInterface {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID FizzyAdeComponentInterfaceIID FILE "metadata.json")
-    Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
+        Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
+        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponentInterface)
 
-public:
-    /**
-     * @brief Constructor
-     *
-     */
-    IPAPIGeoIPProviderComponent();
+    public:
+        /**
+         * @brief Constructor
+         *
+         */
+        IPAPIGeoIPProviderComponent();
 
-    /**
-     * @brief Destructor
-     *
-     */
-    ~IPAPIGeoIPProviderComponent();
+        /**
+         * @brief Destructor
+         *
+         */
+        ~IPAPIGeoIPProviderComponent();
 
-    /**
-     * @sa          FizzyAde::ComponentSystem::IComponentInterface
-     *
-     */
-    virtual void initialiseEvent();
+        /**
+         * @sa          Nedrysoft::ComponentSystem::IComponentInterface
+         *
+         */
+        virtual void initialiseEvent();
 
-private:
+    private:
 
-    FizzyAde::IPAPIGeoIPProvider::IPAPIGeoIPProvider *m_provider;
+        Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider *m_provider;
 };
 
-#endif // FIZZYADE_IPAPIGEOIPPROVIDER_IPAPIGEOIPPROVIDERCOMPONENT_H
+#endif // NEDRYSOFT_IPAPIGEOIPPROVIDER_IPAPIGEOIPPROVIDERCOMPONENT_H

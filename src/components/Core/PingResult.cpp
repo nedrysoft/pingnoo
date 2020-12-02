@@ -20,8 +20,7 @@
 
 #include "PingResult.h"
 
-FizzyAde::Core::PingResult::PingResult()
-{
+Nedrysoft::Core::PingResult::PingResult() {
     m_sampleNumber = 0;
     m_code = PingResult::NoReply;
     m_hostAddress = QHostAddress();
@@ -30,10 +29,12 @@ FizzyAde::Core::PingResult::PingResult()
     m_target = nullptr;
 }
 
-FizzyAde::Core::PingResult::~PingResult() = default;
+Nedrysoft::Core::PingResult::~PingResult() = default;
 
-FizzyAde::Core::PingResult::PingResult(unsigned long sampleNumber, PingResultCode code, QHostAddress hostAddress, std::chrono::system_clock::time_point requestTime, std::chrono::duration<double> roundTripTime, FizzyAde::Core::IPingTarget *target)
-{
+Nedrysoft::Core::PingResult::PingResult(unsigned long sampleNumber, PingResultCode code, QHostAddress hostAddress,
+                                        std::chrono::system_clock::time_point requestTime,
+                                        std::chrono::duration<double> roundTripTime,
+                                        Nedrysoft::Core::IPingTarget *target) {
     m_sampleNumber = sampleNumber;
     m_code = code;
     m_hostAddress = std::move(hostAddress);
@@ -42,32 +43,26 @@ FizzyAde::Core::PingResult::PingResult(unsigned long sampleNumber, PingResultCod
     m_target = target;
 }
 
-unsigned long FizzyAde::Core::PingResult::sampleNumber()
-{
+unsigned long Nedrysoft::Core::PingResult::sampleNumber() {
     return m_sampleNumber;
 }
 
-std::chrono::system_clock::time_point FizzyAde::Core::PingResult::requestTime()
-{
+std::chrono::system_clock::time_point Nedrysoft::Core::PingResult::requestTime() {
     return m_requestTime;
 }
 
-FizzyAde::Core::PingResult::PingResultCode FizzyAde::Core::PingResult::code()
-{
+Nedrysoft::Core::PingResult::PingResultCode Nedrysoft::Core::PingResult::code() {
     return m_code;
 }
 
-QHostAddress FizzyAde::Core::PingResult::hostAddress()
-{
+QHostAddress Nedrysoft::Core::PingResult::hostAddress() {
     return m_hostAddress;
 }
 
-std::chrono::duration<double> FizzyAde::Core::PingResult::roundTripTime()
-{
+std::chrono::duration<double> Nedrysoft::Core::PingResult::roundTripTime() {
     return m_roundTripTime;
 }
 
-FizzyAde::Core::IPingTarget *FizzyAde::Core::PingResult::target()
-{
+Nedrysoft::Core::IPingTarget *Nedrysoft::Core::PingResult::target() {
     return m_target;
 }

@@ -29,26 +29,25 @@
 #include "IPingEngineFactory.h"
 #include <QDebug>
 
-void CoreComponent::initialiseEvent()
-{
-    qRegisterMetaType<FizzyAde::Core::PingResult>("FizzyAde::Core::PingResult");
-    qRegisterMetaType<FizzyAde::Core::RouteList>("FizzyAde::Core::RouteList");
+void CoreComponent::initialiseEvent() {
+    qRegisterMetaType<Nedrysoft::Core::PingResult>("Nedrysoft::Core::PingResult");
+    qRegisterMetaType<Nedrysoft::Core::RouteList>("Nedrysoft::Core::RouteList");
     qRegisterMetaType<QHostAddress>("QHostAddress");
-    qRegisterMetaType<FizzyAde::Core::IPingEngineFactory *>("FizzyAde::Core::IPingEngineFactory *");
+    qRegisterMetaType<Nedrysoft::Core::IPingEngineFactory *>("Nedrysoft::Core::IPingEngineFactory *");
 
-    FizzyAde::ComponentSystem::addObject(new FizzyAde::Core::Core());
-    FizzyAde::ComponentSystem::addObject(new FizzyAde::Core::ContextManager());
-    FizzyAde::ComponentSystem::addObject(new FizzyAde::Core::CommandManager());
+    Nedrysoft::ComponentSystem::addObject(new Nedrysoft::Core::Core());
+    Nedrysoft::ComponentSystem::addObject(new Nedrysoft::Core::ContextManager());
+    Nedrysoft::ComponentSystem::addObject(new Nedrysoft::Core::CommandManager());
 }
 
-void CoreComponent::initialisationFinishedEvent()
-{
-    auto core = FizzyAde::ComponentSystem::getObject<FizzyAde::Core::Core>();
+void CoreComponent::initialisationFinishedEvent() {
+    auto core = Nedrysoft::ComponentSystem::getObject<Nedrysoft::Core::Core>();
 
-    connect(FizzyAde::Core::IContextManager::getInstance(), &FizzyAde::Core::IContextManager::contextChanged, [&] (int newContext, int oldContext) {
-        Q_UNUSED(oldContext)
-        FizzyAde::Core::ICommandManager::getInstance()->setContext(newContext);
-    });
+    connect(Nedrysoft::Core::IContextManager::getInstance(), &Nedrysoft::Core::IContextManager::contextChanged,
+            [&](int newContext, int oldContext) {
+                Q_UNUSED(oldContext)
+                Nedrysoft::Core::ICommandManager::getInstance()->setContext(newContext);
+            });
 
     core->open();
 }

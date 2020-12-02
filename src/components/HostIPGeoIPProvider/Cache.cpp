@@ -30,8 +30,7 @@
 #include <QDateTime>
 #include <QJsonArray>
 
-FizzyAde::HostIPGeoIPProvider::Cache::Cache()
-{
+Nedrysoft::HostIPGeoIPProvider::Cache::Cache() {
     auto dataLocations = QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation);
 
     if (dataLocations.isEmpty()) {
@@ -40,7 +39,7 @@ FizzyAde::HostIPGeoIPProvider::Cache::Cache()
 
     auto dbFileInfo = QFileInfo(dataLocations.at(0), "host-ip-cache.db");
 
-    auto database = QSqlDatabase::addDatabase("QSQLITE", QString("FizzyAde::HostIPGeoIPProvider::Cache"));
+    auto database = QSqlDatabase::addDatabase("QSQLITE", QString("Nedrysoft::HostIPGeoIPProvider::Cache"));
 
     database.setDatabaseName(dbFileInfo.absoluteFilePath());
 
@@ -73,14 +72,12 @@ FizzyAde::HostIPGeoIPProvider::Cache::Cache()
     }
 }
 
-FizzyAde::HostIPGeoIPProvider::Cache::Cache::~Cache()
-{
-    QSqlDatabase::removeDatabase("FizzyAde::HostIPGeoIPProvider::Cache");
+Nedrysoft::HostIPGeoIPProvider::Cache::Cache::~Cache() {
+    QSqlDatabase::removeDatabase("Nedrysoft::HostIPGeoIPProvider::Cache");
 }
 
-void FizzyAde::HostIPGeoIPProvider::Cache::add(QJsonObject object)
-{
-    QSqlDatabase database = QSqlDatabase::database("FizzyAde::HostIPGeoIPProvider::Cache");
+void Nedrysoft::HostIPGeoIPProvider::Cache::add(QJsonObject object) {
+    QSqlDatabase database = QSqlDatabase::database("Nedrysoft::HostIPGeoIPProvider::Cache");
     QSqlQuery query(database);
 
     query.prepare("INSERT INTO ip (name, creationTime, country, countryCode, city) "
@@ -99,9 +96,8 @@ void FizzyAde::HostIPGeoIPProvider::Cache::add(QJsonObject object)
     }
 }
 
-bool FizzyAde::HostIPGeoIPProvider::Cache::find(const QString &name, QJsonObject &object)
-{
-    QSqlDatabase database = QSqlDatabase::database("FizzyAde::HostIPGeoIPProvider::Cache");
+bool Nedrysoft::HostIPGeoIPProvider::Cache::find(const QString &name, QJsonObject &object) {
+    QSqlDatabase database = QSqlDatabase::database("Nedrysoft::HostIPGeoIPProvider::Cache");
     QSqlQuery query(database);
 
     query.prepare("SELECT * FROM ip WHERE name=:name");

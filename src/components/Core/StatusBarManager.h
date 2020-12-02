@@ -18,29 +18,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_STATUSBARMANAGER_H
-#define FIZZYADE_CORE_STATUSBARMANAGER_H
+#ifndef NEDRYSOFT_CORE_STATUSBARMANAGER_H
+#define NEDRYSOFT_CORE_STATUSBARMANAGER_H
 
 #include "IStatusBarManager.h"
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     /**
      * @brief       Implementation of a status bar manager
      *
-     * @copydoc     FizzyAde::Core::IStatusBarManager
+     * @copydoc     Nedrysoft::Core::IStatusBarManager
      */
     class StatusBarManager :
-        public IStatusBarManager
-    {
-    public:
-        /**
-         * @brief       Constructs a status bar manager.
-         *
-         * @details     Constructs a status bar manager.
-         */
-        StatusBarManager();
+            public IStatusBarManager {
+        public:
+            /**
+             * @brief       Constructs a status bar manager.
+             *
+             * @details     Constructs a status bar manager.
+             */
+            StatusBarManager();
     };
 }
 
-#endif // FIZZYADE_CORE_STATUSBARMANAGER_H
+#endif // NEDRYSOFT_CORE_STATUSBARMANAGER_H

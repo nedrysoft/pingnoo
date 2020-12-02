@@ -18,13 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ICMPPINGENGINE_ICMPPINGTIMEOUT_H
-#define FIZZYADE_ICMPPINGENGINE_ICMPPINGTIMEOUT_H
+#ifndef NEDRYSOFT_ICMPPINGENGINE_ICMPPINGTIMEOUT_H
+#define NEDRYSOFT_ICMPPINGENGINE_ICMPPINGTIMEOUT_H
 
 #include "Core/PingResult.h"
 
-namespace FizzyAde::ICMPPingEngine
-{
+namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingEngine;
 
     /**
@@ -34,49 +33,49 @@ namespace FizzyAde::ICMPPingEngine
      *              calls the engine periodically to detect timed out requests
      *
      */
-    class ICMPPingTimeout : public QObject
-    {
+    class ICMPPingTimeout :
+            public QObject {
         Q_OBJECT
 
-    public:
+        public:
 
-        /**
-         * @brief       Constructor with engine
-         *
-         * @details     Creates the receiver object and passes in the engine
-         *              so that the requests can be tagged to the correct engine
-         *
-         * @param[in]   engine          the owner engine
-         *
-         */
-        ICMPPingTimeout(FizzyAde::ICMPPingEngine::ICMPPingEngine *engine);
+            /**
+             * @brief       Constructor with engine
+             *
+             * @details     Creates the receiver object and passes in the engine
+             *              so that the requests can be tagged to the correct engine
+             *
+             * @param[in]   engine          the owner engine
+             *
+             */
+            ICMPPingTimeout(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine);
 
-    public slots:
+        public slots:
 
-        /**
-         * @brief       The receiver thread worker
-         *
-         */
-        void doWork(void);
+            /**
+             * @brief       The receiver thread worker
+             *
+             */
+            void doWork(void);
 
-    signals:
+        signals:
 
-        /**
-         * @brief       Signals when a timeout result is available
-         *
-         * @param[in]   result          the result
-         *
-         */
-        void result(FizzyAde::Core::PingResult result);
+            /**
+             * @brief       Signals when a timeout result is available
+             *
+             * @param[in]   result          the result
+             *
+             */
+            void result(Nedrysoft::Core::PingResult result);
 
-        friend class ICMPPingEngine;
+            friend class ICMPPingEngine;
 
-    private:
-        FizzyAde::ICMPPingEngine::ICMPPingEngine *m_engine;    //! The engine that owns this timeout worker
+        private:
+            Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_engine;    //! The engine that owns this timeout worker
 
-    protected:
-        bool m_isRunning;                               //! Thread is running
+        protected:
+            bool m_isRunning;                               //! Thread is running
     };
 }
 
-#endif // FIZZYADE_ICMPPINGENGINE_ICMPPINGTIMEOUT_H
+#endif // NEDRYSOFT_ICMPPINGENGINE_ICMPPINGTIMEOUT_H

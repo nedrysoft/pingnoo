@@ -18,14 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_PINGNOO_CONSTANTS_H
-#define FIZZYADE_PINGNOO_CONSTANTS_H
+#ifndef NEDRYSOFT_PINGNOO_CONSTANTS_H
+#define NEDRYSOFT_PINGNOO_CONSTANTS_H
 
 #include <QMap>
 #include <QObject>
 
-namespace Pingnoo::Constants
-{
+namespace Pingnoo::Constants {
     constexpr auto editCut = "Edit.Cut";
     constexpr auto editCopy = "Edit.Copy";
     constexpr auto editPaste = "Edit.Paste";
@@ -41,9 +40,9 @@ namespace Pingnoo::Constants
     constexpr auto helpAbout = "Menu.Help.About";
     constexpr auto helpAboutComponents = "Menu.Help.AboutComponents";
 
-    constexpr auto defaultGroupTop   = "Group.Top";
-    constexpr auto defaultGroupMiddle   = "Group.Middle";
-    constexpr auto defaultGroupBottom   = "Group.Bottom";
+    constexpr auto defaultGroupTop = "Group.Top";
+    constexpr auto defaultGroupMiddle = "Group.Middle";
+    constexpr auto defaultGroupBottom = "Group.Bottom";
 
     constexpr auto fileNewGroup = "Group.File.New";
     constexpr auto fileOpenGroup = "Group.File.Open";
@@ -51,33 +50,31 @@ namespace Pingnoo::Constants
     constexpr auto fileMiscGroup = "Group.File.Misc";
 
     const QMap<QString, QString> commandStringMap =
-    {
-        {editCut, QT_TR_NOOP("Cut")},
-        {editCopy, QT_TR_NOOP("Copy")},
-        {editPaste, QT_TR_NOOP("Paste")},
-        {fileOpen, QT_TR_NOOP("Open...")},
-        {helpAbout, QT_TR_NOOP("About Pingnoo")},
-        {helpAboutComponents, QT_TR_NOOP("About Components...")}
-    };
+            {
+                    {editCut,             QT_TR_NOOP("Cut")},
+                    {editCopy,            QT_TR_NOOP("Copy")},
+                    {editPaste,           QT_TR_NOOP("Paste")},
+                    {fileOpen,            QT_TR_NOOP("Open...")},
+                    {helpAbout,           QT_TR_NOOP("About Pingnoo")},
+                    {helpAboutComponents, QT_TR_NOOP("About Components...")}
+            };
 
     const QMap<QString, QString> menuStringMap =
-    {
-        {menuFile, QT_TR_NOOP("File")},
-        {menuEdit, QT_TR_NOOP("Edit")},
-        {menuHelp, QT_TR_NOOP("Help")},
-        {menuApplication, QT_TR_NOOP("Pingnoo")}
-    };
+            {
+                    {menuFile,        QT_TR_NOOP("File")},
+                    {menuEdit,        QT_TR_NOOP("Edit")},
+                    {menuHelp,        QT_TR_NOOP("Help")},
+                    {menuApplication, QT_TR_NOOP("Pingnoo")}
+            };
 
-    inline QString commandText(const QString &string)
-    {
+    inline QString commandText(const QString &string) {
         if (commandStringMap.contains(string))
             return QObject::tr(commandStringMap[string].toUtf8());
 
         return string;
     }
 
-    inline QString menuText(const QString &string)
-    {
+    inline QString menuText(const QString &string) {
         if (menuStringMap.contains(string))
             return QObject::tr(menuStringMap[string].toUtf8());
 
@@ -85,4 +82,4 @@ namespace Pingnoo::Constants
     }
 }
 
-#endif // FIZZYADE_PINGNOO_CONSTANTS_H
+#endif // NEDRYSOFT_PINGNOO_CONSTANTS_H

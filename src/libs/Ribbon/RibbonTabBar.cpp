@@ -34,10 +34,9 @@ constexpr int DefaultFontSize = 12;
 constexpr int DefaultFontSize = 10;
 #endif
 
-FizzyAde::Ribbon::RibbonTabBar::RibbonTabBar(QWidget *parent) :
-    QTabBar(parent)
-{
-    auto fontManager = FizzyAde::Ribbon::RibbonFontManager::getInstance();
+Nedrysoft::Ribbon::RibbonTabBar::RibbonTabBar(QWidget *parent) :
+        QTabBar(parent) {
+    auto fontManager = Nedrysoft::Ribbon::RibbonFontManager::getInstance();
 
     m_normalFont = QFont(fontManager->normalFont(), DefaultFontSize);
     m_selectedFont = QFont(fontManager->boldFont(), DefaultFontSize, QFont::Bold);
@@ -51,14 +50,12 @@ FizzyAde::Ribbon::RibbonTabBar::RibbonTabBar(QWidget *parent) :
 #endif
 }
 
-bool FizzyAde::Ribbon::RibbonTabBar::eventFilter(QObject *obj, QEvent *event)
-{
+bool Nedrysoft::Ribbon::RibbonTabBar::eventFilter(QObject *obj, QEvent *event) {
     Q_UNUSED(obj)
 
     static auto lastTabIndex = -1;
 
-    switch(event->type())
-    {
+    switch ( event->type()) {
         case QEvent::Enter: {
             auto enterEvent = reinterpret_cast<QEnterEvent *>(event);
 
@@ -101,8 +98,7 @@ bool FizzyAde::Ribbon::RibbonTabBar::eventFilter(QObject *obj, QEvent *event)
     return false;
 }
 
-QSize FizzyAde::Ribbon::RibbonTabBar::tabSizeHint(int index) const
-{
+QSize Nedrysoft::Ribbon::RibbonTabBar::tabSizeHint(int index) const {
     auto size = QTabBar::tabSizeHint(index);
 
     size.setHeight(Ribbon::TabBarHeight);
@@ -110,8 +106,7 @@ QSize FizzyAde::Ribbon::RibbonTabBar::tabSizeHint(int index) const
     return size;
 }
 
-void FizzyAde::Ribbon::RibbonTabBar::paintEvent(QPaintEvent *event)
-{
+void Nedrysoft::Ribbon::RibbonTabBar::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event)
     auto globalCursorPos = QCursor::pos();
     auto textRect = QRect();
@@ -119,10 +114,10 @@ void FizzyAde::Ribbon::RibbonTabBar::paintEvent(QPaintEvent *event)
     auto hoveredTab = tabAt(cursorPos);
     auto backgroundColor = QColor();
     QPainter painter(this);
-    auto  currentTheme = Ribbon::Light;
+    auto currentTheme = Ribbon::Light;
 
-    if (FizzyAde::Utils::ThemeSupport::isDarkMode()) {
-        currentTheme = FizzyAde::Ribbon::Dark;
+    if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
+        currentTheme = Nedrysoft::Ribbon::Dark;
     }
 
 #if defined(Q_OS_MACOS)
@@ -133,16 +128,16 @@ void FizzyAde::Ribbon::RibbonTabBar::paintEvent(QPaintEvent *event)
 
     painter.save();
 
-    for(auto tabIndex=0;tabIndex<this->count();tabIndex++) {
+    for (auto tabIndex = 0; tabIndex < this->count(); tabIndex++) {
         auto rect = tabRect(tabIndex);
 
-        if (hoveredTab==tabIndex) {
+        if (hoveredTab == tabIndex) {
             backgroundColor = Ribbon::TabHoverColor[currentTheme];
         } else {
             backgroundColor = Ribbon::TabBarBackgroundColor[currentTheme];
         }
 
-        if (tabIndex==currentIndex()) {
+        if (tabIndex == currentIndex()) {
             painter.setFont(m_selectedFont);
         } else {
             painter.setFont(m_normalFont);
@@ -154,14 +149,14 @@ void FizzyAde::Ribbon::RibbonTabBar::paintEvent(QPaintEvent *event)
 
         painter.drawText(rect, Qt::AlignHCenter | Qt::AlignVCenter, tabText(tabIndex), &textRect);
 
-        rect.setTop(rect.bottom()-Ribbon::TabHighlightHeight);
+        rect.setTop(rect.bottom() - Ribbon::TabHighlightHeight);
 
-        if (hoveredTab!=tabIndex) {
+        if (hoveredTab != tabIndex) {
             rect.setLeft(textRect.left());
             rect.setRight(textRect.right());
         }
 
-        if (tabIndex==currentIndex()) {
+        if (tabIndex == currentIndex()) {
             painter.fillRect(rect, Ribbon::TabSelectedColor[currentTheme]);
         }
     }

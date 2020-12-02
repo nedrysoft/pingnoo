@@ -32,7 +32,7 @@ namespace Nedrysoft {
             public QSplashScreen {
 
         private:
-            Q_OBJECT
+        Q_OBJECT
 
         private:
             /**
@@ -51,12 +51,12 @@ namespace Nedrysoft {
             /**
              * @brief       Delete the copy constructor.
              */
-            SplashScreen(const SplashScreen&) = delete;
+            SplashScreen(const SplashScreen &) = delete;
 
             /**
              * @brief       Delete the assignment operator.
              */
-            SplashScreen& operator=(const SplashScreen&) = delete;
+            SplashScreen &operator=(const SplashScreen &) = delete;
 
         public:
             /**

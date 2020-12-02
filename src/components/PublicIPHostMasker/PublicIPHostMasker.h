@@ -18,16 +18,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKER_H
-#define FIZZYADE_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKER_H
+#ifndef NEDRYSOFT_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKER_H
+#define NEDRYSOFT_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKER_H
 
 #include "ComponentSystem/IInterface.h"
 #include "Core/IHostMasker.h"
 #include "Core/IConfiguration.h"
 #include <QObject>
 
-namespace FizzyAde::PublicIPHostMasker
-{
+namespace Nedrysoft::PublicIPHostMasker {
     /**
      * @brief       Definition for the built in host masker
      *
@@ -37,33 +36,34 @@ namespace FizzyAde::PublicIPHostMasker
      *
      */
     class PublicIPHostMasker :
-        public FizzyAde::Core::IHostMasker
-    {
+            public Nedrysoft::Core::IHostMasker {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::IHostMasker)
+            Q_INTERFACES(Nedrysoft::Core::IHostMasker)
 
-    public:
+        public:
 
-        /**
-         * @sa          IHostMasker
-         *
-         */
-        virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress);
+            /**
+             * @sa          IHostMasker
+             *
+             */
+            virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName,
+                              QString &maskedHostAddress);
 
-        /**
-         * @sa          IConfiguration
-         *
-         */
-        virtual QJsonObject saveConfiguration();
-        virtual bool loadConfiguration(QJsonObject configuration);
+            /**
+             * @sa          IConfiguration
+             *
+             */
+            virtual QJsonObject saveConfiguration();
 
-    private:
+            virtual bool loadConfiguration(QJsonObject configuration);
 
-    private:
-        QString m_publicIP;
+        private:
+
+        private:
+            QString m_publicIP;
 
     };
 }
 
-#endif // FIZZYADE_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKER_H
+#endif // NEDRYSOFT_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKER_H

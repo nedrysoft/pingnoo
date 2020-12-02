@@ -20,22 +20,19 @@
 
 #include "AppNap.h"
 
-FizzyAde::AppNap::AppNap::AppNap()
-{
+Nedrysoft::AppNap::AppNap::AppNap() {
 #if defined(Q_OS_MACOS)
     mac_init();
 #endif
 }
 
-FizzyAde::AppNap::AppNap *FizzyAde::AppNap::AppNap::getInstance()
-{
-    static auto instance = new FizzyAde::AppNap::AppNap();
+Nedrysoft::AppNap::AppNap *Nedrysoft::AppNap::AppNap::getInstance() {
+    static auto instance = new Nedrysoft::AppNap::AppNap();
 
     return instance;
 }
 
-void FizzyAde::AppNap::AppNap::prevent(const QString &reason)
-{
+void Nedrysoft::AppNap::AppNap::prevent(const QString &reason) {
 #if defined(Q_OS_MACOS)
     mac_prevent(reason);
 #else
@@ -43,8 +40,7 @@ void FizzyAde::AppNap::AppNap::prevent(const QString &reason)
 #endif
 }
 
-void FizzyAde::AppNap::AppNap::allow()
-{
+void Nedrysoft::AppNap::AppNap::allow() {
 #if defined(Q_OS_MACOS)
     mac_allow();
 #endif

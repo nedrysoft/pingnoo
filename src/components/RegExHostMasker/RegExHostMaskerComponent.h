@@ -18,14 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_REGEXHOSTMASKER_REGEXHOSTMASKERCOMPONENT_H
-#define FIZZYADE_REGEXHOSTMASKER_REGEXHOSTMASKERCOMPONENT_H
+#ifndef NEDRYSOFT_REGEXHOSTMASKER_REGEXHOSTMASKERCOMPONENT_H
+#define NEDRYSOFT_REGEXHOSTMASKER_REGEXHOSTMASKERCOMPONENT_H
 
 #include "RegExHostMaskerSpec.h"
 #include "ComponentSystem/IComponentInterface.h"
 
-namespace FizzyAde::RegExHostMasker
-{
+namespace Nedrysoft::RegExHostMasker {
     class RegExHostMasker;
 }
 
@@ -37,38 +36,37 @@ namespace FizzyAde::RegExHostMasker
  *              or host names.  This allows outputs to hide sensitive information.
  *
  */
-class FIZZYADE_REGEXHOSTMASKER_DLLSPEC RegExHostMaskerComponent :
-    public QObject,
-    public FizzyAde::ComponentSystem::IComponentInterface
-{
+class NEDRYSOFT_REGEXHOSTMASKER_DLLSPEC RegExHostMaskerComponent :
+        public QObject,
+        public Nedrysoft::ComponentSystem::IComponentInterface {
     Q_OBJECT
 
-    Q_PLUGIN_METADATA(IID FizzyAdeComponentInterfaceIID FILE "metadata.json")
+        Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
 
-    Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
+        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponentInterface)
 
-public:
-    /**
-     * @brief       Constructor
-     *
-     */
-    RegExHostMaskerComponent();
+    public:
+        /**
+         * @brief       Constructor
+         *
+         */
+        RegExHostMaskerComponent();
 
-    /**
-     * @brief       Destructor
-     *
-     */
-    ~RegExHostMaskerComponent();
+        /**
+         * @brief       Destructor
+         *
+         */
+        ~RegExHostMaskerComponent();
 
-    /**
-     * @sa          FizzyAde::ComponentSystem::IComponentInterface
-     *
-     */
-    virtual void initialiseEvent();
+        /**
+         * @sa          Nedrysoft::ComponentSystem::IComponentInterface
+         *
+         */
+        virtual void initialiseEvent();
 
-private:
-    QList<FizzyAde::RegExHostMasker::RegExHostMasker *> m_maskerList;
+    private:
+        QList<Nedrysoft::RegExHostMasker::RegExHostMasker *> m_maskerList;
 
 };
 
-#endif // FIZZYADE_REGEXHOSTMASKER_REGEXHOSTMASKERCOMPONENT_H
+#endif // NEDRYSOFT_REGEXHOSTMASKER_REGEXHOSTMASKERCOMPONENT_H

@@ -18,14 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ICMPPINGENGINE_ICMPPINGCOMPONENT_H
-#define FIZZYADE_ICMPPINGENGINE_ICMPPINGCOMPONENT_H
+#ifndef NEDRYSOFT_ICMPPINGENGINE_ICMPPINGCOMPONENT_H
+#define NEDRYSOFT_ICMPPINGENGINE_ICMPPINGCOMPONENT_H
 
 #include "ICMPPingEngineSpec.h"
 #include "ComponentSystem/IComponentInterface.h"
 
-namespace FizzyAde::ICMPPingEngine
-{
+namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingEngineFactory;
 }
 
@@ -35,35 +34,34 @@ namespace FizzyAde::ICMPPingEngine
  * @details     Implements an ICMP ping (for all platforms)
  *
  */
-class FIZZYADE_ICMPPINGENGINE_DLLSPEC ICMPPingComponent :
-    public QObject,
-    public FizzyAde::ComponentSystem::IComponentInterface
-{
+class NEDRYSOFT_ICMPPINGENGINE_DLLSPEC ICMPPingComponent :
+        public QObject,
+        public Nedrysoft::ComponentSystem::IComponentInterface {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID FizzyAdeComponentInterfaceIID FILE "metadata.json")
-    Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
+        Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
+        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponentInterface)
 
-public:
-    /**
-     * @brief       Constructor
-     *
-     */
-    ICMPPingComponent();
+    public:
+        /**
+         * @brief       Constructor
+         *
+         */
+        ICMPPingComponent();
 
-    /**
-     * @brief       Destructor
-     *
-     */
-    ~ICMPPingComponent();
+        /**
+         * @brief       Destructor
+         *
+         */
+        ~ICMPPingComponent();
 
-    /**
-     * @sa          FizzyAde::ComponentSystem::IComponentInterface
-     *
-     */
-    virtual void initialiseEvent();
+        /**
+         * @sa          Nedrysoft::ComponentSystem::IComponentInterface
+         *
+         */
+        virtual void initialiseEvent();
 
-private:
-    FizzyAde::ICMPPingEngine::ICMPPingEngineFactory *m_engineFactory;
+    private:
+        Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory *m_engineFactory;
 };
 
-#endif // FIZZYADE_ICMPPINGENGINE_ICMPPINGCOMPONENT_H
+#endif // NEDRYSOFT_ICMPPINGENGINE_ICMPPINGCOMPONENT_H

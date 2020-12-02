@@ -18,16 +18,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_IGEOIPPROVIDER_H
-#define FIZZYADE_CORE_IGEOIPPROVIDER_H
+#ifndef NEDRYSOFT_CORE_IGEOIPPROVIDER_H
+#define NEDRYSOFT_CORE_IGEOIPPROVIDER_H
 
 #include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
 #include <QHostAddress>
 
-namespace FizzyAde::Core
-{
-    using GeoFunction = std::function <void (const QString &, const QVariantMap &)>;
+namespace Nedrysoft::Core {
+    using GeoFunction = std::function<void(const QString &, const QVariantMap &)>;
 
     /**
      * @brief       Interface definition of a ping target
@@ -36,47 +35,46 @@ namespace FizzyAde::Core
      *              of destinations to be pinged.
      *
      */
-    class FIZZYADE_CORE_DLLSPEC IGeoIPProvider :
-        public FizzyAde::ComponentSystem::IInterface
-    {
+    class NEDRYSOFT_CORE_DLLSPEC IGeoIPProvider :
+            public Nedrysoft::ComponentSystem::IInterface {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::ComponentSystem::IInterface)
+            Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
 
-    public:
-        /**
-         * @brief Destructor
-         */
-        virtual ~IGeoIPProvider() = default;
+        public:
+            /**
+             * @brief Destructor
+             */
+            virtual ~IGeoIPProvider() = default;
 
-        /**
-         * @brief       Performs a host lookup
-         *
-         * @param[in]   host        the host address to be looked up
-         *
-         */
-        virtual void lookup(const QString host) = 0;
+            /**
+             * @brief       Performs a host lookup
+             *
+             * @param[in]   host        the host address to be looked up
+             *
+             */
+            virtual void lookup(const QString host) = 0;
 
-        /**
-         * @brief       Performs a host lookup
-         *
-         * @param[in]   host        the host address to be looked up
-         * @param[in]   function    callback function
-         *
-         */
-        virtual void lookup(const QString host, FizzyAde::Core::GeoFunction function) = 0;
+            /**
+             * @brief       Performs a host lookup
+             *
+             * @param[in]   host        the host address to be looked up
+             * @param[in]   function    callback function
+             *
+             */
+            virtual void lookup(const QString host, Nedrysoft::Core::GeoFunction function) = 0;
 
-        /**
-         * @brief       Signal for result
-         *
-         * @param[out]  host        the host
-         * @param[out]  result      the result
-         *
-         */
-        Q_SIGNAL void result(const QString host, const QVariantMap result);
+            /**
+             * @brief       Signal for result
+             *
+             * @param[out]  host        the host
+             * @param[out]  result      the result
+             *
+             */
+            Q_SIGNAL void result(const QString host, const QVariantMap result);
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::IGeoIPProvider, "com.fizzyade.core.IGeoIPProvider/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IGeoIPProvider, "com.fizzyade.core.IGeoIPProvider/1.0.0")
 
-#endif // FIZZYADE_CORE_IGEOIPPROVIDER_H
+#endif // NEDRYSOFT_CORE_IGEOIPPROVIDER_H

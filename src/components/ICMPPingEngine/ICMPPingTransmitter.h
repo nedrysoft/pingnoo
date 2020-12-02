@@ -18,18 +18,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ICMPPINGENGINE_ICMPPINGTRANSMITTER_H
-#define FIZZYADE_ICMPPINGENGINE_ICMPPINGTRANSMITTER_H
+#ifndef NEDRYSOFT_ICMPPINGENGINE_ICMPPINGTRANSMITTER_H
+#define NEDRYSOFT_ICMPPINGENGINE_ICMPPINGTRANSMITTER_H
 
 #include "Core/PingResult.h"
 #include <chrono>
 #include <QObject>
 #include <QMutex>
 
-namespace FizzyAde::ICMPPingEngine
-{
+namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingEngine;
+
     class ICMPPingTarget;
+
     class ICMPPingItem;
 
     /**
@@ -40,71 +41,71 @@ namespace FizzyAde::ICMPPingEngine
      *              at the given period
      *
      */
-    class ICMPPingTransmitter : public QObject
-    {
+    class ICMPPingTransmitter :
+            public QObject {
         Q_OBJECT
 
-    public:
+        public:
 
-        /**
-         * @brief       Constructor
-         *
-         * @details     Creates the receiver object and passes in the engine
-         *              so that the requests can be tagged to the correct engine
-         *
-         * @param[in]   engine          the owner engine
-         *
-         */
-        ICMPPingTransmitter(FizzyAde::ICMPPingEngine::ICMPPingEngine *engine);
+            /**
+             * @brief       Constructor
+             *
+             * @details     Creates the receiver object and passes in the engine
+             *              so that the requests can be tagged to the correct engine
+             *
+             * @param[in]   engine          the owner engine
+             *
+             */
+            ICMPPingTransmitter(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine);
 
-        /**
-         * @brief       Sets the interval between a set of pings
-         *
-         * @param[in]   interval        interval
-         *
-         * @return       true if set, otherwise false
-         *
-         */
-        bool setInterval(std::chrono::milliseconds interval);
+            /**
+             * @brief       Sets the interval between a set of pings
+             *
+             * @param[in]   interval        interval
+             *
+             * @return       true if set, otherwise false
+             *
+             */
+            bool setInterval(std::chrono::milliseconds interval);
 
-        /**
-         * @brief       Adds a ping target to the transmitter
-         *
-         * @param[in]   target          the target to ping
-         *
-         */
-        void addTarget(FizzyAde::ICMPPingEngine::ICMPPingTarget *target);
+            /**
+             * @brief       Adds a ping target to the transmitter
+             *
+             * @param[in]   target          the target to ping
+             *
+             */
+            void addTarget(Nedrysoft::ICMPPingEngine::ICMPPingTarget *target);
 
-    private slots:
+        private slots:
 
-        /**
-         * @brief       The receiver thread worker
-         */
-        void doWork(void);
+            /**
+             * @brief       The receiver thread worker
+             */
+            void doWork(void);
 
-    signals:
+        signals:
 
-        /**
-         * @brief       Signals when a transmission result is available
-         *
-         * @param[in]   result          the result
-         */
-        void result(FizzyAde::Core::PingResult result);
+            /**
+             * @brief       Signals when a transmission result is available
+             *
+             * @param[in]   result          the result
+             */
+            void result(Nedrysoft::Core::PingResult result);
 
-        friend class ICMPPingEngine;
+            friend class ICMPPingEngine;
 
-    private:
-        std::chrono::milliseconds m_interval={};                    //! The transmission period in milliseconds
-        FizzyAde::ICMPPingEngine::ICMPPingEngine *m_engine;                //! The engine that owns this transmitter worker
+        private:
+            std::chrono::milliseconds m_interval = {};                    //! The transmission period in milliseconds
+            Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_engine;                //! The engine that owns this transmitter worker
 
-        QList<FizzyAde::ICMPPingEngine::ICMPPingTarget *> m_targets;       //! List of ping targets
-        QMutex m_targetsMutex;                                      //! Mutex to protect the ping target list
+            QList<Nedrysoft::ICMPPingEngine::ICMPPingTarget *> m_targets;       //! List of ping targets
+            QMutex m_targetsMutex;                                      //! Mutex to protect the ping target list
 
-        std::chrono::high_resolution_clock::time_point m_epoch;     //! Transmission epoch
+            std::chrono::high_resolution_clock::time_point m_epoch;     //! Transmission epoch
 
-    protected:
-        bool m_isRunning;                                           //! Thread is running
+        protected:
+            bool m_isRunning;                                           //! Thread is running
     };
 }
 
-#endif // FIZZYADE_ICMPPINGENGINE_ICMPPINGTRANSMITTER_H
+#endif // NEDRYSOFT_ICMPPINGENGINE_ICMPPINGTRANSMITTER_H

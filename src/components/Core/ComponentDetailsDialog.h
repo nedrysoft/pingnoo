@@ -18,16 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_COMPONENTDETAILSDIALOG_H
-#define FIZZYADE_CORE_COMPONENTDETAILSDIALOG_H
+#ifndef NEDRYSOFT_CORE_COMPONENTDETAILSDIALOG_H
+#define NEDRYSOFT_CORE_COMPONENTDETAILSDIALOG_H
 
 #include <QDialog>
 #include "ComponentSystem/Component.h"
 
-namespace FizzyAde::Core
-{
-    namespace Ui
-    {
+namespace Nedrysoft::Core {
+    namespace Ui {
         class ComponentDetailsDialog;
     }
 
@@ -38,29 +36,30 @@ namespace FizzyAde::Core
      *              a component.
      *
      */
-    class ComponentDetailsDialog : public QDialog
-    {
+    class ComponentDetailsDialog :
+            public QDialog {
         Q_OBJECT
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         * @param[in]       component     the component instance to be viewed
-         * @param[in]       parent        parent widget
-         *
-         */
-        explicit ComponentDetailsDialog(FizzyAde::ComponentSystem::Component *component, QWidget *parent = nullptr);
+        public:
+            /**
+             * @brief       Constructor
+             *
+             * @param[in]       component     the component instance to be viewed
+             * @param[in]       parent        parent widget
+             *
+             */
+            explicit ComponentDetailsDialog(Nedrysoft::ComponentSystem::Component *component,
+                                            QWidget *parent = nullptr);
 
-        /**
-         * @brief       Destructor
-         *
-         */
-        ~ComponentDetailsDialog();
+            /**
+             * @brief       Destructor
+             *
+             */
+            ~ComponentDetailsDialog();
 
-    private:
-        Ui::ComponentDetailsDialog *ui;                         //! The generated ui class for the dialog
+        private:
+            Ui::ComponentDetailsDialog *ui;                         //! The generated ui class for the dialog
     };
 }
 
-#endif // FIZZYADE_CORE_COMPONENTDETAILSDIALOG_H
+#endif // NEDRYSOFT_CORE_COMPONENTDETAILSDIALOG_H

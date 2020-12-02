@@ -20,14 +20,12 @@
 
 #include "ContextManager.h"
 
-FizzyAde::Core::ContextManager::ContextManager()
-{
+Nedrysoft::Core::ContextManager::ContextManager() {
     m_currentContextId = 0;
     m_nextContextId = 1;
 }
 
-int FizzyAde::Core::ContextManager::registerContext(QString contextIdentifier)
-{
+int Nedrysoft::Core::ContextManager::registerContext(QString contextIdentifier) {
     Q_UNUSED(contextIdentifier)
 
     m_contextIds[contextIdentifier] = m_nextContextId;
@@ -35,8 +33,7 @@ int FizzyAde::Core::ContextManager::registerContext(QString contextIdentifier)
     return m_nextContextId++;
 }
 
-int FizzyAde::Core::ContextManager::setContext(int contextIdentifier)
-{
+int Nedrysoft::Core::ContextManager::setContext(int contextIdentifier) {
     emit contextChanged(contextIdentifier, m_currentContextId);
 
     m_currentContextId = contextIdentifier;
@@ -44,7 +41,6 @@ int FizzyAde::Core::ContextManager::setContext(int contextIdentifier)
     return 0;
 }
 
-int FizzyAde::Core::ContextManager::context()
-{
+int Nedrysoft::Core::ContextManager::context() {
     return m_currentContextId;
 }

@@ -18,43 +18,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_IRIBBONBARMANAGER_H
-#define FIZZYADE_CORE_IRIBBONBARMANAGER_H
+#ifndef NEDRYSOFT_CORE_IRIBBONBARMANAGER_H
+#define NEDRYSOFT_CORE_IRIBBONBARMANAGER_H
 
 #include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
 #include "Core/IContextManager.h"
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     /**
      * @brief       IRibbonBarManager interface
      *
      * @details     IRibbonBarManager handles the management of status bars
      *
      */
-    class FIZZYADE_CORE_DLLSPEC IRibbonBarManager :
-        public FizzyAde::ComponentSystem::IInterface
-    {
+    class NEDRYSOFT_CORE_DLLSPEC IRibbonBarManager :
+            public Nedrysoft::ComponentSystem::IInterface {
         Q_OBJECT
 
-    public:
-        /**
-         * Returns the IRibbonBarManager instance
-         *
-         * @return      the IRibbonBarManager singleton instance
-         *
-         */
-        static IRibbonBarManager *getInstance()
-        {
-            return ComponentSystem::getObject<IRibbonBarManager>();
-        }
+        public:
+            /**
+             * Returns the IRibbonBarManager instance
+             *
+             * @return      the IRibbonBarManager singleton instance
+             *
+             */
+            static IRibbonBarManager *getInstance() {
+                return ComponentSystem::getObject<IRibbonBarManager>();
+            }
 
-    public:
+        public:
 
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::IRibbonBarManager, "com.fizzyade.core.IRibbonBarManager/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IRibbonBarManager, "com.fizzyade.core.IRibbonBarManager/1.0.0")
 
-#endif // FIZZYADE_CORE_IRIBBONBARMANAGER_H
+#endif // NEDRYSOFT_CORE_IRIBBONBARMANAGER_H

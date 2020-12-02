@@ -24,29 +24,31 @@
 #include <QLibraryInfo>
 #include <QSysInfo>
 
-FizzyAde::Core::AboutDialog::AboutDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new FizzyAde::Core::Ui::AboutDialog)
-{
+Nedrysoft::Core::AboutDialog::AboutDialog(QWidget *parent) :
+        QDialog(parent),
+        ui(new Nedrysoft::Core::Ui::AboutDialog) {
     ui->setupUi(this);
 
     ui->titleLabel->setTextFormat(Qt::RichText);
-    ui->titleLabel->setText(QString("<span style=\"font-size:16pt; font-weight:600;\">Pingnoo %1.%2.%3-%4</span>").arg(PINGNOO_GIT_YEAR).arg(PINGNOO_GIT_MONTH).arg(PINGNOO_GIT_DAY).arg(PINGNOO_GIT_BRANCH));
+    ui->titleLabel->setText(QString("<span style=\"font-size:16pt; font-weight:600;\">Pingnoo %1.%2.%3-%4</span>").arg(
+            PINGNOO_GIT_YEAR).arg(PINGNOO_GIT_MONTH).arg(PINGNOO_GIT_DAY).arg(PINGNOO_GIT_BRANCH));
 
     ui->buildTimeLabel->setText(QString("Built on %1 %2").arg(__DATE__).arg(__TIME__));
 
-    ui->buildRevisionLabel->setText(QString("From revision <a href=\"https://github.com/fizzyade/pingnoo/commit/%1\">%1</a>").arg(PINGNOO_GIT_HASH));
+    ui->buildRevisionLabel->setText(
+            QString("From revision <a href=\"https://github.com/fizzyade/pingnoo/commit/%1\">%1</a>").arg(
+                    PINGNOO_GIT_HASH));
 
-    ui->qtVersionLabel->setText(QString("Based on Qt %1.%2.%3 (%4, %5 bit), runtime Qt %6").arg(QT_VERSION_MAJOR).arg(QT_VERSION_MINOR).arg(QT_VERSION_PATCH).arg(compiler()).arg(QSysInfo::WordSize).arg(QLibraryInfo::version().toString()));
+    ui->qtVersionLabel->setText(
+            QString("Based on Qt %1.%2.%3 (%4, %5 bit), runtime Qt %6").arg(QT_VERSION_MAJOR).arg(QT_VERSION_MINOR).arg(
+                    QT_VERSION_PATCH).arg(compiler()).arg(QSysInfo::WordSize).arg(QLibraryInfo::version().toString()));
 }
 
-FizzyAde::Core::AboutDialog::~AboutDialog()
-{
+Nedrysoft::Core::AboutDialog::~AboutDialog() {
     delete ui;
 }
 
-QString FizzyAde::Core::AboutDialog::compiler()
-{
+QString Nedrysoft::Core::AboutDialog::compiler() {
 #if defined(Q_CC_CLANG)
 #if defined(__apple_build_version__)
     return QString("Clang %1.%2 (Apple)").arg(__clang_major__).arg(__clang_minor__);

@@ -39,15 +39,13 @@ constexpr unsigned int QtMinorBitShift = 8;
 constexpr unsigned int QtPatchBitMask = 0x000000FF;
 constexpr unsigned int QtPatchBitShift = 0;
 
-FizzyAde::ComponentSystem::ComponentLoader::ComponentLoader(QObject *parent)
-    : QObject(parent)
-{
-    //qRegisterMetaType<FizzyAde::ComponentSystem::Component *>();
+Nedrysoft::ComponentSystem::ComponentLoader::ComponentLoader(QObject *parent)
+        : QObject(parent) {
+    //qRegisterMetaType<Nedrysoft::ComponentSystem::Component *>();
 }
 
-FizzyAde::ComponentSystem::ComponentLoader::~ComponentLoader()
-{
-    while(m_loadOrder.count()) {
+Nedrysoft::ComponentSystem::ComponentLoader::~ComponentLoader() {
+    while (m_loadOrder.count()) {
         auto loadPair = m_loadOrder.last();
 
         delete loadPair.second;
@@ -59,12 +57,11 @@ FizzyAde::ComponentSystem::ComponentLoader::~ComponentLoader()
     }
 }
 
-void FizzyAde::ComponentSystem::ComponentLoader::addComponents(const QString &componentFolder)
-{
+void Nedrysoft::ComponentSystem::ComponentLoader::addComponents(const QString &componentFolder) {
     auto applicationDebugBuild = QLibraryInfo::isDebugBuild();
     auto applicationQtVersion = QLibraryInfo::version();
 
-#if defined(Q_OS_UNIX) || ( (defined(Q_OS_WIN) && defined(__MINGW32__)) )
+#if defined(Q_OS_UNIX) || (( defined(Q_OS_WIN) && defined(__MINGW32__)))
 #if defined(QT_DEBUG)
     auto forceDebugQtLibraries = true;
 #else
@@ -72,9 +69,11 @@ void FizzyAde::ComponentSystem::ComponentLoader::addComponents(const QString &co
 #endif
     if (forceDebugQtLibraries != applicationDebugBuild) {
         if (forceDebugQtLibraries) {
-            qWarning() << tr("WARNING: Application was built with QT_DEBUG but has loaded RELEASE qt libraries, component system will load DEBUG components instead.");
+            qWarning()
+                    << tr("WARNING: Application was built with QT_DEBUG but has loaded RELEASE qt libraries, component system will load DEBUG components instead.");
         } else {
-            qWarning() << tr("WARNING: Application was built with QT_NO_DEBUG but has loaded DEBUG qt libraries, component system will load RELEASE components instead.");
+            qWarning()
+                    << tr("WARNING: Application was built with QT_NO_DEBUG but has loaded DEBUG qt libraries, component system will load RELEASE components instead.");
         }
 
         applicationDebugBuild = forceDebugQtLibraries;
@@ -85,7 +84,7 @@ void FizzyAde::ComponentSystem::ComponentLoader::addComponents(const QString &co
 
     // find compatible components, and create a list of components to consider for loading
 
-    while(dir.hasNext()) {
+    while (dir.hasNext()) {
         dir.next();
 
         auto componentFilename = dir.fileInfo().absoluteFilePath();
@@ -114,7 +113,7 @@ void FizzyAde::ComponentSystem::ComponentLoader::addComponents(const QString &co
             continue;
         }
 
-        if (debugBuild!=applicationDebugBuild) {
+        if (debugBuild != applicationDebugBuild) {
             delete pluginloader;
 
             continue;
@@ -128,15 +127,19 @@ void FizzyAde::ComponentSystem::ComponentLoader::addComponents(const QString &co
             continue;
         }
 
-        auto componentQtMajor = static_cast<int>((qtVersion.toVariant().toUInt() & QtMajorBitMask) >> QtMajorBitShift);
-        auto componentQtMinor = static_cast<int>((qtVersion.toVariant().toUInt() & QtMinorBitMask) >> QtMinorBitShift);
-        auto componentQtPatch = static_cast<int>((qtVersion.toVariant().toUInt() & QtPatchBitMask) >> QtPatchBitShift);
+        auto componentQtMajor = static_cast<int>(( qtVersion.toVariant().toUInt() & QtMajorBitMask )
+                >> QtMajorBitShift);
+        auto componentQtMinor = static_cast<int>(( qtVersion.toVariant().toUInt() & QtMinorBitMask )
+                >> QtMinorBitShift);
+        auto componentQtPatch = static_cast<int>(( qtVersion.toVariant().toUInt() & QtPatchBitMask )
+                >> QtPatchBitShift);
 
         auto componentQtVersion = QVersionNumber(componentQtMajor, componentQtMinor, componentQtPatch);
 
-        auto component = new FizzyAde::ComponentSystem::Component(componentName.toString(), componentFilename, metaDataObject);
+        auto component = new Nedrysoft::ComponentSystem::Component(componentName.toString(), componentFilename,
+                                                                   metaDataObject);
 
-        if (componentQtVersion.majorVersion()!=applicationQtVersion.majorVersion()) {
+        if (componentQtVersion.majorVersion() != applicationQtVersion.majorVersion()) {
             component->m_loadStatus |= IncompatibleQtVersion;
         }
 
@@ -150,16 +153,16 @@ void FizzyAde::ComponentSystem::ComponentLoader::addComponents(const QString &co
     }
 }
 
-void FizzyAde::ComponentSystem::ComponentLoader::loadComponents(std::function <bool (FizzyAde::ComponentSystem::Component *)> loadFunction)
-{
-    QList<FizzyAde::ComponentSystem::Component *> componentLoadList;
-    QList<FizzyAde::ComponentSystem::Component *> resolvedLoadList;
+void Nedrysoft::ComponentSystem::ComponentLoader::loadComponents(
+        std::function<bool(Nedrysoft::ComponentSystem::Component *)> loadFunction) {
+    QList<Nedrysoft::ComponentSystem::Component *> componentLoadList;
+    QList<Nedrysoft::ComponentSystem::Component *> resolvedLoadList;
 
     // find and add dependencies from the search
 
-    auto componentIterator = QMapIterator<QString, FizzyAde::ComponentSystem::Component *>(m_componentSearchList);
+    auto componentIterator = QMapIterator<QString, Nedrysoft::ComponentSystem::Component *>(m_componentSearchList);
 
-    while(componentIterator.hasNext()) {
+    while (componentIterator.hasNext()) {
         componentIterator.next();
 
         auto component = componentIterator.value();
@@ -177,7 +180,8 @@ void FizzyAde::ComponentSystem::ComponentLoader::loadComponents(std::function <b
             auto dependencyVersion = dependency.toObject().value("Version").toString();
 
             if (m_componentSearchList.contains(dependencyName))
-                component->addDependency(m_componentSearchList[dependencyName], QVersionNumber::fromString(dependencyVersion));
+                component->addDependency(m_componentSearchList[dependencyName],
+                                         QVersionNumber::fromString(dependencyVersion));
             else {
                 component->m_missingDependencies.append(dependencyName);
                 component->m_loadStatus |= MissingDependency;
@@ -192,14 +196,14 @@ void FizzyAde::ComponentSystem::ComponentLoader::loadComponents(std::function <b
     // resolve the dependencies to create a load order
 
     for (auto current : componentLoadList) {
-        QList<FizzyAde::ComponentSystem::Component *> dependencyResolveList;
+        QList<Nedrysoft::ComponentSystem::Component *> dependencyResolveList;
 
         if (!resolvedLoadList.contains(current)) {
             dependencyResolveList.clear();
 
             resolve(current, dependencyResolveList);
 
-            for(auto dependency : dependencyResolveList) {
+            for (auto dependency : dependencyResolveList) {
                 if (!resolvedLoadList.contains(dependency)) {
                     resolvedLoadList.append(dependency);
                 }
@@ -209,7 +213,7 @@ void FizzyAde::ComponentSystem::ComponentLoader::loadComponents(std::function <b
 
     // load the components that we have satisfied dependencies for
 
-    for(auto component : resolvedLoadList) {
+    for (auto component : resolvedLoadList) {
         if (component->m_loadStatus) {
             continue;
         }
@@ -222,7 +226,7 @@ void FizzyAde::ComponentSystem::ComponentLoader::loadComponents(std::function <b
 
         if (loadFunction) {
             if (!loadFunction(component)) {
-                component->m_loadStatus |= FizzyAde::ComponentSystem::ComponentLoader::Disabled;
+                component->m_loadStatus |= Nedrysoft::ComponentSystem::ComponentLoader::Disabled;
                 continue;
             }
         }
@@ -233,17 +237,18 @@ void FizzyAde::ComponentSystem::ComponentLoader::loadComponents(std::function <b
 
         if (!pluginLoader->load()) {
             qDebug() << pluginLoader->errorString();
-            component->m_loadStatus |= FizzyAde::ComponentSystem::ComponentLoader::LoadStatus;
+            component->m_loadStatus |= Nedrysoft::ComponentSystem::ComponentLoader::LoadStatus;
 
             delete pluginLoader;
 
             continue;
         }
 
-        auto componentInterface = qobject_cast<FizzyAde::ComponentSystem::IComponentInterface *>(pluginLoader->instance());
+        auto componentInterface = qobject_cast<Nedrysoft::ComponentSystem::IComponentInterface *>(
+                pluginLoader->instance());
 
         if (!componentInterface) {
-            component->m_loadStatus |= FizzyAde::ComponentSystem::ComponentLoader::MissingInterface;
+            component->m_loadStatus |= Nedrysoft::ComponentSystem::ComponentLoader::MissingInterface;
 
             delete pluginLoader;
 
@@ -257,39 +262,41 @@ void FizzyAde::ComponentSystem::ComponentLoader::loadComponents(std::function <b
 
     // call initialiseEvent for each component (in load order)
 
-    for(auto componentPair : m_loadOrder) {
-         auto componentInterface = qobject_cast<FizzyAde::ComponentSystem::IComponentInterface *>(componentPair.first->instance());
+    for (auto componentPair : m_loadOrder) {
+        auto componentInterface = qobject_cast<Nedrysoft::ComponentSystem::IComponentInterface *>(
+                componentPair.first->instance());
 
-         componentInterface->initialiseEvent();
+        componentInterface->initialiseEvent();
     }
 
     // call initialisationFinishedEvent for each component (in reverse load order)
 
-    for(auto loadedComponentIterator=m_loadOrder.rbegin(); loadedComponentIterator<m_loadOrder.rend(); loadedComponentIterator++) {
-        auto componentInterface = qobject_cast<FizzyAde::ComponentSystem::IComponentInterface *>(loadedComponentIterator->first->instance());
+    for (auto loadedComponentIterator = m_loadOrder.rbegin();
+         loadedComponentIterator < m_loadOrder.rend(); loadedComponentIterator++) {
+        auto componentInterface = qobject_cast<Nedrysoft::ComponentSystem::IComponentInterface *>(
+                loadedComponentIterator->first->instance());
 
         componentInterface->initialisationFinishedEvent();
     }
 }
 
-QList<FizzyAde::ComponentSystem::Component *> FizzyAde::ComponentSystem::ComponentLoader::components()
-{
+QList<Nedrysoft::ComponentSystem::Component *> Nedrysoft::ComponentSystem::ComponentLoader::components() {
     return m_componentSearchList.values();
 }
 
-void FizzyAde::ComponentSystem::ComponentLoader::resolve(FizzyAde::ComponentSystem::Component *component, QList<FizzyAde::ComponentSystem::Component *> &resolvedList)
-{
-    QList<FizzyAde::ComponentSystem::Component *> processedList;
+void Nedrysoft::ComponentSystem::ComponentLoader::resolve(Nedrysoft::ComponentSystem::Component *component,
+                                                          QList<Nedrysoft::ComponentSystem::Component *> &resolvedList) {
+    QList<Nedrysoft::ComponentSystem::Component *> processedList;
 
     resolve(component, resolvedList, processedList);
 }
 
-void FizzyAde::ComponentSystem::ComponentLoader::resolve(FizzyAde::ComponentSystem::Component *component, QList<FizzyAde::ComponentSystem::Component *> &resolvedList, QList<FizzyAde::ComponentSystem::Component *> &processedList)
-{
+void Nedrysoft::ComponentSystem::ComponentLoader::resolve(Nedrysoft::ComponentSystem::Component *component,
+                                                          QList<Nedrysoft::ComponentSystem::Component *> &resolvedList,
+                                                          QList<Nedrysoft::ComponentSystem::Component *> &processedList) {
     processedList.append(component);
 
-    for(auto dependency : component->m_dependencies)
-    {
+    for (auto dependency : component->m_dependencies) {
         if (!resolvedList.contains(dependency)) {
             if (processedList.contains(dependency)) {
                 continue;

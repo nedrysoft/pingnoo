@@ -23,23 +23,20 @@
 #include "ComponentSystem/IComponentManager.h"
 #include <QDebug>
 
-IPAPIGeoIPProviderComponent::IPAPIGeoIPProviderComponent()
-{
+IPAPIGeoIPProviderComponent::IPAPIGeoIPProviderComponent() {
     m_provider = nullptr;
 }
 
-IPAPIGeoIPProviderComponent::~IPAPIGeoIPProviderComponent()
-{
+IPAPIGeoIPProviderComponent::~IPAPIGeoIPProviderComponent() {
     if (m_provider) {
-        FizzyAde::ComponentSystem::removeObject(m_provider);
+        Nedrysoft::ComponentSystem::removeObject(m_provider);
 
         delete m_provider;
     }
 }
 
-void IPAPIGeoIPProviderComponent::initialiseEvent()
-{
-    m_provider = new FizzyAde::IPAPIGeoIPProvider::IPAPIGeoIPProvider();
+void IPAPIGeoIPProviderComponent::initialiseEvent() {
+    m_provider = new Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider();
 
-    FizzyAde::ComponentSystem::addObject(m_provider);
+    Nedrysoft::ComponentSystem::addObject(m_provider);
 }

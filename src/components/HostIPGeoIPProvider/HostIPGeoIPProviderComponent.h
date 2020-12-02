@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDERCOMPONENT_H
-#define FIZZYADE_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDERCOMPONENT_H
+#ifndef NEDRYSOFT_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDERCOMPONENT_H
+#define NEDRYSOFT_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDERCOMPONENT_H
 
 #include "HostIPGeoIPProviderSpec.h"
 #include "ComponentSystem/IComponentInterface.h"
@@ -27,8 +27,7 @@
 /**
  * @brief       Namespace for the hostip.com geo ip lookup provider component.
  */
-namespace FizzyAde::HostIPGeoIPProvider
-{
+namespace Nedrysoft::HostIPGeoIPProvider {
     class HostIPGeoIPProvider;
 }
 
@@ -37,35 +36,34 @@ namespace FizzyAde::HostIPGeoIPProvider
  *
  * @details     Implements a GEO IP lookup provider using hostip.com
  */
-class FIZZYADE_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
-    public QObject,
-    public FizzyAde::ComponentSystem::IComponentInterface
-{
+class NEDRYSOFT_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
+        public QObject,
+        public Nedrysoft::ComponentSystem::IComponentInterface {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID FizzyAdeComponentInterfaceIID FILE "metadata.json")
-    Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
+        Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
+        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponentInterface)
 
-public:
-    /**
-     * @brief   Constructor
-     */
-    HostIPGeoIPProviderComponent();
+    public:
+        /**
+         * @brief   Constructor
+         */
+        HostIPGeoIPProviderComponent();
 
-    /**
-     * @brief Destructor
-     *
-     */
-    ~HostIPGeoIPProviderComponent();
+        /**
+         * @brief Destructor
+         *
+         */
+        ~HostIPGeoIPProviderComponent();
 
-    /**
-     * @sa FizzyAde::ComponentSystem::IComponentInterface
-     *
-     */
-    virtual void initialiseEvent();
+        /**
+         * @sa Nedrysoft::ComponentSystem::IComponentInterface
+         *
+         */
+        virtual void initialiseEvent();
 
-private:
+    private:
 
-    FizzyAde::HostIPGeoIPProvider::HostIPGeoIPProvider *m_provider;
+        Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider *m_provider;
 };
 
-#endif // FIZZYADE_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDERCOMPONENT_H
+#endif // NEDRYSOFT_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDERCOMPONENT_H

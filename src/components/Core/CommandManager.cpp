@@ -30,15 +30,15 @@
 #include <QMainWindow>
 #include <QAction>
 
-FizzyAde::Core::CommandManager::CommandManager() = default;
+Nedrysoft::Core::CommandManager::CommandManager() = default;
 
-FizzyAde::Core::ICommand *FizzyAde::Core::CommandManager::registerAction(QAction *action, QString id, const FizzyAde::Core::ContextList &contexts)
-{
+Nedrysoft::Core::ICommand *Nedrysoft::Core::CommandManager::registerAction(QAction *action, QString id,
+                                                                           const Nedrysoft::Core::ContextList &contexts) {
     if (m_commandMap.contains(id)) {
         auto command = m_commandMap[id];
 
         command->registerAction(action, contexts);
-        command->setContext(FizzyAde::Core::IContextManager::getInstance()->context());
+        command->setContext(Nedrysoft::Core::IContextManager::getInstance()->context());
 
         command->setActive(action->isEnabled());
 
@@ -51,20 +51,20 @@ FizzyAde::Core::ICommand *FizzyAde::Core::CommandManager::registerAction(QAction
 
     command->action()->setText(action->text());
 
-    command->setContext(FizzyAde::Core::IContextManager::getInstance()->context());
+    command->setContext(Nedrysoft::Core::IContextManager::getInstance()->context());
 
     m_commandMap[id] = command;
 
     return command;
 }
 
-bool FizzyAde::Core::CommandManager::registerAction(QAction *action, FizzyAde::Core::ICommand *command, const FizzyAde::Core::ContextList &contexts)
-{
-    FizzyAde::Core::Command *commandClass = qobject_cast<FizzyAde::Core::Command *>(command);
+bool Nedrysoft::Core::CommandManager::registerAction(QAction *action, Nedrysoft::Core::ICommand *command,
+                                                     const Nedrysoft::Core::ContextList &contexts) {
+    Nedrysoft::Core::Command *commandClass = qobject_cast<Nedrysoft::Core::Command *>(command);
 
     if (commandClass) {
         commandClass->registerAction(action, contexts);
-        commandClass->setContext(FizzyAde::Core::IContextManager::getInstance()->context());
+        commandClass->setContext(Nedrysoft::Core::IContextManager::getInstance()->context());
 
         commandClass->setActive(action->isEnabled());
     }
@@ -72,11 +72,10 @@ bool FizzyAde::Core::CommandManager::registerAction(QAction *action, FizzyAde::C
     return false;
 }
 
-void FizzyAde::Core::CommandManager::setContext(int contextId)
-{
+void Nedrysoft::Core::CommandManager::setContext(int contextId) {
     auto commandIterator = QMapIterator<QString, Command *>(m_commandMap);
 
-    while(commandIterator.hasNext()) {
+    while (commandIterator.hasNext()) {
         commandIterator.next();
 
         commandIterator.value()->setContext(contextId);
@@ -85,23 +84,22 @@ void FizzyAde::Core::CommandManager::setContext(int contextId)
 
 // also add createPopupMenu
 
-FizzyAde::Core::IMenu *FizzyAde::Core::CommandManager::createMenu(const QString &identifier, IMenu *parentMenu)
-{
+Nedrysoft::Core::IMenu *Nedrysoft::Core::CommandManager::createMenu(const QString &identifier, IMenu *parentMenu) {
     Q_UNUSED(identifier)
-    FizzyAde::Core::Menu *newMenu = nullptr;
+    Nedrysoft::Core::Menu *newMenu = nullptr;
 
     if (m_menuMap.contains(identifier)) {
         return m_menuMap[identifier];
     }
 
     if (!parentMenu) {
-        auto mainWindow = FizzyAde::Core::mainWindow();
+        auto mainWindow = Nedrysoft::Core::mainWindow();
 
         mainWindow->menuBar()->show();
 
-        newMenu = new FizzyAde::Core::Menu(mainWindow->menuBar());
+        newMenu = new Nedrysoft::Core::Menu(mainWindow->menuBar());
     } else {
-        auto parent = qobject_cast<FizzyAde::Core::Menu *>(parentMenu);
+        auto parent = qobject_cast<Nedrysoft::Core::Menu *>(parentMenu);
 
         QMenuBar *parentMenuBar = nullptr;
 
@@ -111,7 +109,7 @@ FizzyAde::Core::IMenu *FizzyAde::Core::CommandManager::createMenu(const QString 
 
         auto menu = new QMenu(Pingnoo::Constants::menuText(identifier), parentMenuBar);
 
-        newMenu = new FizzyAde::Core::Menu(menu);
+        newMenu = new Nedrysoft::Core::Menu(menu);
 
         if (parentMenuBar) {
             parentMenuBar->addAction(menu->menuAction());
@@ -123,8 +121,7 @@ FizzyAde::Core::IMenu *FizzyAde::Core::CommandManager::createMenu(const QString 
     return newMenu;
 }
 
-FizzyAde::Core::IMenu *FizzyAde::Core::CommandManager::findMenu(const QString &identifier)
-{
+Nedrysoft::Core::IMenu *Nedrysoft::Core::CommandManager::findMenu(const QString &identifier) {
     if (m_menuMap.contains(identifier)) {
         return m_menuMap[identifier];
     }
@@ -132,8 +129,7 @@ FizzyAde::Core::IMenu *FizzyAde::Core::CommandManager::findMenu(const QString &i
     return nullptr;
 }
 
-FizzyAde::Core::ICommand *FizzyAde::Core::CommandManager::findCommand(const QString &identifier)
-{
+Nedrysoft::Core::ICommand *Nedrysoft::Core::CommandManager::findCommand(const QString &identifier) {
     if (m_commandMap.contains(identifier)) {
         return m_commandMap[identifier];
     }

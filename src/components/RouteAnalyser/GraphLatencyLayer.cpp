@@ -30,32 +30,30 @@ constexpr auto DefaultLowColour = qRgb(229, 240, 220);
 constexpr auto DefaultMidColour = qRgb(252, 239, 215);
 constexpr auto DefaultHighColour = qRgb(249, 216, 211);
 
-FizzyAde::RouteAnalyser::GraphLatencyLayer::GraphLatencyLayer(QCustomPlot *customPlot) :
-    QCPItemRect(customPlot)
-{
+Nedrysoft::RouteAnalyser::GraphLatencyLayer::GraphLatencyLayer(QCustomPlot *customPlot) :
+        QCPItemRect(customPlot) {
     m_lowRangeLatency = DefaultLowRangeLatency;
     m_midRangeLatency = DefaultMidRangeLatency;
 }
 
-void FizzyAde::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter)
-{
+void Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) {
     auto graphMaxLatency = parentPlot()->yAxis->range().upper;
     auto rect = parentPlot()->axisRect()->rect();
     auto smoothGradient = true;
 
-    auto lowStop = m_lowRangeLatency.count()/graphMaxLatency;
-    auto midStop = m_midRangeLatency.count()/graphMaxLatency;
+    auto lowStop = m_lowRangeLatency.count() / graphMaxLatency;
+    auto midStop = m_midRangeLatency.count() / graphMaxLatency;
 
     painter->save();
 
     QLinearGradient graphGradient = QLinearGradient(QPoint(rect.x(), rect.bottom()), QPoint(rect.x(), rect.top()));
 
-    if (lowStop>1) {
+    if (lowStop > 1) {
         graphGradient.setColorAt(0, QColor(DefaultLowColour));
         graphGradient.setColorAt(1, QColor(DefaultLowColour));
     } else {
-        if (midStop>1) {
-            if (lowStop<1) {
+        if (midStop > 1) {
+            if (lowStop < 1) {
                 graphGradient.setColorAt(0, QColor(DefaultLowColour));
                 graphGradient.setColorAt(1, QColor(DefaultMidColour));
             }
@@ -69,8 +67,8 @@ void FizzyAde::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter)
 
     if (!smoothGradient) {
         graphGradient.setColorAt(lowStop, QColor(DefaultMidColour));
-        graphGradient.setColorAt(lowStop-0.0001, QColor(DefaultLowColour));
-        graphGradient.setColorAt(midStop-0.0001, QColor(DefaultMidColour));
+        graphGradient.setColorAt(lowStop - 0.0001, QColor(DefaultLowColour));
+        graphGradient.setColorAt(midStop - 0.0001, QColor(DefaultMidColour));
     }
 
     painter->fillRect(rect, graphGradient);
@@ -79,9 +77,11 @@ void FizzyAde::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter)
     auto endPoint = QPointF();
     auto floatingPointRect = QRectF(rect);
 
-    if (lowStop<1) {
-        startPoint = QPointF(floatingPointRect.left(), floatingPointRect.bottom()-(lowStop*floatingPointRect.height()));
-        endPoint = QPointF(floatingPointRect.right(), floatingPointRect.bottom()-(lowStop*floatingPointRect.height()));
+    if (lowStop < 1) {
+        startPoint = QPointF(floatingPointRect.left(),
+                             floatingPointRect.bottom() - ( lowStop * floatingPointRect.height()));
+        endPoint = QPointF(floatingPointRect.right(),
+                           floatingPointRect.bottom() - ( lowStop * floatingPointRect.height()));
     }
 
     auto pen = QPen(Qt::DashLine);
@@ -92,9 +92,9 @@ void FizzyAde::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter)
 
     painter->drawLine(startPoint, endPoint);
 
-    if (midStop<1) {
-        startPoint = QPointF(rect.left(), floatingPointRect.bottom()-(midStop*floatingPointRect.height()));
-        endPoint = QPointF(rect.right(), floatingPointRect.bottom()-(midStop*floatingPointRect.height()));
+    if (midStop < 1) {
+        startPoint = QPointF(rect.left(), floatingPointRect.bottom() - ( midStop * floatingPointRect.height()));
+        endPoint = QPointF(rect.right(), floatingPointRect.bottom() - ( midStop * floatingPointRect.height()));
     }
 
     painter->drawLine(startPoint, endPoint);

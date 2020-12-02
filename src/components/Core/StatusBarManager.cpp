@@ -20,7 +20,6 @@
 
 #include "StatusBarManager.h"
 
-FizzyAde::Core::StatusBarManager::StatusBarManager()
-{
+Nedrysoft::Core::StatusBarManager::StatusBarManager() {
 
 }

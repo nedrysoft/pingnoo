@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ROUTEENGINE_ROUTEENGINE_H
-#define FIZZYADE_ROUTEENGINE_ROUTEENGINE_H
+#ifndef NEDRYSOFT_ROUTEENGINE_ROUTEENGINE_H
+#define NEDRYSOFT_ROUTEENGINE_ROUTEENGINE_H
 
 #include "Core/IRouteEngine.h"
 #include <QObject>
@@ -29,8 +29,7 @@
 
 class QThread;
 
-namespace FizzyAde::RouteEngine
-{
+namespace Nedrysoft::RouteEngine {
     class RouteWorker;
 
     /**
@@ -41,36 +40,35 @@ namespace FizzyAde::RouteEngine
      *
      */
     class RouteEngine :
-        public FizzyAde::Core::IRouteEngine
-    {
+            public Nedrysoft::Core::IRouteEngine {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::IRouteEngine)
+            Q_INTERFACES(Nedrysoft::Core::IRouteEngine)
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         */
-        RouteEngine();
+        public:
+            /**
+             * @brief       Constructor
+             *
+             */
+            RouteEngine();
 
-        /**
-         * @brief       Destructor
-         *
-         */
-        ~RouteEngine();
+            /**
+             * @brief       Destructor
+             *
+             */
+            ~RouteEngine();
 
-        /**
-         * @sa          IRouteEngine
-         *
-         */
-        virtual void findRoute(QString host, FizzyAde::Core::IPVersion ipVersion=FizzyAde::Core::IPVersion::V4);
+            /**
+             * @sa          IRouteEngine
+             *
+             */
+            virtual void findRoute(QString host, Nedrysoft::Core::IPVersion ipVersion = Nedrysoft::Core::IPVersion::V4);
 
-    private:
-        QThread *m_workerThread;                     //! The route finder thread
-        RouteWorker *m_worker;                       //! The thread worker for route finder
-        FizzyAde::Core::IPVersion m_ipVersion;       //! The IP version to use for the route finder instance
+        private:
+            QThread *m_workerThread;                     //! The route finder thread
+            RouteWorker *m_worker;                       //! The thread worker for route finder
+            Nedrysoft::Core::IPVersion m_ipVersion;       //! The IP version to use for the route finder instance
     };
 }
 
-#endif // FIZZYADE_ROUTEENGINE_ROUTEENGINE_H
+#endif // NEDRYSOFT_ROUTEENGINE_ROUTEENGINE_H

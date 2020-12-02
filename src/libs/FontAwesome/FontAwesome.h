@@ -18,29 +18,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_FONTAWSOME_FONTAWESOME_H
-#define FIZZYADE_FONTAWSOME_FONTAWESOME_H
+#ifndef NEDRYSOFT_FONTAWSOME_FONTAWESOME_H
+#define NEDRYSOFT_FONTAWSOME_FONTAWESOME_H
 
 #include <QString>
 #include <QMap>
 #include <QIcon>
 
-#if (defined(FIZZYADE_LIBRARY_FONTAWESOME_EXPORT))
-#define FIZZYADE_FONTAWESOME_DLLSPEC Q_DECL_EXPORT
+#if ( defined(NEDRYSOFT_LIBRARY_FONTAWESOME_EXPORT))
+#define NEDRYSOFT_FONTAWESOME_DLLSPEC Q_DECL_EXPORT
 #else
-#define FIZZYADE_FONTAWESOME_DLLSPEC Q_DECL_IMPORT
+#define NEDRYSOFT_FONTAWESOME_DLLSPEC Q_DECL_IMPORT
 #endif
 
-namespace FizzyAde
-{
+namespace Nedrysoft {
     /**
      * @brief           FontAwesome library
      *
      * @details         Provides helper functions to make use of the FontAwesome library
      *
      */
-    class FIZZYADE_FONTAWESOME_DLLSPEC FontAwesome
-    {
+    class NEDRYSOFT_FONTAWESOME_DLLSPEC FontAwesome {
         private:
             /**
              * @brief       get the singleton instance of the font awesome object
@@ -122,4 +120,4 @@ namespace FizzyAde
     };
 }
 
-#endif // FIZZYADE_FONTAWSOME_FONTAWESOME_H
+#endif // NEDRYSOFT_FONTAWSOME_FONTAWESOME_H

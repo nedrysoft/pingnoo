@@ -18,15 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_COMPONENTSYSTEM_ICOMPONENTMANAGER_H
-#define FIZZYADE_COMPONENTSYSTEM_ICOMPONENTMANAGER_H
+#ifndef NEDRYSOFT_COMPONENTSYSTEM_ICOMPONENTMANAGER_H
+#define NEDRYSOFT_COMPONENTSYSTEM_ICOMPONENTMANAGER_H
 
 #include "ComponentSystemSpec.h"
 #include "IComponentInterface.h"
 #include <QObject>
 
-namespace FizzyAde::ComponentSystem
-{
+namespace Nedrysoft::ComponentSystem {
     /**
      * @brief       IComponentManager
      *
@@ -35,84 +34,81 @@ namespace FizzyAde::ComponentSystem
      *
      */
     class COMPONENT_SYSTEM_DLLSPEC IComponentManager :
-        public QObject
-    {
+            public QObject {
         Q_OBJECT
 
-    private:
-        /**
-         * @brief       `Constructor
-         *
-         */
-        IComponentManager() = default;
+        private:
+            /**
+             * @brief       `Constructor
+             *
+             */
+            IComponentManager() = default;
 
-        /**
-         * @brief       Destructor
-         *
-         */
-        ~IComponentManager();
+            /**
+             * @brief       Destructor
+             *
+             */
+            ~IComponentManager();
 
-    public:
+        public:
 
-        /**
-         * @brief       Add an object to the object registry
-         *
-         * @param[in]   object object to store
-         *
-         */
-        void addObject(QObject *object);
+            /**
+             * @brief       Add an object to the object registry
+             *
+             * @param[in]   object object to store
+             *
+             */
+            void addObject(QObject *object);
 
-        /**
-         * @brief       Removes an object to the object registry
-         *
-         * @param[in]   object object to store
-         *
-         */
-        void removeObject(QObject *object);
+            /**
+             * @brief       Removes an object to the object registry
+             *
+             * @param[in]   object object to store
+             *
+             */
+            void removeObject(QObject *object);
 
-        /**
-         * @brief       Return all objects
-         *
-         * @returns     returns a list of all objects
-         *
-         */
-        QList<QObject *> allObjects();
+            /**
+             * @brief       Return all objects
+             *
+             * @returns     returns a list of all objects
+             *
+             */
+            QList<QObject *> allObjects();
 
-        /**
-         * @brief       Returns the singleton instance to the ComponentManager object
-         *
-         * @returns     the singleton instance
-         *
-         */
-        static IComponentManager *getInstance();
+            /**
+             * @brief       Returns the singleton instance to the ComponentManager object
+             *
+             * @returns     the singleton instance
+             *
+             */
+            static IComponentManager *getInstance();
 
-    private:
-        QList<QObject *> m_objectList;                              //! The list of objects
+        private:
+            QList<QObject *> m_objectList;                              //! The list of objects
     };
 }
 
 /**
  * @brief       Convenience functions to manipulate the object registry
  *
- * @example     FizzyAde::ComponentSystem:addObject(object);
+ * @example     Nedrysoft::ComponentSystem:addObject(object);
  *
- *              QList<QObject *> objectList = FizzyAde::ComponentSystem:allObjects();
+ *              QList<QObject *> objectList = Nedrysoft::ComponentSystem:allObjects();
  *
- *              auto object = FizzyAde::ComponentSystem:getObject<IInterface>();
+ *              auto object = Nedrysoft::ComponentSystem:getObject<IInterface>();
  *
- *              QList<IInterface *> objectList = FizzyAde::ComponentSystem:getObjects<IInterface>();
+ *              QList<IInterface *> objectList = Nedrysoft::ComponentSystem:getObjects<IInterface>();
  *
  */
-namespace FizzyAde::ComponentSystem
-{
+namespace Nedrysoft::ComponentSystem {
     /**
      * @brief       Adds an object to the registry
      *
      * @param[in]   object      the object
      *
      */
-    inline void addObject(QObject *object)
-    {
+    inline void addObject(QObject *object) {
         return IComponentManager::getInstance()->addObject(object);
     }
 
@@ -122,8 +118,7 @@ namespace FizzyAde::ComponentSystem
      * @param[in]   object      the object
      *
      */
-    inline void removeObject(QObject *object)
-    {
+    inline void removeObject(QObject *object) {
         return IComponentManager::getInstance()->removeObject(object);
     }
 
@@ -133,8 +128,7 @@ namespace FizzyAde::ComponentSystem
      * @return      the list of objects
      *
      */
-    inline QList<QObject *> allObjects()
-    {
+    inline QList<QObject *> allObjects() {
         return IComponentManager::getInstance()->allObjects();
     }
 
@@ -144,9 +138,8 @@ namespace FizzyAde::ComponentSystem
      * @return      the object of type T
      *
      */
-    template <typename T>
-    inline T *getObject()
-    {
+    template<typename T>
+    inline T *getObject() {
         for (auto object : IComponentManager::getInstance()->allObjects()) {
 
             auto castObject = qobject_cast<T *>(object);
@@ -164,9 +157,8 @@ namespace FizzyAde::ComponentSystem
      * @return      the list of objects implementing type T
      *
      */
-    template <typename T>
-    inline QList<T *> getObjects()
-    {
+    template<typename T>
+    inline QList<T *> getObjects() {
         QList<T *> objectList;
 
         for (auto object : IComponentManager::getInstance()->allObjects()) {
@@ -181,4 +173,4 @@ namespace FizzyAde::ComponentSystem
     }
 }
 
-#endif // FIZZYADE_COMPONENTSYSTEM_ICOMPONENTMANAGER_H
+#endif // NEDRYSOFT_COMPONENTSYSTEM_ICOMPONENTMANAGER_H

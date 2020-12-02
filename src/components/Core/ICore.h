@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_ICORE_H
-#define FIZZYADE_CORE_ICORE_H
+#ifndef NEDRYSOFT_CORE_ICORE_H
+#define NEDRYSOFT_CORE_ICORE_H
 
 #include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
@@ -27,8 +27,7 @@
 #include <QObject>
 #include <QMainWindow>
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     /**
      * @brief       Interface definition of of the core component object
      *
@@ -36,45 +35,42 @@ namespace FizzyAde::Core
      *              been initialised, including access to core objects.
      *
      */
-    class FIZZYADE_CORE_DLLSPEC ICore :
-        public FizzyAde::ComponentSystem::IInterface
-    {
+    class NEDRYSOFT_CORE_DLLSPEC ICore :
+            public Nedrysoft::ComponentSystem::IInterface {
         Q_OBJECT
 
-    public:
-        /**
-         * @brief       Gets the FizzyAde::Core::ICore instance.
-         *
-         */
-        static ICore *getInstance()
-        {
-            return ComponentSystem::getObject<ICore>();
-        }
+        public:
+            /**
+             * @brief       Gets the Nedrysoft::Core::ICore instance.
+             *
+             */
+            static ICore *getInstance() {
+                return ComponentSystem::getObject<ICore>();
+            }
 
-        /**
-         * @brief       Gets the main window.
-         *
-         * @details     Returns a pointer to a QMainWindow object which is the main window of
-         *              the application
-         *
-         * @return      the QMainWindow pointer
-         *
-         */
-        virtual QMainWindow *mainWindow() = 0;
+            /**
+             * @brief       Gets the main window.
+             *
+             * @details     Returns a pointer to a QMainWindow object which is the main window of
+             *              the application
+             *
+             * @return      the QMainWindow pointer
+             *
+             */
+            virtual QMainWindow *mainWindow() = 0;
 
-        /**
-         * @brief       Core opened signal
-         *
-         * @details     The signal is emitted after all plugins have been loaded and initialised, allows
-         *              components to do post-initialisation functions knowing that all plugins have
-         *              initialised
-         *
-         */
-        Q_SIGNAL void coreOpened(void);
+            /**
+             * @brief       Core opened signal
+             *
+             * @details     The signal is emitted after all plugins have been loaded and initialised, allows
+             *              components to do post-initialisation functions knowing that all plugins have
+             *              initialised
+             *
+             */
+            Q_SIGNAL void coreOpened(void);
     };
 
-    inline QMainWindow *mainWindow()
-    {
+    inline QMainWindow *mainWindow() {
         auto core = ICore::getInstance();
 
         if (core)
@@ -84,6 +80,6 @@ namespace FizzyAde::Core
     }
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::ICore, "com.fizzyade.core.ICore/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::ICore, "com.fizzyade.core.ICore/1.0.0")
 
-#endif // FIZZYADE_CORE_ICORE_H
+#endif // NEDRYSOFT_CORE_ICORE_H

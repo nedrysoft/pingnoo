@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_ICOMMAND_H
-#define FIZZYADE_CORE_ICOMMAND_H
+#ifndef NEDRYSOFT_CORE_ICOMMAND_H
+#define NEDRYSOFT_CORE_ICOMMAND_H
 
 #include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
@@ -28,8 +28,7 @@
 #include <QAbstractButton>
 #include <QDebug>
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     /**
      * @brief       ICommand interface
      *
@@ -39,62 +38,60 @@ namespace FizzyAde::Core
      *              is in.
      *
      */
-    class FIZZYADE_CORE_DLLSPEC ICommand :
-        public FizzyAde::ComponentSystem::IInterface
-    {
+    class NEDRYSOFT_CORE_DLLSPEC ICommand :
+            public Nedrysoft::ComponentSystem::IInterface {
         Q_OBJECT
 
-    public:
-        /**
-         * @brief       Returns the proxy action
-         *
-         * @return      the proxy action
-         *
-         */
-        virtual QAction *action() = 0;
+        public:
+            /**
+             * @brief       Returns the proxy action
+             *
+             * @return      the proxy action
+             *
+             */
+            virtual QAction *action() = 0;
 
-        /**
-         * @brief       Sets the active state of the command
-         *
-         * @param[in]   state       true if enabled, else false
-         *
-         */
-        virtual void setActive(bool state) = 0;
+            /**
+             * @brief       Sets the active state of the command
+             *
+             * @param[in]   state       true if enabled, else false
+             *
+             */
+            virtual void setActive(bool state) = 0;
 
-        /**
-         * @brief       Returns the active state of the command
-         *
-         * @return      true if enabled, else false
-         *
-         */
-        virtual bool active() = 0;
+            /**
+             * @brief       Returns the active state of the command
+             *
+             * @return      true if enabled, else false
+             *
+             */
+            virtual bool active() = 0;
 
-    public:
-        /**
-         * @brief       Attaches a command to an abstract push button
-         *
-         * @details     Binds to the buttons signals and then emits the appropriate
-         *              signals from the push button
-         *
-         * @param[in]   widget      the abstract button subclassed widget
-         *
-         */
-        virtual void attachToWidget(QAbstractButton *widget)
-        {
-            connect(widget, &QAbstractButton::clicked, [this] (bool) {
-                this->action()->trigger();
-            });
+        public:
+            /**
+             * @brief       Attaches a command to an abstract push button
+             *
+             * @details     Binds to the buttons signals and then emits the appropriate
+             *              signals from the push button
+             *
+             * @param[in]   widget      the abstract button subclassed widget
+             *
+             */
+            virtual void attachToWidget(QAbstractButton *widget) {
+                connect(widget, &QAbstractButton::clicked, [this](bool) {
+                    this->action()->trigger();
+                });
 
-            connect(this->action(), &QAction::changed, [this, widget] {
-                widget->setEnabled(this->active());
-            });
-        }
+                connect(this->action(), &QAction::changed, [this, widget] {
+                    widget->setEnabled(this->active());
+                });
+            }
 
-    public:
+        public:
 
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::ICommand, "com.fizzyade.core.ICommand/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::ICommand, "com.fizzyade.core.ICommand/1.0.0")
 
-#endif // FIZZYADE_CORE_ICOMMAND_H
+#endif // NEDRYSOFT_CORE_ICOMMAND_H

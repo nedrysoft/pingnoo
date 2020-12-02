@@ -39,34 +39,34 @@ constexpr int MaxRouteHops = 64;
 constexpr auto DefaultReplyTimeout = 1s;
 constexpr int PingPayloadLength = 52;
 
-FizzyAde::RouteEngine::RouteWorker::RouteWorker(FizzyAde::Core::IPVersion ipVersion)
-{
+Nedrysoft::RouteEngine::RouteWorker::RouteWorker(Nedrysoft::Core::IPVersion ipVersion) {
     m_isRunning = false;
     m_ipVersion = ipVersion;
 }
 
-FizzyAde::RouteEngine::RouteWorker::~RouteWorker() = default;
+Nedrysoft::RouteEngine::RouteWorker::~RouteWorker() = default;
 
-bool FizzyAde::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddress, int ttl, QHostAddress *returnAddress, bool *isComplete)
-{
+bool Nedrysoft::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddress, int ttl, QHostAddress *returnAddress,
+                                                  bool *isComplete) {
     if (!m_isRunning) {
         return false;
     }
 
-    auto socket = FizzyAde::ICMPSocket::ICMPSocket::createWriteSocket(ttl, FizzyAde::ICMPSocket::V4);
+    auto socket = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(ttl, Nedrysoft::ICMPSocket::V4);
 
-    auto id = static_cast<uint16_t>((QRandomGenerator::global()->generate() % (UINT16_MAX-1))+1);
+    auto id = static_cast<uint16_t>(( QRandomGenerator::global()->generate() % ( UINT16_MAX - 1 )) + 1);
 
-    for (uint16_t sequence=1;sequence<=TransmitRetries;sequence++) {
+    for (uint16_t sequence = 1; sequence <= TransmitRetries; sequence++) {
         if (!m_isRunning) {
             break;
         }
 
-        auto buffer = FizzyAde::ICMPPacket::ICMPPacket::pingPacket(id, sequence, PingPayloadLength, hostAddress, FizzyAde::ICMPPacket::V4);
+        auto buffer = Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(id, sequence, PingPayloadLength, hostAddress,
+                                                                    Nedrysoft::ICMPPacket::V4);
 
         auto result = socket->sendto(buffer, hostAddress);
 
-        if (result!=buffer.length()) {
+        if (result != buffer.length()) {
             qWarning() << "Error sending ICMP request.";
         }
 
@@ -74,20 +74,20 @@ bool FizzyAde::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddress
 
         std::chrono::milliseconds responseTimeout = DefaultReplyTimeout;
 
-        while(responseTimeout.count()>0) {
+        while (responseTimeout.count() > 0) {
             auto startTime = std::chrono::system_clock::now();
 
-            if (socket->recvfrom(receiveBuffer, *returnAddress, responseTimeout)==-1) {
+            if (socket->recvfrom(receiveBuffer, *returnAddress, responseTimeout) == -1) {
                 break;
             }
 
             auto endTime = std::chrono::system_clock::now();
 
-            auto responsePacket = FizzyAde::ICMPPacket::ICMPPacket::fromData(receiveBuffer, FizzyAde::ICMPPacket::V4);
+            auto responsePacket = Nedrysoft::ICMPPacket::ICMPPacket::fromData(receiveBuffer, Nedrysoft::ICMPPacket::V4);
 
-            if (responsePacket.resultCode()!=FizzyAde::ICMPPacket::Invalid) {
-                if ((responsePacket.id()==id) && (responsePacket.sequence()==sequence)) {
-                    if (responsePacket.resultCode()==FizzyAde::ICMPPacket::EchoReply) {
+            if (responsePacket.resultCode() != Nedrysoft::ICMPPacket::Invalid) {
+                if (( responsePacket.id() == id ) && ( responsePacket.sequence() == sequence )) {
+                    if (responsePacket.resultCode() == Nedrysoft::ICMPPacket::EchoReply) {
                         *isComplete = true;
                     }
 
@@ -97,68 +97,7 @@ bool FizzyAde::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddress
                 }
             }
 
-            std::chrono::milliseconds diff = std::chrono::duration_cast<std::chrono::milliseconds>(endTime-startTime);
-
-            responseTimeout -= diff;
-         }
-    }
-
-    delete socket;
-
-    return false;
-}
-
-bool FizzyAde::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddress, int hopLimit, QHostAddress *returnAddress, bool *isComplete)
-{
-    if (!m_isRunning) {
-        return false;
-    }
-
-    auto socket = FizzyAde::ICMPSocket::ICMPSocket::createWriteSocket(hopLimit, FizzyAde::ICMPSocket::V6);
-
-    auto id = static_cast<uint16_t>((QRandomGenerator::global()->generate() % (UINT16_MAX-1))+1);
-
-    for (uint16_t sequence=1;sequence<=TransmitRetries;sequence++) {
-        if (!m_isRunning) {
-            break;
-        }
-
-        auto buffer = FizzyAde::ICMPPacket::ICMPPacket::pingPacket(id, sequence, PingPayloadLength, hostAddress, FizzyAde::ICMPPacket::V6);
-
-        auto result = socket->sendto(buffer, hostAddress);
-
-        if (result!=buffer.length()) {
-            qWarning() << "Error sending ICMP request.";
-        }
-
-        QByteArray receiveBuffer;
-
-        std::chrono::milliseconds responseTimeout = DefaultReplyTimeout;
-
-        while(responseTimeout.count()>0) {
-            auto startTime = std::chrono::system_clock::now();
-
-            if (socket->recvfrom(receiveBuffer, *returnAddress, responseTimeout)==-1) {
-                break;
-            }
-
-            auto endTime = std::chrono::system_clock::now();
-
-            auto responsePacket = FizzyAde::ICMPPacket::ICMPPacket::fromData(receiveBuffer, FizzyAde::ICMPPacket::V6);
-
-            if (responsePacket.resultCode()!=FizzyAde::ICMPPacket::Invalid) {
-                if ((responsePacket.id()==id) && (responsePacket.sequence()==sequence)) {
-                    if (responsePacket.resultCode()==FizzyAde::ICMPPacket::EchoReply) {
-                        *isComplete = true;
-                    }
-
-                    delete socket;
-
-                    return true;
-                }
-            }
-
-            std::chrono::milliseconds diff = std::chrono::duration_cast<std::chrono::milliseconds>(endTime-startTime);
+            std::chrono::milliseconds diff = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
 
             responseTimeout -= diff;
         }
@@ -169,39 +108,101 @@ bool FizzyAde::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddress
     return false;
 }
 
-void FizzyAde::RouteEngine::RouteWorker::doWork()
-{
+bool
+Nedrysoft::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddress, int hopLimit, QHostAddress *returnAddress,
+                                             bool *isComplete) {
+    if (!m_isRunning) {
+        return false;
+    }
+
+    auto socket = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(hopLimit, Nedrysoft::ICMPSocket::V6);
+
+    auto id = static_cast<uint16_t>(( QRandomGenerator::global()->generate() % ( UINT16_MAX - 1 )) + 1);
+
+    for (uint16_t sequence = 1; sequence <= TransmitRetries; sequence++) {
+        if (!m_isRunning) {
+            break;
+        }
+
+        auto buffer = Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(id, sequence, PingPayloadLength, hostAddress,
+                                                                    Nedrysoft::ICMPPacket::V6);
+
+        auto result = socket->sendto(buffer, hostAddress);
+
+        if (result != buffer.length()) {
+            qWarning() << "Error sending ICMP request.";
+        }
+
+        QByteArray receiveBuffer;
+
+        std::chrono::milliseconds responseTimeout = DefaultReplyTimeout;
+
+        while (responseTimeout.count() > 0) {
+            auto startTime = std::chrono::system_clock::now();
+
+            if (socket->recvfrom(receiveBuffer, *returnAddress, responseTimeout) == -1) {
+                break;
+            }
+
+            auto endTime = std::chrono::system_clock::now();
+
+            auto responsePacket = Nedrysoft::ICMPPacket::ICMPPacket::fromData(receiveBuffer, Nedrysoft::ICMPPacket::V6);
+
+            if (responsePacket.resultCode() != Nedrysoft::ICMPPacket::Invalid) {
+                if (( responsePacket.id() == id ) && ( responsePacket.sequence() == sequence )) {
+                    if (responsePacket.resultCode() == Nedrysoft::ICMPPacket::EchoReply) {
+                        *isComplete = true;
+                    }
+
+                    delete socket;
+
+                    return true;
+                }
+            }
+
+            std::chrono::milliseconds diff = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
+
+            responseTimeout -= diff;
+        }
+    }
+
+    delete socket;
+
+    return false;
+}
+
+void Nedrysoft::RouteEngine::RouteWorker::doWork() {
     auto addressList = QHostInfo::fromName(m_host).addresses();
-    auto route = FizzyAde::Core::RouteList();
+    auto route = Nedrysoft::Core::RouteList();
     auto hopAddress = QHostAddress();
     auto isComplete = false;
     auto actualTargetAddress = QHostAddress();
 
     m_isRunning = true;
 
-    for(auto targetAddress : addressList) {
+    for (auto targetAddress : addressList) {
         auto hop = 1;
 
-        if (m_ipVersion==FizzyAde::Core::IPVersion::V4) {
-            if (targetAddress.protocol()!=QAbstractSocket::IPv4Protocol) {
+        if (m_ipVersion == Nedrysoft::Core::IPVersion::V4) {
+            if (targetAddress.protocol() != QAbstractSocket::IPv4Protocol) {
                 continue;
             }
-        } else if (m_ipVersion==FizzyAde::Core::IPVersion::V6) {
-            if (targetAddress.protocol()!=QAbstractSocket::IPv6Protocol) {
+        } else if (m_ipVersion == Nedrysoft::Core::IPVersion::V6) {
+            if (targetAddress.protocol() != QAbstractSocket::IPv6Protocol) {
                 continue;
             }
         } else {
             continue;
         }
 
-        route = FizzyAde::Core::RouteList();
+        route = Nedrysoft::Core::RouteList();
 
-        while ((!isComplete) && (hop<=MaxRouteHops) && (m_isRunning)) {
+        while (( !isComplete ) && ( hop <= MaxRouteHops ) && ( m_isRunning )) {
             bool hopResponded;
 
-            if (targetAddress.protocol()==QAbstractSocket::IPv4Protocol) {
+            if (targetAddress.protocol() == QAbstractSocket::IPv4Protocol) {
                 hopResponded = ping_v4(targetAddress, hop, &hopAddress, &isComplete);
-            } else if (targetAddress.protocol()==QAbstractSocket::IPv6Protocol) {
+            } else if (targetAddress.protocol() == QAbstractSocket::IPv6Protocol) {
                 hopResponded = ping_v6(targetAddress, hop, &hopAddress, &isComplete);
             } else {
                 return;
@@ -226,12 +227,11 @@ void FizzyAde::RouteEngine::RouteWorker::doWork()
     if (isComplete) {
         emit result(actualTargetAddress, route);
     } else {
-        emit result(actualTargetAddress, FizzyAde::Core::RouteList());
+        emit result(actualTargetAddress, Nedrysoft::Core::RouteList());
     }
 }
 
 
-void FizzyAde::RouteEngine::RouteWorker::setHost(QString host)
-{
+void Nedrysoft::RouteEngine::RouteWorker::setHost(QString host) {
     m_host = std::move(host);
 }

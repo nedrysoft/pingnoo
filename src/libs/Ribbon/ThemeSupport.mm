@@ -23,17 +23,16 @@
 #import <AppKit/NSAppearance.h>
 #include <QDebug>
 
-bool FizzyAde::Utils::ThemeSupport::isDarkMode()
-{
+bool Nedrysoft::Utils::ThemeSupport::isDarkMode() {
     if (@available(macOS 10.14, *)) {
         NSAppearance *appearance = NSAppearance.currentAppearance;
 
         NSAppearanceName basicAppearance = [appearance bestMatchFromAppearancesWithNames:@[
-            NSAppearanceNameAqua,
-            NSAppearanceNameDarkAqua
+                NSAppearanceNameAqua,
+                NSAppearanceNameDarkAqua
         ]];
 
-        return [basicAppearance isEqualToString:NSAppearanceNameDarkAqua]==YES;
+        return [basicAppearance isEqualToString:NSAppearanceNameDarkAqua] == YES;
     } else {
         return false;
     }

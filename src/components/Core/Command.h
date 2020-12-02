@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_COMMAND_H
-#define FIZZYADE_CORE_COMMAND_H
+#ifndef NEDRYSOFT_CORE_COMMAND_H
+#define NEDRYSOFT_CORE_COMMAND_H
 
 #include "ICommand.h"
 #include "IContextManager.h"
@@ -27,8 +27,7 @@
 #include <QString>
 #include <QMap>
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     class ActionProxy;
 
     /**
@@ -39,67 +38,68 @@ namespace FizzyAde::Core
      *
      */
     class Command :
-        public FizzyAde::Core::ICommand
-    {
+            public Nedrysoft::Core::ICommand {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::ICommand)
+            Q_INTERFACES(Nedrysoft::Core::ICommand)
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         * @details     Constructs a new Command object with the given id
-         *
-         * @param[in]   id      id of the created command
-         *
-         */
-        Command(QString id);
+        public:
+            /**
+             * @brief       Constructor
+             *
+             * @details     Constructs a new Command object with the given id
+             *
+             * @param[in]   id      id of the created command
+             *
+             */
+            Command(QString id);
 
-        /**
-         * @brief       Destructor
-         *
-         */
-        ~Command();
+            /**
+             * @brief       Destructor
+             *
+             */
+            ~Command();
 
-        /**
-         * @sa ICommand
-         *
-         * @note        Gets a FizzyAde::Core::ActionProxy instance so that the action remains valid after a context switch.
-         *
-         * @see         FizzyAde::Core::ActionProxy
-         */
-        virtual QAction *action();
-        virtual void setActive(bool state);
-        virtual bool active();
+            /**
+             * @sa ICommand
+             *
+             * @note        Gets a Nedrysoft::Core::ActionProxy instance so that the action remains valid after a context switch.
+             *
+             * @see         Nedrysoft::Core::ActionProxy
+             */
+            virtual QAction *action();
 
-    protected:
-        /**
-         * @brief       Registers an action to the given contexts
-         *
-         * @param[in]   action      the action
-         * @param[in]   contexts    the list of contexts this action is used in
-         *
-         */
-        void registerAction(QAction *action, const FizzyAde::Core::ContextList &contexts);
+            virtual void setActive(bool state);
 
-        /**
-         * @brief       Sets the current context for this command
-         *
-         * @param[in]   contextId   the context id
-         *
-         */
-        void setContext(int contextId);
+            virtual bool active();
 
-        friend class CommandManager;
+        protected:
+            /**
+             * @brief       Registers an action to the given contexts
+             *
+             * @param[in]   action      the action
+             * @param[in]   contexts    the list of contexts this action is used in
+             *
+             */
+            void registerAction(QAction *action, const Nedrysoft::Core::ContextList &contexts);
 
-    private:
+            /**
+             * @brief       Sets the current context for this command
+             *
+             * @param[in]   contextId   the context id
+             *
+             */
+            void setContext(int contextId);
 
-        QMap<int, QAction *> m_actions;                     //! Map containing actions stored by context key
+            friend class CommandManager;
 
-        FizzyAde::Core::ActionProxy *m_action;              //! The proxy action used by the UI
-        QString m_id;                                       //! Unique identifier for the command
+        private:
+
+            QMap<int, QAction *> m_actions;                     //! Map containing actions stored by context key
+
+            Nedrysoft::Core::ActionProxy *m_action;              //! The proxy action used by the UI
+            QString m_id;                                       //! Unique identifier for the command
     };
 }
 
-#endif // FIZZYADE_CORE_COMMAND_H
+#endif // NEDRYSOFT_CORE_COMMAND_H

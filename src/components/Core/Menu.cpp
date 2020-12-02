@@ -24,8 +24,7 @@
 #include <QDebug>
 #include "Pingnoo.h"
 
-FizzyAde::Core::Menu::Menu()
-{
+Nedrysoft::Core::Menu::Menu() {
     m_menuBar = nullptr;
     m_menu = nullptr;
 
@@ -34,54 +33,48 @@ FizzyAde::Core::Menu::Menu()
     m_groupList.append(GroupItem(Pingnoo::Constants::defaultGroupBottom));
 }
 
-FizzyAde::Core::Menu::~Menu() = default;
+Nedrysoft::Core::Menu::~Menu() = default;
 
-FizzyAde::Core::Menu::Menu(QMenuBar *menuBar) :
-    Menu()
-{
+Nedrysoft::Core::Menu::Menu(QMenuBar *menuBar) :
+        Menu() {
     m_menuBar = menuBar;
 }
 
-FizzyAde::Core::Menu::Menu(QMenu *menu) :
-    Menu()
-{
+Nedrysoft::Core::Menu::Menu(QMenu *menu) :
+        Menu() {
     m_menu = menu;
 }
 
-FizzyAde::Core::MenuTypes FizzyAde::Core::Menu::type()
-{
+Nedrysoft::Core::MenuTypes Nedrysoft::Core::Menu::type() {
     if (m_menuBar) {
-        return FizzyAde::Core::MenuTypes::isMenuBar;
+        return Nedrysoft::Core::MenuTypes::isMenuBar;
     }
 
-    if (m_menu && (!qobject_cast<QMenuBar *>(m_menu->parent()))) {
-        return FizzyAde::Core::MenuTypes::isSubMenu;
+    if (m_menu && ( !qobject_cast<QMenuBar *>(m_menu->parent()))) {
+        return Nedrysoft::Core::MenuTypes::isSubMenu;
     }
 
-    return FizzyAde::Core::MenuTypes::isMenu;
+    return Nedrysoft::Core::MenuTypes::isMenu;
 }
 
-QMenu *FizzyAde::Core::Menu::menu()
-{
+QMenu *Nedrysoft::Core::Menu::menu() {
     return m_menu;
 }
 
-QMenuBar *FizzyAde::Core::Menu::menuBar()
-{
+QMenuBar *Nedrysoft::Core::Menu::menuBar() {
     return m_menuBar;
 }
 
-QAction *FizzyAde::Core::Menu::getInsertAction(QList<FizzyAde::Core::Menu::GroupItem>::const_iterator groupIterator)
-{
+QAction *Nedrysoft::Core::Menu::getInsertAction(QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator) {
     if (groupIterator->m_items.count()) {
-        auto castToCommand = qobject_cast<FizzyAde::Core::ICommand *>(groupIterator->m_items.first());
+        auto castToCommand = qobject_cast<Nedrysoft::Core::ICommand *>(groupIterator->m_items.first());
 
         if (castToCommand) {
             return castToCommand->action();
         }
     }
 
-    while(groupIterator!=m_groupList.constEnd()) {
+    while (groupIterator != m_groupList.constEnd()) {
         if (groupIterator->m_items.count()) {
             break;
         }
@@ -89,12 +82,12 @@ QAction *FizzyAde::Core::Menu::getInsertAction(QList<FizzyAde::Core::Menu::Group
         groupIterator++;
     }
 
-    if (groupIterator==m_groupList.constEnd()) {
+    if (groupIterator == m_groupList.constEnd()) {
         return nullptr;
     }
 
     if (groupIterator->m_items.count()) {
-        auto castToCommand = qobject_cast<FizzyAde::Core::ICommand *>(groupIterator->m_items.first());
+        auto castToCommand = qobject_cast<Nedrysoft::Core::ICommand *>(groupIterator->m_items.first());
 
         if (castToCommand) {
             return castToCommand->action();
@@ -104,11 +97,10 @@ QAction *FizzyAde::Core::Menu::getInsertAction(QList<FizzyAde::Core::Menu::Group
     return nullptr;
 }
 
-QAction *FizzyAde::Core::Menu::getAppendAction(QList<FizzyAde::Core::Menu::GroupItem>::const_iterator groupIterator)
-{
+QAction *Nedrysoft::Core::Menu::getAppendAction(QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator) {
     groupIterator++;
 
-    while(groupIterator!=m_groupList.constEnd()) {
+    while (groupIterator != m_groupList.constEnd()) {
         if (groupIterator->m_items.count()) {
             break;
         }
@@ -116,12 +108,12 @@ QAction *FizzyAde::Core::Menu::getAppendAction(QList<FizzyAde::Core::Menu::Group
         groupIterator++;
     }
 
-    if (groupIterator==m_groupList.constEnd()) {
+    if (groupIterator == m_groupList.constEnd()) {
         return nullptr;
     }
 
     if (groupIterator->m_items.count()) {
-        auto castToCommand = qobject_cast<FizzyAde::Core::ICommand *>(groupIterator->m_items.first());
+        auto castToCommand = qobject_cast<Nedrysoft::Core::ICommand *>(groupIterator->m_items.first());
 
         if (castToCommand) {
             return castToCommand->action();
@@ -131,8 +123,7 @@ QAction *FizzyAde::Core::Menu::getAppendAction(QList<FizzyAde::Core::Menu::Group
     return nullptr;
 }
 
-void FizzyAde::Core::Menu::insertCommand(FizzyAde::Core::ICommand *command, QString group)
-{
+void Nedrysoft::Core::Menu::insertCommand(Nedrysoft::Core::ICommand *command, QString group) {
     if (!m_menu || !command) {
         return;
     }
@@ -147,11 +138,10 @@ void FizzyAde::Core::Menu::insertCommand(FizzyAde::Core::ICommand *command, QStr
 
     m_menu->insertAction(nextAction, command->action());
 
-    m_groupList[groupIterator-m_groupList.constBegin()].m_items.append(command);
+    m_groupList[groupIterator - m_groupList.constBegin()].m_items.append(command);
 }
 
-void FizzyAde::Core::Menu::appendCommand(FizzyAde::Core::ICommand *command, QString groupIdentifier)
-{
+void Nedrysoft::Core::Menu::appendCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier) {
     if (!m_menu || !command) {
         return;
     }
@@ -166,15 +156,14 @@ void FizzyAde::Core::Menu::appendCommand(FizzyAde::Core::ICommand *command, QStr
 
     m_menu->insertAction(previousAction, command->action());
 
-    m_groupList[groupIterator-m_groupList.constBegin()].m_items.append(command);
+    m_groupList[groupIterator - m_groupList.constBegin()].m_items.append(command);
 }
 
-QList<FizzyAde::Core::Menu::GroupItem>::const_iterator FizzyAde::Core::Menu::findGroup(QString groupIdentifier)
-{
-    QList<FizzyAde::Core::Menu::GroupItem>::const_iterator groupIterator = m_groupList.constBegin();
+QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator Nedrysoft::Core::Menu::findGroup(QString groupIdentifier) {
+    QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator = m_groupList.constBegin();
 
-    while(groupIterator!=m_groupList.constEnd()) {
-        if (groupIterator->m_id==groupIdentifier) {
+    while (groupIterator != m_groupList.constEnd()) {
+        if (groupIterator->m_id == groupIdentifier) {
             break;
         }
 
@@ -184,47 +173,43 @@ QList<FizzyAde::Core::Menu::GroupItem>::const_iterator FizzyAde::Core::Menu::fin
     return groupIterator;
 }
 
-bool FizzyAde::Core::Menu::addGroupAfter(QString afterIdentifier, QString groupIdentifier)
-{
+bool Nedrysoft::Core::Menu::addGroupAfter(QString afterIdentifier, QString groupIdentifier) {
     auto groupIterator = findGroup(afterIdentifier);
 
-    if (groupIterator==m_groupList.constEnd()) {
+    if (groupIterator == m_groupList.constEnd()) {
         m_groupList.append(GroupItem(groupIdentifier));
 
         return true;
     }
 
-    m_groupList.insert((groupIterator-m_groupList.constBegin())+1, GroupItem(groupIdentifier));
+    m_groupList.insert(( groupIterator - m_groupList.constBegin()) + 1, GroupItem(groupIdentifier));
 
     return true;
 }
 
-bool FizzyAde::Core::Menu::addGroupBefore(QString beforeIdentifier, QString groupIdentifier)
-{
+bool Nedrysoft::Core::Menu::addGroupBefore(QString beforeIdentifier, QString groupIdentifier) {
     auto groupIterator = findGroup(beforeIdentifier);
 
     if (groupIterator == m_groupList.constEnd()) {
         return false;
     }
 
-    if (groupIterator==m_groupList.constBegin()) {
+    if (groupIterator == m_groupList.constBegin()) {
         m_groupList.insert(0, GroupItem(groupIdentifier));
 
         return true;
     }
 
-    m_groupList.insert(groupIterator-m_groupList.constBegin(), GroupItem(groupIdentifier));
+    m_groupList.insert(groupIterator - m_groupList.constBegin(), GroupItem(groupIdentifier));
 
     return true;
 }
 
-void FizzyAde::Core::Menu::appendGroup(QString groupIdentifier)
-{
+void Nedrysoft::Core::Menu::appendGroup(QString groupIdentifier) {
     m_groupList.append(GroupItem(groupIdentifier));
 }
 
-void FizzyAde::Core::Menu::insertGroup(QString groupIdentifier)
-{
+void Nedrysoft::Core::Menu::insertGroup(QString groupIdentifier) {
     m_groupList.insert(0, GroupItem(groupIdentifier));
 }
 

@@ -21,12 +21,11 @@
 #include "MapWidget.h"
 #include <QQuickWidget>
 
-FizzyAde::MapWidget::MapWidget::MapWidget(QWidget *parent) :
-    QWidget(parent)
-{
+Nedrysoft::MapWidget::MapWidget::MapWidget(QWidget *parent) :
+        QWidget(parent) {
     m_mapWidget = new QQuickWidget();
 
-    m_mapWidget->setSource(QUrl(QString::fromUtf8("qrc:/FizzyAde/MapWidget/map.qml")));
+    m_mapWidget->setSource(QUrl(QString::fromUtf8("qrc:/Nedrysoft/MapWidget/map.qml")));
     m_mapWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     m_mapLayout = new QGridLayout();
@@ -38,4 +37,4 @@ FizzyAde::MapWidget::MapWidget::MapWidget(QWidget *parent) :
     this->setLayout(m_mapLayout);
 }
 
-FizzyAde::MapWidget::MapWidget::~MapWidget() = default;
+Nedrysoft::MapWidget::MapWidget::~MapWidget() = default;

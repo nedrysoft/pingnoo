@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_CORECOMPONENT_H
-#define FIZZYADE_CORE_CORECOMPONENT_H
+#ifndef NEDRYSOFT_CORE_CORECOMPONENT_H
+#define NEDRYSOFT_CORE_CORECOMPONENT_H
 
 #include "ComponentSystem/IComponentInterface.h"
 #include "CoreSpec.h"
@@ -31,29 +31,29 @@
  *              mechanisms that allow other components to extend the application
  *
  */
-class FIZZYADE_CORE_DLLSPEC CoreComponent :
-    public QObject,
-    public FizzyAde::ComponentSystem::IComponentInterface
-{
+class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
+        public QObject,
+        public Nedrysoft::ComponentSystem::IComponentInterface {
     Q_OBJECT
 
-    Q_PLUGIN_METADATA(IID FizzyAdeComponentInterfaceIID FILE "metadata.json")
+        Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
 
-    Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
+        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponentInterface)
 
-public:
-    /**
-     * @brief       Constructor
-     *
-     */
-    CoreComponent() = default;
+    public:
+        /**
+         * @brief       Constructor
+         *
+         */
+        CoreComponent() = default;
 
-    /**
-     * @sa IComponentInterface
-     *
-     */
-    virtual void initialiseEvent();
-    virtual void initialisationFinishedEvent();
+        /**
+         * @sa IComponentInterface
+         *
+         */
+        virtual void initialiseEvent();
+
+        virtual void initialisationFinishedEvent();
 };
 
-#endif // FIZZYADE_CORE_CORECOMPONENT_H
+#endif // NEDRYSOFT_CORE_CORECOMPONENT_H

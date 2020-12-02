@@ -18,16 +18,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_IEDITORMANAGER_H
-#define FIZZYADE_CORE_IEDITORMANAGER_H
+#ifndef NEDRYSOFT_CORE_IEDITORMANAGER_H
+#define NEDRYSOFT_CORE_IEDITORMANAGER_H
 
 #include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
 #include "ComponentSystem/IComponentManager.h"
 #include <QObject>
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     class IEditor;
 
     /**
@@ -36,31 +35,29 @@ namespace FizzyAde::Core
      * @details     Manages the open editors in the application.
      *
      */
-    class FIZZYADE_CORE_DLLSPEC IEditorManager :
-        public FizzyAde::ComponentSystem::IInterface
-    {
+    class NEDRYSOFT_CORE_DLLSPEC IEditorManager :
+            public Nedrysoft::ComponentSystem::IInterface {
         Q_OBJECT
 
-    public:
-        /**
-         * @brief       Gets the FizzyAde::Core::IEditorManager instance.
-         *
-         */
-        static IEditorManager *getInstance()
-        {
-            return ComponentSystem::getObject<IEditorManager>();
-        }
+        public:
+            /**
+             * @brief       Gets the Nedrysoft::Core::IEditorManager instance.
+             *
+             */
+            static IEditorManager *getInstance() {
+                return ComponentSystem::getObject<IEditorManager>();
+            }
 
-        /**
-         * @brief       Open an editor window
-         *
-         * @param[in]   editor          the editor to open
-         *
-         */
-        virtual int openEditor(IEditor *editor) = 0;
+            /**
+             * @brief       Open an editor window
+             *
+             * @param[in]   editor          the editor to open
+             *
+             */
+            virtual int openEditor(IEditor *editor) = 0;
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::IEditorManager, "com.fizzyade.core.IEditorManager/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IEditorManager, "com.fizzyade.core.IEditorManager/1.0.0")
 
-#endif // FIZZYADE_CORE_IEDITORMANAGER_H
+#endif // NEDRYSOFT_CORE_IEDITORMANAGER_H

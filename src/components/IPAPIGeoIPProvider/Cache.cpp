@@ -30,8 +30,7 @@
 #include <QDateTime>
 #include <QJsonArray>
 
-FizzyAde::IPAPIGeoIPProvider::Cache::Cache()
-{
+Nedrysoft::IPAPIGeoIPProvider::Cache::Cache() {
     auto dataLocations = QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation);
 
     if (dataLocations.isEmpty()) {
@@ -40,7 +39,7 @@ FizzyAde::IPAPIGeoIPProvider::Cache::Cache()
 
     auto dbFileInfo = QFileInfo(dataLocations.at(0), "ip-api-cache.db");
 
-    auto database = QSqlDatabase::addDatabase("QSQLITE", "FizzyAde::IPAPIGeoIPProvider::Cache");
+    auto database = QSqlDatabase::addDatabase("QSQLITE", "Nedrysoft::IPAPIGeoIPProvider::Cache");
 
     database.setDatabaseName(dbFileInfo.absoluteFilePath());
 
@@ -81,18 +80,17 @@ FizzyAde::IPAPIGeoIPProvider::Cache::Cache()
     }
 }
 
-FizzyAde::IPAPIGeoIPProvider::Cache::Cache::~Cache()
-{
-    QSqlDatabase::removeDatabase("FizzyAde::IPAPIGeoIPProvider::Cache");
+Nedrysoft::IPAPIGeoIPProvider::Cache::Cache::~Cache() {
+    QSqlDatabase::removeDatabase("Nedrysoft::IPAPIGeoIPProvider::Cache");
 }
 
-void FizzyAde::IPAPIGeoIPProvider::Cache::add(QJsonObject object)
-{
-    QSqlDatabase database = QSqlDatabase::database("FizzyAde::IPAPIGeoIPProvider::Cache");
+void Nedrysoft::IPAPIGeoIPProvider::Cache::add(QJsonObject object) {
+    QSqlDatabase database = QSqlDatabase::database("Nedrysoft::IPAPIGeoIPProvider::Cache");
     QSqlQuery query(database);
 
-    query.prepare("INSERT INTO ip (name, creationTime, country, countryCode, region, regionName, city, zip, lat, lon, timezone, isp, org, asn) "
-                  "VALUES (:name, :creationTime, :country, :countryCode, :region, :regionName, :city, :zip, :lat, :lon, :timezone, :isp, :org, :asn)");
+    query.prepare(
+            "INSERT INTO ip (name, creationTime, country, countryCode, region, regionName, city, zip, lat, lon, timezone, isp, org, asn) "
+            "VALUES (:name, :creationTime, :country, :countryCode, :region, :regionName, :city, :zip, :lat, :lon, :timezone, :isp, :org, :asn)");
 
     query.bindValue(":name", object["query"].toVariant());
     query.bindValue(":creationTime", QDateTime::currentDateTimeUtc().toTime_t());
@@ -116,9 +114,8 @@ void FizzyAde::IPAPIGeoIPProvider::Cache::add(QJsonObject object)
     }
 }
 
-bool FizzyAde::IPAPIGeoIPProvider::Cache::find(const QString &name, QJsonObject &object)
-{
-    QSqlDatabase database = QSqlDatabase::database("FizzyAde::IPAPIGeoIPProvider::Cache");
+bool Nedrysoft::IPAPIGeoIPProvider::Cache::find(const QString &name, QJsonObject &object) {
+    QSqlDatabase database = QSqlDatabase::database("Nedrysoft::IPAPIGeoIPProvider::Cache");
     QSqlQuery query(database);
 
     query.prepare("SELECT * FROM ip WHERE name=:name");

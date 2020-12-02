@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ROUTEANALYSER_ROUTEANALYSERCOMPONENT_H
-#define FIZZYADE_ROUTEANALYSER_ROUTEANALYSERCOMPONENT_H
+#ifndef NEDRYSOFT_ROUTEANALYSER_ROUTEANALYSERCOMPONENT_H
+#define NEDRYSOFT_ROUTEANALYSER_ROUTEANALYSERCOMPONENT_H
 
 #include "RouteAnalyserSpec.h"
 #include "ComponentSystem/IComponentInterface.h"
@@ -32,40 +32,40 @@
  *              discovers the route to a host
  *
  */
-class FIZZYADE_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
-    public QObject,
-    public FizzyAde::ComponentSystem::IComponentInterface
-{
+class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
+        public QObject,
+        public Nedrysoft::ComponentSystem::IComponentInterface {
     Q_OBJECT
 
-    Q_PLUGIN_METADATA(IID FizzyAdeComponentInterfaceIID FILE "metadata.json")
+        Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
 
-    Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
+        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponentInterface)
 
-public:
-    /**
-     * @brief Constructor
-     *
-     */
-    RouteAnalyserComponent();
+    public:
+        /**
+         * @brief Constructor
+         *
+         */
+        RouteAnalyserComponent();
 
-    /**
-     * @brief Destructor
-     *
-     */
-    ~RouteAnalyserComponent();
+        /**
+         * @brief Destructor
+         *
+         */
+        ~RouteAnalyserComponent();
 
-    /**
-     * @sa          FizzyAde::ComponentSystem::IComponentInterface
-     *
-     */
-    virtual void initialiseEvent();
-    virtual void initialisationFinishedEvent();
+        /**
+         * @sa          Nedrysoft::ComponentSystem::IComponentInterface
+         *
+         */
+        virtual void initialiseEvent();
 
-    friend class FizzyAde::RouteAnalyser::RouteAnalyserEditor;
+        virtual void initialisationFinishedEvent();
 
-private:
-    int m_editorContextId = 0;
+        friend class Nedrysoft::RouteAnalyser::RouteAnalyserEditor;
+
+    private:
+        int m_editorContextId = 0;
 };
 
-#endif // FIZZYADE_ROUTEANALYSER_ROUTEANALYSERCOMPONENT_H
+#endif // NEDRYSOFT_ROUTEANALYSER_ROUTEANALYSERCOMPONENT_H

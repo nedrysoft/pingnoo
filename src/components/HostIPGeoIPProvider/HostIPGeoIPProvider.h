@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_HOSTIPGEOAPITPROVIDER_HOSTIGEOPAPIPROVIDER_H
-#define FIZZYADE_HOSTIPGEOAPITPROVIDER_HOSTIGEOPAPIPROVIDER_H
+#ifndef NEDRYSOFT_HOSTIPGEOAPITPROVIDER_HOSTIGEOPAPIPROVIDER_H
+#define NEDRYSOFT_HOSTIPGEOAPITPROVIDER_HOSTIGEOPAPIPROVIDER_H
 
 #include "ComponentSystem/IInterface.h"
 #include "Core/IGeoIPProvider.h"
@@ -27,48 +27,46 @@
 #include <QObject>
 #include <QVariantMap>
 
-namespace FizzyAde::HostIPGeoIPProvider
-{
+namespace Nedrysoft::HostIPGeoIPProvider {
     class Cache;
 
     /**
      * @brief       IGeoIPProvider implementtation for hostip.com
      *
-     * @copydoc     Core::FizzyAde::IGeoIPProvider
+     * @copydoc     Core::Nedrysoft::IGeoIPProvider
      */
     class HostIPGeoIPProvider :
-        public FizzyAde::Core::IGeoIPProvider
-    {
+            public Nedrysoft::Core::IGeoIPProvider {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::IGeoIPProvider)
+            Q_INTERFACES(Nedrysoft::Core::IGeoIPProvider)
 
-    public:
-        /**
-         * @brief       Constructs the geo ip provider.
-         */
-        HostIPGeoIPProvider();
+        public:
+            /**
+             * @brief       Constructs the geo ip provider.
+             */
+            HostIPGeoIPProvider();
 
-        /**
-         * @brief       Destroys the geo ip provider.
-         */
-        ~HostIPGeoIPProvider();
+            /**
+             * @brief       Destroys the geo ip provider.
+             */
+            ~HostIPGeoIPProvider();
 
-        /**
-         * @copydoc     FizzyAde::Core::IGeoIPProvider::lookup(const QString)
-         */
-        virtual void lookup(const QString host);
+            /**
+             * @copydoc     Nedrysoft::Core::IGeoIPProvider::lookup(const QString)
+             */
+            virtual void lookup(const QString host);
 
-        /**
-         * @copydoc     FizzyAde::Core::IGeoIPProvider::lookup(const QString, FizzyAde::Core::GeoFunction)
-         */
-        virtual void lookup(const QString host, FizzyAde::Core::GeoFunction function);
+            /**
+             * @copydoc     Nedrysoft::Core::IGeoIPProvider::lookup(const QString, Nedrysoft::Core::GeoFunction)
+             */
+            virtual void lookup(const QString host, Nedrysoft::Core::GeoFunction function);
 
-    private:
+        private:
 
-    private:
-        FizzyAde::HostIPGeoIPProvider::Cache *m_cache;
+        private:
+            Nedrysoft::HostIPGeoIPProvider::Cache *m_cache;
     };
 }
 
-#endif // FIZZYADE_HOSTIPGEOAPITPROVIDER_HOSTIGEOPAPIPROVIDER_H
+#endif // NEDRYSOFT_HOSTIPGEOAPITPROVIDER_HOSTIGEOPAPIPROVIDER_H

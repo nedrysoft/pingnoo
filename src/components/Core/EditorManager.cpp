@@ -22,13 +22,11 @@
 #include <QTabWidget>
 #include "IEditor.h"
 
-FizzyAde::Core::EditorManager::EditorManager(QTabWidget *tabWidget)
-{
+Nedrysoft::Core::EditorManager::EditorManager(QTabWidget *tabWidget) {
     m_tabWidget = tabWidget;
 }
 
-int FizzyAde::Core::EditorManager::openEditor(IEditor *editor)
-{
+int Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) {
     m_tabWidget->addTab(editor->widget(), editor->displayName());
 
     return 0;

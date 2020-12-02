@@ -18,16 +18,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_PINGNOO_ICMPAPIPINGTRANSMITTER_H
-#define FIZZYADE_PINGNOO_ICMPAPIPINGTRANSMITTER_H
+#ifndef NEDRYSOFT_PINGNOO_ICMPAPIPINGTRANSMITTER_H
+#define NEDRYSOFT_PINGNOO_ICMPAPIPINGTRANSMITTER_H
 
 #include "ICMPAPIPingEngineSpec.h"
 #include "Core/PingResult.h"
 #include <QObject>
 #include <QMutex>
 
-namespace FizzyAde::Pingnoo
-{
+namespace Nedrysoft::Pingnoo {
     class ICMPAPIPingEngine;
 
     /**
@@ -39,62 +38,62 @@ namespace FizzyAde::Pingnoo
      *
      */
 
-    class ICMPAPIPingTransmitter : public QObject
-    {
+    class ICMPAPIPingTransmitter :
+            public QObject {
         Q_OBJECT
 
-    public:
+        public:
 
-        /**
-         * Constructor with engine
-         *
-         * Creates the receiver object and passes in the engine
-         * so that the requests can be tagged to the correct engine
-         *
-         * @param[in] engine the owner engine
-         */
-        ICMPAPIPingTransmitter(FizzyAde::Pingnoo::ICMPAPIPingEngine *engine);
+            /**
+             * Constructor with engine
+             *
+             * Creates the receiver object and passes in the engine
+             * so that the requests can be tagged to the correct engine
+             *
+             * @param[in] engine the owner engine
+             */
+            ICMPAPIPingTransmitter(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine);
 
-        /**
-         * Sets the interval between a set of pings
-         *
-         * @param[in] interval interval
-         */
-        bool setInterval(std::chrono::milliseconds interval);
+            /**
+             * Sets the interval between a set of pings
+             *
+             * @param[in] interval interval
+             */
+            bool setInterval(std::chrono::milliseconds interval);
 
-        /**
-         * Adds a ping target to the transmitter
-         *
-         * @param[in] target the target to ping
-         */
-        //void addTarget(FZICMPPingTarget *target);
+            /**
+             * Adds a ping target to the transmitter
+             *
+             * @param[in] target the target to ping
+             */
+            //void addTarget(FZICMPPingTarget *target);
 
-        friend class ICMPAPIPingEngine;
+            friend class ICMPAPIPingEngine;
 
-    private slots:
+        private slots:
 
-        /**
-         * The receiver thread worker
-         */
-        void doWork(void);
+            /**
+             * The receiver thread worker
+             */
+            void doWork(void);
 
-    signals:
+        signals:
 
-        /**
-         * Signals when a transmission result is available
-         *
-         * @param[in] result the result
-         */
-        void result(FizzyAde::Core::PingResult result);
+            /**
+             * Signals when a transmission result is available
+             *
+             * @param[in] result the result
+             */
+            void result(Nedrysoft::Core::PingResult result);
 
-    private:
-        std::chrono::milliseconds m_interval = {};      //! The transmission period in milliseconds
-        FizzyAde::Pingnoo::ICMPAPIPingEngine *m_engine; //! The engine that owns this transmitter worker
+        private:
+            std::chrono::milliseconds m_interval = {};      //! The transmission period in milliseconds
+            Nedrysoft::Pingnoo::ICMPAPIPingEngine *m_engine; //! The engine that owns this transmitter worker
 
-        //QList<FZICMPPingTarget *> m_targets;            //! List of ping targets
-        QMutex m_targetsMutex;                          //! Mutex to protect the ping target list
-        bool m_isRunning;                               //! Whether thread is running
+            //QList<FZICMPPingTarget *> m_targets;            //! List of ping targets
+            QMutex m_targetsMutex;                          //! Mutex to protect the ping target list
+            bool m_isRunning;                               //! Whether thread is running
     };
 }
 
-#endif // FIZZYADE_PINGNOO_ICMPAPIPINGTRANSMITTER_H
+#endif // NEDRYSOFT_PINGNOO_ICMPAPIPINGTRANSMITTER_H

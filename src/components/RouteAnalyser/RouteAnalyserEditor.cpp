@@ -26,51 +26,44 @@
 #include <QObject>
 #include <QLabel>
 
-FizzyAde::RouteAnalyser::RouteAnalyserEditor::RouteAnalyserEditor(int contextId)
-{
+Nedrysoft::RouteAnalyser::RouteAnalyserEditor::RouteAnalyserEditor(int contextId) {
     m_contextId = contextId;
 }
 
-QJsonObject FizzyAde::RouteAnalyser::RouteAnalyserEditor::saveConfiguration()
-{
+QJsonObject Nedrysoft::RouteAnalyser::RouteAnalyserEditor::saveConfiguration() {
     return QJsonObject();
 }
 
-bool FizzyAde::RouteAnalyser::RouteAnalyserEditor::loadConfiguration(QJsonObject configuration)
-{
+bool Nedrysoft::RouteAnalyser::RouteAnalyserEditor::loadConfiguration(QJsonObject configuration) {
     Q_UNUSED(configuration)
 
     return false;
 }
 
-QWidget *FizzyAde::RouteAnalyser::RouteAnalyserEditor::widget()
-{
-    auto visualiserWidget = new FizzyAde::RouteAnalyser::RouteAnalyserWidget(m_pingTarget, m_ipVersion, m_interval, m_pingEngineFactory);
+QWidget *Nedrysoft::RouteAnalyser::RouteAnalyserEditor::widget() {
+    auto visualiserWidget = new Nedrysoft::RouteAnalyser::RouteAnalyserWidget(m_pingTarget, m_ipVersion, m_interval,
+                                                                              m_pingEngineFactory);
 
     return visualiserWidget;
 }
 
-void FizzyAde::RouteAnalyser::RouteAnalyserEditor::setPingEngine(FizzyAde::Core::IPingEngineFactory *pingEngineFactory)
-{
+void
+Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setPingEngine(Nedrysoft::Core::IPingEngineFactory *pingEngineFactory) {
     m_pingEngineFactory = pingEngineFactory;
 }
 
-void FizzyAde::RouteAnalyser::RouteAnalyserEditor::setTarget(QString target)
-{
+void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setTarget(QString target) {
     m_pingTarget = target;
 }
 
-QString FizzyAde::RouteAnalyser::RouteAnalyserEditor::displayName()
-{
+QString Nedrysoft::RouteAnalyser::RouteAnalyserEditor::displayName() {
     return m_pingTarget;
 }
 
-void FizzyAde::RouteAnalyser::RouteAnalyserEditor::setIPVersion(FizzyAde::Core::IPVersion ipVersion)
-{
+void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setIPVersion(Nedrysoft::Core::IPVersion ipVersion) {
     m_ipVersion = ipVersion;
 }
 
-void FizzyAde::RouteAnalyser::RouteAnalyserEditor::setInterval(double interval)
-{
+void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setInterval(double interval) {
     m_interval = interval;
 }

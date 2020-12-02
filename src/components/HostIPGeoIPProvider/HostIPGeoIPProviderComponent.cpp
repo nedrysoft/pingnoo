@@ -23,23 +23,20 @@
 #include "ComponentSystem/IComponentManager.h"
 #include <QDebug>
 
-HostIPGeoIPProviderComponent::HostIPGeoIPProviderComponent()
-{
+HostIPGeoIPProviderComponent::HostIPGeoIPProviderComponent() {
     m_provider = nullptr;
 }
 
-HostIPGeoIPProviderComponent::~HostIPGeoIPProviderComponent()
-{
+HostIPGeoIPProviderComponent::~HostIPGeoIPProviderComponent() {
     if (m_provider) {
-        FizzyAde::ComponentSystem::removeObject(m_provider);
+        Nedrysoft::ComponentSystem::removeObject(m_provider);
 
         delete m_provider;
     }
 }
 
-void HostIPGeoIPProviderComponent::initialiseEvent()
-{
-    m_provider = new FizzyAde::HostIPGeoIPProvider::HostIPGeoIPProvider();
+void HostIPGeoIPProviderComponent::initialiseEvent() {
+    m_provider = new Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider();
 
-    FizzyAde::ComponentSystem::addObject(m_provider);
+    Nedrysoft::ComponentSystem::addObject(m_provider);
 }

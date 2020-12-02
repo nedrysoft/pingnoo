@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_CORE_H
-#define FIZZYADE_CORE_CORE_H
+#ifndef NEDRYSOFT_CORE_CORE_H
+#define NEDRYSOFT_CORE_CORE_H
 
 #include "mainwindow.h"
 #include "ICore.h"
@@ -33,13 +33,11 @@
  * @details     The core component namespace contains all definitions and functions relating to the core component.  It is a root dependency of
  *              all other components as it provides all core services.
  */
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     /**
      * IP version enumeration
      */
-    enum IPVersion
-    {
+    enum IPVersion {
         V4 = 4,
         V6 = 6
     };
@@ -51,48 +49,47 @@ namespace FizzyAde::Core
      *              application
      */
     class Core :
-        public FizzyAde::Core::ICore
-    {
+            public Nedrysoft::Core::ICore {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::ICore)
+            Q_INTERFACES(Nedrysoft::Core::ICore)
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         */
-        Core();
+        public:
+            /**
+             * @brief       Constructor
+             *
+             */
+            Core();
 
-        /**
-         * @brief       Destructor
-         *
-         */
-        ~Core();
+            /**
+             * @brief       Destructor
+             *
+             */
+            ~Core();
 
-        /**
-         * @brief       Returns the main window
-         *
-         * @details     Returns a pointer to the main window, this function always returns the same
-         *              QMainWindow pointer so can be called by any part of the application to get a
-         *              handle to the main window
-         *
-         * @return      returns a pointer to the mainwindow
-         */
-        virtual QMainWindow *mainWindow();
+            /**
+             * @brief       Returns the main window
+             *
+             * @details     Returns a pointer to the main window, this function always returns the same
+             *              QMainWindow pointer so can be called by any part of the application to get a
+             *              handle to the main window
+             *
+             * @return      returns a pointer to the mainwindow
+             */
+            virtual QMainWindow *mainWindow();
 
-        /**
-         * @brief       Opens the core
-         *
-         * @details     Should be called after the plugins are loaded to initialise the application,
-         *              the Core implemention provides logic to ensure this happens in a sane manner
-         *
-         */
-        void open();
+            /**
+             * @brief       Opens the core
+             *
+             * @details     Should be called after the plugins are loaded to initialise the application,
+             *              the Core implemention provides logic to ensure this happens in a sane manner
+             *
+             */
+            void open();
 
-    private:
-        QPointer<MainWindow> m_mainWindow;                      //! The QMainWindow smart pointer
+        private:
+            QPointer<MainWindow> m_mainWindow;                      //! The QMainWindow smart pointer
     };
 }
 
-#endif // FIZZYADE_CORE_CORE_H
+#endif // NEDRYSOFT_CORE_CORE_H

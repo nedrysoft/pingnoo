@@ -39,15 +39,14 @@
 #include <QStandardPaths>
 #include "AboutDialog.h"
 
-FizzyAde::Core::MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent),
-      ui(new FizzyAde::Core::Ui::MainWindow)
-{
+Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent)
+        : QMainWindow(parent),
+          ui(new Nedrysoft::Core::Ui::MainWindow) {
     ui->setupUi(this);
 
     qApp->setWindowIcon(QIcon(":/Pingnoo/appicon.ico"));
 
-   // QStatusBar *statusBar = new QStatusBar;
+    // QStatusBar *statusBar = new QStatusBar;
 
     /*
     m_pointInfoLabel = new QLabel();
@@ -74,18 +73,16 @@ FizzyAde::Core::MainWindow::MainWindow(QWidget *parent)
     */
 }
 
-FizzyAde::Core::MainWindow::~MainWindow()
-{
-   /* delete m_pointInfoLabel;
-    delete m_hopInfoLabel;
-    delete m_hostInfoLabel;
-    delete m_tableModel;*/
+Nedrysoft::Core::MainWindow::~MainWindow() {
+    /* delete m_pointInfoLabel;
+     delete m_hopInfoLabel;
+     delete m_hostInfoLabel;
+     delete m_tableModel;*/
 
     delete ui;
 }
 
-void FizzyAde::Core::MainWindow::onCutButtonClicked()
-{
+void Nedrysoft::Core::MainWindow::onCutButtonClicked() {
 /*    auto customPlot = m_plotList.at(0);
     auto pdfWriter = QPdfWriter("/Users/adriancarpenter/test.pdf");
 
@@ -117,22 +114,20 @@ void FizzyAde::Core::MainWindow::onCutButtonClicked()
     customPlot->toPainter(&painter, static_cast<int>(plotWidth), static_cast<int>(plotHeight));*/
 }
 
-void FizzyAde::Core::MainWindow::initialise()
-{
+void Nedrysoft::Core::MainWindow::initialise() {
     createDefaultCommands();
     registerDefaultCommands();
 
-    FizzyAde::ComponentSystem::addObject(new FizzyAde::Core::EditorManager(ui->editorTabWidget));
+    Nedrysoft::ComponentSystem::addObject(new Nedrysoft::Core::EditorManager(ui->editorTabWidget));
 
-    /*auto editors = FizzyAde::ComponentSystem::getObjects<FizzyAde::Core::IEditor>();
+    /*auto editors = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IEditor>();
 
     for (auto editor : editors) {
         ui->editorTabWidget->addTab(editor->widget(), "Route Analyser");
     }*/
 }
 
-void FizzyAde::Core::MainWindow::createDefaultCommands()
-{
+void Nedrysoft::Core::MainWindow::createDefaultCommands() {
     createCommand(Pingnoo::Constants::editCut, ui->cutButton);
     createCommand(Pingnoo::Constants::editCopy, ui->copyButton);
     createCommand(Pingnoo::Constants::editPaste, ui->pasteButton);
@@ -161,14 +156,13 @@ void FizzyAde::Core::MainWindow::createDefaultCommands()
     addMenuCommand(Pingnoo::Constants::editCopy, Pingnoo::Constants::menuEdit);
     addMenuCommand(Pingnoo::Constants::editPaste, Pingnoo::Constants::menuEdit);
 
-    if (FizzyAde::Core::IContextManager::getInstance()) {
-        FizzyAde::Core::IContextManager::getInstance()->setContext(FizzyAde::Core::GlobalContext);
+    if (Nedrysoft::Core::IContextManager::getInstance()) {
+        Nedrysoft::Core::IContextManager::getInstance()->setContext(Nedrysoft::Core::GlobalContext);
     }
 }
 
-void FizzyAde::Core::MainWindow::registerDefaultCommands()
-{
-    auto commandManager = FizzyAde::Core::ICommandManager::getInstance();
+void Nedrysoft::Core::MainWindow::registerDefaultCommands() {
+    auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
     m_aboutComponentsAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::helpAboutComponents));
 
@@ -178,10 +172,12 @@ void FizzyAde::Core::MainWindow::registerDefaultCommands()
     commandManager->registerAction(m_aboutComponentsAction, Pingnoo::Constants::helpAboutComponents);
 
     connect(m_aboutComponentsAction, &QAction::triggered, [](bool) {
-        ComponentViewerDialog componentViewerDialog(FizzyAde::ComponentSystem::getObject<QMainWindow>());
+        ComponentViewerDialog componentViewerDialog(Nedrysoft::ComponentSystem::getObject<QMainWindow>());
 
         if (componentViewerDialog.exec()) {
-            QString appSettingsFilename = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).at(0)+"/"+qApp->organizationName()+"/"+qApp->applicationName()+"/appSettings.json";
+            QString appSettingsFilename =
+                    QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).at(0) + "/" +
+                    qApp->organizationName() + "/" + qApp->applicationName() + "/appSettings.json";
             QFile settingsFile(appSettingsFilename);
             QVariantList disabledPlugins;
 
@@ -222,9 +218,9 @@ void FizzyAde::Core::MainWindow::registerDefaultCommands()
 
 }
 
-FizzyAde::Core::ICommand *FizzyAde::Core::MainWindow::createCommand(QString commandId, QAbstractButton *button, QAction::MenuRole menuRole)
-{
-    auto commandManager = FizzyAde::Core::ICommandManager::getInstance();
+Nedrysoft::Core::ICommand *
+Nedrysoft::Core::MainWindow::createCommand(QString commandId, QAbstractButton *button, QAction::MenuRole menuRole) {
+    auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
     if (!commandManager) {
         return nullptr;
@@ -245,15 +241,14 @@ FizzyAde::Core::ICommand *FizzyAde::Core::MainWindow::createCommand(QString comm
     return command;
 }
 
-FizzyAde::Core::IMenu *FizzyAde::Core::MainWindow::createMenu(QString menuId, QString parentMenuId)
-{
-    auto commandManager = FizzyAde::Core::ICommandManager::getInstance();
+Nedrysoft::Core::IMenu *Nedrysoft::Core::MainWindow::createMenu(QString menuId, QString parentMenuId) {
+    auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
     if (!commandManager) {
         return nullptr;
     }
 
-    FizzyAde::Core::IMenu *parentMenu = nullptr;
+    Nedrysoft::Core::IMenu *parentMenu = nullptr;
 
     if (!parentMenuId.isNull()) {
         parentMenu = commandManager->findMenu(parentMenuId);
@@ -262,9 +257,8 @@ FizzyAde::Core::IMenu *FizzyAde::Core::MainWindow::createMenu(QString menuId, QS
     return commandManager->createMenu(menuId, parentMenu);
 }
 
-FizzyAde::Core::IMenu *FizzyAde::Core::MainWindow::findMenu(QString menuId)
-{
-    auto commandManager = FizzyAde::Core::ICommandManager::getInstance();
+Nedrysoft::Core::IMenu *Nedrysoft::Core::MainWindow::findMenu(QString menuId) {
+    auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
     if (!commandManager) {
         return nullptr;
@@ -273,9 +267,8 @@ FizzyAde::Core::IMenu *FizzyAde::Core::MainWindow::findMenu(QString menuId)
     return commandManager->findMenu(menuId);
 }
 
-void FizzyAde::Core::MainWindow::addMenuCommand(QString commandId, QString menuId, QString groupId)
-{
-    auto commandManager = FizzyAde::Core::ICommandManager::getInstance();
+void Nedrysoft::Core::MainWindow::addMenuCommand(QString commandId, QString menuId, QString groupId) {
+    auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
     if (!commandManager) {
         return;
@@ -296,7 +289,6 @@ void FizzyAde::Core::MainWindow::addMenuCommand(QString commandId, QString menuI
     menu->appendCommand(command, groupId);
 }
 
-void FizzyAde::Core::MainWindow::on_toolButton_clicked()
-{
+void Nedrysoft::Core::MainWindow::on_toolButton_clicked() {
 
 }

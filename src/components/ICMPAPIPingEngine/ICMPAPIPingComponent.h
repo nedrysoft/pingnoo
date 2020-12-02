@@ -18,24 +18,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_PINGNOO_ICMPAPIPINGCOMPONENT_H
-#define FIZZYADE_PINGNOO_ICMPAPIPINGCOMPONENT_H
+#ifndef NEDRYSOFT_PINGNOO_ICMPAPIPINGCOMPONENT_H
+#define NEDRYSOFT_PINGNOO_ICMPAPIPINGCOMPONENT_H
 
 #include "ICMPAPIPingEngineSpec.h"
 #include "ComponentSystem/IComponentInterface.h"
 
-class FIZZYADE_PINGNOO_ICMPAPIPINGENGINE_DLLSPEC ICMPAPIPingComponent : public QObject, public FizzyAde::ComponentSystem::IComponentInterface
-{
+class NEDRYSOFT_PINGNOO_ICMPAPIPINGENGINE_DLLSPEC ICMPAPIPingComponent :
+        public QObject, public Nedrysoft::ComponentSystem::IComponentInterface {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID FizzyAdeComponentInterfaceIID FILE "metadata.json")
-    Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
+        Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
+        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponentInterface)
 
-public:
-    ICMPAPIPingComponent();
-    ~ICMPAPIPingComponent();
+    public:
+        ICMPAPIPingComponent();
 
-    virtual void initialiseEvent();
+        ~ICMPAPIPingComponent();
+
+        virtual void initialiseEvent();
 
 };
 
-#endif // FIZZYADE_PINGNOO_ICMPAPIPINGCOMPONENT_H
+#endif // NEDRYSOFT_PINGNOO_ICMPAPIPINGCOMPONENT_H

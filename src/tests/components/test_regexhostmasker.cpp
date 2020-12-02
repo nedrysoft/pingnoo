@@ -26,96 +26,181 @@
 #include <QDebug>
 #include <QFile>
 
-QByteArray fileContent(QString filename)
-{
+QByteArray fileContent(QString filename) {
     QFile file(filename);
 
     if (file.open(QFile::ReadOnly)) {
-        return(file.readAll());
+        return ( file.readAll());
     }
 
-    return(QByteArray());
+    return ( QByteArray());
 }
 
 TEST_CASE("RegExHostMasker Tests", "[app][components][network]")
 {
-    SECTION("check host masking") {
-        FizzyAde::ComponentSystem::ComponentLoader componentLoader;
+SECTION("check host masking") {
+Nedrysoft::ComponentSystem::ComponentLoader componentLoader;
 
-        componentLoader.addComponents("Components");
+componentLoader.addComponents("Components");
 
-        componentLoader.loadComponents();
+componentLoader.
 
-        FizzyAde::Pingnoo::IHostMasker *regExHostMasker = nullptr;
+loadComponents();
 
-        for (auto hostMasker :FizzyAde::ComponentSystem::getObjects<FizzyAde::Pingnoo::IHostMasker>()) {
-            if (QString::fromLatin1(hostMasker->asQObject()->metaObject()->className())=="FizzyAde::Pingnoo::RegExHostMasker") {
-                regExHostMasker = hostMasker;
-                break;
-            }
-        }
+Nedrysoft::Pingnoo::IHostMasker *regExHostMasker = nullptr;
 
-        REQUIRE_MESSAGE(regExHostMasker!=nullptr, "Unable to find FizzyAde::Pingnoo::RegExHostMasker");
+for (
+auto hostMasker
+:
 
-        regExHostMasker->loadConfiguration(QJsonDocument::fromJson(fileContent(":/components/test_regexhostmasker_host.json")).object());
+Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Pingnoo::IHostMasker>()
 
-        QString maskedHostName = "1.123-123-123.static.test.co.uk";
-        QString maskedHostAddress = "1.123.123.123";
-        bool didMatchMask;
+) {
+if (
+QString::fromLatin1(hostMasker
+->asQObject()->metaObject()->
 
-        didMatchMask = regExHostMasker->mask(0, maskedHostName, maskedHostAddress, maskedHostName, maskedHostAddress);
+className()
 
-        REQUIRE_MESSAGE(didMatchMask==true, "Masking did not occur when it should have.");
-        REQUIRE_MESSAGE(maskedHostName.toStdString()==std::string("<hidden>.static.test.co.uk"), "Host name was incorrectly masked.");
-        REQUIRE_MESSAGE(maskedHostAddress.toStdString()==std::string("1.123.123.123"), "Host address was masked and shouldn't have been.");
+)=="Nedrysoft::Pingnoo::RegExHostMasker") {
+regExHostMasker = hostMasker;
+break;
+}
+}
 
-        maskedHostName = "1.123-123-123.static.test2.co.uk";
-        maskedHostAddress = "1.123.123.123";
+REQUIRE_MESSAGE(regExHostMasker
+!=nullptr, "Unable to find Nedrysoft::Pingnoo::RegExHostMasker");
 
-        didMatchMask = regExHostMasker->mask(0, maskedHostName, maskedHostAddress, maskedHostName, maskedHostAddress);
+regExHostMasker->
+loadConfiguration(QJsonDocument::fromJson(fileContent(":/components/test_regexhostmasker_host.json"))
+.
 
-        REQUIRE_MESSAGE(didMatchMask==false, "Masking occured when it shouldn't have.");
-        REQUIRE_MESSAGE(maskedHostName.toStdString()==std::string("1.123-123-123.static.test2.co.uk"), "Host name was masked and shouldn't have been.");
-        REQUIRE_MESSAGE(maskedHostAddress.toStdString()==std::string("1.123.123.123"), "Host address was masked and shouldn't have been.");
-    }
+object()
 
-    SECTION("check address masking") {
-        FizzyAde::ComponentSystem::ComponentLoader componentLoader;
+);
 
-        componentLoader.addComponents("Components");
+QString maskedHostName = "1.123-123-123.static.test.co.uk";
+QString maskedHostAddress = "1.123.123.123";
+bool didMatchMask;
 
-        componentLoader.loadComponents();
+didMatchMask = regExHostMasker->mask(0, maskedHostName, maskedHostAddress, maskedHostName, maskedHostAddress);
 
-        FizzyAde::Pingnoo::IHostMasker *regExHostMasker = nullptr;
+REQUIRE_MESSAGE(didMatchMask
+==true, "Masking did not occur when it should have.");
+REQUIRE_MESSAGE(maskedHostName
+.
 
-        for (auto hostMasker :FizzyAde::ComponentSystem::getObjects<FizzyAde::Pingnoo::IHostMasker>()) {
-            if (QString::fromLatin1(hostMasker->asQObject()->metaObject()->className())=="FizzyAde::Pingnoo::RegExHostMasker") {
-                regExHostMasker = hostMasker;
-                break;
-            }
-        }
+toStdString()
 
-        REQUIRE_MESSAGE(regExHostMasker!=nullptr, "Unable to find FizzyAde::Pingnoo::RegExHostMasker");
+==std::string("<hidden>.static.test.co.uk"), "Host name was incorrectly masked.");
+REQUIRE_MESSAGE(maskedHostAddress
+.
 
-        regExHostMasker->loadConfiguration(QJsonDocument::fromJson(fileContent(":/components/test_regexhostmasker_address.json")).object());
+toStdString()
 
-        QString maskedHostName = "1.123-123-123.static.test.co.uk";
-        QString maskedHostAddress = "1.123.123.123";
-        bool didMatchMask;
+==std::string("1.123.123.123"), "Host address was masked and shouldn't have been.");
 
-        didMatchMask = regExHostMasker->mask(0, maskedHostName, maskedHostAddress, maskedHostName, maskedHostAddress);
+maskedHostName = "1.123-123-123.static.test2.co.uk";
+maskedHostAddress = "1.123.123.123";
 
-        REQUIRE_MESSAGE(didMatchMask==true, "Masking did not occur when it should have.");
-        REQUIRE_MESSAGE(maskedHostName.toStdString()==std::string("1.123-123-123.static.test.co.uk"), "Host name was masked and it shouldn't have been.");
-        REQUIRE_MESSAGE(maskedHostAddress.toStdString()==std::string("<hidden>"), "Host address was incorrectly masked.");
+didMatchMask = regExHostMasker->mask(0, maskedHostName, maskedHostAddress, maskedHostName, maskedHostAddress);
 
-        maskedHostName = "1.123-123-123.static.test2.co.uk";
-        maskedHostAddress = "1.123.123.123";
+REQUIRE_MESSAGE(didMatchMask
+==false, "Masking occured when it shouldn't have.");
+REQUIRE_MESSAGE(maskedHostName
+.
 
-        didMatchMask = regExHostMasker->mask(0, maskedHostName, maskedHostAddress, maskedHostName, maskedHostAddress);
+toStdString()
 
-        REQUIRE_MESSAGE(didMatchMask==false, "Masking occured when it shouldn't have.");
-        REQUIRE_MESSAGE(maskedHostName.toStdString()==std::string("1.123-123-123.static.test2.co.uk"), "Host name was masked and shouldn't have been.");
-        REQUIRE_MESSAGE(maskedHostAddress.toStdString()==std::string("1.123.123.123"), "Host address was masked and shouldn't have been.");
-    }
+==std::string("1.123-123-123.static.test2.co.uk"), "Host name was masked and shouldn't have been.");
+REQUIRE_MESSAGE(maskedHostAddress
+.
+
+toStdString()
+
+==std::string("1.123.123.123"), "Host address was masked and shouldn't have been.");
+}
+
+SECTION("check address masking") {
+Nedrysoft::ComponentSystem::ComponentLoader componentLoader;
+
+componentLoader.addComponents("Components");
+
+componentLoader.
+
+loadComponents();
+
+Nedrysoft::Pingnoo::IHostMasker *regExHostMasker = nullptr;
+
+for (
+auto hostMasker
+:
+
+Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Pingnoo::IHostMasker>()
+
+) {
+if (
+QString::fromLatin1(hostMasker
+->asQObject()->metaObject()->
+
+className()
+
+)=="Nedrysoft::Pingnoo::RegExHostMasker") {
+regExHostMasker = hostMasker;
+break;
+}
+}
+
+REQUIRE_MESSAGE(regExHostMasker
+!=nullptr, "Unable to find Nedrysoft::Pingnoo::RegExHostMasker");
+
+regExHostMasker->
+loadConfiguration(QJsonDocument::fromJson(fileContent(":/components/test_regexhostmasker_address.json"))
+.
+
+object()
+
+);
+
+QString maskedHostName = "1.123-123-123.static.test.co.uk";
+QString maskedHostAddress = "1.123.123.123";
+bool didMatchMask;
+
+didMatchMask = regExHostMasker->mask(0, maskedHostName, maskedHostAddress, maskedHostName, maskedHostAddress);
+
+REQUIRE_MESSAGE(didMatchMask
+==true, "Masking did not occur when it should have.");
+REQUIRE_MESSAGE(maskedHostName
+.
+
+toStdString()
+
+==std::string("1.123-123-123.static.test.co.uk"), "Host name was masked and it shouldn't have been.");
+REQUIRE_MESSAGE(maskedHostAddress
+.
+
+toStdString()
+
+==std::string("<hidden>"), "Host address was incorrectly masked.");
+
+maskedHostName = "1.123-123-123.static.test2.co.uk";
+maskedHostAddress = "1.123.123.123";
+
+didMatchMask = regExHostMasker->mask(0, maskedHostName, maskedHostAddress, maskedHostName, maskedHostAddress);
+
+REQUIRE_MESSAGE(didMatchMask
+==false, "Masking occured when it shouldn't have.");
+REQUIRE_MESSAGE(maskedHostName
+.
+
+toStdString()
+
+==std::string("1.123-123-123.static.test2.co.uk"), "Host name was masked and shouldn't have been.");
+REQUIRE_MESSAGE(maskedHostAddress
+.
+
+toStdString()
+
+==std::string("1.123.123.123"), "Host address was masked and shouldn't have been.");
+}
 }

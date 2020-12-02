@@ -27,18 +27,16 @@
 
 constexpr auto BaseHex = 16;
 
-FizzyAde::FontAwesome *FizzyAde::FontAwesome::getInstance()
-{
+Nedrysoft::FontAwesome *Nedrysoft::FontAwesome::getInstance() {
     static auto instance = new FontAwesome();
 
     return instance;
 }
 
-FizzyAde::FontAwesome::FontAwesome()
-{
-    m_regularId = QFontDatabase::addApplicationFont(":/FizzyAde/FontAwesome/Free-Regular.otf");
-    m_solidId = QFontDatabase::addApplicationFont(":/FizzyAde/FontAwesome/Free-Solid.otf");
-    m_brandsId = QFontDatabase::addApplicationFont(":/FizzyAde/FontAwesome/Free-Brands.otf");
+Nedrysoft::FontAwesome::FontAwesome() {
+    m_regularId = QFontDatabase::addApplicationFont(":/Nedrysoft/FontAwesome/Free-Regular.otf");
+    m_solidId = QFontDatabase::addApplicationFont(":/Nedrysoft/FontAwesome/Free-Solid.otf");
+    m_brandsId = QFontDatabase::addApplicationFont(":/Nedrysoft/FontAwesome/Free-Brands.otf");
 
     if (QFontDatabase::applicationFontFamilies(m_regularId).count()) {
         m_regularName = QFontDatabase::applicationFontFamilies(m_regularId).at(0);
@@ -52,7 +50,7 @@ FizzyAde::FontAwesome::FontAwesome()
         m_brandsName = QFontDatabase::applicationFontFamilies(m_brandsId).at(0);
     }
 
-    QFile scssFile(":/FizzyAde/FontAwesome/_variables.scss");
+    QFile scssFile(":/Nedrysoft/FontAwesome/_variables.scss");
 
     if (scssFile.open(QFile::ReadOnly)) {
         auto scssContent = QString::fromUtf8(scssFile.readAll());
@@ -62,13 +60,13 @@ FizzyAde::FontAwesome::FontAwesome()
 
             auto scssMatchIterator = scssExpression.globalMatch(scssContent);
 
-            while(scssMatchIterator.hasNext()) {
+            while (scssMatchIterator.hasNext()) {
                 auto scssMatch = scssMatchIterator.next();
 
                 auto capturedTexts = scssMatch.capturedTexts();
 
-                if (capturedTexts.count()==3) {
-                    m_glyphMap["fa-"+capturedTexts.at(1)] = capturedTexts.at(2);
+                if (capturedTexts.count() == 3) {
+                    m_glyphMap["fa-" + capturedTexts.at(1)] = capturedTexts.at(2);
                 }
             }
         }
@@ -99,33 +97,29 @@ FizzyAde::FontAwesome::FontAwesome()
     )").arg(m_regularName, m_solidName, m_brandsName);
 }
 
-QString FizzyAde::FontAwesome::regularName()
-{
+QString Nedrysoft::FontAwesome::regularName() {
     return getInstance()->m_regularName;
 }
 
-QString FizzyAde::FontAwesome::solidName()
-{
+QString Nedrysoft::FontAwesome::solidName() {
     return getInstance()->m_solidName;
 }
 
-QString FizzyAde::FontAwesome::brandsName()
-{
+QString Nedrysoft::FontAwesome::brandsName() {
     return getInstance()->m_brandsName;
 }
 
-QString FizzyAde::FontAwesome::richText(QString string)
-{
+QString Nedrysoft::FontAwesome::richText(QString string) {
     auto expression = QRegularExpression(R"(\[(far|fas|fab) ([a-z|\-|0-9]*)\])");
     auto match = QRegularExpressionMatch();
     auto searchIndex = 0;
 
-    while(string.indexOf(expression, searchIndex, &match)>=0) {
+    while (string.indexOf(expression, searchIndex, &match) >= 0) {
         if (!match.hasMatch()) {
             break;
         }
 
-        if (match.capturedTexts().count()==3) {
+        if (match.capturedTexts().count() == 3) {
             auto richTextString = QString();
             auto iconFont = match.capturedTexts().at(1);
             auto iconId = match.capturedTexts().at(2);
@@ -134,7 +128,7 @@ QString FizzyAde::FontAwesome::richText(QString string)
             if (getInstance()->m_glyphMap.contains(iconId)) {
                 iconCode = getInstance()->m_glyphMap[iconId];
             } else {
-                if ( (iconId.size()>=1) && ((iconId.size()<=4)) ) {
+                if (( iconId.size() >= 1 ) && (( iconId.size() <= 4 ))) {
                     bool ok = false;
 
                     iconId.toInt(&ok, BaseHex);
@@ -160,8 +154,7 @@ QString FizzyAde::FontAwesome::richText(QString string)
     return QString("<html>%1<body>%2</body></html>").arg(getInstance()->m_styleString, string);
 }
 
-QIcon FizzyAde::FontAwesome::icon(QString glpyhName, int pointSize, QColor colour)
-{
+QIcon Nedrysoft::FontAwesome::icon(QString glpyhName, int pointSize, QColor colour) {
     QPixmap pixmap(pointSize, pointSize);
 
     pixmap.fill(Qt::transparent);
@@ -170,12 +163,12 @@ QIcon FizzyAde::FontAwesome::icon(QString glpyhName, int pointSize, QColor colou
     auto match = QRegularExpressionMatch();
     auto searchIndex = 0;
 
-    while(glpyhName.indexOf(expression, searchIndex, &match)>=0) {
+    while (glpyhName.indexOf(expression, searchIndex, &match) >= 0) {
         if (!match.hasMatch()) {
             break;
         }
 
-        if (match.capturedTexts().count()==3) {
+        if (match.capturedTexts().count() == 3) {
             auto iconFont = match.capturedTexts().at(1);
             auto iconId = match.capturedTexts().at(2);
             auto iconCode = 0;
@@ -185,15 +178,15 @@ QIcon FizzyAde::FontAwesome::icon(QString glpyhName, int pointSize, QColor colou
             if (getInstance()->m_glyphMap.contains(iconId)) {
                 iconCode = getInstance()->m_glyphMap[iconId].toInt(nullptr, 16);
             } else {
-                if ( (iconId.size()>=1) && ((iconId.size()<=4)) ) {
+                if (( iconId.size() >= 1 ) && (( iconId.size() <= 4 ))) {
                     iconCode = iconId.toInt(nullptr, BaseHex);
                 }
             }
 
-            if (iconFont=="fab") {
+            if (iconFont == "fab") {
                 fontName = brandsName();
                 fontWeight = QFont::Normal;
-            } else if (iconFont=="fas") {
+            } else if (iconFont == "fas") {
                 fontName = solidName();
                 fontWeight = QFont::Bold;
             } else {
@@ -211,7 +204,7 @@ QIcon FizzyAde::FontAwesome::icon(QString glpyhName, int pointSize, QColor colou
             delete painter;
 
             break;
-       }
+        }
     }
 
     return QIcon(pixmap);

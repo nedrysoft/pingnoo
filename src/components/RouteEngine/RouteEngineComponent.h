@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ROUTEENGINE_ROUTEENGINECOMPONENT_H
-#define FIZZYADE_ROUTEENGINE_ROUTEENGINECOMPONENT_H
+#ifndef NEDRYSOFT_ROUTEENGINE_ROUTEENGINECOMPONENT_H
+#define NEDRYSOFT_ROUTEENGINE_ROUTEENGINECOMPONENT_H
 
 #include "RouteEngineSpec.h"
 #include "RouteEngineFactory.h"
@@ -32,38 +32,37 @@
  *              discovers the route to a host
  *
  */
-class FIZZYADE_ROUTEENGINE_DLLSPEC RouteEngineComponent :
-    public QObject,
-    public FizzyAde::ComponentSystem::IComponentInterface
-{
+class NEDRYSOFT_ROUTEENGINE_DLLSPEC RouteEngineComponent :
+        public QObject,
+        public Nedrysoft::ComponentSystem::IComponentInterface {
     Q_OBJECT
 
-    Q_PLUGIN_METADATA(IID FizzyAdeComponentInterfaceIID FILE "metadata.json")
+        Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
 
-    Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
+        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponentInterface)
 
-public:
-    /**
-     * @brief       Constructor
-     *
-     */
-    RouteEngineComponent();
+    public:
+        /**
+         * @brief       Constructor
+         *
+         */
+        RouteEngineComponent();
 
-    /**
-     * @brief       Destructor
-     *
-     */
-    ~RouteEngineComponent();
+        /**
+         * @brief       Destructor
+         *
+         */
+        ~RouteEngineComponent();
 
-    /**
-     * @sa          FizzyAde::ComponentSystem::IComponentInterface
-     *
-     */
-    virtual void initialiseEvent();
+        /**
+         * @sa          Nedrysoft::ComponentSystem::IComponentInterface
+         *
+         */
+        virtual void initialiseEvent();
 
-private:
-    FizzyAde::RouteEngine::RouteEngineFactory *m_routeEngineFactory;
+    private:
+        Nedrysoft::RouteEngine::RouteEngineFactory *m_routeEngineFactory;
 
 };
 
-#endif // FIZZYADE_ROUTEENGINE_ROUTEENGINECOMPONENT_H
+#endif // NEDRYSOFT_ROUTEENGINE_ROUTEENGINECOMPONENT_H

@@ -48,8 +48,8 @@ pingnoo_end_shared_library()
 
 option(Pingnoo_Build_RibbonDesignerPlugin "Build Ribbon QtDesigner Plugin" OFF)
 
-if(Pingnoo_Build_RibbonDesignerPlugin)
-    project(FizzyAde.Ribbon)
+if (Pingnoo_Build_RibbonDesignerPlugin)
+    project(Nedrysoft.Ribbon)
 
     add_definitions(-DRIBBON_DESIGNER_EXPORT)
 
@@ -66,26 +66,26 @@ if(Pingnoo_Build_RibbonDesignerPlugin)
         RibbonWidget.cpp
         RibbonWidget.h
         RibbonWidgetPlugin.cpp
-	RibbonWidgetPlugin.h
+        RibbonWidgetPlugin.h
         RibbonGroupPlugin.cpp
-	RibbonGroupPlugin.h
+        RibbonGroupPlugin.h
         RibbonWidgetsCollection.cpp
         RibbonWidgetsCollection.h
 
-    )
+        )
 
-    if(APPLE)
+    if (APPLE)
         target_sources(${PROJECT_NAME} "PRIVATE"
             ThemeSupport.mm
             ThemeSupport.h
-        )
-    endif()
+            )
+    endif ()
 
     target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::UiPlugin)
 
-    if(APPLE)
+    if (APPLE)
         target_link_libraries(${PROJECT_NAME} "-framework AppKit" "-framework Cocoa")
-    endif()
+    endif ()
 
     set(PLUGIN_OUTPUT_DIR ${PINGNOO_BINARY_DIR}/Designer/${CMAKE_LIBRARY_ARCHITECTURE}/${Qt5_VERSION})
 
@@ -94,5 +94,5 @@ if(Pingnoo_Build_RibbonDesignerPlugin)
     set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${PLUGIN_OUTPUT_DIR}")
     set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PLUGIN_OUTPUT_DIR}")
 
-endif()
+endif ()
 

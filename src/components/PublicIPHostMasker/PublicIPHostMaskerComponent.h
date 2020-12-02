@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKERCOMPONENT_H
-#define FIZZYADE_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKERCOMPONENT_H
+#ifndef NEDRYSOFT_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKERCOMPONENT_H
+#define NEDRYSOFT_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKERCOMPONENT_H
 
 #include "PublicIPHostMaskerSpec.h"
 #include "ComponentSystem/IComponentInterface.h"
@@ -33,36 +33,35 @@
  *              where necessary.  This allows outputs to hide sensitive information.
  *
  */
-class FIZZYADE_PUBLICIPHOSTMASKER_DLLSPEC PublicIPHostMaskerComponent :
-    public QObject,
-    public FizzyAde::ComponentSystem::IComponentInterface
-{
+class NEDRYSOFT_PUBLICIPHOSTMASKER_DLLSPEC PublicIPHostMaskerComponent :
+        public QObject,
+        public Nedrysoft::ComponentSystem::IComponentInterface {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID FizzyAdeComponentInterfaceIID FILE "metadata.json")
-    Q_INTERFACES(FizzyAde::ComponentSystem::IComponentInterface)
+        Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
+        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponentInterface)
 
-public:
-    /**
-     * @brief       Constructor
-     *
-     */
-    PublicIPHostMaskerComponent();
+    public:
+        /**
+         * @brief       Constructor
+         *
+         */
+        PublicIPHostMaskerComponent();
 
-    /**
-     * @brief       Destructor
-     *
-     */
-    ~PublicIPHostMaskerComponent();
+        /**
+         * @brief       Destructor
+         *
+         */
+        ~PublicIPHostMaskerComponent();
 
-    /**
-     * @sa          FizzyAde::ComponentSystem::IComponentInterface
-     *
-     */
-    virtual void initialiseEvent();
+        /**
+         * @sa          Nedrysoft::ComponentSystem::IComponentInterface
+         *
+         */
+        virtual void initialiseEvent();
 
-private:
+    private:
 
-    FizzyAde::PublicIPHostMasker::PublicIPHostMasker *m_hostMasker;
+        Nedrysoft::PublicIPHostMasker::PublicIPHostMasker *m_hostMasker;
 };
 
-#endif // FIZZYADE_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKERCOMPONENT_H
+#endif // NEDRYSOFT_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKERCOMPONENT_H

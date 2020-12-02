@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_COMMANDMANAGER_H
-#define FIZZYADE_CORE_COMMANDMANAGER_H
+#ifndef NEDRYSOFT_CORE_COMMANDMANAGER_H
+#define NEDRYSOFT_CORE_COMMANDMANAGER_H
 
 #include "ICommandManager.h"
 #include "Menu.h"
@@ -27,8 +27,7 @@
 #include <QString>
 #include <QMap>
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     class Command;
 
     /**
@@ -38,34 +37,41 @@ namespace FizzyAde::Core
      *
      */
     class CommandManager :
-        public FizzyAde::Core::ICommandManager
-    {
+            public Nedrysoft::Core::ICommandManager {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::ICommandManager)
+            Q_INTERFACES(Nedrysoft::Core::ICommandManager)
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         */
-        CommandManager();
+        public:
+            /**
+             * @brief       Constructor
+             *
+             */
+            CommandManager();
 
-        /**
-         * @sa ICommandManager
-         *
-         */
-        virtual FizzyAde::Core::ICommand *registerAction(QAction *action, QString id, const FizzyAde::Core::ContextList &contexts);
-        virtual bool registerAction(QAction *action, FizzyAde::Core::ICommand *command, const FizzyAde::Core::ContextList &contexts);
-        virtual void setContext(int contextId);
-        virtual FizzyAde::Core::IMenu *createMenu(const QString &identifier, IMenu *parentMenu=nullptr);
-        virtual FizzyAde::Core::IMenu *findMenu(const QString &identifier);
-        virtual FizzyAde::Core::ICommand *findCommand(const QString &identifier);
-    private:
+            /**
+             * @sa ICommandManager
+             *
+             */
+            virtual Nedrysoft::Core::ICommand *
+            registerAction(QAction *action, QString id, const Nedrysoft::Core::ContextList &contexts);
 
-        QMap<QString, Command *> m_commandMap;                          //! Map containing commands registered in this manager
-        QMap<QString, FizzyAde::Core::Menu *> m_menuMap;                //! Map containing all menus registered in this manager
+            virtual bool registerAction(QAction *action, Nedrysoft::Core::ICommand *command,
+                                        const Nedrysoft::Core::ContextList &contexts);
+
+            virtual void setContext(int contextId);
+
+            virtual Nedrysoft::Core::IMenu *createMenu(const QString &identifier, IMenu *parentMenu = nullptr);
+
+            virtual Nedrysoft::Core::IMenu *findMenu(const QString &identifier);
+
+            virtual Nedrysoft::Core::ICommand *findCommand(const QString &identifier);
+
+        private:
+
+            QMap<QString, Command *> m_commandMap;                          //! Map containing commands registered in this manager
+            QMap<QString, Nedrysoft::Core::Menu *> m_menuMap;                //! Map containing all menus registered in this manager
     };
 }
 
-#endif // FIZZYADE_CORE_CONTEXTMANAGER_H
+#endif // NEDRYSOFT_CORE_CONTEXTMANAGER_H

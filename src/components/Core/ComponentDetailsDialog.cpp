@@ -21,10 +21,10 @@
 #include "ComponentDetailsDialog.h"
 #include "ui_ComponentDetailsDialog.h"
 
-FizzyAde::Core::ComponentDetailsDialog::ComponentDetailsDialog(FizzyAde::ComponentSystem::Component *component, QWidget *parent) :
-    QDialog(parent),
-    ui(new FizzyAde::Core::Ui::ComponentDetailsDialog)
-{
+Nedrysoft::Core::ComponentDetailsDialog::ComponentDetailsDialog(Nedrysoft::ComponentSystem::Component *component,
+                                                                QWidget *parent) :
+        QDialog(parent),
+        ui(new Nedrysoft::Core::Ui::ComponentDetailsDialog) {
     ui->setupUi(this);
 
     ui->nameLineEdit->setText(component->name());
@@ -39,7 +39,6 @@ FizzyAde::Core::ComponentDetailsDialog::ComponentDetailsDialog(FizzyAde::Compone
     ui->locationLineEdit->setText(component->filename());
 }
 
-FizzyAde::Core::ComponentDetailsDialog::~ComponentDetailsDialog()
-{
+Nedrysoft::Core::ComponentDetailsDialog::~ComponentDetailsDialog() {
     delete ui;
 }

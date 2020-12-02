@@ -36,7 +36,7 @@ using namespace std::chrono_literals;
 
 constexpr auto AverageLatencyRadius = 4;
 constexpr auto CurrentLatencyLength = 3;
-constexpr auto xOffset = (AverageLatencyRadius*2);
+constexpr auto xOffset = ( AverageLatencyRadius * 2 );
 
 constexpr auto DefaultLowRangeLatency = 100ms;
 constexpr auto DefaultMidRangeLatency = 200ms;
@@ -53,15 +53,14 @@ constexpr auto InvalidEntryLineWidth = 6;
 
 constexpr auto OverrideSelectedColour = 1;
 
-FizzyAde::RouteAnalyser::RouteTableItemDelegate::RouteTableItemDelegate(QWidget *parent) :
-    QStyledItemDelegate(parent)
-{
+Nedrysoft::RouteAnalyser::RouteTableItemDelegate::RouteTableItemDelegate(QWidget *parent) :
+        QStyledItemDelegate(parent) {
     m_lowRangeLatency = DefaultLowRangeLatency;
     m_midRangeLatency = DefaultMidRangeLatency;
 }
 
-void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
+                                                             const QModelIndex &index) const {
     if (!index.isValid()) {
         QStyledItemDelegate::paint(painter, option, index);
 
@@ -74,84 +73,93 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paint(QPainter *painter, c
         return;
     }
 
-    auto pingData = index.siblingAtColumn(0).data(Qt::UserRole+1).value<FizzyAde::RouteAnalyser::PingData *>();
+    auto pingData = index.siblingAtColumn(0).data(Qt::UserRole + 1).value<Nedrysoft::RouteAnalyser::PingData *>();
 
-    if (!pingData->hopValid() && (index.column()!=FizzyAde::RouteAnalyser::PingData::Graph)) {
+    if (!pingData->hopValid() && ( index.column() != Nedrysoft::RouteAnalyser::PingData::Graph )) {
         paintInvalidHop(pingData, painter, option, index);
 
         return;
     }
 
-    switch(index.column()) {
-        case FizzyAde::RouteAnalyser::PingData::Graph: {
+    switch ( index.column()) {
+        case Nedrysoft::RouteAnalyser::PingData::Graph: {
             paintGraph(pingData, painter, option, index);
 
             break;
         }
 
-        case FizzyAde::RouteAnalyser::PingData::Hop: {
+        case Nedrysoft::RouteAnalyser::PingData::Hop: {
             paintHop(pingData, painter, option, index);
 
             break;
         }
 
-        case FizzyAde::RouteAnalyser::PingData::Location: {
+        case Nedrysoft::RouteAnalyser::PingData::Location: {
             paintBackground(pingData, painter, option, index);
             paintLocation(pingData, painter, option, index);
 
             break;
         }
 
-        case FizzyAde::RouteAnalyser::PingData::IP: {
+        case Nedrysoft::RouteAnalyser::PingData::IP: {
             paintBackground(pingData, painter, option, index);
             paintText(pingData->hostAddress(), painter, option, index);
 
             break;
         }
 
-        case FizzyAde::RouteAnalyser::PingData::HostName: {
+        case Nedrysoft::RouteAnalyser::PingData::HostName: {
             paintBackground(pingData, painter, option, index);
             paintText(pingData->hostName(), painter, option, index);
 
             break;
         }
 
-        case FizzyAde::RouteAnalyser::PingData::MinimumLatency: {
+        case Nedrysoft::RouteAnalyser::PingData::MinimumLatency: {
             paintBackground(pingData, painter, option, index);
-            paintText(QString("%1").arg(std::chrono::duration_cast<milliseconds_double>(pingData->m_minimumLatency).count(), 2, 'f', 2), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
+            paintText(QString("%1").arg(
+                    std::chrono::duration_cast<milliseconds_double>(pingData->m_minimumLatency).count(), 2, 'f', 2),
+                      painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
 
             break;
         }
 
-        case FizzyAde::RouteAnalyser::PingData::MaximumLatency: {
+        case Nedrysoft::RouteAnalyser::PingData::MaximumLatency: {
             paintBackground(pingData, painter, option, index);
-            paintText(QString("%1").arg(std::chrono::duration_cast<milliseconds_double>(pingData->m_maximumLatency).count(), 2, 'f', 2), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
+            paintText(QString("%1").arg(
+                    std::chrono::duration_cast<milliseconds_double>(pingData->m_maximumLatency).count(), 2, 'f', 2),
+                      painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
 
             break;
         }
 
-        case FizzyAde::RouteAnalyser::PingData::AverageLatency: {
+        case Nedrysoft::RouteAnalyser::PingData::AverageLatency: {
             paintBackground(pingData, painter, option, index);
-            paintText(QString("%1").arg(std::chrono::duration_cast<milliseconds_double>(pingData->m_averageLatency).count(), 2, 'f', 2), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
+            paintText(QString("%1").arg(
+                    std::chrono::duration_cast<milliseconds_double>(pingData->m_averageLatency).count(), 2, 'f', 2),
+                      painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
 
             break;
         }
 
-        case FizzyAde::RouteAnalyser::PingData::CurrentLatency: {
+        case Nedrysoft::RouteAnalyser::PingData::CurrentLatency: {
             paintBackground(pingData, painter, option, index);
-            paintText(QString("%1").arg(std::chrono::duration_cast<milliseconds_double>(pingData->m_currentLatency).count(), 2, 'f', 2), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
+            paintText(QString("%1").arg(
+                    std::chrono::duration_cast<milliseconds_double>(pingData->m_currentLatency).count(), 2, 'f', 2),
+                      painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
 
             break;
         }
 
-        case FizzyAde::RouteAnalyser::PingData::PacketLoss: {
+        case Nedrysoft::RouteAnalyser::PingData::PacketLoss: {
             paintBackground(pingData, painter, option, index);
-            paintText(QString("%1").arg(pingData->packetLoss(), 2, 'f', 2), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
+            paintText(QString("%1").arg(pingData->packetLoss(), 2, 'f', 2), painter, option, index,
+                      Qt::AlignRight | Qt::AlignVCenter);
 
             break;
         }
 
-        case FizzyAde::RouteAnalyser::PingData::Count: {
+        case Nedrysoft::RouteAnalyser::PingData::Count: {
             paintBackground(pingData, painter, option, index);
             paintText(QString("%1").arg(pingData->count()), painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
 
@@ -166,18 +174,20 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paint(QPainter *painter, c
     }
 }
 
-void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintText(const QString &text, QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index, int alignment, int flags) const
-{
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintText(const QString &text, QPainter *painter,
+                                                                 const QStyleOptionViewItem &option,
+                                                                 const QModelIndex &index, int alignment,
+                                                                 int flags) const {
     Q_UNUSED(index)
     constexpr auto TextMargin = 5;
     auto pen = QPen();
     auto textColour = QColor();
-    auto textRect = option.rect.adjusted(TextMargin,0,-TextMargin,0);
+    auto textRect = option.rect.adjusted(TextMargin, 0, -TextMargin, 0);
 
     painter->save();
 
     if (flags & OverrideSelectedColour) {
-        if (FizzyAde::Utils::ThemeSupport::isDarkMode()) {
+        if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
             textColour = option.palette.color(QPalette::Base);
         } else {
             textColour = option.palette.color(QPalette::Inactive, QPalette::Text);
@@ -207,8 +217,10 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintText(const QString &t
     painter->restore();
 }
 
-void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintBackground(FizzyAde::RouteAnalyser::PingData *pingData, QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBackground(Nedrysoft::RouteAnalyser::PingData *pingData,
+                                                                       QPainter *painter,
+                                                                       const QStyleOptionViewItem &option,
+                                                                       const QModelIndex &index) const {
     Q_UNUSED(index)
     Q_UNUSED(pingData)
 
@@ -225,9 +237,11 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintBackground(FizzyAde::
     }
 }
 
-void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintLocation(FizzyAde::RouteAnalyser::PingData *pingData, QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
-    auto pen = QPen(QBrush(DefaultHighColour), option.rect.height()-InvalidEntryLineWidth);
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintLocation(Nedrysoft::RouteAnalyser::PingData *pingData,
+                                                                     QPainter *painter,
+                                                                     const QStyleOptionViewItem &option,
+                                                                     const QModelIndex &index) const {
+    auto pen = QPen(QBrush(DefaultHighColour), option.rect.height() - InvalidEntryLineWidth);
 
     pen.setCapStyle(Qt::RoundCap);
 
@@ -240,7 +254,7 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintLocation(FizzyAde::Ro
 
         pen.setWidth(InvalidEntryLineWidth);
 
-        rc.adjust(pen.width()/2, 0, -(pen.width()/2), 0);
+        rc.adjust(pen.width() / 2, 0, -( pen.width() / 2 ), 0);
 
         painter->save();
 
@@ -254,10 +268,12 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintLocation(FizzyAde::Ro
     }
 }
 
-void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(FizzyAde::RouteAnalyser::PingData *pingData, QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(Nedrysoft::RouteAnalyser::PingData *pingData,
+                                                                       QPainter *painter,
+                                                                       const QStyleOptionViewItem &option,
+                                                                       const QModelIndex &index) const {
     auto tableView = qobject_cast<const QTableView *>(option.widget);
-    auto pen = QPen(QBrush(DefaultHighColour), option.rect.height()-InvalidEntryLineWidth);
+    auto pen = QPen(QBrush(DefaultHighColour), option.rect.height() - InvalidEntryLineWidth);
 
     auto visualIndex = tableView->horizontalHeader()->visualIndex(index.column());
 
@@ -267,13 +283,13 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(FizzyAde::
 
     painter->save();
 
-    if ((option.state & QStyle::State_Selected) && (!tableView->hasFocus())) {
+    if (( option.state & QStyle::State_Selected ) && ( !tableView->hasFocus())) {
         pen.setColor(Qt::white);
     }
 
     auto rc = option.rect;
 
-    if (index.column()==FizzyAde::RouteAnalyser::PingData::Hop) {
+    if (index.column() == Nedrysoft::RouteAnalyser::PingData::Hop) {
         paintBubble(pingData, painter, option, index, DefaultHighColour);
     }
 
@@ -284,19 +300,19 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(FizzyAde::
 
     pen.setWidth(InvalidEntryLineWidth);
 
-    if (visualIndex==0) {
-        if (index.column()==FizzyAde::RouteAnalyser::PingData::Hop) {
+    if (visualIndex == 0) {
+        if (index.column() == Nedrysoft::RouteAnalyser::PingData::Hop) {
             rc.setLeft(rc.center().x());
         } else {
-            rc.setLeft(rc.left()+(pen.width()/2));
+            rc.setLeft(rc.left() + ( pen.width() / 2 ));
         }
     }
 
-    if (visualIndex==index.model()->columnCount()-2) {
-        if (index.column()==FizzyAde::RouteAnalyser::PingData::Hop) {
+    if (visualIndex == index.model()->columnCount() - 2) {
+        if (index.column() == Nedrysoft::RouteAnalyser::PingData::Hop) {
             rc.setRight(rc.center().x());
         } else {
-            rc.setRight(rc.right()-(pen.width()/2));
+            rc.setRight(rc.right() - ( pen.width() / 2 ));
         }
     }
 
@@ -306,65 +322,74 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(FizzyAde::
 
     painter->restore();
 
-    if (index.column()==FizzyAde::RouteAnalyser::PingData::Hop) {
-        paintText(QString("%1").arg(pingData->hop()), painter, option, index, Qt::AlignHCenter | Qt::AlignVCenter, OverrideSelectedColour);
+    if (index.column() == Nedrysoft::RouteAnalyser::PingData::Hop) {
+        paintText(QString("%1").arg(pingData->hop()), painter, option, index, Qt::AlignHCenter | Qt::AlignVCenter,
+                  OverrideSelectedColour);
     }
 }
 
-void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintBubble(FizzyAde::RouteAnalyser::PingData *pingData, QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index, QRgb bubbleColour) const
-{
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBubble(Nedrysoft::RouteAnalyser::PingData *pingData,
+                                                                   QPainter *painter,
+                                                                   const QStyleOptionViewItem &option,
+                                                                   const QModelIndex &index, QRgb bubbleColour) const {
     Q_UNUSED(index)
     Q_UNUSED(pingData)
     auto tableView = qobject_cast<const QTableView *>(option.widget);
     auto bubbleRect = option.rect;
-    auto pen = QPen(QBrush(bubbleColour), option.rect.height()-InvalidEntryLineWidth);
+    auto pen = QPen(QBrush(bubbleColour), option.rect.height() - InvalidEntryLineWidth);
 
     pen.setCapStyle(Qt::RoundCap);
 
-    bubbleRect.adjust(xOffset+(pen.width()/2), 0, -(xOffset+(pen.width()/2)), 0);
+    bubbleRect.adjust(xOffset + ( pen.width() / 2 ), 0, -( xOffset + ( pen.width() / 2 )), 0);
 
     painter->save();
 
-    if ((option.state & QStyle::State_Selected) && (!tableView->hasFocus())) {
+    if (( option.state & QStyle::State_Selected ) && ( !tableView->hasFocus())) {
         pen.setColor(Qt::white);
     }
 
     painter->setPen(pen);
 
-    painter->drawLine(QPoint(bubbleRect.left(), bubbleRect.center().y()), QPoint(bubbleRect.right(), bubbleRect.center().y()));
+    painter->drawLine(QPoint(bubbleRect.left(), bubbleRect.center().y()),
+                      QPoint(bubbleRect.right(), bubbleRect.center().y()));
 
     painter->restore();
 }
 
-void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintHop(FizzyAde::RouteAnalyser::PingData *pingData, QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintHop(Nedrysoft::RouteAnalyser::PingData *pingData,
+                                                                QPainter *painter, const QStyleOptionViewItem &option,
+                                                                const QModelIndex &index) const {
     constexpr auto interpolationTime = 1000.0;
-    auto pen = QPen(QBrush(DefaultLowColour), option.rect.height()-InvalidEntryLineWidth);
+    auto pen = QPen(QBrush(DefaultLowColour), option.rect.height() - InvalidEntryLineWidth);
     auto bubbleColour = QColor(Qt::white);
 
     QMap<double, QRgb> gradientMap;
 
     gradientMap[0] = DefaultLowColour;
-    gradientMap[std::chrono::duration<double, std::milli>(m_lowRangeLatency).count()/interpolationTime] = DefaultMidColour;
-    gradientMap[std::chrono::duration<double, std::milli>(m_midRangeLatency).count()/interpolationTime] = DefaultHighColour;
+    gradientMap[std::chrono::duration<double, std::milli>(m_lowRangeLatency).count() /
+                interpolationTime] = DefaultMidColour;
+    gradientMap[std::chrono::duration<double, std::milli>(m_midRangeLatency).count() /
+                interpolationTime] = DefaultHighColour;
     gradientMap[1] = DefaultHighColour;
 
     pen.setCapStyle(Qt::RoundCap);
 
     paintBackground(pingData, painter, option, index);
 
-    if ( (option.state & (QStyle::State_Active)) ||
-         (!(option.state & QStyle::State_Active) && !(option.state & QStyle::State_Selected)) ) {
-        bubbleColour = getInterpolatedColour(gradientMap, pingData->latency(FizzyAde::RouteAnalyser::PingData::AverageLatency));
+    if (( option.state & ( QStyle::State_Active )) ||
+        ( !( option.state & QStyle::State_Active ) && !( option.state & QStyle::State_Selected ))) {
+        bubbleColour = getInterpolatedColour(gradientMap,
+                                             pingData->latency(Nedrysoft::RouteAnalyser::PingData::AverageLatency));
     }
 
     paintBubble(pingData, painter, option, index, bubbleColour.rgb());
 
-    paintText(QString("%1").arg(pingData->hop()), painter, option, index, Qt::AlignHCenter | Qt::AlignVCenter, OverrideSelectedColour);
+    paintText(QString("%1").arg(pingData->hop()), painter, option, index, Qt::AlignHCenter | Qt::AlignVCenter,
+              OverrideSelectedColour);
 }
 
-QRgb FizzyAde::RouteAnalyser::RouteTableItemDelegate::getInterpolatedColour(const QMap<double, QRgb> &keyFrames, double value) const
-{
+QRgb Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getInterpolatedColour(const QMap<double, QRgb> &keyFrames,
+                                                                             double value) const {
     constexpr auto interpolationTime = 1000.0;
     QVariantAnimation colourInterpolator;
     auto keyFrameKeys = keyFrames.keys();
@@ -375,22 +400,23 @@ QRgb FizzyAde::RouteAnalyser::RouteTableItemDelegate::getInterpolatedColour(cons
         return keyFrames.value(value);
     }
 
-    colourInterpolator.setEasingCurve(QEasingCurve::Linear) ;
+    colourInterpolator.setEasingCurve(QEasingCurve::Linear);
     colourInterpolator.setDuration(static_cast<int>(interpolationTime));
 
-    for(const auto &key : keyFrameKeys) {
-        colourInterpolator.setKeyValueAt(key, QColor::fromRgb(keyFrames.value(key))) ;
+    for (const auto &key : keyFrameKeys) {
+        colourInterpolator.setKeyValueAt(key, QColor::fromRgb(keyFrames.value(key)));
     }
 
-    colourInterpolator.setCurrentTime(static_cast<int>(value*interpolationTime));
+    colourInterpolator.setCurrentTime(static_cast<int>(value * interpolationTime));
 
     auto colour = colourInterpolator.currentValue().value<QColor>();
 
     return colour.rgb();
 }
 
-void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintGraph(FizzyAde::RouteAnalyser::PingData *pingData, QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(Nedrysoft::RouteAnalyser::PingData *pingData,
+                                                                  QPainter *painter, const QStyleOptionViewItem &option,
+                                                                  const QModelIndex &index) const {
     auto thisRect = option.rect.adjusted(xOffset, 0, -xOffset, 0);
     auto startPoint = QPointF();
     auto endPoint = QPointF();
@@ -402,15 +428,14 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintGraph(FizzyAde::Route
     painter->save();
     painter->setClipRect(option.rect);
 
-    auto lowStop = m_lowRangeLatency.count()/graphMaxLatency;
-    auto midStop = m_midRangeLatency.count()/graphMaxLatency;
+    auto lowStop = m_lowRangeLatency.count() / graphMaxLatency;
+    auto midStop = m_midRangeLatency.count() / graphMaxLatency;
 
-    auto blankRect=option.rect;
+    auto blankRect = option.rect;
 
     blankRect.setRight(thisRect.left());
 
-    if (option.state & QStyle::State_Selected)
-    {
+    if (option.state & QStyle::State_Selected) {
         auto brush = QBrush();
 
         if (option.state & QStyle::State_Active) {
@@ -428,13 +453,12 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintGraph(FizzyAde::Route
 
     QLinearGradient graphGradient = QLinearGradient(QPoint(rect.left(), rect.y()), QPoint(rect.right(), rect.y()));
 
-    if (lowStop>1)
-    {
+    if (lowStop > 1) {
         graphGradient.setColorAt(0, QColor(DefaultLowColour).darker(colourFactor));
         graphGradient.setColorAt(1, QColor(DefaultLowColour).darker(colourFactor));
     } else {
-        if (midStop>1) {
-            if (lowStop<1) {
+        if (midStop > 1) {
+            if (lowStop < 1) {
                 graphGradient.setColorAt(0, QColor(DefaultLowColour).darker(colourFactor));
                 graphGradient.setColorAt(1, QColor(DefaultMidColour).darker(colourFactor));
             }
@@ -448,8 +472,8 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintGraph(FizzyAde::Route
 
     if (!smoothGradient) {
         graphGradient.setColorAt(lowStop, QColor(DefaultMidColour).darker(colourFactor));
-        graphGradient.setColorAt(lowStop-0.0001, QColor(DefaultLowColour).darker(colourFactor));
-        graphGradient.setColorAt(midStop-0.0001, QColor(DefaultMidColour).darker(colourFactor));
+        graphGradient.setColorAt(lowStop - 0.0001, QColor(DefaultLowColour).darker(colourFactor));
+        graphGradient.setColorAt(midStop - 0.0001, QColor(DefaultMidColour).darker(colourFactor));
     }
 
     painter->fillRect(rect, graphGradient);
@@ -464,9 +488,11 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintGraph(FizzyAde::Route
 
     // draw low and mid stop point lines if visible
 
-    if (lowStop<1) {
-        startPoint = QPointF(floatingPointRect.left()+(lowStop*floatingPointRect.width()), floatingPointRect.top());
-        endPoint = QPointF(floatingPointRect.left()+(lowStop*floatingPointRect.width()), floatingPointRect.bottom());
+    if (lowStop < 1) {
+        startPoint = QPointF(floatingPointRect.left() + ( lowStop * floatingPointRect.width()),
+                             floatingPointRect.top());
+        endPoint = QPointF(floatingPointRect.left() + ( lowStop * floatingPointRect.width()),
+                           floatingPointRect.bottom());
     }
 
     auto pen = QPen(Qt::DashLine);
@@ -475,7 +501,7 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintGraph(FizzyAde::Route
 
     double dashLength = 0;
 
-    for(auto sectionLength : pen.dashPattern()) {
+    for (auto sectionLength : pen.dashPattern()) {
         dashLength += sectionLength;
     }
 
@@ -485,9 +511,11 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintGraph(FizzyAde::Route
 
     painter->drawLine(startPoint, endPoint);
 
-    if (midStop<1) {
-        startPoint = QPointF(floatingPointRect.left()+(midStop*floatingPointRect.width()), floatingPointRect.top());
-        endPoint = QPointF(floatingPointRect.left()+(midStop*floatingPointRect.width()), floatingPointRect.bottom());
+    if (midStop < 1) {
+        startPoint = QPointF(floatingPointRect.left() + ( midStop * floatingPointRect.width()),
+                             floatingPointRect.top());
+        endPoint = QPointF(floatingPointRect.left() + ( midStop * floatingPointRect.width()),
+                           floatingPointRect.bottom());
     }
 
     painter->drawLine(startPoint, endPoint);
@@ -499,46 +527,46 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintGraph(FizzyAde::Route
 
         // this is a valid hop, so draw accordingly
 
-        auto currentLatency = pingData->latency(FizzyAde::RouteAnalyser::PingData::CurrentLatency);
-        auto minimumLatency = pingData->latency(FizzyAde::RouteAnalyser::PingData::MinimumLatency);
-        auto maximumLatency = pingData->latency(FizzyAde::RouteAnalyser::PingData::MaximumLatency);
+        auto currentLatency = pingData->latency(Nedrysoft::RouteAnalyser::PingData::CurrentLatency);
+        auto minimumLatency = pingData->latency(Nedrysoft::RouteAnalyser::PingData::MinimumLatency);
+        auto maximumLatency = pingData->latency(Nedrysoft::RouteAnalyser::PingData::MaximumLatency);
 
-        if ((minimumLatency>=0) && (maximumLatency>=0)) {
+        if (( minimumLatency >= 0 ) && ( maximumLatency >= 0 )) {
             // draw min/max latency timeline
 
             painter->setPen(Qt::gray);
 
-            startPoint.setX(thisRect.left()+(thisRect.width()*(minimumLatency/graphMaxLatency)));
+            startPoint.setX(thisRect.left() + ( thisRect.width() * ( minimumLatency / graphMaxLatency )));
             startPoint.setY(thisRect.center().y());
 
-            endPoint.setX(thisRect.left()+(thisRect.width()*(maximumLatency/graphMaxLatency)));
+            endPoint.setX(thisRect.left() + ( thisRect.width() * ( maximumLatency / graphMaxLatency )));
             endPoint.setY(thisRect.center().y());
 
             painter->drawLine(startPoint, endPoint);
 
-            startPoint.setX(thisRect.left()+(thisRect.width()*(minimumLatency/graphMaxLatency)));
-            startPoint.setY(thisRect.center().y()-3);
+            startPoint.setX(thisRect.left() + ( thisRect.width() * ( minimumLatency / graphMaxLatency )));
+            startPoint.setY(thisRect.center().y() - 3);
 
-            endPoint.setX(thisRect.left()+(thisRect.width()*(minimumLatency/graphMaxLatency)));
-            endPoint.setY(thisRect.center().y()+3);
+            endPoint.setX(thisRect.left() + ( thisRect.width() * ( minimumLatency / graphMaxLatency )));
+            endPoint.setY(thisRect.center().y() + 3);
 
             painter->drawLine(startPoint, endPoint);
 
-            startPoint.setX(thisRect.left()+(thisRect.width()*(maximumLatency/graphMaxLatency)));
-            endPoint.setX(thisRect.left()+(thisRect.width()*(maximumLatency/graphMaxLatency)));
+            startPoint.setX(thisRect.left() + ( thisRect.width() * ( maximumLatency / graphMaxLatency )));
+            endPoint.setX(thisRect.left() + ( thisRect.width() * ( maximumLatency / graphMaxLatency )));
 
             painter->drawLine(startPoint, endPoint);
         }
 
-        if (currentLatency>=0) {
+        if (currentLatency >= 0) {
             // draw current latency mark
 
             painter->setPen(Qt::blue);
 
-            centrePoint.setX(thisRect.left()+((thisRect.width()*(currentLatency/graphMaxLatency))));
+            centrePoint.setX(thisRect.left() + (( thisRect.width() * ( currentLatency / graphMaxLatency ))));
             centrePoint.setY(thisRect.center().y());
 
-            startPoint = centrePoint + QPoint(-CurrentLatencyLength,-CurrentLatencyLength);
+            startPoint = centrePoint + QPoint(-CurrentLatencyLength, -CurrentLatencyLength);
             endPoint = centrePoint + QPoint(CurrentLatencyLength, CurrentLatencyLength);
 
             painter->drawLine(startPoint, endPoint);
@@ -551,16 +579,22 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::paintGraph(FizzyAde::Route
     }
 
     if (pingData->tableModel()->property("showHistorical").toBool()) {
-        drawLatencyLine(FizzyAde::RouteAnalyser::PingData::HistoricalLatency, pingData, painter, option, index, QPen(Qt::darkGray, 2, Qt::DotLine));
+        drawLatencyLine(Nedrysoft::RouteAnalyser::PingData::HistoricalLatency, pingData, painter, option, index,
+                        QPen(Qt::darkGray, 2, Qt::DotLine));
     }
 
-    drawLatencyLine(FizzyAde::RouteAnalyser::PingData::AverageLatency, pingData, painter, option, index, QPen(Qt::red, 1, Qt::SolidLine));
+    drawLatencyLine(Nedrysoft::RouteAnalyser::PingData::AverageLatency, pingData, painter, option, index,
+                    QPen(Qt::red, 1, Qt::SolidLine));
 
     painter->restore();
 }
 
-void FizzyAde::RouteAnalyser::RouteTableItemDelegate::drawLatencyLine(int field, FizzyAde::RouteAnalyser::PingData *pingData,  QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index, const QPen &pen) const
-{
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::drawLatencyLine(int field,
+                                                                       Nedrysoft::RouteAnalyser::PingData *pingData,
+                                                                       QPainter *painter,
+                                                                       const QStyleOptionViewItem &option,
+                                                                       const QModelIndex &index,
+                                                                       const QPen &pen) const {
     auto thisRect = option.rect.adjusted(xOffset, 0, -xOffset, 0);
     auto nextRect = thisRect;
     auto previousRect = thisRect;
@@ -591,10 +625,11 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::drawLatencyLine(int field,
         if (previousData) {
             // there is a valid previous hop, so draw the line from the previous hop to this hop
 
-            startPoint.setX(previousRect.left()+(previousRect.width()*(previousData->latency(field)/graphMaxLatency)));
+            startPoint.setX(
+                    previousRect.left() + ( previousRect.width() * ( previousData->latency(field) / graphMaxLatency )));
             startPoint.setY(previousRect.center().y());
 
-            endPoint.setX(thisRect.left()+(thisRect.width()*(pingData->latency(field)/graphMaxLatency)));
+            endPoint.setX(thisRect.left() + ( thisRect.width() * ( pingData->latency(field) / graphMaxLatency )));
             endPoint.setY(thisRect.center().y());
 
             painter->drawLine(startPoint, endPoint);
@@ -603,29 +638,30 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::drawLatencyLine(int field,
         if (nextData) {
             // there is a valid next hop, so draw the line this hop to the next hop
 
-            startPoint.setX(thisRect.left()+(thisRect.width()*(pingData->latency(field)/graphMaxLatency)));
+            startPoint.setX(thisRect.left() + ( thisRect.width() * ( pingData->latency(field) / graphMaxLatency )));
             startPoint.setY(thisRect.center().y());
 
-            endPoint.setX(nextRect.left()+(nextRect.width()*(nextData->latency(field)/graphMaxLatency)));
+            endPoint.setX(nextRect.left() + ( nextRect.width() * ( nextData->latency(field) / graphMaxLatency )));
             endPoint.setY(nextRect.center().y());
 
             painter->drawLine(startPoint, endPoint);
         }
 
-        centrePoint.setX(thisRect.left()+(thisRect.width()*(pingData->latency(field)/graphMaxLatency)));
+        centrePoint.setX(thisRect.left() + ( thisRect.width() * ( pingData->latency(field) / graphMaxLatency )));
         centrePoint.setY(thisRect.center().y());
 
         painter->drawEllipse(centrePoint, AverageLatencyRadius, AverageLatencyRadius);
     } else {
-        if ((previousData) && (nextData)) {
+        if (( previousData ) && ( nextData )) {
             // this is a invalid hop
 
             painter->setPen(pen);
 
-            startPoint.setX(previousRect.left()+(previousRect.width()*(previousData->latency(field)/graphMaxLatency)));
+            startPoint.setX(
+                    previousRect.left() + ( previousRect.width() * ( previousData->latency(field) / graphMaxLatency )));
             startPoint.setY(previousRect.center().y());
 
-            endPoint.setX(nextRect.left()+(nextRect.width()*(nextData->latency(field)/graphMaxLatency)));
+            endPoint.setX(nextRect.left() + ( nextRect.width() * ( nextData->latency(field) / graphMaxLatency )));
             endPoint.setY(nextRect.center().y());
 
             painter->drawLine(startPoint, endPoint);
@@ -635,16 +671,15 @@ void FizzyAde::RouteAnalyser::RouteTableItemDelegate::drawLatencyLine(int field,
     painter->restore();
 }
 
-QModelIndex FizzyAde::RouteAnalyser::RouteTableItemDelegate::getSibling(QModelIndex modelIndex, int adjustment) const
-{
-    while(true) {
-        modelIndex = modelIndex.siblingAtRow(modelIndex.row()+adjustment);
+QModelIndex Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getSibling(QModelIndex modelIndex, int adjustment) const {
+    while (true) {
+        modelIndex = modelIndex.siblingAtRow(modelIndex.row() + adjustment);
 
         if (!modelIndex.isValid()) {
             break;
         }
 
-        auto pingData = modelIndex.siblingAtColumn(0).data(Qt::UserRole+1).value<PingData *>();
+        auto pingData = modelIndex.siblingAtColumn(0).data(Qt::UserRole + 1).value<PingData *>();
 
         if (pingData->hopValid()) {
             break;
@@ -654,14 +689,15 @@ QModelIndex FizzyAde::RouteAnalyser::RouteTableItemDelegate::getSibling(QModelIn
     return modelIndex;
 }
 
-FizzyAde::RouteAnalyser::PingData *FizzyAde::RouteAnalyser::RouteTableItemDelegate::getSiblingData(QModelIndex modelIndex, int adjustment, const QTableView *tableView, QRect &rect) const
-{
+Nedrysoft::RouteAnalyser::PingData *
+Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getSiblingData(QModelIndex modelIndex, int adjustment,
+                                                                 const QTableView *tableView, QRect &rect) const {
     auto nextModelIndex = getSibling(modelIndex, adjustment);
 
     if (nextModelIndex.isValid()) {
         rect = tableView->visualRect(nextModelIndex);
 
-        return nextModelIndex.siblingAtColumn(0).data(Qt::UserRole+1).value<FizzyAde::RouteAnalyser::PingData *>();
+        return nextModelIndex.siblingAtColumn(0).data(Qt::UserRole + 1).value<Nedrysoft::RouteAnalyser::PingData *>();
     }
 
     return nullptr;

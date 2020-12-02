@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ICMPPINGENGINE_ICMPPINGTARGET_H
-#define FIZZYADE_ICMPPINGENGINE_ICMPPINGTARGET_H
+#ifndef NEDRYSOFT_ICMPPINGENGINE_ICMPPINGTARGET_H
+#define NEDRYSOFT_ICMPPINGENGINE_ICMPPINGTARGET_H
 
 #include "Core/IPingTarget.h"
 
@@ -28,13 +28,13 @@
 #include <WS2tcpip.h>
 #endif
 
-namespace FizzyAde::ICMPSocket {
+namespace Nedrysoft::ICMPSocket {
     class ICMPSocket;
 }
 
-namespace FizzyAde::ICMPPingEngine
-{
+namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingTargetData;
+
     class ICMPPingEngine;
 
     /**
@@ -46,69 +46,73 @@ namespace FizzyAde::ICMPPingEngine
      */
 
     class ICMPPingTarget :
-        public FizzyAde::Core::IPingTarget
-    {
+            public Nedrysoft::Core::IPingTarget {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::IPingTarget)
+            Q_INTERFACES(Nedrysoft::Core::IPingTarget)
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         * @details     Creates a new ping target for a given host and initial TTL
-         *
-         * @param[in]   engine
-         * @param[in]   hostAddress
-         * @param[in]   ttl
-         *
-         */
-        ICMPPingTarget(FizzyAde::ICMPPingEngine::ICMPPingEngine *engine, QHostAddress hostAddress, int ttl=0);
+        public:
+            /**
+             * @brief       Constructor
+             *
+             * @details     Creates a new ping target for a given host and initial TTL
+             *
+             * @param[in]   engine
+             * @param[in]   hostAddress
+             * @param[in]   ttl
+             *
+             */
+            ICMPPingTarget(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine, QHostAddress hostAddress, int ttl = 0);
 
-        /**
-         * @brief       Destructor
-         */
+            /**
+             * @brief       Destructor
+             */
 
-        ~ICMPPingTarget();
+            ~ICMPPingTarget();
 
-        /**
-         * @sa          IPingTarget
-         *
-         */
-        virtual void setHostAddress(QHostAddress hostAddress);
-        virtual QHostAddress hostAddress();
-        virtual FizzyAde::Core::IPingEngine *engine();
-        virtual void *userData() ;
-        virtual void setUserData(void *data);
+            /**
+             * @sa          IPingTarget
+             *
+             */
+            virtual void setHostAddress(QHostAddress hostAddress);
 
-        /**
-         * @sa          IConfiguration
-         *
-         */
-        virtual QJsonObject saveConfiguration();
-        virtual bool loadConfiguration(QJsonObject configuration);
+            virtual QHostAddress hostAddress();
 
-    protected:
+            virtual Nedrysoft::Core::IPingEngine *engine();
 
-        /**
-         * @brief       Returns socket to be used to send ICMP packets
-         *
-         * @return      socket
-         */
-        FizzyAde::ICMPSocket::ICMPSocket *socket();
+            virtual void *userData();
 
-        /**
-         * @brief       Returns the ICMP id used for this target
-         *
-         * @return      the id
-         */
-        uint16_t id();
+            virtual void setUserData(void *data);
 
-        friend class ICMPPingTransmitter;
+            /**
+             * @sa          IConfiguration
+             *
+             */
+            virtual QJsonObject saveConfiguration();
 
-    protected:
-        std::shared_ptr<ICMPPingTargetData> d;
+            virtual bool loadConfiguration(QJsonObject configuration);
+
+        protected:
+
+            /**
+             * @brief       Returns socket to be used to send ICMP packets
+             *
+             * @return      socket
+             */
+            Nedrysoft::ICMPSocket::ICMPSocket *socket();
+
+            /**
+             * @brief       Returns the ICMP id used for this target
+             *
+             * @return      the id
+             */
+            uint16_t id();
+
+            friend class ICMPPingTransmitter;
+
+        protected:
+            std::shared_ptr<ICMPPingTargetData> d;
     };
 }
 
-#endif // FIZZYADE_ICMPPINGENGINE_ICMPPINGTARGET_H
+#endif // NEDRYSOFT_ICMPPINGENGINE_ICMPPINGTARGET_H

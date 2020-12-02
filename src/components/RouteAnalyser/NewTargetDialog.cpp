@@ -23,45 +23,40 @@
 #include "ComponentSystem/IComponentManager.h"
 #include "Core/IPingEngineFactory.h"
 
-FizzyAde::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new FizzyAde::RouteAnalyser::Ui::NewTargetDialog)
-{
+Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
+        QDialog(parent),
+        ui(new Nedrysoft::RouteAnalyser::Ui::NewTargetDialog) {
     ui->setupUi(this);
 
-    auto pingEngines = FizzyAde::ComponentSystem::getObjects<FizzyAde::Core::IPingEngineFactory>();
+    auto pingEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IPingEngineFactory>();
 
     for (auto pingEngine : pingEngines) {
-        ui->engineComboBox->addItem(pingEngine->description(), QVariant::fromValue<FizzyAde::Core::IPingEngineFactory *>(pingEngine));
+        ui->engineComboBox->addItem(pingEngine->description(),
+                                    QVariant::fromValue<Nedrysoft::Core::IPingEngineFactory *>(pingEngine));
     }
 }
 
-FizzyAde::RouteAnalyser::NewTargetDialog::~NewTargetDialog()
-{
+Nedrysoft::RouteAnalyser::NewTargetDialog::~NewTargetDialog() {
     delete ui;
 }
 
-FizzyAde::Core::IPingEngineFactory *FizzyAde::RouteAnalyser::NewTargetDialog::pingEngineFactory()
-{
-    return ui->engineComboBox->currentData().value<FizzyAde::Core::IPingEngineFactory *>();
+Nedrysoft::Core::IPingEngineFactory *Nedrysoft::RouteAnalyser::NewTargetDialog::pingEngineFactory() {
+    return ui->engineComboBox->currentData().value<Nedrysoft::Core::IPingEngineFactory *>();
 }
 
-QString FizzyAde::RouteAnalyser::NewTargetDialog::pingTarget()
-{
+QString Nedrysoft::RouteAnalyser::NewTargetDialog::pingTarget() {
     return ui->hostLineEdit->text();
 }
 
-FizzyAde::Core::IPVersion FizzyAde::RouteAnalyser::NewTargetDialog::ipVersion()
-{
+Nedrysoft::Core::IPVersion Nedrysoft::RouteAnalyser::NewTargetDialog::ipVersion() {
     if (ui->ipv4RadioButton->isChecked()) {
-        return FizzyAde::Core::IPVersion::V4;
+        return Nedrysoft::Core::IPVersion::V4;
     } else {
-        return FizzyAde::Core::IPVersion::V6;
+        return Nedrysoft::Core::IPVersion::V6;
     }
 }
 
-double FizzyAde::RouteAnalyser::NewTargetDialog::interval()
-{
+double Nedrysoft::RouteAnalyser::NewTargetDialog::interval() {
     return ui->intervalDoubleSpinBox->value();
 }
 

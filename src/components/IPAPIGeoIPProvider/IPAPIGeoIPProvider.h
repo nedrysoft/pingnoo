@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_IPAPIGEOIPPROVIDER_IPAPIGEOIPPROVIDER_H
-#define FIZZYADE_IPAPIGEOIPPROVIDER_IPAPIGEOIPPROVIDER_H
+#ifndef NEDRYSOFT_IPAPIGEOIPPROVIDER_IPAPIGEOIPPROVIDER_H
+#define NEDRYSOFT_IPAPIGEOIPPROVIDER_IPAPIGEOIPPROVIDER_H
 
 #include "ComponentSystem/IInterface.h"
 #include "Core/IGeoIPProvider.h"
@@ -28,8 +28,7 @@
 #include <QObject>
 #include <QVariantMap>
 
-namespace FizzyAde::IPAPIGeoIPProvider
-{
+namespace Nedrysoft::IPAPIGeoIPProvider {
     class Cache;
 
     /**
@@ -41,35 +40,35 @@ namespace FizzyAde::IPAPIGeoIPProvider
      *
      */
     class IPAPIGeoIPProvider :
-        public FizzyAde::Core::IGeoIPProvider
-    {
+            public Nedrysoft::Core::IGeoIPProvider {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::IGeoIPProvider)
+            Q_INTERFACES(Nedrysoft::Core::IGeoIPProvider)
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         */
-        IPAPIGeoIPProvider();
+        public:
+            /**
+             * @brief       Constructor
+             *
+             */
+            IPAPIGeoIPProvider();
 
-        /**
-         * @brief       Destructor
-         *
-         */
-        ~IPAPIGeoIPProvider();
+            /**
+             * @brief       Destructor
+             *
+             */
+            ~IPAPIGeoIPProvider();
 
-        /**
-         * @sa          IGeoIPProvider
-         *
-         */
-        virtual void lookup(const QString host);
-        virtual void lookup(const QString host, FizzyAde::Core::GeoFunction function);
+            /**
+             * @sa          IGeoIPProvider
+             *
+             */
+            virtual void lookup(const QString host);
 
-    private:
-        FizzyAde::IPAPIGeoIPProvider::Cache *m_cache;
+            virtual void lookup(const QString host, Nedrysoft::Core::GeoFunction function);
+
+        private:
+            Nedrysoft::IPAPIGeoIPProvider::Cache *m_cache;
     };
 }
 
-#endif // FIZZYADE_IPAPIGEOIPPROVIDER_IPAPIGEOIPPROVIDER_H
+#endif // NEDRYSOFT_IPAPIGEOIPPROVIDER_IPAPIGEOIPPROVIDER_H

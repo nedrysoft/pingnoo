@@ -23,13 +23,11 @@
 #include "RibbonWidgetPlugin.h"
 
 RibbonWidgetsCollection::RibbonWidgetsCollection(QObject *parent)
-        : QObject(parent)
-{
+        : QObject(parent) {
     m_widgets.append(new RibbonGroupPlugin(this));
     m_widgets.append(new RibbonWidgetPlugin(this));
 }
 
-QList<QDesignerCustomWidgetInterface*> RibbonWidgetsCollection::customWidgets() const
-{
+QList<QDesignerCustomWidgetInterface *> RibbonWidgetsCollection::customWidgets() const {
     return m_widgets;
 }

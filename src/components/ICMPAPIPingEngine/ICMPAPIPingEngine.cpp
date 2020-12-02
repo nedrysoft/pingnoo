@@ -33,49 +33,46 @@ using namespace std::chrono_literals;
 
 constexpr auto DefaultReplyTimeout = 3s;
 
-class FizzyAde::Pingnoo::ICMPAPIPingEngineData
-{
+class Nedrysoft::Pingnoo::ICMPAPIPingEngineData {
 
-public:
-    ICMPAPIPingEngineData(FizzyAde::Pingnoo::ICMPAPIPingEngine *parent) :
-        q_ptr(parent)
-    {
-        m_pingEngine = parent;
-        m_transmitter = nullptr;
-        m_transmitterThread = nullptr;
-        m_timeout = std::chrono::milliseconds(0);
-        /*m_receiver = 0;
+    public:
+        ICMPAPIPingEngineData(Nedrysoft::Pingnoo::ICMPAPIPingEngine *parent) :
+                q_ptr(parent) {
+            m_pingEngine = parent;
+            m_transmitter = nullptr;
+            m_transmitterThread = nullptr;
+            m_timeout = std::chrono::milliseconds(0);
+            /*m_receiver = 0;
 
-        m_timeout = 0;
-        m_receiverThread = 0;
-        m_transmitterThread = 0;
-        m_timeoutThread = 0;*/
-        m_timeout = DefaultReplyTimeout;
-    }
+            m_timeout = 0;
+            m_receiverThread = 0;
+            m_transmitterThread = 0;
+            m_timeoutThread = 0;*/
+            m_timeout = DefaultReplyTimeout;
+        }
 
-    friend class ICMPAPIPingEngine;
+        friend class ICMPAPIPingEngine;
 
-private:
-    FizzyAde::Pingnoo::ICMPAPIPingEngine *m_pingEngine;
+    private:
+        Nedrysoft::Pingnoo::ICMPAPIPingEngine *m_pingEngine;
 
-    FizzyAde::Pingnoo::ICMPAPIPingTransmitter *m_transmitter;
-    /*FZICMPPingReceiver *m_receiver;
+        Nedrysoft::Pingnoo::ICMPAPIPingTransmitter *m_transmitter;
+        /*FZICMPPingReceiver *m_receiver;
 
-    FZICMPPingTimeout *m_timeout;
+        FZICMPPingTimeout *m_timeout;
 
-    QThread *m_receiverThread;
-    QThread *m_timeoutThread;*/
-    QThread *m_transmitterThread;
+        QThread *m_receiverThread;
+        QThread *m_timeoutThread;*/
+        QThread *m_transmitterThread;
 
-    QMap<uint32_t, FizzyAde::Pingnoo::ICMPPingItem *> m_pingRequests;
-    QMutex m_requestsMutex;
+        QMap<uint32_t, Nedrysoft::Pingnoo::ICMPPingItem *> m_pingRequests;
+        QMutex m_requestsMutex;
 
-    std::chrono::milliseconds m_timeout = {};
+        std::chrono::milliseconds m_timeout = {};
 };
 
-FizzyAde::Pingnoo::ICMPAPIPingEngine::ICMPAPIPingEngine() :
-    d(std::make_shared<FizzyAde::ICMPAPIPingEngine::ICMPAPIPingEngineData>(this))
-{
+Nedrysoft::Pingnoo::ICMPAPIPingEngine::ICMPAPIPingEngine() :
+        d(std::make_shared<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData>(this)) {
     // timeout thread
 
     /*d->m_timeout = new FZICMPPingTimeout(this);
@@ -106,7 +103,7 @@ FizzyAde::Pingnoo::ICMPAPIPingEngine::ICMPAPIPingEngine() :
 */
     // transmitter thread
 
-    d->m_transmitter = new FizzyAde::Pingnoo::ICMPAPIPingTransmitter(this);
+    d->m_transmitter = new Nedrysoft::Pingnoo::ICMPAPIPingTransmitter(this);
 
     d->m_transmitterThread = new QThread();
 
@@ -119,13 +116,11 @@ FizzyAde::Pingnoo::ICMPAPIPingEngine::ICMPAPIPingEngine() :
     d->m_transmitterThread->start();
 }
 
-QObject *FizzyAde::Pingnoo::ICMPAPIPingEngine::asQObject()
-{
-    return(this);
+QObject *Nedrysoft::Pingnoo::ICMPAPIPingEngine::asQObject() {
+    return ( this );
 }
 
-FizzyAde::Pingnoo::IPingTarget *FizzyAde::Pingnoo::ICMPAPIPingEngine::addTarget(QHostAddress hostAddress)
-{
+Nedrysoft::Pingnoo::IPingTarget *Nedrysoft::Pingnoo::ICMPAPIPingEngine::addTarget(QHostAddress hostAddress) {
     Q_UNUSED(hostAddress)
     //Q_D(FZICMPAPIPingEngine);
 
@@ -134,11 +129,10 @@ FizzyAde::Pingnoo::IPingTarget *FizzyAde::Pingnoo::ICMPAPIPingEngine::addTarget(
     d->m_transmitter->addTarget(target);
 
     return(target);*/
-    return(nullptr);
+    return ( nullptr );
 }
 
-FizzyAde::Pingnoo::IPingTarget *FizzyAde::Pingnoo::ICMPAPIPingEngine::addTarget(QHostAddress hostAddress, int ttl)
-{
+Nedrysoft::Pingnoo::IPingTarget *Nedrysoft::Pingnoo::ICMPAPIPingEngine::addTarget(QHostAddress hostAddress, int ttl) {
     Q_UNUSED(hostAddress)
     Q_UNUSED(ttl)
     //Q_D(FZICMPAPIPingEngine);
@@ -149,25 +143,23 @@ FizzyAde::Pingnoo::IPingTarget *FizzyAde::Pingnoo::ICMPAPIPingEngine::addTarget(
 
     return(target);*/
 
-    return(nullptr);
+    return ( nullptr );
 }
 
-bool FizzyAde::Pingnoo::ICMPAPIPingEngine::removeTarget(FizzyAde::Pingnoo::IPingTarget *target)
-{
+bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::removeTarget(Nedrysoft::Pingnoo::IPingTarget *target) {
     Q_UNUSED(target)
 
-    return(true);
+    return ( true );
 }
 
-bool FizzyAde::Pingnoo::ICMPAPIPingEngine::start()
-{
-    return(true);
+bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::start() {
+    return ( true );
 }
 
-bool FizzyAde::Pingnoo::ICMPAPIPingEngine::stop()
-{
-    return(true);
+bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::stop() {
+    return ( true );
 }
+
 /*
 void FZICMPAPIPingEngine::addRequest(FZICMPAPIPingItem *pingItem)
 {
@@ -210,37 +202,32 @@ FZICMPPingItem *FZICMPPingEngine::getRequest(uint32_t id)
 }
 */
 
-bool FizzyAde::Pingnoo::ICMPAPIPingEngine::setInterval(std::chrono::milliseconds interval)
-{
+bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::setInterval(std::chrono::milliseconds interval) {
     Q_UNUSED(interval)
     //Q_D(FZICMPAPIPingEngine);
 
     //return(d->m_transmitter->setInterval(milliseconds));
-    return(true);
+    return ( true );
 }
 
-bool FizzyAde::Pingnoo::ICMPAPIPingEngine::setTimeout(std::chrono::milliseconds timeout)
-{
+bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::setTimeout(std::chrono::milliseconds timeout) {
     d->m_timeout = timeout;
 
-    return(true);
+    return ( true );
 }
 
-QJsonObject FizzyAde::Pingnoo::ICMPAPIPingEngine::saveConfiguration()
-{
-    return(QJsonObject());
+QJsonObject Nedrysoft::Pingnoo::ICMPAPIPingEngine::saveConfiguration() {
+    return ( QJsonObject());
 }
 
-bool FizzyAde::Pingnoo::ICMPAPIPingEngine::loadConfiguration(QJsonObject configuration)
-{
+bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::loadConfiguration(QJsonObject configuration) {
     Q_UNUSED(configuration)
 
-    return(false);
+    return ( false );
 }
 
-std::chrono::system_clock::time_point FizzyAde::Pingnoo::ICMPAPIPingEngine::epoch()
-{
-    return(std::chrono::system_clock::now());
+std::chrono::system_clock::time_point Nedrysoft::Pingnoo::ICMPAPIPingEngine::epoch() {
+    return ( std::chrono::system_clock::now());
 }
 
 /*

@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/FizzyAde/Ribbon">
+    <qresource prefix="/Nedrysoft/Ribbon">
         <file>OpenSans/OpenSans-Bold.ttf</file>
         <file>OpenSans/OpenSans-BoldItalic.ttf</file>
         <file>OpenSans/OpenSans-ExtraBold.ttf</file>

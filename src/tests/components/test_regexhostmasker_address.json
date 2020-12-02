@@ -1,11 +1,11 @@
 {
-    "id": "FizzyAde::Pingnoo::RegExHostMasker",
-    "matchItems": [
-        {
-            "matchExpression": "([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.test\\.co\\.uk)",
-            "matchFlags": 12,
-            "matchHopString": "",
-            "matchReplacementString": "<hidden>"
-        }
-    ]
+  "id": "Nedrysoft::Pingnoo::RegExHostMasker",
+  "matchItems": [
+    {
+      "matchExpression": "([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.test\\.co\\.uk)",
+      "matchFlags": 12,
+      "matchHopString": "",
+      "matchReplacementString": "<hidden>"
+    }
+  ]
 }

@@ -18,15 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_IEDITOR_H
-#define FIZZYADE_CORE_IEDITOR_H
+#ifndef NEDRYSOFT_CORE_IEDITOR_H
+#define NEDRYSOFT_CORE_IEDITOR_H
 
 #include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
 #include <QWidget>
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     /**
      * @brief       Interface definition of a editor
      *
@@ -34,39 +33,38 @@ namespace FizzyAde::Core
      *              by the application.
      *
      */
-    class FIZZYADE_CORE_DLLSPEC IEditor :
-        public FizzyAde::ComponentSystem::IInterface
-    {
+    class NEDRYSOFT_CORE_DLLSPEC IEditor :
+            public Nedrysoft::ComponentSystem::IInterface {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::ComponentSystem::IInterface)
+            Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
 
-    public:
-        /**
-         * @brief       Destructor
-         *
-         */
-        virtual ~IEditor() = default;
+        public:
+            /**
+             * @brief       Destructor
+             *
+             */
+            virtual ~IEditor() = default;
 
-        /**
-         * @brief       Gets the widget for this editor.
-         *
-         * @return      the widget
-         *
-         */
-        virtual QWidget *widget() = 0;
+            /**
+             * @brief       Gets the widget for this editor.
+             *
+             * @return      the widget
+             *
+             */
+            virtual QWidget *widget() = 0;
 
-        /**
-         * @brief       Geets the display name for this editor
-         *
-         * @details     Gets the user displayable name of the editor, this is usually used by the FizzyAde::Core::IEditorManager to display
-         *              the name of the widget in the title.
-         *
-         */
-        virtual QString displayName() = 0;
+            /**
+             * @brief       Geets the display name for this editor
+             *
+             * @details     Gets the user displayable name of the editor, this is usually used by the Nedrysoft::Core::IEditorManager to display
+             *              the name of the widget in the title.
+             *
+             */
+            virtual QString displayName() = 0;
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::IEditor, "com.fizzyade.core.IEditor/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IEditor, "com.fizzyade.core.IEditor/1.0.0")
 
-#endif // FIZZYADE_CORE_IEDITOR_H
+#endif // NEDRYSOFT_CORE_IEDITOR_H

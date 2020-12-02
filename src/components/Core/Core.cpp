@@ -20,26 +20,22 @@
 
 #include "Core.h"
 
-FizzyAde::Core::Core::Core()
-{
-    m_mainWindow = new FizzyAde::Core::MainWindow;
+Nedrysoft::Core::Core::Core() {
+    m_mainWindow = new Nedrysoft::Core::MainWindow;
 
     m_mainWindow->show();
 }
 
-FizzyAde::Core::Core::~Core()
-{
+Nedrysoft::Core::Core::~Core() {
     delete m_mainWindow;
 }
 
-void FizzyAde::Core::Core::open()
-{
+void Nedrysoft::Core::Core::open() {
     m_mainWindow->initialise();
 
     emit coreOpened();
 }
 
-QMainWindow *FizzyAde::Core::Core::mainWindow()
-{
+QMainWindow *Nedrysoft::Core::Core::mainWindow() {
     return m_mainWindow;
 }

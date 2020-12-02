@@ -23,23 +23,20 @@
 #include "ComponentSystem/IComponentManager.h"
 #include <QDebug>
 
-PublicIPHostMaskerComponent::PublicIPHostMaskerComponent()
-{
+PublicIPHostMaskerComponent::PublicIPHostMaskerComponent() {
     m_hostMasker = nullptr;
 }
 
-PublicIPHostMaskerComponent::~PublicIPHostMaskerComponent()
-{
+PublicIPHostMaskerComponent::~PublicIPHostMaskerComponent() {
     if (m_hostMasker) {
-        FizzyAde::ComponentSystem::removeObject(m_hostMasker);
+        Nedrysoft::ComponentSystem::removeObject(m_hostMasker);
 
         delete m_hostMasker;
     }
 }
 
-void PublicIPHostMaskerComponent::initialiseEvent()
-{
-    m_hostMasker = new FizzyAde::PublicIPHostMasker::PublicIPHostMasker();
+void PublicIPHostMaskerComponent::initialiseEvent() {
+    m_hostMasker = new Nedrysoft::PublicIPHostMasker::PublicIPHostMasker();
 
-    FizzyAde::ComponentSystem::addObject(m_hostMasker);
+    Nedrysoft::ComponentSystem::addObject(m_hostMasker);
 }

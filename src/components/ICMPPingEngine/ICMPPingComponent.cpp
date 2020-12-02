@@ -23,23 +23,20 @@
 #include "ICMPPingEngineFactory.h"
 #include <QDebug>
 
-ICMPPingComponent::ICMPPingComponent()
-{
+ICMPPingComponent::ICMPPingComponent() {
     m_engineFactory = nullptr;
 }
 
-ICMPPingComponent::~ICMPPingComponent()
-{
+ICMPPingComponent::~ICMPPingComponent() {
     if (m_engineFactory) {
-        FizzyAde::ComponentSystem::removeObject(m_engineFactory);
+        Nedrysoft::ComponentSystem::removeObject(m_engineFactory);
 
         delete m_engineFactory;
     }
 }
 
-void ICMPPingComponent::initialiseEvent()
-{
-    m_engineFactory = new FizzyAde::ICMPPingEngine::ICMPPingEngineFactory();
+void ICMPPingComponent::initialiseEvent() {
+    m_engineFactory = new Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory();
 
-    FizzyAde::ComponentSystem::addObject(m_engineFactory);
+    Nedrysoft::ComponentSystem::addObject(m_engineFactory);
 }

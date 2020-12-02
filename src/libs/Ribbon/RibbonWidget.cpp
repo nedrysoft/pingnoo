@@ -26,30 +26,29 @@
 #include <QPaintEvent>
 #include <QDebug>
 
-FizzyAde::Ribbon::RibbonWidget::RibbonWidget(QWidget *parent) :
-    QTabWidget(parent)
-{
+Nedrysoft::Ribbon::RibbonWidget::RibbonWidget(QWidget *parent) :
+        QTabWidget(parent) {
+
     m_tabBar = new RibbonTabBar(this);
 
     setTabBar(m_tabBar);
 
-    this->setMinimumHeight(RibbonBarHeight+TabBarHeight);
-    this->setMaximumHeight(RibbonBarHeight+TabBarHeight);
+    this->setMinimumHeight(RibbonBarHeight + TabBarHeight);
+    this->setMaximumHeight(RibbonBarHeight + TabBarHeight);
 
 #if defined(Q_OS_MACOS)
     this->setDocumentMode(true);
 #endif
 }
 
-void FizzyAde::Ribbon::RibbonWidget::paintEvent(QPaintEvent *event)
-{
+void Nedrysoft::Ribbon::RibbonWidget::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event)
     QPainter painter(this);
     auto rect = this->rect();
-    auto  currentTheme = FizzyAde::Ribbon::Light;
+    auto currentTheme = Nedrysoft::Ribbon::Light;
 
-    if (FizzyAde::Utils::ThemeSupport::isDarkMode()) {
-        currentTheme = FizzyAde::Ribbon::Dark;
+    if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
+        currentTheme = Nedrysoft::Ribbon::Dark;
     }
 
     painter.save();

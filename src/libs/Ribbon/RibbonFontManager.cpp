@@ -21,25 +21,21 @@
 #include "RibbonFontManager.h"
 #include <QFontDatabase>
 
-FizzyAde::Ribbon::RibbonFontManager::RibbonFontManager()
-{
-    m_regularFontId = QFontDatabase::addApplicationFont(":/FizzyAde/Ribbon/OpenSans/OpenSans-Regular.ttf");
-    m_boldFontId = QFontDatabase::addApplicationFont(":/FizzyAde/Ribbon/OpenSans/OpenSans-Bold.ttf");
+Nedrysoft::Ribbon::RibbonFontManager::RibbonFontManager() {
+    m_regularFontId = QFontDatabase::addApplicationFont(":/Nedrysoft/Ribbon/OpenSans/OpenSans-Regular.ttf");
+    m_boldFontId = QFontDatabase::addApplicationFont(":/Nedrysoft/Ribbon/OpenSans/OpenSans-Bold.ttf");
 }
 
-FizzyAde::Ribbon::RibbonFontManager *FizzyAde::Ribbon::RibbonFontManager::getInstance()
-{
+Nedrysoft::Ribbon::RibbonFontManager *Nedrysoft::Ribbon::RibbonFontManager::getInstance() {
     static auto instance = new RibbonFontManager();
 
     return instance;
 }
 
-QString FizzyAde::Ribbon::RibbonFontManager::normalFont()
-{
+QString Nedrysoft::Ribbon::RibbonFontManager::normalFont() {
     return QFontDatabase::applicationFontFamilies(m_regularFontId).at(0);
 }
 
-QString FizzyAde::Ribbon::RibbonFontManager::boldFont()
-{
+QString Nedrysoft::Ribbon::RibbonFontManager::boldFont() {
     return QFontDatabase::applicationFontFamilies(m_boldFontId).at(0);
 }

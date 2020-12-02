@@ -34,24 +34,24 @@ RouteAnalyserComponent::RouteAnalyserComponent() = default;
 
 RouteAnalyserComponent::~RouteAnalyserComponent() = default;
 
-void RouteAnalyserComponent::initialiseEvent()
-{
-    auto contextManager = FizzyAde::Core::IContextManager::getInstance();
+void RouteAnalyserComponent::initialiseEvent() {
+    auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
 
     if (contextManager) {
         m_editorContextId = contextManager->registerContext("RouteAnalyserComponent::RouteAnalyserEditor");
 
-        connect(contextManager, &FizzyAde::Core::IContextManager::contextChanged, [&] (int newContext, int previousContext) {
-            Q_UNUSED(newContext)
-            Q_UNUSED(previousContext)
-        });
+        connect(contextManager, &Nedrysoft::Core::IContextManager::contextChanged,
+                [&](int newContext, int previousContext) {
+                    Q_UNUSED(newContext)
+                    Q_UNUSED(previousContext)
+                });
     }
 
-    auto core = FizzyAde::Core::ICore::getInstance();
+    auto core = Nedrysoft::Core::ICore::getInstance();
 
     if (core) {
-        connect(core, &FizzyAde::Core::ICore::coreOpened, [&] () {
-            auto commandManager = FizzyAde::Core::ICommandManager::getInstance();
+        connect(core, &Nedrysoft::Core::ICore::coreOpened, [&]() {
+            auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
             if (commandManager) {
                 // create New Target... action
@@ -59,13 +59,14 @@ void RouteAnalyserComponent::initialiseEvent()
                 auto action = new QAction(tr("New Target..."));
 
                 connect(action, &QAction::triggered, [this]() {
-                    FizzyAde::RouteAnalyser::NewTargetDialog newTargetDialog;
+                    Nedrysoft::RouteAnalyser::NewTargetDialog newTargetDialog;
 
                     if (newTargetDialog.exec()) {
-                        auto editorManager = FizzyAde::Core::IEditorManager::getInstance();
+                        auto editorManager = Nedrysoft::Core::IEditorManager::getInstance();
 
                         if (editorManager) {
-                            FizzyAde::RouteAnalyser::RouteAnalyserEditor *editor = new FizzyAde::RouteAnalyser::RouteAnalyserEditor(m_editorContextId);
+                            Nedrysoft::RouteAnalyser::RouteAnalyserEditor *editor = new Nedrysoft::RouteAnalyser::RouteAnalyserEditor(
+                                    m_editorContextId);
 
                             editor->setPingEngine(newTargetDialog.pingEngineFactory());
                             editor->setTarget(newTargetDialog.pingTarget());
@@ -89,7 +90,7 @@ void RouteAnalyserComponent::initialiseEvent()
 
                 action = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::editCut));
 
-                connect(action, &QAction::triggered, [&] (bool) {
+                connect(action, &QAction::triggered, [&](bool) {
                     qDebug() << "action triggered (route analyser) !";
                 });
 
@@ -97,7 +98,7 @@ void RouteAnalyserComponent::initialiseEvent()
 
                 commandManager->registerAction(action, Pingnoo::Constants::editCut, m_editorContextId);
 
-                FizzyAde::Core::IContextManager::getInstance()->setContext(m_editorContextId);
+                Nedrysoft::Core::IContextManager::getInstance()->setContext(m_editorContextId);
 
                 action->setEnabled(true);
             }
@@ -105,7 +106,6 @@ void RouteAnalyserComponent::initialiseEvent()
     }
 }
 
-void RouteAnalyserComponent::initialisationFinishedEvent()
-{
+void RouteAnalyserComponent::initialisationFinishedEvent() {
 
 }

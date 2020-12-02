@@ -18,14 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_ACTIONPROXY_H
-#define FIZZYADE_CORE_ACTIONPROXY_H
+#ifndef NEDRYSOFT_CORE_ACTIONPROXY_H
+#define NEDRYSOFT_CORE_ACTIONPROXY_H
 
 #include <QAction>
 #include <QPointer>
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     /**
      * @brief       ActionProxy
      *
@@ -35,42 +34,41 @@ namespace FizzyAde::Core
      *
      */
     class ActionProxy :
-        public QAction
-    {
-    public:
+            public QAction {
+        public:
 
-        /**
-         * @brief       Constructor
-         *
-         * @param[in]   parent      parent object
-         *
-         */
-        ActionProxy(QObject *parent=nullptr);
+            /**
+             * @brief       Constructor
+             *
+             * @param[in]   parent      parent object
+             *
+             */
+            ActionProxy(QObject *parent = nullptr);
 
-        /**
-         * @brief       Sets the currently active target action
-         *
-         * @param[in] action the action to be proxied
-         *
-         */
-        void setActive(QAction *action);
+            /**
+             * @brief       Sets the currently active target action
+             *
+             * @param[in] action the action to be proxied
+             *
+             */
+            void setActive(QAction *action);
 
-    protected:
-        /**
-         * @brief       Connects the current action to the proxy
-         *
-         */
-        void connectAction();
+        protected:
+            /**
+             * @brief       Connects the current action to the proxy
+             *
+             */
+            void connectAction();
 
-        /**
-         * @brief       Disconnects the current action from the proxy
-         *
-         */
-        void disconnectAction();
+            /**
+             * @brief       Disconnects the current action from the proxy
+             *
+             */
+            void disconnectAction();
 
-    private:
-        QPointer<QAction> m_action;                         //! Pointer to active action
+        private:
+            QPointer<QAction> m_action;                         //! Pointer to active action
     };
 }
 
-#endif // FIZZYADE_CORE_ACTIONPROXY_H
+#endif // NEDRYSOFT_CORE_ACTIONPROXY_H

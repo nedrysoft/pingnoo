@@ -18,52 +18,50 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_RIBBON_RIBBONWIDGET_H
-#define FIZZYADE_RIBBON_RIBBONWIDGET_H
+#ifndef NEDRYSOFT_RIBBON_RIBBONWIDGET_H
+#define NEDRYSOFT_RIBBON_RIBBONWIDGET_H
 
 #include "RibbonSpec.h"
 #include <QTabWidget>
 #include <QHBoxLayout>
 
-namespace FizzyAde::Ribbon
-{
+namespace Nedrysoft::Ribbon {
     class RibbonTabBar;
 
-    enum ThemeMode
-    {
+    enum ThemeMode {
         Light = 0,
         Dark = 1
     };
 
     static constexpr QRgb TextColor[] = {                                       //! Colour of text on the control
-        qRgb(73, 69, 66),
-        qRgb(0xDC, 0xDC, 0xDC)
+            qRgb(73, 69, 66),
+            qRgb(0xDC, 0xDC, 0xDC)
     };
 
 
     static constexpr QRgb TabBarBackgroundColor[] = {                           //! Background colour of the tab bar
-        qRgb(246, 243, 247),
-        qRgb(0x2d, 0x2d, 0x2d)
+            qRgb(246, 243, 247),
+            qRgb(0x2d, 0x2d, 0x2d)
     };
 
     static constexpr QRgb TabHoverColor[] = {                                   //! Highlight colour of a tab when hovered over
-        qRgb(254, 251, 255),
-        TabBarBackgroundColor[Dark]
+            qRgb(254, 251, 255),
+            TabBarBackgroundColor[Dark]
     };
 
     static constexpr QRgb TabSelectedColor[] = {                                //! Colour of a tab when the mouse is being held down
-        qRgb(51, 84, 151),
-        qRgb(0xdf, 0xdf, 0xdf)
+            qRgb(51, 84, 151),
+            qRgb(0xdf, 0xdf, 0xdf)
     };
 
     static constexpr QRgb RibbonBorderColor[] = {                               //! Colour of the ribbon divider at the bottom of the control
-        qRgb(214, 211, 207),
-        qRgb(0, 0, 0)
+            qRgb(214, 211, 207),
+            qRgb(0, 0, 0)
     };
 
     static constexpr QRgb GroupDividerColor[] = {                               //! Colour of the group divider
-        qRgb(180, 178, 173),
-        qRgb(0x57, 0x57, 0x57)
+            qRgb(180, 178, 173),
+            qRgb(0x57, 0x57, 0x57)
     };
 
     static constexpr int TabBarHeight = 28;                                     //! Height of the tab bar portion of the control
@@ -79,35 +77,35 @@ namespace FizzyAde::Ribbon
      *
      */
     class RIBBON_WIDGET_EXPORT RibbonWidget :
-        public QTabWidget
-    {
+            public QTabWidget {
         Q_OBJECT
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         * @param[in]   parent          parent widget
-         *
-         */
-        RibbonWidget(QWidget *parent = nullptr);
+        public:
+            /**
+             * @brief       Constructor
+             *
+             * @param[in]   parent          parent widget
+             *
+             */
+            RibbonWidget(QWidget *parent = nullptr);
 
-        friend class RibbonTabBar;
-        friend class RibbonGroup;
+            friend class RibbonTabBar;
 
-    protected:
-        /**
-         * @brief       paintEvent
-         *
-         * @details     Overridden paintEvent for drawing widget
-         *
-         * @param[in]   event           The event information
-         *
-         */
-        virtual void paintEvent(QPaintEvent *event);
+            friend class RibbonGroup;
 
-        FizzyAde::Ribbon::RibbonTabBar *m_tabBar;                                  //! The tab bar associated with this ribbon
+        protected:
+            /**
+             * @brief       paintEvent
+             *
+             * @details     Overridden paintEvent for drawing widget
+             *
+             * @param[in]   event           The event information
+             *
+             */
+            virtual void paintEvent(QPaintEvent *event);
+
+            Nedrysoft::Ribbon::RibbonTabBar *m_tabBar;                                  //! The tab bar associated with this ribbon
     };
 }
 
-#endif // FIZZYADE_RIBBON_RIBBONWIDGET_H
+#endif // NEDRYSOFT_RIBBON_RIBBONWIDGET_H

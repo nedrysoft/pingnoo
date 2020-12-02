@@ -34,19 +34,20 @@
 #include "SplashScreen.h"
 
 #if defined(Q_OS_MAC)
+
 #include <CoreFoundation/CoreFoundation.h>
+
 #endif
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 
     qApp->setApplicationName("Pingnoo");
-    qApp->setOrganizationName("FizzyAde");
+    qApp->setOrganizationName("Nedrysoft");
 
-    auto componentLoader = new FizzyAde::ComponentSystem::ComponentLoader;
+    auto componentLoader = new Nedrysoft::ComponentSystem::ComponentLoader;
     auto applicationInstance = new QApplication(argc, argv);
-    auto appNap = FizzyAde::AppNap::AppNap::getInstance();
+    auto appNap = Nedrysoft::AppNap::AppNap::getInstance();
 
     Nedrysoft::SplashScreen *splashScreen = Nedrysoft::SplashScreen::getInstance();;
 
@@ -54,7 +55,7 @@ int main(int argc, char **argv)
 
     appNap->prevent("App Nap has been disabled as it interferes with thread timing.");
 
-    auto componentManager = FizzyAde::ComponentSystem::IComponentManager::getInstance();
+    auto componentManager = Nedrysoft::ComponentSystem::IComponentManager::getInstance();
 
     componentManager->addObject(componentLoader);
 
@@ -62,7 +63,7 @@ int main(int argc, char **argv)
     CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
     CFStringRef macPath = CFURLCopyFileSystemPath(appUrlRef, kCFURLPOSIXPathStyle);
     const char *pathPtr = CFStringGetCStringPtr(macPath, CFStringGetSystemEncoding());
-    QString componentPath = QString(pathPtr)+"/Contents/PlugIns";
+    QString componentPath = QString(pathPtr) + "/Contents/PlugIns";
 
     CFRelease(appUrlRef);
     CFRelease(macPath);
@@ -72,7 +73,7 @@ int main(int argc, char **argv)
 
         dir.cdUp();
 
-        componentPath = dir.absolutePath()+"/PlugIns";
+        componentPath = dir.absolutePath() + "/PlugIns";
     }
 
     componentLoader->addComponents(componentPath);
@@ -81,23 +82,24 @@ int main(int argc, char **argv)
 
     auto dataPaths = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
 
-    for(auto searchPath : dataPaths) {
-        for(auto folderPath : extraLibrarySearchPaths) {
-            auto folderName = searchPath+"/"+qApp->organizationName()+"/"+qApp->applicationName()+"/"+folderPath;
+    for (auto searchPath : dataPaths) {
+        for (auto folderPath : extraLibrarySearchPaths) {
+            auto folderName =
+                    searchPath + "/" + qApp->organizationName() + "/" + qApp->applicationName() + "/" + folderPath;
 
             if (QDir(folderName).exists())
                 qApp->addLibraryPath(folderName);
         }
     }
 
-    for(auto searchPath : dataPaths) {
-        auto folderName = searchPath+"/"+qApp->organizationName()+"/"+qApp->applicationName()+"/PlugIns";
+    for (auto searchPath : dataPaths) {
+        auto folderName = searchPath + "/" + qApp->organizationName() + "/" + qApp->applicationName() + "/PlugIns";
 
         if (QDir(folderName).exists()) {
             componentLoader->addComponents(folderName);
         }
     }
-#else    
+#else
     if (QProcessEnvironment::systemEnvironment().contains("APPDIR")) {
         componentLoader->addComponents(QProcessEnvironment::systemEnvironment().value("APPDIR")+"/Components");
     } else {
@@ -106,7 +108,8 @@ int main(int argc, char **argv)
 
 #endif
 
-    QString appSettingsFilename = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).at(0)+"/"+qApp->organizationName()+"/"+qApp->applicationName()+"/appSettings.json";
+    QString appSettingsFilename = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).at(0) + "/" +
+                                  qApp->organizationName() + "/" + qApp->applicationName() + "/appSettings.json";
     QFile settingsFile(appSettingsFilename);
     QVariantList disabledComponents;
 
@@ -124,12 +127,12 @@ int main(int argc, char **argv)
         }
     }
 
-    componentLoader->loadComponents([disabledComponents](FizzyAde::ComponentSystem::Component *component)->bool {
-        if (component->canBeDisabled()==false) {
+    componentLoader->loadComponents([disabledComponents](Nedrysoft::ComponentSystem::Component *component) -> bool {
+        if (component->canBeDisabled() == false) {
             return true;
         }
 
-        if (disabledComponents.contains((component->name()+"."+component->vendor()).toLower())) {
+        if (disabledComponents.contains(( component->name() + "." + component->vendor()).toLower())) {
             return false;
         }
         return true;

@@ -18,16 +18,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ROUTEENGINE_ROUTEWORKER_H
-#define FIZZYADE_ROUTEENGINE_ROUTEWORKER_H
+#ifndef NEDRYSOFT_ROUTEENGINE_ROUTEWORKER_H
+#define NEDRYSOFT_ROUTEENGINE_ROUTEWORKER_H
 
 #include "RouteEngine.h"
 #include <QObject>
 #include <QHostAddress>
 #include <QList>
 
-namespace FizzyAde::RouteEngine
-{
+namespace Nedrysoft::RouteEngine {
     /**
      * @brief       Route finder thread worker implementation
      *
@@ -36,98 +35,97 @@ namespace FizzyAde::RouteEngine
      *
      */
     class RouteWorker :
-        public QObject
-    {
+            public QObject {
         Q_OBJECT
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         * @details     creates a route worker with the selected IP version
-         *
-         * @param[in]   ipVersion           the ip version to be used
-         *
-         */
-        RouteWorker(FizzyAde::Core::IPVersion ipVersion);
+        public:
+            /**
+             * @brief       Constructor
+             *
+             * @details     creates a route worker with the selected IP version
+             *
+             * @param[in]   ipVersion           the ip version to be used
+             *
+             */
+            RouteWorker(Nedrysoft::Core::IPVersion ipVersion);
 
-        /**
-         * @brief       Destructor
-         *
-         */
-        ~RouteWorker();
+            /**
+             * @brief       Destructor
+             *
+             */
+            ~RouteWorker();
 
-        /**
-         * @brief       Sets the target host to find the route for
-         *
-         * @param[in]   host                the host
-         *
-         */
-        void setHost(QString host);
+            /**
+             * @brief       Sets the target host to find the route for
+             *
+             * @param[in]   host                the host
+             *
+             */
+            void setHost(QString host);
 
-    private:
+        private:
 
-        /**
-         * Pings an IPv4 address with the given ttl
-         *
-         * Helper function which returns the hop address and whether it was the
-         * final destination.
-         *
-         * @param[in]   hostAddress         the host to ping
-         * @param[in]   ttl                 the TTL used for this ping
-         * @param[out]  returnAddress       the address that the ping response came from
-         * @param[out]  isComplete          true if final hop, false if not
-         *
-         * @return      true if ping sent, otherwise false
-         *
-         */
-        bool ping_v4(const QHostAddress &hostAddress, int ttl, QHostAddress *returnAddress, bool *isComplete);
+            /**
+             * Pings an IPv4 address with the given ttl
+             *
+             * Helper function which returns the hop address and whether it was the
+             * final destination.
+             *
+             * @param[in]   hostAddress         the host to ping
+             * @param[in]   ttl                 the TTL used for this ping
+             * @param[out]  returnAddress       the address that the ping response came from
+             * @param[out]  isComplete          true if final hop, false if not
+             *
+             * @return      true if ping sent, otherwise false
+             *
+             */
+            bool ping_v4(const QHostAddress &hostAddress, int ttl, QHostAddress *returnAddress, bool *isComplete);
 
-        /**
-         * Pings an IPv4 address with the given hop limit
-         *
-         * Helper function which returns the hop address and whether it was the
-         * final destination.
-         *
-         * @param[in]   hostAddress         the host to ping
-         * @param[in]   hopLimit            the hop limit used for this ping
-         * @param[out]  returnAddress       the address that the ping response came from
-         * @param[out]  isComplete          true if final hop, false if not
-         *
-         * @return      true if ping sent, otherwise false
-         *
-         */
-        bool ping_v6(const QHostAddress &hostAddress, int hopLimit, QHostAddress *returnAddress, bool *isComplete);
+            /**
+             * Pings an IPv4 address with the given hop limit
+             *
+             * Helper function which returns the hop address and whether it was the
+             * final destination.
+             *
+             * @param[in]   hostAddress         the host to ping
+             * @param[in]   hopLimit            the hop limit used for this ping
+             * @param[out]  returnAddress       the address that the ping response came from
+             * @param[out]  isComplete          true if final hop, false if not
+             *
+             * @return      true if ping sent, otherwise false
+             *
+             */
+            bool ping_v6(const QHostAddress &hostAddress, int hopLimit, QHostAddress *returnAddress, bool *isComplete);
 
-    public slots:
+        public slots:
 
-        /**
-         * @brief       The receiver thread worker
-         *
-         */
-        void doWork(void);
+            /**
+             * @brief       The receiver thread worker
+             *
+             */
+            void doWork(void);
 
-    signals:
+        signals:
 
-        /**
-         * @brief       Signals when a route is available
-         *
-         * @param[in]   hostAddress         the host address of the target
-         * @param[in]   result              the list of hops
-         *
-         */
-        void result(const QHostAddress &hostAddress, const FizzyAde::Core::RouteList &result);
+            /**
+             * @brief       Signals when a route is available
+             *
+             * @param[in]   hostAddress         the host address of the target
+             * @param[in]   result              the list of hops
+             *
+             */
+            void result(const QHostAddress &hostAddress, const Nedrysoft::Core::RouteList &result);
 
-        friend class RouteEngine;
+            friend class RouteEngine;
 
-    protected:
-        bool m_isRunning;                   //! Whether the host is running
+        protected:
+            bool m_isRunning;                   //! Whether the host is running
 
-    private:
-        QString m_host;                     //! The host that is being queried
-        FizzyAde::Core::IPVersion m_ipVersion; //! The IP version to be used
+        private:
+            QString m_host;                     //! The host that is being queried
+            Nedrysoft::Core::IPVersion m_ipVersion; //! The IP version to be used
 
     };
 }
 
-#endif // FIZZYADE_ROUTEENGINE_ROUTEWORKER_H
+#endif // NEDRYSOFT_ROUTEENGINE_ROUTEWORKER_H

@@ -18,16 +18,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ROUTEENGINE_ROUTEENGINEFACTORY_H
-#define FIZZYADE_ROUTEENGINE_ROUTEENGINEFACTORY_H
+#ifndef NEDRYSOFT_ROUTEENGINE_ROUTEENGINEFACTORY_H
+#define NEDRYSOFT_ROUTEENGINE_ROUTEENGINEFACTORY_H
 
 #include "Core/IRouteEngineFactory.h"
 #include "ComponentSystem/IInterface.h"
 #include <memory>
 
-namespace FizzyAde::RouteEngine
-{
+namespace Nedrysoft::RouteEngine {
     class RouteEngineFactoryData;
+
     class RouteEngine;
 
     /**
@@ -38,34 +38,36 @@ namespace FizzyAde::RouteEngine
      */
 
     class RouteEngineFactory :
-        public FizzyAde::Core::IRouteEngineFactory
-    {
+            public Nedrysoft::Core::IRouteEngineFactory {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::IRouteEngineFactory)
+            Q_INTERFACES(Nedrysoft::Core::IRouteEngineFactory)
 
-    public:
-        RouteEngineFactory();
-        ~RouteEngineFactory();
+        public:
+            RouteEngineFactory();
 
-        /**
-         * @sa IRouteEngineFactory
-         *
-         */
-        virtual FizzyAde::Core::IRouteEngine *createEngine();
-        virtual QString description();
+            ~RouteEngineFactory();
 
-        /**
-         * @sa IConfiguration
-         *
-         */
-        virtual QJsonObject saveConfiguration();
-        virtual bool loadConfiguration(QJsonObject configuration);
+            /**
+             * @sa IRouteEngineFactory
+             *
+             */
+            virtual Nedrysoft::Core::IRouteEngine *createEngine();
 
-    protected:
-        std::shared_ptr<RouteEngineFactoryData> d;
+            virtual QString description();
+
+            /**
+             * @sa IConfiguration
+             *
+             */
+            virtual QJsonObject saveConfiguration();
+
+            virtual bool loadConfiguration(QJsonObject configuration);
+
+        protected:
+            std::shared_ptr<RouteEngineFactoryData> d;
     };
 }
 
 
-#endif // FIZZYADE_ROUTEENGINE_ROUTEENGINEFACTORY_H
+#endif // NEDRYSOFT_ROUTEENGINE_ROUTEENGINEFACTORY_H

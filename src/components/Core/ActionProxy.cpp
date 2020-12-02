@@ -20,15 +20,14 @@
 
 #include "ActionProxy.h"
 
-FizzyAde::Core::ActionProxy::ActionProxy(QObject *parent) :
-    QAction(parent)
-{
+Nedrysoft::Core::ActionProxy::ActionProxy(QObject *parent) :
+        QAction(parent) {
+    
     m_action = nullptr;
 }
 
-void FizzyAde::Core::ActionProxy::setActive(QAction *action)
-{
-    if (action==m_action) {
+void Nedrysoft::Core::ActionProxy::setActive(QAction *action) {
+    if (action == m_action) {
         return;
     }
 
@@ -43,8 +42,7 @@ void FizzyAde::Core::ActionProxy::setActive(QAction *action)
     connectAction();
 }
 
-void FizzyAde::Core::ActionProxy::disconnectAction()
-{
+void Nedrysoft::Core::ActionProxy::disconnectAction() {
     if (!m_action) {
         return;
     }
@@ -53,8 +51,7 @@ void FizzyAde::Core::ActionProxy::disconnectAction()
     disconnect(this, &QAction::toggled, m_action, &QAction::setChecked);
 }
 
-void FizzyAde::Core::ActionProxy::connectAction()
-{
+void Nedrysoft::Core::ActionProxy::connectAction() {
     if (!m_action) {
         return;
     }

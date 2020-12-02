@@ -18,15 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_ABOUTDIALOG_H
-#define FIZZYADE_CORE_ABOUTDIALOG_H
+#ifndef NEDRYSOFT_CORE_ABOUTDIALOG_H
+#define NEDRYSOFT_CORE_ABOUTDIALOG_H
 
 #include <QDialog>
 
-namespace FizzyAde::Core
-{
-    namespace Ui
-    {
+namespace Nedrysoft::Core {
+    namespace Ui {
         class AboutDialog;
     }
 
@@ -37,38 +35,38 @@ namespace FizzyAde::Core
      *              build of the software.
      *
      */
-    class AboutDialog : public QDialog
-    {
+    class AboutDialog :
+            public QDialog {
         Q_OBJECT
 
-    public:
+        public:
 
-        /**
-         * @brief       Constructor
-         *
-         * @param[in]   parent    parent widget
-         *
-         */
-        explicit AboutDialog(QWidget *parent = nullptr);
+            /**
+             * @brief       Constructor
+             *
+             * @param[in]   parent    parent widget
+             *
+             */
+            explicit AboutDialog(QWidget *parent = nullptr);
 
-        /**
-         * @brief       Destructor
-         *
-         */
-        ~AboutDialog();
+            /**
+             * @brief       Destructor
+             *
+             */
+            ~AboutDialog();
 
-    private:
-        /**
-         * @brief       Return compiler information
-         *
-         * @return      the compiler information
-         *
-         */
-        QString compiler();
+        private:
+            /**
+             * @brief       Return compiler information
+             *
+             * @return      the compiler information
+             *
+             */
+            QString compiler();
 
-    private:
-        Ui::AboutDialog *ui;                    //! The generated ui class for the dialog
+        private:
+            Ui::AboutDialog *ui;                    //! The generated ui class for the dialog
     };
 }
 
-#endif // FIZZYADE_CORE_ABOUTDIALOG_H
+#endif // NEDRYSOFT_CORE_ABOUTDIALOG_H

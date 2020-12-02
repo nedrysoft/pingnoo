@@ -18,19 +18,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_PINGNOO_ICMPAPIPINGTARGET_H
-#define FIZZYADE_PINGNOO_ICMPAPIPINGTARGET_H
+#ifndef NEDRYSOFT_PINGNOO_ICMPAPIPINGTARGET_H
+#define NEDRYSOFT_PINGNOO_ICMPAPIPINGTARGET_H
 
 #include "ICMPAPIPingEngineSpec.h"
 #include "Core/IPingTarget.h"
+
 #if defined(Q_OS_WIN)
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #endif
 
-namespace FizzyAde::Pingnoo
-{
+namespace Nedrysoft::Pingnoo {
     class ICMPAPIPingTargetData;
+
     class ICMPAPIPingEngine;
 
     /**
@@ -41,59 +42,62 @@ namespace FizzyAde::Pingnoo
      *
      */
 
-    class ICMPAPIPingTarget : public QObject, public FizzyAde::Core::IPingTarget
-    {
+    class ICMPAPIPingTarget :
+            public QObject, public Nedrysoft::Core::IPingTarget {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::IPingTarget)
+            Q_INTERFACES(Nedrysoft::Core::IPingTarget)
 
-    public:
-        ICMPAPIPingTarget(FizzyAde::Pingnoo::ICMPAPIPingEngine *engine, QHostAddress hostAddress, int ttl=0);
+        public:
+            ICMPAPIPingTarget(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine, QHostAddress hostAddress, int ttl = 0);
 
-        /**
-         * @sa IPingTarget
-         */
-        virtual void setHostAddress(QHostAddress hostAddress);
+            /**
+             * @sa IPingTarget
+             */
+            virtual void setHostAddress(QHostAddress hostAddress);
 
-        virtual QHostAddress hostAddress();
+            virtual QHostAddress hostAddress();
 
-        virtual FizzyAde::Core::IPingEngine *engine();
+            virtual Nedrysoft::Core::IPingEngine *engine();
 
-        virtual void *userData() ;
+            virtual void *userData();
 
-        virtual void setUserData(void *data);
+            virtual void setUserData(void *data);
 
-        /**
-         * @sa IConfiguration
-         */
-        virtual QJsonObject saveConfiguration();
-        virtual bool loadConfiguration(QJsonObject configuration);
+            /**
+             * @sa IConfiguration
+             */
+            virtual QJsonObject saveConfiguration();
 
-    protected:
+            virtual bool loadConfiguration(QJsonObject configuration);
 
-        /**
-         * Returns a socket descriptor to be used to send an ICMP packet to the target
-         *
-         * @return the socket descriptor
-         */
+        protected:
+
+            /**
+             * Returns a socket descriptor to be used to send an ICMP packet to the target
+             *
+             * @return the socket descriptor
+             */
 #if defined(Q_OS_UNIX)
-        int socketDescriptor();
+
+            int socketDescriptor();
+
 #elif defined(Q_OS_WIN)
-        SOCKET socketDescriptor();
+            SOCKET socketDescriptor();
 #endif
 
-        /**
-         * Returns the ICMP id used for this target
-         *
-         * @return the id
-         */
-        uint16_t id();
+            /**
+             * Returns the ICMP id used for this target
+             *
+             * @return the id
+             */
+            uint16_t id();
 
-        friend class ICMPAPIPingTransmitter;
+            friend class ICMPAPIPingTransmitter;
 
-    protected:
-        std::shared_ptr<ICMPAPIPingTargetData> d;
+        protected:
+            std::shared_ptr<ICMPAPIPingTargetData> d;
     };
 }
 
-#endif // FIZZYADE_PINGNOO_ICMPAPIPINGTARGET_H
+#endif // NEDRYSOFT_PINGNOO_ICMPAPIPINGTARGET_H

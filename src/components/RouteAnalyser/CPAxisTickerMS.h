@@ -18,13 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ROUTEANALYSER_CPAXISTICKERMS_H
-#define FIZZYADE_ROUTEANALYSER_CPAXISTICKERMS_H
+#ifndef NEDRYSOFT_ROUTEANALYSER_CPAXISTICKERMS_H
+#define NEDRYSOFT_ROUTEANALYSER_CPAXISTICKERMS_H
 
 #include "QCustomPlot/qcustomplot.h"
 
-namespace FizzyAde::RouteAnalyser
-{
+namespace Nedrysoft::RouteAnalyser {
     /**
      * @brief       Axis ticker class to convert to ms
      *
@@ -33,15 +32,14 @@ namespace FizzyAde::RouteAnalyser
      *
      */
     class CPAxisTickerMS :
-        public QCPAxisTicker
-    {
-    public:
+            public QCPAxisTicker {
+        public:
 
-        /**
-         * @sa          QCPAxisTicker
-         */
-        virtual QString getTickLabel(double tick, const QLocale &locale, QChar formatChar, int precision);
+            /**
+             * @sa          QCPAxisTicker
+             */
+            virtual QString getTickLabel(double tick, const QLocale &locale, QChar formatChar, int precision);
     };
 }
 
-#endif // FIZZYADE_ROUTEANALYSER_CPAXISTICKERMS_H
+#endif // NEDRYSOFT_ROUTEANALYSER_CPAXISTICKERMS_H

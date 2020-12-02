@@ -24,7 +24,9 @@
 #include <fcntl.h>
 #include <cstdint>
 #include <array>
+
 #if defined(Q_OS_UNIX)
+
 #include <netdb.h>
 #include <unistd.h>
 #include <arpa/inet.h>
@@ -36,40 +38,39 @@
 #include <sys/types.h>
 #include <arpa/inet.h>
 #include <cstddef>
+
 #endif
 #if defined(Q_OS_WIN)
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include "windows_ip_icmp.h"
 #endif
+
 #include <QtGlobal>
 #include <QtEndian>
 #include <QByteArray>
 #include <QDataStream>
 #include <gsl/gsl>
 
-struct ipv6_header
-{
-     unsigned int version : 4;
-     unsigned int trafficClass : 8;
-     unsigned int flowLabel : 20;
-     uint16_t payloadLength;
-     uint8_t nextHeader;
-     uint8_t hopLimit;
-     uint8_t sourceAddress[16];
-     uint8_t destinationAddress[16];
+struct ipv6_header {
+    unsigned int version: 4;
+    unsigned int trafficClass: 8;
+    unsigned int flowLabel: 20;
+    uint16_t payloadLength;
+    uint8_t nextHeader;
+    uint8_t hopLimit;
+    uint8_t sourceAddress[16];
+    uint8_t destinationAddress[16];
 };
 
-struct icmp_header
-{
+struct icmp_header {
     uint8_t type;
     uint8_t code;
     uint16_t checksum;
     uint32_t reserved;
 };
 
-struct ipv6_psuedo_header
-{
+struct ipv6_psuedo_header {
     struct in6_addr sourceAddress;
     struct in6_addr destinationAddress;
     uint32_t packetLength;
@@ -77,8 +78,7 @@ struct ipv6_psuedo_header
     uint8_t nextHeader;
 };
 
-struct icmp_v6
-{
+struct icmp_v6 {
     ipv6_psuedo_header header;
     struct icmp icmp;
 };
@@ -86,33 +86,29 @@ struct icmp_v6
 #define ICMP6_ECHO 128
 #define ICMP6_ECHO_REPLY 129
 
-FizzyAde::ICMPPacket::ICMPPacket::ICMPPacket()
-{
+Nedrysoft::ICMPPacket::ICMPPacket::ICMPPacket() {
     m_resultCode = Invalid;
     m_sequence = 0;
     m_id = 0;
 }
 
-FizzyAde::ICMPPacket::ICMPPacket::ICMPPacket(uint16_t id, uint16_t sequence, ResultCode resultCode)
-{
+Nedrysoft::ICMPPacket::ICMPPacket::ICMPPacket(uint16_t id, uint16_t sequence, ResultCode resultCode) {
     m_resultCode = resultCode;
     m_sequence = sequence;
     m_id = id;
 }
 
-FizzyAde::ICMPPacket::ICMPPacket FizzyAde::ICMPPacket::ICMPPacket::fromData(const QByteArray &dataBuffer, FizzyAde::ICMPPacket::IPVersion version)
-{
-    if (version==FizzyAde::ICMPPacket::V4) {
+Nedrysoft::ICMPPacket::ICMPPacket Nedrysoft::ICMPPacket::ICMPPacket::fromData(const QByteArray &dataBuffer, Nedrysoft::ICMPPacket::IPVersion version) {
+    if (version == Nedrysoft::ICMPPacket::V4) {
         return fromData_v4(dataBuffer);
-    } else if (version==FizzyAde::ICMPPacket::V6) {
+    } else if (version == Nedrysoft::ICMPPacket::V6) {
         return fromData_v6(dataBuffer);
     } else {
         return ICMPPacket();
     }
 }
 
-FizzyAde::ICMPPacket::ICMPPacket FizzyAde::ICMPPacket::ICMPPacket::fromData_v4(const QByteArray &dataBuffer)
-{
+Nedrysoft::ICMPPacket::ICMPPacket Nedrysoft::ICMPPacket::ICMPPacket::fromData_v4(const QByteArray &dataBuffer) {
     unsigned char ip_vhl;
     unsigned char ip_vhl_tx;
     unsigned char ip_header_size;
@@ -121,30 +117,31 @@ FizzyAde::ICMPPacket::ICMPPacket FizzyAde::ICMPPacket::ICMPPacket::fromData_v4(c
     uint16_t received_sequence = 0;
     constexpr unsigned int IP_HEADER_LENGTH_MASK = 0x0F;
 
-    auto mainSpan = gsl::span<const unsigned char>(reinterpret_cast<const unsigned char *>(dataBuffer.data()), dataBuffer.length());
+    auto mainSpan = gsl::span<const unsigned char>(reinterpret_cast<const unsigned char *>(dataBuffer.data()),
+                                                   dataBuffer.length());
 
     ip_vhl = mainSpan[0];
-    ip_header_size = (ip_vhl & IP_HEADER_LENGTH_MASK) * sizeof(uint32_t);
+    ip_header_size = ( ip_vhl & IP_HEADER_LENGTH_MASK ) * sizeof(uint32_t);
 
     auto responseSpan = mainSpan.subspan(ip_header_size);
 
     auto icmp_response = reinterpret_cast<const struct icmp *>(responseSpan.data());
 
-    if (icmp_response->icmp_code==ICMP_ECHOREPLY) {
-        if (icmp_response->icmp_type==ICMP_ECHOREPLY) {
+    if (icmp_response->icmp_code == ICMP_ECHOREPLY) {
+        if (icmp_response->icmp_type == ICMP_ECHOREPLY) {
             received_id = qFromBigEndian<uint16_t>(icmp_response->icmp_hun.ih_idseq.icd_id);
             received_sequence = qFromBigEndian<uint16_t>(icmp_response->icmp_hun.ih_idseq.icd_seq);
 
             return ICMPPacket(received_id, received_sequence, EchoReply);
         }
 
-        if (icmp_response->icmp_type==ICMP_TIMXCEED) {
+        if (icmp_response->icmp_type == ICMP_TIMXCEED) {
             constexpr unsigned int IP_HEADER_OFFSET = 0x08;
 
-            ip_vhl_tx = mainSpan[ip_header_size+IP_HEADER_OFFSET];
-            ip_header_size_tx = (ip_vhl_tx & IP_HEADER_LENGTH_MASK) * sizeof(uint32_t);
+            ip_vhl_tx = mainSpan[ip_header_size + IP_HEADER_OFFSET];
+            ip_header_size_tx = ( ip_vhl_tx & IP_HEADER_LENGTH_MASK ) * sizeof(uint32_t);
 
-            auto receivedRequestSpan = mainSpan.subspan(ip_header_size+IP_HEADER_OFFSET+ip_header_size_tx);
+            auto receivedRequestSpan = mainSpan.subspan(ip_header_size + IP_HEADER_OFFSET + ip_header_size_tx);
 
             auto received_icmp_request = reinterpret_cast<const struct icmp *>(receivedRequestSpan.data());
 
@@ -159,25 +156,25 @@ FizzyAde::ICMPPacket::ICMPPacket FizzyAde::ICMPPacket::ICMPPacket::fromData_v4(c
     return ICMPPacket();
 }
 
-FizzyAde::ICMPPacket::ICMPPacket FizzyAde::ICMPPacket::ICMPPacket::fromData_v6(const QByteArray &dataBuffer)
-{
+Nedrysoft::ICMPPacket::ICMPPacket Nedrysoft::ICMPPacket::ICMPPacket::fromData_v6(const QByteArray &dataBuffer) {
     uint16_t received_id = 0;
     uint16_t received_sequence = 0;
 
-    auto responseSpan = gsl::span<const unsigned char>(reinterpret_cast<const unsigned char *>(dataBuffer.data()), dataBuffer.length());
+    auto responseSpan = gsl::span<const unsigned char>(reinterpret_cast<const unsigned char *>(dataBuffer.data()),
+                                                       dataBuffer.length());
 
     auto icmp_response = reinterpret_cast<const struct icmp *>(responseSpan.data());
 
-    if (icmp_response->icmp_code==0) {
-        if (icmp_response->icmp_type==ICMP6_ECHO_REPLY) {
+    if (icmp_response->icmp_code == 0) {
+        if (icmp_response->icmp_type == ICMP6_ECHO_REPLY) {
             received_id = qFromBigEndian<uint16_t>(icmp_response->icmp_hun.ih_idseq.icd_id);
             received_sequence = qFromBigEndian<uint16_t>(icmp_response->icmp_hun.ih_idseq.icd_seq);
 
             return ICMPPacket(received_id, received_sequence, EchoReply);
         }
 
-        if (icmp_response->icmp_type==3) {
-            auto request_icmp_header = responseSpan.subspan(sizeof(icmp_header)+sizeof(ipv6_header));
+        if (icmp_response->icmp_type == 3) {
+            auto request_icmp_header = responseSpan.subspan(sizeof(icmp_header) + sizeof(ipv6_header));
 
             auto rx_icmp_request = reinterpret_cast<const struct icmp *>(request_icmp_header.data());
 
@@ -192,62 +189,59 @@ FizzyAde::ICMPPacket::ICMPPacket FizzyAde::ICMPPacket::ICMPPacket::fromData_v6(c
 }
 
 
-uint16_t FizzyAde::ICMPPacket::ICMPPacket::checksum(void *buffer, int length)
-{
+uint16_t Nedrysoft::ICMPPacket::ICMPPacket::checksum(void *buffer, int length) {
     QByteArray dataArray(reinterpret_cast<char *>(buffer), length);
     QDataStream dataStream(dataArray);
-    uint32_t checksum=0;
+    uint32_t checksum = 0;
 
     dataStream.setByteOrder(QDataStream::LittleEndian);
 
-    while(!dataStream.atEnd()) {
+    while (!dataStream.atEnd()) {
         checksum += read<uint16_t>(dataStream);
 
         length -= 2;
     }
 
-    checksum = (checksum >> (sizeof(uint16_t)*CHAR_BIT)) + (checksum & UINT16_MAX);
-    checksum += (checksum >> (sizeof(uint16_t)*CHAR_BIT));
+    checksum = ( checksum >> ( sizeof(uint16_t) * CHAR_BIT )) + ( checksum & UINT16_MAX );
+    checksum += ( checksum >> ( sizeof(uint16_t) * CHAR_BIT ));
 
     return static_cast<uint16_t>(~checksum);
 }
 
-FizzyAde::ICMPPacket::ResultCode FizzyAde::ICMPPacket::ICMPPacket::resultCode()
-{
+Nedrysoft::ICMPPacket::ResultCode Nedrysoft::ICMPPacket::ICMPPacket::resultCode() {
     return m_resultCode;
 }
 
-uint16_t FizzyAde::ICMPPacket::ICMPPacket::id()
-{
+uint16_t Nedrysoft::ICMPPacket::ICMPPacket::id() {
     return m_id;
 }
 
-uint16_t FizzyAde::ICMPPacket::ICMPPacket::sequence()
-{
+uint16_t Nedrysoft::ICMPPacket::ICMPPacket::sequence() {
     return m_sequence;
 }
 
-QByteArray FizzyAde::ICMPPacket::ICMPPacket::pingPacket(uint16_t id, uint16_t sequence, int payLoadLength, const QHostAddress &destinationAddress, FizzyAde::ICMPPacket::IPVersion version)
-{
-    if (version==FizzyAde::ICMPPacket::V4) {
+QByteArray Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(uint16_t id, uint16_t sequence, int payLoadLength,
+                                                         const QHostAddress &destinationAddress,
+                                                         Nedrysoft::ICMPPacket::IPVersion version) {
+    if (version == Nedrysoft::ICMPPacket::V4) {
         return pingPacket_v4(id, sequence, payLoadLength, destinationAddress);
-    } else if (version==FizzyAde::ICMPPacket::V6) {
+    } else if (version == Nedrysoft::ICMPPacket::V6) {
         return pingPacket_v6(id, sequence, payLoadLength, destinationAddress);
     } else {
         return QByteArray();
     }
 }
 
-QByteArray FizzyAde::ICMPPacket::ICMPPacket::pingPacket_v6(uint16_t id, uint16_t sequence, int payLoadLength, const QHostAddress &destinationAddress)
-{
-    QByteArray echoRequestBuffer(payLoadLength+sizeof(icmp_v6), 0);
+QByteArray Nedrysoft::ICMPPacket::ICMPPacket::pingPacket_v6(uint16_t id, uint16_t sequence, int payLoadLength,
+                                                            const QHostAddress &destinationAddress) {
+    QByteArray echoRequestBuffer(payLoadLength + sizeof(icmp_v6), 0);
     auto echoRequestLength = static_cast<int>(echoRequestBuffer.size());
     auto icmp_v6 = reinterpret_cast<struct icmp_v6 *>(echoRequestBuffer.data());
     auto icmp_request = &icmp_v6->icmp;
 
     memset(echoRequestBuffer.data(), 0, echoRequestBuffer.size());
 
-    icmp_v6->header.packetLength = sizeof(icmp)+payLoadLength;
+    icmp_v6->header.packetLength = sizeof(icmp) + payLoadLength;
     icmp_v6->header.nextHeader = IPPROTO_ICMPV6;
 
     icmp_v6->header.sourceAddress.s6_addr[15] = 1;
@@ -262,15 +256,15 @@ QByteArray FizzyAde::ICMPPacket::ICMPPacket::pingPacket_v6(uint16_t id, uint16_t
     icmp_request->icmp_hun.ih_idseq.icd_id = qToBigEndian<uint16_t>(id);
     icmp_request->icmp_hun.ih_idseq.icd_seq = qToBigEndian<uint16_t>(sequence);
 
-    icmp_request->icmp_cksum = FizzyAde::ICMPPacket::ICMPPacket::checksum(icmp_v6, echoRequestLength);
+    icmp_request->icmp_cksum = Nedrysoft::ICMPPacket::ICMPPacket::checksum(icmp_v6, echoRequestLength);
 
     return QByteArray(reinterpret_cast<char *>(icmp_request), icmp_v6->header.packetLength);
 }
 
-QByteArray FizzyAde::ICMPPacket::ICMPPacket::pingPacket_v4(uint16_t id, uint16_t sequence, int payLoadLength, const QHostAddress &destinationAddress)
-{
+QByteArray Nedrysoft::ICMPPacket::ICMPPacket::pingPacket_v4(uint16_t id, uint16_t sequence, int payLoadLength,
+                                                            const QHostAddress &destinationAddress) {
     Q_UNUSED(destinationAddress);
-    QByteArray echoRequestBuffer(payLoadLength+sizeof(icmp), 0);
+    QByteArray echoRequestBuffer(payLoadLength + sizeof(icmp), 0);
     auto echoRequestLength = static_cast<int>(echoRequestBuffer.size());
     auto icmp_request = reinterpret_cast<icmp *>(echoRequestBuffer.data());
 
@@ -280,7 +274,7 @@ QByteArray FizzyAde::ICMPPacket::ICMPPacket::pingPacket_v4(uint16_t id, uint16_t
     icmp_request->icmp_hun.ih_idseq.icd_id = qToBigEndian<uint16_t>(id);
     icmp_request->icmp_hun.ih_idseq.icd_seq = qToBigEndian<uint16_t>(sequence);
 
-    icmp_request->icmp_cksum = FizzyAde::ICMPPacket::ICMPPacket::checksum(icmp_request, echoRequestLength);
+    icmp_request->icmp_cksum = Nedrysoft::ICMPPacket::ICMPPacket::checksum(icmp_request, echoRequestLength);
 
     return QByteArray(reinterpret_cast<const char *>(icmp_request), echoRequestLength);
 }

@@ -21,26 +21,22 @@
 #include "IComponentManager.h"
 #include <QDebug>
 
-FizzyAde::ComponentSystem::IComponentManager::~IComponentManager() = default;
+Nedrysoft::ComponentSystem::IComponentManager::~IComponentManager() = default;
 
-FizzyAde::ComponentSystem::IComponentManager *FizzyAde::ComponentSystem::IComponentManager::getInstance()
-{
+Nedrysoft::ComponentSystem::IComponentManager *Nedrysoft::ComponentSystem::IComponentManager::getInstance() {
     static auto componentManager = new IComponentManager();
 
     return componentManager;
 }
 
-void FizzyAde::ComponentSystem::IComponentManager::addObject(QObject *object)
-{
+void Nedrysoft::ComponentSystem::IComponentManager::addObject(QObject *object) {
     m_objectList.append(object);
 }
 
-void FizzyAde::ComponentSystem::IComponentManager::removeObject(QObject *object)
-{
+void Nedrysoft::ComponentSystem::IComponentManager::removeObject(QObject *object) {
     m_objectList.removeAll(object);
 }
 
-QList<QObject *> FizzyAde::ComponentSystem::IComponentManager::allObjects()
-{
+QList<QObject *> Nedrysoft::ComponentSystem::IComponentManager::allObjects() {
     return m_objectList;
 }

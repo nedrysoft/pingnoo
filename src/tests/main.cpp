@@ -19,18 +19,18 @@
  */
 
 #define CATCH_CONFIG_RUNNER
+
 #include "catch.hpp"
 #include <QCoreApplication>
 #include <QDebug>
 #include <QtTest>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
 
     QTEST_SET_MAIN_SOURCE_PATH
-    
-    auto result = Catch::Session().run(argc,argv);
 
-    return (result<0xff ? result : 0xff );
+    auto result = Catch::Session().run(argc, argv);
+
+    return ( result < 0xff ? result : 0xff );
 }

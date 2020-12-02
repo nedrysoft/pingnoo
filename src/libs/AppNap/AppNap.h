@@ -18,25 +18,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_APPNAP_APPNAP_H
-#define FIZZYADE_APPNAP_APPNAP_H
+#ifndef NEDRYSOFT_APPNAP_APPNAP_H
+#define NEDRYSOFT_APPNAP_APPNAP_H
 
 #include <QtGlobal>
 #include <QObject>
 #include <QRecursiveMutex>
 
-#if (defined(FIZZYADE_LIBRARY_APPNAP_EXPORT))
-#define FIZZYADE_APPNAP_DLLSPEC Q_DECL_EXPORT
+#if ( defined(NEDRYSOFT_LIBRARY_APPNAP_EXPORT))
+#define NEDRYSOFT_APPNAP_DLLSPEC Q_DECL_EXPORT
 #else
-#define FIZZYADE_APPNAP_DLLSPEC Q_DECL_IMPORT
+#define NEDRYSOFT_APPNAP_DLLSPEC Q_DECL_IMPORT
 #endif
 
 #if defined(Q_OS_MACOS)
 Q_FORWARD_DECLARE_OBJC_CLASS(NSObject);
 #endif
 
-namespace FizzyAde::AppNap
-{
+namespace Nedrysoft::AppNap {
     /**
      * @brief       Provides control over sleep modes
      *
@@ -45,8 +44,7 @@ namespace FizzyAde::AppNap
      *              the app does not go to sleep.  On other platforms it does nothing.
      *
      */
-    class FIZZYADE_APPNAP_DLLSPEC AppNap
-    {
+    class NEDRYSOFT_APPNAP_DLLSPEC AppNap {
         private:
             AppNap();
 
@@ -57,7 +55,7 @@ namespace FizzyAde::AppNap
              * @return      the singleton instance
              *
              */
-            static FizzyAde::AppNap::AppNap *getInstance();
+            static Nedrysoft::AppNap::AppNap *getInstance();
 
             /**
              * @brief       Prevents app from idle napping
@@ -113,4 +111,4 @@ namespace FizzyAde::AppNap
     };
 }
 
-#endif // FIZZYADE_UTILS_APPNAP_H
+#endif // NEDRYSOFT_UTILS_APPNAP_H

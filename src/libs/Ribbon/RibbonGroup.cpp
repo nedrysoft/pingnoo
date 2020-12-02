@@ -33,10 +33,9 @@ constexpr int DefaultFontSize = 10;
 constexpr int DefaultFontSize = 8;
 #endif
 
-FizzyAde::Ribbon::RibbonGroup::RibbonGroup(QWidget *parent) :
-    QWidget(parent),
-    m_fontMetrics(QFont())
-{
+Nedrysoft::Ribbon::RibbonGroup::RibbonGroup(QWidget *parent) :
+        QWidget(parent),
+        m_fontMetrics(QFont()) {
     auto fontManager = RibbonFontManager::getInstance();
 
     m_font = QFont(fontManager->normalFont(), DefaultFontSize);
@@ -46,7 +45,7 @@ FizzyAde::Ribbon::RibbonGroup::RibbonGroup(QWidget *parent) :
 
     QFile styleSheet;
 
-    styleSheet.setFileName(":/FizzyAde/Ribbon/LightStyle.css");
+    styleSheet.setFileName(":/Nedrysoft/Ribbon/LightStyle.css");
 
     if (styleSheet.open(QFile::ReadOnly)) {
         m_lightStyleSheet = styleSheet.readAll();
@@ -54,7 +53,7 @@ FizzyAde::Ribbon::RibbonGroup::RibbonGroup(QWidget *parent) :
         styleSheet.close();
     }
 
-    styleSheet.setFileName(":/FizzyAde/Ribbon/DarkStyle.css");
+    styleSheet.setFileName(":/Nedrysoft/Ribbon/DarkStyle.css");
 
     if (styleSheet.open(QFile::ReadOnly)) {
         m_darkStyleSheet = styleSheet.readAll();
@@ -62,14 +61,14 @@ FizzyAde::Ribbon::RibbonGroup::RibbonGroup(QWidget *parent) :
         styleSheet.close();
     }
 
-    if (FizzyAde::Utils::ThemeSupport::isDarkMode()) {
+    if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
         this->setStyleSheet(m_darkStyleSheet);
     } else {
         this->setStyleSheet(m_lightStyleSheet);
     }
 
-    connect(qApp, &QApplication::paletteChanged, [=] (const QPalette &) {
-        if (FizzyAde::Utils::ThemeSupport::isDarkMode()) {
+    connect(qApp, &QApplication::paletteChanged, [=](const QPalette &) {
+        if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
             this->setStyleSheet(m_darkStyleSheet);
         } else {
             this->setStyleSheet(m_lightStyleSheet);
@@ -77,17 +76,16 @@ FizzyAde::Ribbon::RibbonGroup::RibbonGroup(QWidget *parent) :
     });
 }
 
-void FizzyAde::Ribbon::RibbonGroup::paintEvent(QPaintEvent *event)
-{
+void Nedrysoft::Ribbon::RibbonGroup::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
     auto rect = this->rect();
-    auto  currentTheme = FizzyAde::Ribbon::Light;
+    auto currentTheme = Nedrysoft::Ribbon::Light;
 
-    if (FizzyAde::Utils::ThemeSupport::isDarkMode()) {
-        currentTheme = FizzyAde::Ribbon::Dark;
+    if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
+        currentTheme = Nedrysoft::Ribbon::Dark;
     }
 
-    rect.setTop(rect.bottom()-m_textRect.height());
+    rect.setTop(rect.bottom() - m_textRect.height());
 
     painter.save();
 
@@ -101,8 +99,8 @@ void FizzyAde::Ribbon::RibbonGroup::paintEvent(QPaintEvent *event)
 
     painter.setPen(Ribbon::GroupDividerColor[currentTheme]);
 
-    auto startPoint = QPoint(this->rect().right()-1, this->rect().top()+Ribbon::GroupDividerMargin);
-    auto endPoint = QPoint(this->rect().right()-1, this->rect().bottom()-Ribbon::GroupDividerMargin);
+    auto startPoint = QPoint(this->rect().right() - 1, this->rect().top() + Ribbon::GroupDividerMargin);
+    auto endPoint = QPoint(this->rect().right() - 1, this->rect().bottom() - Ribbon::GroupDividerMargin);
 
     painter.drawLine(startPoint, endPoint);
 
@@ -111,13 +109,11 @@ void FizzyAde::Ribbon::RibbonGroup::paintEvent(QPaintEvent *event)
     QWidget::paintEvent(event);
 }
 
-QString FizzyAde::Ribbon::RibbonGroup::groupName() const
-{
+QString Nedrysoft::Ribbon::RibbonGroup::groupName() const {
     return m_groupName;
 }
 
-void FizzyAde::Ribbon::RibbonGroup::setGroupName(const QString &groupName)
-{
+void Nedrysoft::Ribbon::RibbonGroup::setGroupName(const QString &groupName) {
     m_groupName = groupName;
 
     m_textRect = m_fontMetrics.boundingRect(m_groupName);

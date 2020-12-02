@@ -18,14 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_UTILS_H
-#define FIZZYADE_UTILS_H
+#ifndef NEDRYSOFT_UTILS_H
+#define NEDRYSOFT_UTILS_H
 
 #include <stdint.h>
 #include <limits.h>
 
-namespace FizzyAde::Utils
-{
+namespace Nedrysoft::Utils {
     /**
      * @brief       Convert 16 bit words to 32 bit
      *
@@ -38,10 +37,9 @@ namespace FizzyAde::Utils
      * @return      the 32 bit result
      *
      */
-    constexpr uint32_t fzMake32(uint16_t high, uint16_t low)
-    {
-        return (static_cast<uint32_t>((high<<(sizeof(high)*CHAR_BIT) | low)));
+    constexpr uint32_t fzMake32(uint16_t high, uint16_t low) {
+        return ( static_cast<uint32_t>(( high << ( sizeof(high) * CHAR_BIT ) | low )));
     }
 }
 
-#endif // FIZZYADE_UTILS_H
+#endif // NEDRYSOFT_UTILS_H

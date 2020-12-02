@@ -27,28 +27,28 @@
 #include <QObject>
 #include <QJsonDocument>
 
-FizzyAde::IPAPIGeoIPProvider::IPAPIGeoIPProvider::IPAPIGeoIPProvider()
-{
-    m_cache = new FizzyAde::IPAPIGeoIPProvider::Cache();
+Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::IPAPIGeoIPProvider() {
+    m_cache = new Nedrysoft::IPAPIGeoIPProvider::Cache();
 }
 
-FizzyAde::IPAPIGeoIPProvider::IPAPIGeoIPProvider::~IPAPIGeoIPProvider()
-{
+Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::~IPAPIGeoIPProvider() {
     delete m_cache;
 }
 
-void FizzyAde::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(const QString host, FizzyAde::Core::GeoFunction function)
-{
+void
+Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(const QString host, Nedrysoft::Core::GeoFunction function) {
     auto cacheResultObject = QJsonObject();
 
     if (m_cache->find(host, cacheResultObject)) {
         function(host, cacheResultObject.toVariantMap());
     } else {
-        const auto mapFields = QStringList() << "creationTime" << "country" << "countryCode" << "region" << "regionName" << "city" << "zip" << "lat" "lon" << "timezone" << "isp" << "org";
+        const auto mapFields =
+                QStringList() << "creationTime" << "country" << "countryCode" << "region" << "regionName" << "city"
+                              << "zip" << "lat" "lon" << "timezone" << "isp" << "org";
         auto manager = new QNetworkAccessManager();
 
-        connect(manager, &QNetworkAccessManager::finished, [=] (QNetworkReply *reply) {
-            if (reply->error()==QNetworkReply::NoError) {
+        connect(manager, &QNetworkAccessManager::finished, [=](QNetworkReply *reply) {
+            if (reply->error() == QNetworkReply::NoError) {
                 auto resultMap = QVariantMap();
                 auto jsonDocument = QJsonDocument::fromJson(reply->readAll());
 
@@ -56,7 +56,7 @@ void FizzyAde::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(const QString host
                     auto requiredFields = QStringList(mapFields) << "as";
                     auto responseValid = true;
 
-                    for(const auto &field : requiredFields) {
+                    for (const auto &field : requiredFields) {
                         if (!jsonDocument.object().contains(field)) {
                             responseValid = false;
                             break;
@@ -74,7 +74,7 @@ void FizzyAde::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(const QString host
                         resultMap["asn"] = jsonDocument.object()["as"].toVariant();
 
                         function(host, resultMap);
-                   }
+                    }
                 }
             }
 
@@ -87,14 +87,13 @@ void FizzyAde::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(const QString host
             }
         });
 
-        manager->get(QNetworkRequest(QUrl("http://ip-api.com/json/"+host)));
+        manager->get(QNetworkRequest(QUrl("http://ip-api.com/json/" + host)));
     }
 }
 
-void FizzyAde::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(const QString host)
-{
-   lookup(host, [=] (const QString &hostAddress, const QVariantMap &result) {
-       emit this->result(hostAddress, result);
-   });
+void Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(const QString host) {
+    lookup(host, [=](const QString &hostAddress, const QVariantMap &result) {
+        emit this->result(hostAddress, result);
+    });
 }
 

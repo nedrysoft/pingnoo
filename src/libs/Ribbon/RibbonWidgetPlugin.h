@@ -18,33 +18,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_RIBBON_RIBBONWIDGETPLUGIN_H
-#define FIZZYADE_RIBBON_RIBBONWIDGETPLUGIN_H
+#ifndef NEDRYSOFT_RIBBON_RIBBONWIDGETPLUGIN_H
+#define NEDRYSOFT_RIBBON_RIBBONWIDGETPLUGIN_H
 
 #include <QtUiPlugin/QDesignerCustomWidgetInterface>
 
-class RibbonWidgetPlugin : public QObject, public QDesignerCustomWidgetInterface
-{
+class RibbonWidgetPlugin :
+        public QObject, public QDesignerCustomWidgetInterface {
     Q_OBJECT
-    Q_INTERFACES(QDesignerCustomWidgetInterface)
+        Q_INTERFACES(QDesignerCustomWidgetInterface)
 
-public:
-    explicit RibbonWidgetPlugin(QObject *parent = nullptr);
+    public:
+        explicit RibbonWidgetPlugin(QObject *parent = nullptr);
 
-    bool isContainer() const override;
-    bool isInitialized() const override;
-    QIcon icon() const override;
-    QString domXml() const override;
-    QString group() const override;
-    QString includeFile() const override;
-    QString name() const override;
-    QString toolTip() const override;
-    QString whatsThis() const override;
-    QWidget *createWidget(QWidget *parent) override;
-    void initialize(QDesignerFormEditorInterface *core) override;
+        bool isContainer() const override;
 
-private:
-    bool initialized = false;
+        bool isInitialized() const override;
+
+        QIcon icon() const override;
+
+        QString domXml() const override;
+
+        QString group() const override;
+
+        QString includeFile() const override;
+
+        QString name() const override;
+
+        QString toolTip() const override;
+
+        QString whatsThis() const override;
+
+        QWidget *createWidget(QWidget *parent) override;
+
+        void initialize(QDesignerFormEditorInterface *core) override;
+
+    private:
+        bool initialized = false;
 };
 
-#endif // FIZZYADE_RIBBON_RIBBONWIDGETPLUGIN_H
+#endif // NEDRYSOFT_RIBBON_RIBBONWIDGETPLUGIN_H

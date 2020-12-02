@@ -18,15 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ICMPPINGENGINE_ICMPPINGRECEIVER_H
-#define FIZZYADE_ICMPPINGENGINE_ICMPPINGRECEIVER_H
+#ifndef NEDRYSOFT_ICMPPINGENGINE_ICMPPINGRECEIVER_H
+#define NEDRYSOFT_ICMPPINGENGINE_ICMPPINGRECEIVER_H
 
 #include "Core/PingResult.h"
 #include <chrono>
 #include <QObject>
 
-namespace FizzyAde::ICMPPingEngine
-{
+namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingEngine;
 
     /**
@@ -38,50 +37,50 @@ namespace FizzyAde::ICMPPingEngine
      *              is available
      *
      */
-    class ICMPPingReceiver : public QObject
-    {
+    class ICMPPingReceiver :
+            public QObject {
         Q_OBJECT
 
-    public:
+        public:
 
-        /**
-         * @brief       Constructor with engine
-         *
-         * @details     Creates the receiver object and passes in the engine
-         *              so that the requests can be tagged to the correct engine
-         *
-         * @param[in]   engine          the owner engine
-         *
-         */
-        ICMPPingReceiver(FizzyAde::ICMPPingEngine::ICMPPingEngine *engine);
+            /**
+             * @brief       Constructor with engine
+             *
+             * @details     Creates the receiver object and passes in the engine
+             *              so that the requests can be tagged to the correct engine
+             *
+             * @param[in]   engine          the owner engine
+             *
+             */
+            ICMPPingReceiver(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine);
 
-    private slots:
+        private slots:
 
-        /**
-         * @brief       The receiver thread worker
-         *
-         */
-        void doWork(void);
+            /**
+             * @brief       The receiver thread worker
+             *
+             */
+            void doWork(void);
 
-    signals:
+        signals:
 
-        /**
-         * @brief       Signals when a response result is available
-         *
-         * @param[in]   result          the result
-         *
-         */
-        void result(FizzyAde::Core::PingResult result);
+            /**
+             * @brief       Signals when a response result is available
+             *
+             * @param[in]   result          the result
+             *
+             */
+            void result(Nedrysoft::Core::PingResult result);
 
-        friend class ICMPPingEngine;
+            friend class ICMPPingEngine;
 
-    private:
-        std::chrono::milliseconds m_timeout={};         //! The default reception timeout value
-        FizzyAde::ICMPPingEngine::ICMPPingEngine *m_engine;    //! The engine that owns this receiver worker
+        private:
+            std::chrono::milliseconds m_timeout = {};         //! The default reception timeout value
+            Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_engine;    //! The engine that owns this receiver worker
 
-    protected:
-        bool m_isRunning;                               //! Thread is running
+        protected:
+            bool m_isRunning;                               //! Thread is running
     };
 }
 
-#endif // FIZZYADE_ICMPPINGENGINE_ICMPPINGRECEIVER_H
+#endif // NEDRYSOFT_ICMPPINGENGINE_ICMPPINGRECEIVER_H

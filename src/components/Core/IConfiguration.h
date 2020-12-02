@@ -18,16 +18,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_ICONFIGURATION_H
-#define FIZZYADE_CORE_ICONFIGURATION_H
+#ifndef NEDRYSOFT_CORE_ICONFIGURATION_H
+#define NEDRYSOFT_CORE_ICONFIGURATION_H
 
 #include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
 #include <QObject>
 #include <QJsonObject>
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     class IPingEngine;
 
     /**
@@ -38,31 +37,30 @@ namespace FizzyAde::Core
      *              when a ping result is available
      *
      */
-    class FIZZYADE_CORE_DLLSPEC IConfiguration
-    {
+    class NEDRYSOFT_CORE_DLLSPEC IConfiguration {
 
-    public:
+        public:
 
-        /**
-         * @brief       Saves the configuration
-         *
-         * @return      the configuration
-         *
-         */
-        virtual QJsonObject saveConfiguration() = 0;
+            /**
+             * @brief       Saves the configuration
+             *
+             * @return      the configuration
+             *
+             */
+            virtual QJsonObject saveConfiguration() = 0;
 
-        /**
-         * @brief       Loads the configuration
-         *
-         * @param[in]   configuration   the configuration
-         *
-         * @return      true if loaded, false otherwise
-         *
-         */
-        virtual bool loadConfiguration(QJsonObject configuration) = 0;
+            /**
+             * @brief       Loads the configuration
+             *
+             * @param[in]   configuration   the configuration
+             *
+             * @return      true if loaded, false otherwise
+             *
+             */
+            virtual bool loadConfiguration(QJsonObject configuration) = 0;
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::IConfiguration, "com.fizzyade.core.IConfiguration/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IConfiguration, "com.fizzyade.core.IConfiguration/1.0.0")
 
-#endif // FIZZYADE_CORE_ICONFIGURATION_H
+#endif // NEDRYSOFT_CORE_ICONFIGURATION_H

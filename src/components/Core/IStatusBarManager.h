@@ -18,15 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_ISTATUSBARMANAGER_H
-#define FIZZYADE_CORE_ISTATUSBARMANAGER_H
+#ifndef NEDRYSOFT_CORE_ISTATUSBARMANAGER_H
+#define NEDRYSOFT_CORE_ISTATUSBARMANAGER_H
 
 #include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
 #include "Core/IContextManager.h"
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     /**
      * @brief       Interface definition of a status bar manager
      *
@@ -36,27 +35,25 @@ namespace FizzyAde::Core
      *              The status bar is normally context sensistve although components may created fixed entries that are shown regardless of the current
      *              application context.
      */
-    class FIZZYADE_CORE_DLLSPEC IStatusBarManager :
-        public FizzyAde::ComponentSystem::IInterface
-    {
+    class NEDRYSOFT_CORE_DLLSPEC IStatusBarManager :
+            public Nedrysoft::ComponentSystem::IInterface {
         Q_OBJECT
 
-    public:
-        /**
-         * @brief       Gets the FizzyAde::Core::IStatusBarManager instance.
-         *
-         * @details     A convenience function to return the first FizzyAde::Core::IStatusBarManager instance found in the object registry.
-         */
-        static IStatusBarManager *getInstance()
-        {
-            return ComponentSystem::getObject<IStatusBarManager>();
-        }
+        public:
+            /**
+             * @brief       Gets the Nedrysoft::Core::IStatusBarManager instance.
+             *
+             * @details     A convenience function to return the first Nedrysoft::Core::IStatusBarManager instance found in the object registry.
+             */
+            static IStatusBarManager *getInstance() {
+                return ComponentSystem::getObject<IStatusBarManager>();
+            }
 
-    public:
+        public:
 
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::IStatusBarManager, "com.fizzyade.core.IStatusBarManager/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IStatusBarManager, "com.fizzyade.core.IStatusBarManager/1.0.0")
 
-#endif // FIZZYADE_CORE_ISTATUSBARMANAGER_H
+#endif // NEDRYSOFT_CORE_ISTATUSBARMANAGER_H

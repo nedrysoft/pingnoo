@@ -27,17 +27,15 @@ using namespace std::chrono_literals;
 
 constexpr auto DefaultSleepTime = 1s;
 
-FizzyAde::ICMPPingEngine::ICMPPingTimeout::ICMPPingTimeout(FizzyAde::ICMPPingEngine::ICMPPingEngine *engine)
-{
+Nedrysoft::ICMPPingEngine::ICMPPingTimeout::ICMPPingTimeout(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine) {
     m_engine = engine;
     m_isRunning = false;
 }
 
-void FizzyAde::ICMPPingEngine::ICMPPingTimeout::doWork()
-{
+void Nedrysoft::ICMPPingEngine::ICMPPingTimeout::doWork() {
     m_isRunning = true;
 
-    while(m_isRunning) {
+    while (m_isRunning) {
         m_engine->timeoutRequests();
 
         std::this_thread::sleep_for(DefaultSleepTime);

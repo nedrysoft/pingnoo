@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_IROUTEENGINE_H
-#define FIZZYADE_CORE_IROUTEENGINE_H
+#ifndef NEDRYSOFT_CORE_IROUTEENGINE_H
+#define NEDRYSOFT_CORE_IROUTEENGINE_H
 
 #include "CoreSpec.h"
 #include "Core.h"
@@ -27,8 +27,7 @@
 #include <QObject>
 #include <QHostAddress>
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     typedef QList<QHostAddress> RouteList;
 
     /**
@@ -38,39 +37,38 @@ namespace FizzyAde::Core
      *              given host
      *
      */
-    class FIZZYADE_CORE_DLLSPEC IRouteEngine :
-        public FizzyAde::ComponentSystem::IInterface
-    {
+    class NEDRYSOFT_CORE_DLLSPEC IRouteEngine :
+            public Nedrysoft::ComponentSystem::IInterface {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::ComponentSystem::IInterface)
+            Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
 
-    public:
-         /**
-         * @brief       Constructor
-         *
-         */
-         virtual ~IRouteEngine() = default;
+        public:
+            /**
+            * @brief       Constructor
+            *
+            */
+            virtual ~IRouteEngine() = default;
 
-        /**
-         * @brief       Starts route discovery for a host
-         *
-         * @param[in]   host        the host name or address to be traced
-         * @param[in]   ipVersion   the IP version to be used for the trace
-         *
-         */
-        virtual void findRoute(QString host, FizzyAde::Core::IPVersion ipVersion) = 0;
+            /**
+             * @brief       Starts route discovery for a host
+             *
+             * @param[in]   host        the host name or address to be traced
+             * @param[in]   ipVersion   the IP version to be used for the trace
+             *
+             */
+            virtual void findRoute(QString host, Nedrysoft::Core::IPVersion ipVersion) = 0;
 
-        /**
-         * @brief       Signal emitted when the route discovery is completed
-         *
-         * @param[in]   result      the discovered route
-         *
-         */
-        Q_SIGNAL void result(const QHostAddress &hostAddress, const FizzyAde::Core::RouteList &result);
+            /**
+             * @brief       Signal emitted when the route discovery is completed
+             *
+             * @param[in]   result      the discovered route
+             *
+             */
+            Q_SIGNAL void result(const QHostAddress &hostAddress, const Nedrysoft::Core::RouteList &result);
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::IRouteEngine, "com.fizzyade.core.IRouteEngine/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IRouteEngine, "com.fizzyade.core.IRouteEngine/1.0.0")
 
-#endif // FIZZYADE_CORE_IROUTEENGINE_H
+#endif // NEDRYSOFT_CORE_IROUTEENGINE_H

@@ -18,16 +18,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ICMPPINGENGINE_ICMPPINGENGINEFACTORY_H
-#define FIZZYADE_ICMPPINGENGINE_ICMPPINGENGINEFACTORY_H
+#ifndef NEDRYSOFT_ICMPPINGENGINE_ICMPPINGENGINEFACTORY_H
+#define NEDRYSOFT_ICMPPINGENGINE_ICMPPINGENGINEFACTORY_H
 
 #include "Core/IPingEngineFactory.h"
 #include "ComponentSystem/IInterface.h"
 #include <memory>
 
-namespace FizzyAde::ICMPPingEngine {
+namespace Nedrysoft::ICMPPingEngine {
 
     class ICMPPingEngineFactoryData;
+
     class ICMPPingEngine;
 
     /**
@@ -37,43 +38,44 @@ namespace FizzyAde::ICMPPingEngine {
      *
      */
     class ICMPPingEngineFactory :
-        public FizzyAde::Core::IPingEngineFactory
-    {
+            public Nedrysoft::Core::IPingEngineFactory {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::IPingEngineFactory)
+            Q_INTERFACES(Nedrysoft::Core::IPingEngineFactory)
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         */
-        ICMPPingEngineFactory();
+        public:
+            /**
+             * @brief       Constructor
+             *
+             */
+            ICMPPingEngineFactory();
 
-        /**
-         * @brief       Destructor
-         *
-         */
-        ~ICMPPingEngineFactory();
+            /**
+             * @brief       Destructor
+             *
+             */
+            ~ICMPPingEngineFactory();
 
-        /**
-         * @sa          IPingEngineFactory
-         *
-         */
-        virtual FizzyAde::Core::IPingEngine *createEngine(FizzyAde::Core::IPVersion version);
-        virtual QString description();
+            /**
+             * @sa          IPingEngineFactory
+             *
+             */
+            virtual Nedrysoft::Core::IPingEngine *createEngine(Nedrysoft::Core::IPVersion version);
 
-        /**
-         * @sa          IConfiguration
-         *
-         */
-        virtual QJsonObject saveConfiguration();
-        virtual bool loadConfiguration(QJsonObject configuration);
+            virtual QString description();
 
-    protected:
-        std::shared_ptr<ICMPPingEngineFactoryData> d;
+            /**
+             * @sa          IConfiguration
+             *
+             */
+            virtual QJsonObject saveConfiguration();
+
+            virtual bool loadConfiguration(QJsonObject configuration);
+
+        protected:
+            std::shared_ptr<ICMPPingEngineFactoryData> d;
     };
 }
 
 
-#endif // FIZZYADE_ICMPPINGENGINE_ICMPPINGENGINEFACTORY_H
+#endif // NEDRYSOFT_ICMPPINGENGINE_ICMPPINGENGINEFACTORY_H

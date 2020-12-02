@@ -18,14 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_HOSTIPGEOIPPROVIDER_CACHE_H
-#define FIZZYADE_HOSTIPGEOIPPROVIDER_CACHE_H
+#ifndef NEDRYSOFT_HOSTIPGEOIPPROVIDER_CACHE_H
+#define NEDRYSOFT_HOSTIPGEOIPPROVIDER_CACHE_H
 
 #include <QSqlDatabase>
 #include <QJsonObject>
 
-namespace FizzyAde::HostIPGeoIPProvider
-{
+namespace Nedrysoft::HostIPGeoIPProvider {
     /**
      * @brief       Simple cache for GEO IP results
      *
@@ -33,41 +32,40 @@ namespace FizzyAde::HostIPGeoIPProvider
      *              to prevent unneccesary lookups
      *
      */
-    class Cache
-    {
-    public:
-        /**
-         * @brief   Constructor
-         */
-        Cache();
+    class Cache {
+        public:
+            /**
+             * @brief   Constructor
+             */
+            Cache();
 
-        /**
-         * @brief   Destructor
-         */
-        ~Cache();
+            /**
+             * @brief   Destructor
+             */
+            ~Cache();
 
-        /**
-         * @brief           Add a lookup result to the database
-         *
-         * @param[in]       Json result
-         *
-         */
-        void add(QJsonObject object);
+            /**
+             * @brief           Add a lookup result to the database
+             *
+             * @param[in]       Json result
+             *
+             */
+            void add(QJsonObject object);
 
-        /**
-         * @brief           Check if an IP is cached
-         *
-         * @param[in]       host to check
-         * @param[out]      json object containing the host information
-         *
-         */
-        bool find(const QString &name, QJsonObject &object);
+            /**
+             * @brief           Check if an IP is cached
+             *
+             * @param[in]       host to check
+             * @param[out]      json object containing the host information
+             *
+             */
+            bool find(const QString &name, QJsonObject &object);
 
-    protected:
+        protected:
 
-    private:
+        private:
 
     };
 }
 
-#endif // FIZZYADE_HOSTIPGEOIPPROVIDER_CACHE_H
+#endif // NEDRYSOFT_HOSTIPGEOIPPROVIDER_CACHE_H

@@ -22,11 +22,11 @@
 
 constexpr int MILLISECONDS_PER_SECOND = 1000;
 
-QString FizzyAde::RouteAnalyser::CPAxisTickerMS::getTickLabel (double tick, const QLocale &locale, QChar formatChar, int precision)
-{
+QString Nedrysoft::RouteAnalyser::CPAxisTickerMS::getTickLabel(double tick, const QLocale &locale, QChar formatChar,
+                                                               int precision) {
     Q_UNUSED(locale)
     Q_UNUSED(formatChar)
     Q_UNUSED(precision)
 
-    return QString("%1").arg(tick*MILLISECONDS_PER_SECOND);
+    return QString("%1").arg(tick * MILLISECONDS_PER_SECOND);
 }

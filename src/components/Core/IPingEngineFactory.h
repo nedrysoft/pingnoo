@@ -18,16 +18,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_IPINGENGINEFACTORY_H
-#define FIZZYADE_CORE_IPINGENGINEFACTORY_H
+#ifndef NEDRYSOFT_CORE_IPINGENGINEFACTORY_H
+#define NEDRYSOFT_CORE_IPINGENGINEFACTORY_H
 
 #include "Core.h"
 #include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
 #include "IConfiguration.h"
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     class IPingEngine;
 
     /**
@@ -38,38 +37,37 @@ namespace FizzyAde::Core
      *              when a ping result is available
      *
      */
-    class FIZZYADE_CORE_DLLSPEC IPingEngineFactory :
-        public FizzyAde::ComponentSystem::IInterface,
-        public FizzyAde::Core::IConfiguration
-    {
+    class NEDRYSOFT_CORE_DLLSPEC IPingEngineFactory :
+            public Nedrysoft::ComponentSystem::IInterface,
+            public Nedrysoft::Core::IConfiguration {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::ComponentSystem::IInterface)
-        Q_INTERFACES(FizzyAde::Core::IConfiguration)
+            Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
+            Q_INTERFACES(Nedrysoft::Core::IConfiguration)
 
-    public:
-        virtual ~IPingEngineFactory()=default;
+        public:
+            virtual ~IPingEngineFactory() = default;
 
-        /**
-         * @brief       Creates a IPingEngine instance
-         *
-         * @param[in]   version     the IP version of the engine
-         *
-         * @return      the newly created ping engine instance
-         *
-         */
-        virtual FizzyAde::Core::IPingEngine *createEngine(FizzyAde::Core::IPVersion version) = 0;
+            /**
+             * @brief       Creates a IPingEngine instance
+             *
+             * @param[in]   version     the IP version of the engine
+             *
+             * @return      the newly created ping engine instance
+             *
+             */
+            virtual Nedrysoft::Core::IPingEngine *createEngine(Nedrysoft::Core::IPVersion version) = 0;
 
-        /**
-         * @brief       Gets the descriptive name of the ping engine factory
-         *
-         * @return      descriptive name of the ping engine
-         *
-         */
-        virtual QString description() = 0;
+            /**
+             * @brief       Gets the descriptive name of the ping engine factory
+             *
+             * @return      descriptive name of the ping engine
+             *
+             */
+            virtual QString description() = 0;
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::IPingEngineFactory, "com.fizzyade.core.IPingEngineFactory/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingEngineFactory, "com.fizzyade.core.IPingEngineFactory/1.0.0")
 
-#endif // FIZZYADE_CORE_IPINGENGINEFACTORY_H
+#endif // NEDRYSOFT_CORE_IPINGENGINEFACTORY_H

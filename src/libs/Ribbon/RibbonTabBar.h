@@ -18,15 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_RIBBON_RIBBONTABBAR_H
-#define FIZZYADE_RIBBON_RIBBONTABBAR_H
+#ifndef NEDRYSOFT_RIBBON_RIBBONTABBAR_H
+#define NEDRYSOFT_RIBBON_RIBBONTABBAR_H
 
 #include "RibbonSpec.h"
 #include <QTabBar>
 #include <QFont>
 
-namespace FizzyAde::Ribbon
-{
+namespace Nedrysoft::Ribbon {
     /**
      * @brief       Ribbon Tab Bar Widget
      *
@@ -35,58 +34,57 @@ namespace FizzyAde::Ribbon
      *
      */
     class RIBBON_WIDGET_EXPORT RibbonTabBar :
-        public QTabBar
-    {
+            public QTabBar {
         Q_OBJECT
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         * @param[in]   parent              parent widget
-         *
-         */
-        RibbonTabBar(QWidget *parent = nullptr);
+        public:
+            /**
+             * @brief       Constructor
+             *
+             * @param[in]   parent              parent widget
+             *
+             */
+            RibbonTabBar(QWidget *parent = nullptr);
 
-    protected:
-        /**
-         * @brief       paintEvent
-         *
-         * @details     Overridden paintEvent for drawing widget
-         *
-         * @param[in]   event           The event information
-         *
-         */
-        virtual void paintEvent(QPaintEvent *event);
+        protected:
+            /**
+             * @brief       paintEvent
+             *
+             * @details     Overridden paintEvent for drawing widget
+             *
+             * @param[in]   event           The event information
+             *
+             */
+            virtual void paintEvent(QPaintEvent *event);
 
-        /**
-         * @brief       tabSizeHint
-         *
-         * @details     Overridden paintEvent for size widget
-         *
-         * @param[in]   index           The index of the tab
-         *
-         * @return      the calculated size hint for the tab
-         *
-         */
-        virtual QSize tabSizeHint(int index) const;
+            /**
+             * @brief       tabSizeHint
+             *
+             * @details     Overridden paintEvent for size widget
+             *
+             * @param[in]   index           The index of the tab
+             *
+             * @return      the calculated size hint for the tab
+             *
+             */
+            virtual QSize tabSizeHint(int index) const;
 
-        /**
-         * @brief       eventFilter
-         *
-         * @details     handles widget events passed from Qt
-         *
-         * @param[in]   obj             object that caused the event
-         * @param[in]   event           the event information
-         *
-         * @return      true if event has handled, otherwise false
-         */
-        bool eventFilter(QObject * obj, QEvent * event);
+            /**
+             * @brief       eventFilter
+             *
+             * @details     handles widget events passed from Qt
+             *
+             * @param[in]   obj             object that caused the event
+             * @param[in]   event           the event information
+             *
+             * @return      true if event has handled, otherwise false
+             */
+            bool eventFilter(QObject *obj, QEvent *event);
 
-    private:
-        QFont m_selectedFont;
-        QFont m_normalFont;
-        bool m_mouseInWidget;
+        private:
+            QFont m_selectedFont;
+            QFont m_normalFont;
+            bool m_mouseInWidget;
     };
 }
-#endif // FIZZYADE_RIBBON_RIBBONTABBAR_H
+#endif // NEDRYSOFT_RIBBON_RIBBONTABBAR_H

@@ -18,15 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_RIBBON_RIBBONGROUP_H
-#define FIZZYADE_RIBBON_RIBBONGROUP_H
+#ifndef NEDRYSOFT_RIBBON_RIBBONGROUP_H
+#define NEDRYSOFT_RIBBON_RIBBONGROUP_H
 
 #include "RibbonSpec.h"
 #include <QWidget>
 #include <QFontMetrics>
 
-namespace FizzyAde::Ribbon
-{
+namespace Nedrysoft::Ribbon {
     /**
      * @brief       Ribbon Group Widget
      *
@@ -34,59 +33,58 @@ namespace FizzyAde::Ribbon
      *
      */
     class RIBBON_WIDGET_EXPORT RibbonGroup :
-        public QWidget
-    {
+            public QWidget {
         Q_OBJECT
 
-        Q_PROPERTY(QString groupName READ groupName WRITE setGroupName)
+            Q_PROPERTY(QString groupName READ groupName WRITE setGroupName)
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         * @param[in]   parent          parent object
-         *
-         */
-        explicit RibbonGroup(QWidget *parent = nullptr);
+        public:
+            /**
+             * @brief       Constructor
+             *
+             * @param[in]   parent          parent object
+             *
+             */
+            explicit RibbonGroup(QWidget *parent = nullptr);
 
-        /**
-         * @brief       Gets the name of the group
-         *
-         * @return      name of the group
-         *
-         */
-        QString groupName() const;
+            /**
+             * @brief       Gets the name of the group
+             *
+             * @return      name of the group
+             *
+             */
+            QString groupName() const;
 
-        /**
-         * @brief       Sets the name of the group
-         *
-         * @param[in]   name            The group name
-         *
-         */
-        void setGroupName(const QString &name);
+            /**
+             * @brief       Sets the name of the group
+             *
+             * @param[in]   name            The group name
+             *
+             */
+            void setGroupName(const QString &name);
 
-    protected:
-        /**
-         * @brief       paintEvent
-         *
-         * @details     Overridden paintEvent for drawing widget
-         *
-         * @param[in]   event           The event information
-         *
-         */
-        virtual void paintEvent(QPaintEvent *event);
+        protected:
+            /**
+             * @brief       paintEvent
+             *
+             * @details     Overridden paintEvent for drawing widget
+             *
+             * @param[in]   event           The event information
+             *
+             */
+            virtual void paintEvent(QPaintEvent *event);
 
-    signals:
+        signals:
 
-    private:
-        QString m_groupName;                                    //! Group name that is displayed
-        QFont m_font;                                           //! Font used to draw the group name
-        QFontMetrics m_fontMetrics;                             //! The font metrics of the selected font
-        QRect m_textRect;                                       //! The rectangle of the group name in the selected font
+        private:
+            QString m_groupName;                                    //! Group name that is displayed
+            QFont m_font;                                           //! Font used to draw the group name
+            QFontMetrics m_fontMetrics;                             //! The font metrics of the selected font
+            QRect m_textRect;                                       //! The rectangle of the group name in the selected font
 
-        QString m_lightStyleSheet;                              //! Light QSS style sheet
-        QString m_darkStyleSheet;                               //! Dark QSS style sheet
+            QString m_lightStyleSheet;                              //! Light QSS style sheet
+            QString m_darkStyleSheet;                               //! Dark QSS style sheet
     };
 }
 
-#endif // FIZZYADE_RIBBON_RIBBONGROUP_H
+#endif // NEDRYSOFT_RIBBON_RIBBONGROUP_H

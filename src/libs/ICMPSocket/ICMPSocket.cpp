@@ -20,7 +20,9 @@
 
 #include "ICMPSocket.h"
 #include <fcntl.h>
+
 #if defined(Q_OS_UNIX)
+
 #include <netdb.h>
 #include <unistd.h>
 #include <arpa/inet.h>
@@ -32,30 +34,30 @@
 #include <sys/types.h>
 #include <arpa/inet.h>
 #include <poll.h>
+
 #elif defined(Q_OS_WIN)
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #endif
+
 #include <QtEndian>
 #include <QString>
 #include <QObject>
 
 #if defined(Q_OS_WIN)
-    constexpr int SocketError = SOCKET_ERROR;
+constexpr int SocketError = SOCKET_ERROR;
 #else
-    constexpr int SocketError = -1;
+constexpr int SocketError = -1;
 #endif
 
 constexpr auto ReceiveBufferSize = 4096;
 
-FizzyAde::ICMPSocket::ICMPSocket::ICMPSocket(FizzyAde::ICMPSocket::ICMPSocket::socket_t socket, IPVersion version)
-{
+Nedrysoft::ICMPSocket::ICMPSocket::ICMPSocket(Nedrysoft::ICMPSocket::ICMPSocket::socket_t socket, IPVersion version) {
     m_socketDescriptor = socket;
     m_version = version;
 }
 
-FizzyAde::ICMPSocket::ICMPSocket::~ICMPSocket()
-{
+Nedrysoft::ICMPSocket::ICMPSocket::~ICMPSocket() {
 #if defined(Q_OS_WIN)
     closesocket(m_socketDescriptor);
 #else
@@ -63,16 +65,16 @@ FizzyAde::ICMPSocket::ICMPSocket::~ICMPSocket()
 #endif
 }
 
-FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createReadSocket(FizzyAde::ICMPSocket::IPVersion version)
-{
-    FizzyAde::ICMPSocket::ICMPSocket::socket_t socketDescriptor;
+Nedrysoft::ICMPSocket::ICMPSocket *
+Nedrysoft::ICMPSocket::ICMPSocket::createReadSocket(Nedrysoft::ICMPSocket::IPVersion version) {
+    Nedrysoft::ICMPSocket::ICMPSocket::socket_t socketDescriptor;
 
     initialiseSockets();
 
 #if defined(Q_OS_MACOS)
-    if (version==FizzyAde::ICMPSocket::V4) {
+    if (version == Nedrysoft::ICMPSocket::V4) {
         socketDescriptor = socket(AF_INET, SOCK_DGRAM, IPPROTO_ICMP);
-    } else if (version==FizzyAde::ICMPSocket::V6) {
+    } else if (version == Nedrysoft::ICMPSocket::V6) {
         socketDescriptor = socket(AF_INET6, SOCK_DGRAM, IPPROTO_ICMPV6);
     } else {
         qWarning() << QObject::tr("Unknown IP version");
@@ -81,16 +83,17 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createReadSo
     }
 
     if (isValid(socketDescriptor)) {
-        auto result = fcntl(socketDescriptor, F_SETFL, fcntl(socketDescriptor, F_GETFL, 0) | O_NONBLOCK); // NOLINT(cppcoreguidelines-pro-type-vararg)
+        auto result = fcntl(socketDescriptor, F_SETFL, fcntl(socketDescriptor, F_GETFL, 0) |
+                                                       O_NONBLOCK); // NOLINT(cppcoreguidelines-pro-type-vararg)
 
-        if (result<0) {
+        if (result < 0) {
             qWarning() << QObject::tr("Error setting non blocking on socket");
         }
     }
 #elif defined(Q_OS_UNIX)
-    if (version==FizzyAde::ICMPSocket::V4) {
+    if (version==Nedrysoft::ICMPSocket::V4) {
         socketDescriptor = socket(AF_INET, SOCK_RAW | SOCK_NONBLOCK, IPPROTO_ICMP);
-    } else if (version==FizzyAde::ICMPSocket::V6) {
+    } else if (version==Nedrysoft::ICMPSocket::V6) {
         socketDescriptor = socket(AF_INET6, SOCK_RAW | SOCK_NONBLOCK, IPPROTO_ICMPV6);
     } else {
         qWarning() << QObject::tr("Unknown IP version");
@@ -98,9 +101,9 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createReadSo
         return nullptr;
     }
 #elif defined(Q_OS_WIN)
-    if (version==FizzyAde::ICMPSocket::V4) {
+    if (version==Nedrysoft::ICMPSocket::V4) {
         socketDescriptor = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
-    } else if (version==FizzyAde::ICMPSocket::V6) {
+    } else if (version==Nedrysoft::ICMPSocket::V6) {
         socketDescriptor = socket(AF_INET6, SOCK_RAW, IPPROTO_ICMPV6);
     } else {
         qWarning() << QObject::tr("Unknown IP version");
@@ -120,13 +123,13 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createReadSo
 
         memset(&source, 0, sizeof(source));
 
-        if (version==FizzyAde::ICMPSocket::V4) {
+        if (version==Nedrysoft::ICMPSocket::V4) {
             sockaddr_in *src = reinterpret_cast<sockaddr_in *>(&source);
 
             src->sin_family = AF_INET;
             src->sin_port = 0;
             src->sin_addr.S_un.S_addr = INADDR_ANY;
-        } else if (version==FizzyAde::ICMPSocket::V6) {
+        } else if (version==Nedrysoft::ICMPSocket::V6) {
             sockaddr_in6 *src = reinterpret_cast<sockaddr_in6 *>(&source);
 
             src->sin6_family = AF_INET6;
@@ -144,26 +147,26 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createReadSo
 #endif
 
 #if defined(Q_OS_UNIX)
-    if (socketDescriptor==-1) {
+    if (socketDescriptor == -1) {
         qWarning() << QObject::tr("Error creating socket descriptor.");
 
         return nullptr;
     }
 #endif
 
-    return new FizzyAde::ICMPSocket::ICMPSocket(socketDescriptor, version);
+    return new Nedrysoft::ICMPSocket::ICMPSocket(socketDescriptor, version);
 }
 
-FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createWriteSocket(int ttl, FizzyAde::ICMPSocket::IPVersion version)
-{
-    FizzyAde::ICMPSocket::ICMPSocket::socket_t socketDescriptor;
+Nedrysoft::ICMPSocket::ICMPSocket *
+Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(int ttl, Nedrysoft::ICMPSocket::IPVersion version) {
+    Nedrysoft::ICMPSocket::ICMPSocket::socket_t socketDescriptor;
 
     initialiseSockets();
 
 #if defined(Q_OS_MACOS)
-    if (version==FizzyAde::ICMPSocket::V4) {
+    if (version == Nedrysoft::ICMPSocket::V4) {
         socketDescriptor = socket(AF_INET, SOCK_DGRAM, IPPROTO_ICMP);
-    } else if (version==FizzyAde::ICMPSocket::V6) {
+    } else if (version == Nedrysoft::ICMPSocket::V6) {
         socketDescriptor = socket(AF_INET6, SOCK_DGRAM, IPPROTO_ICMPV6);
     } else {
         qWarning() << QObject::tr("Unknown IP version");
@@ -172,16 +175,17 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createWriteS
     }
 
     if (isValid(socketDescriptor)) {
-        int result = fcntl(socketDescriptor, F_SETFL, fcntl(socketDescriptor, F_GETFL, 0) | O_NONBLOCK); // NOLINT(cppcoreguidelines-pro-type-vararg)
+        int result = fcntl(socketDescriptor, F_SETFL, fcntl(socketDescriptor, F_GETFL, 0) |
+                                                      O_NONBLOCK); // NOLINT(cppcoreguidelines-pro-type-vararg)
 
-        if (result<0) {
+        if (result < 0) {
             qWarning() << QObject::tr("Error setting non blocking on socket");
         }
     }
 #elif defined(Q_OS_UNIX)
-    if (version==FizzyAde::ICMPSocket::V4) {
+    if (version==Nedrysoft::ICMPSocket::V4) {
         socketDescriptor = socket(AF_INET, SOCK_RAW | SOCK_NONBLOCK, IPPROTO_ICMP);
-    } else if (version==FizzyAde::ICMPSocket::V6) {
+    } else if (version==Nedrysoft::ICMPSocket::V6) {
         socketDescriptor = socket(AF_INET6, SOCK_RAW | SOCK_NONBLOCK, IPPROTO_ICMPV6);
     } else {
         qWarning() << QObject::tr("Unknown IP version");
@@ -189,9 +193,9 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createWriteS
         return nullptr;
     }
 #elif defined(Q_OS_WIN)
-    if (version==FizzyAde::ICMPSocket::V4) {
+    if (version==Nedrysoft::ICMPSocket::V4) {
         socketDescriptor = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
-    } else if (version==FizzyAde::ICMPSocket::V6) {
+    } else if (version==Nedrysoft::ICMPSocket::V6) {
         socketDescriptor = socket(AF_INET6, SOCK_RAW, IPPROTO_ICMPV6);
     } else {
         qWarning() << QObject::tr("Unknown IP version");
@@ -209,15 +213,15 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createWriteS
         }
     }
 #endif
-    FizzyAde::ICMPSocket::ICMPSocket *socketInstance = nullptr;
+    Nedrysoft::ICMPSocket::ICMPSocket *socketInstance = nullptr;
 
     if (isValid(socketDescriptor)) {
-        socketInstance = new FizzyAde::ICMPSocket::ICMPSocket(socketDescriptor, version);
+        socketInstance = new Nedrysoft::ICMPSocket::ICMPSocket(socketDescriptor, version);
 
         if (ttl) {
-            if (version==V4) {
+            if (version == V4) {
                 socketInstance->setTTL(ttl);
-            } else if (version==V6) {
+            } else if (version == V6) {
                 socketInstance->setHopLimit(ttl);
             }
         }
@@ -228,8 +232,8 @@ FizzyAde::ICMPSocket::ICMPSocket *FizzyAde::ICMPSocket::ICMPSocket::createWriteS
     return socketInstance;
 }
 
-int FizzyAde::ICMPSocket::ICMPSocket::recvfrom(QByteArray &buffer, QHostAddress &receiveAddress, std::chrono::milliseconds timeout)
-{
+int Nedrysoft::ICMPSocket::ICMPSocket::recvfrom(QByteArray &buffer, QHostAddress &receiveAddress,
+                                                std::chrono::milliseconds timeout) {
 #if defined(Q_OS_UNIX)
     socklen_t addressLength;
     unsigned int socketErrorLength;
@@ -248,11 +252,12 @@ int FizzyAde::ICMPSocket::ICMPSocket::recvfrom(QByteArray &buffer, QHostAddress 
 
     auto numberOfReadyDescriptors = poll(&descriptorSet, 1, static_cast<int>(timeout.count()));
 
-    if (numberOfReadyDescriptors>0) {
+    if (numberOfReadyDescriptors > 0) {
         if (descriptorSet.events & POLLIN) {
             socketErrorLength = sizeof(socketError);
 
-            auto result = getsockopt(m_socketDescriptor, SOL_SOCKET, SO_ERROR, reinterpret_cast<char *>(&socketError), &socketErrorLength);
+            auto result = getsockopt(m_socketDescriptor, SOL_SOCKET, SO_ERROR, reinterpret_cast<char *>(&socketError),
+                                     &socketErrorLength);
 
             memset(&fromAddress, 0, sizeof(fromAddress));
 
@@ -260,9 +265,10 @@ int FizzyAde::ICMPSocket::ICMPSocket::recvfrom(QByteArray &buffer, QHostAddress 
 
             buffer.resize(ReceiveBufferSize);
 
-            result = ::recvfrom(m_socketDescriptor, buffer.data(), buffer.length(), 0, reinterpret_cast<sockaddr *>(&fromAddress), &addressLength);
+            result = ::recvfrom(m_socketDescriptor, buffer.data(), buffer.length(), 0,
+                                reinterpret_cast<sockaddr *>(&fromAddress), &addressLength);
 
-            if (result>=0) {
+            if (result >= 0) {
                 receiveAddress = QHostAddress(reinterpret_cast<sockaddr *>(&fromAddress));
 
                 buffer.resize(result);
@@ -275,9 +281,8 @@ int FizzyAde::ICMPSocket::ICMPSocket::recvfrom(QByteArray &buffer, QHostAddress 
     return -1;
 }
 
-int FizzyAde::ICMPSocket::ICMPSocket::sendto(QByteArray &buffer, const QHostAddress &hostAddress)
-{
-    if (m_version==V4) {
+int Nedrysoft::ICMPSocket::ICMPSocket::sendto(QByteArray &buffer, const QHostAddress &hostAddress) {
+    if (m_version == V4) {
         struct sockaddr_in toAddress = {};
 
         memset(&toAddress, 0, sizeof(toAddress));
@@ -285,8 +290,9 @@ int FizzyAde::ICMPSocket::ICMPSocket::sendto(QByteArray &buffer, const QHostAddr
         toAddress.sin_family = AF_INET;
         toAddress.sin_addr.s_addr = qToBigEndian<uint32_t>(hostAddress.toIPv4Address());
 
-        return ::sendto(m_socketDescriptor, buffer.data(), buffer.length(), 0, reinterpret_cast<struct sockaddr *>(&toAddress), sizeof(toAddress));
-    } else if (m_version==V6) {
+        return ::sendto(m_socketDescriptor, buffer.data(), buffer.length(), 0,
+                        reinterpret_cast<struct sockaddr *>(&toAddress), sizeof(toAddress));
+    } else if (m_version == V6) {
         struct sockaddr_in6 toAddress = {};
 
         auto destinationAddress = hostAddress.toIPv6Address();
@@ -294,23 +300,22 @@ int FizzyAde::ICMPSocket::ICMPSocket::sendto(QByteArray &buffer, const QHostAddr
         toAddress.sin6_family = AF_INET6;
         memcpy(toAddress.sin6_addr.s6_addr, &destinationAddress, 16);
 
-        return ::sendto(m_socketDescriptor, buffer.data(), buffer.length(), 0, reinterpret_cast<struct sockaddr *>(&toAddress), sizeof(toAddress));
+        return ::sendto(m_socketDescriptor, buffer.data(), buffer.length(), 0,
+                        reinterpret_cast<struct sockaddr *>(&toAddress), sizeof(toAddress));
     }
 
     return -1;
 }
 
-bool FizzyAde::ICMPSocket::ICMPSocket::isValid(FizzyAde::ICMPSocket::ICMPSocket::socket_t socket)
-{
+bool Nedrysoft::ICMPSocket::ICMPSocket::isValid(Nedrysoft::ICMPSocket::ICMPSocket::socket_t socket) {
 #if defined(Q_OS_WIN)
     return socket!=INVALID_SOCKET;
 #else
-    return socket!=-1;
+    return socket != -1;
 #endif
 }
 
-void FizzyAde::ICMPSocket::ICMPSocket::initialiseSockets()
-{
+void Nedrysoft::ICMPSocket::ICMPSocket::initialiseSockets() {
     static auto initialised = false;
 
     if (!initialised) {
@@ -325,25 +330,23 @@ void FizzyAde::ICMPSocket::ICMPSocket::initialiseSockets()
     }
 }
 
-void FizzyAde::ICMPSocket::ICMPSocket::setTTL(int ttl)
-{
+void Nedrysoft::ICMPSocket::ICMPSocket::setTTL(int ttl) {
     auto result = setsockopt(m_socketDescriptor, IPPROTO_IP, IP_TTL, reinterpret_cast<char *>(&ttl), sizeof(ttl));
 
-    if (result==SocketError) {
+    if (result == SocketError) {
         qWarning() << QObject::tr("Error setting TTL.");
     }
 }
 
-void FizzyAde::ICMPSocket::ICMPSocket::setHopLimit(int hopLimit)
-{
-    auto result = setsockopt(m_socketDescriptor, IPPROTO_IPV6, IPV6_UNICAST_HOPS, reinterpret_cast<char *>(&hopLimit), sizeof(hopLimit));
+void Nedrysoft::ICMPSocket::ICMPSocket::setHopLimit(int hopLimit) {
+    auto result = setsockopt(m_socketDescriptor, IPPROTO_IPV6, IPV6_UNICAST_HOPS, reinterpret_cast<char *>(&hopLimit),
+                             sizeof(hopLimit));
 
-    if (result==SocketError) {
+    if (result == SocketError) {
         qWarning() << QObject::tr("Error setting Hop Limit.");
     }
 }
 
-FizzyAde::ICMPSocket::IPVersion FizzyAde::ICMPSocket::ICMPSocket::version()
-{
+Nedrysoft::ICMPSocket::IPVersion Nedrysoft::ICMPSocket::ICMPSocket::version() {
     return m_version;
 }

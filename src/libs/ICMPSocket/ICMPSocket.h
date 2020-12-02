@@ -18,12 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ICMPSOCKET_ICMPSOCKET_H
-#define FIZZYADE_ICMPSOCKET_ICMPSOCKET_H
+#ifndef NEDRYSOFT_ICMPSOCKET_ICMPSOCKET_H
+#define NEDRYSOFT_ICMPSOCKET_ICMPSOCKET_H
 
 #include <QtGlobal>
 #include <chrono>
+
 #if defined(Q_OS_UNIX)
+
 #include <netdb.h>
 #include <unistd.h>
 #include <arpa/inet.h>
@@ -35,27 +37,28 @@
 #include <sys/types.h>
 #include <arpa/inet.h>
 #include <poll.h>
+
 #elif defined(Q_OS_WIN)
 #define NOMINMAX
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #endif
+
 #include <QByteArray>
 #include <QHostAddress>
 
-#if (defined(FIZZYADE_LIBRARY_ICMPSOCKET_EXPORT))
-#define FIZZYADE_ICMPSOCKET_DLLSPEC Q_DECL_EXPORT
+#if ( defined(NEDRYSOFT_LIBRARY_ICMPSOCKET_EXPORT))
+#define NEDRYSOFT_ICMPSOCKET_DLLSPEC Q_DECL_EXPORT
 #else
-#define FIZZYADE_ICMPSOCKET_DLLSPEC Q_DECL_IMPORT
+#define NEDRYSOFT_ICMPSOCKET_DLLSPEC Q_DECL_IMPORT
 #endif
 
-namespace FizzyAde::ICMPSocket
-{
-    enum IPVersion
-    {
+namespace Nedrysoft::ICMPSocket {
+    enum IPVersion {
         V4 = 4,
         V6 = 6
     };
+
     /**
      * @brief           ICMP Socket Abstraction
      *
@@ -63,122 +66,122 @@ namespace FizzyAde::ICMPSocket
      *                  indepentently of the host platform.
      *
      */
-    class FIZZYADE_ICMPSOCKET_DLLSPEC ICMPSocket
-    {
-    private:
+    class NEDRYSOFT_ICMPSOCKET_DLLSPEC ICMPSocket {
+        private:
 #if defined(Q_OS_WIN)
-        typedef SOCKET socket_t;
+            typedef SOCKET socket_t;
 #else
-        typedef int socket_t;
+            typedef int socket_t;
 #endif
-    private:
-        /**
-         * @brief Constructor
-         *
-         * @details         ICMPSocket constructor is private, instances are created
-         *                  by calling either createReadSocket or createWriteSocket
-         *
-         * @param[in]       socket          platform socket handle
-         * @param[in]       version         version of IP of the socket to open
-         *
-         */
-        ICMPSocket(ICMPSocket::socket_t socket, IPVersion version=FizzyAde::ICMPSocket::V4);
+        private:
+            /**
+             * @brief Constructor
+             *
+             * @details         ICMPSocket constructor is private, instances are created
+             *                  by calling either createReadSocket or createWriteSocket
+             *
+             * @param[in]       socket          platform socket handle
+             * @param[in]       version         version of IP of the socket to open
+             *
+             */
+            ICMPSocket(ICMPSocket::socket_t socket, IPVersion version = Nedrysoft::ICMPSocket::V4);
 
-        /**
-         * @brief           Checks whether the given platform socket is valid
-         *
-         * @param[in]       socket          platform socket handle
-         *
-         * @return          true if socket is valid, else false
-         *
-         */
-        static bool isValid(ICMPSocket::socket_t socket);
+            /**
+             * @brief           Checks whether the given platform socket is valid
+             *
+             * @param[in]       socket          platform socket handle
+             *
+             * @return          true if socket is valid, else false
+             *
+             */
+            static bool isValid(ICMPSocket::socket_t socket);
 
-        /**
-         * @brief           Called by socket creation to ensure underlying networking subsystem is initialised.
-         *
-         */
-        static void initialiseSockets();
+            /**
+             * @brief           Called by socket creation to ensure underlying networking subsystem is initialised.
+             *
+             */
+            static void initialiseSockets();
 
-    public:
-        /**
-         * @brief           Descriptor
-         *
-         */
-        ~ICMPSocket();
+        public:
+            /**
+             * @brief           Descriptor
+             *
+             */
+            ~ICMPSocket();
 
-        /**
-         * @brief           Create a socket for reading ALL incoming ICMP packets
-         *
-         * @param[in]       version             the ip version of the socket to create
-         *
-         * @return          an instance of this class
-         *
-         */
-        static ICMPSocket *createReadSocket(FizzyAde::ICMPSocket::IPVersion version=FizzyAde::ICMPSocket::V4);
+            /**
+             * @brief           Create a socket for reading ALL incoming ICMP packets
+             *
+             * @param[in]       version             the ip version of the socket to create
+             *
+             * @return          an instance of this class
+             *
+             */
+            static ICMPSocket *createReadSocket(Nedrysoft::ICMPSocket::IPVersion version = Nedrysoft::ICMPSocket::V4);
 
-        /**
-         * @brief           Create a socket for writing ICMP packets with the given ttl
-         *
-         * @param[in]       ttl                 the ttl for the socket
-         *
-         * @return          an instance of this class
-         *
-         */
-        static ICMPSocket *createWriteSocket(int ttl = 0, FizzyAde::ICMPSocket::IPVersion version=FizzyAde::ICMPSocket::V4);
+            /**
+             * @brief           Create a socket for writing ICMP packets with the given ttl
+             *
+             * @param[in]       ttl                 the ttl for the socket
+             *
+             * @return          an instance of this class
+             *
+             */
+            static ICMPSocket *
+            createWriteSocket(int ttl = 0, Nedrysoft::ICMPSocket::IPVersion version = Nedrysoft::ICMPSocket::V4);
 
-        /**
-         * @brief           Receives data from a read or write socket
-         *
-         * @param[in]       buffer              the buffer to receive data
-         * @param[out]      receiveAddress      the address that the packet was received from
-         * @param[in]       timeout             read timeout
-         *
-         * @return          -1 on timeout or error, otherwise the number of bytes read
-         *
-         */
-        int recvfrom(QByteArray &buffer, QHostAddress &receiveAddress, std::chrono::milliseconds timeout);
+            /**
+             * @brief           Receives data from a read or write socket
+             *
+             * @param[in]       buffer              the buffer to receive data
+             * @param[out]      receiveAddress      the address that the packet was received from
+             * @param[in]       timeout             read timeout
+             *
+             * @return          -1 on timeout or error, otherwise the number of bytes read
+             *
+             */
+            int recvfrom(QByteArray &buffer, QHostAddress &receiveAddress, std::chrono::milliseconds timeout);
 
-        /**
-         * @brief           Sends data to a write socket
-         *
-         * @param[in]       buffer the data to send
-         * @param[in]       hostAddress the address that the packet was received from
-         *
-         * @return          -1 on error, otherwise the number of bytes written
-         *
-         */
-        int sendto(QByteArray &buffer, const QHostAddress &hostAddress);
+            /**
+             * @brief           Sends data to a write socket
+             *
+             * @param[in]       buffer the data to send
+             * @param[in]       hostAddress the address that the packet was received from
+             *
+             * @return          -1 on error, otherwise the number of bytes written
+             *
+             */
+            int sendto(QByteArray &buffer, const QHostAddress &hostAddress);
 
-        /**
-         * @brief           Sets the TTL on a write socket
-         *
-         * @param[in]       ttl                 the ttl to set
-         *
-         */
-        void setTTL(int ttl);
+            /**
+             * @brief           Sets the TTL on a write socket
+             *
+             * @param[in]       ttl                 the ttl to set
+             *
+             */
+            void setTTL(int ttl);
 
-        /**
-         * @brief           Sets the Hop Limit on a V6 write socket
-         *
-         * @param[in]       hopLimit            the hop limit to set
-         *
-         */
-        void setHopLimit(int hopLimit);
+            /**
+             * @brief           Sets the Hop Limit on a V6 write socket
+             *
+             * @param[in]       hopLimit            the hop limit to set
+             *
+             */
+            void setHopLimit(int hopLimit);
 
-        /**
-         * @brief           Returns the IP version of the socket
-         *
-         * @return          V4 or V6
-         *
-         */
-        FizzyAde::ICMPSocket::IPVersion version();
+            /**
+             * @brief           Returns the IP version of the socket
+             *
+             * @return          V4 or V6
+             *
+             */
+            Nedrysoft::ICMPSocket::IPVersion version();
 
-    private:
+        private:
 
-        ICMPSocket::socket_t m_socketDescriptor;
-        FizzyAde::ICMPSocket::IPVersion m_version;
+            ICMPSocket::socket_t m_socketDescriptor;
+            Nedrysoft::ICMPSocket::IPVersion m_version;
     };
 }
 
-#endif // FIZZYADE_ICMPSOCKET_ICMPSOCKET_H
+#endif // NEDRYSOFT_ICMPSOCKET_ICMPSOCKET_H

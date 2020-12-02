@@ -26,19 +26,18 @@ using namespace std::chrono_literals;
 
 constexpr auto DefaultTerminateThreadTimeout = 5s;
 
-FizzyAde::RouteEngine::RouteEngine::RouteEngine()
-{
+Nedrysoft::RouteEngine::RouteEngine::RouteEngine() {
     m_worker = nullptr;
     m_workerThread = nullptr;
 }
 
-FizzyAde::RouteEngine::RouteEngine::~RouteEngine()
-{
+Nedrysoft::RouteEngine::RouteEngine::~RouteEngine() {
     if (m_workerThread) {
         m_worker->m_isRunning = false;
 
         m_workerThread->quit();
-        m_workerThread->wait(std::chrono::duration_cast<std::chrono::milliseconds>(DefaultTerminateThreadTimeout).count());
+        m_workerThread->wait(
+                std::chrono::duration_cast<std::chrono::milliseconds>(DefaultTerminateThreadTimeout).count());
 
         if (m_workerThread->isRunning()) {
             m_workerThread->terminate();
@@ -56,19 +55,18 @@ FizzyAde::RouteEngine::RouteEngine::~RouteEngine()
     }
 }
 
-void FizzyAde::RouteEngine::RouteEngine::findRoute(QString host, FizzyAde::Core::IPVersion ipVersion)
-{
+void Nedrysoft::RouteEngine::RouteEngine::findRoute(QString host, Nedrysoft::Core::IPVersion ipVersion) {
     m_workerThread = new QThread();
 
-    m_worker = new FizzyAde::RouteEngine::RouteWorker(ipVersion);
+    m_worker = new Nedrysoft::RouteEngine::RouteWorker(ipVersion);
 
     m_worker->setHost(host);
 
     m_worker->moveToThread(m_workerThread);
 
-    connect(m_workerThread, &QThread::started, m_worker, &FizzyAde::RouteEngine::RouteWorker::doWork);
+    connect(m_workerThread, &QThread::started, m_worker, &Nedrysoft::RouteEngine::RouteWorker::doWork);
 
-    connect(m_worker, &FizzyAde::RouteEngine::RouteWorker::result, this, &FizzyAde::Core::IRouteEngine::result);
+    connect(m_worker, &Nedrysoft::RouteEngine::RouteWorker::result, this, &Nedrysoft::Core::IRouteEngine::result);
 
     m_workerThread->start();
 }

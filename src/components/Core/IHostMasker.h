@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_IHOSTMASKER_H
-#define FIZZYADE_CORE_IHOSTMASKER_H
+#ifndef NEDRYSOFT_CORE_IHOSTMASKER_H
+#define NEDRYSOFT_CORE_IHOSTMASKER_H
 
 #include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
@@ -28,8 +28,7 @@
 #include <QString>
 #include <QJsonObject>
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     /**
      * @brief       Interface definition of a host masker
      *
@@ -38,33 +37,33 @@ namespace FizzyAde::Core
      *              taken without requiring further editing
      *
      */
-    class FIZZYADE_CORE_DLLSPEC IHostMasker :
-        public FizzyAde::ComponentSystem::IInterface,
-        public FizzyAde::Core::IConfiguration
-    {
+    class NEDRYSOFT_CORE_DLLSPEC IHostMasker :
+            public Nedrysoft::ComponentSystem::IInterface,
+            public Nedrysoft::Core::IConfiguration {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::ComponentSystem::IInterface)
-        Q_INTERFACES(FizzyAde::Core::IConfiguration)
+            Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
+            Q_INTERFACES(Nedrysoft::Core::IConfiguration)
 
-    public:
+        public:
 
-        /**
-         * Replaces a host name/ip
-         *
-         * @param[in]   hop                 the hop number for this host & address
-         * @param[in]   hostName            the host name to be checked
-         * @param[in]   hostAddress         the host IP to be checked
-         * @param[out]  maskedHostName      the masked host name
-         * @param[out]  maskedHostAddress   the masked host IP
-         *
-         * @return      returns true on replacement, else false
-         *
-         */
-        virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress) = 0;
+            /**
+             * Replaces a host name/ip
+             *
+             * @param[in]   hop                 the hop number for this host & address
+             * @param[in]   hostName            the host name to be checked
+             * @param[in]   hostAddress         the host IP to be checked
+             * @param[out]  maskedHostName      the masked host name
+             * @param[out]  maskedHostAddress   the masked host IP
+             *
+             * @return      returns true on replacement, else false
+             *
+             */
+            virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName,
+                              QString &maskedHostAddress) = 0;
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::IHostMasker, "com.fizzyade.core.IHostMasker/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IHostMasker, "com.fizzyade.core.IHostMasker/1.0.0")
 
-#endif // FIZZYADE_CORE_IHOSTMASKER_H
+#endif // NEDRYSOFT_CORE_IHOSTMASKER_H

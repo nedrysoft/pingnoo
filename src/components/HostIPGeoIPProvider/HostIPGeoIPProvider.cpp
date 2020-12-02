@@ -27,18 +27,16 @@
 #include <QObject>
 #include <QJsonDocument>
 
-FizzyAde::HostIPGeoIPProvider::HostIPGeoIPProvider::HostIPGeoIPProvider()
-{
-    m_cache = new FizzyAde::HostIPGeoIPProvider::Cache();
+Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::HostIPGeoIPProvider() {
+    m_cache = new Nedrysoft::HostIPGeoIPProvider::Cache();
 }
 
-FizzyAde::HostIPGeoIPProvider::HostIPGeoIPProvider::~HostIPGeoIPProvider()
-{
+Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::~HostIPGeoIPProvider() {
     delete m_cache;
 }
 
-void FizzyAde::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(const QString host, FizzyAde::Core::GeoFunction function)
-{    
+void
+Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(const QString host, Nedrysoft::Core::GeoFunction function) {
     auto cacheResultObject = QJsonObject();
 
     if (m_cache->find(host, cacheResultObject)) {
@@ -46,8 +44,8 @@ void FizzyAde::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(const QString ho
     } else {
         auto manager = new QNetworkAccessManager();
 
-        connect(manager, &QNetworkAccessManager::finished, [this, host, function] (QNetworkReply *reply) {
-            if (reply->error()==QNetworkReply::NoError) {
+        connect(manager, &QNetworkAccessManager::finished, [this, host, function](QNetworkReply *reply) {
+            if (reply->error() == QNetworkReply::NoError) {
                 auto resultMap = QVariantMap();
 
                 auto jsonDocument = QJsonDocument::fromJson(reply->readAll());
@@ -56,7 +54,7 @@ void FizzyAde::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(const QString ho
                     auto requiredFields = QStringList() << "country_name" << "city" << "country_code";
                     auto responseValid = true;
 
-                    for(const auto &field : requiredFields) {
+                    for (const auto &field : requiredFields) {
                         if (!jsonDocument.object().contains(field)) {
                             responseValid = false;
                             break;
@@ -80,14 +78,13 @@ void FizzyAde::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(const QString ho
             reply->deleteLater();
         });
 
-        manager->get(QNetworkRequest(QUrl("https://api.hostip.info/get_json.php?ip="+host)));
+        manager->get(QNetworkRequest(QUrl("https://api.hostip.info/get_json.php?ip=" + host)));
     }
 }
 
-void FizzyAde::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(const QString host)
-{
-   lookup(host, [=] (const QString &hostAddress, const QVariantMap &result) {
-       emit this->result(hostAddress, result);
-   });
+void Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(const QString host) {
+    lookup(host, [=](const QString &hostAddress, const QVariantMap &result) {
+        emit this->result(hostAddress, result);
+    });
 }
 

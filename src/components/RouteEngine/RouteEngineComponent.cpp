@@ -23,23 +23,20 @@
 #include "ComponentSystem/IComponentManager.h"
 #include <QDebug>
 
-RouteEngineComponent::RouteEngineComponent()
-{
+RouteEngineComponent::RouteEngineComponent() {
     m_routeEngineFactory = nullptr;
 }
 
-RouteEngineComponent::~RouteEngineComponent()
-{
+RouteEngineComponent::~RouteEngineComponent() {
     if (m_routeEngineFactory) {
         delete m_routeEngineFactory;
 
-        FizzyAde::ComponentSystem::removeObject(m_routeEngineFactory);
+        Nedrysoft::ComponentSystem::removeObject(m_routeEngineFactory);
     }
 }
 
-void RouteEngineComponent::initialiseEvent()
-{
-    m_routeEngineFactory = new FizzyAde::RouteEngine::RouteEngineFactory();
+void RouteEngineComponent::initialiseEvent() {
+    m_routeEngineFactory = new Nedrysoft::RouteEngine::RouteEngineFactory();
 
-    FizzyAde::ComponentSystem::addObject(m_routeEngineFactory);
+    Nedrysoft::ComponentSystem::addObject(m_routeEngineFactory);
 }

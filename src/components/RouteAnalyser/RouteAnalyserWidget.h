@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ROUTEANALYSER_ROUTEANALYSERWIDGET_H
-#define FIZZYADE_ROUTEANALYSER_ROUTEANALYSERWIDGET_H
+#ifndef NEDRYSOFT_ROUTEANALYSER_ROUTEANALYSERWIDGET_H
+#define NEDRYSOFT_ROUTEANALYSER_ROUTEANALYSERWIDGET_H
 
 #include "Core/PingResult.h"
 #include "Core/IRouteEngine.h"
@@ -28,20 +28,23 @@
 #include <QMap>
 #include <QPair>
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     class IHostMasker;
+
     class IPingEngine;
+
     class IPingEngineFactory;
 }
 
 class QTableView;
+
 class QStandardItemModel;
+
 class QSplitter;
+
 class QScrollArea;
 
-namespace FizzyAde::RouteAnalyser
-{
+namespace Nedrysoft::RouteAnalyser {
     /**
      * @brief       The RouteAnalyserWidget class
      *
@@ -50,79 +53,82 @@ namespace FizzyAde::RouteAnalyser
      *
      */
     class RouteAnalyserWidget :
-        public QWidget
-    {
+            public QWidget {
         Q_OBJECT
-    public:
-        /**
-         * @brief       Constructor
-         *
-         * @param[in]   targetHost              the host being analysed (ip address or hostname)
-         * @param[in]   ipVersion               the version of ip to be used
-         * @param[in]   interval                the interval between pings
-         * @param[in]   pingEngineFactory       the ping engine factory to use
-         * @param[in]   parent                  the parent widget
-         *
-         */
-        explicit RouteAnalyserWidget(QString targetHost, FizzyAde::Core::IPVersion ipVersion, double interval, FizzyAde::Core::IPingEngineFactory *pingEngineFactory, QWidget *parent = nullptr);
+        public:
+            /**
+             * @brief       Constructor
+             *
+             * @param[in]   targetHost              the host being analysed (ip address or hostname)
+             * @param[in]   ipVersion               the version of ip to be used
+             * @param[in]   interval                the interval between pings
+             * @param[in]   pingEngineFactory       the ping engine factory to use
+             * @param[in]   parent                  the parent widget
+             *
+             */
+            explicit RouteAnalyserWidget(QString targetHost, Nedrysoft::Core::IPVersion ipVersion, double interval,
+                                         Nedrysoft::Core::IPingEngineFactory *pingEngineFactory,
+                                         QWidget *parent = nullptr);
 
-        /**
-         * @brief       Destructor
-         *
-         */
-        ~RouteAnalyserWidget();
+            /**
+             * @brief       Destructor
+             *
+             */
+            ~RouteAnalyserWidget();
 
-    public slots:
-        /**
-         * @brief       Ping result from a hop
-         *
-         * @param[in]   result                  the PingResult contains the timing information for the ping
-         *
-         */
-        void onPingResult(FizzyAde::Core::PingResult result);
+        public slots:
 
-        /**
-         * @brief       Route result
-         *
-         * @details     returns the list of hops to the destination
-         *
-         * @param[in]   routeHostAddress        the intended target of the route analysis
-         * @param[in]   route                   the route that was discovered
-         *
-         */
-        void onRouteResult(const QHostAddress &routeHostAddress, const FizzyAde::Core::RouteList &route);
+            /**
+             * @brief       Ping result from a hop
+             *
+             * @param[in]   result                  the PingResult contains the timing information for the ping
+             *
+             */
+            void onPingResult(Nedrysoft::Core::PingResult result);
 
-    signals:
-        /**
-         * @brief       event filter
-         *
-         * @details     used to get notifications of a palette change so that the graphs can be
-         *              modified so that they remain legible.  Implemented to allow cross thread control
-         *              changes.
-         *
-         * @param[in]   watched                 the object that was being watched
-         * @param[in]   event                   the event that was sent to the filter
-         *
-         */
-        void filteredEvent(QObject *watched, QEvent *event);
+            /**
+             * @brief       Route result
+             *
+             * @details     returns the list of hops to the destination
+             *
+             * @param[in]   routeHostAddress        the intended target of the route analysis
+             * @param[in]   route                   the route that was discovered
+             *
+             */
+            void onRouteResult(const QHostAddress &routeHostAddress, const Nedrysoft::Core::RouteList &route);
 
-    protected:
-        QMap<int, QPair<QString, QString> > &headerMap();
+        signals:
 
-        virtual bool eventFilter(QObject *watched, QEvent *event);
+            /**
+             * @brief       event filter
+             *
+             * @details     used to get notifications of a palette change so that the graphs can be
+             *              modified so that they remain legible.  Implemented to allow cross thread control
+             *              changes.
+             *
+             * @param[in]   watched                 the object that was being watched
+             * @param[in]   event                   the event that was sent to the filter
+             *
+             */
+            void filteredEvent(QObject *watched, QEvent *event);
 
-    private:
-        QMap<FizzyAde::Core::IPingTarget *, int> m_targetMap;
-        QList<QCustomPlot *> m_plotList;
-        QMap<QCustomPlot *, QCPItemStraightLine *> m_graphLines;
-        FizzyAde::Core::IPingEngine *m_pingEngine = {};
-        QStandardItemModel *m_tableModel;
-        QTableView *m_tableView;
-        QSplitter *m_splitter;
-        QScrollArea *m_scrollArea;
-        FizzyAde::Core::IPingEngineFactory *m_pingEngineFactory;
-        double m_interval;
+        protected:
+            QMap<int, QPair<QString, QString> > &headerMap();
+
+            virtual bool eventFilter(QObject *watched, QEvent *event);
+
+        private:
+            QMap<Nedrysoft::Core::IPingTarget *, int> m_targetMap;
+            QList<QCustomPlot *> m_plotList;
+            QMap<QCustomPlot *, QCPItemStraightLine *> m_graphLines;
+            Nedrysoft::Core::IPingEngine *m_pingEngine = {};
+            QStandardItemModel *m_tableModel;
+            QTableView *m_tableView;
+            QSplitter *m_splitter;
+            QScrollArea *m_scrollArea;
+            Nedrysoft::Core::IPingEngineFactory *m_pingEngineFactory;
+            double m_interval;
     };
 }
 
-#endif // FIZZYADE_ROUTEANALYSER_ROUTEANALYSERWIDGET_H
+#endif // NEDRYSOFT_ROUTEANALYSER_ROUTEANALYSERWIDGET_H

@@ -18,16 +18,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_IPINGTARGET_H
-#define FIZZYADE_CORE_IPINGTARGET_H
+#ifndef NEDRYSOFT_CORE_IPINGTARGET_H
+#define NEDRYSOFT_CORE_IPINGTARGET_H
 
 #include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
 #include "IConfiguration.h"
 #include <QHostAddress>
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     class IPingEngine;
 
     /**
@@ -37,64 +36,63 @@ namespace FizzyAde::Core
      *              of destinations to be pinged.
      *
      */
-    class FIZZYADE_CORE_DLLSPEC IPingTarget :
-        public FizzyAde::ComponentSystem::IInterface,
-        public FizzyAde::Core::IConfiguration
-    {
+    class NEDRYSOFT_CORE_DLLSPEC IPingTarget :
+            public Nedrysoft::ComponentSystem::IInterface,
+            public Nedrysoft::Core::IConfiguration {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::ComponentSystem::IInterface)
-        Q_INTERFACES(FizzyAde::Core::IConfiguration)
+            Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
+            Q_INTERFACES(Nedrysoft::Core::IConfiguration)
 
-    public:
-        /**
-         * Destructor
-         *
-         */
-        virtual ~IPingTarget() = default;
+        public:
+            /**
+             * Destructor
+             *
+             */
+            virtual ~IPingTarget() = default;
 
-        /**
-         * Sets host address for this target
-         *
-         * @param[in]   hostAddress     the host address to be pinged
-         *
-         */
-        virtual void setHostAddress(QHostAddress hostAddress) = 0;
+            /**
+             * Sets host address for this target
+             *
+             * @param[in]   hostAddress     the host address to be pinged
+             *
+             */
+            virtual void setHostAddress(QHostAddress hostAddress) = 0;
 
-        /**
-         * Returns the host address for this target
-         *
-         * @return      the host address for this target
-         *
-         */
-        virtual QHostAddress hostAddress() = 0;
+            /**
+             * Returns the host address for this target
+             *
+             * @return      the host address for this target
+             *
+             */
+            virtual QHostAddress hostAddress() = 0;
 
-        /**
-         * Returns the IPingEngine that created this target
-         *
-         * @return      the IPingEngine that created this target
-         *
-         */
-        virtual IPingEngine *engine() = 0;
+            /**
+             * Returns the IPingEngine that created this target
+             *
+             * @return      the IPingEngine that created this target
+             *
+             */
+            virtual IPingEngine *engine() = 0;
 
-        /**
-         * Returns user data attached to this target
-         *
-         * @return      the attached user data
-         *
-         */
-        virtual void *userData() = 0;
+            /**
+             * Returns user data attached to this target
+             *
+             * @return      the attached user data
+             *
+             */
+            virtual void *userData() = 0;
 
-        /**
-         * Attaches user data to this target
-         *
-         * @param[in]   data            the user data
-         *
-         */
-        virtual void setUserData(void *data) = 0;
+            /**
+             * Attaches user data to this target
+             *
+             * @param[in]   data            the user data
+             *
+             */
+            virtual void setUserData(void *data) = 0;
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::IPingTarget, "com.fizzyade.core.IPingTarget/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingTarget, "com.fizzyade.core.IPingTarget/1.0.0")
 
-#endif // FIZZYADE_CORE_IPINGTARGET_H
+#endif // NEDRYSOFT_CORE_IPINGTARGET_H

@@ -1,60 +1,52 @@
 #include "ICMPAPIPingEngineFactory.h"
 #include "ICMPAPIPingEngine.h"
 
-class FizzyAde::Pingnoo::ICMPAPIPingEngineFactoryData
-{
+class Nedrysoft::Pingnoo::ICMPAPIPingEngineFactoryData {
 
-public:
-    ICMPAPIPingEngineFactoryData(FizzyAde::Pingnoo::ICMPAPIPingEngineFactory* parent)
-    {
-        m_pingEngineFactory = parent;
-    }
+    public:
+        ICMPAPIPingEngineFactoryData(Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory *parent) {
+            m_pingEngineFactory = parent;
+        }
 
-    friend class ICMPAPIPingEngineFactory;
+        friend class ICMPAPIPingEngineFactory;
 
-private:
-    FizzyAde::Pingnoo::ICMPAPIPingEngineFactory* m_pingEngineFactory;
+    private:
+        Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory *m_pingEngineFactory;
 
-    QList<FizzyAde::Pingnoo::ICMPAPIPingEngine *> m_engineList;
+        QList<Nedrysoft::Pingnoo::ICMPAPIPingEngine *> m_engineList;
 };
 
-FizzyAde::Pingnoo::ICMPAPIPingEngineFactory::ICMPAPIPingEngineFactory() :
-    d(std::make_shared<FizzyAde::ICMPAPIPingEngine::ICMPAPIPingEngineFactoryData>(this))
-{
+Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::ICMPAPIPingEngineFactory() :
+        d(std::make_shared<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactoryData>(this)) {
 
 }
 
-FizzyAde::Pingnoo::ICMPAPIPingEngineFactory::~ICMPAPIPingEngineFactory()
-{
-    for(auto engineInstance : d->m_engineList) {
+Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::~ICMPAPIPingEngineFactory() {
+    for (auto engineInstance : d->m_engineList) {
         delete engineInstance;
     }
 
     delete d;
 }
 
-QObject *FizzyAde::Pingnoo::ICMPAPIPingEngineFactory::asQObject()
-{
-    return(this);
+QObject *Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::asQObject() {
+    return ( this );
 }
 
-FizzyAde::Pingnoo::IPingEngine *FizzyAde::Pingnoo::ICMPAPIPingEngineFactory::createEngine()
-{
-    auto engineInstance = new FizzyAde::Pingnoo::ICMPAPIPingEngine;
+Nedrysoft::Pingnoo::IPingEngine *Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::createEngine() {
+    auto engineInstance = new Nedrysoft::Pingnoo::ICMPAPIPingEngine;
 
     d->m_engineList.append(engineInstance);
 
-    return(engineInstance);
+    return ( engineInstance );
 }
 
-QJsonObject FizzyAde::Pingnoo::ICMPAPIPingEngineFactory::saveConfiguration()
-{
-    return(QJsonObject());
+QJsonObject Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::saveConfiguration() {
+    return ( QJsonObject());
 }
 
-bool FizzyAde::Pingnoo::ICMPAPIPingEngineFactory::loadConfiguration(QJsonObject configuration)
-{
+bool Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::loadConfiguration(QJsonObject configuration) {
     Q_UNUSED(configuration)
 
-    return(false);
+    return ( false );
 }

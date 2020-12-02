@@ -38,15 +38,13 @@ using namespace std::chrono_literals;
 
 constexpr auto DefaultTransmitInterval = 10s;
 
-FizzyAde::ICMPPingEngine::ICMPPingTransmitter::ICMPPingTransmitter(FizzyAde::ICMPPingEngine::ICMPPingEngine *engine)
-{
+Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::ICMPPingTransmitter(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine) {
     m_engine = engine;
     m_interval = DefaultTransmitInterval;
     m_isRunning = false;
 }
 
-void FizzyAde::ICMPPingEngine::ICMPPingTransmitter::doWork()
-{
+void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
     struct icmp icmp_request = {};
     unsigned long sampleNumber = 0;
 
@@ -58,15 +56,15 @@ void FizzyAde::ICMPPingEngine::ICMPPingTransmitter::doWork()
 
     auto currentSequenceId = static_cast<uint16_t>(QRandomGenerator::global()->generate());
 
-    while(m_isRunning) {
+    while (m_isRunning) {
         auto startTime = std::chrono::high_resolution_clock::now();
 
         m_targetsMutex.lock();
 
-        for(auto target : m_targets) {
+        for (auto target : m_targets) {
             auto socket = target->socket();
 
-            auto pingItem = new FizzyAde::ICMPPingEngine::ICMPPingItem();
+            auto pingItem = new Nedrysoft::ICMPPingEngine::ICMPPingItem();
 
             pingItem->setTarget(target);
             pingItem->setId(target->id());
@@ -77,11 +75,13 @@ void FizzyAde::ICMPPingEngine::ICMPPingTransmitter::doWork()
 
             pingItem->setTransmitTime(std::chrono::high_resolution_clock::now(), std::chrono::system_clock::now());
 
-            auto buffer = FizzyAde::ICMPPacket::ICMPPacket::pingPacket(target->id(), currentSequenceId, 52, target->hostAddress(), static_cast<FizzyAde::ICMPPacket::IPVersion>(m_engine->version()));
+            auto buffer = Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(target->id(), currentSequenceId, 52,
+                                                                        target->hostAddress(),
+                                                                        static_cast<Nedrysoft::ICMPPacket::IPVersion>(m_engine->version()));
 
             auto result = socket->sendto(buffer, target->hostAddress());
 
-            if (result!=sizeof(icmp_request)) {
+            if (result != sizeof(icmp_request)) {
                 // transmit error
             }
         }
@@ -90,8 +90,8 @@ void FizzyAde::ICMPPingEngine::ICMPPingTransmitter::doWork()
 
         auto diff = std::chrono::high_resolution_clock::now() - startTime;
 
-        if (diff<m_interval) {
-            std::this_thread::sleep_for(m_interval-diff);
+        if (diff < m_interval) {
+            std::this_thread::sleep_for(m_interval - diff);
         }
 
         currentSequenceId++;
@@ -99,15 +99,13 @@ void FizzyAde::ICMPPingEngine::ICMPPingTransmitter::doWork()
     }
 }
 
-bool FizzyAde::ICMPPingEngine::ICMPPingTransmitter::setInterval(std::chrono::milliseconds interval)
-{
+bool Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::setInterval(std::chrono::milliseconds interval) {
     m_interval = interval;
 
     return true;
 }
 
-void FizzyAde::ICMPPingEngine::ICMPPingTransmitter::addTarget(FizzyAde::ICMPPingEngine::ICMPPingTarget *target)
-{
+void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::addTarget(Nedrysoft::ICMPPingEngine::ICMPPingTarget *target) {
     QMutexLocker locker(&m_targetsMutex);
 
     m_targets.append(target);

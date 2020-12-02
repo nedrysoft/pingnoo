@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_IPINGENGINE_H
-#define FIZZYADE_CORE_IPINGENGINE_H
+#ifndef NEDRYSOFT_CORE_IPINGENGINE_H
+#define NEDRYSOFT_CORE_IPINGENGINE_H
 
 #include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
@@ -28,8 +28,7 @@
 #include <chrono>
 #include <QHostAddress>
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     class IPingTarget;
 
     /**
@@ -40,107 +39,106 @@ namespace FizzyAde::Core
      *              when a ping result is available
      *
      */
-    class FIZZYADE_CORE_DLLSPEC IPingEngine :
-        public FizzyAde::ComponentSystem::IInterface,
-        public FizzyAde::Core::IConfiguration
-    {
+    class NEDRYSOFT_CORE_DLLSPEC IPingEngine :
+            public Nedrysoft::ComponentSystem::IInterface,
+            public Nedrysoft::Core::IConfiguration {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::ComponentSystem::IInterface)
-        Q_INTERFACES(FizzyAde::Core::IConfiguration)
+            Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
+            Q_INTERFACES(Nedrysoft::Core::IConfiguration)
 
-    public:
-        /**
-         * @brief       Destructor
-         *
-         */
-        virtual ~IPingEngine() = default;
+        public:
+            /**
+             * @brief       Destructor
+             *
+             */
+            virtual ~IPingEngine() = default;
 
-        /**
-         * @brief       Sets the measurement interval for this engine instance
-         *
-         * @param[in]   interval        interval time
-         *
-         * @return      returns true on success, else false
-         *
-         */
-        virtual bool setInterval(std::chrono::milliseconds interval) = 0;
+            /**
+             * @brief       Sets the measurement interval for this engine instance
+             *
+             * @param[in]   interval        interval time
+             *
+             * @return      returns true on success, else false
+             *
+             */
+            virtual bool setInterval(std::chrono::milliseconds interval) = 0;
 
-        /**
-         * @brief       Sets the reply timeout for this engine instance
-         *
-         * @param[in]   timeout         timeout time
-         *
-         * @return      true on success, else false
-         *
-         */
-        virtual bool setTimeout(std::chrono::milliseconds timeout) = 0;
+            /**
+             * @brief       Sets the reply timeout for this engine instance
+             *
+             * @param[in]   timeout         timeout time
+             *
+             * @return      true on success, else false
+             *
+             */
+            virtual bool setTimeout(std::chrono::milliseconds timeout) = 0;
 
-        /**
-         * @brief       Starts ping operations for this engine instance
-         *
-         * @return      true on success, else false
-         *
-         */
-        virtual bool start() = 0;
+            /**
+             * @brief       Starts ping operations for this engine instance
+             *
+             * @return      true on success, else false
+             *
+             */
+            virtual bool start() = 0;
 
-        /**
-         * @brief       Stops ping operations for this engine instance
-         *
-         * @return      true on success, else false
-         *
-         */
-        virtual bool stop() = 0;
+            /**
+             * @brief       Stops ping operations for this engine instance
+             *
+             * @return      true on success, else false
+             *
+             */
+            virtual bool stop() = 0;
 
-        /**
-         * @brief       Adds a ping target to this engine instance
-         *
-         * @param[in]   hostAddress     the host address of the ping target
-         *
-         * @return      returns a pointer to the created ping target
-         *
-         */
-        virtual IPingTarget *addTarget(QHostAddress hostAddress) = 0;
+            /**
+             * @brief       Adds a ping target to this engine instance
+             *
+             * @param[in]   hostAddress     the host address of the ping target
+             *
+             * @return      returns a pointer to the created ping target
+             *
+             */
+            virtual IPingTarget *addTarget(QHostAddress hostAddress) = 0;
 
-        /**
-         * @brief       Adds a ping target to this engine instance
-         *
-         * @param[in]   hostAddress     the host address of the ping target
-         * @param[in]   ttl             the time to live to use
-         *
-         * @return returns a pointer to the created ping target
-         *
-         */
-        virtual IPingTarget *addTarget(QHostAddress hostAddress, int ttl) = 0;
+            /**
+             * @brief       Adds a ping target to this engine instance
+             *
+             * @param[in]   hostAddress     the host address of the ping target
+             * @param[in]   ttl             the time to live to use
+             *
+             * @return returns a pointer to the created ping target
+             *
+             */
+            virtual IPingTarget *addTarget(QHostAddress hostAddress, int ttl) = 0;
 
-        /**
-         * @brief       Removes a ping target from this engine instance
-         *
-         * @param[in]   target          the ping target to remove
-         *
-         * @return      true on success, else false
-         *
-         */
-        virtual bool removeTarget(IPingTarget *target) = 0;
+            /**
+             * @brief       Removes a ping target from this engine instance
+             *
+             * @param[in]   target          the ping target to remove
+             *
+             * @return      true on success, else false
+             *
+             */
+            virtual bool removeTarget(IPingTarget *target) = 0;
 
-        /**
-         * @brief       Gets the epoch for this engine instace.
-         *
-         * @return      the time epoch
-         *
-         */
-        virtual std::chrono::system_clock::time_point epoch() = 0;
+            /**
+             * @brief       Gets the epoch for this engine instace.
+             *
+             * @return      the time epoch
+             *
+             */
+            virtual std::chrono::system_clock::time_point epoch() = 0;
 
-        /**
-         * @brief       Signal emitted to indicate the state of a ping request
-         *
-         * @param[in]   result          the result of a ping request
-         *
-         */
-        Q_SIGNAL void result(FizzyAde::Core::PingResult result);
+            /**
+             * @brief       Signal emitted to indicate the state of a ping request
+             *
+             * @param[in]   result          the result of a ping request
+             *
+             */
+            Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
     };
 }
 
-Q_DECLARE_INTERFACE(FizzyAde::Core::IPingEngine, "com.fizzyade.core.IPingEngine/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingEngine, "com.fizzyade.core.IPingEngine/1.0.0")
 
-#endif // FIZZYADE_CORE_IPINGENGINE_H
+#endif // NEDRYSOFT_CORE_IPINGENGINE_H

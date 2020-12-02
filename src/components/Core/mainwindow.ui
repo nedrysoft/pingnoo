@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FizzyAde::Core::MainWindow</class>
- <widget class="QMainWindow" name="FizzyAde::Core::MainWindow">
+ <class>Nedrysoft::Core::MainWindow</class>
+ <widget class="QMainWindow" name="Nedrysoft::Core::MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -34,7 +34,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="FizzyAde::Ribbon::RibbonWidget" name="ribbonBar">
+     <widget class="Nedrysoft::Ribbon::RibbonWidget" name="ribbonBar">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -76,7 +76,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="FizzyAde::Ribbon::RibbonGroup" name="clipboardGroup">
+         <widget class="Nedrysoft::Ribbon::RibbonGroup" name="clipboardGroup">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -238,7 +238,7 @@
          </widget>
         </item>
         <item>
-         <widget class="FizzyAde::Ribbon::RibbonGroup" name="widget">
+         <widget class="Nedrysoft::Ribbon::RibbonGroup" name="widget">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -257,7 +257,7 @@
          </widget>
         </item>
         <item>
-         <widget class="FizzyAde::Ribbon::RibbonGroup" name="widget_2">
+         <widget class="Nedrysoft::Ribbon::RibbonGroup" name="widget_2">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -371,13 +371,13 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>FizzyAde::Ribbon::RibbonGroup</class>
+   <class>Nedrysoft::Ribbon::RibbonGroup</class>
    <extends>QWidget</extends>
    <header>Ribbon/RibbonGroup.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>FizzyAde::Ribbon::RibbonWidget</class>
+   <class>Nedrysoft::Ribbon::RibbonWidget</class>
    <extends>QTabWidget</extends>
    <header>Ribbon/RibbonWidget.h</header>
    <container>1</container>
@@ -390,7 +390,7 @@
   <connection>
    <sender>cutButton</sender>
    <signal>clicked()</signal>
-   <receiver>FizzyAde::Core::MainWindow</receiver>
+   <receiver>Nedrysoft::Core::MainWindow</receiver>
    <slot>onCutButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">

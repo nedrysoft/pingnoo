@@ -38,7 +38,7 @@ Nedrysoft::SplashScreen::SplashScreen() :
         QSplashScreen(QPixmap(), Qt::WindowStaysOnTopHint) {
 
     auto pixmap = QPixmap(splashScreenFilename);
-    auto scaledPixmap = pixmap.scaledToWidth(splashScreenWidth*pixmap.devicePixelRatio(), Qt::SmoothTransformation);
+    auto scaledPixmap = pixmap.scaledToWidth(splashScreenWidth * pixmap.devicePixelRatio(), Qt::SmoothTransformation);
 
     auto fontDirIterator = QDirIterator(":/app/fonts", QDirIterator::Subdirectories);
 
@@ -48,7 +48,7 @@ Nedrysoft::SplashScreen::SplashScreen() :
         QFontDatabase::addApplicationFont(fontDirIterator.filePath());
     }
 
-    m_scaleFactor = static_cast<float>(scaledPixmap.width())/static_cast<float>(pixmap.width());
+    m_scaleFactor = static_cast<float>(scaledPixmap.width()) / static_cast<float>(pixmap.width());
 
     setPixmap(scaledPixmap);
 
@@ -68,13 +68,13 @@ Nedrysoft::SplashScreen *Nedrysoft::SplashScreen::getInstance() {
         instance = new Nedrysoft::SplashScreen;
     }
 
-    return(instance);
+    return ( instance );
 }
 
 void Nedrysoft::SplashScreen::drawContents(QPainter *painter) {
     auto font = QFont(fontFamily, fontSize, QFont::Weight::Bold);
     auto versionText = QString("%1.%2.%3").arg(PINGNOO_GIT_YEAR).arg(PINGNOO_GIT_MONTH).arg(PINGNOO_GIT_DAY);
-    auto textRect = QRectF(versionRect.topLeft()*m_scaleFactor, versionRect.size()*m_scaleFactor).toRect();
+    auto textRect = QRectF(versionRect.topLeft() * m_scaleFactor, versionRect.size() * m_scaleFactor).toRect();
 
     painter->save();
 
@@ -86,7 +86,7 @@ void Nedrysoft::SplashScreen::drawContents(QPainter *painter) {
 
     auto boxRect = metrics.tightBoundingRect(versionText);
 
-    textRect.adjust(0, (versionRect.height()-boxRect.height()), 0,  (versionRect.height()-boxRect.height()));
+    textRect.adjust(0, ( versionRect.height() - boxRect.height()), 0, ( versionRect.height() - boxRect.height()));
 
     painter->drawText(versionRect, Qt::AlignCenter | Qt::AlignVCenter, versionText);
     painter->restore();

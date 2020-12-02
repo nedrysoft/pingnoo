@@ -18,16 +18,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_CONTEXTMANAGER_H
-#define FIZZYADE_CORE_CONTEXTMANAGER_H
+#ifndef NEDRYSOFT_CORE_CONTEXTMANAGER_H
+#define NEDRYSOFT_CORE_CONTEXTMANAGER_H
 
 #include "IContextManager.h"
 #include <QObject>
 #include <QString>
 #include <QMap>
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
 
     /**
      * @brief       ContextManager implementation
@@ -36,32 +35,33 @@ namespace FizzyAde::Core
      *
      */
     class ContextManager :
-        public FizzyAde::Core::IContextManager
-    {
+            public Nedrysoft::Core::IContextManager {
         Q_OBJECT
 
-        Q_INTERFACES(FizzyAde::Core::IContextManager)
+            Q_INTERFACES(Nedrysoft::Core::IContextManager)
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         */
-        ContextManager();
+        public:
+            /**
+             * @brief       Constructor
+             *
+             */
+            ContextManager();
 
-        /**
-         * @sa IContextManager
-         *
-         */
-        virtual int registerContext(QString contextIdentifier);
-        virtual int setContext(int contextIdentifier);
-        virtual int context();
+            /**
+             * @sa IContextManager
+             *
+             */
+            virtual int registerContext(QString contextIdentifier);
 
-    private:
-        int m_nextContextId;                                //! The next available context id available to register
-        int m_currentContextId;                             //! The currently selected context id
-        QMap<QString, int> m_contextIds;                    //! The list of registered context ids
+            virtual int setContext(int contextIdentifier);
+
+            virtual int context();
+
+        private:
+            int m_nextContextId;                                //! The next available context id available to register
+            int m_currentContextId;                             //! The currently selected context id
+            QMap<QString, int> m_contextIds;                    //! The list of registered context ids
     };
 }
 
-#endif // FIZZYADE_CORE_CONTEXTMANAGER_H
+#endif // NEDRYSOFT_CORE_CONTEXTMANAGER_H

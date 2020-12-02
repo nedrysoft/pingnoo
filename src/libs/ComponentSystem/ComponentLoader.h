@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_COMPONENTSYSTEM_COMPONENTLOADER_H
-#define FIZZYADE_COMPONENTSYSTEM_COMPONENTLOADER_H
+#ifndef NEDRYSOFT_COMPONENTSYSTEM_COMPONENTLOADER_H
+#define NEDRYSOFT_COMPONENTSYSTEM_COMPONENTLOADER_H
 
 #include "ComponentSystemSpec.h"
 #include <QObject>
@@ -29,8 +29,7 @@
 
 class QPluginLoader;
 
-namespace FizzyAde::ComponentSystem
-{
+namespace Nedrysoft::ComponentSystem {
     class Component;
 
     /**
@@ -42,111 +41,112 @@ namespace FizzyAde::ComponentSystem
      *
      */
     class COMPONENT_SYSTEM_DLLSPEC ComponentLoader :
-        public QObject
-    {
+            public QObject {
         Q_OBJECT
 
-    public:
-        /**
-         * @brief       LoadStatus
-         *
-         * @details     Bit flags for load status
-         *
-         */
-        enum LoadStatus
-        {
-            Loaded = 0,
-            IncompatibleQtVersion = 1,
-            NameClash = 2,
-            MissingDependency = 4,
-            Disabled = 8,
-            IncompatibleVersion = 16,
-            LoadStatus = 32,
-            MissingInterface = 64
-        };
+        public:
+            /**
+             * @brief       LoadStatus
+             *
+             * @details     Bit flags for load status
+             *
+             */
+            enum LoadStatus {
+                Loaded = 0,
+                IncompatibleQtVersion = 1,
+                NameClash = 2,
+                MissingDependency = 4,
+                Disabled = 8,
+                IncompatibleVersion = 16,
+                LoadStatus = 32,
+                MissingInterface = 64
+            };
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         * @param[in]   parent          parent object
-         *
-         */
-        explicit ComponentLoader(QObject *parent = nullptr);
+        public:
+            /**
+             * @brief       Constructor
+             *
+             * @param[in]   parent          parent object
+             *
+             */
+            explicit ComponentLoader(QObject *parent = nullptr);
 
-        /**
-         * @brief       Destructor
-         *
-         */
-        ~ComponentLoader();
+            /**
+             * @brief       Destructor
+             *
+             */
+            ~ComponentLoader();
 
-        /**
-         * @brief       addComponents
-         *
-         * @details     Searches the given directory and adds any loadable
-         *              components to the list of components to be loaded
-         *
-         * @param[in]   componentFolder         Search folder
-         *
-         */
-        void addComponents(const QString &componentFolder);
+            /**
+             * @brief       addComponents
+             *
+             * @details     Searches the given directory and adds any loadable
+             *              components to the list of components to be loaded
+             *
+             * @param[in]   componentFolder         Search folder
+             *
+             */
+            void addComponents(const QString &componentFolder);
 
-        /**
-         * @brief       loadComponents
-         *
-         * @details     Loads the components
-         *
-         */
-        void loadComponents(std::function <bool (FizzyAde::ComponentSystem::Component *)> loadFunction = nullptr);
+            /**
+             * @brief       loadComponents
+             *
+             * @details     Loads the components
+             *
+             */
+            void loadComponents(std::function<bool(Nedrysoft::ComponentSystem::Component *)> loadFunction = nullptr);
 
-        /**
-         * @brief       components
-         *
-         * @details     Returns the list of components that were found, the state
-         *              of whether the component was loaded is updated along with
-         *              an error code for each component if a component could not
-         *              be loaded.
-         *
-         * @return      List of components
-         *
-         */
-        QList<Component *> components();
+            /**
+             * @brief       components
+             *
+             * @details     Returns the list of components that were found, the state
+             *              of whether the component was loaded is updated along with
+             *              an error code for each component if a component could not
+             *              be loaded.
+             *
+             * @return      List of components
+             *
+             */
+            QList<Component *> components();
 
-    private:
-        /**
-         * @brief       resolve
-         *
-         * @details     For a given component, returns a list of components in the order
-         *              that they must be loaded in order to satisfy all component and
-         *              sub component dependencies.
-         *
-         * @param[in]   component           the component to resolve
-         * @param[out]  resolvedList        ordered list of components
-         *
-         */
-        void resolve(FizzyAde::ComponentSystem::Component *component, QList<FizzyAde::ComponentSystem::Component *> &resolvedList);
+        private:
+            /**
+             * @brief       resolve
+             *
+             * @details     For a given component, returns a list of components in the order
+             *              that they must be loaded in order to satisfy all component and
+             *              sub component dependencies.
+             *
+             * @param[in]   component           the component to resolve
+             * @param[out]  resolvedList        ordered list of components
+             *
+             */
+            void resolve(Nedrysoft::ComponentSystem::Component *component,
+                         QList<Nedrysoft::ComponentSystem::Component *> &resolvedList);
 
-        /**
-         * @brief           resolve
-         *
-         * @details         For a given component, returns a list of components in the order
-         *                  that they must be loaded in order to satisfy all component and
-         *                  sub component dependencies.
-         *
-         *                  This overload uses a list to mark nodes as already processed, this
-         *                  allows us to detect circular references.
-         *
-         * @param[in]       component           the component to resolve
-         * @param[in,out]   processedList       list of nodes that have already been processed
-         * @param[out]      resolvedList        ordered list of components
-         *
-         */
-        void resolve(FizzyAde::ComponentSystem::Component *component, QList<FizzyAde::ComponentSystem::Component *> &resolvedList, QList<FizzyAde::ComponentSystem::Component *> &processedList);
+            /**
+             * @brief           resolve
+             *
+             * @details         For a given component, returns a list of components in the order
+             *                  that they must be loaded in order to satisfy all component and
+             *                  sub component dependencies.
+             *
+             *                  This overload uses a list to mark nodes as already processed, this
+             *                  allows us to detect circular references.
+             *
+             * @param[in]       component           the component to resolve
+             * @param[in,out]   processedList       list of nodes that have already been processed
+             * @param[out]      resolvedList        ordered list of components
+             *
+             */
+            void resolve(Nedrysoft::ComponentSystem::Component *component,
+                         QList<Nedrysoft::ComponentSystem::Component *> &resolvedList,
+                         QList<Nedrysoft::ComponentSystem::Component *> &processedList);
 
-    private:
-        QList<QPair<QPluginLoader *, FizzyAde::ComponentSystem::Component *> > m_loadOrder;
-        QMap<QString, FizzyAde::ComponentSystem::Component *> m_componentSearchList;
+        private:
+            QList<QPair<QPluginLoader *, Nedrysoft::ComponentSystem::Component *> > m_loadOrder;
+            QMap<QString, Nedrysoft::ComponentSystem::Component *> m_componentSearchList;
     };
 }
 
-#endif // FIZZYADE_COMPONENTSYSTEM_COMPONENTLOADER_H
+#endif // NEDRYSOFT_COMPONENTSYSTEM_COMPONENTLOADER_H

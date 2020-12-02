@@ -158,9 +158,9 @@ macro(pingnoo_start_component)
 
     string(TOUPPER ${pingnooCurrentProjectName} pingnooCurrentProjectNameUpperCase)
 
-    add_definitions("-DFIZZYADE_COMPONENT_${pingnooCurrentProjectNameUpperCase}_EXPORT")
-    add_definitions("-DFIZZYADE_MODULE_FILENAME=\"${pingnooCurrentProjectName}.dll\"")
-    add_definitions("-DFIZZYADE_MODULE_NAME=\"${pingnooCurrentProjectName}\"")
+    add_definitions("-DNEDRYSOFT_COMPONENT_${pingnooCurrentProjectNameUpperCase}_EXPORT")
+    add_definitions("-DNEDRYSOFT_MODULE_FILENAME=\"${pingnooCurrentProjectName}.dll\"")
+    add_definitions("-DNEDRYSOFT_MODULE_NAME=\"${pingnooCurrentProjectName}\"")
 
     set(pingnooComponentDependenciesList "")
 endmacro(pingnoo_start_component)
@@ -190,9 +190,9 @@ macro(pingnoo_start_shared_library)
 
     string(TOUPPER ${pingnooCurrentProjectName} pingnooCurrentProjectNameUpperCase)
 
-    add_definitions("-DFIZZYADE_LIBRARY_${pingnooCurrentProjectNameUpperCase}_EXPORT")
-    add_definitions("-DFIZZYADE_MODULE_FILENAME=\"${pingnooCurrentProjectName}.dll\"")
-    add_definitions("-DFIZZYADE_MODULE_NAME=\"${pingnooCurrentProjectName}\"")
+    add_definitions("-DNEDRYSOFT_LIBRARY_${pingnooCurrentProjectNameUpperCase}_EXPORT")
+    add_definitions("-DNEDRYSOFT_MODULE_FILENAME=\"${pingnooCurrentProjectName}.dll\"")
+    add_definitions("-DNEDRYSOFT_MODULE_NAME=\"${pingnooCurrentProjectName}\"")
 endmacro(pingnoo_start_shared_library)
 
 macro(pingnoo_end_shared_library)
@@ -241,8 +241,8 @@ macro(pingnoo_start_executable)
 
     set(CMAKE_BUILD_RPATH "@executable_path/../Frameworks")
 
-    add_definitions("-DFIZZYADE_MODULE_FILENAME=\"${pingnooCurrentProjectName}.exe\"")
-    add_definitions("-DFIZZYADE_MODULE_NAME=\"${pingnooCurrentProjectName}\"")
+    add_definitions("-DNEDRYSOFT_MODULE_FILENAME=\"${pingnooCurrentProjectName}.exe\"")
+    add_definitions("-DNEDRYSOFT_MODULE_NAME=\"${pingnooCurrentProjectName}\"")
 endmacro(pingnoo_start_executable)
 
 macro(pingnoo_end_executable)

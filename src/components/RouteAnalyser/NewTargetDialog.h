@@ -18,16 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_ROUTEANALYSER_NEWTARGETDIALOG_H
-#define FIZZYADE_ROUTEANALYSER_NEWTARGETDIALOG_H
+#ifndef NEDRYSOFT_ROUTEANALYSER_NEWTARGETDIALOG_H
+#define NEDRYSOFT_ROUTEANALYSER_NEWTARGETDIALOG_H
 
 #include <QDialog>
 #include "Core/IPingEngineFactory.h"
 
-namespace FizzyAde::RouteAnalyser
-{
-    namespace Ui
-    {
+namespace Nedrysoft::RouteAnalyser {
+    namespace Ui {
         class NewTargetDialog;
     }
 
@@ -38,63 +36,63 @@ namespace FizzyAde::RouteAnalyser
      *              the user to select the target, ping engine, interval etc.
      *
      */
-    class NewTargetDialog : public QDialog
-    {
+    class NewTargetDialog :
+            public QDialog {
         Q_OBJECT
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         * @param[in]   parent          parent widget
-         *
-         */
-        explicit NewTargetDialog(QWidget *parent = nullptr);
+        public:
+            /**
+             * @brief       Constructor
+             *
+             * @param[in]   parent          parent widget
+             *
+             */
+            explicit NewTargetDialog(QWidget *parent = nullptr);
 
-        /**
-         * @brief       Destructor
-         *
-         */
-        ~NewTargetDialog();
+            /**
+             * @brief       Destructor
+             *
+             */
+            ~NewTargetDialog();
 
-        /**
-         * @brief       The ping engine factory selected
-         *
-         * @return      the selected IPingEngineFactory
-         *
-         */
-        FizzyAde::Core::IPingEngineFactory *pingEngineFactory();
+            /**
+             * @brief       The ping engine factory selected
+             *
+             * @return      the selected IPingEngineFactory
+             *
+             */
+            Nedrysoft::Core::IPingEngineFactory *pingEngineFactory();
 
-        /**
-         * @brief       The selected target
-         *
-         * @return      the target (host or ip address)
-         *
-         */
-        QString pingTarget();
+            /**
+             * @brief       The selected target
+             *
+             * @return      the target (host or ip address)
+             *
+             */
+            QString pingTarget();
 
-        /**
-         * @brief       The selected IP version
-         *
-         * @return      the ip version (V4 or V6)
-         *
-         */
-        FizzyAde::Core::IPVersion ipVersion();
+            /**
+             * @brief       The selected IP version
+             *
+             * @return      the ip version (V4 or V6)
+             *
+             */
+            Nedrysoft::Core::IPVersion ipVersion();
 
-        /**
-         * @brief       The ping interval
-         *
-         * @details     The ping interval is the number of seconds between ping clusters,
-         *              this can be a sub-second value.
-         *
-         * @return      the ping internal in seconds
-         *
-         */
-        double interval();
+            /**
+             * @brief       The ping interval
+             *
+             * @details     The ping interval is the number of seconds between ping clusters,
+             *              this can be a sub-second value.
+             *
+             * @return      the ping internal in seconds
+             *
+             */
+            double interval();
 
-    private:
-        Ui::NewTargetDialog *ui;
+        private:
+            Ui::NewTargetDialog *ui;
     };
 }
 
-#endif // FIZZYADE_ROUTEANALYSER_NEWTARGETDIALOG_H
+#endif // NEDRYSOFT_ROUTEANALYSER_NEWTARGETDIALOG_H

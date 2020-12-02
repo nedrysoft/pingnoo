@@ -29,56 +29,60 @@
 /**
  * @brief       Namespace for the core component user interface.
  */
-namespace FizzyAde::Core::Ui {}
+namespace Nedrysoft::Core::Ui {}
 
-namespace FizzyAde::Core
-{
+namespace Nedrysoft::Core {
     QT_BEGIN_NAMESPACE
     namespace Ui { class MainWindow; }
     QT_END_NAMESPACE
 
     class IMenu;
 
-    class MainWindow : public QMainWindow
-    {
+    class MainWindow :
+            public QMainWindow {
         Q_OBJECT
 
-    public:
-        MainWindow(QWidget *parent = nullptr);
-        ~MainWindow();
+        public:
+            MainWindow(QWidget *parent = nullptr);
 
-        void initialise();
+            ~MainWindow();
 
-    private slots:
+            void initialise();
 
-        void onCutButtonClicked();
+        private slots:
 
-        void on_toolButton_clicked();
+            void onCutButtonClicked();
 
-    private:
-        void createDefaultCommands();
-        void registerDefaultCommands();
+            void on_toolButton_clicked();
 
-        FizzyAde::Core::ICommand *createCommand(QString commandId, QAbstractButton *button, QAction::MenuRole menuRole=QAction::NoRole);
-        void addMenuCommand(QString commandId, QString menuId, QString groupId=QString());
+        private:
+            void createDefaultCommands();
 
-        FizzyAde::Core::IMenu *createMenu(QString menuId, QString parentMenuId=QString());
-        FizzyAde::Core::IMenu *findMenu(QString menuId);
+            void registerDefaultCommands();
 
-    protected:
+            Nedrysoft::Core::ICommand *
+            createCommand(QString commandId, QAbstractButton *button, QAction::MenuRole menuRole = QAction::NoRole);
 
-    private:
-        Ui::MainWindow *ui;
+            void addMenuCommand(QString commandId, QString menuId, QString groupId = QString());
 
-        QAction *m_aboutComponentsAction;
-        QAction *m_aboutAction;
+            Nedrysoft::Core::IMenu *createMenu(QString menuId, QString parentMenuId = QString());
 
-        /*
-        QLabel *m_pointInfoLabel;
-        QLabel *m_hopInfoLabel;
-        QLabel *m_hostInfoLabel;
-        QLabel *m_timeInfoLabel;
-        */
+            Nedrysoft::Core::IMenu *findMenu(QString menuId);
+
+        protected:
+
+        private:
+            Ui::MainWindow *ui;
+
+            QAction *m_aboutComponentsAction;
+            QAction *m_aboutAction;
+
+            /*
+            QLabel *m_pointInfoLabel;
+            QLabel *m_hopInfoLabel;
+            QLabel *m_hostInfoLabel;
+            QLabel *m_timeInfoLabel;
+            */
     };
 }
 

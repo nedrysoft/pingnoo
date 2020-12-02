@@ -59,31 +59,36 @@ constexpr std::chrono::duration<double> DefaultTimeWindow = 10min;
 constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
 
-QMap<int, QPair<QString, QString> > &FizzyAde::RouteAnalyser::RouteAnalyserWidget::headerMap()
-{
+QMap<int, QPair<QString, QString> > &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::headerMap() {
     static QMap<int, QPair<QString, QString> > &map = *new QMap<int, QPair<QString, QString> >
-    {
-        {FizzyAde::RouteAnalyser::PingData::Hop, {tr("Hop"),"XXXXX"}},
-        {FizzyAde::RouteAnalyser::PingData::Count, {tr("Count"),"XXXXX"}},
-        {FizzyAde::RouteAnalyser::PingData::IP, {tr("IP"),"888.888.888.888"}},
-        {FizzyAde::RouteAnalyser::PingData::HostName, {tr("Name"),"XXXXXXXXXXX.XXXXXXXXXX.XXXXXXXXX.XXX"}},
-        {FizzyAde::RouteAnalyser::PingData::Location, {tr("Location"),"XXXXXXXXXXXXXXXX"}},
-        {FizzyAde::RouteAnalyser::PingData::AverageLatency, {tr("Avg"),"8888.888"}},
-        {FizzyAde::RouteAnalyser::PingData::CurrentLatency, {tr("Cur"),"8888.888"}},
-        {FizzyAde::RouteAnalyser::PingData::MinimumLatency, {tr("Min"),"8888.888"}},
-        {FizzyAde::RouteAnalyser::PingData::MaximumLatency, {tr("Max"),"8888.888"}},
-        {FizzyAde::RouteAnalyser::PingData::PacketLoss, {tr("Loss %"),"8888.888"}},
-        {FizzyAde::RouteAnalyser::PingData::Graph, {"",""}}
-    };
+            {
+                    {Nedrysoft::RouteAnalyser::PingData::Hop,            {tr("Hop"),      "XXXXX"}},
+                    {Nedrysoft::RouteAnalyser::PingData::Count,          {tr("Count"),    "XXXXX"}},
+                    {Nedrysoft::RouteAnalyser::PingData::IP,             {tr("IP"),       "888.888.888.888"}},
+                    {Nedrysoft::RouteAnalyser::PingData::HostName,       {tr(
+                            "Name"),                                                      "XXXXXXXXXXX.XXXXXXXXXX.XXXXXXXXX.XXX"}},
+                    {Nedrysoft::RouteAnalyser::PingData::Location,       {tr("Location"), "XXXXXXXXXXXXXXXX"}},
+                    {Nedrysoft::RouteAnalyser::PingData::AverageLatency, {tr("Avg"),      "8888.888"}},
+                    {Nedrysoft::RouteAnalyser::PingData::CurrentLatency, {tr("Cur"),      "8888.888"}},
+                    {Nedrysoft::RouteAnalyser::PingData::MinimumLatency, {tr("Min"),      "8888.888"}},
+                    {Nedrysoft::RouteAnalyser::PingData::MaximumLatency, {tr("Max"),      "8888.888"}},
+                    {Nedrysoft::RouteAnalyser::PingData::PacketLoss,     {tr("Loss %"),   "8888.888"}},
+                    {Nedrysoft::RouteAnalyser::PingData::Graph,          {"",             ""}}
+            };
 
     return map;
 }
 
-FizzyAde::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyserWidget(QString targetHost, FizzyAde::Core::IPVersion ipVersion, double interval, FizzyAde::Core::IPingEngineFactory *pingEngineFactory, QWidget *parent) : QWidget(parent)
-{
-    auto maskerConfig = QString(R"|({"id":"FizzyAde::RegExHostMasker::RegExHostMasker","matchItems":[{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"},{"matchExpression":"(?<host>(.+))\\.fizzyade\\.(?<domain>(.+))","matchFlags":20,"matchHopString":"","matchReplacementString":"[host].<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"}]})|");
+Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyserWidget(QString targetHost,
+                                                                                        Nedrysoft::Core::IPVersion ipVersion,
+                                                                                        double interval,
+                                                                                        Nedrysoft::Core::IPingEngineFactory *pingEngineFactory,
+                                                                                        QWidget *parent) : QWidget(
+        parent) {
+    auto maskerConfig = QString(
+            R"|({"id":"Nedrysoft::RegExHostMasker::RegExHostMasker","matchItems":[{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"},{"matchExpression":"(?<host>(.+))\\.fizzyade\\.(?<domain>(.+))","matchFlags":20,"matchHopString":"","matchReplacementString":"[host].<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"}]})|");
 
-    auto hostMaskers = FizzyAde::ComponentSystem::getObjects<FizzyAde::Core::IHostMasker>();
+    auto hostMaskers = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IHostMasker>();
 
     for (auto hostMasker : hostMaskers) {
         auto doc = QJsonDocument::fromJson(maskerConfig.toLatin1());
@@ -91,7 +96,7 @@ FizzyAde::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyser
         hostMasker->loadConfiguration(doc.object());
     }
 
-    auto routeEngineFactory = FizzyAde::ComponentSystem::getObject<FizzyAde::Core::IRouteEngineFactory>();
+    auto routeEngineFactory = Nedrysoft::ComponentSystem::getObject<Nedrysoft::Core::IRouteEngineFactory>();
 
     if (!routeEngineFactory) {
         return;
@@ -100,14 +105,15 @@ FizzyAde::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyser
     auto routeEngine = routeEngineFactory->createEngine();
 
     if (routeEngine) {
-        connect(routeEngine, &FizzyAde::Core::IRouteEngine::result, this, &FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult);
+        connect(routeEngine, &Nedrysoft::Core::IRouteEngine::result, this,
+                &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult);
 
         routeEngine->findRoute(targetHost, ipVersion);
     }
 
-    auto routeGraphDelegate = new FizzyAde::RouteAnalyser::RouteTableItemDelegate;
+    auto routeGraphDelegate = new Nedrysoft::RouteAnalyser::RouteTableItemDelegate;
 
-    connect(this, &QObject::destroyed, routeGraphDelegate, [routeGraphDelegate] (QObject *) {
+    connect(this, &QObject::destroyed, routeGraphDelegate, [routeGraphDelegate](QObject *) {
         delete routeGraphDelegate;
     });
 
@@ -141,7 +147,7 @@ FizzyAde::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyser
 
     auto headerIterator = QMapIterator<int, QPair<QString, QString> >(headerMap());
 
-    while(headerIterator.hasNext()) {
+    while (headerIterator.hasNext()) {
         headerIterator.next();
 
         auto headerItem = new QStandardItem();
@@ -150,7 +156,8 @@ FizzyAde::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyser
 
         headerItem->setText(pair.first);
 
-        auto maxWidth = qMax(m_tableView->fontMetrics().horizontalAdvance(pair.first), m_tableView->fontMetrics().horizontalAdvance(pair.second));
+        auto maxWidth = qMax(m_tableView->fontMetrics().horizontalAdvance(pair.first),
+                             m_tableView->fontMetrics().horizontalAdvance(pair.second));
 
         m_tableModel->setHorizontalHeaderItem(headerIterator.key(), headerItem);
 
@@ -171,15 +178,13 @@ FizzyAde::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyser
     this->setLayout(verticalLayout);
 }
 
-FizzyAde::RouteAnalyser::RouteAnalyserWidget::~RouteAnalyserWidget()
-{
+Nedrysoft::RouteAnalyser::RouteAnalyserWidget::~RouteAnalyserWidget() {
     delete m_tableView;
     delete m_tableModel;
 }
 
-void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onPingResult(FizzyAde::Core::PingResult result)
-{
-    auto pingData = static_cast<FizzyAde::RouteAnalyser::PingData *>(result.target()->userData());
+void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core::PingResult result) {
+    auto pingData = static_cast<Nedrysoft::RouteAnalyser::PingData *>(result.target()->userData());
     QCustomPlot *customPlot;
 
     if (!pingData) {
@@ -192,9 +197,9 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onPingResult(FizzyAde::Core::
         return;
     }
 
-    switch(result.code()) {
-        case FizzyAde::Core::PingResult::Ok:
-        case FizzyAde::Core::PingResult::TimeExceeded: {
+    switch ( result.code()) {
+        case Nedrysoft::Core::PingResult::Ok:
+        case Nedrysoft::Core::PingResult::TimeExceeded: {
             QCPRange graphRange = customPlot->yAxis->range();
             auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
 
@@ -205,7 +210,7 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onPingResult(FizzyAde::Core::
 
             // individual vertical range
 
-            if (result.roundTripTime().count()>graphRange.upper)
+            if (result.roundTripTime().count() > graphRange.upper)
                 customPlot->yAxis->setRange(0, result.roundTripTime().count());
 
             // normalised vertical range
@@ -225,7 +230,7 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onPingResult(FizzyAde::Core::
             break;
         }
 
-        case FizzyAde::Core::PingResult::NoReply: {
+        case Nedrysoft::Core::PingResult::NoReply: {
             auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
 
             customPlot->graph(RoundTripGraph)->addData(requestTime.count(), 0);
@@ -240,33 +245,35 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onPingResult(FizzyAde::Core::
     customPlot->replot();
 }
 
-void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddress &routeHostAddress, const FizzyAde::Core::RouteList &route)
-{
-    FizzyAde::Core::IRouteEngine *routeEngine = qobject_cast<FizzyAde::Core::IRouteEngine *>(this->sender());
+void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddress &routeHostAddress,
+                                                                  const Nedrysoft::Core::RouteList &route) {
+    Nedrysoft::Core::IRouteEngine *routeEngine = qobject_cast<Nedrysoft::Core::IRouteEngine *>(this->sender());
     auto hop = 1;
-    auto geoIP = FizzyAde::ComponentSystem::getObject<FizzyAde::Core::IGeoIPProvider>();
+    auto geoIP = Nedrysoft::ComponentSystem::getObject<Nedrysoft::Core::IGeoIPProvider>();
 
     if (routeEngine) {
-        disconnect(routeEngine, &FizzyAde::Core::IRouteEngine::result, this, &FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult);
+        disconnect(routeEngine, &Nedrysoft::Core::IRouteEngine::result, this,
+                   &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult);
     }
 
     if (!m_pingEngineFactory) {
         return;
     }
 
-    if (routeHostAddress.protocol()==QAbstractSocket::IPv4Protocol) {
-        m_pingEngine = m_pingEngineFactory->createEngine(FizzyAde::Core::V4);
-    } else if (routeHostAddress.protocol()==QAbstractSocket::IPv6Protocol) {
-        m_pingEngine = m_pingEngineFactory->createEngine(FizzyAde::Core::V6);
-    }  else {
+    if (routeHostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
+        m_pingEngine = m_pingEngineFactory->createEngine(Nedrysoft::Core::V4);
+    } else if (routeHostAddress.protocol() == QAbstractSocket::IPv6Protocol) {
+        m_pingEngine = m_pingEngineFactory->createEngine(Nedrysoft::Core::V6);
+    } else {
         return;
     }
 
-    auto interval = std::chrono::duration<double, std::ratio<1,1> >(m_interval);
+    auto interval = std::chrono::duration<double, std::ratio<1, 1> >(m_interval);
 
     m_pingEngine->setInterval(std::chrono::duration_cast<std::chrono::milliseconds>(interval));
 
-    connect(m_pingEngine, &FizzyAde::Core::IPingEngine::result, this, &FizzyAde::RouteAnalyser::RouteAnalyserWidget::onPingResult);
+    connect(m_pingEngine, &Nedrysoft::Core::IPingEngine::result, this,
+            &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult);
 
     auto verticalLayout = new QVBoxLayout();
 
@@ -278,7 +285,7 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddr
             auto maskedHostName = hostName;
             auto maskedHostAddress = hostAddress;
 
-            for(auto masker : FizzyAde::ComponentSystem::getObjects<FizzyAde::Core::IHostMasker>()) {
+            for (auto masker : Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IHostMasker>()) {
                 masker->mask(hop, hostName, hostAddress, maskedHostName, maskedHostAddress);
             }
 
@@ -300,7 +307,8 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddr
 
             customPlot->yAxis->ticker()->setTickCount(1);
 
-            QSharedPointer<FizzyAde::RouteAnalyser::CPAxisTickerMS> msTicker(new FizzyAde::RouteAnalyser::CPAxisTickerMS);
+            QSharedPointer<Nedrysoft::RouteAnalyser::CPAxisTickerMS> msTicker(
+                    new Nedrysoft::RouteAnalyser::CPAxisTickerMS);
 
             customPlot->yAxis->setTicker(msTicker);
             customPlot->yAxis->setLabel(tr("Latency (ms)"));
@@ -310,10 +318,12 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddr
 
             auto locale = QLocale::system();
 
-            dateTicker->setDateTimeFormat(locale.timeFormat(QLocale::LongFormat).remove("t").trimmed()+"\n"+locale.dateFormat(QLocale::ShortFormat));
+            dateTicker->setDateTimeFormat(locale.timeFormat(QLocale::LongFormat).remove("t").trimmed() + "\n" +
+                                          locale.dateFormat(QLocale::ShortFormat));
 
             customPlot->xAxis->setTicker(dateTicker);
-            customPlot->xAxis->setRange(QDateTime::currentDateTime().toSecsSinceEpoch(), QDateTime::currentDateTime().toSecsSinceEpoch()+DefaultTimeWindow.count());
+            customPlot->xAxis->setRange(QDateTime::currentDateTime().toSecsSinceEpoch(),
+                                        QDateTime::currentDateTime().toSecsSinceEpoch() + DefaultTimeWindow.count());
 
             customPlot->graph(RoundTripGraph)->setLineStyle(QCPGraph::lsStepCenter);
             customPlot->graph(TimeoutGraph)->setBrush(QBrush(Qt::red));
@@ -324,7 +334,9 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddr
             customPlot->xAxis->setTickLabelColor(this->palette().color(QPalette::Text));
             customPlot->yAxis->setTickLabelColor(this->palette().color(QPalette::Text));
 
-            auto graphTitle = new QCPTextElement(customPlot, QString(tr("Hop %1")).arg(hop)+" "+maskedHostName+" ("+maskedHostAddress+")");
+            auto graphTitle = new QCPTextElement(customPlot,
+                                                 QString(tr("Hop %1")).arg(hop) + " " + maskedHostName + " (" +
+                                                 maskedHostAddress + ")");
 
             graphTitle->setTextColor(this->palette().color(QPalette::Text));
 
@@ -338,8 +350,9 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddr
              * the scrollarea to scroll.
              */
 
-            connect(customPlot, &QCustomPlot::mouseWheel, [this] (QWheelEvent *event) {
-                m_scrollArea->verticalScrollBar()->setValue(m_scrollArea->verticalScrollBar()->value() - event->angleDelta().y());
+            connect(customPlot, &QCustomPlot::mouseWheel, [this](QWheelEvent *event) {
+                m_scrollArea->verticalScrollBar()->setValue(
+                        m_scrollArea->verticalScrollBar()->value() - event->angleDelta().y());
             });
 
             /**
@@ -352,78 +365,89 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddr
 
             m_graphLines[customPlot] = graphLine;
 
-            connect(customPlot, &QCustomPlot::mouseMove, [this, customPlot, graphLine, maskedHostName] (QMouseEvent *event) {
-                auto x = customPlot->xAxis->pixelToCoord(event->pos().x());
-                auto foundRange = false;
-                auto dataRange = customPlot->graph(RoundTripGraph)->data()->keyRange(foundRange);
+            connect(customPlot, &QCustomPlot::mouseMove,
+                    [this, customPlot, graphLine, maskedHostName](QMouseEvent *event) {
+                        auto x = customPlot->xAxis->pixelToCoord(event->pos().x());
+                        auto foundRange = false;
+                        auto dataRange = customPlot->graph(RoundTripGraph)->data()->keyRange(foundRange);
 
-                graphLine->point1->setCoords(x, 0);
-                graphLine->point2->setCoords(x, 1);
+                        graphLine->point1->setCoords(x, 0);
+                        graphLine->point2->setCoords(x, 1);
 
-                customPlot->replot();
+                        customPlot->replot();
 
-                if ( (foundRange) &&
-                     (x>=dataRange.lower) &&
-                     (x<=dataRange.upper) ) {
-                    auto valueString = QString();
-                    auto valueResultRange = customPlot->graph(RoundTripGraph)->data()->valueRange(foundRange, QCP::sdBoth, QCPRange(x-1, x+1));
+                        if (( foundRange ) &&
+                            ( x >= dataRange.lower ) &&
+                            ( x <= dataRange.upper )) {
+                            auto valueString = QString();
+                            auto valueResultRange = customPlot->graph(RoundTripGraph)->data()->valueRange(foundRange,
+                                                                                                          QCP::sdBoth,
+                                                                                                          QCPRange(
+                                                                                                                  x - 1,
+                                                                                                                  x +
+                                                                                                                  1));
 
-                    for (auto currentItem = 0;currentItem<m_tableModel->rowCount();currentItem++) {
-                        auto pingData = m_tableModel->item(currentItem, 0)->data().value<FizzyAde::RouteAnalyser::PingData *>();
-                        auto valueRange = QCPRange(x-1, x+1);
+                            for (auto currentItem = 0; currentItem < m_tableModel->rowCount(); currentItem++) {
+                                auto pingData = m_tableModel->item(currentItem,
+                                                                   0)->data().value<Nedrysoft::RouteAnalyser::PingData *>();
+                                auto valueRange = QCPRange(x - 1, x + 1);
 
-                        if (pingData->customPlot()) {
-                            auto tempResultRange = pingData->customPlot()->graph(RoundTripGraph)->data()->valueRange(foundRange, QCP::sdBoth, valueRange);
+                                if (pingData->customPlot()) {
+                                    auto tempResultRange = pingData->customPlot()->graph(
+                                            RoundTripGraph)->data()->valueRange(foundRange, QCP::sdBoth, valueRange);
 
-                            auto seconds = std::chrono::duration<double>(tempResultRange.upper);
+                                    auto seconds = std::chrono::duration<double>(tempResultRange.upper);
 
-                            pingData->setHistoricalLatency(seconds);
+                                    pingData->setHistoricalLatency(seconds);
+                                } else {
+                                    pingData->setHistoricalLatency(std::chrono::duration<double>(-1));
+
+                                    auto topLeft = m_tableModel->index(0, 0);
+                                    auto bottomRight = topLeft.sibling(m_tableModel->rowCount() - 1,
+                                                                       m_tableModel->columnCount() - 1);
+
+                                    m_tableModel->dataChanged(topLeft, bottomRight);
+                                }
+                            }
+
+                            this->m_tableModel->setProperty("showHistorical", true);
+
+                            auto seconds = std::chrono::duration<double>(valueResultRange.upper);
+
+                            if (seconds < std::chrono::seconds(1)) {
+                                auto milliseconds = std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(
+                                        seconds);
+
+                                valueString = QString(tr("%1ms")).arg(milliseconds.count(), 0, 'f', 2);
+                            } else {
+                                valueString = QString(tr("%1s")).arg(seconds.count(), 0, 'f', 2);
+                            }
+
+                            /*
+                            auto dateTime = QDateTime::fromSecsSinceEpoch(static_cast<qint64>(x));
+
+                            m_pointInfoLabel->setText(FontAwesome::richText(QString("[fas fa-stopwatch] %1").arg(valueString)));
+                            m_hopInfoLabel->setText(FontAwesome::richText(QString("[fas fa-project-diagram] %1 %2").arg(tr("hop")).arg(hop)));
+                            m_hostInfoLabel->setText(FontAwesome::richText(QString("[fas fa-server] %1").arg(maskedHostName)));
+                            m_timeInfoLabel->setText(FontAwesome::richText(QString("[far fa-calendar-alt] %1").arg(dateTime.toString())));
+                            */
                         } else {
-                            pingData->setHistoricalLatency(std::chrono::duration<double>(-1));
+                            /*
+                            m_pointInfoLabel->setText("");
+                            m_hopInfoLabel->setText("");
+                            m_hostInfoLabel->setText("");
+                            m_timeInfoLabel->setText("");
+                            */
+
+                            this->m_tableModel->setProperty("showHistorical", false);
 
                             auto topLeft = m_tableModel->index(0, 0);
-                            auto bottomRight = topLeft.sibling(m_tableModel->rowCount()-1, m_tableModel->columnCount()-1);
+                            auto bottomRight = topLeft.sibling(m_tableModel->rowCount() - 1,
+                                                               m_tableModel->columnCount() - 1);
 
                             m_tableModel->dataChanged(topLeft, bottomRight);
                         }
-                    }
-
-                    this->m_tableModel->setProperty("showHistorical", true);
-
-                    auto seconds = std::chrono::duration<double>(valueResultRange.upper);
-
-                    if (seconds<std::chrono::seconds(1)) {
-                        auto milliseconds = std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(seconds);
-
-                        valueString = QString(tr("%1ms")).arg(milliseconds.count(), 0, 'f', 2);
-                    } else {
-                        valueString = QString(tr("%1s")).arg(seconds.count(), 0, 'f', 2);
-                    }
-
-                    /*
-                    auto dateTime = QDateTime::fromSecsSinceEpoch(static_cast<qint64>(x));
-
-                    m_pointInfoLabel->setText(FontAwesome::richText(QString("[fas fa-stopwatch] %1").arg(valueString)));
-                    m_hopInfoLabel->setText(FontAwesome::richText(QString("[fas fa-project-diagram] %1 %2").arg(tr("hop")).arg(hop)));
-                    m_hostInfoLabel->setText(FontAwesome::richText(QString("[fas fa-server] %1").arg(maskedHostName)));
-                    m_timeInfoLabel->setText(FontAwesome::richText(QString("[far fa-calendar-alt] %1").arg(dateTime.toString())));
-                    */
-                } else {
-                    /*
-                    m_pointInfoLabel->setText("");
-                    m_hopInfoLabel->setText("");
-                    m_hostInfoLabel->setText("");
-                    m_timeInfoLabel->setText("");
-                    */
-
-                    this->m_tableModel->setProperty("showHistorical", false);
-
-                    auto topLeft = m_tableModel->index(0, 0);
-                    auto bottomRight = topLeft.sibling(m_tableModel->rowCount()-1, m_tableModel->columnCount()-1);
-
-                    m_tableModel->dataChanged(topLeft, bottomRight);
-                }
-            });
+                    });
 
             customPlot->installEventFilter(this);
 
@@ -433,17 +457,17 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddr
 
             auto pingTarget = m_pingEngine->addTarget(routeHostAddress, hop);
 
-            auto pingData = new FizzyAde::RouteAnalyser::PingData(m_tableModel, hop, true);
+            auto pingData = new Nedrysoft::RouteAnalyser::PingData(m_tableModel, hop, true);
 
             auto tableItem = new QStandardItem(1, m_tableModel->columnCount());
 
-            tableItem->setData(QVariant::fromValue<FizzyAde::RouteAnalyser::PingData *>(pingData));
+            tableItem->setData(QVariant::fromValue<Nedrysoft::RouteAnalyser::PingData *>(pingData));
 
             m_tableModel->appendRow(tableItem);
 
             m_tableView->setRowHeight(tableItem->index().row(), TableRowHeight);
 
-            connect(m_tableView, &QObject::destroyed, [pingData] (QObject *) {
+            connect(m_tableView, &QObject::destroyed, [pingData](QObject *) {
                 delete pingData;
             });
 
@@ -454,14 +478,14 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddr
             pingTarget->setUserData(pingData);
 
             if (geoIP) {
-                geoIP->lookup(hostAddress, [pingData] (const QString &, const QVariantMap &result) mutable {
+                geoIP->lookup(hostAddress, [pingData](const QString &, const QVariantMap &result) mutable {
                     pingData->setLocation(result["country"].toString());
                 });
             }
         } else {
-            auto pingData = new FizzyAde::RouteAnalyser::PingData(m_tableModel, hop, false);
+            auto pingData = new Nedrysoft::RouteAnalyser::PingData(m_tableModel, hop, false);
 
-            connect(m_tableView, &QObject::destroyed, [pingData] (QObject *) {
+            connect(m_tableView, &QObject::destroyed, [pingData](QObject *) {
                 delete pingData;
             });
 
@@ -483,12 +507,12 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddr
         hop++;
     }
 
-    connect(this, &FizzyAde::RouteAnalyser::RouteAnalyserWidget::filteredEvent, [=] (QObject *watched, QEvent *event) {
+    connect(this, &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::filteredEvent, [=](QObject *watched, QEvent *event) {
         auto customPlot = qobject_cast<QCustomPlot *>(watched);
 
-        auto line =  m_graphLines[customPlot];
+        auto line = m_graphLines[customPlot];
 
-        if (event->type()==QEvent::PaletteChange) {
+        if (event->type() == QEvent::PaletteChange) {
             customPlot->setBackground(this->palette().brush(QPalette::Base));
 
             customPlot->xAxis->setLabelColor(this->palette().color(QPalette::Text));
@@ -496,29 +520,29 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddr
             customPlot->xAxis->setTickLabelColor(this->palette().color(QPalette::Text));
             customPlot->yAxis->setTickLabelColor(this->palette().color(QPalette::Text));
 
-            QCPTextElement *textElement = qobject_cast<QCPTextElement *>(customPlot->plotLayout()->element(0,0));
+            QCPTextElement *textElement = qobject_cast<QCPTextElement *>(customPlot->plotLayout()->element(0, 0));
 
             if (textElement) {
                 textElement->setTextColor(this->palette().color(QPalette::Text));
             }
         }
 
-        if ( (event->type()==QEvent::Enter) ||
-             (event->type()==QEvent::Leave) ) {
+        if (( event->type() == QEvent::Enter ) ||
+            ( event->type() == QEvent::Leave )) {
 
             /*m_pointInfoLabel->setText("");
             m_hopInfoLabel->setText("");
             m_hostInfoLabel->setText("");
             m_timeInfoLabel->setText("");*/
 
-            line->setVisible(event->type()==QEvent::Enter);
+            line->setVisible(event->type() == QEvent::Enter);
 
             customPlot->replot();
 
             this->m_tableModel->setProperty("showHistorical", false);
 
             auto topLeft = m_tableModel->index(0, 0);
-            auto bottomRight = topLeft.sibling(m_tableModel->rowCount()-1, m_tableModel->columnCount()-1);
+            auto bottomRight = topLeft.sibling(m_tableModel->rowCount() - 1, m_tableModel->columnCount() - 1);
 
             m_tableModel->dataChanged(topLeft, bottomRight);
         }
@@ -526,34 +550,34 @@ void FizzyAde::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddr
 
     m_scrollArea->widget()->setLayout(verticalLayout);
 
-    for(auto sourcePlot : m_plotList) {
-        connect(sourcePlot->xAxis, qOverload<const QCPRange &>(&QCPAxis::rangeChanged), [this, sourcePlot] (const QCPRange &range) {
-            auto newRange = range;
-            auto epoch = std::chrono::duration<double>(m_pingEngine->epoch().time_since_epoch());
+    for (auto sourcePlot : m_plotList) {
+        connect(sourcePlot->xAxis, qOverload<const QCPRange &>(&QCPAxis::rangeChanged),
+                [this, sourcePlot](const QCPRange &range) {
+                    auto newRange = range;
+                    auto epoch = std::chrono::duration<double>(m_pingEngine->epoch().time_since_epoch());
 
-            if (newRange.lower<epoch.count()) {
-                newRange = QCPRange(epoch.count(), epoch.count()+DefaultTimeWindow.count());
+                    if (newRange.lower < epoch.count()) {
+                        newRange = QCPRange(epoch.count(), epoch.count() + DefaultTimeWindow.count());
 
-                sourcePlot->xAxis->setRange(newRange);
-            }
+                        sourcePlot->xAxis->setRange(newRange);
+                    }
 
-            for (auto targetPlot : m_plotList) {
-                if (sourcePlot==targetPlot) {
-                    continue;
-                }
+                    for (auto targetPlot : m_plotList) {
+                        if (sourcePlot == targetPlot) {
+                            continue;
+                        }
 
-                targetPlot->xAxis->setRange(newRange);
+                        targetPlot->xAxis->setRange(newRange);
 
-                if (!targetPlot->visibleRegion().isNull()) {
-                    targetPlot->replot();
-                }
-            }
-        });
+                        if (!targetPlot->visibleRegion().isNull()) {
+                            targetPlot->replot();
+                        }
+                    }
+                });
     }
 }
 
-bool FizzyAde::RouteAnalyser::RouteAnalyserWidget::eventFilter(QObject *watched, QEvent *event)
-{
+bool Nedrysoft::RouteAnalyser::RouteAnalyserWidget::eventFilter(QObject *watched, QEvent *event) {
     emit filteredEvent(watched, event);
 
     return QWidget::eventFilter(watched, event);

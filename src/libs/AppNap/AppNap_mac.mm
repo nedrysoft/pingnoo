@@ -23,19 +23,17 @@
 #import <Foundation/NSProcessInfo.h>
 #include <QDebug>
 
-void FizzyAde::AppNap::AppNap::mac_init()
-{
+void Nedrysoft::AppNap::AppNap::mac_init() {
     m_activity = nil;
     m_count = 0;
 }
 
-void FizzyAde::AppNap::AppNap::mac_prevent(const QString &reason)
-{
+void Nedrysoft::AppNap::AppNap::mac_prevent(const QString &reason) {
     QMutexLocker mutexLocker(&m_mutex);
 
-    if (m_activity==nil) {
+    if (m_activity == nil) {
         if ([[NSProcessInfo processInfo] respondsToSelector:@selector(beginActivityWithOptions:reason:)]) {
-           m_activity = [[NSProcessInfo processInfo] beginActivityWithOptions:NSActivityUserInitiatedAllowingIdleSystemSleep reason: reason.toNSString()];
+            m_activity = [[NSProcessInfo processInfo] beginActivityWithOptions:NSActivityUserInitiatedAllowingIdleSystemSleep reason:reason.toNSString()];
         }
 
         if (m_activity)
@@ -43,15 +41,14 @@ void FizzyAde::AppNap::AppNap::mac_prevent(const QString &reason)
     }
 }
 
-void FizzyAde::AppNap::AppNap::mac_allow()
-{
+void Nedrysoft::AppNap::AppNap::mac_allow() {
     QMutexLocker mutexLocker(&m_mutex);
 
     if (m_count) {
         m_count--;
 
-        if (m_count==0) {
-            if (m_activity!=nil) {
+        if (m_count == 0) {
+            if (m_activity != nil) {
                 [[NSProcessInfo processInfo] endActivity:m_activity];
 
                 m_activity = nil;

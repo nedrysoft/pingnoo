@@ -18,16 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_CORE_COMPONENTVIEWERDIALOG_H
-#define FIZZYADE_CORE_COMPONENTVIEWERDIALOG_H
+#ifndef NEDRYSOFT_CORE_COMPONENTVIEWERDIALOG_H
+#define NEDRYSOFT_CORE_COMPONENTVIEWERDIALOG_H
 
 #include <QDialog>
 #include <QTreeWidgetItem>
 
-namespace FizzyAde::Core
-{
-    namespace Ui
-    {
+namespace Nedrysoft::Core {
+    namespace Ui {
         class ComponentViewerDialog;
     }
 
@@ -39,53 +37,53 @@ namespace FizzyAde::Core
      *              detailed information to be displayed.
      *
      */
-    class ComponentViewerDialog : public QDialog
-    {
+    class ComponentViewerDialog :
+            public QDialog {
         Q_OBJECT
 
-    public:
-        /**
-         * @brief       Constructor
-         *
-         * @param[in]   parent      parent widget
-         *
-         */
-        explicit ComponentViewerDialog(QWidget *parent = nullptr);
+        public:
+            /**
+             * @brief       Constructor
+             *
+             * @param[in]   parent      parent widget
+             *
+             */
+            explicit ComponentViewerDialog(QWidget *parent = nullptr);
 
-        /**
-         * @brief       Destructor
-         *
-         */
-        ~ComponentViewerDialog();
+            /**
+             * @brief       Destructor
+             *
+             */
+            ~ComponentViewerDialog();
 
-        /**
-         * @brief       Gets the list of disabled components
-         *
-         * @details     The dialog allows components to be enabled and disabled from being loaded at the
-         *              next startup of the software.  This function returns a list of disabled components
-         *              in a reverse domain name format which should be stored and queried by the loader
-         *              at startup.
-         *
-         * @return      the list of disabled components
-         *
-         */
-        QStringList disabledComponents();
+            /**
+             * @brief       Gets the list of disabled components
+             *
+             * @details     The dialog allows components to be enabled and disabled from being loaded at the
+             *              next startup of the software.  This function returns a list of disabled components
+             *              in a reverse domain name format which should be stored and queried by the loader
+             *              at startup.
+             *
+             * @return      the list of disabled components
+             *
+             */
+            QStringList disabledComponents();
 
-    private slots:
+        private slots:
 
-        /**
-         * @brief       Component List double click handler
-         *
-         * @details     Opens the ComponentDetailsDialog for the given component that has been double clicked.
-         *
-         * @param[in]   item        the item that was double clicked
-         * @param[in]   column      the column that was double clicked
-         */
-        void on_componentsTreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
+            /**
+             * @brief       Component List double click handler
+             *
+             * @details     Opens the ComponentDetailsDialog for the given component that has been double clicked.
+             *
+             * @param[in]   item        the item that was double clicked
+             * @param[in]   column      the column that was double clicked
+             */
+            void on_componentsTreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
-    private:
-        Ui::ComponentViewerDialog *ui;                              //! The generated ui class for the dialog
+        private:
+            Ui::ComponentViewerDialog *ui;                              //! The generated ui class for the dialog
     };
 }
 
-#endif // FIZZYADE_CORE_COMPONENTVIEWERDIALOG_H
+#endif // NEDRYSOFT_CORE_COMPONENTVIEWERDIALOG_H

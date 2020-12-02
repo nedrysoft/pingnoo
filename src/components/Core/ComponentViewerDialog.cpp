@@ -27,55 +27,55 @@
 #include "ComponentDetailsDialog.h"
 #include "FontAwesome/FontAwesome.h"
 
-FizzyAde::Core::ComponentViewerDialog::ComponentViewerDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new FizzyAde::Core::Ui::ComponentViewerDialog)
-{
+Nedrysoft::Core::ComponentViewerDialog::ComponentViewerDialog(QWidget *parent) :
+        QDialog(parent),
+        ui(new Nedrysoft::Core::Ui::ComponentViewerDialog) {
     ui->setupUi(this);
 
-    auto minusIcon = FizzyAde::FontAwesome::icon("fas fa-minus", 16, Qt::darkRed);
-    auto crossIcon = FizzyAde::FontAwesome::icon("fas fa-times", 16, Qt::darkRed);
-    auto tickIcon = FizzyAde::FontAwesome::icon("fas fa-check", 16, Qt::darkGreen);
+    auto minusIcon = Nedrysoft::FontAwesome::icon("fas fa-minus", 16, Qt::darkRed);
+    auto crossIcon = Nedrysoft::FontAwesome::icon("fas fa-times", 16, Qt::darkRed);
+    auto tickIcon = Nedrysoft::FontAwesome::icon("fas fa-check", 16, Qt::darkGreen);
 
-    ui->componentsTreeWidget->setHeaderLabels(QStringList() << tr("Name") << tr("Load") << tr("Version") << tr("Vendor"));
+    ui->componentsTreeWidget->setHeaderLabels(
+            QStringList() << tr("Name") << tr("Load") << tr("Version") << tr("Vendor"));
 
     ui->componentsTreeWidget->setColumnWidth(0, 300);
     ui->componentsTreeWidget->setColumnWidth(1, 50);
     ui->componentsTreeWidget->setColumnWidth(2, 300);
     ui->componentsTreeWidget->setColumnWidth(3, 200);
 
-    QMap<QString, QMap<QString, FizzyAde::ComponentSystem::Component *> > categoryMap;
+    QMap<QString, QMap<QString, Nedrysoft::ComponentSystem::Component *> > categoryMap;
 
-    auto componentLoader = FizzyAde::ComponentSystem::getObject<FizzyAde::ComponentSystem::ComponentLoader>();
+    auto componentLoader = Nedrysoft::ComponentSystem::getObject<Nedrysoft::ComponentSystem::ComponentLoader>();
 
     auto components = componentLoader->components();
 
-    for(auto component : components) {
+    for (auto component : components) {
         categoryMap[component->category()][component->name()] = component;
     }
 
-    QMapIterator<QString, QMap<QString, FizzyAde::ComponentSystem::Component *> > categoryIterator(categoryMap);
+    QMapIterator<QString, QMap<QString, Nedrysoft::ComponentSystem::Component *> > categoryIterator(categoryMap);
 
-    while(categoryIterator.hasNext()) {
+    while (categoryIterator.hasNext()) {
         categoryIterator.next();
 
         auto categoryItem = new QTreeWidgetItem;
 
         categoryItem->setText(0, categoryIterator.key());
 
-        QMapIterator<QString, FizzyAde::ComponentSystem::Component *> componentIterator(categoryIterator.value());
+        QMapIterator<QString, Nedrysoft::ComponentSystem::Component *> componentIterator(categoryIterator.value());
 
-        while(componentIterator.hasNext()) {
+        while (componentIterator.hasNext()) {
             componentIterator.next();
 
             auto component = componentIterator.value();
 
-            auto componentItem =  new QTreeWidgetItem;
+            auto componentItem = new QTreeWidgetItem;
 
-            if (component->loadStatus() == FizzyAde::ComponentSystem::ComponentLoader::Loaded) {
+            if (component->loadStatus() == Nedrysoft::ComponentSystem::ComponentLoader::Loaded) {
                 componentItem->setIcon(0, tickIcon);
             } else {
-                if (component->loadStatus() == FizzyAde::ComponentSystem::ComponentLoader::Disabled) {
+                if (component->loadStatus() == Nedrysoft::ComponentSystem::ComponentLoader::Disabled) {
                     componentItem->setIcon(0, minusIcon);
                 } else {
                     componentItem->setIcon(0, crossIcon);
@@ -84,11 +84,11 @@ FizzyAde::Core::ComponentViewerDialog::ComponentViewerDialog(QWidget *parent) :
 
             componentItem->setText(0, component->name());
 
-            if (component->canBeDisabled()==false) {
+            if (component->canBeDisabled() == false) {
                 componentItem->setData(1, Qt::CheckStateRole, Qt::Checked);
                 componentItem->setDisabled(true);
             } else {
-                if (component->loadStatus() == FizzyAde::ComponentSystem::ComponentLoader::Disabled) {
+                if (component->loadStatus() == Nedrysoft::ComponentSystem::ComponentLoader::Disabled) {
                     componentItem->setCheckState(1, Qt::Unchecked);
                 } else {
                     componentItem->setCheckState(1, Qt::Checked);
@@ -98,7 +98,8 @@ FizzyAde::Core::ComponentViewerDialog::ComponentViewerDialog(QWidget *parent) :
             componentItem->setText(2, component->versionString());
             componentItem->setText(3, component->vendor());
 
-            componentItem->setData(0, Qt::UserRole, QVariant::fromValue<FizzyAde::ComponentSystem::Component *>(component));
+            componentItem->setData(0, Qt::UserRole,
+                                   QVariant::fromValue<Nedrysoft::ComponentSystem::Component *>(component));
 
             categoryItem->addChild(componentItem);
         }
@@ -109,16 +110,15 @@ FizzyAde::Core::ComponentViewerDialog::ComponentViewerDialog(QWidget *parent) :
     ui->componentsTreeWidget->expandAll();
 }
 
-FizzyAde::Core::ComponentViewerDialog::~ComponentViewerDialog()
-{
+Nedrysoft::Core::ComponentViewerDialog::~ComponentViewerDialog() {
     delete ui;
 }
 
-void FizzyAde::Core::ComponentViewerDialog::on_componentsTreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
-{
+void
+Nedrysoft::Core::ComponentViewerDialog::on_componentsTreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column) {
     Q_UNUSED(column)
 
-    auto component = item->data(0, Qt::UserRole).value<FizzyAde::ComponentSystem::Component *>();
+    auto component = item->data(0, Qt::UserRole).value<Nedrysoft::ComponentSystem::Component *>();
 
     if (component) {
         ComponentDetailsDialog detailsDialog(component);
@@ -127,21 +127,21 @@ void FizzyAde::Core::ComponentViewerDialog::on_componentsTreeWidget_itemDoubleCl
     }
 }
 
-QStringList FizzyAde::Core::ComponentViewerDialog::disabledComponents()
-{
+QStringList Nedrysoft::Core::ComponentViewerDialog::disabledComponents() {
     QStringList disabledComponentList;
 
-    for (auto categoryIndex=0;categoryIndex<ui->componentsTreeWidget->topLevelItemCount();categoryIndex++) {
+    for (auto categoryIndex = 0; categoryIndex < ui->componentsTreeWidget->topLevelItemCount(); categoryIndex++) {
         auto categoryItem = ui->componentsTreeWidget->topLevelItem(categoryIndex);
 
-        for (auto itemIndex=0;itemIndex<categoryItem->childCount();itemIndex++) {
+        for (auto itemIndex = 0; itemIndex < categoryItem->childCount(); itemIndex++) {
             auto componentItem = categoryItem->child(itemIndex);
 
-            if (componentItem->checkState(1)==Qt::Unchecked) {
-                FizzyAde::ComponentSystem::Component *component = componentItem->data(0, Qt::UserRole).value<FizzyAde::ComponentSystem::Component *>();
+            if (componentItem->checkState(1) == Qt::Unchecked) {
+                Nedrysoft::ComponentSystem::Component *component = componentItem->data(0,
+                                                                                       Qt::UserRole).value<Nedrysoft::ComponentSystem::Component *>();
 
                 if (component) {
-                    disabledComponentList.append((component->name()+"."+component->vendor()).toLower());
+                    disabledComponentList.append(( component->name() + "." + component->vendor()).toLower());
                 }
             }
         }

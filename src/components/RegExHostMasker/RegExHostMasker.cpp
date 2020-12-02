@@ -24,8 +24,9 @@
 #include <QJsonArray>
 #include <QDebug>
 
-bool FizzyAde::RegExHostMasker::RegExHostMasker::applyMask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress)
-{
+bool
+Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(int hop, const QString &hostName, const QString &hostAddress,
+                                                       QString &maskedHostName, QString &maskedHostAddress) {
     Q_UNUSED(hop)
     auto expressionMatch = QRegularExpressionMatch();
     auto tokenExpression = QRegularExpression(R"(\[\w+\])");
@@ -34,19 +35,18 @@ bool FizzyAde::RegExHostMasker::RegExHostMasker::applyMask(int hop, const QStrin
     QString *outputString = nullptr;
     bool returnValue = false;
 
-    for(auto matchFlag : searchList) {
-        for(const auto &maskItem : m_maskList) {
-            if (!(maskItem.m_matchFlags & matchFlag)) {
+    for (auto matchFlag : searchList) {
+        for (const auto &maskItem : m_maskList) {
+            if (!( maskItem.m_matchFlags & matchFlag )) {
                 continue;
             }
 
             auto matchExpression = QRegularExpression(maskItem.m_matchExpression);
 
-            if (matchFlag==MatchHost) {
+            if (matchFlag == MatchHost) {
                 expressionMatch = matchExpression.match(hostName);
-            }
-            else {
-                if (matchFlag==MatchAddress) {
+            } else {
+                if (matchFlag == MatchAddress) {
                     expressionMatch = matchExpression.match(hostAddress);
                 } else {
                     continue;
@@ -55,8 +55,7 @@ bool FizzyAde::RegExHostMasker::RegExHostMasker::applyMask(int hop, const QStrin
 
             if (maskItem.m_matchFlags & MaskHost) {
                 outputString = &maskedHostName;
-            }
-            else {
+            } else {
                 if (maskItem.m_matchFlags & MaskAddress) {
                     outputString = &maskedHostAddress;
                 } else {
@@ -87,10 +86,10 @@ bool FizzyAde::RegExHostMasker::RegExHostMasker::applyMask(int hop, const QStrin
 
                 *outputString = maskItem.m_replacementString;
 
-                for(const auto &token : tokenList) {
+                for (const auto &token : tokenList) {
                     auto searchToken = QString(token).replace(QRegularExpression(R"((\[|\]))"), "");
 
-                    (*outputString).replace(token, expressionMatch.captured(searchToken));
+                    ( *outputString ).replace(token, expressionMatch.captured(searchToken));
                 }
 
                 returnValue = true;
@@ -101,14 +100,14 @@ bool FizzyAde::RegExHostMasker::RegExHostMasker::applyMask(int hop, const QStrin
     return returnValue;
 }
 
-bool FizzyAde::RegExHostMasker::RegExHostMasker::mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName, QString &maskedHostAddress)
-{
+bool Nedrysoft::RegExHostMasker::RegExHostMasker::mask(int hop, const QString &hostName, const QString &hostAddress,
+                                                       QString &maskedHostName, QString &maskedHostAddress) {
     return applyMask(hop, hostName, hostAddress, maskedHostName, maskedHostAddress);
 }
 
-void FizzyAde::RegExHostMasker::RegExHostMasker::add(unsigned int matchFlags, QString matchExpression, QString replacementString, QString hopString)
-{
-    FizzyAde::RegExHostMasker::RegExHostMaskerItem item;
+void Nedrysoft::RegExHostMasker::RegExHostMasker::add(unsigned int matchFlags, QString matchExpression,
+                                                      QString replacementString, QString hopString) {
+    Nedrysoft::RegExHostMasker::RegExHostMaskerItem item;
 
     item.m_matchFlags = matchFlags;
     item.m_matchExpression = std::move(matchExpression);
@@ -118,8 +117,7 @@ void FizzyAde::RegExHostMasker::RegExHostMasker::add(unsigned int matchFlags, QS
     m_maskList.append(item);
 }
 
-QJsonObject FizzyAde::RegExHostMasker::RegExHostMasker::saveConfiguration()
-{
+QJsonObject Nedrysoft::RegExHostMasker::RegExHostMasker::saveConfiguration() {
     auto rootObject = QJsonObject();
     auto itemArray = QJsonArray();
 
@@ -141,20 +139,20 @@ QJsonObject FizzyAde::RegExHostMasker::RegExHostMasker::saveConfiguration()
     return rootObject;
 }
 
-bool FizzyAde::RegExHostMasker::RegExHostMasker::loadConfiguration(QJsonObject configuration)
-{
+bool Nedrysoft::RegExHostMasker::RegExHostMasker::loadConfiguration(QJsonObject configuration) {
     Q_UNUSED(configuration)
 
-    if (configuration["id"]!=this->metaObject()->className()) {
+    if (configuration["id"] != this->metaObject()->className()) {
         return false;
     }
 
     auto array = configuration["matchItems"].toArray();
 
-    for(auto v : array) {
+    for (auto v : array) {
         auto item = v.toObject();
 
-        add(item["matchFlags"].toVariant().toUInt(), item["matchExpression"].toString(), item["matchReplacementString"].toString(), item["matchHopString"].toString());
+        add(item["matchFlags"].toVariant().toUInt(), item["matchExpression"].toString(),
+            item["matchReplacementString"].toString(), item["matchHopString"].toString());
     }
 
     return false;

@@ -18,15 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FIZZYADE_PINGNOO_ICMPAPIPINGITEM_H
-#define FIZZYADE_PINGNOO_ICMPAPIPINGITEM_H
+#ifndef NEDRYSOFT_PINGNOO_ICMPAPIPINGITEM_H
+#define NEDRYSOFT_PINGNOO_ICMPAPIPINGITEM_H
 
 #include "ICMPAPIPingEngineSpec.h"
 #include <chrono>
 #include <QObject>
 
-namespace FizzyAde::Pingnoo
-{
+namespace Nedrysoft::Pingnoo {
     class ICMPAPIPingTarget;
 
     class ICMPAPIPingItemData;
@@ -41,106 +40,106 @@ namespace FizzyAde::Pingnoo
      *
      */
 
-    class ICMPAPIPingItem : public QObject
-    {
+    class ICMPAPIPingItem :
+            public QObject {
         Q_OBJECT
 
-    public:
-        /**
-         * Default constructor
-         */
-        ICMPAPIPingItem();
+        public:
+            /**
+             * Default constructor
+             */
+            ICMPAPIPingItem();
 
-        /**
-         * Sets the id used in the ping request
-         *
-         * @param[in] id the id to use
-         */
-        void setId(uint16_t id);
+            /**
+             * Sets the id used in the ping request
+             *
+             * @param[in] id the id to use
+             */
+            void setId(uint16_t id);
 
-        /**
-         * Returns the id used in the ping request
-         *
-         * @return the id
-         */
-        uint16_t id(void);
+            /**
+             * Returns the id used in the ping request
+             *
+             * @return the id
+             */
+            uint16_t id(void);
 
-        /**
-         * Sets the sequence id used in the ping request
-         *
-         * @param[in] sequence the sequence id to use
-         */
-        void setSequenceId(uint16_t sequence);
+            /**
+             * Sets the sequence id used in the ping request
+             *
+             * @param[in] sequence the sequence id to use
+             */
+            void setSequenceId(uint16_t sequence);
 
-        /**
-         * Returns the sequence id used in the ping request
-         *
-         * @return the sequence id
-         */
-        uint16_t sequenceId();
+            /**
+             * Returns the sequence id used in the ping request
+             *
+             * @return the sequence id
+             */
+            uint16_t sequenceId();
 
-        /**
-         * Marks the request as being serviced, prevents a packet
-         * being flagged as both replied to and timeout in race
-         * condition situations.
-         *
-         * @param[in] serviced true if serviced, else false
-         */
-        void setServiced(bool serviced);
+            /**
+             * Marks the request as being serviced, prevents a packet
+             * being flagged as both replied to and timeout in race
+             * condition situations.
+             *
+             * @param[in] serviced true if serviced, else false
+             */
+            void setServiced(bool serviced);
 
-        /**
-         * Returns the serviced status of the request
-         *
-         * @return true if it has been serviced, else false
-         */
-        bool serviced();
+            /**
+             * Returns the serviced status of the request
+             *
+             * @return true if it has been serviced, else false
+             */
+            bool serviced();
 
-        /**
-         * Sets the sample number for this request
-         *
-         * @param[in] sampleNumber the sample number
-         */
-        void setSampleNumber(unsigned long sampleNumber);
+            /**
+             * Sets the sample number for this request
+             *
+             * @param[in] sampleNumber the sample number
+             */
+            void setSampleNumber(unsigned long sampleNumber);
 
-        /**
-         * Returns the sample number for this request
-         *
-         * @return the sample number
-         */
-        unsigned long sampleNumber();
+            /**
+             * Returns the sample number for this request
+             *
+             * @return the sample number
+             */
+            unsigned long sampleNumber();
 
-        /**
-         * Sets the target associated with this request
-         *
-         * @param[in] target the target
-         */
-        void setTarget(FizzyAde::Pingnoo::ICMPAPIPingTarget *target);
+            /**
+             * Sets the target associated with this request
+             *
+             * @param[in] target the target
+             */
+            void setTarget(Nedrysoft::Pingnoo::ICMPAPIPingTarget *target);
 
-        /**
-         * Returns the target associated with this request
-         *
-         * @return the request
-         */
-        FizzyAde::Pingnoo::ICMPAPIPingTarget *target();
+            /**
+             * Returns the target associated with this request
+             *
+             * @return the request
+             */
+            Nedrysoft::Pingnoo::ICMPAPIPingTarget *target();
 
-        /**
-         * Sets the time at which the request was transmitted
-         *
-         * @param[in] time the high resolution clock time
-         */
-        void setTransmitTime(std::chrono::high_resolution_clock::time_point time);
+            /**
+             * Sets the time at which the request was transmitted
+             *
+             * @param[in] time the high resolution clock time
+             */
+            void setTransmitTime(std::chrono::high_resolution_clock::time_point time);
 
-        /**
-         * Returns the time at which the request was transmitted
-         *
-         * @return the high resolution clock time when the request was sent
-         */
-        std::chrono::high_resolution_clock::time_point transmitTime(void);
+            /**
+             * Returns the time at which the request was transmitted
+             *
+             * @return the high resolution clock time when the request was sent
+             */
+            std::chrono::high_resolution_clock::time_point transmitTime(void);
 
-    protected:
+        protected:
 
-        std::shared_ptr<ICMPAPIPingItemData> d;
+            std::shared_ptr<ICMPAPIPingItemData> d;
     };
 }
 
-#endif // FIZZYADE_PINGNOO_ICMPAPIPINGITEM_H
+#endif // NEDRYSOFT_PINGNOO_ICMPAPIPINGITEM_H
