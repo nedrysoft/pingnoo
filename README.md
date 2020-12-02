@@ -1,40 +1,44 @@
 # Pingnoo
 
-Pingnoo (pronounced /pɪŋ ɡəˈnuː/) is an open source combined traceroute and ping application for analysing network connections.  It runs under Windows, Mac OS and Linux.
+/pɪŋ ɡəˈnuː/
+
+---
+
+Pingnoo is an open-source combined traceroute and ping application for analysing network connections.  It runs under Windows, Mac OS and Linux.
 
 <img width="33%" src="https://user-images.githubusercontent.com/55795671/77832022-d5567680-712a-11ea-9680-1998915e4d2e.png"/>&nbsp;<img width="33%" src="https://user-images.githubusercontent.com/55795671/77832028-df787500-712a-11ea-9f8d-9a1c6df83409.png"/>&nbsp;<img width="33%" src="https://user-images.githubusercontent.com/55795671/77832017-cc65a500-712a-11ea-9918-58f9bb675eb9.jpg"/>
 
 ## Installation
 
-Binary distributions can be found under the assets on the [github releases](https://github.com/fizzyade/pingnoo/releases) page.
+[The binaries are available under the releases page.](https://github.com/fizzyade/pingnoo/releases)
 
-- **Windows**.  The application is supplied as an installer executable, download and run the installer to install the application, this will create a shortcut which can be used to launch the software.
+- **Windows**.  The application is supplied as an installer executable, download and run the installer to install the application; this will create a shortcut which will launch the software.
 
-- **Mac OS**.  The application is supplied as a dmg disk image.  Download and open the disk image and drag the Pingnoo icon into the Applications folder, the application can then be launched by double clicking on the Pingnoo icon in Applications.
+- **Mac OS**.  The application is a dmg disk image.  Download and open the disk image and drag the Pingnoo icon into the Applications folder, the application can then be launched by double-clicking on the Pingnoo icon in Applications.
 
-- **Linux**.  The application is supplied as an AppImage.  Download the application and then from the terminal run the command:
+- **Linux**.  The application is an AppImage.  Download the application and then from the terminal run the command:
 
   `chmod +x <downloaded filename>`
 
-  The application requires RAW socket access, therefore currently you will either need to follow the instructions outlined in the Linux Notes section regarding setuid, this will allow you to directly run the application.  Alternatively you can launch from the terminal by using:
+  The application requires RAW socket access; therefore, you will either need to follow the instructions outlined in the Linux Notes section regarding setuid; this will allow you to run the application directly.  Alternatively, you can launch from the terminal by using:
 
   `sudo ./<downloaded filename>`
 
 ## Requirements (Development)
 
 - Qt 5 libraries (Requirement for development)
-- cmake for building the application
+- CMake for building the application
 - Qt Creator (Optional development environment)
-- Linux has special requirements, please read the Linux Notes section.
+- Linux has unique requirements; please read the Linux Notes section.
 - Installers will be provided per platform and contain all required dependencies.
 
 ## Development
 
-Pingnoo uses a modular design architecture based on components (aka plugins), the software can be extended easily by third parties by creating new components or modifying existing ones.
+Pingnoo uses a modular design architecture based on components (aka plugins); the software can be extended easily by third parties by creating new components or modifying existing ones.
 
 ### General Information
 
-The following configurations are used for development.
+The following compiler configurations are known to work for development.
 
 - ***Linux*** - 32 & 64-bit using GNU g++
 - ***Windows*** - 32 & 64-bit using MSVC 2017 Community Edition
@@ -43,19 +47,19 @@ The following configurations are used for development.
 
 ### Deployment
 
-The deploy.py python script is used to create runnable/installable binaries for the given operating system.
+The deploy.py python script creates runnable/installable binaries for the given operating system.
 
 - ***Linux*** - Generates a stand-alone AppImage for easy use.
 - ***Windows*** - Generates an installer for easy deployment.
 - ***Mac OS*** - Generates a DMG file for easy deployment.
 
-The script requires python 3.6 or later, curl and the [colorama](https://github.com/tartley/colorama) python module to enhance the console output, the colorama module can be installed using pip:
+The script requires Python 3.6 or later, curl and the [colorama](https://github.com/tartley/colorama) python module to enhance the console output. You can install the Colorama module with the following command.
 
 `pip3 install colorama`
 
 The script provides the following parameters:
 
-- `--qtdir="<path to qt>"` - the path to the version of qt that the application was built against
+- `--qtdir="<path to qt>"` - the path to the version of qt used.
 - `--curlbin="<path to curl binary>"` - the path to the curl binary, i.e `"/usr/bin/curl"`.
 - `--arch="<x64|x86>"` - the architecture to deploy
 - `--type=<release|debug>` - the build type to deploy
@@ -66,25 +70,25 @@ The script provides the following parameters:
 
 The script will use the curl binary to obtain any tools required for the deployment process.
 
-The resulting asset will be placed in the deployment folder.
+The script stores the deployable asset in the deployment folder.
 
 ### Linux Notes
 
 The application requires RAW socket privileges and therefore must be run as root or given raw socket access using the setcap command.
 
-The cmake configuration for linux has the following post link command, this command is is optional and is controlled by the option `Pingnoo_SetRawCapabilities`.
+The CMake configuration for Linux has the following post link command, this command is optional, and you can control this with the option `Pingnoo_SetRawCapabilities`.
 
 `sudo -n /usr/sbin/setcap cap_net_raw,cap_net_admin=eip $${APPLICATION_BINARY_FOLDER}/$${TARGET}`
 
-This will automatically apply the privileges to the executable after linking by running setcap via sudo, the `-n` flag is required to stop sudo prompting for a password if required, if a password is required then sudo fill fail.
+This command will automatically apply the privileges to the executable after linking by running setcap via sudo, the flag `-n` is required to stop sudo prompting for a password if necessary if a password is needed then sudo will fail.
 
 To stop sudo requesting a password for the `/usr/sbin/setcap` command create the following entry in `/etc/sudoers`(replacing <username> with the name of your user account):
 
 `<username> ALL = (root) NOPASSWD: /usr/sbin/setcap`
 
-*Please be aware of any security issues by doing this.* 
+*Please be aware of any security issues by doing this.*
 
-In addition, it's not possible to debug the application due to the requirement of RAW sockets, one way of solving this is to create a script in `/usr/bin/gdb-sudo` with the following content:
+Also, it's not possible to debug the application due to the requirement of RAW sockets, one way of solving this is to create a script in `/usr/bin/gdb-sudo` with the following content:
 
 `#!/bin/sh`
 `sudo -n /usr/bin/gdb $@`
@@ -93,13 +97,13 @@ Create an entry in `/etc/sudoers` to allow gdb to run as root without a password
 
 `<username> ALL = (root) NOPASSWD: /usr/bin/gdb`
 
-The final step is to configure Qt Creator to use this proxy script.   Create a new debugger configuration in Qt Creator selecting `/usr/bin/gdb-sudo` as the gdb binary.  This debugger should then be selected as the debugger in any Qt kit that you wish to use for debugging.
+The final step is to configure Qt Creator to use this proxy script.   Create a new debugger configuration in Qt Creator selecting `/usr/bin/gdb-sudo` as the gdb binary.  You can choose this script as the active debugger in any Qt kit that you wish to use for debugging.
 
-*Please be aware of any security issues by doing this.* 
+*Please be aware of any security issues by doing this.*
 
 #### Valgrind
 
-Debugging memory leaks can be done with valgrind, but as above the application requires raw socket privileges and valgrind cannot run the executable without being run as root.  The following command can be executed from the application binary folder to run valgrind and produce an XML debug log which can then be loaded into Qt Creator for viewing. (For convenience a `valgrind.sh` script has been provided)
+Debugging memory leaks can be done with Valgrind, but as above the application requires raw socket privileges and Valgrind cannot run the executable without being run as root.  The following command can be executed from the application binary folder to run Valgrind and produce an XML debug log.  In QtCreator you can load this log for viewing. (For convenience a `valgrind.sh` script has been provided)
 
 `sudo /usr/bin/valgrind --child-silent-after-fork=yes --xml=yes --smc-check=all-non-file --tool=memcheck --gen-suppressions=all --track-origins=yes --leak-check=summary --num-callers=25 --xml-file=./debug.xml ./Pingnoo_debug`
 
@@ -109,15 +113,15 @@ Set the `Pingnoo_Build_Tests` option to `ON` to generate a binary which performs
 
 #### Ribbon Bar
 
-The user interface uses a Ribbon style toolbar (as seen in applications such as Microsoft Office).  To build the designer plugin set the cmake option `Pingnoo_Build_RibbonDesignerPlugin` to `ON`, this will create the plugin in the `bin` folder which will then need to be copied to the Qt `plugins` folder.
+The user interface uses a Ribbon style toolbar (as seen in applications such as Microsoft Office).  To build the designer plugin set the CMake option `Pingnoo_Build_RibbonDesignerPlugin` to `ON`, this will create the plugin in the `bin` folder which you will then need to copy to the Qt `plugins` folder.
 
 #### Mac OS
 
-The gatekeeper requirements in Mac OS mean that the application needs to be signed and notarized to run without user interaction for allowing the application to run.  You will require a full developer account to obtain a code signing certificate that is valid for gatekeeper authentication.
+The gatekeeper requirements in Mac OS mean that the application needs to be signed and notarised to run without user interaction for allowing the application to run.  You will require a full developer account to obtain a code signing certificate that is valid for gatekeeper authentication.
 
 # Credits
 
-The following third party libraries/assets/tools/services have been used in the development of Pingnoo.
+Pingnoo uses the following third-party libraries/assets/tools/services in the development of Pingnoo.
 
 - [Qt](https://www.qt.io/download) - cross platform framework, licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html).
 - [cmake](www.cmake.org) - cross platform project build system, licensed under [BSD license](https://gitlab.kitware.com/cmake/cmake/raw/master/Copyright.txt).
@@ -130,17 +134,17 @@ The following third party libraries/assets/tools/services have been used in the 
 - [create-dmg](https://github.com/andreyvit/create-dmg) - automates the creation of Mac OS DMG files, licensed under the [MIT License](https://github.com/andreyvit/create-dmg/blob/master/LICENSE).
 - [colorama](https://github.com/tartley/colorama) - python module for terminal colour, licensed under the [BSD License](https://github.com/tartley/colorama/blob/master/LICENSE.txt).
 
-In addition, the following commercially licensed tools/services have also been used.
+Also, Pingnoo uses the following commercially licensed tools/services.
 
-- [SmartCard Tools](https://www.mgtek.com/smartcard) - code signing tool, allows automation of signing using a smartcard token.
-- [Certum Code Signing Certificate](https://en.sklep.certum.pl/data-safety/code-signing-certificates/open-source-code-signing-1022.html) - open source code signing certificate for signing Windows binaries.
-- [AdvancedInstaller](https://www.advancedinstaller.com/) - Installer creator for windows, license kindly provided by them for free.
+- [SmartCard Tools](https://www.mgtek.com/smartcard) - code-signing tool, allows automation of signing using a smartcard token.
+- [Certum Code Signing Certificate](https://en.sklep.certum.pl/data-safety/code-signing-certificates/open-source-code-signing-1022.html) - open-source code signing certificate for signing Windows binaries.
+- [AdvancedInstaller](https://www.advancedinstaller.com/) - Installer creator for windows, License kindly provided by them for free.
 - [Affinity Designer](https://www.serif.com/designer) - Vector artwork design application.
 - [Affinity Photo](https://www.serif.com/photo) - Bitmap artwork design application.
 
 # License
 
-This project is open source and is released under the GPLv3 License
+Pingnoo is open source and released under the GPLv3 License
 
-Distributed as-is; no warranty is given.
+Distributed as-is; no warranty is given or implied.
 
