@@ -18,30 +18,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ICMPPingTarget.h"
 #include "ICMPPingEngine.h"
+#include "ICMPPingTarget.h"
 #include "ICMPSocket/ICMPSocket.h"
-#include <cerrno>
-#include <fcntl.h>
+
 #include <QHostAddress>
 #include <QRandomGenerator>
+#include <cerrno>
+#include <fcntl.h>
 
 constexpr int TotalTargetSockets = 255;
 
 class Nedrysoft::ICMPPingEngine::ICMPPingTargetData {
     public:
-        ICMPPingTargetData(Nedrysoft::ICMPPingEngine::ICMPPingTarget *parent) {
-            m_pingTarget = parent;
+        ICMPPingTargetData(Nedrysoft::ICMPPingEngine::ICMPPingTarget *parent) :
+                m_pingTarget(parent),
+                m_engine(nullptr),
+                m_id(( QRandomGenerator::global()->generate() % ( UINT16_MAX - 1 )) + 1),
+                m_userData(nullptr),
+                m_ttl(0),
+                m_currentSocket(0) {
 
             for (auto i = 0; i < TotalTargetSockets; i++) {
                 m_socketList.append(nullptr);
             }
-
-            m_engine = nullptr;
-            m_id = ( QRandomGenerator::global()->generate() % ( UINT16_MAX - 1 )) + 1;
-            m_userData = nullptr;
-            m_ttl = 0;
-            m_currentSocket = 0;
         }
 
         friend class ICMPPingTarget;
@@ -61,6 +61,7 @@ class Nedrysoft::ICMPPingEngine::ICMPPingTargetData {
 Nedrysoft::ICMPPingEngine::ICMPPingTarget::ICMPPingTarget(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine,
                                                           QHostAddress hostAddress, int ttl) :
         d(std::make_shared<Nedrysoft::ICMPPingEngine::ICMPPingTargetData>(this)) {
+
     d->m_hostAddress = std::move(hostAddress);
     d->m_engine = engine;
     d->m_ttl = ttl;

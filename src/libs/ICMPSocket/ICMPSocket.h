@@ -26,22 +26,22 @@
 
 #if defined(Q_OS_UNIX)
 
-#include <netdb.h>
-#include <unistd.h>
 #include <arpa/inet.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <netinet/ip_icmp.h>
+#include <poll.h>
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <arpa/inet.h>
-#include <poll.h>
+#include <unistd.h>
 
 #elif defined(Q_OS_WIN)
 #define NOMINMAX
-#include <WinSock2.h>
 #include <WS2tcpip.h>
+#include <WinSock2.h>
 #endif
 
 #include <QByteArray>

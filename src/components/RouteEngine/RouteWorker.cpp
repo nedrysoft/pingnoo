@@ -19,18 +19,16 @@
  */
 
 #include "RouteWorker.h"
+
 #include "ICMPPacket/ICMPPacket.h"
 #include "ICMPSocket/ICMPSocket.h"
-#include <cerrno>
-#include <fcntl.h>
-#include <cstdint>
-#include <array>
-#include <gsl/gsl>
-#include <QRandomGenerator>
-#include <QHostInfo>
+
 #include <QHostAddress>
-#include <QDebug>
+#include <QHostInfo>
+#include <QRandomGenerator>
 #include <QtEndian>
+#include <array>
+#include <cstdint>
 
 using namespace std::chrono_literals;
 
@@ -39,9 +37,10 @@ constexpr int MaxRouteHops = 64;
 constexpr auto DefaultReplyTimeout = 1s;
 constexpr int PingPayloadLength = 52;
 
-Nedrysoft::RouteEngine::RouteWorker::RouteWorker(Nedrysoft::Core::IPVersion ipVersion) {
-    m_isRunning = false;
-    m_ipVersion = ipVersion;
+Nedrysoft::RouteEngine::RouteWorker::RouteWorker(Nedrysoft::Core::IPVersion ipVersion) :
+        m_isRunning(false),
+        m_ipVersion(ipVersion) {
+
 }
 
 Nedrysoft::RouteEngine::RouteWorker::~RouteWorker() = default;
@@ -108,8 +107,7 @@ bool Nedrysoft::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddres
     return false;
 }
 
-bool
-Nedrysoft::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddress, int hopLimit, QHostAddress *returnAddress,
+bool Nedrysoft::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddress, int hopLimit, QHostAddress *returnAddress,
                                              bool *isComplete) {
     if (!m_isRunning) {
         return false;

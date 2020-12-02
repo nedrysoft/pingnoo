@@ -19,29 +19,32 @@
  */
 
 #include "ICMPPingTransmitter.h"
-#include "ICMPPingEngine.h"
-#include "ICMPPingTarget.h"
-#include "ICMPPingItem.h"
+
 #include "ICMPPacket/ICMPPacket.h"
+#include "ICMPPingEngine.h"
+#include "ICMPPingItem.h"
+#include "ICMPPingTarget.h"
 #include "ICMPSocket/ICMPSocket.h"
-#include <cerrno>
-#include <fcntl.h>
-#include <cstdint>
-#include <chrono>
-#include <QThread>
-#include <QRandomGenerator>
+
 #include <QMutexLocker>
+#include <QRandomGenerator>
+#include <QThread>
 #include <QtEndian>
+#include <cerrno>
+#include <chrono>
+#include <cstdint>
+#include <fcntl.h>
 #include <thread>
 
 using namespace std::chrono_literals;
 
 constexpr auto DefaultTransmitInterval = 10s;
 
-Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::ICMPPingTransmitter(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine) {
-    m_engine = engine;
-    m_interval = DefaultTransmitInterval;
-    m_isRunning = false;
+Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::ICMPPingTransmitter(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine) :
+        m_engine(engine),
+        m_interval(DefaultTransmitInterval),
+        m_isRunning(false) {
+
 }
 
 void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {

@@ -20,8 +20,8 @@
 
 #include "Core.h"
 
-Nedrysoft::Core::Core::Core() {
-    m_mainWindow = new Nedrysoft::Core::MainWindow;
+Nedrysoft::Core::Core::Core() :
+        m_mainWindow(new Nedrysoft::Core::MainWindow) {
 
     m_mainWindow->show();
 }

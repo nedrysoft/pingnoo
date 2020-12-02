@@ -21,8 +21,9 @@
 #ifndef NEDRYSOFT_ROUTEENGINE_ROUTEENGINEFACTORY_H
 #define NEDRYSOFT_ROUTEENGINE_ROUTEENGINEFACTORY_H
 
-#include "Core/IRouteEngineFactory.h"
 #include "ComponentSystem/IInterface.h"
+#include "Core/IRouteEngineFactory.h"
+
 #include <memory>
 
 namespace Nedrysoft::RouteEngine {
@@ -39,7 +40,9 @@ namespace Nedrysoft::RouteEngine {
 
     class RouteEngineFactory :
             public Nedrysoft::Core::IRouteEngineFactory {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::IRouteEngineFactory)
 

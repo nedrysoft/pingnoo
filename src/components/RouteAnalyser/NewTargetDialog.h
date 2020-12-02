@@ -21,8 +21,9 @@
 #ifndef NEDRYSOFT_ROUTEANALYSER_NEWTARGETDIALOG_H
 #define NEDRYSOFT_ROUTEANALYSER_NEWTARGETDIALOG_H
 
-#include <QDialog>
 #include "Core/IPingEngineFactory.h"
+
+#include <QDialog>
 
 namespace Nedrysoft::RouteAnalyser {
     namespace Ui {
@@ -38,7 +39,9 @@ namespace Nedrysoft::RouteAnalyser {
      */
     class NewTargetDialog :
             public QDialog {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
             /**

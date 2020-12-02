@@ -19,12 +19,13 @@
  */
 
 #include "HostIPGeoIPProviderComponent.h"
-#include "HostIPGeoIPProvider.h"
-#include "ComponentSystem/IComponentManager.h"
-#include <QDebug>
 
-HostIPGeoIPProviderComponent::HostIPGeoIPProviderComponent() {
-    m_provider = nullptr;
+#include "ComponentSystem/IComponentManager.h"
+#include "HostIPGeoIPProvider.h"
+
+HostIPGeoIPProviderComponent::HostIPGeoIPProviderComponent() :
+        m_provider(nullptr) {
+
 }
 
 HostIPGeoIPProviderComponent::~HostIPGeoIPProviderComponent() {

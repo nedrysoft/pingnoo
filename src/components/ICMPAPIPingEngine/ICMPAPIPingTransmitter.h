@@ -21,10 +21,11 @@
 #ifndef NEDRYSOFT_PINGNOO_ICMPAPIPINGTRANSMITTER_H
 #define NEDRYSOFT_PINGNOO_ICMPAPIPINGTRANSMITTER_H
 
-#include "ICMPAPIPingEngineSpec.h"
 #include "Core/PingResult.h"
-#include <QObject>
+#include "ICMPAPIPingEngineSpec.h"
+
 #include <QMutex>
+#include <QObject>
 
 namespace Nedrysoft::Pingnoo {
     class ICMPAPIPingEngine;
@@ -40,7 +41,9 @@ namespace Nedrysoft::Pingnoo {
 
     class ICMPAPIPingTransmitter :
             public QObject {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
 

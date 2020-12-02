@@ -21,13 +21,14 @@
 #ifndef NEDRYSOFT_CORE_MENU_H
 #define NEDRYSOFT_CORE_MENU_H
 
-#include "IMenu.h"
 #include "IContextManager.h"
+#include "IMenu.h"
+
+#include <QMap>
+#include <QMenu>
+#include <QMenuBar>
 #include <QObject>
 #include <QString>
-#include <QMap>
-#include <QMenuBar>
-#include <QMenu>
 
 namespace Nedrysoft::Core {
     /**
@@ -41,7 +42,9 @@ namespace Nedrysoft::Core {
      */
     class Menu :
             public Nedrysoft::Core::IMenu {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::IMenu)
 

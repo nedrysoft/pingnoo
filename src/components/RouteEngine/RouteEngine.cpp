@@ -19,16 +19,19 @@
  */
 
 #include "RouteEngine.h"
+
 #include "RouteWorker.h"
+
 #include <QThread>
 
 using namespace std::chrono_literals;
 
 constexpr auto DefaultTerminateThreadTimeout = 5s;
 
-Nedrysoft::RouteEngine::RouteEngine::RouteEngine() {
-    m_worker = nullptr;
-    m_workerThread = nullptr;
+Nedrysoft::RouteEngine::RouteEngine::RouteEngine() :
+        m_worker(nullptr),
+        m_workerThread(nullptr) {
+
 }
 
 Nedrysoft::RouteEngine::RouteEngine::~RouteEngine() {

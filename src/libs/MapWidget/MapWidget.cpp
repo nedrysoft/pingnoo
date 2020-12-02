@@ -19,16 +19,16 @@
  */
 
 #include "MapWidget.h"
+
 #include <QQuickWidget>
 
 Nedrysoft::MapWidget::MapWidget::MapWidget(QWidget *parent) :
-        QWidget(parent) {
-    m_mapWidget = new QQuickWidget();
+        QWidget(parent),
+        m_mapWidget(new QQuickWidget()),
+        m_mapLayout(new QGridLayout()) {
 
     m_mapWidget->setSource(QUrl(QString::fromUtf8("qrc:/Nedrysoft/MapWidget/map.qml")));
     m_mapWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
-
-    m_mapLayout = new QGridLayout();
 
     m_mapLayout->addWidget(m_mapWidget);
 

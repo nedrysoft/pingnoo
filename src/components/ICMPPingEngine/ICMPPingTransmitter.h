@@ -22,9 +22,10 @@
 #define NEDRYSOFT_ICMPPINGENGINE_ICMPPINGTRANSMITTER_H
 
 #include "Core/PingResult.h"
-#include <chrono>
-#include <QObject>
+
 #include <QMutex>
+#include <QObject>
+#include <chrono>
 
 namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingEngine;
@@ -43,7 +44,9 @@ namespace Nedrysoft::ICMPPingEngine {
      */
     class ICMPPingTransmitter :
             public QObject {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
 

@@ -21,9 +21,9 @@
 #include "ActionProxy.h"
 
 Nedrysoft::Core::ActionProxy::ActionProxy(QObject *parent) :
-        QAction(parent) {
-    
-    m_action = nullptr;
+        QAction(parent),
+        m_action(nullptr) {
+
 }
 
 void Nedrysoft::Core::ActionProxy::setActive(QAction *action) {

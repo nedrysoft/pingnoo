@@ -22,8 +22,9 @@
 #define NEDRYSOFT_ICMPPINGENGINE_ICMPPINGRECEIVER_H
 
 #include "Core/PingResult.h"
-#include <chrono>
+
 #include <QObject>
+#include <chrono>
 
 namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingEngine;
@@ -39,7 +40,9 @@ namespace Nedrysoft::ICMPPingEngine {
      */
     class ICMPPingReceiver :
             public QObject {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
 

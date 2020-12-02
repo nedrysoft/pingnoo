@@ -34,6 +34,7 @@ namespace Nedrysoft::RouteAnalyser {
      */
     class GraphLatencyLayer :
             public QCPItemRect {
+
         public:
             /**
              * @brief       Constructor

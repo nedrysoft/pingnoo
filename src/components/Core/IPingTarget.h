@@ -21,9 +21,10 @@
 #ifndef NEDRYSOFT_CORE_IPINGTARGET_H
 #define NEDRYSOFT_CORE_IPINGTARGET_H
 
-#include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
+#include "CoreSpec.h"
 #include "IConfiguration.h"
+
 #include <QHostAddress>
 
 namespace Nedrysoft::Core {
@@ -39,7 +40,9 @@ namespace Nedrysoft::Core {
     class NEDRYSOFT_CORE_DLLSPEC IPingTarget :
             public Nedrysoft::ComponentSystem::IInterface,
             public Nedrysoft::Core::IConfiguration {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
             Q_INTERFACES(Nedrysoft::Core::IConfiguration)
@@ -93,6 +96,6 @@ namespace Nedrysoft::Core {
     };
 }
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingTarget, "com.fizzyade.core.IPingTarget/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingTarget, "com.nedrysoft.core.IPingTarget/1.0.0")
 
 #endif // NEDRYSOFT_CORE_IPINGTARGET_H

@@ -18,31 +18,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Utils.h"
+
 #include "ICMPPacket.h"
-#include <cerrno>
-#include <fcntl.h>
-#include <cstdint>
+
+#include "Utils.h"
+
 #include <array>
+#include <cerrno>
+#include <cstdint>
+#include <fcntl.h>
 
 #if defined(Q_OS_UNIX)
 
-#include <netdb.h>
-#include <unistd.h>
 #include <arpa/inet.h>
+#include <arpa/inet.h>
+#include <cstddef>
+#include <netdb.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <netinet/ip_icmp.h>
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <arpa/inet.h>
-#include <cstddef>
+#include <unistd.h>
 
 #endif
 #if defined(Q_OS_WIN)
-#include <WinSock2.h>
 #include <WS2tcpip.h>
+#include <WinSock2.h>
+
 #include "windows_ip_icmp.h"
 #endif
 
@@ -86,16 +90,18 @@ struct icmp_v6 {
 #define ICMP6_ECHO 128
 #define ICMP6_ECHO_REPLY 129
 
-Nedrysoft::ICMPPacket::ICMPPacket::ICMPPacket() {
-    m_resultCode = Invalid;
-    m_sequence = 0;
-    m_id = 0;
+Nedrysoft::ICMPPacket::ICMPPacket::ICMPPacket() :
+        m_resultCode(Invalid),
+        m_sequence(0),
+        m_id(0) {
+
 }
 
-Nedrysoft::ICMPPacket::ICMPPacket::ICMPPacket(uint16_t id, uint16_t sequence, ResultCode resultCode) {
-    m_resultCode = resultCode;
-    m_sequence = sequence;
-    m_id = id;
+Nedrysoft::ICMPPacket::ICMPPacket::ICMPPacket(uint16_t id, uint16_t sequence, ResultCode resultCode) :
+        m_resultCode(resultCode),
+        m_sequence(sequence),
+        m_id(id) {
+
 }
 
 Nedrysoft::ICMPPacket::ICMPPacket Nedrysoft::ICMPPacket::ICMPPacket::fromData(const QByteArray &dataBuffer, Nedrysoft::ICMPPacket::IPVersion version) {

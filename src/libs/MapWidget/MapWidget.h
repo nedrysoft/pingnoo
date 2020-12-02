@@ -21,8 +21,8 @@
 #ifndef NEDRYSOFT_MAPWIDGET_MAPWIDGET_H
 #define NEDRYSOFT_MAPWIDGET_MAPWIDGET_H
 
-#include <QWidget>
 #include <QGridLayout>
+#include <QWidget>
 
 #if ( defined(NEDRYSOFT_LIBRARY_MAPWIDGET_EXPORT))
 #define NEDRYSOFT_MAPWIDGET_DLLSPEC Q_DECL_EXPORT
@@ -35,6 +35,7 @@ class QQuickWidget;
 namespace Nedrysoft::MapWidget {
     class NEDRYSOFT_MAPWIDGET_DLLSPEC MapWidget :
             public QWidget {
+
         public:
             MapWidget(QWidget *parent = nullptr);
 

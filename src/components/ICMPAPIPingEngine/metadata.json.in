@@ -2,14 +2,11 @@
     "Name" : "@pingnooComponentName@",
     "Version" : "@pingnooComponentVersion@",
     "CompatVersion" : "1.0.0",
-    "Vendor" : "fizzyade.com",
+    "Vendor" : "nedrysoft.com",
     "Copyright" : "(C) 2020 Adrian Carpenter",
     "License" : [
         "",
         "Copyright (C) 2020 Adrian Carpenter",
-        "",
-        "This file is part of pingnoo (https://github.com/fizzyade/pingnoo)",
-        "An open source ping path analyser",
         "",
         "This program is free software: you can redistribute it and/or modify",
         "it under the terms of the GNU General Public License as published by",
@@ -30,5 +27,5 @@
     "Description" : [
         "@pingnooComponentDescription@"
     ],
-    "Url" : "https://github.com/fizzyade/pingnoo"
+    "Url" : "https://github.com/fizzyade"
 }

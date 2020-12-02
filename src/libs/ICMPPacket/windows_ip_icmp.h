@@ -9,9 +9,9 @@
 
 #define NOMINMAX
 
-#include <stdint.h>
-#include <WinSock2.h>
 #include <WS2tcpip.h>
+#include <WinSock2.h>
+#include <stdint.h>
 
 #pragma pack(push, 1)
 

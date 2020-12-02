@@ -21,9 +21,9 @@
 #ifndef NEDRYSOFT_ROUTEANALYSER_ROUTETABLEITEMDELEGATE_H
 #define NEDRYSOFT_ROUTEANALYSER_ROUTETABLEITEMDELEGATE_H
 
-#include <cmath>
-#include <chrono>
 #include <QStyledItemDelegate>
+#include <chrono>
+#include <cmath>
 
 class QTableView;
 
@@ -39,6 +39,7 @@ namespace Nedrysoft::RouteAnalyser {
      */
     class RouteTableItemDelegate :
             public QStyledItemDelegate {
+
         public:
 
             /**

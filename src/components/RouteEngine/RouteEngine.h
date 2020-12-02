@@ -22,10 +22,11 @@
 #define NEDRYSOFT_ROUTEENGINE_ROUTEENGINE_H
 
 #include "Core/IRouteEngine.h"
-#include <QObject>
-#include <QList>
-#include <QHostAddress>
+
 #include <Core/Core.h>
+#include <QHostAddress>
+#include <QList>
+#include <QObject>
 
 class QThread;
 
@@ -41,7 +42,9 @@ namespace Nedrysoft::RouteEngine {
      */
     class RouteEngine :
             public Nedrysoft::Core::IRouteEngine {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::IRouteEngine)
 

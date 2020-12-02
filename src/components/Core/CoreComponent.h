@@ -21,7 +21,7 @@
 #ifndef NEDRYSOFT_CORE_CORECOMPONENT_H
 #define NEDRYSOFT_CORE_CORECOMPONENT_H
 
-#include "ComponentSystem/IComponentInterface.h"
+#include "ComponentSystem/IComponent.h"
 #include "CoreSpec.h"
 
 /**
@@ -33,12 +33,14 @@
  */
 class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
         public QObject,
-        public Nedrysoft::ComponentSystem::IComponentInterface {
-    Q_OBJECT
+        public Nedrysoft::ComponentSystem::IComponent {
+
+    private:
+        Q_OBJECT
 
         Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
 
-        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponentInterface)
+        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponent)
 
     public:
         /**
@@ -48,7 +50,7 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
         CoreComponent() = default;
 
         /**
-         * @sa IComponentInterface
+         * @sa IComponent
          *
          */
         virtual void initialiseEvent();

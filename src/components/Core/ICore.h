@@ -21,11 +21,12 @@
 #ifndef NEDRYSOFT_CORE_ICORE_H
 #define NEDRYSOFT_CORE_ICORE_H
 
-#include "CoreSpec.h"
-#include "ComponentSystem/IInterface.h"
 #include "ComponentSystem/IComponentManager.h"
-#include <QObject>
+#include "ComponentSystem/IInterface.h"
+#include "CoreSpec.h"
+
 #include <QMainWindow>
+#include <QObject>
 
 namespace Nedrysoft::Core {
     /**
@@ -37,7 +38,9 @@ namespace Nedrysoft::Core {
      */
     class NEDRYSOFT_CORE_DLLSPEC ICore :
             public Nedrysoft::ComponentSystem::IInterface {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
             /**
@@ -80,6 +83,6 @@ namespace Nedrysoft::Core {
     }
 }
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::ICore, "com.fizzyade.core.ICore/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::ICore, "com.nedrysoft.core.ICore/1.0.0")
 
 #endif // NEDRYSOFT_CORE_ICORE_H

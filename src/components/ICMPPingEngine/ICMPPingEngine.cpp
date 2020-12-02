@@ -19,18 +19,20 @@
  */
 
 #include "ICMPPingEngine.h"
-#include "ICMPPingReceiver.h"
-#include "ICMPPingTransmitter.h"
+
 #include "ICMPPingItem.h"
+#include "ICMPPingReceiver.h"
 #include "ICMPPingTarget.h"
 #include "ICMPPingTimeout.h"
+#include "ICMPPingTransmitter.h"
 #include "Utils.h"
-#include <chrono>
-#include <cstdint>
-#include <QThread>
+
 #include <QMap>
 #include <QMutex>
 #include <QMutexLocker>
+#include <QThread>
+#include <chrono>
+#include <cstdint>
 
 using namespace std::chrono_literals;
 
@@ -42,16 +44,17 @@ using seconds_double = std::chrono::duration<double>;
 class Nedrysoft::ICMPPingEngine::ICMPPingEngineData {
 
     public:
-        ICMPPingEngineData(Nedrysoft::ICMPPingEngine::ICMPPingEngine *parent) {
-            m_pingEngine = parent;
-            m_receiverWorker = nullptr;
-            m_transmitterWorker = nullptr;
-            m_timeoutWorker = nullptr;
-            m_receiverThread = nullptr;
-            m_transmitterThread = nullptr;
-            m_timeoutThread = nullptr;
-            m_timeout = DefaultReceiveTimeout;
-            m_epoch = std::chrono::system_clock::now();
+        ICMPPingEngineData(Nedrysoft::ICMPPingEngine::ICMPPingEngine *parent) :
+                m_pingEngine(parent),
+                m_receiverWorker(nullptr),
+                m_transmitterWorker(nullptr),
+                m_timeoutWorker(nullptr),
+                m_receiverThread(nullptr),
+                m_transmitterThread(nullptr),
+                m_timeoutThread(nullptr),
+                m_timeout(DefaultReceiveTimeout),
+                m_epoch(std::chrono::system_clock::now()) {
+
         }
 
         friend class ICMPPingEngine;
@@ -82,6 +85,7 @@ class Nedrysoft::ICMPPingEngine::ICMPPingEngineData {
 
 Nedrysoft::ICMPPingEngine::ICMPPingEngine::ICMPPingEngine(Nedrysoft::Core::IPVersion version) :
         d(std::make_shared<Nedrysoft::ICMPPingEngine::ICMPPingEngineData>(this)) {
+
     d->m_version = version;
 
     // timeout thread

@@ -19,16 +19,17 @@
  */
 
 #include "Cache.h"
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlResult>
-#include <QSqlError>
+
+#include <QDateTime>
+#include <QDebug>
 #include <QDir>
 #include <QFileInfo>
-#include <QDebug>
-#include <QStandardPaths>
-#include <QDateTime>
 #include <QJsonArray>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QSqlResult>
+#include <QStandardPaths>
 
 Nedrysoft::IPAPIGeoIPProvider::Cache::Cache() {
     auto dataLocations = QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation);

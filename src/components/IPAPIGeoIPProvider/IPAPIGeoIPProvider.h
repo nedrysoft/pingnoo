@@ -23,8 +23,9 @@
 
 #include "ComponentSystem/IInterface.h"
 #include "Core/IGeoIPProvider.h"
-#include "IPAPIGeoIPProviderSpec.h"
 #include "IPAPIGeoIPProvider.h"
+#include "IPAPIGeoIPProviderSpec.h"
+
 #include <QObject>
 #include <QVariantMap>
 
@@ -41,7 +42,9 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
      */
     class IPAPIGeoIPProvider :
             public Nedrysoft::Core::IGeoIPProvider {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::IGeoIPProvider)
 

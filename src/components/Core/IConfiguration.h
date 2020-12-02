@@ -21,10 +21,11 @@
 #ifndef NEDRYSOFT_CORE_ICONFIGURATION_H
 #define NEDRYSOFT_CORE_ICONFIGURATION_H
 
-#include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
-#include <QObject>
+#include "CoreSpec.h"
+
 #include <QJsonObject>
+#include <QObject>
 
 namespace Nedrysoft::Core {
     class IPingEngine;
@@ -61,6 +62,6 @@ namespace Nedrysoft::Core {
     };
 }
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IConfiguration, "com.fizzyade.core.IConfiguration/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IConfiguration, "com.nedrysoft.core.IConfiguration/1.0.0")
 
 #endif // NEDRYSOFT_CORE_ICONFIGURATION_H

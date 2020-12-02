@@ -35,7 +35,9 @@ namespace Nedrysoft::ICMPPingEngine {
      */
     class ICMPPingTimeout :
             public QObject {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
 

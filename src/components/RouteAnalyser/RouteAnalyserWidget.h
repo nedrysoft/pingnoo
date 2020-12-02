@@ -54,7 +54,10 @@ namespace Nedrysoft::RouteAnalyser {
      */
     class RouteAnalyserWidget :
             public QWidget {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
+
         public:
             /**
              * @brief       Constructor
@@ -115,7 +118,9 @@ namespace Nedrysoft::RouteAnalyser {
         protected:
             QMap<int, QPair<QString, QString> > &headerMap();
 
-            virtual bool eventFilter(QObject *watched, QEvent *event);
+            bool eventFilter(QObject *watched, QEvent *event) override;
+
+            void paintEvent(QPaintEvent *paintEvent) override;
 
         private:
             QMap<Nedrysoft::Core::IPingTarget *, int> m_targetMap;

@@ -21,8 +21,9 @@
 #ifndef NEDRYSOFT_ICMPPINGENGINE_ICMPPINGENGINEFACTORY_H
 #define NEDRYSOFT_ICMPPINGENGINE_ICMPPINGENGINEFACTORY_H
 
-#include "Core/IPingEngineFactory.h"
 #include "ComponentSystem/IInterface.h"
+#include "Core/IPingEngineFactory.h"
+
 #include <memory>
 
 namespace Nedrysoft::ICMPPingEngine {
@@ -39,7 +40,9 @@ namespace Nedrysoft::ICMPPingEngine {
      */
     class ICMPPingEngineFactory :
             public Nedrysoft::Core::IPingEngineFactory {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::IPingEngineFactory)
 

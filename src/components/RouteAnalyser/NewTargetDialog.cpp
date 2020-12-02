@@ -19,13 +19,15 @@
  */
 
 #include "NewTargetDialog.h"
-#include "ui_NewTargetDialog.h"
+
 #include "ComponentSystem/IComponentManager.h"
 #include "Core/IPingEngineFactory.h"
+#include "ui_NewTargetDialog.h"
 
 Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
         QDialog(parent),
         ui(new Nedrysoft::RouteAnalyser::Ui::NewTargetDialog) {
+
     ui->setupUi(this);
 
     auto pingEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IPingEngineFactory>();

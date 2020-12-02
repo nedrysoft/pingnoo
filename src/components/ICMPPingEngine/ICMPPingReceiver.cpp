@@ -18,32 +18,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ICMPPingReceiver.h"
+#include "ICMPPacket/ICMPPacket.h"
 #include "ICMPPingEngine.h"
 #include "ICMPPingItem.h"
+#include "ICMPPingReceiver.h"
 #include "ICMPPingTarget.h"
 #include "ICMPSocket/ICMPSocket.h"
-#include "ICMPPacket/ICMPPacket.h"
 #include "Utils.h"
-#include <cerrno>
-#include <array>
-#include <fcntl.h>
-#include <cstdint>
-#include <chrono>
-#include <QThread>
-#include <QHostAddress>
-#include <QtEndian>
-#include <gsl/gsl>
+
 #include <QDateTime>
+#include <QHostAddress>
+#include <QThread>
+#include <QtEndian>
+#include <array>
+#include <cerrno>
+#include <chrono>
+#include <cstdint>
+#include <fcntl.h>
+#include <gsl/gsl>
 
 using namespace std::chrono_literals;
 
 constexpr auto DefaultReplyTimeout = 1s;
 
-Nedrysoft::ICMPPingEngine::ICMPPingReceiver::ICMPPingReceiver(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine) {
-    m_engine = engine;
-    m_timeout = DefaultReplyTimeout;
-    m_isRunning = false;
+Nedrysoft::ICMPPingEngine::ICMPPingReceiver::ICMPPingReceiver(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine) :
+        m_engine(engine),
+        m_timeout(DefaultReplyTimeout),
+        m_isRunning(false) {
+
 }
 
 void Nedrysoft::ICMPPingEngine::ICMPPingReceiver::doWork() {

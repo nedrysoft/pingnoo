@@ -19,15 +19,17 @@
  */
 
 #include "ICMPAPIPingEngine.h"
+
 #include "ICMPAPIPingTransmitter.h"
-#include <chrono>
-#include <WS2tcpip.h>
+
 #include <IPExport.h>
 #include <IcmpAPI.h>
-#include <QThread>
 #include <QMap>
 #include <QMutex>
 #include <QMutexLocker>
+#include <QThread>
+#include <WS2tcpip.h>
+#include <chrono>
 
 using namespace std::chrono_literals;
 
@@ -37,18 +39,13 @@ class Nedrysoft::Pingnoo::ICMPAPIPingEngineData {
 
     public:
         ICMPAPIPingEngineData(Nedrysoft::Pingnoo::ICMPAPIPingEngine *parent) :
-                q_ptr(parent) {
-            m_pingEngine = parent;
-            m_transmitter = nullptr;
-            m_transmitterThread = nullptr;
-            m_timeout = std::chrono::milliseconds(0);
-            /*m_receiver = 0;
+                q_ptr(parent),
+                m_pingEngine(parent),
+                m_transmitter(nullptr),
+                m_transmitterThread(nullptr),
+                m_timeout(std::chrono::milliseconds(0)),
+                m_timeout(DefaultReplyTimeout) {
 
-            m_timeout = 0;
-            m_receiverThread = 0;
-            m_transmitterThread = 0;
-            m_timeoutThread = 0;*/
-            m_timeout = DefaultReplyTimeout;
         }
 
         friend class ICMPAPIPingEngine;

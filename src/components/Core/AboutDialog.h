@@ -37,7 +37,9 @@ namespace Nedrysoft::Core {
      */
     class AboutDialog :
             public QDialog {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
 

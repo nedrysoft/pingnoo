@@ -24,6 +24,7 @@
 #include "ComponentSystem/IInterface.h"
 #include "Core/IGeoIPProvider.h"
 #include "HostIPGeoIPProviderSpec.h"
+
 #include <QObject>
 #include <QVariantMap>
 

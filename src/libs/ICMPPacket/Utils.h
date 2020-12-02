@@ -21,8 +21,8 @@
 #ifndef NEDRYSOFT_UTILS_H
 #define NEDRYSOFT_UTILS_H
 
-#include <stdint.h>
 #include <limits.h>
+#include <stdint.h>
 
 namespace Nedrysoft::Utils {
     /**

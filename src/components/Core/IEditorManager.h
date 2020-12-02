@@ -21,9 +21,10 @@
 #ifndef NEDRYSOFT_CORE_IEDITORMANAGER_H
 #define NEDRYSOFT_CORE_IEDITORMANAGER_H
 
-#include "CoreSpec.h"
-#include "ComponentSystem/IInterface.h"
 #include "ComponentSystem/IComponentManager.h"
+#include "ComponentSystem/IInterface.h"
+#include "CoreSpec.h"
+
 #include <QObject>
 
 namespace Nedrysoft::Core {
@@ -37,7 +38,9 @@ namespace Nedrysoft::Core {
      */
     class NEDRYSOFT_CORE_DLLSPEC IEditorManager :
             public Nedrysoft::ComponentSystem::IInterface {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
             /**
@@ -58,6 +61,6 @@ namespace Nedrysoft::Core {
     };
 }
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IEditorManager, "com.fizzyade.core.IEditorManager/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IEditorManager, "com.nedrysoft.core.IEditorManager/1.0.0")
 
 #endif // NEDRYSOFT_CORE_IEDITORMANAGER_H

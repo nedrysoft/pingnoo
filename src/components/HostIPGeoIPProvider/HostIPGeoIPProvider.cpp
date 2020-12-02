@@ -18,25 +18,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "HostIPGeoIPProvider.h"
 #include "Cache.h"
+#include "HostIPGeoIPProvider.h"
+
 #include <QEventLoop>
+#include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QObject>
-#include <QJsonDocument>
 
-Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::HostIPGeoIPProvider() {
-    m_cache = new Nedrysoft::HostIPGeoIPProvider::Cache();
+Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::HostIPGeoIPProvider() :
+        m_cache(new Nedrysoft::HostIPGeoIPProvider::Cache()) {
+
 }
 
 Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::~HostIPGeoIPProvider() {
     delete m_cache;
 }
 
-void
-Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(const QString host, Nedrysoft::Core::GeoFunction function) {
+void Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(const QString host, Nedrysoft::Core::GeoFunction function) {
     auto cacheResultObject = QJsonObject();
 
     if (m_cache->find(host, cacheResultObject)) {

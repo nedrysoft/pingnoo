@@ -122,7 +122,7 @@ def notarizeFile(file, username, password):
 
     uploadId = str(int(time.time()))
 
-    resultCode,result = execute(f'xcrun altool --notarize-app --primary-bundle-id "com.fizzyade.pingnoo.{uploadId}" -u {args.appleid} --password {args.password} --file {file}')
+    resultCode,result = execute(f'xcrun altool --notarize-app --primary-bundle-id "com.nedrysoft.pingnoo.{uploadId}" -u {args.appleid} --password {args.password} --file {file}')
 
     if resultCode:
         return(False)

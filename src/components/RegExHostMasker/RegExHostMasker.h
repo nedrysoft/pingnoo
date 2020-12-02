@@ -50,7 +50,9 @@ namespace Nedrysoft::RegExHostMasker {
      */
     class RegExHostMasker :
             public Nedrysoft::Core::IHostMasker {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::IHostMasker)
 

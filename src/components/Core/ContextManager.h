@@ -22,9 +22,10 @@
 #define NEDRYSOFT_CORE_CONTEXTMANAGER_H
 
 #include "IContextManager.h"
+
+#include <QMap>
 #include <QObject>
 #include <QString>
-#include <QMap>
 
 namespace Nedrysoft::Core {
 
@@ -36,7 +37,9 @@ namespace Nedrysoft::Core {
      */
     class ContextManager :
             public Nedrysoft::Core::IContextManager {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::IContextManager)
 

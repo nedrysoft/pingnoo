@@ -21,8 +21,8 @@
 #ifndef NEDRYSOFT_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDERCOMPONENT_H
 #define NEDRYSOFT_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDERCOMPONENT_H
 
+#include "ComponentSystem/IComponent.h"
 #include "HostIPGeoIPProviderSpec.h"
-#include "ComponentSystem/IComponentInterface.h"
 
 /**
  * @brief       Namespace for the hostip.com geo ip lookup provider component.
@@ -38,10 +38,13 @@ namespace Nedrysoft::HostIPGeoIPProvider {
  */
 class NEDRYSOFT_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
         public QObject,
-        public Nedrysoft::ComponentSystem::IComponentInterface {
-    Q_OBJECT
+        public Nedrysoft::ComponentSystem::IComponent {
+
+    private:
+        Q_OBJECT
+
         Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
-        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponentInterface)
+        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponent)
 
     public:
         /**
@@ -56,7 +59,7 @@ class NEDRYSOFT_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
         ~HostIPGeoIPProviderComponent();
 
         /**
-         * @sa Nedrysoft::ComponentSystem::IComponentInterface
+         * @sa Nedrysoft::ComponentSystem::IComponent
          *
          */
         virtual void initialiseEvent();

@@ -19,11 +19,13 @@
  */
 
 #include "ICMPAPIPingComponent.h"
+
 #include "ComponentSystem/IComponentManager.h"
 #include "ICMPAPIPingEngineFactory.h"
-#include <WS2tcpip.h>
+
 #include <IPExport.h>
 #include <QDebug>
+#include <WS2tcpip.h>
 
 ICMPAPIPingComponent::ICMPAPIPingComponent() = default;
 

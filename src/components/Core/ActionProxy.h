@@ -35,6 +35,7 @@ namespace Nedrysoft::Core {
      */
     class ActionProxy :
             public QAction {
+
         public:
 
             /**

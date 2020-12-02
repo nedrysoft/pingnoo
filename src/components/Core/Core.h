@@ -21,11 +21,12 @@
 #ifndef NEDRYSOFT_CORE_CORE_H
 #define NEDRYSOFT_CORE_CORE_H
 
-#include "mainwindow.h"
 #include "ICore.h"
+#include "mainwindow.h"
+
 #include <QObject>
-#include <QString>
 #include <QPointer>
+#include <QString>
 
 /**
  * @brief       Namespace for the core component.
@@ -50,7 +51,9 @@ namespace Nedrysoft::Core {
      */
     class Core :
             public Nedrysoft::Core::ICore {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::ICore)
 

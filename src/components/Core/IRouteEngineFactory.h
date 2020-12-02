@@ -21,9 +21,9 @@
 #ifndef NEDRYSOFT_CORE_IROUTEENGINEFACTORY_H
 #define NEDRYSOFT_CORE_IROUTEENGINEFACTORY_H
 
-#include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
 #include "Core/Core.h"
+#include "CoreSpec.h"
 #include "IConfiguration.h"
 
 namespace Nedrysoft::Core {
@@ -38,7 +38,9 @@ namespace Nedrysoft::Core {
     class NEDRYSOFT_CORE_DLLSPEC IRouteEngineFactory :
             public Nedrysoft::ComponentSystem::IInterface,
             public Nedrysoft::Core::IConfiguration {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
             Q_INTERFACES(Nedrysoft::Core::IConfiguration)
@@ -71,6 +73,6 @@ namespace Nedrysoft::Core {
     };
 }
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IRouteEngineFactory, "com.fizzyade.core.IRouteEngineFactory/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IRouteEngineFactory, "com.nedrysoft.core.IRouteEngineFactory/1.0.0")
 
 #endif // NEDRYSOFT_CORE_IROUTEENGINEFACTORY_H

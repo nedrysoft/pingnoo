@@ -19,11 +19,14 @@
  */
 
 #include "EditorManager.h"
-#include <QTabWidget>
+
 #include "IEditor.h"
 
-Nedrysoft::Core::EditorManager::EditorManager(QTabWidget *tabWidget) {
-    m_tabWidget = tabWidget;
+#include <QTabWidget>
+
+Nedrysoft::Core::EditorManager::EditorManager(QTabWidget *tabWidget) :
+        m_tabWidget(tabWidget) {
+
 }
 
 int Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) {

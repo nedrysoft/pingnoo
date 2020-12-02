@@ -20,27 +20,29 @@
 
 #include "PingResult.h"
 
-Nedrysoft::Core::PingResult::PingResult() {
-    m_sampleNumber = 0;
-    m_code = PingResult::NoReply;
-    m_hostAddress = QHostAddress();
-    m_roundTripTime = std::chrono::duration<double>(0);
-    m_requestTime = std::chrono::system_clock::now();
-    m_target = nullptr;
-}
+Nedrysoft::Core::PingResult::PingResult() :
+    m_sampleNumber(0),
+    m_code(PingResult::NoReply),
+    m_hostAddress(QHostAddress()),
+    m_roundTripTime(std::chrono::duration<double>(0)),
+    m_requestTime(std::chrono::system_clock::now()),
+    m_target(nullptr) {
+
+};
 
 Nedrysoft::Core::PingResult::~PingResult() = default;
 
 Nedrysoft::Core::PingResult::PingResult(unsigned long sampleNumber, PingResultCode code, QHostAddress hostAddress,
                                         std::chrono::system_clock::time_point requestTime,
                                         std::chrono::duration<double> roundTripTime,
-                                        Nedrysoft::Core::IPingTarget *target) {
-    m_sampleNumber = sampleNumber;
-    m_code = code;
-    m_hostAddress = std::move(hostAddress);
-    m_requestTime = requestTime;
-    m_roundTripTime = roundTripTime;
-    m_target = target;
+                                        Nedrysoft::Core::IPingTarget *target) :
+            m_sampleNumber(sampleNumber),
+            m_code(code),
+            m_hostAddress(std::move(hostAddress)),
+            m_requestTime(requestTime),
+            m_roundTripTime(roundTripTime),
+            m_target(target) {
+
 }
 
 unsigned long Nedrysoft::Core::PingResult::sampleNumber() {

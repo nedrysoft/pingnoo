@@ -1,9 +1,8 @@
 /*
  * Copyright (C) 2020 Adrian Carpenter
  *
- * This file is part of dmgee
- *
- * Created by Adrian Carpenter on 30/10/2020.
+ * This file is part of pingnoo (https://github.com/fizzyade/pingnoo)
+ * An open source ping path analyser
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +31,7 @@ namespace Nedrysoft {
             public QSplashScreen {
 
         private:
-        Q_OBJECT
+            Q_OBJECT
 
         private:
             /**

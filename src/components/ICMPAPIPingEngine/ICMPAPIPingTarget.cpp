@@ -19,47 +19,48 @@
  */
 
 #include "ICMPAPIPingTarget.h"
+
 #include "ICMPAPIPingEngine.h"
+
+#include <QHostAddress>
+#include <QRandomGenerator>
 #include <cerrno>
 #include <fcntl.h>
 
 #if defined(Q_OS_UNIX)
 
-#include <netdb.h>
-#include <cstdint>
-#include <unistd.h>
-#include <utility>
 #include <arpa/inet.h>
+#include <arpa/inet.h>
+#include <cstdint>
+#include <netdb.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <netinet/ip_icmp.h>
+#include <poll.h>
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <arpa/inet.h>
-#include <poll.h>
+#include <unistd.h>
+#include <utility>
 
 #elif defined(Q_OS_WIN)
 #include "windows_ip_icmp.h"
 #endif
 
-#include <QHostAddress>
-#include <QRandomGenerator>
-
 constexpr int TotalTargetSockets = 10;
 
 class Nedrysoft::Pingnoo::ICMPAPIPingTargetData {
     public:
-        ICMPAPIPingTargetData(Nedrysoft::Pingnoo::ICMPAPIPingTarget *parent) {
-            m_pingTarget = parent;
+        ICMPAPIPingTargetData(Nedrysoft::Pingnoo::ICMPAPIPingTarget *parent) :
+                m_pingTarget(parent),
+                m_engine(nullptr)
+                m_id(( QRandomGenerator::global()->generate() % ( UINT16_MAX - 1 )) + 1),
+                m_userData(nullptr),
+                m_ttl(0),
+                m_currentSocket(0) {
+
             for (int i = 0; i < TotalTargetSockets; i++)
                 m_socketDescriptors.append(0);
-
-            m_engine = nullptr;
-            m_id = ( QRandomGenerator::global()->generate() % ( UINT16_MAX - 1 )) + 1;
-            m_userData = nullptr;
-            m_ttl = 0;
-            m_currentSocket = 0;
         }
 
         friend class ICMPAPIPingTarget;
@@ -83,6 +84,7 @@ class Nedrysoft::Pingnoo::ICMPAPIPingTargetData {
 Nedrysoft::Pingnoo::ICMPAPIPingTarget::ICMPAPIPingTarget(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine,
                                                          QHostAddress hostAddress, int ttl) :
         d(std::make_shared<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTargetData>(this)) {
+
     d->m_hostAddress = std::move(hostAddress);
     d->m_engine = engine;
     d->m_ttl = ttl;

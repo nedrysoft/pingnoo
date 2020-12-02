@@ -19,20 +19,22 @@
  */
 
 #include "ICMPAPIPingTransmitter.h"
+
 #include "ICMPAPIPingEngine.h"
-#include <cerrno>
-#include <array>
-#include <fcntl.h>
-#include <cstdint>
-#include <chrono>
-#include <string>
-#include <WinSock2.h>
-#include <iphlpapi.h>
+
 #include <IcmpAPI.h>
-#include <WS2tcpip.h>
-#include <QThread>
-#include <QRandomGenerator>
 #include <QMutexLocker>
+#include <QRandomGenerator>
+#include <QThread>
+#include <WS2tcpip.h>
+#include <WinSock2.h>
+#include <array>
+#include <cerrno>
+#include <chrono>
+#include <cstdint>
+#include <fcntl.h>
+#include <iphlpapi.h>
+#include <string>
 
 using namespace std::chrono_literals;
 
@@ -41,10 +43,11 @@ constexpr auto DefaultReplyTimeout = 3s;
 constexpr auto DefaultTransmitTimeout = 3s;
 constexpr unsigned long PingPayloadLength = 1024;
 
-Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::ICMPAPIPingTransmitter(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine) {
-    m_engine = engine;
-    m_interval = DefaultTransmitInterval;
-    m_isRunning = false;
+Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::ICMPAPIPingTransmitter(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine) :
+        m_engine(engine),
+        m_interval(DefaultTransmitInterval),
+        m_isRunning(false) {
+
 }
 
 void Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::doWork() {

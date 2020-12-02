@@ -22,10 +22,11 @@
 #define NEDRYSOFT_ROUTEANALYSER_PINGDATA_H
 
 #include "Core/PingResult.h"
-#include <cmath>
-#include <QString>
+
 #include <QPersistentModelIndex>
+#include <QString>
 #include <QVariant>
+#include <cmath>
 
 class QCustomPlot;
 

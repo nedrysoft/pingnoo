@@ -21,9 +21,9 @@
 #ifndef NEDRYSOFT_IPAPIGEOIPPROVIDER_IPAPIGEOIPPROVIDERCOMPONENT_H
 #define NEDRYSOFT_IPAPIGEOIPPROVIDER_IPAPIGEOIPPROVIDERCOMPONENT_H
 
-#include "IPAPIGeoIPProviderSpec.h"
+#include "ComponentSystem/IComponent.h"
 #include "IPAPIGeoIPProvider.h"
-#include "ComponentSystem/IComponentInterface.h"
+#include "IPAPIGeoIPProviderSpec.h"
 
 /**
  * @brief       IPAPIGeoIPProviderComponent class
@@ -33,10 +33,14 @@
  */
 class NEDRYSOFT_IPAPIGEOIPPROVIDER_DLLSPEC IPAPIGeoIPProviderComponent :
         public QObject,
-        public Nedrysoft::ComponentSystem::IComponentInterface {
-    Q_OBJECT
+        public Nedrysoft::ComponentSystem::IComponent {
+
+    private:
+        Q_OBJECT
+
         Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
-        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponentInterface)
+
+        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponent)
 
     public:
         /**
@@ -52,7 +56,7 @@ class NEDRYSOFT_IPAPIGEOIPPROVIDER_DLLSPEC IPAPIGeoIPProviderComponent :
         ~IPAPIGeoIPProviderComponent();
 
         /**
-         * @sa          Nedrysoft::ComponentSystem::IComponentInterface
+         * @sa          Nedrysoft::ComponentSystem::IComponent
          *
          */
         virtual void initialiseEvent();

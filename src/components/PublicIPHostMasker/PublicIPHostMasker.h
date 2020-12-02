@@ -22,8 +22,9 @@
 #define NEDRYSOFT_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKER_H
 
 #include "ComponentSystem/IInterface.h"
-#include "Core/IHostMasker.h"
 #include "Core/IConfiguration.h"
+#include "Core/IHostMasker.h"
+
 #include <QObject>
 
 namespace Nedrysoft::PublicIPHostMasker {
@@ -37,7 +38,9 @@ namespace Nedrysoft::PublicIPHostMasker {
      */
     class PublicIPHostMasker :
             public Nedrysoft::Core::IHostMasker {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::IHostMasker)
 

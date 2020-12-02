@@ -19,24 +19,26 @@
  */
 
 #include "IPAPIGeoIPProvider.h"
+
 #include "Cache.h"
+
 #include <QEventLoop>
+#include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QObject>
-#include <QJsonDocument>
 
-Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::IPAPIGeoIPProvider() {
-    m_cache = new Nedrysoft::IPAPIGeoIPProvider::Cache();
+Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::IPAPIGeoIPProvider() :
+        m_cache(new Nedrysoft::IPAPIGeoIPProvider::Cache()) {
+
 }
 
 Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::~IPAPIGeoIPProvider() {
     delete m_cache;
 }
 
-void
-Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(const QString host, Nedrysoft::Core::GeoFunction function) {
+void Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(const QString host, Nedrysoft::Core::GeoFunction function) {
     auto cacheResultObject = QJsonObject();
 
     if (m_cache->find(host, cacheResultObject)) {

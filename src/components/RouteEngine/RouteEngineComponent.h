@@ -21,9 +21,9 @@
 #ifndef NEDRYSOFT_ROUTEENGINE_ROUTEENGINECOMPONENT_H
 #define NEDRYSOFT_ROUTEENGINE_ROUTEENGINECOMPONENT_H
 
-#include "RouteEngineSpec.h"
+#include "ComponentSystem/IComponent.h"
 #include "RouteEngineFactory.h"
-#include "ComponentSystem/IComponentInterface.h"
+#include "RouteEngineSpec.h"
 
 /**
  * @brief       RouteEngineComponent class
@@ -34,12 +34,14 @@
  */
 class NEDRYSOFT_ROUTEENGINE_DLLSPEC RouteEngineComponent :
         public QObject,
-        public Nedrysoft::ComponentSystem::IComponentInterface {
-    Q_OBJECT
+        public Nedrysoft::ComponentSystem::IComponent {
+
+    private:
+        Q_OBJECT
 
         Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
 
-        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponentInterface)
+        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponent)
 
     public:
         /**
@@ -55,7 +57,7 @@ class NEDRYSOFT_ROUTEENGINE_DLLSPEC RouteEngineComponent :
         ~RouteEngineComponent();
 
         /**
-         * @sa          Nedrysoft::ComponentSystem::IComponentInterface
+         * @sa          Nedrysoft::ComponentSystem::IComponent
          *
          */
         virtual void initialiseEvent();

@@ -19,30 +19,31 @@
  */
 
 #include "ICMPSocket.h"
+
 #include <fcntl.h>
 
 #if defined(Q_OS_UNIX)
 
-#include <netdb.h>
-#include <unistd.h>
 #include <arpa/inet.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <netinet/ip_icmp.h>
+#include <poll.h>
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <arpa/inet.h>
-#include <poll.h>
+#include <unistd.h>
 
 #elif defined(Q_OS_WIN)
-#include <WinSock2.h>
 #include <WS2tcpip.h>
+#include <WinSock2.h>
 #endif
 
-#include <QtEndian>
-#include <QString>
 #include <QObject>
+#include <QString>
+#include <QtEndian>
 
 #if defined(Q_OS_WIN)
 constexpr int SocketError = SOCKET_ERROR;
@@ -52,9 +53,10 @@ constexpr int SocketError = -1;
 
 constexpr auto ReceiveBufferSize = 4096;
 
-Nedrysoft::ICMPSocket::ICMPSocket::ICMPSocket(Nedrysoft::ICMPSocket::ICMPSocket::socket_t socket, IPVersion version) {
-    m_socketDescriptor = socket;
-    m_version = version;
+Nedrysoft::ICMPSocket::ICMPSocket::ICMPSocket(Nedrysoft::ICMPSocket::ICMPSocket::socket_t socket, IPVersion version) :
+        m_socketDescriptor(socket),
+        m_version(version) {
+
 }
 
 Nedrysoft::ICMPSocket::ICMPSocket::~ICMPSocket() {
@@ -65,8 +67,7 @@ Nedrysoft::ICMPSocket::ICMPSocket::~ICMPSocket() {
 #endif
 }
 
-Nedrysoft::ICMPSocket::ICMPSocket *
-Nedrysoft::ICMPSocket::ICMPSocket::createReadSocket(Nedrysoft::ICMPSocket::IPVersion version) {
+Nedrysoft::ICMPSocket::ICMPSocket *Nedrysoft::ICMPSocket::ICMPSocket::createReadSocket(Nedrysoft::ICMPSocket::IPVersion version) {
     Nedrysoft::ICMPSocket::ICMPSocket::socket_t socketDescriptor;
 
     initialiseSockets();
@@ -157,8 +158,7 @@ Nedrysoft::ICMPSocket::ICMPSocket::createReadSocket(Nedrysoft::ICMPSocket::IPVer
     return new Nedrysoft::ICMPSocket::ICMPSocket(socketDescriptor, version);
 }
 
-Nedrysoft::ICMPSocket::ICMPSocket *
-Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(int ttl, Nedrysoft::ICMPSocket::IPVersion version) {
+Nedrysoft::ICMPSocket::ICMPSocket *Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(int ttl, Nedrysoft::ICMPSocket::IPVersion version) {
     Nedrysoft::ICMPSocket::ICMPSocket::socket_t socketDescriptor;
 
     initialiseSockets();

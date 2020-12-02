@@ -23,9 +23,10 @@
 
 #include "ICommandManager.h"
 #include "Menu.h"
+
+#include <QMap>
 #include <QObject>
 #include <QString>
-#include <QMap>
 
 namespace Nedrysoft::Core {
     class Command;
@@ -38,7 +39,9 @@ namespace Nedrysoft::Core {
      */
     class CommandManager :
             public Nedrysoft::Core::ICommandManager {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::ICommandManager)
 

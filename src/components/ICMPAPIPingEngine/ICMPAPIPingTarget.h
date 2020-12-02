@@ -21,12 +21,12 @@
 #ifndef NEDRYSOFT_PINGNOO_ICMPAPIPINGTARGET_H
 #define NEDRYSOFT_PINGNOO_ICMPAPIPINGTARGET_H
 
-#include "ICMPAPIPingEngineSpec.h"
 #include "Core/IPingTarget.h"
+#include "ICMPAPIPingEngineSpec.h"
 
 #if defined(Q_OS_WIN)
-#include <WinSock2.h>
 #include <WS2tcpip.h>
+#include <WinSock2.h>
 #endif
 
 namespace Nedrysoft::Pingnoo {
@@ -44,7 +44,9 @@ namespace Nedrysoft::Pingnoo {
 
     class ICMPAPIPingTarget :
             public QObject, public Nedrysoft::Core::IPingTarget {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::IPingTarget)
 

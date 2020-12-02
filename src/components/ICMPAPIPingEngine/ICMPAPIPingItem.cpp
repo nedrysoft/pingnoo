@@ -19,18 +19,20 @@
  */
 
 #include "ICMPAPIPingItem.h"
-#include <QTimer>
+
 #include <QDebug>
+#include <QTimer>
 
 class Nedrysoft::Pingnoo::ICMPAPIPingItemData {
     public:
-        ICMPAPIPingItemData(Nedrysoft::Pingnoo::ICMPAPIPingItem *parent) {
-            m_pingItem = parent;
-            m_id = 0;
-            m_sequenceId = 0;
-            m_serviced = false;
-            m_target = nullptr;
-            m_sampleNumber = 0;
+        ICMPAPIPingItemData(Nedrysoft::Pingnoo::ICMPAPIPingItem *parent) :
+                m_pingItem(parent),
+                m_id(0),
+                m_sequenceId(0),
+                m_serviced(false),
+                m_target(nullptr),
+                m_sampleNumber(0) {
+
         }
 
         friend class ICMPAPIPingItem;
@@ -52,6 +54,7 @@ class Nedrysoft::Pingnoo::ICMPAPIPingItemData {
 
 Nedrysoft::Pingnoo::ICMPAPIPingItem::ICMPAPIPingItem() :
         d(std::make_shared<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItemData>(this)) {
+
 }
 
 void Nedrysoft::Pingnoo::ICMPAPIPingItem::setId(uint16_t id) {

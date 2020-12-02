@@ -24,8 +24,8 @@
 #include "Core/IPingTarget.h"
 
 #if defined(Q_OS_WIN)
-#include <WinSock2.h>
 #include <WS2tcpip.h>
+#include <WinSock2.h>
 #endif
 
 namespace Nedrysoft::ICMPSocket {
@@ -47,7 +47,9 @@ namespace Nedrysoft::ICMPPingEngine {
 
     class ICMPPingTarget :
             public Nedrysoft::Core::IPingTarget {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::IPingTarget)
 

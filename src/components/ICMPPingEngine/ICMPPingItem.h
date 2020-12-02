@@ -21,9 +21,9 @@
 #ifndef NEDRYSOFT_ICMPPINGENGINE_ICMPPINGITEM_H
 #define NEDRYSOFT_ICMPPINGENGINE_ICMPPINGITEM_H
 
-#include <chrono>
-#include <QObject>
 #include <QMutex>
+#include <QObject>
+#include <chrono>
 
 namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingTarget;
@@ -39,7 +39,9 @@ namespace Nedrysoft::ICMPPingEngine {
      */
     class ICMPPingItem :
             public QObject {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
             /**

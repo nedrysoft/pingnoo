@@ -19,6 +19,7 @@
  */
 
 #include "PublicIPHostMasker.h"
+
 #include <QEventLoop>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -27,8 +28,7 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 
-bool
-Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::mask(int hop, const QString &hostName, const QString &hostAddress,
+bool Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::mask(int hop, const QString &hostName, const QString &hostAddress,
                                                         QString &maskedHostName, QString &maskedHostAddress) {
     Q_UNUSED(hop)
     Q_UNUSED(hostName)

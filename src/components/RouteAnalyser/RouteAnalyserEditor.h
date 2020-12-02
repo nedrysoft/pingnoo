@@ -22,9 +22,10 @@
 #define NEDRYSOFT_ROUTEANALYSER_ROUTEANALYSEREDITOR_H
 
 #include "ComponentSystem/IInterface.h"
-#include "Core/IEditor.h"
-#include "Core/IConfiguration.h"
 #include "Core/Core.h"
+#include "Core/IConfiguration.h"
+#include "Core/IEditor.h"
+
 #include <QObject>
 
 namespace Nedrysoft::Core {
@@ -45,9 +46,12 @@ namespace Nedrysoft::RouteAnalyser {
     class RouteAnalyserEditor :
             public Nedrysoft::Core::IEditor,
             public Nedrysoft::Core::IConfiguration {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::IEditor)
+
             Q_INTERFACES(Nedrysoft::Core::IConfiguration)
 
         public:

@@ -21,9 +21,9 @@
 #ifndef NEDRYSOFT_APPNAP_APPNAP_H
 #define NEDRYSOFT_APPNAP_APPNAP_H
 
-#include <QtGlobal>
 #include <QObject>
 #include <QRecursiveMutex>
+#include <QtGlobal>
 
 #if ( defined(NEDRYSOFT_LIBRARY_APPNAP_EXPORT))
 #define NEDRYSOFT_APPNAP_DLLSPEC Q_DECL_EXPORT

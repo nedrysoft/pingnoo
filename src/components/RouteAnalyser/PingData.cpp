@@ -19,32 +19,32 @@
  */
 
 #include "PingData.h"
+
 #include "RouteTableItemDelegate.h"
-#include <chrono>
-#include <QObject>
+
 #include <QDebug>
+#include <QHeaderView>
+#include <QObject>
+#include <QStandardItemModel>
 #include <QTableWidget>
 #include <QTableWidgetItem>
-#include <QHeaderView>
-#include <QStandardItemModel>
+#include <chrono>
 
-Nedrysoft::RouteAnalyser::PingData::PingData(QStandardItemModel *tableModel, int hop, bool hopValid) {
-    m_jitterPlot = nullptr;
-    m_hop = hop;
-    m_hopValid = hopValid;
-    m_tableModel = tableModel;
-    m_count = 0;
+Nedrysoft::RouteAnalyser::PingData::PingData(QStandardItemModel *tableModel, int hop, bool hopValid) :
+        m_jitterPlot(nullptr),
+        m_hop(hop),
+        m_hopValid(hopValid),
+        m_tableModel(tableModel),
+        m_count(0),
+        m_currentLatency(seconds_double(-1)),
+        m_maximumLatency(seconds_double(-1)),
+        m_minimumLatency(seconds_double(-1)),
+        m_averageLatency(seconds_double(-1)),
+        m_historicalLatency(seconds_double(-1)),
+        m_customPlot(nullptr),
+        m_replyPacketCount(0),
+        m_timeoutPacketCount(0) {
 
-    m_currentLatency = seconds_double(-1);
-    m_maximumLatency = seconds_double(-1);
-    m_minimumLatency = seconds_double(-1);
-    m_averageLatency = seconds_double(-1);
-    m_historicalLatency = seconds_double(-1);
-
-    m_customPlot = nullptr;
-
-    m_replyPacketCount = 0;
-    m_timeoutPacketCount = 0;
 }
 
 double Nedrysoft::RouteAnalyser::PingData::runningAverage(double previousAverage, double value, double n) {

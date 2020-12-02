@@ -19,12 +19,13 @@
  */
 
 #include "ICMPPingComponent.h"
+
 #include "ComponentSystem/IComponentManager.h"
 #include "ICMPPingEngineFactory.h"
-#include <QDebug>
 
-ICMPPingComponent::ICMPPingComponent() {
-    m_engineFactory = nullptr;
+ICMPPingComponent::ICMPPingComponent() :
+        m_engineFactory(nullptr) {
+
 }
 
 ICMPPingComponent::~ICMPPingComponent() {

@@ -18,20 +18,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ComponentSystem/ComponentLoader.h"
-#include "ComponentSystem/Component.h"
-#include "ComponentSystem/IComponentManager.h"
 #include "AppNap/AppNap.h"
+#include "ComponentSystem/Component.h"
+#include "ComponentSystem/ComponentLoader.h"
+#include "ComponentSystem/IComponentManager.h"
+#include "SplashScreen.h"
+
 #include <QApplication>
-#include <QDebug>
 #include <QDir>
+#include <QJsonDocument>
 #include <QProcessEnvironment>
 #include <QStandardPaths>
 #include <QString>
-#include <QSettings>
 #include <QTimer>
-#include <QJsonDocument>
-#include "SplashScreen.h"
 
 #if defined(Q_OS_MAC)
 
@@ -135,6 +134,7 @@ int main(int argc, char **argv) {
         if (disabledComponents.contains(( component->name() + "." + component->vendor()).toLower())) {
             return false;
         }
+
         return true;
     });
 

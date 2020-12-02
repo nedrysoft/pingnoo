@@ -19,6 +19,7 @@
  */
 
 #include "ThemeSupport.h"
+
 #import <Foundation/Foundation.h>
 #import <AppKit/NSAppearance.h>
 

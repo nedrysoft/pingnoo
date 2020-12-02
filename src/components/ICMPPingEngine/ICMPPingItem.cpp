@@ -19,16 +19,18 @@
  */
 
 #include "ICMPPingItem.h"
-#include <QTimer>
+
 #include <QDebug>
 #include <QMutex>
+#include <QTimer>
 
-Nedrysoft::ICMPPingEngine::ICMPPingItem::ICMPPingItem() {
-    m_id = 0;
-    m_sequenceId = 0;
-    m_serviced = false;
-    m_target = nullptr;
-    m_sampleNumber = 0;
+Nedrysoft::ICMPPingEngine::ICMPPingItem::ICMPPingItem() :
+        m_id(0),
+        m_sequenceId(0),
+        m_serviced(false),
+        m_target(nullptr),
+        m_sampleNumber(0) {
+
 }
 
 Nedrysoft::ICMPPingEngine::ICMPPingItem::~ICMPPingItem() = default;

@@ -33,6 +33,7 @@ namespace Nedrysoft::RouteAnalyser {
      */
     class CPAxisTickerMS :
             public QCPAxisTicker {
+
         public:
 
             /**

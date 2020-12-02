@@ -19,18 +19,20 @@
  */
 
 #include "RouteTableItemDelegate.h"
+
+#include "ColourManager.h"
 #include "PingData.h"
 #include "ThemeSupport.h"
-#include <QPainter>
+
 #include <QDebug>
-#include <QTableWidget>
 #include <QGradient>
 #include <QHeaderView>
 #include <QMap>
+#include <QPainter>
+#include <QPainterPath>
 #include <QPropertyAnimation>
-#include <QTableView>
 #include <QStandardItemModel>
-
+#include <QTableView>
 
 using namespace std::chrono_literals;
 
@@ -41,9 +43,9 @@ constexpr auto xOffset = ( AverageLatencyRadius * 2 );
 constexpr auto DefaultLowRangeLatency = 100ms;
 constexpr auto DefaultMidRangeLatency = 200ms;
 
-constexpr auto DefaultLowColour = qRgb(229, 240, 220);
-constexpr auto DefaultMidColour = qRgb(252, 239, 215);
-constexpr auto DefaultHighColour = qRgb(249, 216, 211);
+constexpr auto roundedRectangleRadius = 10;
+constexpr auto alternateRowFactor = 10;
+constexpr auto tinyNumber = 0.0001;                             //! used to adjust a unit number to just under 1
 
 constexpr auto NormalColourFactor = 100;
 constexpr auto ActiveSelectedColourFactor = 105;
@@ -54,13 +56,17 @@ constexpr auto InvalidEntryLineWidth = 6;
 constexpr auto OverrideSelectedColour = 1;
 
 Nedrysoft::RouteAnalyser::RouteTableItemDelegate::RouteTableItemDelegate(QWidget *parent) :
-        QStyledItemDelegate(parent) {
-    m_lowRangeLatency = DefaultLowRangeLatency;
-    m_midRangeLatency = DefaultMidRangeLatency;
+        QStyledItemDelegate(parent),
+        m_lowRangeLatency(DefaultLowRangeLatency),
+        m_midRangeLatency(DefaultMidRangeLatency) {
+
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
-                                                             const QModelIndex &index) const {
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
+        QPainter *painter,
+        const QStyleOptionViewItem &option,
+        const QModelIndex &index) const {
+
     if (!index.isValid()) {
         QStyledItemDelegate::paint(painter, option, index);
 
@@ -174,11 +180,15 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(QPainter *painter, 
     }
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintText(const QString &text, QPainter *painter,
-                                                                 const QStyleOptionViewItem &option,
-                                                                 const QModelIndex &index, int alignment,
-                                                                 int flags) const {
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintText(
+        const QString &text, QPainter *painter,
+        const QStyleOptionViewItem &option,
+        const QModelIndex &index,
+        int alignment,
+        int flags) const {
+
     Q_UNUSED(index)
+
     constexpr auto TextMargin = 5;
     auto pen = QPen();
     auto textColour = QColor();
@@ -217,10 +227,12 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintText(const QString &
     painter->restore();
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBackground(Nedrysoft::RouteAnalyser::PingData *pingData,
-                                                                       QPainter *painter,
-                                                                       const QStyleOptionViewItem &option,
-                                                                       const QModelIndex &index) const {
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBackground(
+        Nedrysoft::RouteAnalyser::PingData *pingData,
+        QPainter *painter,
+        const QStyleOptionViewItem &option,
+        const QModelIndex &index) const {
+
     Q_UNUSED(index)
     Q_UNUSED(pingData)
 
@@ -237,11 +249,13 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBackground(Nedrysoft
     }
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintLocation(Nedrysoft::RouteAnalyser::PingData *pingData,
-                                                                     QPainter *painter,
-                                                                     const QStyleOptionViewItem &option,
-                                                                     const QModelIndex &index) const {
-    auto pen = QPen(QBrush(DefaultHighColour), option.rect.height() - InvalidEntryLineWidth);
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintLocation(
+        Nedrysoft::RouteAnalyser::PingData *pingData,
+        QPainter *painter,
+        const QStyleOptionViewItem &option,
+        const QModelIndex &index) const {
+
+    auto pen = QPen(QBrush(Nedrysoft::RouteAnalyser::ColourManager::getMaxColour()), option.rect.height() - InvalidEntryLineWidth);
 
     pen.setCapStyle(Qt::RoundCap);
 
@@ -268,12 +282,14 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintLocation(Nedrysoft::
     }
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(Nedrysoft::RouteAnalyser::PingData *pingData,
-                                                                       QPainter *painter,
-                                                                       const QStyleOptionViewItem &option,
-                                                                       const QModelIndex &index) const {
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(
+        Nedrysoft::RouteAnalyser::PingData *pingData,
+        QPainter *painter,
+        const QStyleOptionViewItem &option,
+        const QModelIndex &index) const {
+
     auto tableView = qobject_cast<const QTableView *>(option.widget);
-    auto pen = QPen(QBrush(DefaultHighColour), option.rect.height() - InvalidEntryLineWidth);
+    auto pen = QPen(QBrush(Nedrysoft::RouteAnalyser::ColourManager::getMaxColour()), option.rect.height() - InvalidEntryLineWidth);
 
     auto visualIndex = tableView->horizontalHeader()->visualIndex(index.column());
 
@@ -290,7 +306,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(Nedrysoft
     auto rc = option.rect;
 
     if (index.column() == Nedrysoft::RouteAnalyser::PingData::Hop) {
-        paintBubble(pingData, painter, option, index, DefaultHighColour);
+        paintBubble(pingData, painter, option, index, Nedrysoft::RouteAnalyser::ColourManager::getMaxColour());
     }
 
     rc = option.rect;
@@ -328,12 +344,15 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(Nedrysoft
     }
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBubble(Nedrysoft::RouteAnalyser::PingData *pingData,
-                                                                   QPainter *painter,
-                                                                   const QStyleOptionViewItem &option,
-                                                                   const QModelIndex &index, QRgb bubbleColour) const {
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBubble(
+        Nedrysoft::RouteAnalyser::PingData *pingData,
+        QPainter *painter,
+        const QStyleOptionViewItem &option,
+        const QModelIndex &index, QRgb bubbleColour) const {
+
     Q_UNUSED(index)
     Q_UNUSED(pingData)
+
     auto tableView = qobject_cast<const QTableView *>(option.widget);
     auto bubbleRect = option.rect;
     auto pen = QPen(QBrush(bubbleColour), option.rect.height() - InvalidEntryLineWidth);
@@ -356,21 +375,24 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBubble(Nedrysoft::Ro
     painter->restore();
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintHop(Nedrysoft::RouteAnalyser::PingData *pingData,
-                                                                QPainter *painter, const QStyleOptionViewItem &option,
-                                                                const QModelIndex &index) const {
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintHop(
+        Nedrysoft::RouteAnalyser::PingData *pingData,
+        QPainter *painter,
+        const QStyleOptionViewItem &option,
+        const QModelIndex &index) const {
+
     constexpr auto interpolationTime = 1000.0;
-    auto pen = QPen(QBrush(DefaultLowColour), option.rect.height() - InvalidEntryLineWidth);
+    auto pen = QPen(QBrush(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()), option.rect.height() - InvalidEntryLineWidth);
     auto bubbleColour = QColor(Qt::white);
 
     QMap<double, QRgb> gradientMap;
 
-    gradientMap[0] = DefaultLowColour;
+    gradientMap[0] = Nedrysoft::RouteAnalyser::ColourManager::getMinColour();
     gradientMap[std::chrono::duration<double, std::milli>(m_lowRangeLatency).count() /
-                interpolationTime] = DefaultMidColour;
+                interpolationTime] = Nedrysoft::RouteAnalyser::ColourManager::getMidColour();
     gradientMap[std::chrono::duration<double, std::milli>(m_midRangeLatency).count() /
-                interpolationTime] = DefaultHighColour;
-    gradientMap[1] = DefaultHighColour;
+                interpolationTime] = Nedrysoft::RouteAnalyser::ColourManager::getMaxColour();
+    gradientMap[1] = Nedrysoft::RouteAnalyser::ColourManager::getMaxColour();
 
     pen.setCapStyle(Qt::RoundCap);
 
@@ -388,8 +410,10 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintHop(Nedrysoft::Route
               OverrideSelectedColour);
 }
 
-QRgb Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getInterpolatedColour(const QMap<double, QRgb> &keyFrames,
-                                                                             double value) const {
+auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getInterpolatedColour(
+        const QMap<double, QRgb> &keyFrames,
+        double value) const -> QRgb {
+
     constexpr auto interpolationTime = 1000.0;
     QVariantAnimation colourInterpolator;
     auto keyFrameKeys = keyFrames.keys();
@@ -414,9 +438,12 @@ QRgb Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getInterpolatedColour(con
     return colour.rgb();
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(Nedrysoft::RouteAnalyser::PingData *pingData,
-                                                                  QPainter *painter, const QStyleOptionViewItem &option,
-                                                                  const QModelIndex &index) const {
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
+        Nedrysoft::RouteAnalyser::PingData *pingData,
+        QPainter *painter,
+        const QStyleOptionViewItem &option,
+        const QModelIndex &index) const {
+
     auto thisRect = option.rect.adjusted(xOffset, 0, -xOffset, 0);
     auto startPoint = QPointF();
     auto endPoint = QPointF();
@@ -425,8 +452,29 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(Nedrysoft::Rou
 
     auto graphMaxLatency = pingData->tableModel()->property("graphMaxLatency").toDouble();
 
+    if (index.row() & 1) {
+        colourFactor = NormalColourFactor+alternateRowFactor;
+    }
+
     painter->save();
-    painter->setClipRect(option.rect);
+
+    // set the clipping rect to a rounding rectangle, this looks much better on dark mode than hard corners
+
+    auto tableView = qobject_cast<const QTableView *>(option.widget);
+
+    auto clippingRect = option.widget->contentsRect();
+
+    QPainterPath clippingPath;
+
+    // adjust the left hand side of the rectangle to be the the graph column and adjust the height to account for
+    // the header height.  Our clipping path extends over the whole graph area.
+
+    clippingRect.setLeft(option.rect.left()+xOffset);
+    clippingRect.adjust(0,0,0, -tableView->horizontalHeader()->height());
+
+    clippingPath.addRoundedRect(clippingRect, roundedRectangleRadius, roundedRectangleRadius);
+
+    painter->setClipPath(clippingPath);
 
     auto lowStop = m_lowRangeLatency.count() / graphMaxLatency;
     auto midStop = m_midRangeLatency.count() / graphMaxLatency;
@@ -454,26 +502,26 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(Nedrysoft::Rou
     QLinearGradient graphGradient = QLinearGradient(QPoint(rect.left(), rect.y()), QPoint(rect.right(), rect.y()));
 
     if (lowStop > 1) {
-        graphGradient.setColorAt(0, QColor(DefaultLowColour).darker(colourFactor));
-        graphGradient.setColorAt(1, QColor(DefaultLowColour).darker(colourFactor));
+        graphGradient.setColorAt(0, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()).darker(colourFactor));
+        graphGradient.setColorAt(1, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()).darker(colourFactor));
     } else {
         if (midStop > 1) {
             if (lowStop < 1) {
-                graphGradient.setColorAt(0, QColor(DefaultLowColour).darker(colourFactor));
-                graphGradient.setColorAt(1, QColor(DefaultMidColour).darker(colourFactor));
+                graphGradient.setColorAt(0, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()).darker(colourFactor));
+                graphGradient.setColorAt(1, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMidColour()).darker(colourFactor));
             }
         } else {
-            graphGradient.setColorAt(0, QColor(DefaultLowColour).darker(colourFactor));
-            graphGradient.setColorAt(lowStop, QColor(DefaultMidColour).darker(colourFactor));
-            graphGradient.setColorAt(midStop, QColor(DefaultHighColour).darker(colourFactor));
-            graphGradient.setColorAt(1, QColor(DefaultHighColour).darker(colourFactor));
+            graphGradient.setColorAt(0, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()).darker(colourFactor));
+            graphGradient.setColorAt(lowStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMidColour()).darker(colourFactor));
+            graphGradient.setColorAt(midStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMaxColour()).darker(colourFactor));
+            graphGradient.setColorAt(1, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMaxColour()).darker(colourFactor));
         }
     }
 
     if (!smoothGradient) {
-        graphGradient.setColorAt(lowStop, QColor(DefaultMidColour).darker(colourFactor));
-        graphGradient.setColorAt(lowStop - 0.0001, QColor(DefaultLowColour).darker(colourFactor));
-        graphGradient.setColorAt(midStop - 0.0001, QColor(DefaultMidColour).darker(colourFactor));
+        graphGradient.setColorAt(lowStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMidColour()).darker(colourFactor));
+        graphGradient.setColorAt(lowStop - tinyNumber, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()).darker(colourFactor));
+        graphGradient.setColorAt(midStop - tinyNumber, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMidColour()).darker(colourFactor));
     }
 
     painter->fillRect(rect, graphGradient);
@@ -497,7 +545,11 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(Nedrysoft::Rou
 
     auto pen = QPen(Qt::DashLine);
 
-    pen.setColor(Qt::lightGray);
+    if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
+        pen.setColor(Qt::black);
+    } else {
+        pen.setColor(Qt::lightGray);
+    }
 
     double dashLength = 0;
 
@@ -589,12 +641,14 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(Nedrysoft::Rou
     painter->restore();
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::drawLatencyLine(int field,
-                                                                       Nedrysoft::RouteAnalyser::PingData *pingData,
-                                                                       QPainter *painter,
-                                                                       const QStyleOptionViewItem &option,
-                                                                       const QModelIndex &index,
-                                                                       const QPen &pen) const {
+void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::drawLatencyLine(
+        int field,
+        Nedrysoft::RouteAnalyser::PingData *pingData,
+        QPainter *painter,
+        const QStyleOptionViewItem &option,
+        const QModelIndex &index,
+        const QPen &pen) const {
+
     auto thisRect = option.rect.adjusted(xOffset, 0, -xOffset, 0);
     auto nextRect = thisRect;
     auto previousRect = thisRect;
@@ -671,7 +725,10 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::drawLatencyLine(int field
     painter->restore();
 }
 
-QModelIndex Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getSibling(QModelIndex modelIndex, int adjustment) const {
+auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getSibling(
+        QModelIndex modelIndex,
+        int adjustment) const -> QModelIndex {
+
     while (true) {
         modelIndex = modelIndex.siblingAtRow(modelIndex.row() + adjustment);
 
@@ -689,9 +746,12 @@ QModelIndex Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getSibling(QModelI
     return modelIndex;
 }
 
-Nedrysoft::RouteAnalyser::PingData *
-Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getSiblingData(QModelIndex modelIndex, int adjustment,
-                                                                 const QTableView *tableView, QRect &rect) const {
+auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getSiblingData(
+        QModelIndex modelIndex,
+        int adjustment,
+        const QTableView *tableView,
+        QRect &rect) const -> Nedrysoft::RouteAnalyser::PingData * {
+
     auto nextModelIndex = getSibling(modelIndex, adjustment);
 
     if (nextModelIndex.isValid()) {

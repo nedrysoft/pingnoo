@@ -22,10 +22,11 @@
 #define NEDRYSOFT_CORE_PINGRESULT_H
 
 #include "CoreSpec.h"
+
+#include <QHostAddress>
+#include <QObject>
 #include <cmath>
 #include <cstdint>
-#include <QObject>
-#include <QHostAddress>
 
 namespace Nedrysoft::Core {
     class IPingTarget;

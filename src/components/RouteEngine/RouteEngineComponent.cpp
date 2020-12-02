@@ -19,12 +19,15 @@
  */
 
 #include "RouteEngineComponent.h"
-#include "RouteEngineFactory.h"
+
 #include "ComponentSystem/IComponentManager.h"
+#include "RouteEngineFactory.h"
+
 #include <QDebug>
 
-RouteEngineComponent::RouteEngineComponent() {
-    m_routeEngineFactory = nullptr;
+RouteEngineComponent::RouteEngineComponent() :
+        m_routeEngineFactory(nullptr) {
+
 }
 
 RouteEngineComponent::~RouteEngineComponent() {

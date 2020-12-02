@@ -19,15 +19,18 @@
  */
 
 #include "RouteAnalyserEditor.h"
-#include "RouteAnalyserWidget.h"
-#include "Core/ICommandManager.h"
-#include "RouteAnalyserComponent.h"
-#include "Pingnoo.h"
-#include <QObject>
-#include <QLabel>
 
-Nedrysoft::RouteAnalyser::RouteAnalyserEditor::RouteAnalyserEditor(int contextId) {
-    m_contextId = contextId;
+#include "Core/ICommandManager.h"
+#include "Pingnoo.h"
+#include "RouteAnalyserComponent.h"
+#include "RouteAnalyserWidget.h"
+
+#include <QLabel>
+#include <QObject>
+
+Nedrysoft::RouteAnalyser::RouteAnalyserEditor::RouteAnalyserEditor(int contextId) :
+        m_contextId(contextId) {
+
 }
 
 QJsonObject Nedrysoft::RouteAnalyser::RouteAnalyserEditor::saveConfiguration() {
@@ -47,8 +50,7 @@ QWidget *Nedrysoft::RouteAnalyser::RouteAnalyserEditor::widget() {
     return visualiserWidget;
 }
 
-void
-Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setPingEngine(Nedrysoft::Core::IPingEngineFactory *pingEngineFactory) {
+void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setPingEngine(Nedrysoft::Core::IPingEngineFactory *pingEngineFactory) {
     m_pingEngineFactory = pingEngineFactory;
 }
 

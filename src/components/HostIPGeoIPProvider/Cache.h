@@ -21,8 +21,8 @@
 #ifndef NEDRYSOFT_HOSTIPGEOIPPROVIDER_CACHE_H
 #define NEDRYSOFT_HOSTIPGEOIPPROVIDER_CACHE_H
 
-#include <QSqlDatabase>
 #include <QJsonObject>
+#include <QSqlDatabase>
 
 namespace Nedrysoft::HostIPGeoIPProvider {
     /**

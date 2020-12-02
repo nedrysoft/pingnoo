@@ -21,9 +21,9 @@
 #ifndef NEDRYSOFT_CORE_ISTATUSBARMANAGER_H
 #define NEDRYSOFT_CORE_ISTATUSBARMANAGER_H
 
-#include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
 #include "Core/IContextManager.h"
+#include "CoreSpec.h"
 
 namespace Nedrysoft::Core {
     /**
@@ -37,7 +37,9 @@ namespace Nedrysoft::Core {
      */
     class NEDRYSOFT_CORE_DLLSPEC IStatusBarManager :
             public Nedrysoft::ComponentSystem::IInterface {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
             /**
@@ -54,6 +56,6 @@ namespace Nedrysoft::Core {
     };
 }
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IStatusBarManager, "com.fizzyade.core.IStatusBarManager/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IStatusBarManager, "com.nedrysoft.core.IStatusBarManager/1.0.0")
 
 #endif // NEDRYSOFT_CORE_ISTATUSBARMANAGER_H

@@ -1,0 +1,9 @@
+[submodule "src/libs/ComponentSystem"]
+	path = src/libs/ComponentSystem
+	url = https://github.com/fizzyade/componentsystem
+[submodule "src/libs/Ribbon"]
+	path = src/libs/Ribbon
+	url = https://github.com/fizzyade/qt-ribbon
+[submodule "src/libs/fontawesome"]
+	path = src/libs/fontawesome
+	url = https://github.com/fizzyade/FontAwesomeForQt

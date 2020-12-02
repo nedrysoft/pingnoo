@@ -19,6 +19,9 @@
  */
 
 #include "GraphLatencyLayer.h"
+
+#include "ColourManager.h"
+
 #include <chrono>
 
 using namespace std::chrono_literals;
@@ -26,14 +29,14 @@ using namespace std::chrono_literals;
 constexpr auto DefaultLowRangeLatency = 100ms;
 constexpr auto DefaultMidRangeLatency = 200ms;
 
-constexpr auto DefaultLowColour = qRgb(229, 240, 220);
-constexpr auto DefaultMidColour = qRgb(252, 239, 215);
-constexpr auto DefaultHighColour = qRgb(249, 216, 211);
+constexpr auto roundedRectangleRadius = 10;
+constexpr auto tinyNumber = 0.0001;                             //! used to adjust a unit number to just under 1
 
 Nedrysoft::RouteAnalyser::GraphLatencyLayer::GraphLatencyLayer(QCustomPlot *customPlot) :
-        QCPItemRect(customPlot) {
-    m_lowRangeLatency = DefaultLowRangeLatency;
-    m_midRangeLatency = DefaultMidRangeLatency;
+        QCPItemRect(customPlot),
+        m_lowRangeLatency(DefaultLowRangeLatency),
+        m_midRangeLatency(DefaultMidRangeLatency) {
+
 }
 
 void Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) {
@@ -46,29 +49,37 @@ void Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) {
 
     painter->save();
 
+    // use a rounded rectangle as a clipping path, it looks better in dark mode
+
+    QPainterPath clippingPath;
+
+    clippingPath.addRoundedRect(rect, roundedRectangleRadius, roundedRectangleRadius);
+
+    painter->setClipPath(clippingPath);
+
     QLinearGradient graphGradient = QLinearGradient(QPoint(rect.x(), rect.bottom()), QPoint(rect.x(), rect.top()));
 
     if (lowStop > 1) {
-        graphGradient.setColorAt(0, QColor(DefaultLowColour));
-        graphGradient.setColorAt(1, QColor(DefaultLowColour));
+        graphGradient.setColorAt(0, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()));
+        graphGradient.setColorAt(1, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()));
     } else {
         if (midStop > 1) {
             if (lowStop < 1) {
-                graphGradient.setColorAt(0, QColor(DefaultLowColour));
-                graphGradient.setColorAt(1, QColor(DefaultMidColour));
+                graphGradient.setColorAt(0, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()));
+                graphGradient.setColorAt(1, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMidColour()));
             }
         } else {
-            graphGradient.setColorAt(0, QColor(DefaultLowColour));
-            graphGradient.setColorAt(lowStop, QColor(DefaultMidColour));
-            graphGradient.setColorAt(midStop, QColor(DefaultHighColour));
-            graphGradient.setColorAt(1, QColor(DefaultHighColour));
+            graphGradient.setColorAt(0, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()));
+            graphGradient.setColorAt(lowStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMidColour()));
+            graphGradient.setColorAt(midStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMaxColour()));
+            graphGradient.setColorAt(1, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMaxColour()));
         }
     }
 
     if (!smoothGradient) {
-        graphGradient.setColorAt(lowStop, QColor(DefaultMidColour));
-        graphGradient.setColorAt(lowStop - 0.0001, QColor(DefaultLowColour));
-        graphGradient.setColorAt(midStop - 0.0001, QColor(DefaultMidColour));
+        graphGradient.setColorAt(lowStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMidColour()));
+        graphGradient.setColorAt(lowStop - tinyNumber, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()));
+        graphGradient.setColorAt(midStop - tinyNumber, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMaxColour()));
     }
 
     painter->fillRect(rect, graphGradient);

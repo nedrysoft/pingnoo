@@ -46,6 +46,8 @@ pingnoo_add_sources(
     NewTargetDialog.cpp
     NewTargetDialog.h
     NewTargetDialog.ui
+    ColourManager.cpp
+    ColourManager.h
 )
 
 pingnoo_set_description("Route analyser component")

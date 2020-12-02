@@ -19,12 +19,13 @@
  */
 
 #include "IPAPIGeoIPProviderComponent.h"
-#include "IPAPIGeoIPProvider.h"
-#include "ComponentSystem/IComponentManager.h"
-#include <QDebug>
 
-IPAPIGeoIPProviderComponent::IPAPIGeoIPProviderComponent() {
-    m_provider = nullptr;
+#include "ComponentSystem/IComponentManager.h"
+#include "IPAPIGeoIPProvider.h"
+
+IPAPIGeoIPProviderComponent::IPAPIGeoIPProviderComponent() :
+        m_provider(nullptr) {
+
 }
 
 IPAPIGeoIPProviderComponent::~IPAPIGeoIPProviderComponent() {

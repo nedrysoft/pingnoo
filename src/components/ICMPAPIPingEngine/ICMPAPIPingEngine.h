@@ -40,7 +40,9 @@ namespace Nedrysoft::Pingnoo {
     class ICMPAPIPingEngine :
             public QObject,
             public Nedrysoft::Core::IPingEngine {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::IPingEngine)
 

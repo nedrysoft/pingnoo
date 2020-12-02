@@ -22,9 +22,10 @@
 #define NEDRYSOFT_ROUTEENGINE_ROUTEWORKER_H
 
 #include "RouteEngine.h"
-#include <QObject>
+
 #include <QHostAddress>
 #include <QList>
+#include <QObject>
 
 namespace Nedrysoft::RouteEngine {
     /**
@@ -36,7 +37,9 @@ namespace Nedrysoft::RouteEngine {
      */
     class RouteWorker :
             public QObject {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
             /**

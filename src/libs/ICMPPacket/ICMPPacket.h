@@ -21,10 +21,10 @@
 #ifndef NEDRYSOFT_ICMPPACKET_ICMPPACKET_H
 #define NEDRYSOFT_ICMPPACKET_ICMPPACKET_H
 
-#include <cstdint>
-#include <vector>
 #include <QDataStream>
 #include <QHostAddress>
+#include <cstdint>
+#include <vector>
 
 #if defined(Q_OS_WIN)
 #include "windows_ip_icmp.h"

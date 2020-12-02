@@ -19,8 +19,10 @@
  */
 
 #include "RegExHostMaskerComponent.h"
-#include "RegExHostMasker.h"
+
 #include "ComponentSystem/IComponentManager.h"
+#include "RegExHostMasker.h"
+
 #include <QDebug>
 #include <QJsonDocument>
 

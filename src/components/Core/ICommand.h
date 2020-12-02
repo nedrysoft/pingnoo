@@ -21,12 +21,13 @@
 #ifndef NEDRYSOFT_CORE_ICOMMAND_H
 #define NEDRYSOFT_CORE_ICOMMAND_H
 
-#include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
-#include <QObject>
-#include <QAction>
+#include "CoreSpec.h"
+
 #include <QAbstractButton>
+#include <QAction>
 #include <QDebug>
+#include <QObject>
 
 namespace Nedrysoft::Core {
     /**
@@ -40,7 +41,9 @@ namespace Nedrysoft::Core {
      */
     class NEDRYSOFT_CORE_DLLSPEC ICommand :
             public Nedrysoft::ComponentSystem::IInterface {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
             /**
@@ -92,6 +95,6 @@ namespace Nedrysoft::Core {
     };
 }
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::ICommand, "com.fizzyade.core.ICommand/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::ICommand, "com.nedrysoft.core.ICommand/1.0.0")
 
 #endif // NEDRYSOFT_CORE_ICOMMAND_H

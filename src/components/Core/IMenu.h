@@ -21,8 +21,9 @@
 #ifndef NEDRYSOFT_CORE_IMENU_H
 #define NEDRYSOFT_CORE_IMENU_H
 
-#include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
+#include "CoreSpec.h"
+
 #include <QMenu>
 #include <QMenuBar>
 
@@ -44,7 +45,9 @@ namespace Nedrysoft::Core {
      */
     class NEDRYSOFT_CORE_DLLSPEC IMenu :
             public Nedrysoft::ComponentSystem::IInterface {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
 
@@ -151,6 +154,6 @@ namespace Nedrysoft::Core {
     };
 }
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IMenu, "com.fizzyade.core.IMenu/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IMenu, "com.nedrysoft.core.IMenu/1.0.0")
 
 #endif // NEDRYSOFT_CORE_IMENU_H

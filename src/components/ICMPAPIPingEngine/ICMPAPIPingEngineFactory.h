@@ -21,9 +21,9 @@
 #ifndef NEDRYSOFT_PINGNOO_ICMPAPIPINGENGINEFACTORY_H
 #define NEDRYSOFT_PINGNOO_ICMPAPIPINGENGINEFACTORY_H
 
-#include "ICMPAPIPingEngineSpec.h"
-#include "Core/IPingEngineFactory.h"
 #include "ComponentSystem/IInterface.h"
+#include "Core/IPingEngineFactory.h"
+#include "ICMPAPIPingEngineSpec.h"
 
 namespace Nedrysoft::Pingnoo {
 
@@ -40,7 +40,9 @@ namespace Nedrysoft::Pingnoo {
 
     class ICMPAPIPingEngineFactory :
             public QObject, public Nedrysoft::Core::IPingEngineFactory {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::IPingEngineFactory)
 

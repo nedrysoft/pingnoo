@@ -59,12 +59,6 @@ pingnoo_add_sources(
     Menu.h
     StatusBarManager.cpp
     StatusBarManager.h
-    ComponentViewerDialog.cpp
-    ComponentViewerDialog.h
-    ComponentViewerDialog.ui
-    ComponentDetailsDialog.cpp
-    ComponentDetailsDialog.h
-    ComponentDetailsDialog.ui
     AboutDialog.cpp
     AboutDialog.h
     AboutDialog.ui

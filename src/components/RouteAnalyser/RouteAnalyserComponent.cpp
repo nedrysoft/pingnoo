@@ -19,16 +19,18 @@
  */
 
 #include "RouteAnalyserComponent.h"
-#include "RouteAnalyserEditor.h"
+
 #include "ComponentSystem/IComponentManager.h"
-#include "Core/ICore.h"
-#include "Core/IContextManager.h"
 #include "Core/ICommandManager.h"
-#include "Core/IEditorManager.h"
+#include "Core/IContextManager.h"
+#include "Core/ICore.h"
 #include "Core/IEditor.h"
-#include "Pingnoo.h"
-#include <QDebug>
+#include "Core/IEditorManager.h"
 #include "NewTargetDialog.h"
+#include "Pingnoo.h"
+#include "RouteAnalyserEditor.h"
+
+#include <QDebug>
 
 RouteAnalyserComponent::RouteAnalyserComponent() = default;
 

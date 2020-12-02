@@ -21,9 +21,9 @@
 #ifndef NEDRYSOFT_ROUTEANALYSER_ROUTEANALYSERCOMPONENT_H
 #define NEDRYSOFT_ROUTEANALYSER_ROUTEANALYSERCOMPONENT_H
 
-#include "RouteAnalyserSpec.h"
-#include "ComponentSystem/IComponentInterface.h"
+#include "ComponentSystem/IComponent.h"
 #include "RouteAnalyserEditor.h"
+#include "RouteAnalyserSpec.h"
 
 /**
  * @brief       RouteAnalyserComponent class
@@ -34,12 +34,14 @@
  */
 class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
         public QObject,
-        public Nedrysoft::ComponentSystem::IComponentInterface {
-    Q_OBJECT
+        public Nedrysoft::ComponentSystem::IComponent {
+
+    private:
+        Q_OBJECT
 
         Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
 
-        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponentInterface)
+        Q_INTERFACES(Nedrysoft::ComponentSystem::IComponent)
 
     public:
         /**
@@ -55,7 +57,7 @@ class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
         ~RouteAnalyserComponent();
 
         /**
-         * @sa          Nedrysoft::ComponentSystem::IComponentInterface
+         * @sa          Nedrysoft::ComponentSystem::IComponent
          *
          */
         virtual void initialiseEvent();

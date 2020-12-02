@@ -23,9 +23,10 @@
 
 #include "ICommand.h"
 #include "IContextManager.h"
+
+#include <QMap>
 #include <QObject>
 #include <QString>
-#include <QMap>
 
 namespace Nedrysoft::Core {
     class ActionProxy;
@@ -39,7 +40,9 @@ namespace Nedrysoft::Core {
      */
     class Command :
             public Nedrysoft::Core::ICommand {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::ICommand)
 

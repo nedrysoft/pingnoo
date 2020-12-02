@@ -22,8 +22,9 @@
 #define NEDRYSOFT_PINGNOO_ICMPAPIPINGITEM_H
 
 #include "ICMPAPIPingEngineSpec.h"
-#include <chrono>
+
 #include <QObject>
+#include <chrono>
 
 namespace Nedrysoft::Pingnoo {
     class ICMPAPIPingTarget;
@@ -42,7 +43,9 @@ namespace Nedrysoft::Pingnoo {
 
     class ICMPAPIPingItem :
             public QObject {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
             /**

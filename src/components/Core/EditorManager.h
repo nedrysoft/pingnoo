@@ -22,9 +22,10 @@
 #define NEDRYSOFT_CORE_EDITORMANAGER_H
 
 #include "IEditorManager.h"
+
+#include <QMap>
 #include <QObject>
 #include <QString>
-#include <QMap>
 #include <QTabWidget>
 
 namespace Nedrysoft::Core {
@@ -37,7 +38,9 @@ namespace Nedrysoft::Core {
      */
     class EditorManager :
             public Nedrysoft::Core::IEditorManager {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::IEditorManager)
 

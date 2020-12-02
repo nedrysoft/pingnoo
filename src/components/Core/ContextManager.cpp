@@ -20,9 +20,10 @@
 
 #include "ContextManager.h"
 
-Nedrysoft::Core::ContextManager::ContextManager() {
-    m_currentContextId = 0;
-    m_nextContextId = 1;
+Nedrysoft::Core::ContextManager::ContextManager() :
+        m_currentContextId(0),
+        m_nextContextId(1) {
+
 }
 
 int Nedrysoft::Core::ContextManager::registerContext(QString contextIdentifier) {

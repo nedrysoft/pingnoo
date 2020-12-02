@@ -19,13 +19,16 @@
  */
 
 #include "Command.h"
+
 #include "ActionProxy.h"
 #include "IContextManager.h"
+
 #include <QDebug>
 
-Nedrysoft::Core::Command::Command(QString id) {
-    m_action = new ActionProxy();
-    m_id = id;
+Nedrysoft::Core::Command::Command(QString id) :
+        m_action(new ActionProxy()),
+        m_id(id) {
+
 }
 
 Nedrysoft::Core::Command::~Command() {

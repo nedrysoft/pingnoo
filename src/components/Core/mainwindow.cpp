@@ -19,29 +19,32 @@
  */
 
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "ComponentSystem/IComponentManager.h"
-#include "ComponentSystem/ComponentLoader.h"
+
+#include "AboutDialog.h"
 #include "ComponentSystem/Component.h"
-#include "EditorManager.h"
-#include "Core/ICore.h"
-#include "Core/IEditor.h"
+#include "ComponentSystem/ComponentLoader.h"
+#include "ComponentSystem/IComponentManager.h"
+#include "ComponentSystem/ComponentViewerDialog.h"
 #include "Core/ICommandManager.h"
 #include "Core/IContextManager.h"
+#include "Core/ICore.h"
+#include "Core/IEditor.h"
 #include "Core/IMenu.h"
+#include "EditorManager.h"
 #include "Pingnoo.h"
-#include <QDebug>
+#include "ui_mainwindow.h"
+
 #include <QApplication>
-#include "ComponentViewerDialog.h"
+#include <QDebug>
 #include <QFile>
-#include <QJsonDocument>
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <QStandardPaths>
-#include "AboutDialog.h"
 
 Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent),
           ui(new Nedrysoft::Core::Ui::MainWindow) {
+
     ui->setupUi(this);
 
     qApp->setWindowIcon(QIcon(":/Pingnoo/appicon.ico"));
@@ -172,7 +175,7 @@ void Nedrysoft::Core::MainWindow::registerDefaultCommands() {
     commandManager->registerAction(m_aboutComponentsAction, Pingnoo::Constants::helpAboutComponents);
 
     connect(m_aboutComponentsAction, &QAction::triggered, [](bool) {
-        ComponentViewerDialog componentViewerDialog(Nedrysoft::ComponentSystem::getObject<QMainWindow>());
+        Nedrysoft::ComponentSystem::ComponentViewerDialog componentViewerDialog(Nedrysoft::ComponentSystem::getObject<QMainWindow>());
 
         if (componentViewerDialog.exec()) {
             QString appSettingsFilename =

@@ -21,9 +21,9 @@
 #ifndef NEDRYSOFT_CORE_IRIBBONBARMANAGER_H
 #define NEDRYSOFT_CORE_IRIBBONBARMANAGER_H
 
-#include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
 #include "Core/IContextManager.h"
+#include "CoreSpec.h"
 
 namespace Nedrysoft::Core {
     /**
@@ -34,7 +34,9 @@ namespace Nedrysoft::Core {
      */
     class NEDRYSOFT_CORE_DLLSPEC IRibbonBarManager :
             public Nedrysoft::ComponentSystem::IInterface {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
             /**
@@ -52,6 +54,6 @@ namespace Nedrysoft::Core {
     };
 }
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IRibbonBarManager, "com.fizzyade.core.IRibbonBarManager/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IRibbonBarManager, "com.nedrysoft.core.IRibbonBarManager/1.0.0")
 
 #endif // NEDRYSOFT_CORE_IRIBBONBARMANAGER_H

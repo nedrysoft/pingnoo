@@ -19,36 +19,38 @@
  */
 
 #include "RouteAnalyserWidget.h"
-#include "QCustomPlot/qcustomplot.h"
+
+#include "CPAxisTickerMS.h"
 #include "ComponentSystem/IComponentManager.h"
-#include "Core/PingResult.h"
-#include "Core/IPingTarget.h"
+#include "Core/IContextManager.h"
+#include "Core/IGeoIPProvider.h"
+#include "Core/IHostMasker.h"
 #include "Core/IPingEngine.h"
 #include "Core/IPingEngineFactory.h"
+#include "Core/IPingTarget.h"
 #include "Core/IRouteEngine.h"
 #include "Core/IRouteEngineFactory.h"
-#include "Core/IHostMasker.h"
-#include "Core/IGeoIPProvider.h"
-#include "Core/IContextManager.h"
-#include "RouteTableItemDelegate.h"
-#include "PingData.h"
-#include "CPAxisTickerMS.h"
+#include "Core/PingResult.h"
 #include "GraphLatencyLayer.h"
+#include "PingData.h"
+#include "QCustomPlot/qcustomplot.h"
+#include "RouteTableItemDelegate.h"
+
+#include <QDateTime>
 #include <QDebug>
+#include <QDnsLookup>
 #include <QHostAddress>
 #include <QHostInfo>
-#include <QPersistentModelIndex>
-#include <QTableWidgetItem>
-#include <QSpacerItem>
-#include <QDateTime>
-#include <QPdfWriter>
-#include <QRegularExpression>
-#include <QLocale>
-#include <QVariant>
-#include <QVBoxLayout>
 #include <QLabel>
+#include <QLocale>
+#include <QPdfWriter>
+#include <QPersistentModelIndex>
+#include <QRegularExpression>
+#include <QSpacerItem>
 #include <QSslSocket>
-#include <QDnsLookup>
+#include <QTableWidgetItem>
+#include <QVBoxLayout>
+#include <QVariant>
 
 using namespace std::chrono_literals;
 
@@ -581,4 +583,8 @@ bool Nedrysoft::RouteAnalyser::RouteAnalyserWidget::eventFilter(QObject *watched
     emit filteredEvent(watched, event);
 
     return QWidget::eventFilter(watched, event);
+}
+
+void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::paintEvent(QPaintEvent *paintEvent) {
+    QWidget::paintEvent(paintEvent);
 }

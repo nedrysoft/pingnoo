@@ -19,7 +19,9 @@
  */
 
 #include "AboutDialog.h"
+
 #include "ui_AboutDialog.h"
+
 #include <QDebug>
 #include <QLibraryInfo>
 #include <QSysInfo>
@@ -27,6 +29,7 @@
 Nedrysoft::Core::AboutDialog::AboutDialog(QWidget *parent) :
         QDialog(parent),
         ui(new Nedrysoft::Core::Ui::AboutDialog) {
+
     ui->setupUi(this);
 
     ui->titleLabel->setTextFormat(Qt::RichText);

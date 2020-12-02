@@ -18,15 +18,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Menu.h"
-#include "IContextManager.h"
 #include "ICommand.h"
-#include <QDebug>
+#include "IContextManager.h"
+#include "Menu.h"
 #include "Pingnoo.h"
 
-Nedrysoft::Core::Menu::Menu() {
-    m_menuBar = nullptr;
-    m_menu = nullptr;
+#include <QDebug>
+
+
+Nedrysoft::Core::Menu::Menu() :
+        m_menuBar(nullptr),
+        m_menu(nullptr) {
 
     m_groupList.append(GroupItem(Pingnoo::Constants::defaultGroupTop));
     m_groupList.append(GroupItem(Pingnoo::Constants::defaultGroupMiddle));

@@ -21,12 +21,13 @@
 #ifndef NEDRYSOFT_CORE_IPINGENGINE_H
 #define NEDRYSOFT_CORE_IPINGENGINE_H
 
-#include "CoreSpec.h"
 #include "ComponentSystem/IInterface.h"
+#include "CoreSpec.h"
 #include "IConfiguration.h"
 #include "PingResult.h"
-#include <chrono>
+
 #include <QHostAddress>
+#include <chrono>
 
 namespace Nedrysoft::Core {
     class IPingTarget;
@@ -42,7 +43,9 @@ namespace Nedrysoft::Core {
     class NEDRYSOFT_CORE_DLLSPEC IPingEngine :
             public Nedrysoft::ComponentSystem::IInterface,
             public Nedrysoft::Core::IConfiguration {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
             Q_INTERFACES(Nedrysoft::Core::IConfiguration)
@@ -139,6 +142,6 @@ namespace Nedrysoft::Core {
     };
 }
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingEngine, "com.fizzyade.core.IPingEngine/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingEngine, "com.nedrysoft.core.IPingEngine/1.0.0")
 
 #endif // NEDRYSOFT_CORE_IPINGENGINE_H

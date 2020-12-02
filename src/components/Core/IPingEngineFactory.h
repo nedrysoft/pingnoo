@@ -21,9 +21,9 @@
 #ifndef NEDRYSOFT_CORE_IPINGENGINEFACTORY_H
 #define NEDRYSOFT_CORE_IPINGENGINEFACTORY_H
 
+#include "ComponentSystem/IInterface.h"
 #include "Core.h"
 #include "CoreSpec.h"
-#include "ComponentSystem/IInterface.h"
 #include "IConfiguration.h"
 
 namespace Nedrysoft::Core {
@@ -40,7 +40,9 @@ namespace Nedrysoft::Core {
     class NEDRYSOFT_CORE_DLLSPEC IPingEngineFactory :
             public Nedrysoft::ComponentSystem::IInterface,
             public Nedrysoft::Core::IConfiguration {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
             Q_INTERFACES(Nedrysoft::Core::IConfiguration)
@@ -68,6 +70,6 @@ namespace Nedrysoft::Core {
     };
 }
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingEngineFactory, "com.fizzyade.core.IPingEngineFactory/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingEngineFactory, "com.nedrysoft.core.IPingEngineFactory/1.0.0")
 
 #endif // NEDRYSOFT_CORE_IPINGENGINEFACTORY_H

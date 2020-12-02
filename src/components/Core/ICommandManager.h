@@ -21,15 +21,16 @@
 #ifndef NEDRYSOFT_CORE_ICOMMANDMANAGER_H
 #define NEDRYSOFT_CORE_ICOMMANDMANAGER_H
 
-#include "CoreSpec.h"
-#include "ComponentSystem/IInterface.h"
 #include "ComponentSystem/IComponentManager.h"
+#include "ComponentSystem/IInterface.h"
 #include "Core/IContextManager.h"
 #include "Core/IMenu.h"
+#include "CoreSpec.h"
 #include "ICommand.h"
-#include <QObject>
+
 #include <QAction>
 #include <QList>
+#include <QObject>
 
 namespace Nedrysoft::Core {
     /**
@@ -41,7 +42,9 @@ namespace Nedrysoft::Core {
      */
     class NEDRYSOFT_CORE_DLLSPEC ICommandManager :
             public Nedrysoft::ComponentSystem::IInterface {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
             /**
@@ -171,6 +174,6 @@ namespace Nedrysoft::Core {
     };
 }
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::ICommandManager, "com.fizzyade.core.ICommandManager/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::ICommandManager, "com.nedrysoft.core.ICommandManager/1.0.0")
 
 #endif // NEDRYSOFT_CORE_ICOMMANDMANAGER_H

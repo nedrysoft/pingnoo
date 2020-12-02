@@ -19,13 +19,14 @@
  */
 
 #include "RegExHostMasker.h"
-#include "RegExHostMaskerComponent.h"
-#include <QRegularExpressionMatch>
-#include <QJsonArray>
-#include <QDebug>
 
-bool
-Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(int hop, const QString &hostName, const QString &hostAddress,
+#include "RegExHostMaskerComponent.h"
+
+#include <QDebug>
+#include <QJsonArray>
+#include <QRegularExpressionMatch>
+
+bool Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(int hop, const QString &hostName, const QString &hostAddress,
                                                        QString &maskedHostName, QString &maskedHostAddress) {
     Q_UNUSED(hop)
     auto expressionMatch = QRegularExpressionMatch();

@@ -19,16 +19,18 @@
  */
 
 #include "CommandManager.h"
-#include "ICore.h"
+
 #include "Command.h"
 #include "IContextManager.h"
+#include "ICore.h"
 #include "Menu.h"
 #include "Pingnoo.h"
+
+#include <QAction>
 #include <QDebug>
+#include <QMainWindow>
 #include <QMenu>
 #include <QMenuBar>
-#include <QMainWindow>
-#include <QAction>
 
 Nedrysoft::Core::CommandManager::CommandManager() = default;
 

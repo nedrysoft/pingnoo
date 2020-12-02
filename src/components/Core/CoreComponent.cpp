@@ -19,14 +19,16 @@
  */
 
 #include "CoreComponent.h"
-#include "ComponentSystem/IComponentManager.h"
-#include "PingResult.h"
-#include "ContextManager.h"
+
 #include "CommandManager.h"
-#include "EditorManager.h"
+#include "ComponentSystem/IComponentManager.h"
+#include "ContextManager.h"
 #include "Core.h"
-#include "IRouteEngine.h"
+#include "EditorManager.h"
 #include "IPingEngineFactory.h"
+#include "IRouteEngine.h"
+#include "PingResult.h"
+
 #include <QDebug>
 
 void CoreComponent::initialiseEvent() {

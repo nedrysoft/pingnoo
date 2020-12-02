@@ -21,11 +21,12 @@
 #ifndef NEDRYSOFT_CORE_IROUTEENGINE_H
 #define NEDRYSOFT_CORE_IROUTEENGINE_H
 
-#include "CoreSpec.h"
-#include "Core.h"
 #include "ComponentSystem/IInterface.h"
-#include <QObject>
+#include "Core.h"
+#include "CoreSpec.h"
+
 #include <QHostAddress>
+#include <QObject>
 
 namespace Nedrysoft::Core {
     typedef QList<QHostAddress> RouteList;
@@ -39,7 +40,9 @@ namespace Nedrysoft::Core {
      */
     class NEDRYSOFT_CORE_DLLSPEC IRouteEngine :
             public Nedrysoft::ComponentSystem::IInterface {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
 
@@ -69,6 +72,6 @@ namespace Nedrysoft::Core {
     };
 }
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IRouteEngine, "com.fizzyade.core.IRouteEngine/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IRouteEngine, "com.nedrysoft.core.IRouteEngine/1.0.0")
 
 #endif // NEDRYSOFT_CORE_IROUTEENGINE_H

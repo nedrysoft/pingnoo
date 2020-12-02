@@ -21,10 +21,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include "Command.h"
+
 #include <QAbstractButton>
 #include <QAction>
-#include "Command.h"
+#include <QMainWindow>
 
 /**
  * @brief       Namespace for the core component user interface.
@@ -40,7 +41,9 @@ namespace Nedrysoft::Core {
 
     class MainWindow :
             public QMainWindow {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
         public:
             MainWindow(QWidget *parent = nullptr);
