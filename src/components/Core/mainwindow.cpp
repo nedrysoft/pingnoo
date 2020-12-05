@@ -41,9 +41,9 @@
 #include <QJsonDocument>
 #include <QStandardPaths>
 
-Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent)
-        : QMainWindow(parent),
-          ui(new Nedrysoft::Core::Ui::MainWindow) {
+Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
+        QMainWindow(parent),
+        ui(new Nedrysoft::Core::Ui::MainWindow) {
 
     ui->setupUi(this);
 
