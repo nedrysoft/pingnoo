@@ -33,9 +33,7 @@
 #include <QTimer>
 
 #if defined(Q_OS_MAC)
-
 #include <CoreFoundation/CoreFoundation.h>
-
 #endif
 
 int main(int argc, char **argv) {

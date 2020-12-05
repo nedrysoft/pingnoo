@@ -9,7 +9,7 @@
 	<key>CFBundleGetInfoString</key>
 	<string></string>
 	<key>CFBundleIconFile</key>
-        <string>@CMAKE_PROJECT_NAME@.icns</string>
+        <string>appicon.icns</string>
 	<key>CFBundleIdentifier</key>
         <string>com.nedrysoft.pingnoo</string>
 	<key>CFBundleInfoDictionaryVersion</key>

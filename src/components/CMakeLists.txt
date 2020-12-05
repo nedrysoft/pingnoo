@@ -30,4 +30,5 @@ foreach(child ${children})
 	endif()
 endforeach()
 
+set(NEDRYSOFT_COMPONENTSYSTEM_COMPONENTVIEWER ON)
 

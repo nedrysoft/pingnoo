@@ -47,7 +47,11 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
 
-    qApp->setWindowIcon(QIcon(":/Pingnoo/appicon.ico"));
+#if defined(Q_OS_MACOS)
+    qApp->setWindowIcon(QIcon(":/app/images/appicon-512x512@2x.png"));
+#else
+    qApp->setWindowIcon(QIcon(":/app/appicon.ico"));
+#endif
 
     // QStatusBar *statusBar = new QStatusBar;
 
@@ -131,9 +135,9 @@ void Nedrysoft::Core::MainWindow::initialise() {
 }
 
 void Nedrysoft::Core::MainWindow::createDefaultCommands() {
-    createCommand(Pingnoo::Constants::editCut, ui->cutButton);
-    createCommand(Pingnoo::Constants::editCopy, ui->copyButton);
-    createCommand(Pingnoo::Constants::editPaste, ui->pasteButton);
+    //createCommand(Pingnoo::Constants::editCut, ui->cutButton);
+    //createCommand(Pingnoo::Constants::editCopy, ui->copyButton);
+    //createCommand(Pingnoo::Constants::editPaste, ui->pasteButton);
     createCommand(Pingnoo::Constants::fileOpen, nullptr);
     createCommand(Pingnoo::Constants::helpAbout, nullptr, QAction::ApplicationSpecificRole);
     createCommand(Pingnoo::Constants::helpAboutComponents, nullptr, QAction::ApplicationSpecificRole);

@@ -32,6 +32,8 @@ Nedrysoft::Core::AboutDialog::AboutDialog(QWidget *parent) :
 
     ui->setupUi(this);
 
+    ui->iconLabel->setPixmap(QPixmap(":/app/images/appicon-512x512@2x.png"));
+
     ui->titleLabel->setTextFormat(Qt::RichText);
     ui->titleLabel->setText(QString("<span style=\"font-size:16pt; font-weight:600;\">Pingnoo %1.%2.%3-%4</span>").arg(
             PINGNOO_GIT_YEAR).arg(PINGNOO_GIT_MONTH).arg(PINGNOO_GIT_DAY).arg(PINGNOO_GIT_BRANCH));

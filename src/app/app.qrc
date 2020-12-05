@@ -20,5 +20,6 @@
         <file>fonts/Poppins/Poppins-ThinItalic.ttf</file>
         <file>images/splashscreen@2x.png</file>
         <file>images/splashscreen.png</file>
+        <file>images/appicon-512x512@2x.png</file>
     </qresource>
 </RCC>
