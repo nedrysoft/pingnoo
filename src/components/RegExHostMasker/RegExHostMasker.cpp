@@ -36,6 +36,9 @@ bool Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(int hop, const QStri
     QString *outputString = nullptr;
     bool returnValue = false;
 
+    maskedHostName = hostName;
+    maskedHostAddress = hostAddress;
+
     for (auto matchFlag : searchList) {
         for (const auto &maskItem : m_maskList) {
             if (!( maskItem.m_matchFlags & matchFlag )) {
@@ -146,6 +149,8 @@ bool Nedrysoft::RegExHostMasker::RegExHostMasker::loadConfiguration(QJsonObject 
     if (configuration["id"] != this->metaObject()->className()) {
         return false;
     }
+
+    m_maskList.clear();
 
     auto array = configuration["matchItems"].toArray();
 

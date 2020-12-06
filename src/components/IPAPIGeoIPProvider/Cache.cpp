@@ -77,7 +77,7 @@ Nedrysoft::IPAPIGeoIPProvider::Cache::Cache() {
     ))");
 
     if (!result) {
-        qDebug() << "error creating table." << query.lastError().text();
+        //qDebug() << "error creating table." << query.lastError().text();
     }
 }
 

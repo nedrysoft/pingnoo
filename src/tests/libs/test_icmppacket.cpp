@@ -20,16 +20,16 @@
 
 #include "catch.hpp"
 #include "ICMPPacket/ICMPPacket.h"
+
 #include <QString>
+#include <QHostAddress>
 
-TEST_CASE("ICMPPacket Tests", "[app][libs][network]")
-{
-QByteArray testData = QString("This Is A Test Of The ICMP Checksum Routine").toLatin1();
+TEST_CASE("ICMPPacket Tests", "[app][libs][network]") {
+    QByteArray testData = QString("This Is A Test Of The ICMP Checksum Routine").toLatin1();
 
-SECTION("checksum produces correct result") {
-auto checksum = Nedrysoft::Utils::ICMPPacket::checksum(testData.data(), testData.length());
+    SECTION("checksum produces correct result") {
+        auto checksum = Nedrysoft::ICMPPacket::ICMPPacket::checksum(testData.data(), testData.length());
 
-REQUIRE_MESSAGE(checksum
-==0x38D1, "ICMP checksum was calculated incorrectly.");
-}
+        REQUIRE_MESSAGE(checksum==0x38D1, "ICMP checksum was calculated incorrectly.");
+    }
 }

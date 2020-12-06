@@ -52,12 +52,6 @@ namespace Nedrysoft::Core {
 
             void initialise();
 
-        private slots:
-
-            void onCutButtonClicked();
-
-            void on_toolButton_clicked();
-
         private:
             void createDefaultCommands();
 

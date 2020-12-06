@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>components/test_regexhostmasker_address.json</file>
-        <file>components/test_regexhostmasker_host.json</file>
-    </qresource>
-</RCC>

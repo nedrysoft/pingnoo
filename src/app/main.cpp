@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
 
     splashScreen->show();
 
-    appNap->prevent("App Nap has been disabled as it interferes with thread timing.");
+    appNap->prevent(QT_TR_NOOP("App Nap has been disabled as it interferes with thread timing."));
 
     auto componentManager = Nedrysoft::ComponentSystem::IComponentManager::getInstance();
 

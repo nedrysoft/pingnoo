@@ -89,8 +89,8 @@ Nedrysoft::Core::MainWindow::~MainWindow() {
     delete ui;
 }
 
-void Nedrysoft::Core::MainWindow::onCutButtonClicked() {
-/*    auto customPlot = m_plotList.at(0);
+/*void Nedrysoft::Core::MainWindow::onCutButtonClicked() {
+    auto customPlot = m_plotList.at(0);
     auto pdfWriter = QPdfWriter("/Users/adriancarpenter/test.pdf");
 
     pdfWriter.setPageSize(QPageSize(QPageSize::A4));
@@ -118,8 +118,8 @@ void Nedrysoft::Core::MainWindow::onCutButtonClicked() {
 
     painter.scale(scale, scale);
 
-    customPlot->toPainter(&painter, static_cast<int>(plotWidth), static_cast<int>(plotHeight));*/
-}
+    customPlot->toPainter(&painter, static_cast<int>(plotWidth), static_cast<int>(plotHeight));
+}*/
 
 void Nedrysoft::Core::MainWindow::initialise() {
     createDefaultCommands();
@@ -294,8 +294,4 @@ void Nedrysoft::Core::MainWindow::addMenuCommand(QString commandId, QString menu
     }
 
     menu->appendCommand(command, groupId);
-}
-
-void Nedrysoft::Core::MainWindow::on_toolButton_clicked() {
-
 }

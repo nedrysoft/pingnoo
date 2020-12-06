@@ -1,8 +1,8 @@
 {
-  "id": "Nedrysoft::Pingnoo::RegExHostMasker",
+  "id": "Nedrysoft::RegExHostMasker::RegExHostMasker",
   "matchItems": [
     {
-      "matchExpression": "([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.test\\.co\\.uk)",
+      "matchExpression": "([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.static.test\\.co\\.uk",
       "matchFlags": 12,
       "matchHopString": "",
       "matchReplacementString": "<hidden>"
