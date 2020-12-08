@@ -10,3 +10,6 @@
 [submodule "src/libs/SettingsDialog"]
 	path = src/libs/SettingsDialog
 	url = https://github.com/fizzyade/SettingsDialog
+[submodule "src/libs/spdlog"]
+	path = src/libs/spdlog
+	url = https://github.com/gabime/spdlog.git

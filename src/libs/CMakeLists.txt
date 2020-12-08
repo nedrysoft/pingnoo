@@ -29,6 +29,12 @@ set(NEDRYSOFT_RIBBON_LIBRARY_DIR ${PINGNOO_LIBRARIES_BINARY_DIR})
 set(NEDRYSOFT_FONTAWESOME_LIBRARY_DIR ${PINGNOO_LIBRARIES_BINARY_DIR})
 set(NEDRYSOFT_RIBBON_BUILD_DESIGNER_PLUGIN ${APPLICATION_BINARY_FOLDER})
 
+add_definitions("-DUSE_SPDLOG")
+
+# add spdlog to global includes, libraries will inherit this and can then make use of it
+
+include_directories(PUBLIC ${PINGNOO_LIBRARIES_SOURCE_DIR}/spdlog/include)
+
 # find libraries and add to build
 
 file(GLOB children RELATIVE ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_LIST_DIR}/*)

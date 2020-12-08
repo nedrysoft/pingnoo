@@ -180,6 +180,8 @@ macro(pingnoo_end_component)
 
     pingnoo_set_component_outputs()
 
+    add_logging_library()
+
     pingnoo_sign(\"${PINGNOO_COMPONENTS_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${pingnooCurrentProjectName}${CMAKE_SHARED_LIBRARY_SUFFIX}\")
 endmacro(pingnoo_end_component)
 
@@ -209,6 +211,8 @@ macro(pingnoo_end_shared_library)
 
     pingnoo_set_library_outputs()
 
+    add_logging_library()
+
     pingnoo_sign(\"${PINGNOO_LIBRARIES_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${pingnooCurrentProjectName}${CMAKE_SHARED_LIBRARY_SUFFIX}\")
 endmacro(pingnoo_end_shared_library)
 
@@ -227,6 +231,8 @@ macro(pingnoo_end_static_library)
         SET(CMAKE_C_ARCHIVE_FINISH   "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
         SET(CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
     endif()
+
+    add_logging_library()
 
     pingnoo_set_library_outputs()
 endmacro(pingnoo_end_static_library)
@@ -257,8 +263,15 @@ macro(pingnoo_end_executable)
         target_sources(${pingnooCurrentProjectName} "PRIVATE" "${PINGNOO_SOURCE_DIR}/common/version.rc")
     endif()
 
+    add_logging_library()
+
     pingnoo_sign(${PINGNOO_APPLICATION_BINARY})
 endmacro(pingnoo_end_executable)
+
+macro(add_logging_library)
+    include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/spdlog/include)
+    target_link_libraries(${PROJECT_NAME} "-L${spdlog_BINARY_DIR}" "-lspdlogd")
+endmacro(add_logging_library)
 
 macro(pingnoo_use_qt_libraries)
     set(pingnooFindPackageList "")

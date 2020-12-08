@@ -35,9 +35,11 @@ pingnoo_add_sources(
 pingnoo_use_qt_libraries(Widgets)
 
 pingnoo_use_shared_library(ComponentSystem)
-pingnoo_use_shared_library(AppNap)
 
 pingnoo_add_optional_command("Linux" SetRawCapabilities "Set RAW SOCKET capabilities" ON POST_BUILD COMMAND sudo -n /usr/sbin/setcap cap_net_raw,cap_net_admin=eip ${PINGNOO_BINARY_ROOT}/${pingnooCurrentProjectName})
+
+pingnoo_use_frameworks("Foundation" "Cocoa")
+pingnoo_use_system_libraries(APPLE stdc++ objc)
 
 pingnoo_end_executable()
 

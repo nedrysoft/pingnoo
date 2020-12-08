@@ -20,6 +20,7 @@
 
 #include "RouteAnalyserComponent.h"
 
+#include "AppNap/AppNap.h"
 #include "ComponentSystem/IComponentManager.h"
 #include "Core/ICommandManager.h"
 #include "Core/IContextManager.h"
@@ -38,6 +39,9 @@ RouteAnalyserComponent::~RouteAnalyserComponent() = default;
 
 void RouteAnalyserComponent::initialiseEvent() {
     auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
+    auto appNap = Nedrysoft::AppNap::AppNap::getInstance();
+
+    appNap->prevent(QT_TR_NOOP("App Nap has been disabled as it interferes with thread timing."));
 
     if (contextManager) {
         m_editorContextId = contextManager->registerContext("RouteAnalyserComponent::RouteAnalyserEditor");

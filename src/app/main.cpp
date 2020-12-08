@@ -18,19 +18,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "AppNap/AppNap.h"
 #include "ComponentSystem/Component.h"
 #include "ComponentSystem/ComponentLoader.h"
 #include "ComponentSystem/IComponentManager.h"
+#include <spdlog/spdlog.h>
 #include "SplashScreen.h"
 
 #include <QApplication>
 #include <QDir>
+#include <QDirIterator>
 #include <QJsonDocument>
+#include <QLibrary>
 #include <QProcessEnvironment>
 #include <QStandardPaths>
 #include <QString>
 #include <QTimer>
+#include <vector>
+#include <memory>
 
 #if defined(Q_OS_MAC)
 #include <CoreFoundation/CoreFoundation.h>
@@ -44,23 +48,28 @@ int main(int argc, char **argv) {
 
     auto componentLoader = new Nedrysoft::ComponentSystem::ComponentLoader;
     auto applicationInstance = new QApplication(argc, argv);
-    auto appNap = Nedrysoft::AppNap::AppNap::getInstance();
 
     Nedrysoft::SplashScreen *splashScreen = Nedrysoft::SplashScreen::getInstance();;
 
     splashScreen->show();
 
-    appNap->prevent(QT_TR_NOOP("App Nap has been disabled as it interferes with thread timing."));
-
     auto componentManager = Nedrysoft::ComponentSystem::IComponentManager::getInstance();
 
     componentManager->addObject(componentLoader);
+
+    spdlog::set_level(spdlog::level::debug);
+
+    spdlog::debug("Application started.");
+
+    QString sharedLibraryPath;
 
 #ifdef Q_OS_MAC
     CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
     CFStringRef macPath = CFURLCopyFileSystemPath(appUrlRef, kCFURLPOSIXPathStyle);
     const char *pathPtr = CFStringGetCStringPtr(macPath, CFStringGetSystemEncoding());
     QString componentPath = QString(pathPtr) + "/Contents/PlugIns";
+
+    sharedLibraryPath = QString(pathPtr) + "/Contents/Frameworks";
 
     CFRelease(appUrlRef);
     CFRelease(macPath);
@@ -99,16 +108,21 @@ int main(int argc, char **argv) {
 #else
     if (QProcessEnvironment::systemEnvironment().contains("APPDIR")) {
         componentLoader->addComponents(QProcessEnvironment::systemEnvironment().value("APPDIR")+"/Components");
+        sharedLibraryPath =QProcessEnvironment::systemEnvironment().value("APPDIR");
     } else {
         componentLoader->addComponents("Components");
+        sharedLibraryPath = QDir::currentPath();
     }
-
 #endif
+
+    // load any shared libraries and see if they have the logging method
+
+    QDirIterator frameworkIterator(sharedLibraryPath);
 
     QString appSettingsFilename = QStandardPaths::standardLocations(
             QStandardPaths::GenericDataLocation).at(0) + "/" +
             qApp->organizationName() + "/" + qApp->applicationName() + "/appSettings.json";
-    
+
     QFile settingsFile(appSettingsFilename);
     QVariantList disabledComponents;
 
