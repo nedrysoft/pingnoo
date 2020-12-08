@@ -25,6 +25,7 @@
 #include "ComponentSystem/ComponentLoader.h"
 #include "ComponentSystem/IComponentManager.h"
 #include "ComponentSystem/ComponentViewerDialog.h"
+#include "SettingsDialog/SettingsDialog.h"
 #include "Core/ICommandManager.h"
 #include "Core/IContextManager.h"
 #include "Core/ICore.h"
@@ -138,9 +139,18 @@ void Nedrysoft::Core::MainWindow::createDefaultCommands() {
     //createCommand(Pingnoo::Constants::editCut, ui->cutButton);
     //createCommand(Pingnoo::Constants::editCopy, ui->copyButton);
     //createCommand(Pingnoo::Constants::editPaste, ui->pasteButton);
+
+    // create the commands, these are essentially placeholders.  Commands can be added to menus, buttons,
+    // shortcut keys etc.
+
     createCommand(Pingnoo::Constants::fileOpen, nullptr);
     createCommand(Pingnoo::Constants::helpAbout, nullptr, QAction::ApplicationSpecificRole);
     createCommand(Pingnoo::Constants::helpAboutComponents, nullptr, QAction::ApplicationSpecificRole);
+    createCommand(Pingnoo::Constants::filePreferences, nullptr, QAction::PreferencesRole);
+
+    // create the menus, we create a main menu bar, then sub menus on that (File, Edit, Help etc).  In each
+    // menu we then create groups, this allows us to reserve sections of the menu for specific items, components
+    // can use these groups to add their commands at specific locations in a menu.
 
     createMenu(Pingnoo::Constants::applicationMenuBar);
 
@@ -155,6 +165,7 @@ void Nedrysoft::Core::MainWindow::createDefaultCommands() {
     createMenu(Pingnoo::Constants::menuHelp, Pingnoo::Constants::applicationMenuBar);
 
     addMenuCommand(Pingnoo::Constants::fileOpen, Pingnoo::Constants::menuFile);
+    addMenuCommand(Pingnoo::Constants::filePreferences, Pingnoo::Constants::menuFile);
 
     addMenuCommand(Pingnoo::Constants::helpAbout, Pingnoo::Constants::menuHelp);
     addMenuCommand(Pingnoo::Constants::helpAboutComponents, Pingnoo::Constants::menuHelp);
@@ -179,12 +190,14 @@ void Nedrysoft::Core::MainWindow::registerDefaultCommands() {
     commandManager->registerAction(m_aboutComponentsAction, Pingnoo::Constants::helpAboutComponents);
 
     connect(m_aboutComponentsAction, &QAction::triggered, [](bool) {
-        Nedrysoft::ComponentSystem::ComponentViewerDialog componentViewerDialog(Nedrysoft::ComponentSystem::getObject<QMainWindow>());
+        Nedrysoft::ComponentSystem::ComponentViewerDialog componentViewerDialog(
+                Nedrysoft::ComponentSystem::getObject<QMainWindow>() );
 
         if (componentViewerDialog.exec()) {
             QString appSettingsFilename =
                     QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).at(0) + "/" +
                     qApp->organizationName() + "/" + qApp->applicationName() + "/appSettings.json";
+
             QFile settingsFile(appSettingsFilename);
             QVariantList disabledPlugins;
 
@@ -210,6 +223,27 @@ void Nedrysoft::Core::MainWindow::registerDefaultCommands() {
         }
     });
 
+    m_settingsAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::filePreferences));
+
+    m_settingsAction->setEnabled(true);
+    m_settingsAction->setMenuRole(QAction::PreferencesRole);
+
+    commandManager->registerAction(m_settingsAction, Pingnoo::Constants::filePreferences);
+
+    connect(m_settingsAction, &QAction::triggered, [this](bool) {
+        QList<Nedrysoft::SettingsDialog::ISettingsPage *> pages;
+
+        m_settingsDialog = new Nedrysoft::SettingsDialog::SettingsDialog(pages, this);
+
+        m_settingsDialog->show();
+
+        connect(m_settingsDialog, &Nedrysoft::SettingsDialog::SettingsDialog::closed, [=]() {
+            m_settingsDialog->deleteLater();
+
+            m_settingsDialog = nullptr;
+        });
+    });
+
     m_aboutAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::helpAbout));
 
     m_aboutAction->setEnabled(true);
@@ -222,11 +256,13 @@ void Nedrysoft::Core::MainWindow::registerDefaultCommands() {
 
         aboutDialog.exec();
     });
-
 }
 
-Nedrysoft::Core::ICommand *
-Nedrysoft::Core::MainWindow::createCommand(QString commandId, QAbstractButton *button, QAction::MenuRole menuRole) {
+Nedrysoft::Core::ICommand *Nedrysoft::Core::MainWindow::createCommand(
+        QString commandId,
+        QAbstractButton *button,
+        QAction::MenuRole menuRole) {
+
     auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
     if (!commandManager) {

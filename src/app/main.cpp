@@ -105,8 +105,10 @@ int main(int argc, char **argv) {
 
 #endif
 
-    QString appSettingsFilename = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).at(0) + "/" +
-                                  qApp->organizationName() + "/" + qApp->applicationName() + "/appSettings.json";
+    QString appSettingsFilename = QStandardPaths::standardLocations(
+            QStandardPaths::GenericDataLocation).at(0) + "/" +
+            qApp->organizationName() + "/" + qApp->applicationName() + "/appSettings.json";
+    
     QFile settingsFile(appSettingsFilename);
     QVariantList disabledComponents;
 

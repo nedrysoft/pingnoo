@@ -7,3 +7,6 @@
 [submodule "src/libs/fontawesome"]
 	path = src/libs/fontawesome
 	url = https://github.com/fizzyade/FontAwesomeForQt
+[submodule "src/libs/SettingsDialog"]
+	path = src/libs/SettingsDialog
+	url = https://github.com/fizzyade/SettingsDialog

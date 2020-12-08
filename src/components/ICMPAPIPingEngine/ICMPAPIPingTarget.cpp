@@ -81,9 +81,12 @@ class Nedrysoft::Pingnoo::ICMPAPIPingTargetData {
         int m_currentSocket;
 };
 
-Nedrysoft::Pingnoo::ICMPAPIPingTarget::ICMPAPIPingTarget(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine,
-                                                         QHostAddress hostAddress, int ttl) :
-        d(std::make_shared<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTargetData>(this)) {
+Nedrysoft::Pingnoo::ICMPAPIPingTarget::ICMPAPIPingTarget(
+        Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine,
+        QHostAddress hostAddress,
+        int ttl) :
+
+            d(std::make_shared<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTargetData>(this)) {
 
     d->m_hostAddress = std::move(hostAddress);
     d->m_engine = engine;

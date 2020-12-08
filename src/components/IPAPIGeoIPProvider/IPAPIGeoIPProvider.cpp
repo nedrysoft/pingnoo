@@ -38,7 +38,10 @@ Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::~IPAPIGeoIPProvider() {
     delete m_cache;
 }
 
-void Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(const QString host, Nedrysoft::Core::GeoFunction function) {
+void Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(
+        const QString host,
+        Nedrysoft::Core::GeoFunction function) {
+
     auto cacheResultObject = QJsonObject();
 
     if (m_cache->find(host, cacheResultObject)) {

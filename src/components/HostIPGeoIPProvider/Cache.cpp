@@ -40,7 +40,9 @@ Nedrysoft::HostIPGeoIPProvider::Cache::Cache() {
 
     auto dbFileInfo = QFileInfo(dataLocations.at(0), "host-ip-cache.db");
 
-    auto database = QSqlDatabase::addDatabase("QSQLITE", QString("Nedrysoft::HostIPGeoIPProvider::Cache"));
+    auto database = QSqlDatabase::addDatabase(
+            "QSQLITE",
+            QString("Nedrysoft::HostIPGeoIPProvider::Cache") );
 
     database.setDatabaseName(dbFileInfo.absoluteFilePath());
 

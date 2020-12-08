@@ -40,6 +40,8 @@ namespace Pingnoo::Constants {
     constexpr auto helpAbout = "Menu.Help.About";
     constexpr auto helpAboutComponents = "Menu.Help.AboutComponents";
 
+    constexpr auto filePreferences = "Menu.File.Preferences";
+
     constexpr auto defaultGroupTop = "Group.Top";
     constexpr auto defaultGroupMiddle = "Group.Middle";
     constexpr auto defaultGroupBottom = "Group.Bottom";

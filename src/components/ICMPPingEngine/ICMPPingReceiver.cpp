@@ -51,7 +51,8 @@ Nedrysoft::ICMPPingEngine::ICMPPingReceiver::ICMPPingReceiver(Nedrysoft::ICMPPin
 void Nedrysoft::ICMPPingEngine::ICMPPingReceiver::doWork() {
     QByteArray receiveBuffer;
     Nedrysoft::ICMPSocket::ICMPSocket *socket = Nedrysoft::ICMPSocket::ICMPSocket::createReadSocket(
-            static_cast<Nedrysoft::ICMPSocket::IPVersion>(m_engine->version()));
+            static_cast<Nedrysoft::ICMPSocket::IPVersion>(m_engine->version()) );
+
     QHostAddress receiveAddress;
 
     QThread::currentThread()->setPriority(QThread::HighPriority);
@@ -65,8 +66,9 @@ void Nedrysoft::ICMPPingEngine::ICMPPingReceiver::doWork() {
         if (result != -1) {
             Nedrysoft::Core::PingResult::PingResultCode resultCode = Nedrysoft::Core::PingResult::NoReply;
 
-            auto responsePacket = Nedrysoft::ICMPPacket::ICMPPacket::fromData(receiveBuffer,
-                                                                              static_cast<Nedrysoft::ICMPPacket::IPVersion>(m_engine->version()));
+            auto responsePacket = Nedrysoft::ICMPPacket::ICMPPacket::fromData(
+                    receiveBuffer,
+                    static_cast<Nedrysoft::ICMPPacket::IPVersion>(m_engine->version()) );
 
             //qDebug() << QThread::currentThreadId() << "ping result" << responsePacket.resultCode() << responsePacket.id() << responsePacket.sequence();
 
@@ -83,7 +85,7 @@ void Nedrysoft::ICMPPingEngine::ICMPPingReceiver::doWork() {
             }
 
             auto pingItem = m_engine->getRequest(
-                    Nedrysoft::Utils::fzMake32(responsePacket.id(), responsePacket.sequence()));
+                    Nedrysoft::Utils::fzMake32(responsePacket.id(), responsePacket.sequence()) );
 
             if (pingItem) {
                 pingItem->lock();
@@ -93,8 +95,10 @@ void Nedrysoft::ICMPPingEngine::ICMPPingReceiver::doWork() {
 
                     std::chrono::duration<double> diff = receiveTime - pingItem->transmitTime();
 
-                    auto pingResult = Nedrysoft::Core::PingResult(pingItem->sampleNumber(), resultCode, receiveAddress,
-                                                                  pingItem->transmitEpoch(), diff, pingItem->target());
+                    auto pingResult = Nedrysoft::Core::PingResult(pingItem->sampleNumber(),
+                            resultCode,
+                            receiveAddress,
+                            pingItem->transmitEpoch(), diff, pingItem->target() );
 
                     emit Nedrysoft::ICMPPingEngine::ICMPPingReceiver::result(pingResult);
                 } else {

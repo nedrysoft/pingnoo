@@ -81,12 +81,15 @@ QMap<int, QPair<QString, QString> > &Nedrysoft::RouteAnalyser::RouteAnalyserWidg
     return map;
 }
 
-Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyserWidget(QString targetHost,
-                                                                                        Nedrysoft::Core::IPVersion ipVersion,
-                                                                                        double interval,
-                                                                                        Nedrysoft::Core::IPingEngineFactory *pingEngineFactory,
-                                                                                        QWidget *parent) : QWidget(
-        parent) {
+Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyserWidget(
+        QString targetHost,
+        Nedrysoft::Core::IPVersion ipVersion,
+        double interval,
+        Nedrysoft::Core::IPingEngineFactory *pingEngineFactory,
+        QWidget *parent) :
+
+            QWidget(parent) {
+
     auto maskerConfig = QString(
             R"|({"id":"Nedrysoft::RegExHostMasker::RegExHostMasker","matchItems":[{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"},{"matchExpression":"(?<host>(.+))\\.fizzyade\\.(?<domain>(.+))","matchFlags":20,"matchHopString":"","matchReplacementString":"[host].<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"}]})|");
 
@@ -107,8 +110,11 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
     auto routeEngine = routeEngineFactory->createEngine();
 
     if (routeEngine) {
-        connect(routeEngine, &Nedrysoft::Core::IRouteEngine::result, this,
-                &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult);
+        connect(
+                routeEngine,
+                &Nedrysoft::Core::IRouteEngine::result,
+                this,
+                &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult );
 
         routeEngine->findRoute(targetHost, ipVersion);
     }
@@ -158,8 +164,9 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
 
         headerItem->setText(pair.first);
 
-        auto maxWidth = qMax(m_tableView->fontMetrics().horizontalAdvance(pair.first),
-                             m_tableView->fontMetrics().horizontalAdvance(pair.second));
+        auto maxWidth = qMax(
+                m_tableView->fontMetrics().horizontalAdvance(pair.first),
+                m_tableView->fontMetrics().horizontalAdvance(pair.second) );
 
         m_tableModel->setHorizontalHeaderItem(headerIterator.key(), headerItem);
 
@@ -212,8 +219,9 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
 
             // individual vertical range
 
-            if (result.roundTripTime().count() > graphRange.upper)
+            if (result.roundTripTime().count() > graphRange.upper) {
                 customPlot->yAxis->setRange(0, result.roundTripTime().count());
+            }
 
             // normalised vertical range
 
@@ -247,15 +255,20 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
     customPlot->replot();
 }
 
-void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAddress &routeHostAddress,
-                                                                  const Nedrysoft::Core::RouteList &route) {
+void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
+        const QHostAddress &routeHostAddress,
+        const Nedrysoft::Core::RouteList &route) {
+
     Nedrysoft::Core::IRouteEngine *routeEngine = qobject_cast<Nedrysoft::Core::IRouteEngine *>(this->sender());
     auto hop = 1;
     auto geoIP = Nedrysoft::ComponentSystem::getObject<Nedrysoft::Core::IGeoIPProvider>();
 
     if (routeEngine) {
-        disconnect(routeEngine, &Nedrysoft::Core::IRouteEngine::result, this,
-                   &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult);
+        disconnect(
+                routeEngine,
+                &Nedrysoft::Core::IRouteEngine::result,
+                this,
+                &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult );
     }
 
     if (!m_pingEngineFactory) {
@@ -274,8 +287,10 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAdd
 
     m_pingEngine->setInterval(std::chrono::duration_cast<std::chrono::milliseconds>(interval));
 
-    connect(m_pingEngine, &Nedrysoft::Core::IPingEngine::result, this,
-            &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult);
+    connect(m_pingEngine,
+            &Nedrysoft::Core::IPingEngine::result,
+            this,
+            &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult );
 
     auto verticalLayout = new QVBoxLayout();
 
@@ -320,12 +335,15 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAdd
 
             auto locale = QLocale::system();
 
-            dateTicker->setDateTimeFormat(locale.timeFormat(QLocale::LongFormat).remove("t").trimmed() + "\n" +
-                                          locale.dateFormat(QLocale::ShortFormat));
+            dateTicker->setDateTimeFormat(
+                    locale.timeFormat(QLocale::LongFormat).remove("t").trimmed() +
+                    "\n" +
+                    locale.dateFormat(QLocale::ShortFormat) );
 
             customPlot->xAxis->setTicker(dateTicker);
-            customPlot->xAxis->setRange(QDateTime::currentDateTime().toSecsSinceEpoch(),
-                                        QDateTime::currentDateTime().toSecsSinceEpoch() + DefaultTimeWindow.count());
+            customPlot->xAxis->setRange(
+                    QDateTime::currentDateTime().toSecsSinceEpoch(),
+                    QDateTime::currentDateTime().toSecsSinceEpoch() + DefaultTimeWindow.count() );
 
             customPlot->graph(RoundTripGraph)->setLineStyle(QCPGraph::lsStepCenter);
             customPlot->graph(TimeoutGraph)->setBrush(QBrush(Qt::red));
@@ -336,9 +354,9 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAdd
             customPlot->xAxis->setTickLabelColor(this->palette().color(QPalette::Text));
             customPlot->yAxis->setTickLabelColor(this->palette().color(QPalette::Text));
 
-            auto graphTitle = new QCPTextElement(customPlot,
-                                                 QString(tr("Hop %1")).arg(hop) + " " + maskedHostName + " (" +
-                                                 maskedHostAddress + ")");
+            auto graphTitle = new QCPTextElement(
+                    customPlot,
+                    QString(tr("Hop %1")).arg(hop) + " " + maskedHostName + " (" + maskedHostAddress + ")" );
 
             graphTitle->setTextColor(this->palette().color(QPalette::Text));
 
@@ -354,7 +372,7 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAdd
 
             connect(customPlot, &QCustomPlot::mouseWheel, [this](QWheelEvent *event) {
                 m_scrollArea->verticalScrollBar()->setValue(
-                        m_scrollArea->verticalScrollBar()->value() - event->angleDelta().y());
+                    m_scrollArea->verticalScrollBar()->value() - event->angleDelta().y() );
             });
 
             /**
@@ -382,16 +400,16 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAdd
                             ( x >= dataRange.lower ) &&
                             ( x <= dataRange.upper )) {
                             auto valueString = QString();
-                            auto valueResultRange = customPlot->graph(RoundTripGraph)->data()->valueRange(foundRange,
-                                                                                                          QCP::sdBoth,
-                                                                                                          QCPRange(
-                                                                                                                  x - 1,
-                                                                                                                  x +
-                                                                                                                  1));
+                            auto valueResultRange = customPlot->graph(RoundTripGraph)->data()->valueRange(
+                                    foundRange,
+                                    QCP::sdBoth,
+                                    QCPRange(x - 1, x +1) );
 
                             for (auto currentItem = 0; currentItem < m_tableModel->rowCount(); currentItem++) {
-                                auto pingData = m_tableModel->item(currentItem,
-                                                                   0)->data().value<Nedrysoft::RouteAnalyser::PingData *>();
+                                auto pingData = m_tableModel->item(
+                                        currentItem,
+                                        0)->data().value<Nedrysoft::RouteAnalyser::PingData *>();
+
                                 auto valueRange = QCPRange(x - 1, x + 1);
 
                                 if (pingData->customPlot()) {
@@ -417,8 +435,8 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAdd
                             auto seconds = std::chrono::duration<double>(valueResultRange.upper);
 
                             if (seconds < std::chrono::seconds(1)) {
-                                auto milliseconds = std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(
-                                        seconds);
+                                auto milliseconds =
+                                    std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(seconds);
 
                                 valueString = QString(tr("%1ms")).arg(milliseconds.count(), 0, 'f', 2);
                             } else {
@@ -444,8 +462,9 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(const QHostAdd
                             this->m_tableModel->setProperty("showHistorical", false);
 
                             auto topLeft = m_tableModel->index(0, 0);
-                            auto bottomRight = topLeft.sibling(m_tableModel->rowCount() - 1,
-                                                               m_tableModel->columnCount() - 1);
+                            auto bottomRight = topLeft.sibling(
+                                    m_tableModel->rowCount() - 1,
+                                    m_tableModel->columnCount() - 1 );
 
                             m_tableModel->dataChanged(topLeft, bottomRight);
                         }

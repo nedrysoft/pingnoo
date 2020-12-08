@@ -97,6 +97,7 @@ file(MAKE_DIRECTORY ${PINGNOO_COMPONENTS_BINARY_DIR})
 
 include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/ComponentSystem/src)
 include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/ComponentSystem/includes)
+include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/SettingsDialog/includes)
 include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR})
 include_directories(${PINGNOO_COMPONENTS_SOURCE_DIR})
 

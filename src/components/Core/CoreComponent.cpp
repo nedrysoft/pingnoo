@@ -48,6 +48,7 @@ void CoreComponent::initialisationFinishedEvent() {
     connect(Nedrysoft::Core::IContextManager::getInstance(), &Nedrysoft::Core::IContextManager::contextChanged,
             [&](int newContext, int oldContext) {
                 Q_UNUSED(oldContext)
+                
                 Nedrysoft::Core::ICommandManager::getInstance()->setContext(newContext);
             });
 

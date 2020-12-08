@@ -48,7 +48,9 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::~ICMPPingEngineFactory() {
     }
 }
 
-Nedrysoft::Core::IPingEngine *Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::createEngine(Nedrysoft::Core::IPVersion version) {
+Nedrysoft::Core::IPingEngine *Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::createEngine(
+        Nedrysoft::Core::IPVersion version) {
+
     auto engineInstance = new Nedrysoft::ICMPPingEngine::ICMPPingEngine(version);
 
     d->m_engineList.append(engineInstance);

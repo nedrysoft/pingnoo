@@ -156,8 +156,11 @@ void Nedrysoft::RouteAnalyser::PingData::updateItem(Nedrysoft::Core::PingResult 
     if (m_averageLatency < seconds_double(0)) {
         m_averageLatency = m_currentLatency;
     } else {
-        m_averageLatency = seconds_double(runningAverage(m_averageLatency.count(), m_currentLatency.count(),
-                                                         static_cast<double>(m_replyPacketCount) + 1.0));
+        m_averageLatency = seconds_double(
+                runningAverage(
+                        m_averageLatency.count(),
+                        m_currentLatency.count(),
+                        static_cast<double>(m_replyPacketCount) + 1.0) );
     }
 
     m_replyPacketCount++;

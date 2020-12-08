@@ -33,8 +33,9 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
     auto pingEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IPingEngineFactory>();
 
     for (auto pingEngine : pingEngines) {
-        ui->engineComboBox->addItem(pingEngine->description(),
-                                    QVariant::fromValue<Nedrysoft::Core::IPingEngineFactory *>(pingEngine));
+        ui->engineComboBox->addItem(
+                pingEngine->description(),
+                QVariant::fromValue<Nedrysoft::Core::IPingEngineFactory *>(pingEngine) );
     }
 }
 

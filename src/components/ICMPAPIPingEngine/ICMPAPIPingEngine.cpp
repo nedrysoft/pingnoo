@@ -114,7 +114,7 @@ Nedrysoft::Pingnoo::ICMPAPIPingEngine::ICMPAPIPingEngine() :
 }
 
 QObject *Nedrysoft::Pingnoo::ICMPAPIPingEngine::asQObject() {
-    return ( this );
+    return this;
 }
 
 Nedrysoft::Pingnoo::IPingTarget *Nedrysoft::Pingnoo::ICMPAPIPingEngine::addTarget(QHostAddress hostAddress) {
@@ -126,7 +126,7 @@ Nedrysoft::Pingnoo::IPingTarget *Nedrysoft::Pingnoo::ICMPAPIPingEngine::addTarge
     d->m_transmitter->addTarget(target);
 
     return(target);*/
-    return ( nullptr );
+    return nullptr;
 }
 
 Nedrysoft::Pingnoo::IPingTarget *Nedrysoft::Pingnoo::ICMPAPIPingEngine::addTarget(QHostAddress hostAddress, int ttl) {
@@ -140,21 +140,21 @@ Nedrysoft::Pingnoo::IPingTarget *Nedrysoft::Pingnoo::ICMPAPIPingEngine::addTarge
 
     return(target);*/
 
-    return ( nullptr );
+    return nullptr;
 }
 
 bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::removeTarget(Nedrysoft::Pingnoo::IPingTarget *target) {
     Q_UNUSED(target)
 
-    return ( true );
+    return true;
 }
 
 bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::start() {
-    return ( true );
+    return true;
 }
 
 bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::stop() {
-    return ( true );
+    return true;
 }
 
 /*
@@ -204,27 +204,27 @@ bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::setInterval(std::chrono::millisecond
     //Q_D(FZICMPAPIPingEngine);
 
     //return(d->m_transmitter->setInterval(milliseconds));
-    return ( true );
+    return true;
 }
 
 bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::setTimeout(std::chrono::milliseconds timeout) {
     d->m_timeout = timeout;
 
-    return ( true );
+    return true;
 }
 
 QJsonObject Nedrysoft::Pingnoo::ICMPAPIPingEngine::saveConfiguration() {
-    return ( QJsonObject());
+    return QJsonObject();
 }
 
 bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::loadConfiguration(QJsonObject configuration) {
     Q_UNUSED(configuration)
 
-    return ( false );
+    return false;
 }
 
 std::chrono::system_clock::time_point Nedrysoft::Pingnoo::ICMPAPIPingEngine::epoch() {
-    return ( std::chrono::system_clock::now());
+    return std::chrono::system_clock::now();
 }
 
 /*

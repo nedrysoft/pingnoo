@@ -32,6 +32,10 @@
  */
 namespace Nedrysoft::Core::Ui {}
 
+namespace Nedrysoft::SettingsDialog {
+    class SettingsDialog;
+};
+
 namespace Nedrysoft::Core {
     QT_BEGIN_NAMESPACE
     namespace Ui { class MainWindow; }
@@ -73,6 +77,9 @@ namespace Nedrysoft::Core {
 
             QAction *m_aboutComponentsAction;
             QAction *m_aboutAction;
+            QAction *m_settingsAction;
+
+            Nedrysoft::SettingsDialog::SettingsDialog *m_settingsDialog;
 
             /*
             QLabel *m_pointInfoLabel;

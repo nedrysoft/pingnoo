@@ -44,8 +44,11 @@ bool Nedrysoft::RouteAnalyser::RouteAnalyserEditor::loadConfiguration(QJsonObjec
 }
 
 QWidget *Nedrysoft::RouteAnalyser::RouteAnalyserEditor::widget() {
-    auto visualiserWidget = new Nedrysoft::RouteAnalyser::RouteAnalyserWidget(m_pingTarget, m_ipVersion, m_interval,
-                                                                              m_pingEngineFactory);
+    auto visualiserWidget = new Nedrysoft::RouteAnalyser::RouteAnalyserWidget(
+            m_pingTarget,
+            m_ipVersion,
+            m_interval,
+            m_pingEngineFactory );
 
     return visualiserWidget;
 }

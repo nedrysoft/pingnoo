@@ -32,10 +32,13 @@ Nedrysoft::Core::PingResult::PingResult() :
 
 Nedrysoft::Core::PingResult::~PingResult() = default;
 
-Nedrysoft::Core::PingResult::PingResult(unsigned long sampleNumber, PingResultCode code, QHostAddress hostAddress,
-                                        std::chrono::system_clock::time_point requestTime,
-                                        std::chrono::duration<double> roundTripTime,
-                                        Nedrysoft::Core::IPingTarget *target) :
+Nedrysoft::Core::PingResult::PingResult(
+        unsigned long sampleNumber,
+        PingResultCode code, QHostAddress hostAddress,
+        std::chrono::system_clock::time_point requestTime,
+        std::chrono::duration<double> roundTripTime,
+        Nedrysoft::Core::IPingTarget *target) :
+
             m_sampleNumber(sampleNumber),
             m_code(code),
             m_hostAddress(std::move(hostAddress)),

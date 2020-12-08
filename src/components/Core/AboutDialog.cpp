@@ -35,18 +35,27 @@ Nedrysoft::Core::AboutDialog::AboutDialog(QWidget *parent) :
     ui->iconLabel->setPixmap(QPixmap(":/app/images/appicon-512x512@2x.png"));
 
     ui->titleLabel->setTextFormat(Qt::RichText);
-    ui->titleLabel->setText(QString("<span style=\"font-size:16pt; font-weight:600;\">Pingnoo %1.%2.%3-%4</span>").arg(
-            PINGNOO_GIT_YEAR).arg(PINGNOO_GIT_MONTH).arg(PINGNOO_GIT_DAY).arg(PINGNOO_GIT_BRANCH));
+
+    ui->titleLabel->setText(
+            QString("<span style=\"font-size:16pt; font-weight:600;\">Pingnoo %1.%2.%3-%4</span>")
+            .arg(PINGNOO_GIT_YEAR)
+            .arg(PINGNOO_GIT_MONTH)
+            .arg(PINGNOO_GIT_DAY)
+            .arg(PINGNOO_GIT_BRANCH) );
 
     ui->buildTimeLabel->setText(QString("Built on %1 %2").arg(__DATE__).arg(__TIME__));
 
     ui->buildRevisionLabel->setText(
-            QString("From revision <a href=\"https://github.com/fizzyade/pingnoo/commit/%1\">%1</a>").arg(
-                    PINGNOO_GIT_HASH));
+            QString("From revision <a href=\"https://github.com/fizzyade/pingnoo/commit/%1\">%1</a>")
+            .arg(PINGNOO_GIT_HASH) );
 
     ui->qtVersionLabel->setText(
-            QString("Based on Qt %1.%2.%3 (%4, %5 bit), runtime Qt %6").arg(QT_VERSION_MAJOR).arg(QT_VERSION_MINOR).arg(
-                    QT_VERSION_PATCH).arg(compiler()).arg(QSysInfo::WordSize).arg(QLibraryInfo::version().toString()));
+            QString("Based on Qt %1.%2.%3 (%4, %5 bit), runtime Qt %6")
+            .arg(QT_VERSION_MAJOR)
+            .arg(QT_VERSION_MINOR)
+            .arg(QT_VERSION_PATCH)
+            .arg(compiler())
+            .arg(QSysInfo::WordSize).arg(QLibraryInfo::version().toString()) );
 }
 
 Nedrysoft::Core::AboutDialog::~AboutDialog() {

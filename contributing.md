@@ -144,6 +144,41 @@ QString filename =
         fore(AnsiColour::YELLOW);
 ```
 
+### Line Wrapping
+
+Limit lines to 120 characters whenever possible, a blank line separates the parameters from the next block.  There should be one parameter per line starting from the line following the open brace.
+
+In the case of functions with initialisers then indent the initialisers one additional level.
+
+For function calls, parameters appear on separate lines and are indented two levels, and a space character should precede the closing brace.
+
+*Good*
+
+```c++
+QString Nedrysoft::RouteAnalyser::CPAxisTickerMS::getTickLabel(
+        double tick,
+        const QLocale &locale,
+        QChar formatChar,
+        int precision) {
+
+...
+}
+```
+
+```c++
+QString Nedrysoft::RouteAnalyser::CPAxisTickerMS::getTickLabel(
+        double tick,
+        const QLocale &locale,
+        QChar formatChar,
+        int precision) : 
+            
+            m_initExample(0),
+            m_anotherExmaple(1) {
+
+...
+}
+```
+
 ### Casting
 
 C++ style casts are required, do not use C style casts.

@@ -72,6 +72,7 @@ pingnoo_set_description("Core application support component")
 
 pingnoo_use_qt_libraries(Network Widgets)
 
+pingnoo_use_shared_library(SettingsDialog)
 pingnoo_use_shared_library(ComponentSystem)
 pingnoo_use_shared_library(Ribbon)
 pingnoo_use_shared_library(FontAwesome)

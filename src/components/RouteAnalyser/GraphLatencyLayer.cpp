@@ -89,10 +89,13 @@ void Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) {
     auto floatingPointRect = QRectF(rect);
 
     if (lowStop < 1) {
-        startPoint = QPointF(floatingPointRect.left(),
-                             floatingPointRect.bottom() - ( lowStop * floatingPointRect.height()));
-        endPoint = QPointF(floatingPointRect.right(),
-                           floatingPointRect.bottom() - ( lowStop * floatingPointRect.height()));
+        startPoint = QPointF(
+                floatingPointRect.left(),
+                floatingPointRect.bottom() - ( lowStop * floatingPointRect.height()) );
+
+        endPoint = QPointF(
+                floatingPointRect.right(),
+                floatingPointRect.bottom() - ( lowStop * floatingPointRect.height()) );
     }
 
     auto pen = QPen(Qt::DashLine);

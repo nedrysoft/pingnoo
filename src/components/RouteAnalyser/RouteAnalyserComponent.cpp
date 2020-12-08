@@ -67,8 +67,8 @@ void RouteAnalyserComponent::initialiseEvent() {
                         auto editorManager = Nedrysoft::Core::IEditorManager::getInstance();
 
                         if (editorManager) {
-                            Nedrysoft::RouteAnalyser::RouteAnalyserEditor *editor = new Nedrysoft::RouteAnalyser::RouteAnalyserEditor(
-                                    m_editorContextId);
+                            Nedrysoft::RouteAnalyser::RouteAnalyserEditor *editor =
+                                    new Nedrysoft::RouteAnalyser::RouteAnalyserEditor(m_editorContextId);
 
                             editor->setPingEngine(newTargetDialog.pingEngineFactory());
                             editor->setTarget(newTargetDialog.pingTarget());

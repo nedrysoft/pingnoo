@@ -34,8 +34,11 @@
 
 Nedrysoft::Core::CommandManager::CommandManager() = default;
 
-Nedrysoft::Core::ICommand *Nedrysoft::Core::CommandManager::registerAction(QAction *action, QString id,
-                                                                           const Nedrysoft::Core::ContextList &contexts) {
+Nedrysoft::Core::ICommand *Nedrysoft::Core::CommandManager::registerAction(
+        QAction *action,
+        QString id,
+        const Nedrysoft::Core::ContextList &contexts) {
+
     if (m_commandMap.contains(id)) {
         auto command = m_commandMap[id];
 
@@ -60,8 +63,10 @@ Nedrysoft::Core::ICommand *Nedrysoft::Core::CommandManager::registerAction(QActi
     return command;
 }
 
-bool Nedrysoft::Core::CommandManager::registerAction(QAction *action, Nedrysoft::Core::ICommand *command,
-                                                     const Nedrysoft::Core::ContextList &contexts) {
+bool Nedrysoft::Core::CommandManager::registerAction(
+        QAction *action, Nedrysoft::Core::ICommand *command,
+        const Nedrysoft::Core::ContextList &contexts) {
+
     Nedrysoft::Core::Command *commandClass = qobject_cast<Nedrysoft::Core::Command *>(command);
 
     if (commandClass) {
@@ -84,10 +89,11 @@ void Nedrysoft::Core::CommandManager::setContext(int contextId) {
     }
 }
 
-// also add createPopupMenu
+// TODO: also add createPopupMenu
 
 Nedrysoft::Core::IMenu *Nedrysoft::Core::CommandManager::createMenu(const QString &identifier, IMenu *parentMenu) {
     Q_UNUSED(identifier)
+
     Nedrysoft::Core::Menu *newMenu = nullptr;
 
     if (m_menuMap.contains(identifier)) {

@@ -26,9 +26,15 @@
 #include <QJsonArray>
 #include <QRegularExpressionMatch>
 
-bool Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(int hop, const QString &hostName, const QString &hostAddress,
-                                                       QString &maskedHostName, QString &maskedHostAddress) {
+bool Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(
+        int hop,
+        const QString &hostName,
+        const QString &hostAddress,
+        QString &maskedHostName,
+        QString &maskedHostAddress) {
+
     Q_UNUSED(hop)
+
     auto expressionMatch = QRegularExpressionMatch();
     auto tokenExpression = QRegularExpression(R"(\[\w+\])");
     auto tokenList = QList<QString>();
@@ -104,13 +110,21 @@ bool Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(int hop, const QStri
     return returnValue;
 }
 
-bool Nedrysoft::RegExHostMasker::RegExHostMasker::mask(int hop, const QString &hostName, const QString &hostAddress,
-                                                       QString &maskedHostName, QString &maskedHostAddress) {
+bool Nedrysoft::RegExHostMasker::RegExHostMasker::mask(
+        int hop,
+        const QString &hostName,
+        const QString &hostAddress,
+        QString &maskedHostName, QString &maskedHostAddress) {
+
     return applyMask(hop, hostName, hostAddress, maskedHostName, maskedHostAddress);
 }
 
-void Nedrysoft::RegExHostMasker::RegExHostMasker::add(unsigned int matchFlags, QString matchExpression,
-                                                      QString replacementString, QString hopString) {
+void Nedrysoft::RegExHostMasker::RegExHostMasker::add(
+        unsigned int matchFlags,
+        QString matchExpression,
+        QString replacementString,
+        QString hopString) {
+
     Nedrysoft::RegExHostMasker::RegExHostMaskerItem item;
 
     item.m_matchFlags = matchFlags;

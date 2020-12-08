@@ -28,8 +28,13 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 
-bool Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::mask(int hop, const QString &hostName, const QString &hostAddress,
-                                                        QString &maskedHostName, QString &maskedHostAddress) {
+bool Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::mask(
+        int hop,
+        const QString &hostName,
+        const QString &hostAddress,
+        QString &maskedHostName,
+        QString &maskedHostAddress) {
+
     Q_UNUSED(hop)
     Q_UNUSED(hostName)
     Q_UNUSED(hostAddress)

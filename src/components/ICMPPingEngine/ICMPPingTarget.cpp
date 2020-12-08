@@ -58,9 +58,12 @@ class Nedrysoft::ICMPPingEngine::ICMPPingTargetData {
         int m_currentSocket;
 };
 
-Nedrysoft::ICMPPingEngine::ICMPPingTarget::ICMPPingTarget(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine,
-                                                          QHostAddress hostAddress, int ttl) :
-        d(std::make_shared<Nedrysoft::ICMPPingEngine::ICMPPingTargetData>(this)) {
+Nedrysoft::ICMPPingEngine::ICMPPingTarget::ICMPPingTarget(
+        Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine,
+        QHostAddress hostAddress,
+        int ttl) :
+
+            d(std::make_shared<Nedrysoft::ICMPPingEngine::ICMPPingTargetData>(this)) {
 
     d->m_hostAddress = std::move(hostAddress);
     d->m_engine = engine;
@@ -88,11 +91,13 @@ Nedrysoft::Core::IPingEngine *Nedrysoft::ICMPPingEngine::ICMPPingTarget::engine(
 Nedrysoft::ICMPSocket::ICMPSocket *Nedrysoft::ICMPPingEngine::ICMPPingTarget::socket() {
     if (d->m_socketList[d->m_currentSocket] == 0) {
         if (d->m_hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
-            d->m_socketList[d->m_currentSocket] = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(d->m_ttl,
-                                                                                                       Nedrysoft::ICMPSocket::V4);
+            d->m_socketList[d->m_currentSocket] = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(
+                    d->m_ttl,
+                    Nedrysoft::ICMPSocket::V4 );
         } else if (d->m_hostAddress.protocol() == QAbstractSocket::IPv6Protocol) {
-            d->m_socketList[d->m_currentSocket] = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(d->m_ttl,
-                                                                                                       Nedrysoft::ICMPSocket::V6);
+            d->m_socketList[d->m_currentSocket] = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(
+                    d->m_ttl,
+                    Nedrysoft::ICMPSocket::V6 );
         }
     }
 

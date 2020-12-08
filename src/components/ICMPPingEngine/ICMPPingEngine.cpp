@@ -299,9 +299,12 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::timeoutRequests() {
                 pingItem->setServiced(true);
                 pingItem->unlock();
 
-                Nedrysoft::Core::PingResult pingResult(pingItem->sampleNumber(), Nedrysoft::Core::PingResult::NoReply,
-                                                       QHostAddress(), pingItem->transmitEpoch(), diff,
-                                                       pingItem->target());
+                Nedrysoft::Core::PingResult pingResult(
+                        pingItem->sampleNumber(),
+                        Nedrysoft::Core::PingResult::NoReply,
+                        QHostAddress(), pingItem->transmitEpoch(),
+                        diff,
+                        pingItem->target() );
 
                 emit result(pingResult);
 

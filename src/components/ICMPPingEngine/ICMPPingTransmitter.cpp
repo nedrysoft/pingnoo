@@ -78,9 +78,12 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
 
             pingItem->setTransmitTime(std::chrono::high_resolution_clock::now(), std::chrono::system_clock::now());
 
-            auto buffer = Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(target->id(), currentSequenceId, 52,
-                                                                        target->hostAddress(),
-                                                                        static_cast<Nedrysoft::ICMPPacket::IPVersion>(m_engine->version()));
+            auto buffer = Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(
+                    target->id(),
+                    currentSequenceId,
+                    52,
+                    target->hostAddress(),
+                    static_cast<Nedrysoft::ICMPPacket::IPVersion>(m_engine->version()) );
 
             auto result = socket->sendto(buffer, target->hostAddress());
 
