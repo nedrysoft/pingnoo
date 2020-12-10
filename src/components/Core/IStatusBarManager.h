@@ -27,13 +27,13 @@
 
 namespace Nedrysoft::Core {
     /**
-     * @brief       Interface definition of a status bar manager
+     * @brief       The IStatusBarManager describes a manager for status bars.
      *
-     * @details     The status bar manager handles the management of the application status bar, components may use the status bar to display information
-     *              about tasks or results that are running.
+     * @details     The status bar manager handles the management of the application status bar, components may use
+     *              the status bar to display information about tasks or results that are running.
      *
-     *              The status bar is normally context sensistve although components may created fixed entries that are shown regardless of the current
-     *              application context.
+     *              The status bar is normally context sensitive although components may created fixed entries that
+     *              are shown regardless of the current application context.
      */
     class NEDRYSOFT_CORE_DLLSPEC IStatusBarManager :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -43,16 +43,13 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Gets the Nedrysoft::Core::IStatusBarManager instance.
+             * @brief       Returns the IStatusBarManager instance.
              *
-             * @details     A convenience function to return the first Nedrysoft::Core::IStatusBarManager instance found in the object registry.
+             * @return      the IStatusBarManager instance.
              */
             static IStatusBarManager *getInstance() {
                 return ComponentSystem::getObject<IStatusBarManager>();
             }
-
-        public:
-
     };
 }
 

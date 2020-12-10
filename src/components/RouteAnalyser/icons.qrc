@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/RouteAnalyser">
+        <file>icons/favourite.png</file>
+        <file>icons/favourite@2x.png</file>
+    </qresource>
+</RCC>

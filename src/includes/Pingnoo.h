@@ -51,6 +51,9 @@ namespace Pingnoo::Constants {
     constexpr auto fileSaveGroup = "Group.File.Save";
     constexpr auto fileMiscGroup = "Group.File.Misc";
 
+    constexpr auto ribbonHomePage = "Ribbon.Page.Home";
+    constexpr auto ribbonFilePage = "Ribbon.Page.File";
+
     const QMap<QString, QString> commandStringMap =
             {
                     {editCut,             QT_TR_NOOP("Cut")},

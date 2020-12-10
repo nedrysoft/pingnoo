@@ -33,11 +33,11 @@ namespace Nedrysoft::Core {
     class IPingTarget;
 
     /**
-     * @brief       Interface definition of a ping engine
+     * @brief       The IPingEngine interface describes a ping engine.
      *
-     * @details     An engine implements the logic of transmitting, receiving
-     *              and associating replies to ping requests, it then signals
-     *              when a ping result is available
+     * @details     An engine implements the logic of transmitting, receiving and associating replies to ping requests,
+     *              it then signals when a ping result is available.  The underlying mechanism of handling the pings
+     *              is hidden from the applicaton.
      */
     class NEDRYSOFT_CORE_DLLSPEC IPingEngine :
             public Nedrysoft::ComponentSystem::IInterface,
@@ -51,49 +51,48 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Destructor
-             *
+             * @brief       Destroys the IPingEngine.
              */
             virtual ~IPingEngine() = default;
 
             /**
-             * @brief       Sets the measurement interval for this engine instance
+             * @brief       Sets the measurement interval for this engine instance.
              *
-             * @param[in]   interval interval time
+             * @param[in]   interval interval time.
              *
-             * @return      returns true on success; otherwise false.
+             * @returns     returns true on success; otherwise false.
              */
             virtual bool setInterval(std::chrono::milliseconds interval) = 0;
 
             /**
-             * @brief       Sets the reply timeout for this engine instance
+             * @brief       Sets the reply timeout for this engine instance.
              *
-             * @param[in]   timeout timeout time
+             * @param[in]   timeout the amount of time before we consider that the packet was lost.
              *
-             * @return      true on success; otherwise false.
+             * @returns     true on success; otherwise false.
              */
             virtual bool setTimeout(std::chrono::milliseconds timeout) = 0;
 
             /**
-             * @brief       Starts ping operations for this engine instance
+             * @brief       Starts ping operations for this engine instance.
              *
              * @return      true on success; otherwise false.
              */
             virtual bool start() = 0;
 
             /**
-             * @brief       Stops ping operations for this engine instance
+             * @brief       Stops ping operations for this engine instance.
              *
-             * @return      true on success; otherwise false.
+             * @returns     true on success; otherwise false.
              */
             virtual bool stop() = 0;
 
             /**
-             * @brief       Adds a ping target to this engine instance
+             * @brief       Adds a ping target to this engine instance.
              *
-             * @param[in]   hostAddress the host address of the ping target
+             * @param[in]   hostAddress the host address of the ping target.
              *
-             * @return      returns a pointer to the created ping target
+             * @returns     returns a pointer to the created ping target.
              */
             virtual IPingTarget *addTarget(QHostAddress hostAddress) = 0;
 

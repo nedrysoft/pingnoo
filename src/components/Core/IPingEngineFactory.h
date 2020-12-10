@@ -30,11 +30,9 @@ namespace Nedrysoft::Core {
     class IPingEngine;
 
     /**
-     * @brief       Interface definition of a ping engine
+     * @brief       The IPingEngineFactory Interface describes a factory for Nedrysoft::Core::IPingEngine instances.
      *
-     * @details     An engine implements the logic of transmitting, receiving
-     *              and associating replies to ping requests, it then signals
-     *              when a ping result is available
+     * @details     The ping engine factory is responsible for creating instances of ping engines.
      */
     class NEDRYSOFT_CORE_DLLSPEC IPingEngineFactory :
             public Nedrysoft::ComponentSystem::IInterface,
@@ -47,21 +45,24 @@ namespace Nedrysoft::Core {
             Q_INTERFACES(Nedrysoft::Core::IConfiguration)
 
         public:
+            /**
+             * @brief       Destroys the IPingEngineFactory.
+             */
             virtual ~IPingEngineFactory() = default;
 
             /**
-             * @brief       Creates a IPingEngine instance
+             * @brief       Creates a IPingEngine instance.
              *
-             * @param[in]   version the IP version of the engine
+             * @param[in]   version the IP version of the engine.
              *
-             * @return      the newly created ping engine instance
+             * @returns     the new Nedrysoft::Core::IPingEngine instance.
              */
             virtual Nedrysoft::Core::IPingEngine *createEngine(Nedrysoft::Core::IPVersion version) = 0;
 
             /**
-             * @brief       Gets the descriptive name of the ping engine factory
+             * @brief       Returns the descriptive name of the factory.
              *
-             * @return      descriptive name of the ping engine
+             * @returns     the descriptive name of the ping engine.
              */
             virtual QString description() = 0;
     };

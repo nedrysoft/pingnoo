@@ -27,11 +27,13 @@
 #include "Core/ICore.h"
 #include "Core/IEditor.h"
 #include "Core/IEditorManager.h"
+#include "Core/IRibbonBarManager.h"
+#include "Core/IRibbonPage.h"
 #include "NewTargetDialog.h"
 #include "Pingnoo.h"
+#include "RouteAnalyser.h"
 #include "RouteAnalyserEditor.h"
-
-#include <QDebug>
+#include "NewTargetRibbonGroup.h"
 
 RouteAnalyserComponent::RouteAnalyserComponent() = default;
 
@@ -51,6 +53,19 @@ void RouteAnalyserComponent::initialiseEvent() {
                     Q_UNUSED(newContext)
                     Q_UNUSED(previousContext)
                 });
+    }
+
+    auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
+
+    if (ribbonBarManager) {
+        auto ribbonPage = ribbonBarManager->addPage(tr("Route Analyser"), Pingnoo::Constants::ribbonRouteAnalyserPage);
+        auto ribbonWidget = new Nedrysoft::RouteAnalyser::NewTargetRibbonGroup;
+
+        ribbonPage->addGroup(tr("New Target"),
+                             Pingnoo::Constants::ribbonRouteAnalyserGroup,
+                             ribbonWidget);
+
+        //connect(ribbonWidget, &Nedrysoft::RibbonBar::)
     }
 
     auto core = Nedrysoft::Core::ICore::getInstance();

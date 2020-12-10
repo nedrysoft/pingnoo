@@ -31,12 +31,11 @@
 
 namespace Nedrysoft::Core {
     /**
-     * @brief       Interface definition of a host masker
+     * @brief       Interface definition of a host masker.
      *
-     * @details     A host masker is used to mask the displayed host names & ip addresses
-     *              in the softwares user interface, this allows screen captures to be
-     *              taken without requiring further editing
-     *
+     * @details     A host masker is used to mask the displayed host names & ip addresses in the softwares user
+     *              interface (and any outputs), this allows screen captures to be taken without requiring further
+     *              editing/redaccting.
      */
     class NEDRYSOFT_CORE_DLLSPEC IHostMasker :
             public Nedrysoft::ComponentSystem::IInterface,
@@ -51,15 +50,20 @@ namespace Nedrysoft::Core {
         public:
 
             /**
-             * Replaces a host name/ip
+             * @brief       Masks a host name/ip.
              *
-             * @param[in]   hop the hop number for this host & address
-             * @param[in]   hostName the host name to be checked
-             * @param[in]   hostAddress the host IP to be checked
-             * @param[out]  maskedHostName the masked host name
-             * @param[out]  maskedHostAddress the masked host IP
+             * @detail      A IHostMasker can redact the hostname and/or host address based of a combination of
+             *              host name, host address and the hop number.
              *
-             * @return      returns true on replacement; otherwise false.
+             *              If there is no match, then the original values are returned.
+             *
+             * @param[in]   hop the hop number.
+             * @param[in]   hostName the host name to be checked.
+             * @param[in]   hostAddress the host IP to be checked.
+             * @param[out]  maskedHostName the masked host name.
+             * @param[out]  maskedHostAddress the masked host IP.
+             *
+             * @returns     returns true on replacement; otherwise false.
              */
             virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName,
                               QString &maskedHostAddress) = 0;

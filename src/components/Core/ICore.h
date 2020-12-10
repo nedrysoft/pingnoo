@@ -30,10 +30,10 @@
 
 namespace Nedrysoft::Core {
     /**
-     * @brief       Interface definition of of the core component object
+     * @brief       The ICore interface is the root component for the application.
      *
-     * @details     provides a mechanism for components to know when the system has
-     *              been initialised, including access to core objects.
+     * @details     ICore should provide the main window for the application and the general framework of the
+     *              application (interfaces) which other components use to extend  functionality.
      */
     class NEDRYSOFT_CORE_DLLSPEC ICore :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -43,32 +43,38 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Gets the Nedrysoft::Core::ICore instance.
+             * @brief       Returns the Nedrysoft::Core::ICore instance.
              */
             static ICore *getInstance() {
                 return ComponentSystem::getObject<ICore>();
             }
 
             /**
-             * @brief       Gets the main window.
+             * @brief       Returns the main window instance.
              *
-             * @details     Returns a pointer to a QMainWindow object which is the main window of
-             *              the application
+             * @details     Returns a pointer to the main window, this function always returns the same
+             *              QMainWindow pointer so can be called by any part of the application to get a
+             *              handle to the main window.
              *
-             * @return      the QMainWindow pointer
+             * @return      returns a pointer to the QMainWindow.
              */
             virtual QMainWindow *mainWindow() = 0;
 
             /**
-             * @brief       Core opened signal
+             * @brief       This signal is emitted after ICore has initialised.
              *
              * @details     The signal is emitted after all plugins have been loaded and initialised, allows
              *              components to do post-initialisation functions knowing that all plugins have
-             *              initialised
+             *              initialised.
              */
             Q_SIGNAL void coreOpened(void);
     };
 
+    /**
+     * @brief       Convenience call to get the main window.
+     *
+     * @returns     The QMainWindow instance if created; otherwise nullptr;
+     */
     inline QMainWindow *mainWindow() {
         auto core = ICore::getInstance();
 

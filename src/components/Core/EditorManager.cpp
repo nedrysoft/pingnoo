@@ -22,15 +22,26 @@
 
 #include "IEditor.h"
 
+#include <QTabBar>
 #include <QTabWidget>
 
 Nedrysoft::Core::EditorManager::EditorManager(QTabWidget *tabWidget) :
         m_tabWidget(tabWidget) {
 
+    m_tabWidget->setTabsClosable(true);
+    m_tabWidget->setDocumentMode(true);
 }
 
 int Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) {
-    m_tabWidget->addTab(editor->widget(), editor->displayName());
+    auto tabIndex = m_tabWidget->addTab(editor->widget(), editor->displayName());
+
+    m_tabWidget->tabBar()->setTabButton(tabIndex, QTabBar::RightSide, m_tabWidget->tabBar()->tabButton(tabIndex, QTabBar::LeftSide));
+
+    connect(m_tabWidget, &QTabWidget::tabCloseRequested, [=](int index) {
+        this->m_tabWidget->removeTab(index);
+
+        editor->deleteLater();
+    });
 
     return 0;
 }

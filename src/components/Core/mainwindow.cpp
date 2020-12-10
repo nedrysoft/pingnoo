@@ -33,6 +33,7 @@
 #include "Core/IMenu.h"
 #include "EditorManager.h"
 #include "Pingnoo.h"
+#include "RibbonBarManager.h"
 #include "ui_mainwindow.h"
 
 #include <QApplication>
@@ -53,6 +54,13 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
 #else
     qApp->setWindowIcon(QIcon(":/app/appicon.ico"));
 #endif
+
+    auto ribbonBarManager = new Nedrysoft::Core::RibbonBarManager(ui->ribbonBar);
+
+    Nedrysoft::ComponentSystem::addObject(ribbonBarManager);
+
+    ribbonBarManager->addPage(tr("Home"), Pingnoo::Constants::ribbonHomePage);
+    ribbonBarManager->addPage(tr("File"), Pingnoo::Constants::ribbonFilePage);
 
     // QStatusBar *statusBar = new QStatusBar;
 

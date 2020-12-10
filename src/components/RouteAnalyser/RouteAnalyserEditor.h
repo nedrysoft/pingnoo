@@ -34,6 +34,7 @@ namespace Nedrysoft::Core {
 
 namespace Nedrysoft::RouteAnalyser {
     class RouteAnalyserComponent;
+    class RouteAnalyserWidget;
 
     /**
      * @brief       Definition for the built in host masker
@@ -55,6 +56,8 @@ namespace Nedrysoft::RouteAnalyser {
 
         public:
             RouteAnalyserEditor(int contextId);
+
+            ~RouteAnalyserEditor();
 
             /**
              * @brief       Sets the ping engine to be used by this instance.
@@ -109,6 +112,7 @@ namespace Nedrysoft::RouteAnalyser {
             QString m_pingTarget;
             Nedrysoft::Core::IPVersion m_ipVersion;
             double m_interval;
+            Nedrysoft::RouteAnalyser::RouteAnalyserWidget *m_editorWidget;
 
     };
 }

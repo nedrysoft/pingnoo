@@ -28,12 +28,13 @@
 #include <QString>
 
 namespace Nedrysoft::Core {
-
     /**
-     * @brief       ContextManager implementation
+     * @brief       The ContextManager class is used to manage the current application context.
      *
-     * @details     Provides the implementation of an IContextManager
-     *
+     * @details     A context is a state that the application enters, for example an application may have multiple
+     *              editor types and each editor will have its own context id.  When an editor becomes active, the
+     *              context for that editor is set as active, and the visibility or active state of commands or menus
+     *              will be updated.
      */
     class ContextManager :
             public Nedrysoft::Core::IContextManager {
@@ -45,19 +46,50 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Constructor
+             * @brief       Constructs a new ContextManager instance which is a child of the parent.
              *
+             * @param[in]   parent the owner widget.
              */
             ContextManager();
 
+        public:
             /**
-             * @sa          IContextManager
+             * @brief       Registers a context with the application.
              *
+             * @details     A context represents a state that the software enters, usually when an editor has
+             *              focus.  The context manager maintains this providing a mechanism to update menus
+             *              the reflect the current context state.
+             *
+             * @see         Nedrysoft::Core::IContextManager::registerContext
+             *
+             * @param[in]   contextIdentifier the id of the new context.
+             *
+             * @returns     the numeric identifier of this context.
              */
             virtual int registerContext(QString contextIdentifier);
 
+            /**
+             * @brief       Sets the current context.
+             *
+             * @details     Sets the currently active context to the given identifier.
+             *
+             * @see         Nedrysoft::Core::IContextManager::setContext
+             *
+             * @param[in]   contextIdentifier the id of the context being activated.
+             *
+             * @returns     the status of the context switch.
+             */
             virtual int setContext(int contextIdentifier);
 
+            /**
+             * @brief       Gets the current context.
+             *
+             * @details     Gets the numeric identifier of the current context.
+             *
+             * @see         Nedrysoft::Core::IContextManager::context
+             *
+             * @returns     the context identifier.
+             */
             virtual int context();
 
         private:

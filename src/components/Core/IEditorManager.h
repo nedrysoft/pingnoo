@@ -31,10 +31,9 @@ namespace Nedrysoft::Core {
     class IEditor;
 
     /**
-     * @brief       Interface definition of an application editor manager
+     * @brief       The IEditorManager Interface defines the contract of an editor manager.
      *
-     * @details     Manages the open editors in the application.
-     *
+     * @details     The editor manager is used to contain instances of IEditors
      */
     class NEDRYSOFT_CORE_DLLSPEC IEditorManager :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -44,18 +43,18 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Gets the Nedrysoft::Core::IEditorManager instance.
+             * @brief       Returns the Nedrysoft::Core::IEditorManager instance.
              */
             static IEditorManager *getInstance() {
                 return ComponentSystem::getObject<IEditorManager>();
             }
 
             /**
-             * @brief       Open an editor window
+             * @brief       Open a new editor window.
              *
              * @param[in]   editor the editor to open
              *
-             * @returns     zero
+             * @returns     zero if no error occured; otherwise non-zero.
              */
             virtual int openEditor(IEditor *editor) = 0;
     };

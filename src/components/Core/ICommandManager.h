@@ -34,11 +34,10 @@
 
 namespace Nedrysoft::Core {
     /**
-     * @brief       ICommandManager interface
+     * @brief       The ICommandManager interface is responsible for creating Commands and updating them when the
+     *              application context changes.
      *
-     * @details     ICommandManager manages instances of ICommand, handling context
-     *              changes.
-     *
+     * @details     It provides methods for creating menus and locating commands.
      */
     class NEDRYSOFT_CORE_DLLSPEC ICommandManager :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -50,122 +49,128 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Gets the Nedrysoft::Core::ICommandManager instance.
              *
-             * @return      the ICommandManager instance
-             *
+             * @returns     the ICommandManager instance.
              */
             static ICommandManager *getInstance() {
                 return ComponentSystem::getObject<ICommandManager>();
             }
 
             /**
-             * @brief       Registers an action to the command
-             *
-             * @param[in]   action      the action
-             * @param[in]   id          the identifier of the command
-             * @param[in]   contexts    the contexts this action is valid in
-             *
-             * @return      the configuration
-             *
-             */
-            virtual Nedrysoft::Core::ICommand *
-            registerAction(QAction *action, QString id, const Nedrysoft::Core::ContextList &contexts) = 0;
-
-            /**
-             * @brief       Registers an action to the command
+             * @brief       Registers a QAction with a command for a given context.
              *
              * @details     This function registers an action by command id, if the command already exists
-             *              then the action is added for the given context, otherwise a new command is created
+             *              then the action is added for the given context, otherwise a new command is created.
              *
-             * @param[in]   action      the action
-             * @param[in]   id          the identifier of the command
-             * @param[in]   context     the contexts this action is valid in
+             * @see         Nedrysoft::Core::ICommandManager::registerAction
              *
-             * @return      the command
+             * @param[in]   action the action.
+             * @param[in]   id the identifier of the command.
+             * @param[in]   contexts the contexts this action is valid in.
+             *
+             * @returns     a pointer to the ICommand
+             */
+            virtual Nedrysoft::Core::ICommand *registerAction(QAction *action,
+                                                              QString id,
+                                                              const Nedrysoft::Core::ContextList &contexts) = 0;
+
+            /**
+             * @brief       Registers an action to the given command.
+             *
+             * @details     This function registers an action by command id, if the command already exists
+             *              then the action is added for the given context, otherwise a new command is created.
+             *
+             * @param[in]   action the action.
+             * @param[in]   id the identifier of the command.
+             * @param[in]   context the contexts this action is valid in.
+             *
+             * @returns     the Nedrysoft::Core::ICommand command.
              *
              */
-            virtual Nedrysoft::Core::ICommand *
-            registerAction(QAction *action, QString id, int contextId = Nedrysoft::Core::GlobalContext) {
+            virtual Nedrysoft::Core::ICommand *registerAction(QAction *action,
+                                                              QString id,
+                                                              int contextId = Nedrysoft::Core::GlobalContext) {
+
                 return registerAction(action, id, Nedrysoft::Core::ContextList() << contextId);
             }
 
             /**
-             * @brief       Registers an action to an existing command
+             * @brief       Registers a QAction with a command for a given context.
              *
-             * @details     This function registers an action to the given command to a single context
+             * @details     This function registers an action to the given ICommand.
              *
-             * @param[in]   action      the action
-             * @param[in]   command     the command to register the action with
-             * @param[in]   context     the contexts this action is valid in
+             * @see         Nedrysoft::Core::ICommandManager::registerAction
              *
-             * @return      true if added, otherwise false
+             * @param[in]   action the action.
+             * @param[in]   command the identifier of the command.
+             * @param[in]   context the contexts this action is valid in.
              *
+             * @returns     true if the QAction was registered; otherwise false.
              */
-            virtual bool registerAction(QAction *action, Nedrysoft::Core::ICommand *command,
+            virtual bool registerAction(QAction *action,
+                                        Nedrysoft::Core::ICommand *command,
                                         int contextId = Nedrysoft::Core::GlobalContext) {
+
                 return registerAction(action, command, Nedrysoft::Core::ContextList() << contextId);
             }
 
             /**
-             * @brief       Registers an action to the command
+             * @brief       Registers a QAction with a command for a given context.
              *
-             * @details     This function registers an action to the given command for the
-             *              supplied contexts
+             * @details     This function registers an action to the given ICommand.
              *
-             * @param[in]   action      the action
-             * @param[in]   command     the command to register the action with
-             * @param[in]   contexts    the contexts this action is valid in
+             * @see         Nedrysoft::Core::ICommandManager::registerAction
              *
-             * @return      the configuration
+             * @param[in]   action the action.
+             * @param[in]   command the identifier of the command.
+             * @param[in]   context the contexts this action is valid in.
              *
+             * @returns     true if the QAction was registered; otherwise false.
              */
-            virtual bool registerAction(QAction *action, Nedrysoft::Core::ICommand *command,
+            virtual bool registerAction(QAction *action,
+                                        Nedrysoft::Core::ICommand *command,
                                         const Nedrysoft::Core::ContextList &contexts) = 0;
 
             /**
-             * @brief       Sets the currently active context
+             * @brief       Sets the currently active context.
              *
-             * @details     Updates all commands registered so that they connect to the
-             *              correct QAction for the context
+             * @details     Updates all commands registered so that they connect to the correct QAction for the context.
              *
-             * @param[in]   contextId the context
-             *
+             * @param[in]   contextId the context to set as active.
              */
             virtual void setContext(int contextId) = 0;
 
             /**
-             * @brief       Create a menu
-             *
-             * @details     Creates an menu object that implements IMenu, the given identifier
-             *              should be unique.
-             *
-             * @param[in]   identifier      the unique identifier for this menu
-             * @param[in]   parentMenu      if the case of a submenu, parentMenu should be set to the parent IMenu instance
-             *
-             */
+              * @brief       Create a menu.
+              *
+              * @details     Creates an IMenu object, the given identifier should be unique.
+              *
+              * @param[in]   identifier the unique identifier for this menu
+              * @param[in]   parentMenu  if the case of a submenu, parentMenu should be set to the parent IMenu instance.
+              *
+              * @returns     a new IMenu instance for the menu.
+              */
             virtual Nedrysoft::Core::IMenu *createMenu(const QString &identifier, IMenu *parentMenu = nullptr) = 0;
 
             /**
-             * @brief       Find a menu
+             * @brief       Find a menu.
              *
-             * @details     Finds a menu by it's unique identifer, application defined constants are located in
+             * @details     Finds a menu by the given identifier, application defined constants are located in
              *              the Pingnoo::Constants namespace in Pingnoo.h
              *
-             * @param[in]   identifier      the unique identifier for this menu
+             * @param[in]   identifier the unique identifier for the menu.
              *
-             * @return      the IMenu instance of the requested menu
-             *
+             * @returns     the IMenu instance if the menu exists; otherwise nullptr.
              */
             virtual Nedrysoft::Core::IMenu *findMenu(const QString &identifier) = 0;
 
             /**
-             * @brief       Find a command
+             * @brief       Find a command.
              *
-             * @details     Finds a registered command by identifier
+             * @details     Finds a registered command by given identifier.
              *
-             * @param[in]   identifier      the unique identifier for this command
+             * @param[in]   identifier the identifier for the command.
              *
-             * @return      the ICommand instance
-             *
+             * @returns     The ICommand instance if the command exists; otherwise nullptr;
              */
             virtual Nedrysoft::Core::ICommand *findCommand(const QString &identifier) = 0;
 

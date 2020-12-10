@@ -30,10 +30,10 @@ namespace Nedrysoft::Core {
     using GeoFunction = std::function<void(const QString &, const QVariantMap &)>;
 
     /**
-     * @brief       Interface definition of a ping target
+     * @brief       Interface definition of a Geo IP provider
      *
-     * @details     A ping target is used by an IPingEngine to keep track
-     *              of destinations to be pinged.
+     * @details     A Geo IP provider gives a location for the given IP address, accuracy of the data will vary
+     *              from provider to provider.
      */
     class NEDRYSOFT_CORE_DLLSPEC IGeoIPProvider :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -45,30 +45,52 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief Destructor
+             * @brief       Destroys the IGeoIPProvider.
              */
             virtual ~IGeoIPProvider() = default;
 
             /**
-             * @brief       Performs a host lookup
+             * @brief       Performs a host lookup using IP address or hostname.
              *
-             * @param[in]   host the host address to be looked up
+             * @details     The operation is asynchronous and the result is provided via the
+             *              Nedrysoft::Core::IGeoIPProvider::result signal.
+             *
+             * @param[in]   host the host address to be looked up.
              */
             virtual void lookup(const QString host) = 0;
 
             /**
-             * @brief       Performs a host lookup
+             * @brief       Performs a host lookup using IP address or hostname.
              *
-             * @param[in]   host the host address to be looked up
-             * @param[in]   function callback function
+             * @details     This overloaded function uses a std::function to obtain the result, this can be
+             *              a callback function or a lambda funcion.
+             *
+             * @param[in]   host the host address to be looked up.
+             * @param[in]   function the function called when a result is available.
              */
             virtual void lookup(const QString host, Nedrysoft::Core::GeoFunction function) = 0;
 
             /**
-             * @brief       Signal for result
+             * @brief       Signals that a result is available.
              *
-             * @param[out]  host the host
-             * @param[out]  result the result
+             * @notes       The data returned from the GEO IP provider will vary, however, a IGeoIPProvider is expected
+             *              to produce a variant map with the following named fields (if available).
+             *
+             *              * creationTime
+             *              * country
+             *              * countryCode
+             *              * region
+             *              * regionName
+             *              * city
+             *              * zip
+             *              * lat
+             *              * lon
+             *              * timezone
+             *              * isp
+             *              * org
+             *
+             * @param[out]  host the host that was looked up.
+             * @param[out]  result the result as a QVariantMap
              */
             Q_SIGNAL void result(const QString host, const QVariantMap result);
     };

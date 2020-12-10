@@ -31,10 +31,9 @@ namespace Nedrysoft::Core {
     class IPingEngine;
 
     /**
-     * @brief       Interface definition of a ping target
+     * @brief       The IPingTarget interface describes a host target for a ping engine.
      *
-     * @details     A ping target is used by an IPingEngine to keep track
-     *              of destinations to be pinged.
+     * @details     A ping target is used by an Nedrysoft::Core::IPingEngine to keep track of destinations to be pinged.
      */
     class NEDRYSOFT_CORE_DLLSPEC IPingTarget :
             public Nedrysoft::ComponentSystem::IInterface,
@@ -48,48 +47,47 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * Destructor
+             * @brief       Destroys the IPingEngineFactory.
              */
             virtual ~IPingTarget() = default;
 
             /**
-             * @brief       Sets host address for this target
+             * @brief       Sets the target host address.
              *
-             * @param[in]   hostAddress the host address to be pinged
+             * @param[in]   hostAddress the host address to be pinged.
              */
             virtual void setHostAddress(QHostAddress hostAddress) = 0;
 
             /**
-             * @brief       Returns the host address for this target
+             * @brief       Returns the host address for this target.
              *
-             * @return      the host address for this target
+             * @returns     the host address for this target.
              */
             virtual QHostAddress hostAddress() = 0;
 
             /**
-             * @brief       the IPingEngine that created this target
+             * @brief       Returns the Nedrysoft::Core::IPingEngine that created this target
              *
-             * @return      the IPingEngine that created this target
+             * @returns     the Nedrysoft::Core::IPingEngine instance.
              */
             virtual IPingEngine *engine() = 0;
 
             /**
-             * @brief       user data attached to this target
+             * @brief       Returns the user data attached to this target.
              *
-             * @return      the attached user data
+             * @returns     the user data.
              */
             virtual void *userData() = 0;
 
             /**
-             * @brief        user data to this target
+             * @brief       Sets the user data attached to this target.
              *
-             * @param[in]   data the user data
-             *
+             * @param[in]   data the user data.
              */
             virtual void setUserData(void *data) = 0;
 
             /**
-             * @brief       Rwturns the ttl set on this target.
+             * @brief       Rwturns the TTL of this target.
              *
              * @returns     the ttl value.
              */

@@ -31,10 +31,9 @@
 namespace Nedrysoft::Core {
 
     /**
-     * @brief       EditorManager implementation
+     * @brief       The EditorManager class.
      *
-     * @details     Provides the implementation of an IEditorManager
-     *
+     * @details     The editor manager provides a container widget to host IEditor instances.
      */
     class EditorManager :
             public Nedrysoft::Core::IEditorManager {
@@ -46,14 +45,18 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Constructor
+             * @brief       Constructs a new CoreComponent instance.
              *
-             * @param[in]   tabWidget the tab widget that contains the editors
+             * @param[in]   tabWidget the QTabWidget that is used to contain the editors.
              */
             EditorManager(QTabWidget *tabWidget);
 
             /**
-             * @sa IEditorManager
+             * @brief       Open an editor window.
+             *
+             * @param[in]   editor the editor to open.
+             *
+             * @returns     zero if editor successfully opened; otherwise non-zero.
              */
             virtual int openEditor(IEditor *editor);
 

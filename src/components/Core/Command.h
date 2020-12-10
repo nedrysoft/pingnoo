@@ -32,11 +32,12 @@ namespace Nedrysoft::Core {
     class ActionProxy;
 
     /**
-     * @brief       Command implementation
+     * @brief       ICommand interface
      *
-     * @details     Provides the implementation of an ICommand for the
-     *              CommandManager class
-     *
+     * @details     ICommand represents an actionable command in the system, commands
+     *              are bound to QActions for given contexts, this allows the target of
+     *              the command to change depending on the current context that the application
+     *              is in.
      */
     class Command :
             public Nedrysoft::Core::ICommand {
@@ -48,45 +49,61 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Constructor
+             * @brief       Constructs a new Command with the given id.
              *
-             * @details     Constructs a new Command object with the given id
-             *
-             * @param[in]   id the id of the created command
+             * @param[in]   id the identifier for this command.
              */
             Command(QString id);
 
             /**
-             * @brief       Destructor
+             * @brief       Destroys the Command.
              */
             ~Command();
 
+        public:
             /**
-             * @sa          ICommand
+             * @brief       Returns the proxy action.
              *
-             * @note        Gets a Nedrysoft::Core::ActionProxy instance so that the action remains valid after a context switch.
+             * @see         Nedrysoft::Core::ICommand::action
              *
-             * @see         Nedrysoft::Core::ActionProxy
+             * @returns     the proxy action
              */
             virtual QAction *action();
 
+            /**
+             * @brief       Sets the active state of the command.
+             *
+             * @see         Nedrysoft::Core::ICommand::setActive
+             *
+             * @param[in]   state true if active; otherwise false.
+             */
             virtual void setActive(bool state);
 
+            /**
+             * @brief       Returns the active state of the command.
+             *
+             * @see         Nedrysoft::Core::ICommand::active
+             *
+             * @return      true if enabled; otherwise false.
+             */
             virtual bool active();
 
         protected:
             /**
-             * @brief       Registers an action to the given contexts
+             * @brief       Registers an action to the given contexts.
              *
-             * @param[in]   action the action
-             * @param[in]   contexts the list of contexts this action is used in
+             * @param[in]   action the action.
+             * @param[in]   contexts the list of contexts this action is used in.
              */
             void registerAction(QAction *action, const Nedrysoft::Core::ContextList &contexts);
 
             /**
-             * @brief       Sets the current context for this command
+             * @brief       Sets the current context for this command.
              *
-             * @param[in]   contextId the context id
+             * @brief       If there is a QAction registered with the contextId then it becomes the active
+             *              active, if there is no QAction for the context then the command is disabled.
+             *
+             * @param[in]   contextId the context id.
              */
             void setContext(int contextId);
 

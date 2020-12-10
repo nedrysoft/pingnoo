@@ -29,8 +29,15 @@
 #include <QObject>
 
 Nedrysoft::RouteAnalyser::RouteAnalyserEditor::RouteAnalyserEditor(int contextId) :
-        m_contextId(contextId) {
+        m_contextId(contextId),
+        m_editorWidget(nullptr) {
 
+}
+
+Nedrysoft::RouteAnalyser::RouteAnalyserEditor::~RouteAnalyserEditor() {
+    if (m_editorWidget) {
+        m_editorWidget->deleteLater();
+    }
 }
 
 QJsonObject Nedrysoft::RouteAnalyser::RouteAnalyserEditor::saveConfiguration() {
@@ -44,13 +51,13 @@ bool Nedrysoft::RouteAnalyser::RouteAnalyserEditor::loadConfiguration(QJsonObjec
 }
 
 QWidget *Nedrysoft::RouteAnalyser::RouteAnalyserEditor::widget() {
-    auto visualiserWidget = new Nedrysoft::RouteAnalyser::RouteAnalyserWidget(
+    m_editorWidget = new Nedrysoft::RouteAnalyser::RouteAnalyserWidget(
             m_pingTarget,
             m_ipVersion,
             m_interval,
             m_pingEngineFactory );
 
-    return visualiserWidget;
+    return m_editorWidget;
 }
 
 void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setPingEngine(Nedrysoft::Core::IPingEngineFactory *pingEngineFactory) {

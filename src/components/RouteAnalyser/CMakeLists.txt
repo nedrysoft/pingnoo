@@ -37,6 +37,9 @@ pingnoo_add_sources(
     RouteAnalyserComponent.h
     RouteAnalyserEditor.cpp
     RouteAnalyserEditor.h
+    NewTargetRibbonGroup.cpp
+    NewTargetRibbonGroup.h
+    NewTargetRibbonGroup.ui
     RouteAnalyserSpec.h
     RouteAnalyserWidget.cpp
     RouteAnalyserWidget.h
@@ -48,6 +51,7 @@ pingnoo_add_sources(
     NewTargetDialog.ui
     ColourManager.cpp
     ColourManager.h
+    icons.qrc
 )
 
 pingnoo_set_description("Route analyser component")

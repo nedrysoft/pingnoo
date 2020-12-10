@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Nedrysoft::RouteAnalyser::NewTargetRibbonGroup</class>
+ <widget class="QWidget" name="Nedrysoft::RouteAnalyser::NewTargetRibbonGroup">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>319</width>
+    <height>127</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>NewTargetRibbonGroup</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>6</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>6</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="Nedrysoft::Ribbon::RibbonDropButton" name="favouriteDropButton">
+       <property name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/RouteAnalyser/icons/favourite.png</normaloff>:/RouteAnalyser/icons/favourite.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <property name="fieldGrowthPolicy">
+      <enum>QFormLayout::ExpandingFieldsGrow</enum>
+     </property>
+     <property name="horizontalSpacing">
+      <number>4</number>
+     </property>
+     <property name="verticalSpacing">
+      <number>4</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="targetLabel">
+       <property name="text">
+        <string>Target:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="Nedrysoft::Ribbon::RibbonLineEdit" name="targetLineEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="intervalLabel">
+       <property name="text">
+        <string>Interval:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="Nedrysoft::Ribbon::RibbonLineEdit" name="intervalLineEdit"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="engineLabel">
+       <property name="text">
+        <string>Engine:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,0">
+       <property name="spacing">
+        <number>4</number>
+       </property>
+       <item>
+        <widget class="Nedrysoft::Ribbon::RibbonComboBox" name="engineComboBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Nedrysoft::Ribbon::RibbonButton" name="startButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Start</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QRadioButton" name="ipV4RadioButton">
+       <property name="text">
+        <string>IPv4</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="ipV6RadioButton">
+       <property name="text">
+        <string>IPv6</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Nedrysoft::Ribbon::RibbonDropButton</class>
+   <extends>QWidget</extends>
+   <header>Ribbon/RibbonDropButton.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Nedrysoft::Ribbon::RibbonLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>Ribbon/RibbonLineEdit.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Nedrysoft::Ribbon::RibbonComboBox</class>
+   <extends>QComboBox</extends>
+   <header>Ribbon/RibbonComboBox.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Nedrysoft::Ribbon::RibbonButton</class>
+   <extends>QPushButton</extends>
+   <header>Ribbon/RibbonButton.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>

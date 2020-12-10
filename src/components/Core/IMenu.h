@@ -37,10 +37,10 @@ namespace Nedrysoft::Core {
     };
 
     /**
-     * @brief       Interface definition of a menu
+     * @brief       The IMenuInterface describes a menu or a menu bar.
      *
-     * @details     represents a menu or menubar, allows commands to be registered in
-     *              the menu and allows items to be logically grouped.
+     * @details     Represents a menu or menubar, allows commands to be registered in the menu and allows items
+     *              to be logically grouped.
      */
     class NEDRYSOFT_CORE_DLLSPEC IMenu :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -52,93 +52,91 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Return the QMenu if this is a menu
+             * @brief       Returns the QMenu if this is a menu.
              *
-             * @return      the menu instance
+             * @returns     the menu instance.
              */
             virtual QMenu *menu() = 0;
 
             /**
-             * @brief       Return the QMenuBar if this is a menu bar
+             * @brief       Returns the QMenuBar if this is a menu bar.
              *
-             * @return      the menubar instance
+             * @returns     the menubar instance.
              */
             virtual QMenuBar *menuBar() = 0;
 
             /**
-             * @brief       Adds a new group
+             * @brief       Inserts a new group into the start of the menu.
              *
-             * @details     Creates a named grouped section for a menu, allows command to
-             *              be grouped by function.  The group will be inserted at the start of
-             *              the menu.
+             * @details     Creates a named grouped section for a menu, allows commands to be grouped by function.
+             *              The group will be inserted at the start of the menu.
              *
-             * @param[in]   groupIdentifier the identifier of the group
+             * @param[in]   groupIdentifier the identifier of the group.
              */
             virtual void insertGroup(QString groupIdentifier) = 0;
 
             /**
-             * @brief       Adds a new group
+             * @brief       Appends a new group to the end of the menu.
              *
-             * @details     Creates a named grouped section for a menu, allows command to
-             *              be grouped by function.  The group will be appended to the end of
-             *              the menu.
+             * @details     Creates a named grouped section for a menu, allows commands to be grouped by function.
+             *              The group will be appended to the end of the menu.
              *
-             * @param[in]   groupIdentifier the identifier of the group
+             * @param[in]   groupIdentifier the identifier of the group.
              */
             virtual void appendGroup(QString groupIdentifier) = 0;
 
             /**
-             * @brief       Adds a new group
+             * @brief       Adds a new group before the given identifier.
              *
-             * @details     Creates a named grouped section for a menu, allows command to
-             *              be grouped by function.  The group will be inserted directly
-             *              before the given existing identifier.
+             * @details     Creates a named grouped section for a menu, allows commands to be grouped by function.
+             *              The group will be inserted directly before the given existing identifier.
              *
-             * @param[in]   groupIdentifier the identifier of the group
+             * @param[in]   beforeIdentifier the identifier which this group is to be inserted before.
+             * @param[in]   groupIdentifier the identifier of the group.
              *
-             * @return      true if added; otherwisefalse
+             * @returns     true if added; otherwise false.
              */
             virtual bool addGroupBefore(QString beforeIdentifier, QString groupIdentifier) = 0;
 
             /**
-             * @brief       Adds a new group
+             * @brief       Adds a new group after the given identifier.
              *
-             * @details     Creates a named grouped section for a menu, allows command to
-             *              be grouped by function.  The group will be appended directly after
-             *              the given existing identifier.
+             * @details     Creates a named grouped section for a menu, allows commands to be grouped by function.
+             *              The group will be inserted directly after the given existing identifier.
              *
-             * @param[in]   groupIdentifier the identifier of the group
+             * @param[in]   beforeIdentifier the identifier which this group is to be inserted after.
+             * @param[in]   groupIdentifier the identifier of the group.
              *
-             * @return      true if added; otherwise false.
+             * @returns     true if added; otherwise false.
              */
             virtual bool addGroupAfter(QString afterIdentifier, QString groupIdentifier) = 0;
 
             /**
-             * @brief       Adds a command to a group
+             * @brief       Appends a command to the end of a group.
              *
-             * @details     The added command will be added to the end of the given group
+             * @details     The added command will be added to the end of the given group.
              *
-             * @param[in]   command the command to add
-             * @param[in]   groupIdentifier the identifier of the group
+             * @param[in]   command the command to add.
+             * @param[in]   groupIdentifier the identifier of the group.
              */
             virtual void appendCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString()) = 0;
 
             /**
-             * @brief       Adds a command to a group
+             * @brief       Inserts a command to the start of a group.
              *
-             * @details     The added command will be inserted at the start of the given group
+             * @details     The added command will be added to the start of the given group.
              *
-             * @param[in]   command the command to add
-             * @param[in]   groupIdentifier the identifier of the group
+             * @param[in]   command the command to add.
+             * @param[in]   groupIdentifier the identifier of the group.
              */
             virtual void insertCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString()) = 0;
 
         public:
 
             /**
-             * @brief       Return the type of menu
+             * @brief       Returns the type of menu (Menu Bar and Menu)
              *
-             * @return      a type defined in Nedrysoft::Core::MenuTypes
+             * @returns     The Nedrysoft::Core::MenuTypes type of the menu.
              */
             virtual Nedrysoft::Core::MenuTypes type() = 0;
     };

@@ -32,10 +32,7 @@ namespace Nedrysoft::Core {
     typedef QList<QHostAddress> RouteList;
 
     /**
-     * @brief       Interface definition of a route discovery engine
-     *
-     * @details     Provides the means of discovering the route to a
-     *              given host
+     * @brief       The IRouteEngine interface describes the mechanism of finding the route to a host.
      */
     class NEDRYSOFT_CORE_DLLSPEC IRouteEngine :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -47,22 +44,25 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-            * @brief       Constructor
-            */
+             * @brief       Destroys the IRouteEngine.
+             */
             virtual ~IRouteEngine() = default;
 
             /**
-             * @brief       Starts route discovery for a host
+             * @brief       Starts route discovery for a host.
              *
-             * @param[in]   host the host name or address to be traced
-             * @param[in]   ipVersion the IP version to be used for the trace
+             * @notes       Route discovery is a asyncronous operation, the result signal is emitted when the
+             *              discovery is completed.
+             *
+             * @param[in]   host the target host name or address.
+             * @param[in]   ipVersion the IP version to be used for discovery.
              */
             virtual void findRoute(QString host, Nedrysoft::Core::IPVersion ipVersion) = 0;
 
             /**
-             * @brief       Signal emitted when the route discovery is completed
+             * @brief       Signal emitted when the route discovery is completed.
              *
-             * @param[in]   result the discovered route
+             * @param[in]   result the discovered route.
              */
             Q_SIGNAL void result(const QHostAddress &hostAddress, const Nedrysoft::Core::RouteList &result);
     };

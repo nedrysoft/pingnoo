@@ -28,12 +28,6 @@
 #include <QPointer>
 #include <QString>
 
-/**
- * @brief       Namespace for the core component.
- *
- * @details     The core component namespace contains all definitions and functions relating to the core component.  It is a root dependency of
- *              all other components as it provides all core services.
- */
 namespace Nedrysoft::Core {
     /**
      * IP version enumeration
@@ -44,10 +38,11 @@ namespace Nedrysoft::Core {
     };
 
     /**
-     * @brief       Core class
+     * @brief       The Core class is the root component for the application.
      *
-     * @details     Provides an implemention of ICore which provides the main window for the
-     *              application
+     * @details     Provides an implementation of ICore which provides the main window for the application and
+     *              provides the framework of the application (interfaces) which other components use to extend
+     *              functionality.
      */
     class Core :
             public Nedrysoft::Core::ICore {
@@ -59,31 +54,36 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Constructor
+             * @brief       Constructs a new Core instance.
              */
             Core();
 
             /**
-             * @brief       Destructor
+             * @brief       Destroys the Core.
              */
             ~Core();
 
+        public:
             /**
-             * @brief       Returns the main window
+             * @brief       Returns the main window instance.
              *
              * @details     Returns a pointer to the main window, this function always returns the same
              *              QMainWindow pointer so can be called by any part of the application to get a
-             *              handle to the main window
+             *              handle to the main window.
              *
-             * @return      returns a pointer to the mainwindow
+             * @see         Nedrysoft::Core::ICore::mainWindow
+             *
+             * @return      returns a pointer to the QMainWindow.
              */
             virtual QMainWindow *mainWindow();
 
             /**
-             * @brief       Opens the core
+             * @brief       Opens the core.
              *
-             * @details     Should be called after the plugins are loaded to initialise the application,
-             *              the Core implemention provides logic to ensure this happens in a sane manner
+             * @details     Should be once by the application after the components are loaded.  Components connect
+             *              to the Nedrysoft::Core::ICore::coreOpened signal to perform post load initialisation.
+             *
+             * @see         Nedrysoft::Core::ICore::open
              */
             void open();
 

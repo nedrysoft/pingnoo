@@ -32,13 +32,10 @@
 
 namespace Nedrysoft::Core {
     /**
-     * @brief       Implementation of an IMenu
+     * @brief       The Menu class provides a QMenu based implementation of IMenu.
      *
-     * @details     Represents a menu, submenu or menubar, it provides functions to insert or append commands to specific locations in the menu.
-     *
-     * @note        This class cannot be instantiated directly and can only be created by the Nedrysoft::Core::CommandManager class.
-     *
-     * @see         Nedrysoft::Core::CommandManager
+     * @details     Represents a menu or menubar, allows commands to be registered in the menu and allows items
+     *              to be logically grouped.
      */
     class Menu :
             public Nedrysoft::Core::IMenu {
@@ -50,16 +47,14 @@ namespace Nedrysoft::Core {
 
         private:
             /**
-             * @brief       Defines a object to store grouped menu items.
-
-             * @details     Defines a object to store grouped menu items, contains the list of items that are members of the group.
+             * @brief       The GroupItem class defines an object that is used to store grouped menu items.
              */
             class GroupItem {
                 public:
                     /**
                      * @brief       Constructs a group item.
                      *
-                     * @details     Constructs a group item with the identifier set to parameter @p id.
+                     * @details     Constructs a group item with the identifier.
                      *
                      * @param[in]   id is the identifier of the group.
                      */
@@ -75,18 +70,18 @@ namespace Nedrysoft::Core {
 
         private:
             /**
-             * @brief       Constructs a menu.
-             *
-             * @details     Constructs a menu.
+             * @brief       Constructs a Menu instance.
              */
             Menu();
 
             /**
-             * @brief       Constructs a menu for the top level menu bar.
+             * @brief       Constructs a menu with the top level menu bar.
              *
-             * @details     Constructs a menu for the top level menu bar.
+             * @details     Constructs a menu with the top level menu bar.
              *
-             * @param[in]   menuBar is the menu bar that is controlled by this instance.
+             * @see         Nedrysoft::Core::Menu::Menu
+             *
+             * @param[in]   menuBar is the menu bar that is to be attached to this instance.
              */
             Menu(QMenuBar *menuBar);
 
@@ -95,68 +90,128 @@ namespace Nedrysoft::Core {
              *
              * @details     Constructs a menu for a main or sub menu.
              *
+             * @see         Nedrysoft::Core::Menu::Menu
+             *
              * @param[in]   menu is the menu that is controlled by this instance.
              */
             Menu(QMenu *menu);
 
         public:
             /**
-             * @brief       Destroys the menu.
-             *
-             * @details     Destroys the menu.
+             * @brief       Destroys the Menu.
              */
             ~Menu();
 
             /**
-             * @copydoc     Nedrysoft::Core::IMenu::type()
+             * @brief       Returns the type of menu (Menu Bar and Menu)
+             *
+             * @see         Nedrysoft::Core::IMenu::type
+             *
+             * @returns     The Nedrysoft::Core::MenuTypes type of the menu.
              */
             virtual Nedrysoft::Core::MenuTypes type();
 
             /**
-             * @copydoc     Nedrysoft::Core::IMenu::menu()
+             * @brief       Returns the QMenu if this is a menu.
+             *
+             * @see         Nedrysoft::Core::IMenu::menu
+             *
+             * @returns     the menu instance.
              */
             virtual QMenu *menu();
 
             /**
-             * @copydoc     Nedrysoft::Core::IMenu::menuBar()
+             * @brief       Returns the QMenuBar if this is a menu bar.
+             *
+             * @see         Nedrysoft::Core::Menu::menuBar
+             *
+             * @returns     the menubar instance.
              */
             virtual QMenuBar *menuBar();
 
             /**
-             * @copydoc     Nedrysoft::Core::IMenu::insertGroup(QString)
+             * @brief       Inserts a new group into the start of the menu.
+             *
+             * @details     Creates a named grouped section for a menu, allows commands to be grouped by function.
+             *              The group will be inserted at the start of the menu.
+             *
+             * @see         Nedrysoft::Core::Menu::insertGroup
+             *
+             * @param[in]   groupIdentifier the identifier of the group.
              */
             virtual void insertGroup(QString groupIdentifier);
 
             /**
-             * @copydoc     Nedrysoft::Core::IMenu::appendGroup(QString)
+             * @brief       Appends a new group to the end of the menu.
+             *
+             * @details     Creates a named grouped section for a menu, allows commands to be grouped by function.
+             *              The group will be appended to the end of the menu.
+             *
+             * @see         Nedrysoft::Core::Menu::appendGroup
+             *
+             * @param[in]   groupIdentifier the identifier of the group.
              */
             virtual void appendGroup(QString groupIdentifier);
 
             /**
-             * @copydoc     Nedrysoft::Core::IMenu::addGroupBefore(QString, QString)
+             * @brief       Adds a new group before the given identifier.
+             *
+             * @details     Creates a named grouped section for a menu, allows commands to be grouped by function.
+             *              The group will be inserted directly before the given existing identifier.
+             *
+             * @see         Nedrysoft::Core::Menu::addGroupBefore
+             *
+             * @param[in]   beforeIdentifier the identifier which this group is to be inserted before.
+             * @param[in]   groupIdentifier the identifier of the group.
+             *
+             * @returns     true if added; otherwise false.
              */
             virtual bool addGroupBefore(QString beforeIdentifier, QString groupIdentifier);
 
             /**
-             * @copydoc     Nedrysoft::Core::IMenu::addGroupAfter(QString, QString)
+             * @brief       Adds a new group after the given identifier.
+             *
+             * @details     Creates a named grouped section for a menu, allows commands to be grouped by function.
+             *              The group will be inserted directly after the given existing identifier.
+             *
+             * @see         Nedrysoft::Core::Menu::addGroupAfter
+             *
+             * @param[in]   beforeIdentifier the identifier which this group is to be inserted after.
+             * @param[in]   groupIdentifier the identifier of the group.
+             *
+             * @returns     true if added; otherwise false.
              */
             virtual bool addGroupAfter(QString afterIdentifier, QString groupIdentifier);
 
             /**
-             * @copydoc     Nedrysoft::Core::IMenu::addGroupAfter(Nedrysoft::Core::ICommand *, QString)
+             * @brief       Appends a command to the end of a group.
+             *
+             * @details     The added command will be added to the end of the given group.
+             *
+             * @see         Nedrysoft::Core::Menu::appendCommaned
+             *
+             * @param[in]   command the command to add.
+             * @param[in]   groupIdentifier the identifier of the group.
              */
             virtual void appendCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString());
 
             /**
-             * @copydoc     Nedrysoft::Core::IMenu::insertCommand(Nedrysoft::Core::ICommand *, QString)
+             * @brief       Inserts a command to the start of a group.
+             *
+             * @details     The added command will be added to the start of the given group.
+             *
+             * @see         Nedrysoft::Core::Menu::insertCommand
+             *
+             * @param[in]   command the command to add.
+             * @param[in]   groupIdentifier the identifier of the group.
              */
             virtual void insertCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString());
 
         private:
             /**
-             * @brief       Finds the group by the identifier passed in parameter @p groupIdentifier.
+             * @brief       Finds the group by the identifier.
              *
-             * @details     Finds the group by the identifier passed in parameter @p groupIdentifier, if the group exists then the iterator will point at
+             * @details     Finds the group by the identifier, if the group exists then the iterator will point at
              *              the item; otherwise it will point at the end of the list.
              *
              * @param[in]   groupIdentifier is the identifier of the group to find.
@@ -170,7 +225,7 @@ namespace Nedrysoft::Core {
              *
              * @details     Given a iterator into the group list, this function will find the action which is used as the root for an append operation.
              *
-             *              The group at the @p groupIterator is checked to see if it contains any items, if it does then the action of the first item in
+             *              The group at the groupIterator is checked to see if it contains any items, if it does then the action of the first item in
              *              the group is returned.
              *
              *              If the group does not contain any items, then the function will iterate through all the remaining groups until a group is found
@@ -178,28 +233,28 @@ namespace Nedrysoft::Core {
              *
              *              If no action could be found, then nullptr is returned.
              *
-             * @param[in]   groupIdentifier is the identifier of the group to find.
+             * @param[in]   groupIterator is the iterator for the groups.
              *
-             * @return      a pointer to the QAction in the menu or nullptr if the no existing action could be found.
+             * @return      a pointer to the QAction in the menu if found; otherwise nullptr.
              */
             QAction *getInsertAction(QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator);
 
             /**
-             * @brief       Gets a pointer to the action to be appended after.
+             * @brief       Gets a pointer to the action for to be appended after.
              *
              * @details     Given a iterator into the group list, this function will find the action which is used as the root for an append operation.
              *
-             *              The group directly after the @p groupIterator position is checked to see if it contains any items, if it does then the action
-             *              of the first item in the group is returned.
+             *              The group at the groupIterator is checked to see if it contains any items, if it does then the action of the first item in
+             *              the group is returned.
              *
              *              If the group does not contain any items, then the function will iterate through all the remaining groups until a group is found
              *              that contains items and the action of the first item returned.
              *
              *              If no action could be found, then nullptr is returned.
              *
-             * @param[in]   groupIdentifier is the identifier of the group to find.
+             * @param[in]   groupIterator is the iterator for the groups.
              *
-             * @return      a pointer to the QAction in the menu or nullptr if the no existing action could be found.
+             * @return      a pointer to the QAction in the menu if found; otherwise nullptr.
              */
             QAction *getAppendAction(QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator);
 

@@ -190,6 +190,10 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
 Nedrysoft::RouteAnalyser::RouteAnalyserWidget::~RouteAnalyserWidget() {
     delete m_tableView;
     delete m_tableModel;
+
+    if (m_pingEngine) {
+        delete m_pingEngine;
+    }
 }
 
 void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core::PingResult result) {

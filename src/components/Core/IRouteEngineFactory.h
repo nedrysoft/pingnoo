@@ -30,10 +30,11 @@ namespace Nedrysoft::Core {
     class IRouteEngine;
 
     /**
-     * @brief       Interface definition of a route engine factory
+     * @brief       The IRouteEngineFactory interface definition of a route engine factory.
      *
-     * @details     Creates instance of route engines.  Route engines are not instantiaed directly, instead the application finds all route engine factories
-     *              and uses the selected route engine factory to create route engines.
+     * @details     Creates instances of route engines.  Route engines are not instantiaed directly, instead the
+     *              application can find all route engine factories and select a route engine factory to create
+     *              route engines with.
      */
     class NEDRYSOFT_CORE_DLLSPEC IRouteEngineFactory :
             public Nedrysoft::ComponentSystem::IInterface,
@@ -47,27 +48,27 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Constructs a route engine factory.
-             *
-             * @details     Constructs a route engine factory.
+             * @brief       Destroys the IRouteEngineFactory.
              */
             virtual ~IRouteEngineFactory() = default;
 
             /**
              * @brief       Creates a route engine instance.
              *
-             * @details     Creates and returns a route engine instance.  The instance is owned by the factory itself and is responsible for its life cycle.
+             * @details     Creates and returns a route engine instance.  The instance is owned by the factory
+             *              and is responsible for its life cycle.
              *
-             * @return      new instance of the route engine,
+             * @returns     the route engine instance.
              */
             virtual Nedrysoft::Core::IRouteEngine *createEngine() = 0;
 
             /**
-             * @brief       Gets the description of the route engine.
+             * @brief       Returns the descriptive name of the route engine.
              *
-             * @brief       Gets the description of the route engine, used to display the name of the enine to the user.
+             * @brief       Returns the description of the route engine, used to display the name of the engine
+             *              to the user.
              *
-             * @return      descriptive name of the route engine.
+             * @returns     the descriptive name of the route engine.
              */
             virtual QString description() = 0;
     };

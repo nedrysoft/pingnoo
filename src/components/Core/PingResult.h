@@ -32,17 +32,14 @@ namespace Nedrysoft::Core {
     class IPingTarget;
 
     /**
-     * @brief       Ping result
-     *
-     * @details     Holds the result of a ping request/response/timeout, this is
-     *              passed as a parameter by the ping engine.
+     * @brief       The PingResult class provides information about a ping response.
      */
     class NEDRYSOFT_CORE_DLLSPEC PingResult {
 
         public:
 
             /**
-             * Result codes for a ping
+             * @brief       The result codes for a ping.
              */
             enum PingResultCode {
                 Ok,
@@ -51,79 +48,79 @@ namespace Nedrysoft::Core {
             };
 
             /**
-              * @brief       Constructor
-              *
-              */
+             * @brief       Constructs a PingResult instance.
+             */
             PingResult();
 
             /**
-              * @brief       Destructor
-              *
-              */
+             * @brief       Destroys the PingResult.
+             */
             ~PingResult();
 
             /**
-             * @brief       Constructs a FZPingResult with parameters
+             * @brief       Constructs a PingResult with parameters.
              *
-             * @param[in]   sampleNumber the count which this result is associated with
-             * @param[in]   code the result code
-             * @param[in]   hostAddress the IP address that responded to the request
-             * @param[in]   requestTime the time the request was sent
-             * @param[in]   roundTripTime the time taken for the hop to respond
-             * @param[in]   target the target that was pinged
+             * @param[in]   sampleNumber the count which this result is associated with.
+             * @param[in]   code the result code.
+             * @param[in]   hostAddress the IP address that responded to the request.
+             * @param[in]   requestTime the time the request was sent.
+             * @param[in]   roundTripTime the time taken for the hop to respond.
+             * @param[in]   target the target that was pinged.
              */
-            PingResult(unsigned long sampleNumber, PingResultCode code, QHostAddress hostAddress,
-                       std::chrono::system_clock::time_point requestTime, std::chrono::duration<double> roundTripTime,
+            PingResult(unsigned long sampleNumber,
+                       PingResultCode code,
+                       QHostAddress hostAddress,
+                       std::chrono::system_clock::time_point requestTime,
+                       std::chrono::duration<double> roundTripTime,
                        Nedrysoft::Core::IPingTarget *target);
 
         public:
 
             /**
-             * @brief       The sample number of the request
+             * @brief       Returns the sample number of the request.
              *
-             * @return      the sample number
+             * @returns     the sample number.
              */
             unsigned long sampleNumber();
 
             /**
-             * @brief       The time of the response
+             * @brief       Returns the time that the request was transmitted at.
              *
-             * @return      the reply time
+             * @returns     the request time.
              */
             std::chrono::system_clock::time_point requestTime();
 
             /**
-             * @brief       The result code
+             * @brief       The result code for the request (Echo Reply, Timeout).
              *
-             * @return      the result number
+             * @returns     the result code.
              */
             PingResultCode code();
 
             /**
-             * @brief       The host address of the reply
+             * @brief       The host address of the reply.
              *
-             * @details     This may differ from the target ip address, if the TTL of the
-             *              request was less than the number of hops to the target then
-             *              a time exceeded response will be returned and the IP of last hop
-             *              that responded will be returned
+             * @details     This may differ from the target ip address, if the TTL of the request was less than the
+             *              number of hops to the target then a time exceeded response will be returned and the IP of
+             *              last hop that responded will be returned.
              *
-             * @return      the IP address of the reply
+             * @returns     the IP address of the host that sent the reply..
              */
             QHostAddress hostAddress();
 
             /**
-             * @brief       The round trip time
+             * @brief       The round trip time.
              *
-             * @details     The round trip time from the packet being sent to the response
+             * @details     The round trip time is the elapsed time from the packet being sent to the response.
              *
-             * @return      the round trip time
+             * @returns     the round trip time.
              */
             std::chrono::duration<double> roundTripTime();
 
             /**
-             * @brief       The target assosciated with this result
+             * @brief       The target associated with this result.
              *
-             * @return      the target
+             * @returns     the target.
              */
             Nedrysoft::Core::IPingTarget *target();
 

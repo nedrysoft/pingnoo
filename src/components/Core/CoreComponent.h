@@ -25,11 +25,12 @@
 #include "CoreSpec.h"
 
 /**
- * @brief       Core component
+ * @brief       The Core component
+ *
+ * @see         Nedrysoft::ComponentSystem::IComponent
  *
  * @details     The core component provides the SDK base for the application, it provides the core
  *              mechanisms that allow other components to extend the application
- *
  */
 class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
         public QObject,
@@ -44,17 +45,28 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
 
     public:
         /**
-         * @brief       Constructor
-         *
+         * @brief       Constructs a new CoreComponent instance.
          */
         CoreComponent() = default;
 
+    public:
         /**
-         * @sa          IComponent
+         * @brief       initialiseEvent
          *
+         * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
+         *
+         * @details     Called by the component loader after all components have been loaded, called in load order.
          */
         virtual void initialiseEvent();
 
+        /**
+         * @brief       initialisationFinishedEvent
+         *
+         * @details     Called by the component loader after all components have been initialised, called in reverse
+         *              load order.
+         *
+         * @see         Nedrysoft::ComponentSystem::IComponent::initialisationFinishedEvent
+         */
         virtual void initialisationFinishedEvent();
 };
 

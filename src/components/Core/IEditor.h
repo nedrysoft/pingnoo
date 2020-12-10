@@ -28,7 +28,7 @@
 
 namespace Nedrysoft::Core {
     /**
-     * @brief       Interface definition of a editor
+     * @brief       The IEditor interface defines the contract of an editor
      *
      * @details     An editor is an editor window that contains a widget and is managed
      *              by the application.
@@ -43,22 +43,22 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Destructor
+             * @brief       Destroys the IEditor.
              */
             virtual ~IEditor() = default;
 
             /**
-             * @brief       Gets the widget for this editor.
+             * @brief       Returns the widget for the editor.
              *
-             * @return      the widget
+             * @returns     the widget
              */
             virtual QWidget *widget() = 0;
 
             /**
-             * @brief       Geets the display name for this editor
+             * @brief       Returns the display name for the editor.
              *
-             * @details     Gets the user displayable name of the editor, this is usually used by the Nedrysoft::Core::IEditorManager to display
-             *              the name of the widget in the title.
+             * @details     Returns the user displayable name of the editor, this is usually used by the
+             *              Nedrysoft::Core::IEditorManager to display the name of the widget in the title.
              *
              * @returns     the displayed name of the editor.
              */

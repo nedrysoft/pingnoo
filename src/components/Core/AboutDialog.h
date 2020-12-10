@@ -29,11 +29,7 @@ namespace Nedrysoft::Core {
     }
 
     /**
-     * @brief       AboutDialog
-     *
-     * @details     Dialog that shows the the information about the current
-     *              build of the software.
-     *
+     * @brief       The AboutDialog dialog provides information about the application.
      */
     class AboutDialog :
             public QDialog {
@@ -44,25 +40,22 @@ namespace Nedrysoft::Core {
         public:
 
             /**
-             * @brief       Constructor
+             * @brief       Constructs a new AboutDialog instance which is a child of the parent.
              *
-             * @param[in]   parent parent widget
-             *
+             * @param[in]   parent the owner widget.
              */
             explicit AboutDialog(QWidget *parent = nullptr);
 
             /**
-             * @brief       Destructor
-             *
+             * @brief       Destroys the AboutDialog.
              */
             ~AboutDialog();
 
         private:
             /**
-             * @brief       Return compiler information
+             * @brief       Returns the compiler information
              *
-             * @return      the compiler information
-             *
+             * @returns     the compiler information
              */
             QString compiler();
 

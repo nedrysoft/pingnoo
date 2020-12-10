@@ -26,11 +26,10 @@
 
 namespace Nedrysoft::Core {
     /**
-     * @brief       ActionProxy
+     * @brief       The ActionProxy class is used to proxy actions depending on context.
      *
-     * @details     A proxy class for a QAction, allows an Action
-     *              to be proxied through, mutliple inputs can be
-     *              selected one at a time to be the output.
+     * @details     A proxy class for a QAction, allows an Action to be proxied through, the active QAction can
+     *              be switched depending on the current context of the application.
      */
     class ActionProxy :
             public QAction {
@@ -38,27 +37,27 @@ namespace Nedrysoft::Core {
         public:
 
             /**
-             * @brief       Constructor
+             * @brief       Constructs a new ActionProxy instance which is a child of the parent.
              *
-             * @param[in]   parent the parent owner object
+             * @param[in]   parent the owner object.
              */
             ActionProxy(QObject *parent = nullptr);
 
             /**
-             * @brief       Sets the currently active target action
+             * @brief       Sets the currently active QAction.
              *
-             * @param[in]   action the action to be proxied
+             * @param[in]   action the action to be proxied.
              */
             void setActive(QAction *action);
 
         protected:
             /**
-             * @brief       Connects the current action to the proxy
+             * @brief       Connects the current action to the proxy.
              */
             void connectAction();
 
             /**
-             * @brief       Disconnects the current action from the proxy
+             * @brief       Disconnects the current action from the proxy.
              */
             void disconnectAction();
 

@@ -21,51 +21,59 @@
 pingnoo_start_component()
 
 pingnoo_add_sources(
-    mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
-    RibbonIcons.qrc
-    CoreComponent.cpp
-    CoreComponent.h
-    CoreSpec.h
-    ICore.h
-    IConfiguration.h
-    IEditor.h
-    IGeoIPProvider.h
-    IHostMasker.h
-    IPingEngine.h
-    IPingEngineFactory.h
-    IPingTarget.h
-    IRouteEngine.h
-    IRibbonBarManager.h
-    IStatusBarManager.h
-    ICommand.h
-    ICommandManager.h
-    IMenu.h
-    IContextManager.h
-    PingResult.cpp
-    PingResult.h
+    AboutDialog.cpp
+    AboutDialog.h
+    AboutDialog.ui
+    ActionProxy.cpp
+    ActionProxy.h
+    Command.cpp
+    Command.h
+    CommandManager.cpp
+    CommandManager.h
     ContextManager.cpp
     ContextManager.h
     Core.cpp
     Core.h
-    CommandManager.cpp
-    CommandManager.h
-    Command.cpp
-    Command.h
-    ActionProxy.cpp
-    ActionProxy.h
-    Menu.cpp
-    Menu.h
-    StatusBarManager.cpp
-    StatusBarManager.h
-    AboutDialog.cpp
-    AboutDialog.h
-    AboutDialog.ui
-    IEditorManager.h
+    CoreComponent.cpp
+    CoreComponent.h
+    CoreSpec.h
     EditorManager.cpp
     EditorManager.h
+    ICommand.h
+    ICommandManager.h
+    IConfiguration.h
+    IContextManager.h
+    ICore.h
+    IEditor.h
+    IEditorManager.h
+    IGeoIPProvider.h
+    IHostMasker.h
+    IMenu.h
+    IPingEngine.h
+    IPingEngineFactory.h
+    IPingTarget.h
+    IRibbonBarManager.h
+    IRibbonGroup.h
+    IRibbonPage.h
+    IRouteEngine.h
     IRouteEngineFactory.h
+    IStatusBarManager.h
+    Menu.cpp
+    Menu.h
+    PingResult.cpp
+    PingResult.h
+    RibbonBarManager.cpp
+    RibbonBarManager.h
+    RibbonPage.cpp
+    RibbonPage.h
+    RibbonGroup.cpp
+    RibbonGroup.h
+    RibbonIcons.qrc
+    StatusBarManager.cpp
+    StatusBarManager.h
+    mainwindow.cpp
+    mainwindow.h
+    mainwindow.ui
 )
 
 pingnoo_set_description("Core application support component")

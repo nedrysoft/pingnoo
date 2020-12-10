@@ -33,11 +33,12 @@ namespace Nedrysoft::Core {
     constexpr int GlobalContext = 0;
 
     /**
-     * @brief       Interface definition of an application context manager
+     * @brief       The ContextManager interface is used to manage the current application context.
      *
-     * @details     Manages the context of the application.  A context is a state
-     *              that the application is in, menu commands are routed appropriately
-     *              according to the current context.
+     * @details     A context is a state that the application enters, for example an application may have multiple
+     *              editor types and each editor will have its own context id.  When an editor becomes active, the
+     *              context for that editor is set as active, and the visibility or active state of commands or menus
+     *              will be updated.
      */
     class NEDRYSOFT_CORE_DLLSPEC IContextManager :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -47,52 +48,52 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Returns the IContextManager instance
+             * @brief       Returns the IContextManager instance.
              */
             static IContextManager *getInstance() {
                 return ComponentSystem::getObject<IContextManager>();
             }
 
             /**
-             * @brief       Registers a context with the system
+             * @brief       Registers a context with the application.
              *
              * @details     A context represents a state that the software enters, usually when an editor has
-             *              focus.  The context manager nmaintains this providing a mechanism to update menus
+             *              focus.  The context manager maintains this providing a mechanism to update menus
              *              the reflect the current context state.
              *
-             * @param[in]   contextIdentifier the id of the new context
+             * @param[in]   contextIdentifier the id of the new context.
              *
-             * @return      the numeric identifier of this context
+             * @returns     the numeric identifier of this context.
              */
             virtual int registerContext(QString contextIdentifier) = 0;
 
             /**
-             * @brief       Sets the current context
+             * @brief       Sets the current context.
              *
-             * @details     Sets the currently active context to the given identier
+             * @details     Sets the currently active context to the given identifier.
              *
-             * @param[in]   contextIdentifier the id of the context being activated
+             * @param[in]   contextIdentifier the id of the context being activated.
              *
-             * @return      the status of the context switch
+             * @returns     the status of the context switch.
              */
             virtual int setContext(int contextIdentifier) = 0;
 
             /**
              * @brief       Gets the current context.
              *
-             * @details     Gets the currently active context
+             * @details     Gets the numeric identifier of the current context.
              *
-             * @return      the context identifier
+             * @returns     the context identifier.
              */
             virtual int context() = 0;
 
             /**
-             * @brief       Context changed signal
+             * @brief       Signals that the context has changed.
              *
-             * @details     Emitted when the context manager switches context
+             * @details     Emitted when the context manager switches context.
              *
-             * @param[in]   newContext the newly activated context
-             * @param[in]   previousContext the previous selected context
+             * @param[in]   newContext the newly activated context.
+             * @param[in]   previousContext the previous selected context.
              */
             Q_SIGNAL void contextChanged(int newContext, int previousContext);
     };

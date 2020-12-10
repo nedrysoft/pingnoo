@@ -59,6 +59,10 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
     auto currentSequenceId = static_cast<uint16_t>(QRandomGenerator::global()->generate());
 
     while (m_isRunning) {
+        if (not m_targets.isEmpty()) {
+            spdlog::trace("Sending ping to " + m_targets.last()->hostAddress().toString().toStdString());
+        }
+
         auto startTime = std::chrono::high_resolution_clock::now();
 
         m_targetsMutex.lock();

@@ -26,10 +26,13 @@
 #include "CoreSpec.h"
 
 namespace Nedrysoft::Core {
+    class IRibbonPage;
+
     /**
-     * @brief       IRibbonBarManager interface
+     * @brief       The IRibbonBarManager interface describes an object that handles the creation of ribbon bars.
      *
-     * @details     IRibbonBarManager handles the management of status bars
+     * @details     The IRibbonBarManager handles the management of the ribbon bar, it allows pages to be added
+     *              to the ribbon.
      */
     class NEDRYSOFT_CORE_DLLSPEC IRibbonBarManager :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -39,16 +42,32 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Returns the IRibbonBarManager instance
+             * @brief       Returns the IRibbonBarManager instance.
              *
-             * @return      the IRibbonBarManager singleton instance
+             * @return      the IRibbonBarManager singleton instance.
              */
             static IRibbonBarManager *getInstance() {
                 return ComponentSystem::getObject<IRibbonBarManager>();
             }
 
-        public:
+            /**
+             * @brief       Adds a page to the ribbon bar.
+             *
+             * @param[in]   title the title of the page.
+             * @param[in]   id the identifier of the page.
+             *
+             * @returns     the IRibbonPage instance of the page.
+             */
+            virtual Nedrysoft::Core::IRibbonPage *addPage(QString title, QString id) = 0;
 
+            /**
+             * @brief       Returns the page given by the id.
+             *
+             * @param[in]   id the identifier of the page.
+             *
+             * @returns     if it exists, the IRibbonPage instance of the page; otherwise nullptr.
+             */
+            virtual Nedrysoft::Core::IRibbonPage *page(QString id) = 0;
     };
 }
 

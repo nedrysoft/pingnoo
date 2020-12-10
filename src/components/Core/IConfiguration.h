@@ -31,28 +31,23 @@ namespace Nedrysoft::Core {
     class IPingEngine;
 
     /**
-     * @brief       Interface definition of a ping engine
-     *
-     * @details     An engine implements the logic of transmitting, receiving
-     *              and associating replies to ping requests, it then signals
-     *              when a ping result is available
+     * @brief       The IConfiguration interface provides a contract for laoding & saving data.
      */
     class NEDRYSOFT_CORE_DLLSPEC IConfiguration {
-
         public:
             /**
-             * @brief       Saves the configuration
+             * @brief       Saves the configuration to a JSON object.
              *
-             * @return      the configuration
+             * @returns     the JSON configuration.
              */
             virtual QJsonObject saveConfiguration() = 0;
 
             /**
-             * @brief       Loads the configuration
+             * @brief       Loads the configuration.
              *
-             * @param[in]   configuration the configuration
+             * @param[in]   configuration the configuration as JSON object.
              *
-             * @return      true if loaded; otherwise false.
+             * @returns     true if loaded; otherwise false.
              */
             virtual bool loadConfiguration(QJsonObject configuration) = 0;
     };

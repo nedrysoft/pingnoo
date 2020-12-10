@@ -46,23 +46,23 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Returns the proxy action
+             * @brief       Returns the proxy action.
              *
-             * @return      the proxy action
+             * @returns     the proxy action
              */
             virtual QAction *action() = 0;
 
             /**
-             * @brief       Sets the active state of the command
+             * @brief       Sets the active state of the command.
              *
-             * @param[in]   state true if enabled; otherwise false.
+             * @param[in]   state true if active; otherwise false.
              */
             virtual void setActive(bool state) = 0;
 
             /**
-             * @brief       Returns the active state of the command
+             * @brief       Returns the active state of the command.
              *
-             * @return      true if enabled; otherwise false
+             * @return      true if enabled; otherwise false.
              */
             virtual bool active() = 0;
 
