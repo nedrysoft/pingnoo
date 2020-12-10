@@ -38,6 +38,7 @@
 
 namespace Nedrysoft::ICMPPacket {
     enum IPVersion {
+        Unknown = 0,
         V4 = 4,
         V6 = 6
     };
@@ -49,148 +50,143 @@ namespace Nedrysoft::ICMPPacket {
     };
 
     /**
-     * @brief           ICMP packet class
+     * @brief       ICMP packet class
      *
-     * @details         decodes ICMP packets
-     *
+     * @details     decodes ICMP packets
      */
     class NEDRYSOFT_ICMPPACKET_DLLSPEC ICMPPacket {
         public:
             /**
-             * @brief           Creates a packet from raw data
+             * @brief       Creates a packet from raw data
              *
-             * @param[in]       dataBuffer              the raw icmp packet
-             * @param[in]       version                 version of ICMP packet we are expecting
+             * @param[in]   dataBuffer the raw icmp packet
+             * @param[in]   version version of ICMP packet we are expecting
              *
-             * @return          decoded packet
-             *
+             * @return      decoded packet
              */
             static ICMPPacket fromData(const QByteArray &dataBuffer, IPVersion version);
 
             /**
-             * @brief           Calculate ICMP crc16 from raw data
+             * @brief       Calculate ICMP crc16 from raw data
              *
-             * @param[in]       buffer                  the raw icmp packet
-             * @param[in]       length                  length of the packet
+             * @param[in]   buffer the raw icmp packet
+             * @param[in]   length the length of the packet
              *
-             * @return          the crc16 result
-             *
+             * @returns     the crc16 result
              */
             static uint16_t checksum(void *buffer, int length);
 
             /**
-             * @brief           Create a ping request packet
+             * @brief       Create a ping request packet
              *
-             * @note            Depending on platform the id/sequence fields may be overwritten by the
-             *                  operating system.
+             * @note        Depending on platform the id/sequence fields may be overwritten by the
+             *              operating system.
              *
-             * @param[in]       id                      the packet id
-             * @param[in]       sequence                the packet sequence
-             * @param[in]       payloadLength           the length of the payload
-             * @param[in]       destinationAddress      the address of the target
-             * @param[in]       version                 the ip version of the icmp packet
+             * @param[in]   id the packet id
+             * @param[in]   sequence the packet sequence
+             * @param[in]   payloadLength the length of the payload
+             * @param[in]   destinationAddress the address of the target
+             * @param[in]   version the ip version of the icmp packet
              *
-             * @return          QByteArray containing the created raw packet
-             *
+             * @return      a QByteArray containing the created raw packet
+
              */
             static QByteArray
             pingPacket(uint16_t id, uint16_t sequence, int payLoadLength, const QHostAddress &destinationAddress,
                        Nedrysoft::ICMPPacket::IPVersion version);
 
             /**
-             * @brief           The result of a packet decode
+             * @brief       The result of a packet decode
              *
-             * @return          a ResultCode value which indicates what was decoded
-             *
+             * @returns     a ResultCode value which indicates what was decoded
              */
             Nedrysoft::ICMPPacket::ResultCode resultCode();
 
             /**
-             * @brief           The id
+             * @brief       The id
              *
-             * @return          the icmp id of the packet
-             *
+             * @returns     the icmp id of the packet
              */
             uint16_t id();
 
             /**
-             * @brief           The sequence
+             * @brief       The sequence
              *
-             * @return          the icmp sequence of the packet
-             *
+             * @returns     the icmp sequence of the packet
              */
             uint16_t sequence();
+
+            /**
+             * @brief       Cast to std::string operator
+             *
+             * @returns     a formatted string showing the packet information.
+             */
+            operator std::string();
 
         private:
             /**
              * @brief Constructor
-             *
              */
             ICMPPacket();
 
             /**
-             * @brief Constructor
+             * @brief       Constructor
              *
-             * @details         Constructs a packet the the given information
+             * @details     Constructs a packet the the given information
              *
-             * @param[in]       id                  the initial id to be used in the packet
-             * @param[in]       sequence            the initial sequence to be used in the packet
-             * @param[in]       resultCode          the initial result code
-             *
+             * @param[in]   id the initial id to be used in the packet
+             * @param[in]   sequence the initial sequence to be used in the packet
+             * @param[in]   resultCode the initial result code
+             * @param[in]   ipVersion the IP version of the packet.
              */
-            ICMPPacket(uint16_t id, uint16_t sequence, ResultCode resultCode);
+            ICMPPacket(uint16_t id, uint16_t sequence, ResultCode resultCode, IPVersion ipVersion);
 
             /**
-             * @brief Decode a ipv4 icmp packet for from raw data
+             * @brief       Decode a ipv4 icmp packet for from raw data
              *
-             * @param[in]       dataBuffer          the raw data
+             * @param[in]   dataBuffer the raw data
              *
-             * @return          the decoded icmp packet
-             *
+             * @return      the decoded icmp packet
              */
             static ICMPPacket fromData_v4(const QByteArray &dataBuffer);
 
             /**
-             * @brief Decode a ipv6 icmp packet for from raw data
+             * @brief       Decode a ipv6 icmp packet for from raw data
              *
-             * @param[in]       dataBuffer          the raw data
+             * @param[in]   dataBuffer the raw data
              *
-             * @return          the decoded icmp packet
-             *
+             * @return      the decoded icmp packet
              */
             static ICMPPacket fromData_v6(const QByteArray &dataBuffer);
 
             /**
-             * @brief Create a ipv4 icmp packet
+             * @brief       Create a ipv4 icmp packet
              *
-             * @param[in]       id                  the id to be used in the packet
-             * @param[in]       sequence            the sequence to be used in the packet
-             * @param[in]       payLoadLength       the payLoadLength to be used in the packet
-             * @param[in]       destinationAddress  the destination address of the ping
+             * @param[in]   id the id to be used in the packet
+             * @param[in]   sequence  the sequence to be used in the packet
+             * @param[in]   payLoadLength the payLoadLength to be used in the packet
+             * @param[in]   destinationAddress the destination address of the ping
              *
-             * @return          QByteArray containing the raw ipv4 icmp packet
-             *
+             * @return      a QByteArray containing the raw ipv4 icmp packet
              */
             static QByteArray
             pingPacket_v6(uint16_t id, uint16_t sequence, int payLoadLength, const QHostAddress &destinationAddress);
 
             /**
-             * @brief Create a ipv6 icmp packet
+             * @brief       Create a ipv6 icmp packet
              *
-             * @param[in]       id                  the id to be used in the packet
-             * @param[in]       sequence            the sequence to be used in the packet
-             * @param[in]       payLoadLength       the payLoadLength to be used in the packet
-             * @param[in]       destinationAddress  the destination address of the ping
+             * @param[in]   id the id to be used in the packet
+             * @param[in]   sequence the sequence to be used in the packet
+             * @param[in]   payLoadLength the payLoadLength to be used in the packet
+             * @param[in]   destinationAddress the destination address of the ping
              *
-             * @return          QByteArray containing the raw ipv6 icmp packet
-             *
+             * @return      a QByteArray containing the raw ipv6 icmp packet
              */
             static QByteArray
             pingPacket_v4(uint16_t id, uint16_t sequence, int payLoadLength, const QHostAddress &destinationAddress);
 
             /**
              * @brief           Template to read raw data from a datastream
-             *
              */
             template<class T>
             static T read(QDataStream &dataStream) {
@@ -205,6 +201,7 @@ namespace Nedrysoft::ICMPPacket {
             ResultCode m_resultCode;
             uint16_t m_id;
             uint16_t m_sequence;
+            IPVersion m_ipVersion;
     };
 }
 

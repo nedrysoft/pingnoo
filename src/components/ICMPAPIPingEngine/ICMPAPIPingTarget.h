@@ -39,9 +39,7 @@ namespace Nedrysoft::Pingnoo {
      *
      * Implements the IPingTarget interface to implement a ping target
      * that uses ICMP echo packets for measurements.
-     *
      */
-
     class ICMPAPIPingTarget :
             public QObject, public Nedrysoft::Core::IPingTarget {
 
@@ -54,7 +52,7 @@ namespace Nedrysoft::Pingnoo {
             ICMPAPIPingTarget(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine, QHostAddress hostAddress, int ttl = 0);
 
             /**
-             * @sa IPingTarget
+             * @sa          IPingTarget
              */
             virtual void setHostAddress(QHostAddress hostAddress);
 
@@ -67,7 +65,7 @@ namespace Nedrysoft::Pingnoo {
             virtual void setUserData(void *data);
 
             /**
-             * @sa IConfiguration
+             * @sa          IConfiguration
              */
             virtual QJsonObject saveConfiguration();
 
@@ -76,9 +74,9 @@ namespace Nedrysoft::Pingnoo {
         protected:
 
             /**
-             * Returns a socket descriptor to be used to send an ICMP packet to the target
+             * @brief       Returns a socket descriptor to be used to send an ICMP packet to the target
              *
-             * @return the socket descriptor
+             * @return      the socket descriptor
              */
 #if defined(Q_OS_UNIX)
 
@@ -89,9 +87,9 @@ namespace Nedrysoft::Pingnoo {
 #endif
 
             /**
-             * Returns the ICMP id used for this target
+             * @brief       Returns the ICMP id used for this target
              *
-             * @return the id
+             * @return      the id
              */
             uint16_t id();
 

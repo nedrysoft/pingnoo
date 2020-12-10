@@ -51,7 +51,7 @@ namespace Nedrysoft::Core {
             ContextManager();
 
             /**
-             * @sa IContextManager
+             * @sa          IContextManager
              *
              */
             virtual int registerContext(QString contextIdentifier);

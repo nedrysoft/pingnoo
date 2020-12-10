@@ -35,7 +35,6 @@ namespace Nedrysoft::Core {
      * @brief       CommandManager implementation
      *
      * @details     Provides the implementation of an ICommandManager
-     *
      */
     class CommandManager :
             public Nedrysoft::Core::ICommandManager {
@@ -48,13 +47,11 @@ namespace Nedrysoft::Core {
         public:
             /**
              * @brief       Constructor
-             *
              */
             CommandManager();
 
             /**
              * @sa ICommandManager
-             *
              */
             virtual Nedrysoft::Core::ICommand *
             registerAction(QAction *action, QString id, const Nedrysoft::Core::ContextList &contexts);
@@ -72,7 +69,7 @@ namespace Nedrysoft::Core {
 
         private:
 
-            QMap<QString, Command *> m_commandMap;                          //! Map containing commands registered in this manager
+            QMap<QString, Command *> m_commandMap;                           //! Map containing commands registered in this manager
             QMap<QString, Nedrysoft::Core::Menu *> m_menuMap;                //! Map containing all menus registered in this manager
     };
 }

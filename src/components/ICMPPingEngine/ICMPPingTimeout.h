@@ -31,7 +31,6 @@ namespace Nedrysoft::ICMPPingEngine {
      *
      * @details     Created and used by the ICMP engine, the timeout thread
      *              calls the engine periodically to detect timed out requests
-     *
      */
     class ICMPPingTimeout :
             public QObject {
@@ -47,28 +46,21 @@ namespace Nedrysoft::ICMPPingEngine {
              * @details     Creates the receiver object and passes in the engine
              *              so that the requests can be tagged to the correct engine
              *
-             * @param[in]   engine          the owner engine
-             *
+             * @param[in]   engine the owner engine
              */
             ICMPPingTimeout(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine);
 
-        public slots:
-
             /**
              * @brief       The receiver thread worker
-             *
              */
-            void doWork(void);
-
-        signals:
+            Q_SLOT void doWork();
 
             /**
              * @brief       Signals when a timeout result is available
              *
-             * @param[in]   result          the result
-             *
+             * @param[in]   result the result
              */
-            void result(Nedrysoft::Core::PingResult result);
+            Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
 
             friend class ICMPPingEngine;
 

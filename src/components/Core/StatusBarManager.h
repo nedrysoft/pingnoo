@@ -35,8 +35,6 @@ namespace Nedrysoft::Core {
         public:
             /**
              * @brief       Constructs a status bar manager.
-             *
-             * @details     Constructs a status bar manager.
              */
             StatusBarManager();
     };

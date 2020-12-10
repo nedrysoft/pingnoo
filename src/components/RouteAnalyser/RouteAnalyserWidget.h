@@ -30,18 +30,13 @@
 
 namespace Nedrysoft::Core {
     class IHostMasker;
-
     class IPingEngine;
-
     class IPingEngineFactory;
 }
 
 class QTableView;
-
 class QStandardItemModel;
-
 class QSplitter;
-
 class QScrollArea;
 
 namespace Nedrysoft::RouteAnalyser {
@@ -50,7 +45,6 @@ namespace Nedrysoft::RouteAnalyser {
      *
      * @details     the widget which is displayed in an editor for a route analysis, includes the table view
      *              showing the current hop information and graphs for all hops which respond.
-     *
      */
     class RouteAnalyserWidget :
             public QWidget {
@@ -62,12 +56,11 @@ namespace Nedrysoft::RouteAnalyser {
             /**
              * @brief       Constructor
              *
-             * @param[in]   targetHost              the host being analysed (ip address or hostname)
-             * @param[in]   ipVersion               the version of ip to be used
-             * @param[in]   interval                the interval between pings
-             * @param[in]   pingEngineFactory       the ping engine factory to use
-             * @param[in]   parent                  the parent widget
-             *
+             * @param[in]   targetHost the host being analysed (ip address or hostname)
+             * @param[in]   ipVersion the version of ip to be used
+             * @param[in]   interval the interval between pings
+             * @param[in]   pingEngineFactory the ping engine factory to use
+             * @param[in]   parent the parent widget
              */
             explicit RouteAnalyserWidget(QString targetHost, Nedrysoft::Core::IPVersion ipVersion, double interval,
                                          Nedrysoft::Core::IPingEngineFactory *pingEngineFactory,
@@ -75,32 +68,25 @@ namespace Nedrysoft::RouteAnalyser {
 
             /**
              * @brief       Destructor
-             *
              */
             ~RouteAnalyserWidget();
-
-        public slots:
 
             /**
              * @brief       Ping result from a hop
              *
-             * @param[in]   result                  the PingResult contains the timing information for the ping
-             *
+             * @param[in]   result the PingResult contains the timing information for the ping
              */
-            void onPingResult(Nedrysoft::Core::PingResult result);
+            Q_SLOT void onPingResult(Nedrysoft::Core::PingResult result);
 
             /**
              * @brief       Route result
              *
              * @details     returns the list of hops to the destination
              *
-             * @param[in]   routeHostAddress        the intended target of the route analysis
-             * @param[in]   route                   the route that was discovered
-             *
+             * @param[in]   routeHostAddress the intended target of the route analysis
+             * @param[in]   route the route that was discovered
              */
-            void onRouteResult(const QHostAddress &routeHostAddress, const Nedrysoft::Core::RouteList &route);
-
-        signals:
+            Q_SLOT void onRouteResult(const QHostAddress &routeHostAddress, const Nedrysoft::Core::RouteList &route);
 
             /**
              * @brief       event filter
@@ -109,11 +95,10 @@ namespace Nedrysoft::RouteAnalyser {
              *              modified so that they remain legible.  Implemented to allow cross thread control
              *              changes.
              *
-             * @param[in]   watched                 the object that was being watched
-             * @param[in]   event                   the event that was sent to the filter
-             *
+             * @param[in]   watched the object that was being watched
+             * @param[in]   event the event that was sent to the filter
              */
-            void filteredEvent(QObject *watched, QEvent *event);
+            Q_SIGNAL void filteredEvent(QObject *watched, QEvent *event);
 
         protected:
             QMap<int, QPair<QString, QString> > &headerMap();

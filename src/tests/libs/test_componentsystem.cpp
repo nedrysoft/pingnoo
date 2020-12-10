@@ -52,7 +52,8 @@ TEST_CASE("ComponentSystem Tests", "[app][libs][componentsystem]") {
 
         REQUIRE_MESSAGE(loadedComponents.contains("Core")==true, "Core component was not loaded.");
 
-        REQUIRE_MESSAGE(loadedComponents["Core"]->loadStatus()!=0, "Core component loaded with errors.");
+        REQUIRE_MESSAGE(loadedComponents["Core"]->loadStatus()!=Nedrysoft::ComponentSystem::ComponentLoader::Loaded,
+                "Core component loaded with errors.");
     }
 
     SECTION("check component manager") {

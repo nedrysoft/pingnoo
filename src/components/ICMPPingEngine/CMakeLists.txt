@@ -32,14 +32,14 @@ pingnoo_add_sources(
     ICMPPingEngineSpec.h
     ICMPPingItem.cpp
     ICMPPingItem.h
-    ICMPPingReceiver.cpp
-    ICMPPingReceiver.h
     ICMPPingTarget.cpp
     ICMPPingTarget.h
     ICMPPingTimeout.cpp
     ICMPPingTimeout.h
     ICMPPingTransmitter.cpp
     ICMPPingTransmitter.h
+    ICMPPingReceiverWorker.cpp
+    ICMPPingReceiverWorker.h
     Utils.h
 )
 

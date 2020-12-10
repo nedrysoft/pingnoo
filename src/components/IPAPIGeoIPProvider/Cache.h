@@ -29,25 +29,23 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
      *
      * @details     Provides a simple persistent database for GEOIP results
      *              to prevent unneccesary lookups
-     *
      */
     class Cache {
         public:
             /**
-             * @brief   Constructor
+             * @brief       Constructor
              */
             Cache();
 
             /**
-             * @brief   Destructor
+             * @brief       Destructor
              */
             ~Cache();
 
             /**
-             * @brief           Add a lookup result to the database
+             * @brief       Add a lookup result to the database
              *
-             * @param[in]       Json result
-             *
+             * @param[in]   Json result
              */
             void add(QJsonObject object);
 
@@ -57,6 +55,7 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
              * @param[in]       host to check
              * @param[out]      json object containing the host information
              *
+             * @returns         true if cached; otherwise false.
              */
             bool find(const QString &name, QJsonObject &object);
 

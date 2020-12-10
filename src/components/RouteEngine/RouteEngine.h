@@ -38,7 +38,6 @@ namespace Nedrysoft::RouteEngine {
      *
      * @details     Implements the IRouteEngine to determine the list of
      *              hops between the source and target
-     *
      */
     class RouteEngine :
             public Nedrysoft::Core::IRouteEngine {
@@ -51,19 +50,16 @@ namespace Nedrysoft::RouteEngine {
         public:
             /**
              * @brief       Constructor
-             *
              */
             RouteEngine();
 
             /**
              * @brief       Destructor
-             *
              */
             ~RouteEngine();
 
             /**
              * @sa          IRouteEngine
-             *
              */
             virtual void findRoute(QString host, Nedrysoft::Core::IPVersion ipVersion = Nedrysoft::Core::IPVersion::V4);
 

@@ -32,7 +32,6 @@ namespace Nedrysoft::ICMPPingEngine {
  * @brief       ICMPPingComponent class
  *
  * @details     Implements an ICMP ping (for all platforms)
- *
  */
 class NEDRYSOFT_ICMPPINGENGINE_DLLSPEC ICMPPingComponent :
         public QObject,
@@ -48,19 +47,16 @@ class NEDRYSOFT_ICMPPINGENGINE_DLLSPEC ICMPPingComponent :
     public:
         /**
          * @brief       Constructor
-         *
          */
         ICMPPingComponent();
 
         /**
          * @brief       Destructor
-         *
          */
         ~ICMPPingComponent();
 
         /**
          * @sa          Nedrysoft::ComponentSystem::IComponent
-         *
          */
         virtual void initialiseEvent();
 

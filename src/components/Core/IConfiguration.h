@@ -36,27 +36,23 @@ namespace Nedrysoft::Core {
      * @details     An engine implements the logic of transmitting, receiving
      *              and associating replies to ping requests, it then signals
      *              when a ping result is available
-     *
      */
     class NEDRYSOFT_CORE_DLLSPEC IConfiguration {
 
         public:
-
             /**
              * @brief       Saves the configuration
              *
              * @return      the configuration
-             *
              */
             virtual QJsonObject saveConfiguration() = 0;
 
             /**
              * @brief       Loads the configuration
              *
-             * @param[in]   configuration   the configuration
+             * @param[in]   configuration the configuration
              *
-             * @return      true if loaded, false otherwise
-             *
+             * @return      true if loaded; otherwise false.
              */
             virtual bool loadConfiguration(QJsonObject configuration) = 0;
     };

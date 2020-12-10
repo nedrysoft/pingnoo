@@ -38,7 +38,6 @@ namespace Nedrysoft::Core {
      * @details     Manages the context of the application.  A context is a state
      *              that the application is in, menu commands are routed appropriately
      *              according to the current context.
-     *
      */
     class NEDRYSOFT_CORE_DLLSPEC IContextManager :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -49,7 +48,6 @@ namespace Nedrysoft::Core {
         public:
             /**
              * @brief       Returns the IContextManager instance
-             *
              */
             static IContextManager *getInstance() {
                 return ComponentSystem::getObject<IContextManager>();
@@ -62,10 +60,9 @@ namespace Nedrysoft::Core {
              *              focus.  The context manager nmaintains this providing a mechanism to update menus
              *              the reflect the current context state.
              *
-             * @param[in]   contextIdentifier      the id of the new context
+             * @param[in]   contextIdentifier the id of the new context
              *
              * @return      the numeric identifier of this context
-             *
              */
             virtual int registerContext(QString contextIdentifier) = 0;
 
@@ -74,10 +71,9 @@ namespace Nedrysoft::Core {
              *
              * @details     Sets the currently active context to the given identier
              *
-             * @param[in]   contextIdentifier      the id of the context being activated
+             * @param[in]   contextIdentifier the id of the context being activated
              *
              * @return      the status of the context switch
-             *
              */
             virtual int setContext(int contextIdentifier) = 0;
 
@@ -87,7 +83,6 @@ namespace Nedrysoft::Core {
              * @details     Gets the currently active context
              *
              * @return      the context identifier
-             *
              */
             virtual int context() = 0;
 
@@ -96,9 +91,8 @@ namespace Nedrysoft::Core {
              *
              * @details     Emitted when the context manager switches context
              *
-             * @param[in]   newContext          The newly activated context
-             * @param[in]   previousContext     The previous selected context
-             *
+             * @param[in]   newContext the newly activated context
+             * @param[in]   previousContext the previous selected context
              */
             Q_SIGNAL void contextChanged(int newContext, int previousContext);
     };

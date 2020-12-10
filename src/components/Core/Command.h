@@ -52,19 +52,17 @@ namespace Nedrysoft::Core {
              *
              * @details     Constructs a new Command object with the given id
              *
-             * @param[in]   id      id of the created command
-             *
+             * @param[in]   id the id of the created command
              */
             Command(QString id);
 
             /**
              * @brief       Destructor
-             *
              */
             ~Command();
 
             /**
-             * @sa ICommand
+             * @sa          ICommand
              *
              * @note        Gets a Nedrysoft::Core::ActionProxy instance so that the action remains valid after a context switch.
              *
@@ -80,17 +78,15 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Registers an action to the given contexts
              *
-             * @param[in]   action      the action
-             * @param[in]   contexts    the list of contexts this action is used in
-             *
+             * @param[in]   action the action
+             * @param[in]   contexts the list of contexts this action is used in
              */
             void registerAction(QAction *action, const Nedrysoft::Core::ContextList &contexts);
 
             /**
              * @brief       Sets the current context for this command
              *
-             * @param[in]   contextId   the context id
-             *
+             * @param[in]   contextId the context id
              */
             void setContext(int contextId);
 
@@ -98,10 +94,10 @@ namespace Nedrysoft::Core {
 
         private:
 
-            QMap<int, QAction *> m_actions;                     //! Map containing actions stored by context key
+            QMap<int, QAction *> m_actions;                        //! Map containing actions stored by context key
 
-            Nedrysoft::Core::ActionProxy *m_action;              //! The proxy action used by the UI
-            QString m_id;                                       //! Unique identifier for the command
+            Nedrysoft::Core::ActionProxy *m_action;                //! The proxy action used by the UI
+            QString m_id;                                          //! Unique identifier for the command
     };
 }
 

@@ -46,7 +46,7 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Constructor
              *
-             * @param[in]   parent    parent widget
+             * @param[in]   parent parent widget
              *
              */
             explicit AboutDialog(QWidget *parent = nullptr);

@@ -21,10 +21,12 @@
 #include "ICMPPingEngine.h"
 
 #include "ICMPPingItem.h"
-#include "ICMPPingReceiver.h"
+#include "ICMPPingReceiverWorker.h"
 #include "ICMPPingTarget.h"
 #include "ICMPPingTimeout.h"
 #include "ICMPPingTransmitter.h"
+#include "ICMPSocket/ICMPSocket.h"
+#include "ICMPPacket/ICMPPacket.h"
 #include "Utils.h"
 
 #include <QMap>
@@ -33,6 +35,7 @@
 #include <QThread>
 #include <chrono>
 #include <cstdint>
+#include <spdlog/spdlog.h>
 
 using namespace std::chrono_literals;
 
@@ -46,10 +49,8 @@ class Nedrysoft::ICMPPingEngine::ICMPPingEngineData {
     public:
         ICMPPingEngineData(Nedrysoft::ICMPPingEngine::ICMPPingEngine *parent) :
                 m_pingEngine(parent),
-                m_receiverWorker(nullptr),
                 m_transmitterWorker(nullptr),
                 m_timeoutWorker(nullptr),
-                m_receiverThread(nullptr),
                 m_transmitterThread(nullptr),
                 m_timeoutThread(nullptr),
                 m_timeout(DefaultReceiveTimeout),
@@ -63,11 +64,9 @@ class Nedrysoft::ICMPPingEngine::ICMPPingEngineData {
 
         Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_pingEngine;
 
-        Nedrysoft::ICMPPingEngine::ICMPPingReceiver *m_receiverWorker;
         Nedrysoft::ICMPPingEngine::ICMPPingTransmitter *m_transmitterWorker;
         Nedrysoft::ICMPPingEngine::ICMPPingTimeout *m_timeoutWorker;
 
-        QThread *m_receiverThread;
         QThread *m_transmitterThread;
         QThread *m_timeoutThread;
 
@@ -104,21 +103,14 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::ICMPPingEngine(Nedrysoft::Core::IPVer
 
     d->m_timeoutThread->start();
 
-    // receiver thread
+    // connect to the receiver thread
 
-    d->m_receiverWorker = new Nedrysoft::ICMPPingEngine::ICMPPingReceiver(this);
+    auto receiver = Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::getInstance();
 
-    d->m_receiverThread = new QThread();
-
-    d->m_receiverWorker->moveToThread(d->m_receiverThread);
-
-    connect(d->m_receiverThread, &QThread::started, d->m_receiverWorker,
-            &Nedrysoft::ICMPPingEngine::ICMPPingReceiver::doWork);
-
-    connect(d->m_receiverWorker, &Nedrysoft::ICMPPingEngine::ICMPPingReceiver::result, this,
-            &Nedrysoft::ICMPPingEngine::ICMPPingEngine::result);
-
-    d->m_receiverThread->start();
+    connect(receiver,
+            &Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::packetReceived,
+            this,
+            &Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived);
 
     // transmitter thread
 
@@ -148,14 +140,6 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::~ICMPPingEngine() {
         d->m_transmitterThread->quit();
     }
 
-    if (d->m_receiverWorker) {
-        d->m_receiverWorker->m_isRunning = false;
-    }
-
-    if (d->m_receiverThread) {
-        d->m_receiverThread->quit();
-    }
-
     if (d->m_timeoutWorker) {
         d->m_timeoutWorker->m_isRunning = false;
     }
@@ -174,16 +158,6 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::~ICMPPingEngine() {
         delete d->m_transmitterThread;
     }
 
-    if (d->m_receiverThread) {
-        d->m_receiverThread->wait(waitTime.count());
-
-        if (d->m_receiverThread->isRunning()) {
-            d->m_receiverThread->terminate();
-        }
-
-        delete d->m_receiverThread;
-    }
-
     if (d->m_timeoutThread) {
         d->m_timeoutThread->wait(waitTime.count());
 
@@ -195,7 +169,6 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::~ICMPPingEngine() {
     }
 
     delete d->m_transmitterWorker;
-    delete d->m_receiverWorker;
     delete d->m_timeoutWorker;
 
     for (auto target : d->m_targetList) {
@@ -338,4 +311,52 @@ std::chrono::system_clock::time_point Nedrysoft::ICMPPingEngine::ICMPPingEngine:
 
 Nedrysoft::Core::IPVersion Nedrysoft::ICMPPingEngine::ICMPPingEngine::version() {
     return d->m_version;
+}
+
+void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(std::chrono::time_point < std::chrono::high_resolution_clock > receiveTime,
+                            QByteArray receiveBuffer, QHostAddress receiveAddress) {
+
+    Nedrysoft::Core::PingResult::PingResultCode resultCode = Nedrysoft::Core::PingResult::NoReply;
+
+    auto responsePacket = Nedrysoft::ICMPPacket::ICMPPacket::fromData(
+            receiveBuffer,
+            static_cast<Nedrysoft::ICMPPacket::IPVersion>(this->version()) );
+
+    if (responsePacket.resultCode() == Nedrysoft::ICMPPacket::Invalid) {
+        return;
+    }
+
+    if (responsePacket.resultCode() == Nedrysoft::ICMPPacket::EchoReply) {
+        resultCode = Nedrysoft::Core::PingResult::Ok;
+    }
+
+    if (responsePacket.resultCode() == Nedrysoft::ICMPPacket::TimeExceeded) {
+        resultCode = Nedrysoft::Core::PingResult::Ok;
+    }
+
+    auto pingItem = this->getRequest(Nedrysoft::Utils::fzMake32(responsePacket.id(), responsePacket.sequence()));
+
+    if (pingItem) {
+        pingItem->lock();
+
+        if (!pingItem->serviced()) {
+            pingItem->setServiced(true);
+            pingItem->unlock();
+
+            std::chrono::duration<double> diff = receiveTime - pingItem->transmitTime();
+
+            auto pingResult = Nedrysoft::Core::PingResult(pingItem->sampleNumber(),
+                                                          resultCode,
+                                                          receiveAddress,
+                                                          pingItem->transmitEpoch(), diff, pingItem->target() );
+
+            emit Nedrysoft::ICMPPingEngine::ICMPPingEngine::result(pingResult);
+        } else {
+            pingItem->unlock();
+        }
+
+        this->removeRequest(pingItem);
+
+        delete pingItem;
+    }
 }

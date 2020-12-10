@@ -34,7 +34,6 @@ namespace Nedrysoft::Core {
      *
      * @details     provides a mechanism for components to know when the system has
      *              been initialised, including access to core objects.
-     *
      */
     class NEDRYSOFT_CORE_DLLSPEC ICore :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -45,7 +44,6 @@ namespace Nedrysoft::Core {
         public:
             /**
              * @brief       Gets the Nedrysoft::Core::ICore instance.
-             *
              */
             static ICore *getInstance() {
                 return ComponentSystem::getObject<ICore>();
@@ -58,7 +56,6 @@ namespace Nedrysoft::Core {
              *              the application
              *
              * @return      the QMainWindow pointer
-             *
              */
             virtual QMainWindow *mainWindow() = 0;
 
@@ -68,7 +65,6 @@ namespace Nedrysoft::Core {
              * @details     The signal is emitted after all plugins have been loaded and initialised, allows
              *              components to do post-initialisation functions knowing that all plugins have
              *              initialised
-             *
              */
             Q_SIGNAL void coreOpened(void);
     };

@@ -24,11 +24,14 @@
 
 #include <QApplication>
 #include <QtTest>
+#include <spdlog/spdlog.h>
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     QTEST_SET_MAIN_SOURCE_PATH
+
+    spdlog::set_level(spdlog::level::debug);
 
     auto result = Catch::Session().run(argc, argv);
 

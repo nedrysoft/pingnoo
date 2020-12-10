@@ -38,7 +38,6 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
      * @details     This host marker accepts a regular expression to match the host name
      *              or address and allows the masked output to be generated using capture
      *              groups
-     *
      */
     class IPAPIGeoIPProvider :
             public Nedrysoft::Core::IGeoIPProvider {
@@ -51,19 +50,16 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
         public:
             /**
              * @brief       Constructor
-             *
              */
             IPAPIGeoIPProvider();
 
             /**
              * @brief       Destructor
-             *
              */
             ~IPAPIGeoIPProvider();
 
             /**
              * @sa          IGeoIPProvider
-             *
              */
             virtual void lookup(const QString host);
 

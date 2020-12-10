@@ -37,7 +37,6 @@ namespace Nedrysoft::Core {
      *              are bound to QActions for given contexts, this allows the target of
      *              the command to change depending on the current context that the application
      *              is in.
-     *
      */
     class NEDRYSOFT_CORE_DLLSPEC ICommand :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -50,23 +49,20 @@ namespace Nedrysoft::Core {
              * @brief       Returns the proxy action
              *
              * @return      the proxy action
-             *
              */
             virtual QAction *action() = 0;
 
             /**
              * @brief       Sets the active state of the command
              *
-             * @param[in]   state       true if enabled, else false
-             *
+             * @param[in]   state true if enabled; otherwise false.
              */
             virtual void setActive(bool state) = 0;
 
             /**
              * @brief       Returns the active state of the command
              *
-             * @return      true if enabled, else false
-             *
+             * @return      true if enabled; otherwise false
              */
             virtual bool active() = 0;
 
@@ -77,8 +73,7 @@ namespace Nedrysoft::Core {
              * @details     Binds to the buttons signals and then emits the appropriate
              *              signals from the push button
              *
-             * @param[in]   widget      the abstract button subclassed widget
-             *
+             * @param[in]   widget the abstract button subclassed widget
              */
             virtual void attachToWidget(QAbstractButton *widget) {
                 connect(widget, &QAbstractButton::clicked, [this](bool) {
@@ -89,9 +84,6 @@ namespace Nedrysoft::Core {
                     widget->setEnabled(this->active());
                 });
             }
-
-        public:
-
     };
 }
 

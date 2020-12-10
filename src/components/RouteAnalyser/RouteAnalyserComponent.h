@@ -30,7 +30,6 @@
  *
  * @details     This component provides a route analyser implementation which
  *              discovers the route to a host
- *
  */
 class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
         public QObject,
@@ -45,20 +44,17 @@ class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
 
     public:
         /**
-         * @brief Constructor
-         *
+         * @brief       Constructor
          */
         RouteAnalyserComponent();
 
         /**
-         * @brief Destructor
-         *
+         * @brief       Destructor
          */
         ~RouteAnalyserComponent();
 
         /**
          * @sa          Nedrysoft::ComponentSystem::IComponent
-         *
          */
         virtual void initialiseEvent();
 

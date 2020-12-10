@@ -38,7 +38,6 @@ namespace Nedrysoft::Core {
      * @details     An engine implements the logic of transmitting, receiving
      *              and associating replies to ping requests, it then signals
      *              when a ping result is available
-     *
      */
     class NEDRYSOFT_CORE_DLLSPEC IPingEngine :
             public Nedrysoft::ComponentSystem::IInterface,
@@ -60,67 +59,60 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Sets the measurement interval for this engine instance
              *
-             * @param[in]   interval        interval time
+             * @param[in]   interval interval time
              *
-             * @return      returns true on success, else false
-             *
+             * @return      returns true on success; otherwise false.
              */
             virtual bool setInterval(std::chrono::milliseconds interval) = 0;
 
             /**
              * @brief       Sets the reply timeout for this engine instance
              *
-             * @param[in]   timeout         timeout time
+             * @param[in]   timeout timeout time
              *
-             * @return      true on success, else false
-             *
+             * @return      true on success; otherwise false.
              */
             virtual bool setTimeout(std::chrono::milliseconds timeout) = 0;
 
             /**
              * @brief       Starts ping operations for this engine instance
              *
-             * @return      true on success, else false
-             *
+             * @return      true on success; otherwise false.
              */
             virtual bool start() = 0;
 
             /**
              * @brief       Stops ping operations for this engine instance
              *
-             * @return      true on success, else false
-             *
+             * @return      true on success; otherwise false.
              */
             virtual bool stop() = 0;
 
             /**
              * @brief       Adds a ping target to this engine instance
              *
-             * @param[in]   hostAddress     the host address of the ping target
+             * @param[in]   hostAddress the host address of the ping target
              *
              * @return      returns a pointer to the created ping target
-             *
              */
             virtual IPingTarget *addTarget(QHostAddress hostAddress) = 0;
 
             /**
              * @brief       Adds a ping target to this engine instance
              *
-             * @param[in]   hostAddress     the host address of the ping target
-             * @param[in]   ttl             the time to live to use
+             * @param[in]   hostAddress the host address of the ping target
+             * @param[in]   ttl the time to live to use
              *
-             * @return returns a pointer to the created ping target
-             *
+             * @return      returns a pointer to the created ping target
              */
             virtual IPingTarget *addTarget(QHostAddress hostAddress, int ttl) = 0;
 
             /**
              * @brief       Removes a ping target from this engine instance
              *
-             * @param[in]   target          the ping target to remove
+             * @param[in]   target the ping target to remove
              *
-             * @return      true on success, else false
-             *
+             * @return      true on success; otherwise false.
              */
             virtual bool removeTarget(IPingTarget *target) = 0;
 
@@ -128,15 +120,13 @@ namespace Nedrysoft::Core {
              * @brief       Gets the epoch for this engine instace.
              *
              * @return      the time epoch
-             *
              */
             virtual std::chrono::system_clock::time_point epoch() = 0;
 
             /**
              * @brief       Signal emitted to indicate the state of a ping request
              *
-             * @param[in]   result          the result of a ping request
-             *
+             * @param[in]   result the result of a ping request
              */
             Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
     };

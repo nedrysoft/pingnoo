@@ -48,14 +48,12 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Constructor
              *
-             * @param[in]   tabWidget       the tab widget that contains the editors
-             *
+             * @param[in]   tabWidget the tab widget that contains the editors
              */
             EditorManager(QTabWidget *tabWidget);
 
             /**
              * @sa IEditorManager
-             *
              */
             virtual int openEditor(IEditor *editor);
 

@@ -34,7 +34,6 @@ namespace Nedrysoft::RegExHostMasker {
  * @details     This component provides a host masker implementation which
  *              uses user supplied regular expressions to mask out IP addresses
  *              or host names.  This allows outputs to hide sensitive information.
- *
  */
 class NEDRYSOFT_REGEXHOSTMASKER_DLLSPEC RegExHostMaskerComponent :
         public QObject,
@@ -50,19 +49,16 @@ class NEDRYSOFT_REGEXHOSTMASKER_DLLSPEC RegExHostMaskerComponent :
     public:
         /**
          * @brief       Constructor
-         *
          */
         RegExHostMaskerComponent();
 
         /**
          * @brief       Destructor
-         *
          */
         ~RegExHostMaskerComponent();
 
         /**
          * @sa          Nedrysoft::ComponentSystem::IComponent
-         *
          */
         virtual void initialiseEvent();
 

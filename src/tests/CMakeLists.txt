@@ -45,11 +45,16 @@ set(Qt_LIBS Qt5::Core Qt5::Widgets Qt5::Network Qt5::Test)
 
 add_executable(${PROJECT_NAME} ${test_SOURCES})
 
-target_link_libraries(${PROJECT_NAME} "-L${PINGNOO_LIBRARIES_BINARY_DIR} -lComponentSystem -lICMPPacket")
+target_link_libraries(${PROJECT_NAME} "-L${PINGNOO_LIBRARIES_BINARY_DIR}"
+    -lComponentSystem
+    -lICMPPacket
+    -lICMPSocket
+)
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC "-DPINGNOO_TEST_LIBS_DIR=\"${PINGNOO_LIBRARIES_BINARY_DIR}\"")
 target_compile_definitions(${PROJECT_NAME} PUBLIC "-DPINGNOO_TEST_COMPONENTS_DIR=\"${PINGNOO_COMPONENTS_BINARY_DIR}\"")
 
 include_directories(${PINGNOO_SOURCE_DIR}/libs/Catch2)
+include_directories(${PINGNOO_SOURCE_DIR}/libs/spdlog/include)
 
 target_link_libraries(${PROJECT_NAME} ${Qt_LIBS})

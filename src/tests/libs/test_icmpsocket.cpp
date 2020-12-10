@@ -18,37 +18,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_UTILS_THEMESUPPORT_H
-#define NEDRYSOFT_UTILS_THEMESUPPORT_H
+#include "catch.hpp"
+#include "ICMPSocket/ICMPSocket.h"
 
-#include <QtGlobal>
+#include <QString>
 
-namespace Nedrysoft::Utils {
-    /**
-     * @brief       theme support class
-     *
-     * @details     used by the macOS platform to detect changes between light and dark mode
-     *
-     */
-    class ThemeSupport {
-        public:
-            /**
-             * @brief       Check if dark mode is being used
-             *
-             * @returns     true if dark mode, else false
-             */
-#if defined(Q_OS_MACOS)
+TEST_CASE("ICMPSocket Tests", "[app][libs][network]") {
+    Nedrysoft::ICMPSocket::ICMPSocket *readSocket;
+    Nedrysoft::ICMPSocket::ICMPSocket *writeSocket;
 
-            static bool isDarkMode();
+    SECTION("check IPv4 read socket creation") {
+        readSocket = Nedrysoft::ICMPSocket::ICMPSocket::createReadSocket(Nedrysoft::ICMPSocket::V4);
 
-#else
-            static bool isDarkMode()
-            {
-                return false;
-            }
-#endif
-    };
+        REQUIRE_MESSAGE(readSocket!=nullptr, "Unable to create a IPv4 ICMP read socket.");
+    }
+
+    SECTION("check IPv4 write socket creation") {
+        writeSocket = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(Nedrysoft::ICMPSocket::V4);
+
+        REQUIRE_MESSAGE(writeSocket!=nullptr, "Unable to create a IPv4 ICMP write socket.");
+    }
 }
-
-#endif // NEDRYSOFT_UTILS_THEMESUPPORT_H
-

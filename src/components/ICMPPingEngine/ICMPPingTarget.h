@@ -42,9 +42,7 @@ namespace Nedrysoft::ICMPPingEngine {
      *
      * Implements the IPingTarget interface to implement a ping target
      * that uses ICMP echo packets for measurements.
-     *
      */
-
     class ICMPPingTarget :
             public Nedrysoft::Core::IPingTarget {
 
@@ -62,37 +60,36 @@ namespace Nedrysoft::ICMPPingEngine {
              * @param[in]   engine
              * @param[in]   hostAddress
              * @param[in]   ttl
-             *
              */
             ICMPPingTarget(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine, QHostAddress hostAddress, int ttl = 0);
 
             /**
              * @brief       Destructor
              */
-
             ~ICMPPingTarget();
 
             /**
              * @sa          IPingTarget
-             *
              */
-            virtual void setHostAddress(QHostAddress hostAddress);
+            void setHostAddress(QHostAddress hostAddress) override;
 
-            virtual QHostAddress hostAddress();
+            QHostAddress hostAddress() override;
 
-            virtual Nedrysoft::Core::IPingEngine *engine();
+            Nedrysoft::Core::IPingEngine *engine() override;
 
-            virtual void *userData();
+            void *userData() override;
 
-            virtual void setUserData(void *data);
+            void setUserData(void *data) override;
+
+            uint16_t ttl() override;
 
             /**
              * @sa          IConfiguration
              *
              */
-            virtual QJsonObject saveConfiguration();
+            QJsonObject saveConfiguration() override;
 
-            virtual bool loadConfiguration(QJsonObject configuration);
+            bool loadConfiguration(QJsonObject configuration) override;
 
         protected:
 

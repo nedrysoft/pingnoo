@@ -35,7 +35,6 @@ namespace Nedrysoft::Core {
      * @details     An engine implements the logic of transmitting, receiving
      *              and associating replies to ping requests, it then signals
      *              when a ping result is available
-     *
      */
     class NEDRYSOFT_CORE_DLLSPEC IPingEngineFactory :
             public Nedrysoft::ComponentSystem::IInterface,
@@ -53,10 +52,9 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Creates a IPingEngine instance
              *
-             * @param[in]   version     the IP version of the engine
+             * @param[in]   version the IP version of the engine
              *
              * @return      the newly created ping engine instance
-             *
              */
             virtual Nedrysoft::Core::IPingEngine *createEngine(Nedrysoft::Core::IPVersion version) = 0;
 
@@ -64,7 +62,6 @@ namespace Nedrysoft::Core {
              * @brief       Gets the descriptive name of the ping engine factory
              *
              * @return      descriptive name of the ping engine
-             *
              */
             virtual QString description() = 0;
     };

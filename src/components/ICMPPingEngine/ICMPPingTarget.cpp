@@ -24,8 +24,7 @@
 
 #include <QHostAddress>
 #include <QRandomGenerator>
-#include <cerrno>
-#include <fcntl.h>
+#include <cassert>
 
 constexpr int TotalTargetSockets = 255;
 
@@ -39,7 +38,7 @@ class Nedrysoft::ICMPPingEngine::ICMPPingTargetData {
                 m_ttl(0),
                 m_currentSocket(0) {
 
-            for (auto i = 0; i < TotalTargetSockets; i++) {
+            for (auto currentSocket = 0; currentSocket < TotalTargetSockets; currentSocket++) {
                 m_socketList.append(nullptr);
             }
         }
@@ -101,6 +100,8 @@ Nedrysoft::ICMPSocket::ICMPSocket *Nedrysoft::ICMPPingEngine::ICMPPingTarget::so
         }
     }
 
+    assert(d->m_socketList[d->m_currentSocket]!=nullptr);
+
     auto socket = d->m_socketList[d->m_currentSocket];
 
     d->m_currentSocket = ( d->m_currentSocket + 1 ) % d->m_socketList.count();
@@ -110,6 +111,10 @@ Nedrysoft::ICMPSocket::ICMPSocket *Nedrysoft::ICMPPingEngine::ICMPPingTarget::so
 
 uint16_t Nedrysoft::ICMPPingEngine::ICMPPingTarget::id() {
     return d->m_id;
+}
+
+uint16_t Nedrysoft::ICMPPingEngine::ICMPPingTarget::ttl() {
+    return d->m_ttl;
 }
 
 void *Nedrysoft::ICMPPingEngine::ICMPPingTarget::userData() {

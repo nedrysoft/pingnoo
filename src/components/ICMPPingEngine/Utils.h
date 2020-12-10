@@ -31,11 +31,10 @@ namespace Nedrysoft::Utils {
      * @note        this uses the constant CHAR_BIT rather than the immediate value 8 to prevent
      *              warnings from clang-tidy
      *
-     * @param[in]   high        the high 16 bits
-     * @param[in]   low         the low 16 bits
+     * @param[in]   high the high 16 bits
+     * @param[in]   low the low 16 bits
      *
      * @return      the 32 bit result
-     *
      */
     constexpr uint32_t fzMake32(uint16_t high, uint16_t low) {
         return ( static_cast<uint32_t>(( high << ( sizeof(high) * CHAR_BIT ) | low )));

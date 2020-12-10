@@ -32,10 +32,9 @@ namespace Nedrysoft::Pingnoo {
     class ICMPPingEngine;
 
     /**
-     * Factory class for ICMPPingEngine
+     * @brief       Factory class for ICMPPingEngine
      *
-     * Creates instances of ICMPPingEngine
-     *
+     * @brief       Creates instances of ICMPPingEngine
      */
 
     class ICMPAPIPingEngineFactory :
@@ -52,12 +51,12 @@ namespace Nedrysoft::Pingnoo {
             ~ICMPAPIPingEngineFactory();
 
             /**
-             * @sa IPingEngineFactory
+             * @sa          IPingEngineFactory
              */
             virtual Nedrysoft::Core::IPingEngine *createEngine();
 
             /**
-             * @sa IConfiguration
+             * @sa          IConfiguration
              */
             virtual QJsonObject saveConfiguration();
 

@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
 
     componentManager->addObject(componentLoader);
 
-    spdlog::set_level(spdlog::level::debug);
+    spdlog::set_level(spdlog::level::trace);
 
     spdlog::debug("Application started.");
 

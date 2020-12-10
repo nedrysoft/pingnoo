@@ -38,7 +38,6 @@ namespace Nedrysoft::Pingnoo {
      * at the given period
      *
      */
-
     class ICMPAPIPingTransmitter :
             public QObject {
 
@@ -48,54 +47,50 @@ namespace Nedrysoft::Pingnoo {
         public:
 
             /**
-             * Constructor with engine
+             * @brief       Constructor with engine
              *
-             * Creates the receiver object and passes in the engine
-             * so that the requests can be tagged to the correct engine
+             * @details     Creates the receiver object and passes in the engine
+             *              so that the requests can be tagged to the correct engine
              *
-             * @param[in] engine the owner engine
+             * @param[in]   engine the owner engine
              */
             ICMPAPIPingTransmitter(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine);
 
             /**
-             * Sets the interval between a set of pings
+             * @brief       Sets the interval between a set of pings
              *
-             * @param[in] interval interval
+             * @param[in]   interval interval
              */
             bool setInterval(std::chrono::milliseconds interval);
 
             /**
-             * Adds a ping target to the transmitter
+             * @brief       Adds a ping target to the transmitter
              *
-             * @param[in] target the target to ping
+             * @param[in]   target the target to ping
              */
             //void addTarget(FZICMPPingTarget *target);
 
             friend class ICMPAPIPingEngine;
 
-        private slots:
-
             /**
-             * The receiver thread worker
+             * @brief       The receiver thread worker
              */
-            void doWork(void);
-
-        signals:
+            Q_SLOT void doWork(void);
 
             /**
-             * Signals when a transmission result is available
+             * @brief       Signals when a transmission result is available
              *
-             * @param[in] result the result
+             * @param[in]   result the result
              */
-            void result(Nedrysoft::Core::PingResult result);
+            Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
 
         private:
-            std::chrono::milliseconds m_interval = {};      //! The transmission period in milliseconds
-            Nedrysoft::Pingnoo::ICMPAPIPingEngine *m_engine; //! The engine that owns this transmitter worker
+            std::chrono::milliseconds m_interval = {};          //! The transmission period in milliseconds
+            Nedrysoft::Pingnoo::ICMPAPIPingEngine *m_engine;    //! The engine that owns this transmitter worker
 
-            //QList<FZICMPPingTarget *> m_targets;            //! List of ping targets
-            QMutex m_targetsMutex;                          //! Mutex to protect the ping target list
-            bool m_isRunning;                               //! Whether thread is running
+            //QList<FZICMPPingTarget *> m_targets;              //! List of ping targets
+            QMutex m_targetsMutex;                              //! Mutex to protect the ping target list
+            bool m_isRunning;                                   //! Whether thread is running
     };
 }
 

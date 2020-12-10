@@ -48,12 +48,12 @@ namespace Nedrysoft::Pingnoo {
 
         public:
             /**
-             * Default constructor
+             * @brief       Constructor
              */
             ICMPAPIPingEngine();
 
             /**
-             * @sa IPingEngine
+             * @sa          IPingEngine
              */
             virtual bool setInterval(std::chrono::milliseconds interval);
 
@@ -72,7 +72,7 @@ namespace Nedrysoft::Pingnoo {
             virtual std::chrono::system_clock::time_point epoch();
 
             /**
-             * @sa IConfiguration
+             * @sa          IConfiguration
              */
             virtual QJsonObject saveConfiguration();
 
@@ -80,11 +80,11 @@ namespace Nedrysoft::Pingnoo {
 
         protected:
             /**
-             * Deletes timed out requests and emits timeout results
+             * @brief       Deletes timed out requests and emits timeout results
              *
-             * Called from the timeout thread.
+             * @notes       Called from the timeout thread.
              *
-             * @sa FZICMPPingTimeout
+             * @sa          ICMPPingTimeout
              */
             //void timeoutRequests(void);
 

@@ -42,7 +42,6 @@ namespace Nedrysoft::AppNap {
      * @details     macOS uses a sleep mode system which results in pings not working correctly if
      *              AppNap is enabled, this class under macOS disables AppNap on startup so that
      *              the app does not go to sleep.  On other platforms it does nothing.
-     *
      */
     class NEDRYSOFT_APPNAP_DLLSPEC AppNap {
         private:
@@ -53,7 +52,6 @@ namespace Nedrysoft::AppNap {
              * @brief       Gets the AppNap singleton
              *
              * @return      the singleton instance
-             *
              */
             static Nedrysoft::AppNap::AppNap *getInstance();
 
@@ -64,8 +62,7 @@ namespace Nedrysoft::AppNap {
              *              should be matched with a allow to allow the app to enter nap
              *              after the section.
              *
-             * @param[in]   reason          reason for preventing app nap
-             *
+             * @param[in]   reason reason for preventing app nap
              */
             void prevent(const QString &reason);
 
@@ -73,7 +70,6 @@ namespace Nedrysoft::AppNap {
              * @brief       Allows the app to enter idle nap
              *
              * @details     allows the app to enter the idle nap state
-             *
              */
             void allow();
 
@@ -83,7 +79,6 @@ namespace Nedrysoft::AppNap {
              * @brief       initialise app nap
              *
              * @details     provides a "C" linkage for the objective c code which controls appnap
-             *
              */
             void mac_init();
 
@@ -91,7 +86,6 @@ namespace Nedrysoft::AppNap {
              * @brief       prevent app nap from being used
              *
              * @details     provides a "C" linkage for the objective c code which disables appnap
-             *
              */
             void mac_prevent(const QString &reason);
 
@@ -99,7 +93,6 @@ namespace Nedrysoft::AppNap {
              * @brief       allow app nap to be used
              *
              * @details     provides a "C" linkage for the objective c code which enables appnap
-             *
              */
             void mac_allow();
 

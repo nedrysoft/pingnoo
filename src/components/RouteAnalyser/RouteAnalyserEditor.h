@@ -41,7 +41,6 @@ namespace Nedrysoft::RouteAnalyser {
      * @details     This host marker accepts a regular expression to match the host name
      *              or address and allows the masked output to be generated using capture
      *              groups
-     *
      */
     class RouteAnalyserEditor :
             public Nedrysoft::Core::IEditor,
@@ -58,40 +57,37 @@ namespace Nedrysoft::RouteAnalyser {
             RouteAnalyserEditor(int contextId);
 
             /**
-             * Sets the ping engine to be used by this instance.
+             * @brief       Sets the ping engine to be used by this instance.
              *
-             * @param[in]   pingEngineFactory       the ping engine factory
-             *
+             * @param[in]   pingEngineFactory the ping engine factory
              */
             void setPingEngine(Nedrysoft::Core::IPingEngineFactory *pingEngineFactory);
 
             /**
-             * Sets the target.
+             * @brief       Sets the target.
              *
-             * @param[in]   target                  the ping target
+             * @param[in]   target the ping target
              *
              */
             void setTarget(QString target);
 
             /**
-             * Sets the IP Version used by this ping target.
+             * @brief       Sets the IP Version used by this ping target.
              *
-             * @param[in]   ipVersion               the IP version
+             * @param[in]   ipVersion the IP version
              *
              */
             void setIPVersion(Nedrysoft::Core::IPVersion ipVersion);
 
             /**
-             * Sets the ping interval used by this ping target.
+             * @brief       Sets the ping interval used by this ping target.
              *
-             * @param[in]   interval                the interval time period
-             *
+             * @param[in]   interval the interval time period
              */
             void setInterval(double interval);
 
             /**
              * @sa          IEditor
-             *
              */
             virtual QWidget *widget();
 
@@ -99,7 +95,6 @@ namespace Nedrysoft::RouteAnalyser {
 
             /**
              * @sa          IConfiguration
-             *
              */
             virtual QJsonObject saveConfiguration();
 

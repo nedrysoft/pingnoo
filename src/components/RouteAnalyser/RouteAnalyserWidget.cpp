@@ -206,7 +206,7 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
         return;
     }
 
-    switch ( result.code()) {
+    switch (result.code()) {
         case Nedrysoft::Core::PingResult::Ok:
         case Nedrysoft::Core::PingResult::TimeExceeded: {
             QCPRange graphRange = customPlot->yAxis->range();

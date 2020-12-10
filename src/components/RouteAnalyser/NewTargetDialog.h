@@ -35,7 +35,6 @@ namespace Nedrysoft::RouteAnalyser {
      *
      * @details     The dialog displayed when creating a new route analyser instance, allows
      *              the user to select the target, ping engine, interval etc.
-     *
      */
     class NewTargetDialog :
             public QDialog {
@@ -47,14 +46,12 @@ namespace Nedrysoft::RouteAnalyser {
             /**
              * @brief       Constructor
              *
-             * @param[in]   parent          parent widget
-             *
+             * @param[in]   parent the owner parent widget
              */
             explicit NewTargetDialog(QWidget *parent = nullptr);
 
             /**
              * @brief       Destructor
-             *
              */
             ~NewTargetDialog();
 
@@ -62,7 +59,6 @@ namespace Nedrysoft::RouteAnalyser {
              * @brief       The ping engine factory selected
              *
              * @return      the selected IPingEngineFactory
-             *
              */
             Nedrysoft::Core::IPingEngineFactory *pingEngineFactory();
 
@@ -70,7 +66,6 @@ namespace Nedrysoft::RouteAnalyser {
              * @brief       The selected target
              *
              * @return      the target (host or ip address)
-             *
              */
             QString pingTarget();
 
@@ -78,7 +73,6 @@ namespace Nedrysoft::RouteAnalyser {
              * @brief       The selected IP version
              *
              * @return      the ip version (V4 or V6)
-             *
              */
             Nedrysoft::Core::IPVersion ipVersion();
 
@@ -89,7 +83,6 @@ namespace Nedrysoft::RouteAnalyser {
              *              this can be a sub-second value.
              *
              * @return      the ping internal in seconds
-             *
              */
             double interval();
 

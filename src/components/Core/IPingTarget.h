@@ -35,7 +35,6 @@ namespace Nedrysoft::Core {
      *
      * @details     A ping target is used by an IPingEngine to keep track
      *              of destinations to be pinged.
-     *
      */
     class NEDRYSOFT_CORE_DLLSPEC IPingTarget :
             public Nedrysoft::ComponentSystem::IInterface,
@@ -50,49 +49,51 @@ namespace Nedrysoft::Core {
         public:
             /**
              * Destructor
-             *
              */
             virtual ~IPingTarget() = default;
 
             /**
-             * Sets host address for this target
+             * @brief       Sets host address for this target
              *
-             * @param[in]   hostAddress     the host address to be pinged
-             *
+             * @param[in]   hostAddress the host address to be pinged
              */
             virtual void setHostAddress(QHostAddress hostAddress) = 0;
 
             /**
-             * Returns the host address for this target
+             * @brief       Returns the host address for this target
              *
              * @return      the host address for this target
-             *
              */
             virtual QHostAddress hostAddress() = 0;
 
             /**
-             * Returns the IPingEngine that created this target
+             * @brief       the IPingEngine that created this target
              *
              * @return      the IPingEngine that created this target
-             *
              */
             virtual IPingEngine *engine() = 0;
 
             /**
-             * Returns user data attached to this target
+             * @brief       user data attached to this target
              *
              * @return      the attached user data
-             *
              */
             virtual void *userData() = 0;
 
             /**
-             * Attaches user data to this target
+             * @brief        user data to this target
              *
-             * @param[in]   data            the user data
+             * @param[in]   data the user data
              *
              */
             virtual void setUserData(void *data) = 0;
+
+            /**
+             * @brief       Rwturns the ttl set on this target.
+             *
+             * @returns     the ttl value.
+             */
+            virtual uint16_t ttl() = 0;
     };
 }
 

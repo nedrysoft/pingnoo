@@ -35,9 +35,7 @@ namespace Nedrysoft::RouteEngine {
      * Factory class for RouteEngine
      *
      * Creates instances of RouteEngine
-     *
      */
-
     class RouteEngineFactory :
             public Nedrysoft::Core::IRouteEngineFactory {
 
@@ -52,16 +50,14 @@ namespace Nedrysoft::RouteEngine {
             ~RouteEngineFactory();
 
             /**
-             * @sa IRouteEngineFactory
-             *
+             * @sa      IRouteEngineFactory
              */
             virtual Nedrysoft::Core::IRouteEngine *createEngine();
 
             virtual QString description();
 
             /**
-             * @sa IConfiguration
-             *
+             * @sa      IConfiguration
              */
             virtual QJsonObject saveConfiguration();
 

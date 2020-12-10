@@ -45,7 +45,6 @@ namespace Nedrysoft::Core {
         public:
             /**
              * @brief       Gets the Nedrysoft::Core::IEditorManager instance.
-             *
              */
             static IEditorManager *getInstance() {
                 return ComponentSystem::getObject<IEditorManager>();
@@ -54,8 +53,9 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Open an editor window
              *
-             * @param[in]   editor          the editor to open
+             * @param[in]   editor the editor to open
              *
+             * @returns     zero
              */
             virtual int openEditor(IEditor *editor) = 0;
     };

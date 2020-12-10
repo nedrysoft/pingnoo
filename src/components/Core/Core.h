@@ -60,13 +60,11 @@ namespace Nedrysoft::Core {
         public:
             /**
              * @brief       Constructor
-             *
              */
             Core();
 
             /**
              * @brief       Destructor
-             *
              */
             ~Core();
 
@@ -86,7 +84,6 @@ namespace Nedrysoft::Core {
              *
              * @details     Should be called after the plugins are loaded to initialise the application,
              *              the Core implemention provides logic to ensure this happens in a sane manner
-             *
              */
             void open();
 

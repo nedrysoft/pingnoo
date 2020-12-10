@@ -32,7 +32,6 @@ namespace Nedrysoft::Core {
      *
      * @details     An editor is an editor window that contains a widget and is managed
      *              by the application.
-     *
      */
     class NEDRYSOFT_CORE_DLLSPEC IEditor :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -45,7 +44,6 @@ namespace Nedrysoft::Core {
         public:
             /**
              * @brief       Destructor
-             *
              */
             virtual ~IEditor() = default;
 
@@ -53,7 +51,6 @@ namespace Nedrysoft::Core {
              * @brief       Gets the widget for this editor.
              *
              * @return      the widget
-             *
              */
             virtual QWidget *widget() = 0;
 
@@ -63,6 +60,7 @@ namespace Nedrysoft::Core {
              * @details     Gets the user displayable name of the editor, this is usually used by the Nedrysoft::Core::IEditorManager to display
              *              the name of the widget in the title.
              *
+             * @returns     the displayed name of the editor.
              */
             virtual QString displayName() = 0;
     };

@@ -29,9 +29,7 @@
 
 namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingEngine;
-
     class ICMPPingTarget;
-
     class ICMPPingItem;
 
     /**
@@ -40,7 +38,6 @@ namespace Nedrysoft::ICMPPingEngine {
      * @details     Created and used by the ICMP engine, the transmitter thread
      *              creates requests for the associated targets and sends them
      *              at the given period
-     *
      */
     class ICMPPingTransmitter :
             public QObject {
@@ -56,58 +53,55 @@ namespace Nedrysoft::ICMPPingEngine {
              * @details     Creates the receiver object and passes in the engine
              *              so that the requests can be tagged to the correct engine
              *
-             * @param[in]   engine          the owner engine
-             *
+             * @param[in]   engine  the owner engine
              */
             ICMPPingTransmitter(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine);
 
             /**
              * @brief       Sets the interval between a set of pings
              *
-             * @param[in]   interval        interval
+             * @param[in]   interval the interval
              *
-             * @return       true if set, otherwise false
-             *
+             * @return       true if interval successfully set; otherwise false.
              */
             bool setInterval(std::chrono::milliseconds interval);
 
             /**
              * @brief       Adds a ping target to the transmitter
              *
-             * @param[in]   target          the target to ping
+             * @param[in]   target the target to ping
              *
              */
             void addTarget(Nedrysoft::ICMPPingEngine::ICMPPingTarget *target);
 
-        private slots:
+        private:
 
             /**
              * @brief       The receiver thread worker
              */
-            void doWork(void);
+            Q_SLOT void doWork();
 
-        signals:
-
+        public:
             /**
              * @brief       Signals when a transmission result is available
              *
-             * @param[in]   result          the result
+             * @param[in]   result the result
              */
-            void result(Nedrysoft::Core::PingResult result);
+            Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
 
             friend class ICMPPingEngine;
 
         private:
-            std::chrono::milliseconds m_interval = {};                    //! The transmission period in milliseconds
-            Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_engine;                //! The engine that owns this transmitter worker
+            std::chrono::milliseconds m_interval = {};                        //! The transmission period in milliseconds
+            Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_engine;              //! The engine that owns this transmitter worker
 
-            QList<Nedrysoft::ICMPPingEngine::ICMPPingTarget *> m_targets;       //! List of ping targets
-            QMutex m_targetsMutex;                                      //! Mutex to protect the ping target list
+            QList<Nedrysoft::ICMPPingEngine::ICMPPingTarget *> m_targets;     //! List of ping targets
+            QMutex m_targetsMutex;                                            //! Mutex to protect the ping target list
 
-            std::chrono::high_resolution_clock::time_point m_epoch;     //! Transmission epoch
+            std::chrono::high_resolution_clock::time_point m_epoch;           //! Transmission epoch
 
         protected:
-            bool m_isRunning;                                           //! Thread is running
+            bool m_isRunning;                                                 //! Thread is running
     };
 }
 

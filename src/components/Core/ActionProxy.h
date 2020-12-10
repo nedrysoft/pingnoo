@@ -31,7 +31,6 @@ namespace Nedrysoft::Core {
      * @details     A proxy class for a QAction, allows an Action
      *              to be proxied through, mutliple inputs can be
      *              selected one at a time to be the output.
-     *
      */
     class ActionProxy :
             public QAction {
@@ -41,29 +40,25 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Constructor
              *
-             * @param[in]   parent      parent object
-             *
+             * @param[in]   parent the parent owner object
              */
             ActionProxy(QObject *parent = nullptr);
 
             /**
              * @brief       Sets the currently active target action
              *
-             * @param[in] action the action to be proxied
-             *
+             * @param[in]   action the action to be proxied
              */
             void setActive(QAction *action);
 
         protected:
             /**
              * @brief       Connects the current action to the proxy
-             *
              */
             void connectAction();
 
             /**
              * @brief       Disconnects the current action from the proxy
-             *
              */
             void disconnectAction();
 

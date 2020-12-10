@@ -46,7 +46,6 @@ namespace Nedrysoft::RegExHostMasker {
      * @details     This host marker accepts a regular expression to match the host name
      *              or address and allows the masked output to be generated using capture
      *              groups
-     *
      */
     class RegExHostMasker :
             public Nedrysoft::Core::IHostMasker {
@@ -73,21 +72,18 @@ namespace Nedrysoft::RegExHostMasker {
              * @param[in]   matchExpression         the regular expression used for name matching
              * @param[in]   replacementString       the string to be used for replacement
              * @param[in]   hopString optional      hop string listing hops this mask is valid for
-             *
              */
             void add(unsigned int matchFlags, QString matchExpression, QString replacementString,
                      QString hopString = QString());
 
             /**
              * @sa          IHostMasker
-             *
              */
             virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName,
                               QString &maskedHostAddress);
 
             /**
              * @sa          IConfiguration
-             *
              */
             virtual QJsonObject saveConfiguration();
 
@@ -97,14 +93,13 @@ namespace Nedrysoft::RegExHostMasker {
             /**
              * @brief       Attempts to apply a mask to a string
              *
-             * @param[in]   hop                     the hop number
-             * @param[in]   hostName                the host name to be checked
-             * @param[in]   hostAddress             the host address to be checked
-             * @param[out]  maskedHostName          the masked host name
-             * @param[out]  maskedHostAddress       the masked host address
+             * @param[in]   hop the hop number
+             * @param[in]   hostName the host name to be checked
+             * @param[in]   hostAddress the host address to be checked
+             * @param[out]  maskedHostName the masked host name
+             * @param[out]  maskedHostAddress the masked host address
              *
-             * @return      true on a match, else false
-             *
+             * @return      true on a match; otherwise false.
              */
             bool applyMask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName,
                            QString &maskedHostAddress);

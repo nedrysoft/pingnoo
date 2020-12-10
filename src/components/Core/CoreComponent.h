@@ -50,7 +50,7 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
         CoreComponent() = default;
 
         /**
-         * @sa IComponent
+         * @sa          IComponent
          *
          */
         virtual void initialiseEvent();

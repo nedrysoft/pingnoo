@@ -30,7 +30,6 @@ namespace Nedrysoft::Core {
      * @brief       IRibbonBarManager interface
      *
      * @details     IRibbonBarManager handles the management of status bars
-     *
      */
     class NEDRYSOFT_CORE_DLLSPEC IRibbonBarManager :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -40,10 +39,9 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * Returns the IRibbonBarManager instance
+             * @brief       Returns the IRibbonBarManager instance
              *
              * @return      the IRibbonBarManager singleton instance
-             *
              */
             static IRibbonBarManager *getInstance() {
                 return ComponentSystem::getObject<IRibbonBarManager>();

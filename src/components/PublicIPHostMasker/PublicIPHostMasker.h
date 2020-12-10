@@ -34,7 +34,6 @@ namespace Nedrysoft::PublicIPHostMasker {
      * @details     This host marker accepts a regular expression to match the host name
      *              or address and allows the masked output to be generated using capture
      *              groups
-     *
      */
     class PublicIPHostMasker :
             public Nedrysoft::Core::IHostMasker {
@@ -45,23 +44,18 @@ namespace Nedrysoft::PublicIPHostMasker {
             Q_INTERFACES(Nedrysoft::Core::IHostMasker)
 
         public:
-
             /**
              * @sa          IHostMasker
-             *
              */
             virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName,
                               QString &maskedHostAddress);
 
             /**
              * @sa          IConfiguration
-             *
              */
             virtual QJsonObject saveConfiguration();
 
             virtual bool loadConfiguration(QJsonObject configuration);
-
-        private:
 
         private:
             QString m_publicIP;

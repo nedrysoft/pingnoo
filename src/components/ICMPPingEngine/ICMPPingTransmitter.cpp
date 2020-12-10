@@ -30,10 +30,9 @@
 #include <QRandomGenerator>
 #include <QThread>
 #include <QtEndian>
-#include <cerrno>
 #include <chrono>
 #include <cstdint>
-#include <fcntl.h>
+#include <spdlog/spdlog.h>
 #include <thread>
 
 using namespace std::chrono_literals;
@@ -75,7 +74,6 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
             pingItem->setSampleNumber(sampleNumber);
 
             m_engine->addRequest(pingItem);
-
             pingItem->setTransmitTime(std::chrono::high_resolution_clock::now(), std::chrono::system_clock::now());
 
             auto buffer = Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(
@@ -87,8 +85,8 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
 
             auto result = socket->sendto(buffer, target->hostAddress());
 
-            if (result != sizeof(icmp_request)) {
-                // transmit error
+            if (result != buffer.length()) {
+                spdlog::error("Unable to send packat to "+target->hostAddress().toString().toStdString());
             }
         }
 

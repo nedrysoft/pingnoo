@@ -36,7 +36,6 @@ namespace Nedrysoft::Core {
      *
      * @details     Provides the means of discovering the route to a
      *              given host
-     *
      */
     class NEDRYSOFT_CORE_DLLSPEC IRouteEngine :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -49,24 +48,21 @@ namespace Nedrysoft::Core {
         public:
             /**
             * @brief       Constructor
-            *
             */
             virtual ~IRouteEngine() = default;
 
             /**
              * @brief       Starts route discovery for a host
              *
-             * @param[in]   host        the host name or address to be traced
-             * @param[in]   ipVersion   the IP version to be used for the trace
-             *
+             * @param[in]   host the host name or address to be traced
+             * @param[in]   ipVersion the IP version to be used for the trace
              */
             virtual void findRoute(QString host, Nedrysoft::Core::IPVersion ipVersion) = 0;
 
             /**
              * @brief       Signal emitted when the route discovery is completed
              *
-             * @param[in]   result      the discovered route
-             *
+             * @param[in]   result the discovered route
              */
             Q_SIGNAL void result(const QHostAddress &hostAddress, const Nedrysoft::Core::RouteList &result);
     };

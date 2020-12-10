@@ -41,7 +41,6 @@ namespace Nedrysoft::Core {
      *
      * @details     represents a menu or menubar, allows commands to be registered in
      *              the menu and allows items to be logically grouped.
-     *
      */
     class NEDRYSOFT_CORE_DLLSPEC IMenu :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -56,7 +55,6 @@ namespace Nedrysoft::Core {
              * @brief       Return the QMenu if this is a menu
              *
              * @return      the menu instance
-             *
              */
             virtual QMenu *menu() = 0;
 
@@ -64,7 +62,6 @@ namespace Nedrysoft::Core {
              * @brief       Return the QMenuBar if this is a menu bar
              *
              * @return      the menubar instance
-             *
              */
             virtual QMenuBar *menuBar() = 0;
 
@@ -75,8 +72,7 @@ namespace Nedrysoft::Core {
              *              be grouped by function.  The group will be inserted at the start of
              *              the menu.
              *
-             * @param[in]   groupIdentifier     the identifier of the group
-             *
+             * @param[in]   groupIdentifier the identifier of the group
              */
             virtual void insertGroup(QString groupIdentifier) = 0;
 
@@ -87,8 +83,7 @@ namespace Nedrysoft::Core {
              *              be grouped by function.  The group will be appended to the end of
              *              the menu.
              *
-             * @param[in]   groupIdentifier     the identifier of the group
-             *
+             * @param[in]   groupIdentifier the identifier of the group
              */
             virtual void appendGroup(QString groupIdentifier) = 0;
 
@@ -99,10 +94,9 @@ namespace Nedrysoft::Core {
              *              be grouped by function.  The group will be inserted directly
              *              before the given existing identifier.
              *
-             * @param[in]   groupIdentifier     the identifier of the group
+             * @param[in]   groupIdentifier the identifier of the group
              *
-             * @return      true if added, else false
-             *
+             * @return      true if added; otherwisefalse
              */
             virtual bool addGroupBefore(QString beforeIdentifier, QString groupIdentifier) = 0;
 
@@ -113,10 +107,9 @@ namespace Nedrysoft::Core {
              *              be grouped by function.  The group will be appended directly after
              *              the given existing identifier.
              *
-             * @param[in]   groupIdentifier     the identifier of the group
+             * @param[in]   groupIdentifier the identifier of the group
              *
-             * @return      true if added, else false
-             *
+             * @return      true if added; otherwise false.
              */
             virtual bool addGroupAfter(QString afterIdentifier, QString groupIdentifier) = 0;
 
@@ -125,9 +118,8 @@ namespace Nedrysoft::Core {
              *
              * @details     The added command will be added to the end of the given group
              *
-             * @param[in]   command             the command to add
-             * @param[in]   groupIdentifier     the identifier of the group
-             *
+             * @param[in]   command the command to add
+             * @param[in]   groupIdentifier the identifier of the group
              */
             virtual void appendCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString()) = 0;
 
@@ -136,9 +128,8 @@ namespace Nedrysoft::Core {
              *
              * @details     The added command will be inserted at the start of the given group
              *
-             * @param[in]   command             the command to add
-             * @param[in]   groupIdentifier     the identifier of the group
-             *
+             * @param[in]   command the command to add
+             * @param[in]   groupIdentifier the identifier of the group
              */
             virtual void insertCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString()) = 0;
 
@@ -148,7 +139,6 @@ namespace Nedrysoft::Core {
              * @brief       Return the type of menu
              *
              * @return      a type defined in Nedrysoft::Core::MenuTypes
-             *
              */
             virtual Nedrysoft::Core::MenuTypes type() = 0;
     };

@@ -29,7 +29,6 @@
  * @brief       IPAPIGeoIPProviderComponent class
  *
  * @details     Implements a GEO IP lookup provider using ipapi.com
- *
  */
 class NEDRYSOFT_IPAPIGEOIPPROVIDER_DLLSPEC IPAPIGeoIPProviderComponent :
         public QObject,
@@ -45,19 +44,16 @@ class NEDRYSOFT_IPAPIGEOIPPROVIDER_DLLSPEC IPAPIGeoIPProviderComponent :
     public:
         /**
          * @brief Constructor
-         *
          */
         IPAPIGeoIPProviderComponent();
 
         /**
          * @brief Destructor
-         *
          */
         ~IPAPIGeoIPProviderComponent();
 
         /**
          * @sa          Nedrysoft::ComponentSystem::IComponent
-         *
          */
         virtual void initialiseEvent();
 

@@ -27,16 +27,13 @@
 #include <memory>
 
 namespace Nedrysoft::ICMPPingEngine {
-
     class ICMPPingEngineFactoryData;
-
     class ICMPPingEngine;
 
     /**
      * @brief       Factory class for ICMPPingEngine
      *
      * @details     The factory class for creating instances of the ICMPPingEngine type
-     *
      */
     class ICMPPingEngineFactory :
             public Nedrysoft::Core::IPingEngineFactory {
@@ -49,19 +46,16 @@ namespace Nedrysoft::ICMPPingEngine {
         public:
             /**
              * @brief       Constructor
-             *
              */
             ICMPPingEngineFactory();
 
             /**
              * @brief       Destructor
-             *
              */
             ~ICMPPingEngineFactory();
 
             /**
              * @sa          IPingEngineFactory
-             *
              */
             virtual Nedrysoft::Core::IPingEngine *createEngine(Nedrysoft::Core::IPVersion version);
 
@@ -69,7 +63,6 @@ namespace Nedrysoft::ICMPPingEngine {
 
             /**
              * @sa          IConfiguration
-             *
              */
             virtual QJsonObject saveConfiguration();
 

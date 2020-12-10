@@ -33,7 +33,6 @@ namespace Nedrysoft::RouteEngine {
      *
      * @details     Pings the target with an increasing TTL until reaching the target
      *              machine.
-     *
      */
     class RouteWorker :
             public QObject {
@@ -47,86 +46,77 @@ namespace Nedrysoft::RouteEngine {
              *
              * @details     creates a route worker with the selected IP version
              *
-             * @param[in]   ipVersion           the ip version to be used
-             *
+             * @param[in]   ipVersion the ip version to be used
              */
             RouteWorker(Nedrysoft::Core::IPVersion ipVersion);
 
             /**
              * @brief       Destructor
-             *
              */
-            ~RouteWorker();
+            ~RouteWorker() override;
 
             /**
              * @brief       Sets the target host to find the route for
              *
-             * @param[in]   host                the host
-             *
+             * @param[in]   host the host
              */
             void setHost(QString host);
 
         private:
-
             /**
-             * Pings an IPv4 address with the given ttl
+             * @brief       Pings an IPv4 address with the given ttl
              *
-             * Helper function which returns the hop address and whether it was the
-             * final destination.
+             * @details     Helper function which returns the hop address and whether it was the
+             *              final destination.
              *
-             * @param[in]   hostAddress         the host to ping
-             * @param[in]   ttl                 the TTL used for this ping
-             * @param[out]  returnAddress       the address that the ping response came from
-             * @param[out]  isComplete          true if final hop, false if not
+             * @param[in]   hostAddress the host to ping
+             * @param[in]   ttl the TTL used for this ping
+             * @param[out]  returnAddress the address that the ping response came from
+             * @param[out]  isComplete true if final hop; otherwise false.
              *
-             * @return      true if ping sent, otherwise false
-             *
+             * @return      true if ping sent; otherwise false.
              */
             bool ping_v4(const QHostAddress &hostAddress, int ttl, QHostAddress *returnAddress, bool *isComplete);
 
             /**
-             * Pings an IPv4 address with the given hop limit
+             * @brief       Pings an IPv4 address with the given hop limit
              *
-             * Helper function which returns the hop address and whether it was the
-             * final destination.
+             * @details     Helper function which returns the hop address and whether it was the
+             *              final destination.
              *
-             * @param[in]   hostAddress         the host to ping
-             * @param[in]   hopLimit            the hop limit used for this ping
-             * @param[out]  returnAddress       the address that the ping response came from
-             * @param[out]  isComplete          true if final hop, false if not
+             * @param[in]   hostAddress the host to ping
+             * @param[in]   hopLimit the hop limit used for this ping
+             * @param[out]  returnAddress the address that the ping response came from
+             * @param[out]  isComplete true if final hop; otherwise false.
              *
-             * @return      true if ping sent, otherwise false
+             * @return      true if ping sent; otherwise false.
              *
              */
             bool ping_v6(const QHostAddress &hostAddress, int hopLimit, QHostAddress *returnAddress, bool *isComplete);
 
-        public slots:
+        public:
 
             /**
              * @brief       The receiver thread worker
-             *
              */
-            void doWork(void);
-
-        signals:
+            Q_SLOT void doWork();
 
             /**
              * @brief       Signals when a route is available
              *
-             * @param[in]   hostAddress         the host address of the target
-             * @param[in]   result              the list of hops
-             *
+             * @param[in]   hostAddress the host address of the target
+             * @param[in]   result the list of hops
              */
-            void result(const QHostAddress &hostAddress, const Nedrysoft::Core::RouteList &result);
+            Q_SIGNAL void result(const QHostAddress &hostAddress, const Nedrysoft::Core::RouteList &result);
 
             friend class RouteEngine;
 
         protected:
-            bool m_isRunning;                   //! Whether the host is running
+            bool m_isRunning;                           //! Whether the host is running
 
         private:
-            QString m_host;                     //! The host that is being queried
-            Nedrysoft::Core::IPVersion m_ipVersion; //! The IP version to be used
+            QString m_host;                             //! The host that is being queried
+            Nedrysoft::Core::IPVersion m_ipVersion;     //! The IP version to be used
 
     };
 }

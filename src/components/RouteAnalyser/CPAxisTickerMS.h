@@ -29,13 +29,11 @@ namespace Nedrysoft::RouteAnalyser {
      *
      * @details     Axis ticker implemention for QCustomPlot that displays
      *              double time in seconds as integer milliseconds
-     *
      */
     class CPAxisTickerMS :
             public QCPAxisTicker {
 
         public:
-
             /**
              * @sa          QCPAxisTicker
              */

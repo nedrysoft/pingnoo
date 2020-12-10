@@ -116,6 +116,16 @@ namespace Nedrysoft::ICMPPingEngine {
              */
             virtual bool loadConfiguration(QJsonObject configuration);
 
+        private:
+            /**
+             * @brief       Called when a ICMP packet is avaialble for processing.
+             *
+             * @param[in]   receiveTime the time at which the packet was received.
+             * @param[in]   receiveBuffer the actual packet data.
+             * @param[in]   receiveAddress the IP address that the response came from (may be different to target)
+             */
+            Q_SLOT void onPacketReceived(std::chrono::time_point<std::chrono::high_resolution_clock> receiveTime, QByteArray receiveBuffer, QHostAddress receiveAddress);
+
         protected:
             /**
              * @brief       Checks for any timed out requests and removes and notfiies about their removal.
@@ -181,10 +191,7 @@ namespace Nedrysoft::ICMPPingEngine {
              */
             Nedrysoft::Core::IPVersion version();
 
-            friend class ICMPPingReceiver;
-
             friend class ICMPPingTransmitter;
-
             friend class ICMPPingTimeout;
 
         protected:

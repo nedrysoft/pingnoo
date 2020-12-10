@@ -31,7 +31,6 @@
  * @details     This component provides a host masker implementation which
  *              determines the public IP of the host and then masks this appropriately
  *              where necessary.  This allows outputs to hide sensitive information.
- *
  */
 class NEDRYSOFT_PUBLICIPHOSTMASKER_DLLSPEC PublicIPHostMaskerComponent :
         public QObject,
@@ -46,19 +45,16 @@ class NEDRYSOFT_PUBLICIPHOSTMASKER_DLLSPEC PublicIPHostMaskerComponent :
     public:
         /**
          * @brief       Constructor
-         *
          */
         PublicIPHostMaskerComponent();
 
         /**
          * @brief       Destructor
-         *
          */
         ~PublicIPHostMaskerComponent();
 
         /**
          * @sa          Nedrysoft::ComponentSystem::IComponent
-         *
          */
         virtual void initialiseEvent();
 

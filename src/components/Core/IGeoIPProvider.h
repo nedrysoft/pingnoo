@@ -34,7 +34,6 @@ namespace Nedrysoft::Core {
      *
      * @details     A ping target is used by an IPingEngine to keep track
      *              of destinations to be pinged.
-     *
      */
     class NEDRYSOFT_CORE_DLLSPEC IGeoIPProvider :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -53,26 +52,23 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Performs a host lookup
              *
-             * @param[in]   host        the host address to be looked up
-             *
+             * @param[in]   host the host address to be looked up
              */
             virtual void lookup(const QString host) = 0;
 
             /**
              * @brief       Performs a host lookup
              *
-             * @param[in]   host        the host address to be looked up
-             * @param[in]   function    callback function
-             *
+             * @param[in]   host the host address to be looked up
+             * @param[in]   function callback function
              */
             virtual void lookup(const QString host, Nedrysoft::Core::GeoFunction function) = 0;
 
             /**
              * @brief       Signal for result
              *
-             * @param[out]  host        the host
-             * @param[out]  result      the result
-             *
+             * @param[out]  host the host
+             * @param[out]  result the result
              */
             Q_SIGNAL void result(const QString host, const QVariantMap result);
     };

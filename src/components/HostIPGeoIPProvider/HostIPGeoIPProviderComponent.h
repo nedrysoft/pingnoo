@@ -48,18 +48,18 @@ class NEDRYSOFT_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
 
     public:
         /**
-         * @brief   Constructor
+         * @brief       Constructor
          */
         HostIPGeoIPProviderComponent();
 
         /**
-         * @brief Destructor
+         * @brief       Destructor
          *
          */
         ~HostIPGeoIPProviderComponent();
 
         /**
-         * @sa Nedrysoft::ComponentSystem::IComponent
+         * @sa          Nedrysoft::ComponentSystem::IComponent
          *
          */
         virtual void initialiseEvent();

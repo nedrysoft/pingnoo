@@ -30,7 +30,6 @@
  *
  * @details     This component provides a route engine implementation which
  *              discovers the route to a host
- *
  */
 class NEDRYSOFT_ROUTEENGINE_DLLSPEC RouteEngineComponent :
         public QObject,
@@ -46,19 +45,16 @@ class NEDRYSOFT_ROUTEENGINE_DLLSPEC RouteEngineComponent :
     public:
         /**
          * @brief       Constructor
-         *
          */
         RouteEngineComponent();
 
         /**
          * @brief       Destructor
-         *
          */
         ~RouteEngineComponent();
 
         /**
          * @sa          Nedrysoft::ComponentSystem::IComponent
-         *
          */
         virtual void initialiseEvent();
 

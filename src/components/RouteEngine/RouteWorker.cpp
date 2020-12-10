@@ -29,6 +29,7 @@
 #include <QtEndian>
 #include <array>
 #include <cstdint>
+#include <spdlog/spdlog.h>
 
 using namespace std::chrono_literals;
 
@@ -53,9 +54,9 @@ bool Nedrysoft::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddres
 
     auto socket = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(ttl, Nedrysoft::ICMPSocket::V4);
 
-    auto id = static_cast<uint16_t>(( QRandomGenerator::global()->generate() % ( UINT16_MAX - 1 )) + 1);
+    auto id = static_cast<uint16_t>((QRandomGenerator::global()->generate() % (UINT16_MAX-1))+1);
 
-    for (uint16_t sequence = 1; sequence <= TransmitRetries; sequence++) {
+    for (uint16_t sequence=1; sequence<=TransmitRetries; sequence++) {
         if (!m_isRunning) {
             break;
         }
@@ -66,17 +67,19 @@ bool Nedrysoft::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddres
         auto result = socket->sendto(buffer, hostAddress);
 
         if (result != buffer.length()) {
-            qWarning() << "Error sending ICMP request.";
+            spdlog::error("There was an error sending the ICMP request.");
+
+            continue;
         }
 
         QByteArray receiveBuffer;
 
         std::chrono::milliseconds responseTimeout = DefaultReplyTimeout;
 
-        while (responseTimeout.count() > 0) {
+        while (responseTimeout.count()>0) {
             auto startTime = std::chrono::system_clock::now();
 
-            if (socket->recvfrom(receiveBuffer, *returnAddress, responseTimeout) == -1) {
+            if (socket->recvfrom(receiveBuffer, *returnAddress, responseTimeout)==-1) {
                 break;
             }
 
@@ -84,9 +87,9 @@ bool Nedrysoft::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddres
 
             auto responsePacket = Nedrysoft::ICMPPacket::ICMPPacket::fromData(receiveBuffer, Nedrysoft::ICMPPacket::V4);
 
-            if (responsePacket.resultCode() != Nedrysoft::ICMPPacket::Invalid) {
-                if (( responsePacket.id() == id ) && ( responsePacket.sequence() == sequence )) {
-                    if (responsePacket.resultCode() == Nedrysoft::ICMPPacket::EchoReply) {
+            if (responsePacket.resultCode()!=Nedrysoft::ICMPPacket::Invalid) {
+                if (( responsePacket.id()==id) && (responsePacket.sequence()==sequence)) {
+                    if (responsePacket.resultCode()==Nedrysoft::ICMPPacket::EchoReply) {
                         *isComplete = true;
                     }
 
@@ -96,9 +99,9 @@ bool Nedrysoft::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddres
                 }
             }
 
-            std::chrono::milliseconds diff = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
+            std::chrono::milliseconds diff = std::chrono::duration_cast<std::chrono::milliseconds>(endTime-startTime);
 
-            responseTimeout -= diff;
+            responseTimeout-=diff;
         }
     }
 
@@ -115,30 +118,33 @@ bool Nedrysoft::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddres
 
     auto socket = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(hopLimit, Nedrysoft::ICMPSocket::V6);
 
-    auto id = static_cast<uint16_t>(( QRandomGenerator::global()->generate() % ( UINT16_MAX - 1 )) + 1);
+    auto id = static_cast<uint16_t>((QRandomGenerator::global()->generate() % (UINT16_MAX-1))+1);
+    uint16_t sequenceBase = static_cast<uint16_t>((QRandomGenerator::global()->generate() % (UINT16_MAX-1))+1);
 
-    for (uint16_t sequence = 1; sequence <= TransmitRetries; sequence++) {
+    for (uint16_t sequence=1; sequence<=TransmitRetries; sequence++) {
         if (!m_isRunning) {
             break;
         }
 
-        auto buffer = Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(id, sequence, PingPayloadLength, hostAddress,
+        auto buffer = Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(id, sequenceBase+sequence, PingPayloadLength, hostAddress,
                                                                     Nedrysoft::ICMPPacket::V6);
 
         auto result = socket->sendto(buffer, hostAddress);
 
         if (result != buffer.length()) {
-            qWarning() << "Error sending ICMP request.";
+            spdlog::error("There was an error sending the ICMP request.");
+
+            continue;
         }
 
         QByteArray receiveBuffer;
 
         std::chrono::milliseconds responseTimeout = DefaultReplyTimeout;
 
-        while (responseTimeout.count() > 0) {
+        while (responseTimeout.count()>0) {
             auto startTime = std::chrono::system_clock::now();
 
-            if (socket->recvfrom(receiveBuffer, *returnAddress, responseTimeout) == -1) {
+            if (socket->recvfrom(receiveBuffer, *returnAddress, responseTimeout)==-1) {
                 break;
             }
 
@@ -147,8 +153,8 @@ bool Nedrysoft::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddres
             auto responsePacket = Nedrysoft::ICMPPacket::ICMPPacket::fromData(receiveBuffer, Nedrysoft::ICMPPacket::V6);
 
             if (responsePacket.resultCode() != Nedrysoft::ICMPPacket::Invalid) {
-                if (( responsePacket.id() == id ) && ( responsePacket.sequence() == sequence )) {
-                    if (responsePacket.resultCode() == Nedrysoft::ICMPPacket::EchoReply) {
+                if ((responsePacket.id()==id) && (responsePacket.sequence()==sequenceBase+sequence)) {
+                    if (responsePacket.resultCode()==Nedrysoft::ICMPPacket::EchoReply) {
                         *isComplete = true;
                     }
 
@@ -158,9 +164,9 @@ bool Nedrysoft::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddres
                 }
             }
 
-            std::chrono::milliseconds diff = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
+            std::chrono::milliseconds diff=std::chrono::duration_cast<std::chrono::milliseconds>(endTime-startTime);
 
-            responseTimeout -= diff;
+            responseTimeout-=diff;
         }
     }
 
@@ -174,61 +180,80 @@ void Nedrysoft::RouteEngine::RouteWorker::doWork() {
     auto route = Nedrysoft::Core::RouteList();
     auto hopAddress = QHostAddress();
     auto isComplete = false;
-    auto actualTargetAddress = QHostAddress();
 
     m_isRunning = true;
 
-    for (auto targetAddress : addressList) {
-        auto hop = 1;
+    if (!addressList.count()) {
+        emit result(QHostAddress(), Nedrysoft::Core::RouteList());
 
-        if (m_ipVersion == Nedrysoft::Core::IPVersion::V4) {
-            if (targetAddress.protocol() != QAbstractSocket::IPv4Protocol) {
-                continue;
-            }
-        } else if (m_ipVersion == Nedrysoft::Core::IPVersion::V6) {
-            if (targetAddress.protocol() != QAbstractSocket::IPv6Protocol) {
-                continue;
-            }
+        spdlog::error(QString("Failed to find address for %1.").arg(m_host).toStdString());
+
+        return;
+    }
+
+    auto targetAddress = addressList.at(0);
+
+    auto hop = 1;
+
+    if (m_ipVersion == Nedrysoft::Core::IPVersion::V4) {
+        if (targetAddress.protocol() != QAbstractSocket::IPv4Protocol) {
+            spdlog::error(QString("Socket IP version mismatch. (expecting QAbstractSocket::IPv4Protocol)")
+                    .toStdString());
+
+            return;
+        }
+    } else if (m_ipVersion == Nedrysoft::Core::IPVersion::V6) {
+        if (targetAddress.protocol() != QAbstractSocket::IPv6Protocol) {
+            spdlog::error(QString("Socket IP version mismatch. (expecting QAbstractSocket::IPv6Protocol)")
+                                  .toStdString());
+
+            return;
+        }
+    } else {
+        spdlog::error(QString("Socket IP version unknown.)").toStdString());
+
+        return;
+    }
+
+    route = Nedrysoft::Core::RouteList();
+
+    while ((!isComplete) && (hop<=MaxRouteHops) && (m_isRunning)) {
+        bool hopResponded;
+
+        if (targetAddress.protocol() == QAbstractSocket::IPv4Protocol) {
+            hopResponded = ping_v4(targetAddress, hop, &hopAddress, &isComplete);
+        } else if (targetAddress.protocol() == QAbstractSocket::IPv6Protocol) {
+            hopResponded = ping_v6(targetAddress, hop, &hopAddress, &isComplete);
+        }
+
+        spdlog::trace(QString("Hop %1 %2.")
+                .arg(hop)
+                .arg(hopResponded?(isComplete?"responded with echo":"responded with TTL exceeded"):"timed out")
+                .toStdString());
+
+        if (hopResponded) {
+            route.append(hopAddress);
         } else {
-            continue;
+            route.append(QHostAddress());
         }
 
-        route = Nedrysoft::Core::RouteList();
-
-        while (( !isComplete ) && ( hop <= MaxRouteHops ) && ( m_isRunning )) {
-            bool hopResponded;
-
-            if (targetAddress.protocol() == QAbstractSocket::IPv4Protocol) {
-                hopResponded = ping_v4(targetAddress, hop, &hopAddress, &isComplete);
-            } else if (targetAddress.protocol() == QAbstractSocket::IPv6Protocol) {
-                hopResponded = ping_v6(targetAddress, hop, &hopAddress, &isComplete);
-            } else {
-                return;
-            }
-
-            if (hopResponded) {
-                route.append(hopAddress);
-            } else {
-                route.append(QHostAddress());
-            }
-
-            hop++;
-        }
-
-        actualTargetAddress = targetAddress;
-
-        if (isComplete) {
-            break;
-        }
+        hop++;
     }
 
     if (isComplete) {
-        emit result(actualTargetAddress, route);
+        spdlog::trace(QString("Route to %1 (%2) completed, total of %3 hops.")
+                .arg(m_host)
+                .arg(targetAddress.toString())
+                .arg(hop)
+                .toStdString() );
+
+        emit result(targetAddress, route);
     } else {
-        emit result(actualTargetAddress, Nedrysoft::Core::RouteList());
+        spdlog::error(QString("Failed to discover route to %1.").arg(m_host).toStdString());
+
+        emit result(targetAddress, Nedrysoft::Core::RouteList());
     }
 }
-
 
 void Nedrysoft::RouteEngine::RouteWorker::setHost(QString host) {
     m_host = std::move(host);
