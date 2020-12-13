@@ -46,9 +46,7 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Constructs a new ContextManager instance which is a child of the parent.
-             *
-             * @param[in]   parent the owner widget.
+             * @brief       Constructs a new ContextManager instance.
              */
             ContextManager();
 

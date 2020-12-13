@@ -24,9 +24,15 @@
 #include "NewTargetRibbonGroup.h"
 #include "ui_NewTargetRibbonGroup.h"
 
-#include "Ribbon/RibbonDropButton.h"
 
+#include "Ribbon/RibbonDropButton.h"
+#include "Core/IPingEngineFactory.h"
+
+#include <QAbstractItemView>
 #include <QMenu>
+#include <ComponentSystem/IComponentManager.h>
+
+constexpr auto comboPadding = 12;
 
 Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *parent) :
         QWidget(parent),
@@ -38,9 +44,9 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         QMenu menu;
         QPoint menuPosition = ui->favouriteDropButton->rect().bottomLeft();
 
-        menu.addAction(tr("Recent Targets"));
+        menu.addAction(tr("Recent Targets"))->setDisabled(true);
         menu.addSeparator();
-        menu.addAction(tr("Favourites"));
+        menu.addAction(tr("Favourites"))->setDisabled(true);
         menu.addSeparator();
         menu.addAction(tr("Load Favourite..."));
         menu.addAction(tr("New Favourite..."));
@@ -51,6 +57,25 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
         menu.exec(menuPosition);
     });
+
+    ui->intervalLineEdit->setPlaceholderText("2.5s");
+    ui->targetLineEdit->setPlaceholderText("1.1.1.1");
+
+    auto pingEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IPingEngineFactory>();
+
+    if (pingEngines.count()) {
+        auto minimumWidth = 0;
+        for(auto pingEngine : pingEngines) {
+            ui->engineComboBox->addItem(pingEngine->description());
+
+            QFontMetrics fontMetrics(ui->engineComboBox->font());
+
+            minimumWidth = qMax(minimumWidth, fontMetrics.boundingRect(pingEngine->description()).width()+comboPadding);
+        }
+
+        ui->engineComboBox->view()->setMinimumWidth(minimumWidth);
+        ui->engineComboBox->setPlaceholderText(pingEngines[0]->description());
+    }
 }
 
 Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::~NewTargetRibbonGroup() {

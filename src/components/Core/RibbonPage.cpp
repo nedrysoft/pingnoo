@@ -25,13 +25,17 @@
 
 #include <QDebug>
 
+constexpr auto spacerStretchFactor = 2;
+constexpr auto groupBottomMargin = 6;
+
 Nedrysoft::Core::RibbonPage::RibbonPage() :
         m_pageWidget(new QWidget()),
-        m_pageLayout(new QHBoxLayout()) {
+        m_pageLayout(new QHBoxLayout()),
+        m_spacerItem(nullptr) {
 
     m_pageLayout->setSpacing(0);
 
-    m_pageLayout->setContentsMargins(0, 0, 0, 6);
+    m_pageLayout->setContentsMargins(0, 0, 0, groupBottomMargin);
 
     m_pageWidget->setLayout(m_pageLayout);
 }
@@ -45,10 +49,18 @@ Nedrysoft::Core::IRibbonGroup *Nedrysoft::Core::RibbonPage::addGroup(QString tit
 
     ribbonGroup->setGroupName(title);
 
-    m_pageLayout->addWidget(ribbonGroup);
-    m_pageLayout->addSpacerItem(new QSpacerItem(0,0, QSizePolicy::Expanding, QSizePolicy::Expanding));
+    if (m_spacerItem) {
+        m_pageLayout->setStretch(m_pageLayout->count()-1, spacerStretchFactor);
+        m_pageLayout->removeItem(m_spacerItem);
+    } else {
+        m_spacerItem = new QSpacerItem(0,0, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    }
 
-    m_pageLayout->setStretch(1, 2);
+    m_pageLayout->addWidget(ribbonGroup);
+
+    m_pageLayout->addSpacerItem(m_spacerItem);
+
+    m_pageLayout->setStretch(m_pageLayout->count()-1, spacerStretchFactor);
 
     auto groupLayout = new QGridLayout();
 

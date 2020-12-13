@@ -60,7 +60,6 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
     Nedrysoft::ComponentSystem::addObject(ribbonBarManager);
 
     ribbonBarManager->addPage(tr("Home"), Pingnoo::Constants::ribbonHomePage);
-    ribbonBarManager->addPage(tr("File"), Pingnoo::Constants::ribbonFilePage);
 
     // QStatusBar *statusBar = new QStatusBar;
 

@@ -25,17 +25,21 @@
 
 namespace Nedrysoft::RouteAnalyser {
     /**
-     * @brief       Axis ticker class to convert to ms
-     *
-     * @details     Axis ticker implemention for QCustomPlot that displays
-     *              double time in seconds as integer milliseconds
+     * @brief       The QCPAxisTicker is a QCustomPlot Axis ticker class that displays milliseconds.
      */
     class CPAxisTickerMS :
             public QCPAxisTicker {
 
         public:
             /**
-             * @sa          QCPAxisTicker
+             * @brief       Returns a string which expressess the given tick as milliseconds.
+             *
+             * @param[in]   tick the tick value.
+             * @param[in]   locale the locale to be used.
+             * @param[in]   formatChar the format used for floating point conversions.  (f or g)
+             * @param[in]   precision the precision used for floating point conversions.
+             *
+             * @returns     the tick formatted as a string.
              */
             virtual QString getTickLabel(double tick, const QLocale &locale, QChar formatChar, int precision);
     };

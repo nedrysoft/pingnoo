@@ -24,7 +24,8 @@
 
 namespace Pingnoo::Constants {
     constexpr auto ribbonRouteAnalyserPage = "Ribbon.Page.RouteAnalyser";
-    constexpr auto ribbonRouteAnalyserGroup = "Ribbon.Group.RouteAnalyser";
+    constexpr auto ribbonRouteAnalyserNewTargetGroup = "Ribbon.Group.RouteAnalyser.NewTarget";
+    constexpr auto ribbonRouteAnalyserLatencyGroup = "Ribbon.Group.RouteAnalyser.Latency";
 }
 
 #endif //NEDRYSOFT_ROUTEANALYSER_H

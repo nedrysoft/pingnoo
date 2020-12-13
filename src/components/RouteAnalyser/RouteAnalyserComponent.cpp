@@ -29,6 +29,7 @@
 #include "Core/IEditorManager.h"
 #include "Core/IRibbonBarManager.h"
 #include "Core/IRibbonPage.h"
+#include "LatencyRibbonGroup.h"
 #include "NewTargetDialog.h"
 #include "Pingnoo.h"
 #include "RouteAnalyser.h"
@@ -59,13 +60,19 @@ void RouteAnalyserComponent::initialiseEvent() {
 
     if (ribbonBarManager) {
         auto ribbonPage = ribbonBarManager->addPage(tr("Route Analyser"), Pingnoo::Constants::ribbonRouteAnalyserPage);
-        auto ribbonWidget = new Nedrysoft::RouteAnalyser::NewTargetRibbonGroup;
+        auto newTargetGroupWidget = new Nedrysoft::RouteAnalyser::NewTargetRibbonGroup;
+        auto latencyGroupWidget = new Nedrysoft::RouteAnalyser::LatencyRibbonGroup;
 
-        ribbonPage->addGroup(tr("New Target"),
-                             Pingnoo::Constants::ribbonRouteAnalyserGroup,
-                             ribbonWidget);
+        ribbonPage->addGroup(
+                tr("New Target"),
+                Pingnoo::Constants::ribbonRouteAnalyserNewTargetGroup,
+                newTargetGroupWidget );
 
-        //connect(ribbonWidget, &Nedrysoft::RibbonBar::)
+        ribbonPage->addGroup(
+                tr("Latency"),
+                Pingnoo::Constants::ribbonRouteAnalyserLatencyGroup,
+                latencyGroupWidget );
+
     }
 
     auto core = Nedrysoft::Core::ICore::getInstance();

@@ -41,15 +41,14 @@ namespace Nedrysoft::RouteAnalyser {
     typedef std::chrono::duration<double, std::ratio<1, 1>> seconds_double;
 
     /**
-     * Route table data item
+     * @brief       The PindData class is used to store data for a table model.
      *
-     * Holds data about each hop and updates the route table
-     * when the object is updated.
+     * @details     Holds data about each hop and updates the route table when the object is updated.
      */
     class PingData {
         public:
             /**
-             * Column ID's (columns appear in this order)
+             * @brief       Column ID's. (columns appear in this order)
              */
             enum PingDataFields {
                 Hop,
@@ -69,200 +68,198 @@ namespace Nedrysoft::RouteAnalyser {
 
         public:
             /**
-             * @brief       Constructor
+             * @brief       Constructs a new PingData instance.
              */
-
             PingData() = default;
 
             /**
-             * @brief       Destructor
+             * @brief       Destroys the PingData.
              */
             ~PingData() = default;
 
             /**
-             * @brief       Constructor
+             * @brief       Constructs a new PingData instance copying another PingData.
              */
             PingData(const PingData &) = default;
 
             /**
-             * @brief       Destructor
+             * @brief       Copy operator.
              */
             PingData &operator=(const PingData &) = default;
 
             /**
-             * @brief       Constructor for a route table item
+             * @brief       Constructs a new PingData and adds the item to a model.
              *
              * @details     Creates an entry in the given data table and initialises the row
              *              with default information.
              *
-             * @param[in]   tableModel the table model
-             * @param[in]   hop the hop number of this item
-             * @param[in]   hopValid  true if the hop responds to ping; otherwise false.
+             * @param[in]   tableModel the table model.
+             * @param[in]   hop the hop number of this item.
+             * @param[in]   hopValid true if the hop responds to ping; otherwise false.
              */
             PingData(QStandardItemModel *tableModel, int hop, bool hopValid);
 
             /**
-             * @brief       Sets the historical latency for this point
+             * @brief       Sets the historical latency for this point.
              *
              * @details     This can optionally be drawn on the latency graph when hovering
              *              over a chart.
              *
-             * @param[in]   latency the latency
+             * @param[in]   latency the latency.
              */
             void setHistoricalLatency(std::chrono::duration<double> latency);
 
             /**
-             * @brief       Updates the route table item with the result
+             * @brief       Updates the route table item with the given result.
              *
-             * @param[in]   result the ping result for this hop
+             * @param[in]   result the ping result for this hop.
              */
             void updateItem(Nedrysoft::Core::PingResult result);
 
             /**
-             * @brief       Sets the hop number for this item
+             * @brief       Sets the hop number for this item.
              *
-             * @param[in]   hop the hop number
+             * @param[in]   hop the hop number.
              */
             void setHop(int hop);
 
             /**
-             * @brief       Returns the hop number for this route item
+             * @brief       Returns the hop number for this route item.
              *
-             * @return      the hop number
+             * @returns     the hop number.
              */
             int hop();
 
             /**
-             * @brief       Sets the displayed ip address for this route item
+             * @brief       Sets the displayed ip address for this route item.
              *
-             * @param[in]   hostAddress address for this hop
+             * @param[in]   hostAddress address for this hop.
              */
             void setHostAddress(QString hostAddress);
 
             /**
-             * @brief       Returns the displayed ip address for this route item
+             * @brief       Returns the displayed ip address for this route item.
              *
-             * @return      the address for this hop
+             * @returns     the address for this hop.
              */
             QString hostAddress();
 
             /**
-             * @brief       Sets the displayed host name for this route item
+             * @brief       Sets the displayed host name for this route item.
              *
-             * @param[in]   hostName the host name
+             * @param[in]   hostName the host name.
              */
             void setHostName(QString hostName);
 
             /**
-             * @brief       Returns the displayed host name for this route item
+             * @brief       Returns the displayed host name for this route item.
              *
-             * @return      the host name
+             * @returns     the host name.
              */
             QString hostName();
 
             /**
-             * @brief       Sets the location position
+             * @brief       Sets the location position.
              *
-             * @param[in]   location the location
+             * @param[in]   location the location.
              */
             void setLocation(const QString &location);
 
             /**
-             * @brief       Returns the displayed location
+             * @brief       Returns the displayed location.
              *
-             * @return      the location
+             * @returns     the location.
              */
             QString location();
 
             /**
-             * @brief       Sets the graph associated with this route item
+             * @brief       Sets the graph associated with this route item.
              *
-             * @param[in]   customPlot the plot
+             * @param[in]   customPlot the plot.
              */
             void setCustomPlot(QCustomPlot *customPlot);
 
             /**
-             * @brief       Sets the jitter graph associated with this route item
+             * @brief       Sets the jitter graph associated with this route item.
              *
-             * @param[in]   jitterPlot the plot
+             * @param[in]   jitterPlot the plot.
              */
             void setJitterPlot(QCustomPlot *jitterPlot);
 
             /**
-             * @brief       Returns the graph associated with this route item
+             * @brief       Returns the graph associated with this route item.
              *
-             * @return      the plot
+             * @return      the plot.
              */
             QCustomPlot *customPlot();
 
             /**
-             * @brief       Returns the jitter graph associated with this route item
+             * @brief       Returns the jitter graph associated with this route item.
              *
-             * @return      the plot
+             * @return      the plot.
              */
             QCustomPlot *jitterPlot();
 
             /**
-             * @brief       Returns whether this hop is valid
+             * @brief       Returns whether this hop is valid.
              *
-             * @return      true if valid; otherwise false.
+             * @returns     true if valid; otherwise false.
              */
             bool hopValid();
 
             /**
-             * @brief       Sets the valid state for this hop
+             * @brief       Sets the valid state for this hop.
              *
-             * @param[in]   hopValid whether the hop is valid
+             * @param[in]   hopValid whether the hop is valid.
              */
             void setHopValid(bool hopValid);
 
             /**
-             * @brief       Returns the latency
+             * @brief       Returns the latency.
              *
-             * @param[in]   field which latency to retrieve
+             * @param[in]   field which latency to retrieve.
              *
-             * @return      the latency
+             * @return      the latency.
              */
             double latency(int field);
 
             /**
-             * @brief       Returns the packet loss %
+             * @brief       Returns the packet loss %.
              *
-             * @return      the packet loss
+             * @returns     the packet loss.
              */
             double packetLoss();
 
         protected:
             /**
-             * @brief       Calculates a running average
+             * @brief       Calculates a running average.
              *
-             * @details     Used to calculate the running average of the latency, does
-             *              not store previous values.
+             * @details     Used to calculate the running average of the latency, does not store previous values.
              *
-             * @param[in]   previousAverage the current average
-             * @param[in]   value the new value to add to the average
-             * @param[in]   n the number of values (including the new one) used
+             * @param[in]   previousAverage the current average.
+             * @param[in]   value the new value to add to the average.
+             * @param[in]   n the number of values (including the new one) used.
              *
-             * @return      the plot
+             * @return      the average.
              */
             static double runningAverage(double previousAverage, double value, double n);
 
             /**
-             * @brief       Updates the model so that views refresh
+             * @brief       Updates the model so that views refresh.
              */
             void updateModel();
 
             /**
-             * @brief       Gets the table model associated with this item
+             * @brief       Returns the table model associated with this item.
              *
-             * @return      table model
+             * @return      table model.
              */
             QStandardItemModel *tableModel();
 
             /**
-             * @brief       Returns the number of samples sent
+             * @brief       Returns the number of samples sent.
              *
-             * @return      sample count
+             * @return      sample count.
              */
             unsigned long count();
 
@@ -294,7 +291,6 @@ namespace Nedrysoft::RouteAnalyser {
 }
 
 Q_DECLARE_METATYPE(Nedrysoft::RouteAnalyser::PingData)
-
 Q_DECLARE_METATYPE(Nedrysoft::RouteAnalyser::PingData *)
 
 #endif // NEDRYSOFT_ROUTEANALYSER_PINGDATA_H

@@ -29,11 +29,9 @@
 
 namespace Nedrysoft::PublicIPHostMasker {
     /**
-     * @brief       Definition for the built in host masker
+     * @brief       The PublicIPHostMasker class provides a host masker that redacts the public ip.
      *
-     * @details     This host marker accepts a regular expression to match the host name
-     *              or address and allows the masked output to be generated using capture
-     *              groups
+     * @details     This host marker determines the public IP and then redacts any instances of it.
      */
     class PublicIPHostMasker :
             public Nedrysoft::Core::IHostMasker {
@@ -45,16 +43,45 @@ namespace Nedrysoft::PublicIPHostMasker {
 
         public:
             /**
-             * @sa          IHostMasker
+             * @brief       Masks a host name/ip.
+             *
+             * @detail      A IHostMasker can redact the hostname and/or host address based of a combination of
+             *              host name, host address and the hop number.
+             *
+             *              If there is no match, then the original values are returned.
+             *
+             * @see         Nedrysoft::Core::IHostMasker
+             *
+             * @param[in]   hop the hop number.
+             * @param[in]   hostName the host name to be checked.
+             * @param[in]   hostAddress the host IP to be checked.
+             * @param[out]  maskedHostName the masked host name.
+             * @param[out]  maskedHostAddress the masked host IP.
+             *
+             * @returns     returns true on replacement; otherwise false.
              */
             virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName,
                               QString &maskedHostAddress);
 
+        public:
             /**
-             * @sa          IConfiguration
+             * @brief       Saves the configuration to a JSON object.
+             *
+             * @see         Nedrysoft::Core::IConfiguration::saveConfiguration
+             *
+             * @returns     the JSON configuration.
              */
             virtual QJsonObject saveConfiguration();
 
+            /**
+             * @brief       Loads the configuration.
+             *
+             * @see         Nedrysoft::Core::IConfiguration::loadConfiguration
+             *
+             * @param[in]   configuration the configuration as JSON object.
+             *
+             * @returns     true if loaded; otherwise false.
+             */
             virtual bool loadConfiguration(QJsonObject configuration);
 
         private:

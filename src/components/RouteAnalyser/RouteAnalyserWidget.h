@@ -41,7 +41,7 @@ class QScrollArea;
 
 namespace Nedrysoft::RouteAnalyser {
     /**
-     * @brief       The RouteAnalyserWidget class
+     * @brief       The RouteAnalyserWidget class provides the main widget for a route analyser.
      *
      * @details     the widget which is displayed in an editor for a route analysis, includes the table view
      *              showing the current hop information and graphs for all hops which respond.
@@ -54,58 +54,71 @@ namespace Nedrysoft::RouteAnalyser {
 
         public:
             /**
-             * @brief       Constructor
+             * @brief       Constructs a new RouteAnalyserWidget with the given information.
              *
-             * @param[in]   targetHost the host being analysed (ip address or hostname)
-             * @param[in]   ipVersion the version of ip to be used
-             * @param[in]   interval the interval between pings
-             * @param[in]   pingEngineFactory the ping engine factory to use
-             * @param[in]   parent the parent widget
+             * @param[in]   targetHost the host being analysed. (ip address or hostname)
+             * @param[in]   ipVersion the version of ip to be used.
+             * @param[in]   interval the interval between pings.
+             * @param[in]   pingEngineFactory the ping engine factory to use.
+             * @param[in]   parent the parent widget.
              */
             explicit RouteAnalyserWidget(QString targetHost, Nedrysoft::Core::IPVersion ipVersion, double interval,
                                          Nedrysoft::Core::IPingEngineFactory *pingEngineFactory,
                                          QWidget *parent = nullptr);
 
             /**
-             * @brief       Destructor
+             * @brief       Destroys the RouteAnalyserWidget.
              */
             ~RouteAnalyserWidget();
 
             /**
-             * @brief       Ping result from a hop
+             * @brief       Called when a ping result is available.
              *
-             * @param[in]   result the PingResult contains the timing information for the ping
+             * @param[in]   result the PingResult contains the timing information for the ping.
              */
             Q_SLOT void onPingResult(Nedrysoft::Core::PingResult result);
 
             /**
-             * @brief       Route result
+             * @brief       Called when a ping route is available.
              *
-             * @details     returns the list of hops to the destination
+             * @details     returns the list of hops to the destination.
              *
-             * @param[in]   routeHostAddress the intended target of the route analysis
-             * @param[in]   route the route that was discovered
+             * @param[in]   routeHostAddress the intended target of the route analysis.
+             * @param[in]   route the route that was discovered.
              */
             Q_SLOT void onRouteResult(const QHostAddress &routeHostAddress, const Nedrysoft::Core::RouteList &route);
 
             /**
-             * @brief       event filter
+             * @brief       This signal is emitted when a watched event on a child fires.
              *
              * @details     used to get notifications of a palette change so that the graphs can be
              *              modified so that they remain legible.  Implemented to allow cross thread control
              *              changes.
              *
-             * @param[in]   watched the object that was being watched
-             * @param[in]   event the event that was sent to the filter
+             * @param[in]   watched the object that was being watched.
+             * @param[in]   event the event that was sent to the filter.
              */
             Q_SIGNAL void filteredEvent(QObject *watched, QEvent *event);
 
         protected:
-            QMap<int, QPair<QString, QString> > &headerMap();
-
+            /**
+             * @brief       Reimplements: QObject::eventFilter(QObject *watched, QEvent *event).
+             *
+             * @param[in]   watched the object that caused the event.
+             * @param[in]   event the event information.
+             *
+             * @returns     true if event was handled; otherwise false.
+             */
             bool eventFilter(QObject *watched, QEvent *event) override;
 
+            /**
+             * @brief       Reimplements: QWidget::paintEvent(QPaintEvent *event).
+             *
+             * @param[in]   event the event information.
+             */
             void paintEvent(QPaintEvent *paintEvent) override;
+
+            QMap<int, QPair<QString, QString> > &headerMap();
 
         private:
             QMap<Nedrysoft::Core::IPingTarget *, int> m_targetMap;

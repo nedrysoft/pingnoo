@@ -31,165 +31,186 @@ namespace Nedrysoft::RouteAnalyser {
     class PingData;
 
     /**
-     * @brief       Route table graph item delegate
-     *
-     * @details     Delegate used to draw the graph item in the
-     *              route table
+     * @brief       The RouteTableItemDelegate class provides a item delegate to draw a hop in a QTableView.
      */
     class RouteTableItemDelegate :
             public QStyledItemDelegate {
 
         public:
-
             /**
-             * @brief       Constructor
+             * @brief       Constructs a new NewTargetDialog instance which is a child of the parent.
+             *
+             * @param[in]   parent the owner widget.
              */
             RouteTableItemDelegate(QWidget *parent = 0);
 
             /**
-             * @brief       paint implementation to draw the graph item
+             * @brief       Reimplements: paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index)
+             *
+             * @param[in]   painter the QPainter to draw to.
+             * @param[in]   option information about the item being drawn.
+             * @param[in]   index the index of the item in the model.
              */
             void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
         private:
 
             /**
-             * @brief       Finds a route item sibling
+             * @brief       Returns a route item sibling.
              *
-             * @details     Finds the previous or next valid item in the route list, a valid
-             *              item is a hop that responded to the ping, ignores items that did
-             *              not respond.  Will return invalid model indexes if there is not a
-             *              previous/next item that is valid.
+             * @details     Finds the previous or next valid item in the route list, a valid item is a hop that
+             *              responded to the ping, ignores items that did not respond.  Will return invalid model
+             *              index if there is not a previous/next item that is valid.
              *
-             * @param[in]   modelIndex the starting model index
-             * @param[in]   adjustment set to 1 to look for the next valud, -1 for previous
+             * @param[in]   modelIndex the starting model index.
+             * @param[in]   adjustment set to 1 to look for the next valud, -1 for previous.
              *
-             * @return      The model index of the next/previous item (or invalid)
+             * @returns     The model index of the next/previous item. (or invalid)
              */
             QModelIndex getSibling(QModelIndex modelIndex, int adjustment) const;
 
             /**
-             * @brief       Gets the route sibling data
+             * @brief       Returns the route sibling data.
              *
-             * @details     calls getSibling, but returns the PingData associated with the sibling
-             *              and the visual rectangle as well.
+             * @details     calls getSibling, but returns the PingData associated with the sibling and the visual
+             *              rectangle as well.
              *
-             * @param[in]   modelIndex the starting model index
-             * @param[in]   adjustment set to 1 to look for the next valud, -1 for previous
-             * @param[in]   tableView view associated with this
-             * @param[out]  rect the visual rectangle of the item
+             * @param[in]   modelIndex the starting model index.
+             * @param[in]   adjustment set to 1 to look for the next valud, -1 for previous.
+             * @param[in]   tableView view associated with this.
+             * @param[out]  rect the visual rectangle of the item.
              *
-             * @return      The model index of the next/previous item (or invalid)
+             * @returns     The ping data for the next/previous item. (or invalid)
              */
-            Nedrysoft::RouteAnalyser::PingData *
-            getSiblingData(QModelIndex modelIndex, int adjustment, const QTableView *tableView, QRect &rect) const;
+            Nedrysoft::RouteAnalyser::PingData *getSiblingData(QModelIndex modelIndex,
+                                                               int adjustment,
+                                                               const QTableView *tableView,
+                                                               QRect &rect) const;
 
             /**
-             * @brief       Paints the graph column
+             * @brief       Paints the graph column.
              *
-             * @param[in]   pingData the data for the item
-             * @param[in]   painter the QPainter to draw to
-             * @param[in]   option the painter options
-             * @param[in]   index the model index of the cell
+             * @param[in]   pingData the data for the item.
+             * @param[in]   painter the QPainter to draw to.
+             * @param[in]   option the painter options.
+             * @param[in]   index the model index of the cell.
              */
-            void paintGraph(Nedrysoft::RouteAnalyser::PingData *pingData, QPainter *painter,
-                            const QStyleOptionViewItem &option, const QModelIndex &index) const;
+            void paintGraph(Nedrysoft::RouteAnalyser::PingData *pingData,
+                            QPainter *painter,
+                            const QStyleOptionViewItem &option,
+                            const QModelIndex &index) const;
 
             /**
-             * @brief       Paints the background of a cell
+             * @brief       Paints the background of an item.
              *
-             * @param[in]   pingData the data for the item
-             * @param[in]   painter the QPainter to draw to
-             * @param[in]   option the painter options
-             * @param[in]   index the model index of the cell
+             * @param[in]   pingData the data for the item.
+             * @param[in]   painter the QPainter to draw to.
+             * @param[in]   option the painter options.
+             * @param[in]   index the model index of the cell.
              */
-            void paintBackground(Nedrysoft::RouteAnalyser::PingData *pingData, QPainter *painter,
-                                 const QStyleOptionViewItem &option, const QModelIndex &index) const;
+            void paintBackground(Nedrysoft::RouteAnalyser::PingData *pingData,
+                                 QPainter *painter,
+                                 const QStyleOptionViewItem &option,
+                                 const QModelIndex &index) const;
 
             /**
-             * @brief       Paints the location column
+             * @brief       Paints the location column.
              *
-             * @param[in]   pingData the data for the item
-             * @param[in]   painter the QPainter to draw to
-             * @param[in]   option the painter options
-             * @param[in]   index the model index of the cell
+             * @param[in]   pingData the data for the item.
+             * @param[in]   painter the QPainter to draw to.
+             * @param[in]   option the painter options.
+             * @param[in]   index the model index of the cell.
              */
-            void paintLocation(Nedrysoft::RouteAnalyser::PingData *pingData, QPainter *painter,
-                               const QStyleOptionViewItem &option, const QModelIndex &index) const;
+            void paintLocation(Nedrysoft::RouteAnalyser::PingData *pingData,
+                               QPainter *painter,
+                               const QStyleOptionViewItem &option,
+                               const QModelIndex &index) const;
 
             /**
-             * @brief       Paints an invalid hop cell
+             * @brief       Paints an invalid hop cell.
              *
-             * @param[in]   pingData the data for the item
-             * @param[in]   painter the QPainter to draw to
-             * @param[in]   option the painter options
-             * @param[in]   index the model index of the cell
+             * @param[in]   pingData the data for the item.
+             * @param[in]   painter the QPainter to draw to.
+             * @param[in]   option the painter options.
+             * @param[in]   index the model index of the cell.
              */
-            void paintInvalidHop(Nedrysoft::RouteAnalyser::PingData *pingData, QPainter *painter,
-                                 const QStyleOptionViewItem &option, const QModelIndex &index) const;
+            void paintInvalidHop(Nedrysoft::RouteAnalyser::PingData *pingData,
+                                 QPainter *painter,
+                                 const QStyleOptionViewItem &option,
+                                 const QModelIndex &index) const;
 
             /**
-             * @brief       Paints the bubble for hops
+             * @brief       Paints the bubble for hops.
              *
-             * @param[in]   pingData the data for the item
-             * @param[in]   painter the QPainter to draw to
-             * @param[in]   option the painter options
-             * @param[in]   index the model index of the cell
-             * @param[in]   bubbleColor the colour to draw in
+             * @param[in]   pingData the data for the item.
+             * @param[in]   painter the QPainter to draw to.
+             * @param[in]   option the painter options.
+             * @param[in]   index the model index of the cell.
+             * @param[in]   bubbleColor the colour to draw in.
              */
-            void paintBubble(Nedrysoft::RouteAnalyser::PingData *pingData, QPainter *painter,
-                             const QStyleOptionViewItem &option, const QModelIndex &index, QRgb bubbleColour) const;
+            void paintBubble(Nedrysoft::RouteAnalyser::PingData *pingData,
+                             QPainter *painter,
+                             const QStyleOptionViewItem &option,
+                             const QModelIndex &index,
+                             QRgb bubbleColour) const;
 
             /**
-             * @brief       Paints the hop column
+             * @brief       Paints the hop column.
              *
-             * @param[in]   pingData  the data for the item
-             * @param[in]   painter the QPainter to draw to
-             * @param[in]   option the painter options
-             * @param[in]   index the model index of the cell
+             * @param[in]   pingData  the data for the item.
+             * @param[in]   painter the QPainter to draw to.
+             * @param[in]   option the painter options.
+             * @param[in]   index the model index of the cell.
              */
-            void paintHop(Nedrysoft::RouteAnalyser::PingData *pingData, QPainter *painter,
-                          const QStyleOptionViewItem &option, const QModelIndex &index) const;
+            void paintHop(Nedrysoft::RouteAnalyser::PingData *pingData,
+                          QPainter *painter,
+                          const QStyleOptionViewItem &option,
+                          const QModelIndex &index) const;
 
             /**
-             * @brief       getInterpolatedColour
+             * @brief       Returns an interpolated colour.
              *
-             * @details     Takes a list of <double, QColor> items and a value
-             *              and returns the colour for that point
+             * @details     Takes a list of <double, QColor> items and a value and returns the colour for that point.
              *
-             * @param[in]   keyFrames the key/colour pair for interpolation
-             * @param[in]   value the point to get the colour for
+             * @param[in]   keyFrames the key/colour pair for interpolation.
+             * @param[in]   value the point to get the colour for.
              *
-             * @return      the colour
+             * @returns     the colour.
              */
             QRgb getInterpolatedColour(const QMap<double, QRgb> &keyFrames, double value) const;
 
             /**
-             * @brief       Paints text in a cell
+             * @brief       Paints text in a cell.
              *
-             * @param[in]   text the text to paint
-             * @param[in]   painter the QPainter to draw to
-             * @param[in]   option the painter options
-             * @param[in]   index the model index of the cell
-             * @param[in]   alignment the text alignment flags
-             * @param[in]   flags controls how the text is drawn
+             * @param[in]   text the text to paint.
+             * @param[in]   painter the QPainter to draw to.
+             * @param[in]   option the painter options.
+             * @param[in]   index the model index of the cell.
+             * @param[in]   alignment the text alignment flags.
+             * @param[in]   flags controls how the text is drawn.
              */
-            void paintText(const QString &text, QPainter *painter, const QStyleOptionViewItem &option,
-                           const QModelIndex &index, int alignment = Qt::AlignLeft | Qt::AlignVCenter,
+            void paintText(const QString &text,
+                           QPainter *painter,
+                           const QStyleOptionViewItem &option,
+                           const QModelIndex &index,
+                           int alignment = Qt::AlignLeft | Qt::AlignVCenter,
                            int flags = 0) const;
 
             /**
-             * @brief       Draws a latency line on the graph for the given data points in the given colour
+             * @brief       Draws a latency line on the graph for the given data points in the given colour.
              *
-             * @param[in]   field the data field to use for drawing
-             * @param[in]   pingData the data for the item
-             * @param[in]   painter  the QPainter to draw to
-             * @param[in]   option the painter options
-             * @param[in]   index the model index of the cell
-             * @param[in]   pen  the pen to use to draw the line
+             * @param[in]   field the data field to use for drawing.
+             * @param[in]   pingData the data for the item.
+             * @param[in]   painter  the QPainter to draw to.
+             * @param[in]   option the painter options.
+             * @param[in]   index the model index of the cell.
+             * @param[in]   pen  the pen to use to draw the line.
              */
-            void drawLatencyLine(int field, Nedrysoft::RouteAnalyser::PingData *pingData, QPainter *painter,
-                                 const QStyleOptionViewItem &option, const QModelIndex &index, const QPen &pen) const;
+            void drawLatencyLine(int field, Nedrysoft::RouteAnalyser::PingData *pingData,
+                                 QPainter *painter,
+                                 const QStyleOptionViewItem &option,
+                                 const QModelIndex &index,
+                                 const QPen &pen) const;
 
         private:
             std::chrono::duration<double> m_lowRangeLatency = {};            //! The lowest latency seen by this item

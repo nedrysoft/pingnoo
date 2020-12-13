@@ -26,11 +26,7 @@
 #include "PublicIPHostMaskerSpec.h"
 
 /**
- * @brief       PublicIPHostMaskerComponent class
- *
- * @details     This component provides a host masker implementation which
- *              determines the public IP of the host and then masks this appropriately
- *              where necessary.  This allows outputs to hide sensitive information.
+ * @brief       The PublicIPHostMaskerComponent class provides a host masker for the clients public ip.
  */
 class NEDRYSOFT_PUBLICIPHOSTMASKER_DLLSPEC PublicIPHostMaskerComponent :
         public QObject,
@@ -44,17 +40,21 @@ class NEDRYSOFT_PUBLICIPHOSTMASKER_DLLSPEC PublicIPHostMaskerComponent :
 
     public:
         /**
-         * @brief       Constructor
+         * @brief       Constructs a PublicIPHostMaskerComponent.
          */
         PublicIPHostMaskerComponent();
 
         /**
-         * @brief       Destructor
+         * @brief       Destroys the PublicIPHostMaskerComponent.
          */
         ~PublicIPHostMaskerComponent();
 
         /**
-         * @sa          Nedrysoft::ComponentSystem::IComponent
+         * @brief       The initialiseEvent function is called by the component system during loading.
+         *
+         * @details     Called by the component loader after all components have been loaded, called in load order.
+         *
+         * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
         virtual void initialiseEvent();
 

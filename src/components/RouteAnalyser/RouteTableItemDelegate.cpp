@@ -38,7 +38,7 @@ using namespace std::chrono_literals;
 
 constexpr auto AverageLatencyRadius = 4;
 constexpr auto CurrentLatencyLength = 3;
-constexpr auto xOffset = ( AverageLatencyRadius * 2 );
+constexpr auto xOffset = (AverageLatencyRadius*2);
 
 constexpr auto DefaultLowRangeLatency = 100ms;
 constexpr auto DefaultMidRangeLatency = 200ms;
@@ -102,6 +102,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
 
         case Nedrysoft::RouteAnalyser::PingData::Location: {
             paintBackground(pingData, painter, option, index);
+
             paintLocation(pingData, painter, option, index);
 
             break;
@@ -109,6 +110,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
 
         case Nedrysoft::RouteAnalyser::PingData::IP: {
             paintBackground(pingData, painter, option, index);
+
             paintText(pingData->hostAddress(), painter, option, index);
 
             break;
@@ -116,6 +118,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
 
         case Nedrysoft::RouteAnalyser::PingData::HostName: {
             paintBackground(pingData, painter, option, index);
+
             paintText(pingData->hostName(), painter, option, index);
 
             break;
@@ -123,36 +126,52 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
 
         case Nedrysoft::RouteAnalyser::PingData::MinimumLatency: {
             paintBackground(pingData, painter, option, index);
+
             paintText(QString("%1").arg(
                     std::chrono::duration_cast<milliseconds_double>(pingData->m_minimumLatency).count(), 2, 'f', 2),
-                      painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
+                    painter,
+                    option,
+                    index,
+                    Qt::AlignRight | Qt::AlignVCenter );
 
             break;
         }
 
         case Nedrysoft::RouteAnalyser::PingData::MaximumLatency: {
             paintBackground(pingData, painter, option, index);
+
             paintText(QString("%1").arg(
                     std::chrono::duration_cast<milliseconds_double>(pingData->m_maximumLatency).count(), 2, 'f', 2),
-                      painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
+                    painter,
+                    option,
+                    index,
+                    Qt::AlignRight | Qt::AlignVCenter );
 
             break;
         }
 
         case Nedrysoft::RouteAnalyser::PingData::AverageLatency: {
             paintBackground(pingData, painter, option, index);
+
             paintText(QString("%1").arg(
                     std::chrono::duration_cast<milliseconds_double>(pingData->m_averageLatency).count(), 2, 'f', 2),
-                      painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
+                    painter,
+                    option,
+                    index,
+                    Qt::AlignRight | Qt::AlignVCenter );
 
             break;
         }
 
         case Nedrysoft::RouteAnalyser::PingData::CurrentLatency: {
             paintBackground(pingData, painter, option, index);
+
             paintText(QString("%1").arg(
                     std::chrono::duration_cast<milliseconds_double>(pingData->m_currentLatency).count(), 2, 'f', 2),
-                      painter, option, index, Qt::AlignRight | Qt::AlignVCenter);
+                    painter,
+                    option,
+                    index,
+                    Qt::AlignRight | Qt::AlignVCenter );
 
             break;
         }
@@ -268,7 +287,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintLocation(
 
         pen.setWidth(InvalidEntryLineWidth);
 
-        rc.adjust(pen.width() / 2, 0, -( pen.width() / 2 ), 0);
+        rc.adjust(pen.width()/2, 0, -( pen.width()/2 ), 0);
 
         painter->save();
 
@@ -289,7 +308,9 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(
         const QModelIndex &index) const {
 
     auto tableView = qobject_cast<const QTableView *>(option.widget);
-    auto pen = QPen(QBrush(Nedrysoft::RouteAnalyser::ColourManager::getMaxColour()), option.rect.height() - InvalidEntryLineWidth);
+    auto pen = QPen(
+            QBrush(Nedrysoft::RouteAnalyser::ColourManager::getMaxColour()),
+            option.rect.height() - InvalidEntryLineWidth );
 
     auto visualIndex = tableView->horizontalHeader()->visualIndex(index.column());
 
@@ -320,15 +341,15 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(
         if (index.column() == Nedrysoft::RouteAnalyser::PingData::Hop) {
             rc.setLeft(rc.center().x());
         } else {
-            rc.setLeft(rc.left() + ( pen.width() / 2 ));
+            rc.setLeft(rc.left()+(pen.width()/2));
         }
     }
 
-    if (visualIndex == index.model()->columnCount() - 2) {
+    if (visualIndex == index.model()->columnCount()-2) {
         if (index.column() == Nedrysoft::RouteAnalyser::PingData::Hop) {
             rc.setRight(rc.center().x());
         } else {
-            rc.setRight(rc.right() - ( pen.width() / 2 ));
+            rc.setRight(rc.right()-(pen.width()/2));
         }
     }
 
@@ -339,8 +360,13 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(
     painter->restore();
 
     if (index.column() == Nedrysoft::RouteAnalyser::PingData::Hop) {
-        paintText(QString("%1").arg(pingData->hop()), painter, option, index, Qt::AlignHCenter | Qt::AlignVCenter,
-                  OverrideSelectedColour);
+        paintText(
+                QString("%1").arg(pingData->hop()),
+                painter,
+                option,
+                index,
+                Qt::AlignHCenter | Qt::AlignVCenter,
+                OverrideSelectedColour );
     }
 }
 
@@ -359,7 +385,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBubble(
 
     pen.setCapStyle(Qt::RoundCap);
 
-    bubbleRect.adjust(xOffset + ( pen.width() / 2 ), 0, -( xOffset + ( pen.width() / 2 )), 0);
+    bubbleRect.adjust(xOffset+(pen.width()/2), 0, -(xOffset+(pen.width()/2)), 0);
 
     painter->save();
 
@@ -369,8 +395,9 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBubble(
 
     painter->setPen(pen);
 
-    painter->drawLine(QPoint(bubbleRect.left(), bubbleRect.center().y()),
-                      QPoint(bubbleRect.right(), bubbleRect.center().y()));
+    painter->drawLine(
+            QPoint(bubbleRect.left(), bubbleRect.center().y()),
+            QPoint(bubbleRect.right(), bubbleRect.center().y()) );
 
     painter->restore();
 }
@@ -382,32 +409,42 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintHop(
         const QModelIndex &index) const {
 
     constexpr auto interpolationTime = 1000.0;
+
     auto pen = QPen(QBrush(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()), option.rect.height() - InvalidEntryLineWidth);
     auto bubbleColour = QColor(Qt::white);
 
     QMap<double, QRgb> gradientMap;
 
     gradientMap[0] = Nedrysoft::RouteAnalyser::ColourManager::getMinColour();
-    gradientMap[std::chrono::duration<double, std::milli>(m_lowRangeLatency).count() /
-                interpolationTime] = Nedrysoft::RouteAnalyser::ColourManager::getMidColour();
+
+    gradientMap[std::chrono::duration<double, std::milli>(m_lowRangeLatency).count()/
+            interpolationTime] = Nedrysoft::RouteAnalyser::ColourManager::getMidColour();
+
     gradientMap[std::chrono::duration<double, std::milli>(m_midRangeLatency).count() /
-                interpolationTime] = Nedrysoft::RouteAnalyser::ColourManager::getMaxColour();
+            interpolationTime] = Nedrysoft::RouteAnalyser::ColourManager::getMaxColour();
+
     gradientMap[1] = Nedrysoft::RouteAnalyser::ColourManager::getMaxColour();
 
     pen.setCapStyle(Qt::RoundCap);
 
     paintBackground(pingData, painter, option, index);
 
-    if (( option.state & ( QStyle::State_Active )) ||
-        ( !( option.state & QStyle::State_Active ) && !( option.state & QStyle::State_Selected ))) {
-        bubbleColour = getInterpolatedColour(gradientMap,
-                                             pingData->latency(Nedrysoft::RouteAnalyser::PingData::AverageLatency));
+    if ((option.state & (QStyle::State_Active)) ||
+        (!(option.state & QStyle::State_Active) && !(option.state & QStyle::State_Selected))) {
+        bubbleColour = getInterpolatedColour(
+                gradientMap,
+                pingData->latency(Nedrysoft::RouteAnalyser::PingData::AverageLatency) );
     }
 
     paintBubble(pingData, painter, option, index, bubbleColour.rgb());
 
-    paintText(QString("%1").arg(pingData->hop()), painter, option, index, Qt::AlignHCenter | Qt::AlignVCenter,
-              OverrideSelectedColour);
+    paintText(
+            QString("%1").arg(pingData->hop()),
+            painter,
+            option,
+            index,
+            Qt::AlignHCenter | Qt::AlignVCenter,
+            OverrideSelectedColour );
 }
 
 auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getInterpolatedColour(
@@ -415,6 +452,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getInterpolatedColour(
         double value) const -> QRgb {
 
     constexpr auto interpolationTime = 1000.0;
+    
     QVariantAnimation colourInterpolator;
     auto keyFrameKeys = keyFrames.keys();
 
@@ -449,6 +487,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
     auto endPoint = QPointF();
     auto colourFactor = NormalColourFactor;
     auto smoothGradient = true;
+    auto tableViewWidget = qobject_cast<const QTableView *>(option.widget);
 
     auto graphMaxLatency = pingData->tableModel()->property("graphMaxLatency").toDouble();
 
@@ -458,19 +497,26 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
 
     painter->save();
 
-    // set the clipping rect to a rounding rectangle, this looks much better on dark mode than hard corners
-
     auto tableView = qobject_cast<const QTableView *>(option.widget);
+
+    auto topModelIndex = index.model()->index(0, 0);
+    auto bottomModelIndex = index.model()->index(index.model()->rowCount()-1, 0);
+
+    auto tableHeight = tableView->visualRect(bottomModelIndex).bottom()-tableView->visualRect(topModelIndex).top();
 
     auto clippingRect = option.widget->contentsRect();
 
-    QPainterPath clippingPath;
+    // adjust the height of the clipping rect so that if all items are visible, we correctly round the bottom item
+    // in the table.  If not all items are visible then we use the views contents rect.
 
-    // adjust the left hand side of the rectangle to be the the graph column and adjust the height to account for
-    // the header height.  Our clipping path extends over the whole graph area.
+    clippingRect.setBottom(qMin(clippingRect.height()-tableView->horizontalHeader()->height(),tableHeight));
+
+    auto clippingPath = QPainterPath();
+
+    // adjust the left hand side of the rectangle, our clipping path extends over the whole graph area.
 
     clippingRect.setLeft(option.rect.left()+xOffset);
-    clippingRect.adjust(0,0,0, -tableView->horizontalHeader()->height());
+    clippingRect.setRight(clippingRect.right()+roundedRectangleRadius);
 
     clippingPath.addRoundedRect(clippingRect, roundedRectangleRadius, roundedRectangleRadius);
 

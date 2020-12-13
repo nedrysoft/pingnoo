@@ -52,25 +52,22 @@ namespace Pingnoo::Constants {
     constexpr auto fileMiscGroup = "Group.File.Misc";
 
     constexpr auto ribbonHomePage = "Ribbon.Page.Home";
-    constexpr auto ribbonFilePage = "Ribbon.Page.File";
 
-    const QMap<QString, QString> commandStringMap =
-            {
-                    {editCut,             QT_TR_NOOP("Cut")},
-                    {editCopy,            QT_TR_NOOP("Copy")},
-                    {editPaste,           QT_TR_NOOP("Paste")},
-                    {fileOpen,            QT_TR_NOOP("Open...")},
-                    {helpAbout,           QT_TR_NOOP("About Pingnoo")},
-                    {helpAboutComponents, QT_TR_NOOP("About Components...")}
-            };
+    const QMap<QString, QString> commandStringMap = {
+        {editCut,             QT_TR_NOOP("Cut")},
+        {editCopy,            QT_TR_NOOP("Copy")},
+        {editPaste,           QT_TR_NOOP("Paste")},
+        {fileOpen,            QT_TR_NOOP("Open...")},
+        {helpAbout,           QT_TR_NOOP("About Pingnoo")},
+        {helpAboutComponents, QT_TR_NOOP("About Components...")}
+    };
 
-    const QMap<QString, QString> menuStringMap =
-            {
-                    {menuFile,        QT_TR_NOOP("File")},
-                    {menuEdit,        QT_TR_NOOP("Edit")},
-                    {menuHelp,        QT_TR_NOOP("Help")},
-                    {menuApplication, QT_TR_NOOP("Pingnoo")}
-            };
+    const QMap<QString, QString> menuStringMap = {
+        {menuFile,        QT_TR_NOOP("File")},
+        {menuEdit,        QT_TR_NOOP("Edit")},
+        {menuHelp,        QT_TR_NOOP("Help")},
+        {menuApplication, QT_TR_NOOP("Pingnoo")}
+    };
 
     inline QString commandText(const QString &string) {
         if (commandStringMap.contains(string))

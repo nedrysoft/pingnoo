@@ -31,7 +31,7 @@ namespace Nedrysoft::RouteAnalyser {
     }
 
     /**
-     * @brief       NewTargetDialog
+     * @brief       The NewTargetDialog class is a dialog that is used to create a new target.
      *
      * @details     The dialog displayed when creating a new route analyser instance, allows
      *              the user to select the target, ping engine, interval etc.
@@ -44,45 +44,45 @@ namespace Nedrysoft::RouteAnalyser {
 
         public:
             /**
-             * @brief       Constructor
+             * @brief       Constructs a new NewTargetDialog instance which is a child of the parent.
              *
-             * @param[in]   parent the owner parent widget
+             * @param[in]   parent the owner widget.
              */
             explicit NewTargetDialog(QWidget *parent = nullptr);
 
             /**
-             * @brief       Destructor
+             * @brief       Destroys the NewTargetDialog.
              */
             ~NewTargetDialog();
 
             /**
-             * @brief       The ping engine factory selected
+             * @brief       Returns the selected ping engine factory.
              *
-             * @return      the selected IPingEngineFactory
+             * @returns     the selected IPingEngineFactory.
              */
             Nedrysoft::Core::IPingEngineFactory *pingEngineFactory();
 
             /**
-             * @brief       The selected target
+             * @brief       Returns the selected target.
              *
-             * @return      the target (host or ip address)
+             * @returns     the target. (host or ip address)
              */
             QString pingTarget();
 
             /**
-             * @brief       The selected IP version
+             * @brief       Returns the selected IP version.
              *
-             * @return      the ip version (V4 or V6)
+             * @returns     the ip version, (V4 or V6)
              */
             Nedrysoft::Core::IPVersion ipVersion();
 
             /**
-             * @brief       The ping interval
+             * @brief       Returns he ping interval.
              *
              * @details     The ping interval is the number of seconds between ping clusters,
              *              this can be a sub-second value.
              *
-             * @return      the ping internal in seconds
+             * @returns     the ping internal in seconds.
              */
             double interval();
 

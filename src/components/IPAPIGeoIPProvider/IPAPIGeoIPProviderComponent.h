@@ -43,17 +43,22 @@ class NEDRYSOFT_IPAPIGEOIPPROVIDER_DLLSPEC IPAPIGeoIPProviderComponent :
 
     public:
         /**
-         * @brief Constructor
+         * @brief       Constructs a IPAPIGeoIPProviderComponent.
          */
         IPAPIGeoIPProviderComponent();
 
         /**
-         * @brief Destructor
+         * @brief       Destroys the IPAPIGeoIPProviderComponent.
+         *
          */
         ~IPAPIGeoIPProviderComponent();
 
         /**
-         * @sa          Nedrysoft::ComponentSystem::IComponent
+         * @brief       initialiseEvent
+         *
+         * @details     Called by the component loader after all components have been loaded, called in load order.
+         *
+         * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
         virtual void initialiseEvent();
 

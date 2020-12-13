@@ -70,6 +70,7 @@ namespace Nedrysoft::Core {
         private:
             QWidget *m_pageWidget;
             QHBoxLayout *m_pageLayout;
+            QSpacerItem *m_spacerItem;
     };
 };
 

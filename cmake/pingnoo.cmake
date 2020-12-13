@@ -182,6 +182,8 @@ macro(pingnoo_end_component)
 
     add_logging_library()
 
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ".")
+
     pingnoo_sign(\"${PINGNOO_COMPONENTS_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${pingnooCurrentProjectName}${CMAKE_SHARED_LIBRARY_SUFFIX}\")
 endmacro(pingnoo_end_component)
 
@@ -213,6 +215,8 @@ macro(pingnoo_end_shared_library)
 
     add_logging_library()
 
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ".")
+
     pingnoo_sign(\"${PINGNOO_LIBRARIES_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${pingnooCurrentProjectName}${CMAKE_SHARED_LIBRARY_SUFFIX}\")
 endmacro(pingnoo_end_shared_library)
 
@@ -233,6 +237,8 @@ macro(pingnoo_end_static_library)
     endif()
 
     add_logging_library()
+
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ".")
 
     pingnoo_set_library_outputs()
 endmacro(pingnoo_end_static_library)
@@ -264,6 +270,8 @@ macro(pingnoo_end_executable)
     endif()
 
     add_logging_library()
+
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ".")
 
     pingnoo_sign(${PINGNOO_APPLICATION_BINARY})
 endmacro(pingnoo_end_executable)

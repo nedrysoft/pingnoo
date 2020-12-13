@@ -29,11 +29,7 @@ namespace Nedrysoft::RegExHostMasker {
 }
 
 /**
- * @brief       RegExHostMaskerComponent class
- *
- * @details     This component provides a host masker implementation which
- *              uses user supplied regular expressions to mask out IP addresses
- *              or host names.  This allows outputs to hide sensitive information.
+ * @brief       The RegExHostMaskerComponent class provides a host masker using a regular expression.
  */
 class NEDRYSOFT_REGEXHOSTMASKER_DLLSPEC RegExHostMaskerComponent :
         public QObject,
@@ -48,17 +44,21 @@ class NEDRYSOFT_REGEXHOSTMASKER_DLLSPEC RegExHostMaskerComponent :
 
     public:
         /**
-         * @brief       Constructor
+         * @brief       Constructs a PublicIPHostMaskerComponent.
          */
         RegExHostMaskerComponent();
 
         /**
-         * @brief       Destructor
+         * @brief       Destroys the PublicIPHostMaskerComponent.
          */
         ~RegExHostMaskerComponent();
 
         /**
-         * @sa          Nedrysoft::ComponentSystem::IComponent
+         * @brief       The initialiseEvent function is called by the component system during loading.
+         *
+         * @details     Called by the component loader after all components have been loaded, called in load order.
+         *
+         * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
         virtual void initialiseEvent();
 

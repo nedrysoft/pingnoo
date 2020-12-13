@@ -3,7 +3,7 @@
  *
  * This file is part of Pingnoo
  *
- * Created by Adrian Carpenter on 05/12/2020.
+ * Created by Adrian Carpenter on 11/12/2020.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,40 +19,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_COLOURMANAGER_H
-#define NEDRYSOFT_COLOURMANAGER_H
+#ifndef NEDRYSOFT_LATENCYRIBBONGROUP_H
+#define NEDRYSOFT_LATENCYRIBBONGROUP_H
 
-#include <QRgb>
+#include <QWidget>
 
 namespace Nedrysoft::RouteAnalyser {
+    namespace Ui {
+        class LatencyRibbonGroup;
+    }
 
     /**
-     * @brief       The ColourManager class is a convenience class for getting the min, mid and max colours, these
-     *              change according to light or dark mode.
+     * @brief       The LatencyRibbonGroup is a Ribbon group that shows and allows modification of the latency values.
      */
-    class ColourManager {
+    class LatencyRibbonGroup :
+            public QWidget {
+
+        private:
+            Q_OBJECT
+
         public:
             /**
-             * @brief       Returns the minimum colour (low latency).
+             * @brief       Constructs a new LatencyRibbonGroup instance which is a child of the parent.
              *
-             * @return      the minimum colour
+             * @param[in]   parent the parent
              */
-            static QRgb getMinColour();
+            explicit LatencyRibbonGroup(QWidget *parent = nullptr);
 
             /**
-             * @brief       Returns the median colour (mid latency).
-             *
-             * @return      the median colour
+             * @brief       Destroys the LatencyRibbonGroup.
              */
-            static QRgb getMidColour();
+            ~LatencyRibbonGroup() override;
 
-            /**
-             * @brief       Returns the maximum colour (high latency).
-             *
-             * @return      the maximum colour
-             */
-            static QRgb getMaxColour();
+        private:
+            Ui::LatencyRibbonGroup *ui;
     };
 };
 
-#endif //NEDRYSOFT_COLOURMANAGER_H
+#endif //NEDRYSOFT_LATENCYRIBBONGROUP_H

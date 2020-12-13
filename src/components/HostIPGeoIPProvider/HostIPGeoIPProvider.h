@@ -66,7 +66,9 @@ namespace Nedrysoft::HostIPGeoIPProvider {
              * @brief       Performs a host lookup using IP address or hostname.
              *
              * @details     This overloaded function uses a std::function to obtain the result, this can be
-             *              a callback function or a lambda funcion.
+             *              a callback function or a lambda function.
+             *
+             * @see         Nedrysoft::Core::IGeoIPProvider::lookup
              *
              * @param[in]   host the host address to be looked up.
              * @param[in]   function the function called when a result is available.

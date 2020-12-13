@@ -67,8 +67,7 @@ QMap<int, QPair<QString, QString> > &Nedrysoft::RouteAnalyser::RouteAnalyserWidg
                     {Nedrysoft::RouteAnalyser::PingData::Hop,            {tr("Hop"),      "XXXXX"}},
                     {Nedrysoft::RouteAnalyser::PingData::Count,          {tr("Count"),    "XXXXX"}},
                     {Nedrysoft::RouteAnalyser::PingData::IP,             {tr("IP"),       "888.888.888.888"}},
-                    {Nedrysoft::RouteAnalyser::PingData::HostName,       {tr(
-                            "Name"),                                                      "XXXXXXXXXXX.XXXXXXXXXX.XXXXXXXXX.XXX"}},
+                    {Nedrysoft::RouteAnalyser::PingData::HostName,       {tr("Name"),     "XXXXXXXXXXX.XXXXXXXXXX.XXXXXXXXX.XXX"}},
                     {Nedrysoft::RouteAnalyser::PingData::Location,       {tr("Location"), "XXXXXXXXXXXXXXXX"}},
                     {Nedrysoft::RouteAnalyser::PingData::AverageLatency, {tr("Avg"),      "8888.888"}},
                     {Nedrysoft::RouteAnalyser::PingData::CurrentLatency, {tr("Cur"),      "8888.888"}},

@@ -37,11 +37,7 @@ namespace Nedrysoft::RouteAnalyser {
     class RouteAnalyserWidget;
 
     /**
-     * @brief       Definition for the built in host masker
-     *
-     * @details     This host marker accepts a regular expression to match the host name
-     *              or address and allows the masked output to be generated using capture
-     *              groups
+     * @brief       The RouteAnalyserEditor class provides the editor for a route analysis.
      */
     class RouteAnalyserEditor :
             public Nedrysoft::Core::IEditor,
@@ -55,52 +51,85 @@ namespace Nedrysoft::RouteAnalyser {
             Q_INTERFACES(Nedrysoft::Core::IConfiguration)
 
         public:
+            /**
+             * @brief       Constructs a new RouteAnalyserEditor with the registered context id.
+             */
             RouteAnalyserEditor(int contextId);
 
+            /**
+             * @brief       Destroys the RouteAnalyserEditor.
+             */
             ~RouteAnalyserEditor();
 
             /**
              * @brief       Sets the ping engine to be used by this instance.
              *
-             * @param[in]   pingEngineFactory the ping engine factory
+             * @param[in]   pingEngineFactory the ping engine factory.
              */
             void setPingEngine(Nedrysoft::Core::IPingEngineFactory *pingEngineFactory);
 
             /**
-             * @brief       Sets the target.
+             * @brief       Sets the ping target.
              *
-             * @param[in]   target the ping target
-             *
+             * @param[in]   target the ping target.
              */
             void setTarget(QString target);
 
             /**
              * @brief       Sets the IP Version used by this ping target.
              *
-             * @param[in]   ipVersion the IP version
-             *
+             * @param[in]   ipVersion the IP version.
              */
             void setIPVersion(Nedrysoft::Core::IPVersion ipVersion);
 
             /**
              * @brief       Sets the ping interval used by this ping target.
              *
-             * @param[in]   interval the interval time period
+             * @param[in]   interval the interval time period.
              */
             void setInterval(double interval);
 
+        public:
             /**
-             * @sa          IEditor
+             * @brief       Returns the widget for the editor.
+             *
+             * @see         Nedrysoft::Core::IEditor::widget
+             *
+             * @returns     the widget.
              */
             virtual QWidget *widget();
 
+            /**
+             * @brief       Returns the display name for the editor.
+             *
+             * @details     Returns the user displayable name of the editor, this is usually used by the
+             *              Nedrysoft::Core::IEditorManager to display the name of the widget in the title.
+             *
+             * @see         Nedrysoft::Core::IEditor::displayName
+             *
+             * @returns     the displayed name of the editor.
+             */
             virtual QString displayName();
 
+        public:
             /**
-             * @sa          IConfiguration
+             * @brief       Saves the configuration to a JSON object.
+             *
+             * @see         Nedrysoft::Core::IConfiguration::saveConfiguration
+             *
+             * @returns     the JSON configuration.
              */
             virtual QJsonObject saveConfiguration();
 
+            /**
+             * @brief       Loads the configuration.
+             *
+             * @see         Nedrysoft::Core::IConfiguration::loadConfiguration
+             *
+             * @param[in]   configuration the configuration as JSON object.
+             *
+             * @returns     true if loaded; otherwise false.
+             */
             virtual bool loadConfiguration(QJsonObject configuration);
 
             friend class RouteAnalyserWidget;

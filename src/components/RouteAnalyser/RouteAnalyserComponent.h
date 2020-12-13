@@ -26,10 +26,7 @@
 #include "RouteAnalyserSpec.h"
 
 /**
- * @brief       RouteAnalyserComponent class
- *
- * @details     This component provides a route analyser implementation which
- *              discovers the route to a host
+ * @brief       The RouteAnalyserComponent class provides the route analysis feature to the application.
  */
 class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
         public QObject,
@@ -44,20 +41,30 @@ class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
 
     public:
         /**
-         * @brief       Constructor
+         * @brief       Constructs a new RouteAnalyserComponent instance.
          */
         RouteAnalyserComponent();
 
         /**
-         * @brief       Destructor
+         * @brief       Destroys the RouteAnalyserComponent.
          */
         ~RouteAnalyserComponent();
 
+    public:
         /**
-         * @sa          Nedrysoft::ComponentSystem::IComponent
+         * @brief       initialiseEvent
+         *
+         * @details     Called by the component loader after all components have been
+         *              loaded, called in load order.
          */
         virtual void initialiseEvent();
 
+        /**
+         * @brief       initialisationFinishedEvent
+         *
+         * @details     Called by the component loader after all components have been
+         *              initialised, called in reverse load order.
+         */
         virtual void initialisationFinishedEvent();
 
         friend class Nedrysoft::RouteAnalyser::RouteAnalyserEditor;

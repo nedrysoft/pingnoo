@@ -49,21 +49,40 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
 
         public:
             /**
-             * @brief       Constructor
+             * @brief       Constructs a IPAPIGeoIPProvider.
              */
             IPAPIGeoIPProvider();
 
             /**
-             * @brief       Destructor
+             * @brief       Destroys the IPAPIGeoIPProvider.
              */
             ~IPAPIGeoIPProvider();
 
             /**
-             * @sa          IGeoIPProvider
+             * @brief       Performs a host lookup using IP address or hostname.
+             *
+             * @details     The operation is asynchronous and the result is provided via the
+             *              Nedrysoft::Core::IGeoIPProvider::result signal.
+             *
+             * @see         Nedrysoft::Core::IGeoIPProvider::lookup
+             *
+             * @param[in]   host the host address to be looked up.
              */
             virtual void lookup(const QString host);
 
+            /**
+             * @brief       Performs a host lookup using IP address or hostname.
+             *
+             * @details     This overloaded function uses a std::function to obtain the result, this can be
+             *              a callback function or a lambda funciton.
+             *
+             * @see         Nedrysoft::Core::IGeoIPProvider::lookup
+             *
+             * @param[in]   host the host address to be looked up.
+             * @param[in]   function the function called when a result is available.
+             */
             virtual void lookup(const QString host, Nedrysoft::Core::GeoFunction function);
+
 
         private:
             Nedrysoft::IPAPIGeoIPProvider::Cache *m_cache;

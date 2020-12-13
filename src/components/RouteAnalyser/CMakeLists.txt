@@ -51,6 +51,11 @@ pingnoo_add_sources(
     NewTargetDialog.ui
     ColourManager.cpp
     ColourManager.h
+    LatencyRibbonGroup.cpp
+    LatencyRibbonGroup.h
+    LatencyRibbonGroup.ui
+    LatencyWidget.cpp
+    LatencyWidget.h
     icons.qrc
 )
 
