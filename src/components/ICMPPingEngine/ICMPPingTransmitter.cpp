@@ -78,6 +78,7 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
             pingItem->setSampleNumber(sampleNumber);
 
             m_engine->addRequest(pingItem);
+
             pingItem->setTransmitTime(std::chrono::high_resolution_clock::now(), std::chrono::system_clock::now());
 
             auto buffer = Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(

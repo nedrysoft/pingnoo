@@ -35,7 +35,7 @@ Nedrysoft::Core::Command::~Command() {
     delete m_action;
 }
 
-QAction *Nedrysoft::Core::Command::action() {
+auto Nedrysoft::Core::Command::action()->QAction* {
     return m_action;
 }
 
@@ -69,6 +69,6 @@ void Nedrysoft::Core::Command::setActive(bool state) {
     m_action->setEnabled(state);
 }
 
-bool Nedrysoft::Core::Command::active() {
+auto Nedrysoft::Core::Command::active()->bool {
     return m_action->isEnabled();
 }

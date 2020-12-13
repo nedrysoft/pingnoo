@@ -62,11 +62,10 @@ Nedrysoft::Core::AboutDialog::~AboutDialog() {
     delete ui;
 }
 
-QString Nedrysoft::Core::AboutDialog::compiler() {
-#if defined(Q_CC_CLANG)
-#if defined(__apple_build_version__)
+auto Nedrysoft::Core::AboutDialog::compiler()->QString {
+#if defined(Q_CC_CLANG) && defined(__apple_build_version__)
     return QString("Clang %1.%2 (Apple)").arg(__clang_major__).arg(__clang_minor__);
-#endif
+#elif defined(__apple_build_version__)
     return QString("Clang %1.%2").arg(__clang_major__).arg(__clang_minor__);
 #elif defined(Q_CC_GNU)
     return QString("GCC %1").arg(__VERSION__);
@@ -80,6 +79,7 @@ QString Nedrysoft::Core::AboutDialog::compiler() {
     } else if (_MSC_VER >= 1900) {
         return QString("MSVC 2015");
     }
-#endif
+#else
     return QString("<unknown compiler>");
+#endif
 }

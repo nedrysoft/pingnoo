@@ -58,7 +58,7 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Destroys the Command.
              */
-            ~Command();
+            ~Command() override;
 
         public:
             /**
@@ -68,7 +68,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the proxy action
              */
-            virtual QAction *action();
+            auto action()->QAction* override;
 
             /**
              * @brief       Sets the active state of the command.
@@ -77,7 +77,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   state true if active; otherwise false.
              */
-            virtual void setActive(bool state);
+            void setActive(bool state) override;
 
             /**
              * @brief       Returns the active state of the command.
@@ -86,7 +86,7 @@ namespace Nedrysoft::Core {
              *
              * @return      true if enabled; otherwise false.
              */
-            virtual bool active();
+             auto active()->bool override;
 
         protected:
             /**

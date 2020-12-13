@@ -49,7 +49,7 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Destroys the AboutDialog.
              */
-            ~AboutDialog();
+            ~AboutDialog() override;
 
         private:
             /**
@@ -57,7 +57,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the compiler information
              */
-            QString compiler();
+            auto compiler()->QString;
 
         private:
             Ui::AboutDialog *ui;                    //! The generated ui class for the dialog
