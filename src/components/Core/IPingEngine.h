@@ -97,35 +97,35 @@ namespace Nedrysoft::Core {
             virtual IPingTarget *addTarget(QHostAddress hostAddress) = 0;
 
             /**
-             * @brief       Adds a ping target to this engine instance
+             * @brief       Adds a ping target to this engine instance.
              *
-             * @param[in]   hostAddress the host address of the ping target
-             * @param[in]   ttl the time to live to use
+             * @param[in]   hostAddress the host address of the ping target.
+             * @param[in]   ttl the time to live to use.
              *
-             * @return      returns a pointer to the created ping target
+             * @return      returns a pointer to the created ping target.
              */
             virtual IPingTarget *addTarget(QHostAddress hostAddress, int ttl) = 0;
 
             /**
-             * @brief       Removes a ping target from this engine instance
+             * @brief       Removes a ping target from this engine instance.
              *
-             * @param[in]   target the ping target to remove
+             * @param[in]   target the ping target to remove.
              *
              * @return      true on success; otherwise false.
              */
             virtual bool removeTarget(IPingTarget *target) = 0;
 
             /**
-             * @brief       Gets the epoch for this engine instace.
+             * @brief       Gets the epoch for this engine instance.
              *
              * @return      the time epoch
              */
             virtual std::chrono::system_clock::time_point epoch() = 0;
 
             /**
-             * @brief       Signal emitted to indicate the state of a ping request
+             * @brief       Signal emitted to indicate the state of a ping request.
              *
-             * @param[in]   result the result of a ping request
+             * @param[in]   result the result of a ping request.
              */
             Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
     };

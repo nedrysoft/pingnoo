@@ -32,14 +32,12 @@ namespace Nedrysoft::Pingnoo {
     class ICMPAPIPingItemData;
 
     /**
-     * Object used to store information about a tracked request
+     * @brief       The ICMPAPIPingItem stores information about a ping request.
      *
-     * The ICMPPingTransmitter registers each ping request with the
-     * engine, this class holds the required information to allow
-     * replies to be matched to requests (and timed) and also to allow
-     * timeouts to be discovered.
+     * @details     The ICMPPingTransmitter registers each ping request with the engine, this class holds the required
+     *              information to allow replies to be matched to requests (and timed) and also to allow timeouts to
+     *              be generated.
      */
-
     class ICMPAPIPingItem :
             public QObject {
 
@@ -48,51 +46,58 @@ namespace Nedrysoft::Pingnoo {
 
         public:
             /**
-             * @brief       Default constructor
+             * @brief       Constructs an ICMPAPIPingItem.
              */
             ICMPAPIPingItem();
 
             /**
-             * @brief       Sets the id used in the ping request
+             * @brief       Sets the id field of the ping request.
              *
-             * @param[in]   id the id to use
+             * @notes       Some platforms do not allow setting of the id field and will ignore it, instead they
+             *              may use the process id or something similar instead.
+             *
+             * @param[in]   id the idendfier of the request.
              */
             void setId(uint16_t id);
 
             /**
-             * @brief       Returns the id used in the ping request
+             * @brief       Sets the id field of the ping request.
              *
-             * @return      the id
+             * @notes       Some platforms do not allow setting of the id field and will ignore it, instead they
+             *              may use the process id or something similar instead.
+             *
+             * @param[in]   id the idendfier of the request.
+             */
+            void setId(uint16_t id);
+
+            /**
+             * @brief       Returns the id used in the ping request.
+             *
+             * @returns     the id.
              */
             uint16_t id(void);
 
             /**
-             * @brief       Sets the sequence id used in the ping request
+             * @brief       Sets the sequence id used in the ping request.
              *
-             * @param[in]   sequence the sequence id to use
+             * @param[in]   sequence the sequence identifier.
              */
             void setSequenceId(uint16_t sequence);
 
             /**
-             * @brief       Returns the sequence id used in the ping request
+             * @brief       Set whether this request has been serviced.
              *
-             * @return      the sequence id
-             */
-            uint16_t sequenceId();
-
-            /**
-             * @brief       Marks the request as being serviced, prevents a packet
-             *              being flagged as both replied to and timeout in race
-             *              condition situations.
+             * @details     Marks the request as being serviced, prevents a packet being flagged as both replied to
+             *              and timeout in race condition situations.
              *
-             * @param[in]   serviced true if serviced, else false
+             * @param[in]   serviced true if serviced; otherwise false.
              */
             void setServiced(bool serviced);
 
             /**
              * @brief       Returns the serviced status of the request
              *
-             * @return      true if it has been serviced; otherwise false.
+             * @return      true if request has been serviced; otherwise false.
              */
             bool serviced();
 
@@ -111,30 +116,30 @@ namespace Nedrysoft::Pingnoo {
             unsigned long sampleNumber();
 
             /**
-             * @brief       Sets the target associated with this request
+             * @brief       Sets the target associated with this request.
              *
-             * @param[in]   target the target
+             * @param[in]   target the target.
              */
             void setTarget(Nedrysoft::Pingnoo::ICMPAPIPingTarget *target);
 
             /**
-             * @brief       Returns the target associated with this request
+             * @brief       Returns the target associated with this request.
              *
-             * @return      the request
+             * @returns     the request.
              */
             Nedrysoft::Pingnoo::ICMPAPIPingTarget *target();
 
             /**
-             * @brief       Sets the time at which the request was transmitted
+             * @brief       Sets the time at which the request was transmitted.
              *
-             * @param[in]   time the high resolution clock time
+             * @param[in]   time the high resolution clock time.
              */
             void setTransmitTime(std::chrono::high_resolution_clock::time_point time);
 
             /**
-             * @brief       Returns the time at which the request was transmitted
+             * @brief       Returns the time at which the request was transmitted.
              *
-             * @return      the high resolution clock time when the request was sent
+             * @returns     the high resolution clock time when the request was sent.
              */
             std::chrono::high_resolution_clock::time_point transmitTime(void);
 

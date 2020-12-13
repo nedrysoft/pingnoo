@@ -24,17 +24,12 @@
 #include "ComponentSystem/IComponent.h"
 #include "HostIPGeoIPProviderSpec.h"
 
-/**
- * @brief       Namespace for the hostip.com geo ip lookup provider component.
- */
 namespace Nedrysoft::HostIPGeoIPProvider {
     class HostIPGeoIPProvider;
 }
 
 /**
- * @brief       HostIPGeoIPProviderComponent class
- *
- * @details     Implements a GEO IP lookup provider using hostip.com
+ * @brief       The HostIPGeoIPProviderComponent class provides a hostip.com geo location lookup.
  */
 class NEDRYSOFT_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
         public QObject,
@@ -48,19 +43,22 @@ class NEDRYSOFT_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
 
     public:
         /**
-         * @brief       Constructor
+         * @brief       Constructs a HostIPGeoIPProviderComponent.
          */
         HostIPGeoIPProviderComponent();
 
         /**
-         * @brief       Destructor
+         * @brief       Destroys the HostIPGeoIPProviderComponent.
          *
          */
         ~HostIPGeoIPProviderComponent();
 
         /**
-         * @sa          Nedrysoft::ComponentSystem::IComponent
+         * @brief       initialiseEvent
          *
+         * @details     Called by the component loader after all components have been loaded, called in load order.
+         *
+         * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
         virtual void initialiseEvent();
 

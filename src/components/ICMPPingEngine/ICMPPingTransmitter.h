@@ -33,11 +33,8 @@ namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingItem;
 
     /**
-     * @brief       ICMP packet transmitter thread implementation
-     *
-     * @details     Created and used by the ICMP engine, the transmitter thread
-     *              creates requests for the associated targets and sends them
-     *              at the given period
+     * @brief       The ICMPPingTransmitter class sends pings to the target (and intermedite nodes) at a prescribed
+     *              interval.
      */
     class ICMPPingTransmitter :
             public QObject {
@@ -48,28 +45,23 @@ namespace Nedrysoft::ICMPPingEngine {
         public:
 
             /**
-             * @brief       Constructor
+             * @brief       Constrcuts a new ICMPPingTransmitter for the given engine.
              *
-             * @details     Creates the receiver object and passes in the engine
-             *              so that the requests can be tagged to the correct engine
-             *
-             * @param[in]   engine  the owner engine
+             * @param[in]   engine the owner engine
              */
             ICMPPingTransmitter(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine);
 
             /**
-             * @brief       Sets the interval between a set of pings
+             * @brief       Sets the interval between a set of pings.
              *
-             * @param[in]   interval the interval
-             *
-             * @return       true if interval successfully set; otherwise false.
+             * @param[in]   interval the interval.
              */
             bool setInterval(std::chrono::milliseconds interval);
 
             /**
-             * @brief       Adds a ping target to the transmitter
+             * @brief       Adds a ping target to the transmitter.
              *
-             * @param[in]   target the target to ping
+             * @param[in]   target the target to ping.
              *
              */
             void addTarget(Nedrysoft::ICMPPingEngine::ICMPPingTarget *target);
@@ -77,15 +69,15 @@ namespace Nedrysoft::ICMPPingEngine {
         private:
 
             /**
-             * @brief       The receiver thread worker
+             * @brief       The transmitter thread worker.
              */
             Q_SLOT void doWork();
 
         public:
             /**
-             * @brief       Signals when a transmission result is available
+             * @brief       This signal is emitted when a  transmission result is available.
              *
-             * @param[in]   result the result
+             * @param[in]   result the result.
              */
             Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
 

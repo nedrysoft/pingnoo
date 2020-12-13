@@ -44,7 +44,7 @@ namespace Nedrysoft::ICMPPingEngine {
 
         public:
             /**
-             * @brief       Constructor
+             * @brief       Constructs an ICMPPingItem.
              */
             ICMPPingItem();
 
@@ -82,11 +82,10 @@ namespace Nedrysoft::ICMPPingEngine {
             uint16_t sequenceId();
 
             /**
-             * @brief       Set whether this request has been serviced
+             * @brief       Set whether this request has been serviced.
              *
-             * @details     Marks the request as being serviced, prevents a packet
-             *              being flagged as both replied to and timeout in race
-             *              condition situations.
+             * @details     Marks the request as being serviced, prevents a packet being flagged as both replied to
+             *              and timeout in race condition situations.
              *
              * @param[in]   serviced true if serviced; otherwise false.
              */
@@ -114,49 +113,49 @@ namespace Nedrysoft::ICMPPingEngine {
             unsigned long sampleNumber();
 
             /**
-             * @brief       Sets the target associated with this request
-             *
-             * @param[in]   target the target
-             */
+              * @brief       Sets the target associated with this request.
+              *
+              * @param[in]   target the target.
+              */
             void setTarget(Nedrysoft::ICMPPingEngine::ICMPPingTarget *target);
 
             /**
-             * @brief       Returns the target associated with this request
+             * @brief       Returns the target associated with this request.
              *
-             * @return      the request
+             * @returns     the request.
              */
             Nedrysoft::ICMPPingEngine::ICMPPingTarget *target();
 
             /**
-             * @brief       Sets the time at which the request was transmitted
+             * @brief       Sets the time at which the request was transmitted.
              *
-             * @param[in]   time the high resolution clock time
-             * @param[in]   epoch the system time
+             * @param[in]   time the high resolution clock time.
+             * @param[in]   epoch the epoch for transmission.
              */
             void setTransmitTime(std::chrono::high_resolution_clock::time_point time,
                                  std::chrono::system_clock::time_point epoch);
 
             /**
-             * @brief       Returns the time at which the request was transmitted
+             * @brief       Returns the time at which the request was transmitted.
              *
-             * @return      the high resolution clock time when the request was sent
+             * @returns     the high resolution clock time when the request was sent.
              */
             std::chrono::high_resolution_clock::time_point transmitTime(void);
 
             /**
-             * @brief       Returns the time at which the request was transmitted
+             * @brief       Returns the epoch at which the request was transmitted.
              *
-             * @return      the system clock time when the request was sent
+             * @returns     the epoch when the request was sent.
              */
-            std::chrono::system_clock::time_point transmitEpoch(void);
+            std::chrono::system_clock::time_point transmitEpoch();
 
             /**
-             * @brief       Locks the item for exclusive access
+             * @brief       Locks the item for exclusive access.
              */
             void lock(void);
 
             /**
-             * @brief       Locks the item for exclusive access
+             * @brief       Unlocks the item that was previous locked.
              */
             void unlock(void);
 

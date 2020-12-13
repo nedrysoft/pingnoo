@@ -28,8 +28,8 @@ namespace Nedrysoft::Utils {
     /**
      * @brief       Convert 16 bit words to 32 bit
      *
-     * @note        this uses the constant CHAR_BIT rather than the immediate value 8 to prevent
-     *              warnings from clang-tidy
+     * @note        this uses the constant CHAR_BIT rather than the immediate value 8 to prevent warnings from
+     *              clang-tidy
      *
      * @param[in]   high the high 16 bits
      * @param[in]   low the low 16 bits

@@ -30,11 +30,8 @@
 
 namespace Nedrysoft::HostIPGeoIPProvider {
     class Cache;
-
     /**
-     * @brief       IGeoIPProvider implementtation for hostip.com
-     *
-     * @copydoc     Core::Nedrysoft::IGeoIPProvider
+     * @brief       The HostIPGeoIPProvider class provides a geo lookup using hostip.com
      */
     class HostIPGeoIPProvider :
             public Nedrysoft::Core::IGeoIPProvider {
@@ -44,22 +41,35 @@ namespace Nedrysoft::HostIPGeoIPProvider {
 
         public:
             /**
-             * @brief       Constructs the geo ip provider.
+             * @brief       Constructs a HostIPGeoIPProvider.
              */
             HostIPGeoIPProvider();
 
             /**
-             * @brief       Destroys the geo ip provider.
+             * @brief       Destroys the HostIPGeoIPProvider.
              */
             ~HostIPGeoIPProvider();
 
             /**
-             * @copydoc     Nedrysoft::Core::IGeoIPProvider::lookup(const QString)
+             * @brief       Performs a host lookup using IP address or hostname.
+             *
+             * @details     The operation is asynchronous and the result is provided via the
+             *              Nedrysoft::Core::IGeoIPProvider::result signal.
+             *
+             * @see         Nedrysoft::Core::IGeoIPProvider::lookup
+             *
+             * @param[in]   host the host address to be looked up.
              */
             virtual void lookup(const QString host);
 
             /**
-             * @copydoc     Nedrysoft::Core::IGeoIPProvider::lookup(const QString, Nedrysoft::Core::GeoFunction)
+             * @brief       Performs a host lookup using IP address or hostname.
+             *
+             * @details     This overloaded function uses a std::function to obtain the result, this can be
+             *              a callback function or a lambda funcion.
+             *
+             * @param[in]   host the host address to be looked up.
+             * @param[in]   function the function called when a result is available.
              */
             virtual void lookup(const QString host, Nedrysoft::Core::GeoFunction function);
 

@@ -30,13 +30,8 @@ namespace Nedrysoft::Pingnoo {
     class ICMPPingItem;
 
     /**
-     * IPingEngine implementation for Windows ICMP API
-     *
-     * Implements the IPingEngine interface to implement a ping engine
-     * that uses the windows ICMP api
-     *
+     * @brief       The ICMPAPIPingEngine provides An IPingEngine that uses the Windows ICMP API feature.
      */
-
     class ICMPAPIPingEngine :
             public QObject,
             public Nedrysoft::Core::IPingEngine {
@@ -48,74 +43,114 @@ namespace Nedrysoft::Pingnoo {
 
         public:
             /**
-             * @brief       Constructor
+             * @brief       Constructs an ICMPAPIPingEngine.
              */
             ICMPAPIPingEngine();
 
             /**
-             * @sa          IPingEngine
+             * @brief       Sets the measurement interval for this engine instance.
+             *
+             * @see         Nedrysoft::Core::IPingEngine::setInterval
+             *
+             * @param[in]   interval interval time.
+             *
+             * @returns     returns true on success; otherwise false.
              */
             virtual bool setInterval(std::chrono::milliseconds interval);
 
+            /**
+             * @brief       Sets the reply timeout for this engine instance.
+             *
+             * @see         Nedrysoft::Core::IPingEngine::setTimeout
+             *
+             * @param[in]   timeout the amount of time before we consider that the packet was lost.
+             *
+             * @returns     true on success; otherwise false.
+             */
             virtual bool setTimeout(std::chrono::milliseconds timeout);
 
+            /**
+             * @brief       Starts ping operations for this engine instance.
+             *
+             * @see         Nedrysoft::Core::IPingEngine::start
+             *
+             * @return      true on success; otherwise false.
+             */
             virtual bool start();
 
+            /**
+             * @brief       Stops ping operations for this engine instance.
+             *
+             * @see         Nedrysoft::Core::IPingEngine::stop
+             *
+             * @returns     true on success; otherwise false.
+             */
             virtual bool stop();
 
+            /**
+             * @brief       Adds a ping target to this engine instance.
+             *
+             * @see         Nedrysoft::Core::IPingEngine::addTarget
+             *
+             * @param[in]   hostAddress the host address of the ping target.
+             *
+             * @returns     returns a pointer to the created ping target.
+             */
             virtual Nedrysoft::Core::IPingTarget *addTarget(QHostAddress hostAddress);
 
+            /**
+             * @brief       Adds a ping target to this engine instance
+             *
+             * @see         Nedrysoft::Core::IPingEngine::addTarget
+             *
+             * @param[in]   hostAddress the host address of the ping target
+             * @param[in]   ttl the time to live to use
+             *
+             * @return      returns a pointer to the created ping target
+             */
             virtual Nedrysoft::Core::IPingTarget *addTarget(QHostAddress hostAddress, int ttl);
 
+            /**
+             * @brief       Removes a ping target from this engine instance
+             *
+             * @see         Nedrysoft::Core::IPingEngine::addTarbet
+             *
+             * @param[in]   target the ping target to remove
+             *
+             * @return      true on success; otherwise false.
+             */
             virtual bool removeTarget(Nedrysoft::Core::IPingTarget *target);
 
+            /**
+             * @brief       Gets the epoch for this engine instace.
+             *
+             * @see         Nedrysoft::Core::IPingEngine::epoch
+             *
+             * @return      the time epoch
+             */
             virtual std::chrono::system_clock::time_point epoch();
 
+        public:
             /**
-             * @sa          IConfiguration
+             * @brief       Saves the configuration to a JSON object.
+             *
+             * @see         Nedrysoft::Core::IConfiguration::saveConfiguration
+             *
+             * @returns     the JSON configuration.
              */
             virtual QJsonObject saveConfiguration();
 
+            /**
+             * @brief       Loads the configuration.
+             *
+             * @see         Nedrysoft::Core::IConfiguration::loadConfiguration
+             *
+             * @param[in]   configuration the configuration as JSON object.
+             *
+             * @returns     true if loaded; otherwise false.
+             */
             virtual bool loadConfiguration(QJsonObject configuration);
 
-        protected:
-            /**
-             * @brief       Deletes timed out requests and emits timeout results
-             *
-             * @notes       Called from the timeout thread.
-             *
-             * @sa          ICMPPingTimeout
-             */
-            //void timeoutRequests(void);
-
-            /**
-             * Adds a ping request to the engine so it can be tracked
-             *
-             * @param[in] pingItem the item to be tracked
-             */
-            //void addRequest(FZICMPPingItem *pingItem);
-
-            /**
-             * Removes a tracked request and deletes the item
-             *
-             * @param[in] pingItem the item to be removed
-             */
-            //void removeRequest(FZICMPPingItem *pingItem);
-
-            /**
-             * Finds a tracked request by id
-             *
-             * The id is (icmp_id<<16) | icmp_sequence_id
-             *
-             * @param[in] id the request to find
-             * @return returns the request if it exists, otherwise NULL
-             */
-            //FZICMPPingItem *getRequest(uint32_t id);
-            /*
-                friend class FZICMPPingReceiver;
-                friend class FZICMPPingTransmitter;
-                friend class FZICMPPingTimeout;
-            */
         protected:
             std::shared_ptr<ICMPAPIPingEngineData> d;
     };

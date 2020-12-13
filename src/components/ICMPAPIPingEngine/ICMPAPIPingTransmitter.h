@@ -47,42 +47,25 @@ namespace Nedrysoft::Pingnoo {
         public:
 
             /**
-             * @brief       Constructor with engine
+             * @brief       Constructs a new ping transmitter with the given engine.
              *
-             * @details     Creates the receiver object and passes in the engine
-             *              so that the requests can be tagged to the correct engine
-             *
-             * @param[in]   engine the owner engine
+             * @param[in]   engine the owner engine.
              */
             ICMPAPIPingTransmitter(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine);
 
             /**
-             * @brief       Sets the interval between a set of pings
+             * @brief       Sets the interval between a set of pings.
              *
-             * @param[in]   interval interval
+             * @param[in]   interval the interval.
              */
             bool setInterval(std::chrono::milliseconds interval);
 
             /**
-             * @brief       Adds a ping target to the transmitter
-             *
-             * @param[in]   target the target to ping
-             */
-            //void addTarget(FZICMPPingTarget *target);
-
-            friend class ICMPAPIPingEngine;
-
-            /**
-             * @brief       The receiver thread worker
+             * @brief       The transmitter thread worker.
              */
             Q_SLOT void doWork(void);
 
-            /**
-             * @brief       Signals when a transmission result is available
-             *
-             * @param[in]   result the result
-             */
-            Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
+            friend class ICMPAPIPingEngine;
 
         private:
             std::chrono::milliseconds m_interval = {};          //! The transmission period in milliseconds

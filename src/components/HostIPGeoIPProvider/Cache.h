@@ -26,45 +26,36 @@
 
 namespace Nedrysoft::HostIPGeoIPProvider {
     /**
-     * @brief       Simple cache for GEO IP results
-     *
-     * @details     Provides a simple persistent database for GEOIP results
-     *              to prevent unneccesary lookups
-     *
+     * @brief       The Cache class provides a basic cache for IP results to prevent too many requests being made.
      */
     class Cache {
         public:
             /**
-             * @brief   Constructor
+             * @brief       Constructs a Cache
              */
             Cache();
 
             /**
-             * @brief   Destructor
+             * @brief       Destroys the Cache
              */
             ~Cache();
 
             /**
-             * @brief           Add a lookup result to the database
+             * @brief       Adds a lookup result to the cache.
              *
-             * @param[in]       Json result
-             *
+             * @param[in]   The cache JSON result object.
              */
             void add(QJsonObject object);
 
             /**
-             * @brief           Check if an IP is cached
+             * @brief       Check if a host has a cache entry.
              *
-             * @param[in]       host to check
-             * @param[out]      json object containing the host information
+             * @param[in]   host the host to check.
+             * @param[out]  object the JSON object containing the host information.
              *
+             * @returns     returns true if cached; otherwise false.
              */
             bool find(const QString &name, QJsonObject &object);
-
-        protected:
-
-        private:
-
     };
 }
 

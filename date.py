@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2020 Adrian Carpenter
+#
+# This file is part of pingnoo (https://github.com/fizzyade/pingnoo)
+# An open source ping path analyser
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+import os
+import sys
+import datetime
+
+if len(sys.argv)==2:
+    filename = sys.argv[1]
+
+    datePipe = os.popen(f'git log --follow --format=%aD {filename} | tail -1')
+    authorPipe = os.popen(f'git log --follow --format=%aN {filename} | tail -1')
+
+    author = authorPipe.read().rstrip()
+
+    dateString = datetime.datetime.strptime(datePipe.read().rstrip(), "%a, %d %b %Y %H:%M:%S %z").strftime("%d/%m/%Y")
+
+    print(f' * Created by {author} on {dateString}.')

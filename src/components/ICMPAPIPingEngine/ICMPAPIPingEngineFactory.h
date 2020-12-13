@@ -32,11 +32,8 @@ namespace Nedrysoft::Pingnoo {
     class ICMPPingEngine;
 
     /**
-     * @brief       Factory class for ICMPPingEngine
-     *
-     * @brief       Creates instances of ICMPPingEngine
+     * @brief       The ICMPAPIPingEngineFactory creates instances of the windows ICMPAPI ping engine.
      */
-
     class ICMPAPIPingEngineFactory :
             public QObject, public Nedrysoft::Core::IPingEngineFactory {
 
@@ -46,20 +43,45 @@ namespace Nedrysoft::Pingnoo {
             Q_INTERFACES(Nedrysoft::Core::IPingEngineFactory)
 
         public:
+            /**
+             * @brief       Constructs an ICMPAPIPingEngineFactory.
+             */
             ICMPAPIPingEngineFactory();
 
+            /**
+             * @brief       Destroys the ICMPAPIPingEngineFactory.
+             */
             ~ICMPAPIPingEngineFactory();
 
+        public:
             /**
-             * @sa          IPingEngineFactory
+             * @brief       Creates a ICMPAPIPingEngine instance.
+             *
+             * @see         Nedrysoft::Core::IPingEngineFactory::createEngine.
+             *
+             * @param[in]   version the IP version of the engine.
+             *
+             * @returns     the new ICMPAPIPingEngine instance.
              */
             virtual Nedrysoft::Core::IPingEngine *createEngine();
 
+        public:
             /**
-             * @sa          IConfiguration
+             * @brief       Saves the configuration to a JSON object.
+             *
+             * @returns     the JSON configuration.
              */
             virtual QJsonObject saveConfiguration();
 
+            /**
+             * @brief       Loads the configuration.
+             *
+             * @see         Nedrysoft::Core::IConfiguration::loadConfiguration
+             *
+             * @param[in]   configuration the configuration as JSON object.
+             *
+             * @returns     true if loaded; otherwise false.
+             */
             virtual bool loadConfiguration(QJsonObject configuration);
 
         protected:

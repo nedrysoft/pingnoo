@@ -29,9 +29,7 @@ namespace Nedrysoft::ICMPPingEngine {
 }
 
 /**
- * @brief       ICMPPingComponent class
- *
- * @details     Implements an ICMP ping (for all platforms)
+ * @brief       The ICMPPingComponent class provides a socket based ICMP ping engine for all platforms.
  */
 class NEDRYSOFT_ICMPPINGENGINE_DLLSPEC ICMPPingComponent :
         public QObject,
@@ -46,17 +44,22 @@ class NEDRYSOFT_ICMPPINGENGINE_DLLSPEC ICMPPingComponent :
 
     public:
         /**
-         * @brief       Constructor
+         * @brief       Constructs the ICMPPingComponent.
          */
         ICMPPingComponent();
 
         /**
-         * @brief       Destructor
+         * @brief       Destroys the ICMPPingComponent.
          */
         ~ICMPPingComponent();
 
+    public:
         /**
-         * @sa          Nedrysoft::ComponentSystem::IComponent
+         * @brief       initialiseEvent
+         *
+         * @details     Called by the component loader after all components have been loaded, called in load order.
+         *
+         * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
         virtual void initialiseEvent();
 

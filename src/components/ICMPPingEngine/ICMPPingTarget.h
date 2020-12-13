@@ -38,10 +38,9 @@ namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingEngine;
 
     /**
-     * IPingTarget implementation for ICMP
+     * @brief       The ICMPPingTarget describes a host target.
      *
-     * Implements the IPingTarget interface to implement a ping target
-     * that uses ICMP echo packets for measurements.
+     * @details     A ping target is used by an Nedrysoft::Core::IPingEngine to keep track of destinations to be pinged.
      */
     class ICMPPingTarget :
             public Nedrysoft::Core::IPingTarget {
@@ -53,13 +52,11 @@ namespace Nedrysoft::ICMPPingEngine {
 
         public:
             /**
-             * @brief       Constructor
+             * @brief       Constructs a ICMPPingTarget for the given engine with the supplied host and ttl.
              *
-             * @details     Creates a new ping target for a given host and initial TTL
-             *
-             * @param[in]   engine
-             * @param[in]   hostAddress
-             * @param[in]   ttl
+             * @param[in]   engine the ping engine to be associated with this target.
+             * @param[in]   hostAddress the target of the ping.
+             * @param[in]   ttl the TTL to be used in the ping.
              */
             ICMPPingTarget(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine, QHostAddress hostAddress, int ttl = 0);
 
@@ -69,41 +66,89 @@ namespace Nedrysoft::ICMPPingEngine {
             ~ICMPPingTarget();
 
             /**
-             * @sa          IPingTarget
-             */
+              * @brief       Sets the target host address.
+              *
+              * @see         Nedrysoft::Core::IPingTarget::setHostAddress
+              *
+              * @param[in]   hostAddress the host address to be pinged.
+              */
             void setHostAddress(QHostAddress hostAddress) override;
 
+            /**
+             * @brief       Returns the host address for this target.
+             *
+             * @see         Nedrysoft::Core::IPingTarget::hostAddress
+             *
+             * @returns     the host address for this target.
+             */
             QHostAddress hostAddress() override;
 
+            /**
+             * @brief       Returns the Nedrysoft::Core::IPingEngine that created this target
+             *
+             * @see         Nedrysoft::Core::IPingTarget::engine
+             *
+             * @returns     the Nedrysoft::Core::IPingEngine instance.
+             */
             Nedrysoft::Core::IPingEngine *engine() override;
 
+            /**
+             * @brief       Returns the user data attached to this target.
+             *
+             * @see         Nedrysoft::Core::IPingTarget::userData
+             *
+             * @returns     the user data.
+             */
             void *userData() override;
 
+            /**
+             * @brief       Sets the user data attached to this target.
+             *
+             * @see         Nedrysoft::Core::IPingTarget::setUserData
+             *
+             * @param[in]   data the user data.
+             */
             void setUserData(void *data) override;
 
+            /**
+             * @brief       Rwturns the TTL of this target.
+             *
+             * @see         Nedrysoft::Core::IPingTarget::ttl
+             *
+             * @returns     the ttl value.
+             */
             uint16_t ttl() override;
 
+        public:
             /**
-             * @sa          IConfiguration
+             * @brief       Saves the configuration to a JSON object.
              *
+             * @returns     the JSON configuration.
              */
             QJsonObject saveConfiguration() override;
 
+            /**
+             * @brief       Loads the configuration.
+             *
+             * @param[in]   configuration the configuration as JSON object.
+             *
+             * @returns     true if loaded; otherwise false.
+             */
             bool loadConfiguration(QJsonObject configuration) override;
 
         protected:
 
             /**
-             * @brief       Returns socket to be used to send ICMP packets
+             * @brief       Returns socket to be used to send ICMP packets.
              *
-             * @return      socket
+             * @returns     the socket.
              */
             Nedrysoft::ICMPSocket::ICMPSocket *socket();
 
             /**
-             * @brief       Returns the ICMP id used for this target
+             * @brief       Returns the ICMP id used for this target.
              *
-             * @return      the id
+             * @returns     the id.
              */
             uint16_t id();
 

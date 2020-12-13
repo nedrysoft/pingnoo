@@ -45,27 +45,51 @@ namespace Nedrysoft::ICMPPingEngine {
 
         public:
             /**
-             * @brief       Constructor
+             * @brief       Constructs an ICMPPingEngineFactory.
              */
             ICMPPingEngineFactory();
 
             /**
-             * @brief       Destructor
+             * @brief       Constructs the ICMPPingEngineFactory.
              */
             ~ICMPPingEngineFactory();
 
+        public:
             /**
-             * @sa          IPingEngineFactory
+             * @brief       Creates a ICMPAPIPingEngine instance.
+             *
+             * @see         Nedrysoft::Core::IPingEngineFactory::createEngine.
+             *
+             * @param[in]   version the IP version of the engine.
+             *
+             * @returns     the new ICMPAPIPingEngine instance.
              */
             virtual Nedrysoft::Core::IPingEngine *createEngine(Nedrysoft::Core::IPVersion version);
 
+            /**
+             * @brief       Returns the descriptive name of the factory.
+             *
+             * @returns     the descriptive name of the ping engine.
+             */
             virtual QString description();
 
+        public:
             /**
-             * @sa          IConfiguration
+             * @brief       Saves the configuration to a JSON object.
+             *
+             * @returns     the JSON configuration.
              */
             virtual QJsonObject saveConfiguration();
 
+            /**
+             * @brief       Loads the configuration.
+             *
+             * @see         Nedrysoft::Core::IConfiguration::loadConfiguration
+             *
+             * @param[in]   configuration the configuration as JSON object.
+             *
+             * @returns     true if loaded; otherwise false.
+             */
             virtual bool loadConfiguration(QJsonObject configuration);
 
         protected:

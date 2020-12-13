@@ -24,6 +24,9 @@
 #include "ComponentSystem/IComponent.h"
 #include "ICMPAPIPingEngineSpec.h"
 
+/**
+ * @brief       The ICMPAPIPingComponent class provides a ping engine for the Windows ICMPAPI feature.
+ */
 class NEDRYSOFT_PINGNOO_ICMPAPIPINGENGINE_DLLSPEC ICMPAPIPingComponent :
         public QObject, public Nedrysoft::ComponentSystem::IComponent {
 
@@ -35,10 +38,23 @@ class NEDRYSOFT_PINGNOO_ICMPAPIPINGENGINE_DLLSPEC ICMPAPIPingComponent :
         Q_INTERFACES(Nedrysoft::ComponentSystem::IComponent)
 
     public:
+        /**
+         * @brief       Constructs an ICMPAPIPingComponent.
+         */
         ICMPAPIPingComponent();
 
+        /**
+         * @brief       Destroys the ICMPAPIPingComponent.
+         */
         ~ICMPAPIPingComponent();
 
+        /**
+         * @brief       initialiseEvent
+         *
+         * @details     Called by the component loader after all components have been loaded, called in load order.
+         *
+         * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
+         */
         virtual void initialiseEvent();
 
 };

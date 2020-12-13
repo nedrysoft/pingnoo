@@ -53,9 +53,9 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
         /**
          * @brief       initialiseEvent
          *
-         * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
-         *
          * @details     Called by the component loader after all components have been loaded, called in load order.
+         *
+         * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
         virtual void initialiseEvent();
 
