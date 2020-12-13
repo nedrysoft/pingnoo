@@ -34,9 +34,9 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::LatencyRibbonGroup(QWidget *parent
 
     ui->setupUi(this);
 
-    ui->lowWidget->setColour(ColourManager::getMinColour());
-    ui->mediumWidget->setColour(ColourManager::getMidColour());
-    ui->highWidget->setColour(ColourManager::getMaxColour());
+    ui->lowWidget->setColour(ColourManager::getIdealColour());
+    ui->mediumWidget->setColour(ColourManager::getWarningColour());
+    ui->highWidget->setColour(ColourManager::getCriticalColour());
 
     ui->lowLineEdit->setPlaceholderText("100ms");
     ui->mediumLineEdit->setPlaceholderText("200ms");

@@ -53,6 +53,13 @@ namespace Nedrysoft::RouteAnalyser {
              */
             void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
+            /**
+             * @brief       Set whether to draw the background as a smooth gradient or steps.
+             *
+             * @param[in]   useGradient true if smooth gradient; otherwise false.
+             */
+            void setGradientEnabled(bool useGradient);
+
         private:
 
             /**
@@ -215,6 +222,8 @@ namespace Nedrysoft::RouteAnalyser {
         private:
             std::chrono::duration<double> m_lowRangeLatency = {};            //! The lowest latency seen by this item
             std::chrono::duration<double> m_midRangeLatency = {};            //! The highest latencty seen by this item
+
+            bool m_useGradient;
     };
 }
 

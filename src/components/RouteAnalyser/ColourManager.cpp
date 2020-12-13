@@ -23,34 +23,34 @@
 
 #include "ThemeSupport.h"
 
-constexpr auto LightLowColour = qRgb(229, 240, 220);
-constexpr auto LightMidColour = qRgb(252, 239, 215);
-constexpr auto LightHighColour = qRgb(249, 216, 211);
+constexpr auto LightIdealColour = qRgb(229, 240, 220);
+constexpr auto LightWarningColour = qRgb(252, 239, 215);
+constexpr auto LightCriticalColour = qRgb(249, 216, 211);
 
-constexpr auto DarkLowColour = qRgb(0x92,0xC8,0x9F);
-constexpr auto DarkMidColour = qRgb(0xe9, 0xc4, 0x6a);
-constexpr auto DarkHighColour = qRgb(0xe7, 0x6f, 0x51);
+constexpr auto DarkIdealColour = qRgb(0x92, 0xC8, 0x9F);
+constexpr auto DarkWarningColour = qRgb(0xe9, 0xc4, 0x6a);
+constexpr auto DarkCriticalColour = qRgb(0xe7, 0x6f, 0x51);
 
-QRgb Nedrysoft::RouteAnalyser::ColourManager::getMinColour() {
+QRgb Nedrysoft::RouteAnalyser::ColourManager::getIdealColour() {
     if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
-        return DarkLowColour;
+        return DarkIdealColour;
     }
 
-    return LightLowColour;
+    return LightIdealColour;
 }
 
-QRgb Nedrysoft::RouteAnalyser::ColourManager::getMidColour() {
+QRgb Nedrysoft::RouteAnalyser::ColourManager::getWarningColour() {
     if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
-        return DarkMidColour;
+        return DarkWarningColour;
     }
 
-    return LightMidColour;
+    return LightWarningColour;
 }
 
-QRgb Nedrysoft::RouteAnalyser::ColourManager::getMaxColour() {
+QRgb Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour() {
     if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
-        return DarkHighColour;
+        return DarkCriticalColour;
     }
 
-    return LightHighColour;
+    return LightCriticalColour;
 }

@@ -40,6 +40,8 @@ class QSplitter;
 class QScrollArea;
 
 namespace Nedrysoft::RouteAnalyser {
+    class GraphLatencyLayer;
+
     /**
      * @brief       The RouteAnalyserWidget class provides the main widget for a route analyser.
      *
@@ -131,6 +133,8 @@ namespace Nedrysoft::RouteAnalyser {
             QScrollArea *m_scrollArea;
             Nedrysoft::Core::IPingEngineFactory *m_pingEngineFactory;
             double m_interval;
+            QList<Nedrysoft::RouteAnalyser::GraphLatencyLayer *> m_backgroundLayers;
+
     };
 }
 

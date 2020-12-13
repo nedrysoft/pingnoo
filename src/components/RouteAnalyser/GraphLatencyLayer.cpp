@@ -26,26 +26,28 @@
 
 using namespace std::chrono_literals;
 
-constexpr auto DefaultLowRangeLatency = 100ms;
-constexpr auto DefaultMidRangeLatency = 200ms;
+constexpr auto DefaultIdealLatency = 100ms;
+constexpr auto DefaultWarningLatency = 200ms;
 
 constexpr auto roundedRectangleRadius = 10;
 constexpr auto tinyNumber = 0.0001;                             //! used to adjust a unit number to just under 1
 
+constexpr auto latencyStopLineColour = Qt::black;
+
 Nedrysoft::RouteAnalyser::GraphLatencyLayer::GraphLatencyLayer(QCustomPlot *customPlot) :
         QCPItemRect(customPlot),
-        m_lowRangeLatency(DefaultLowRangeLatency),
-        m_midRangeLatency(DefaultMidRangeLatency) {
+        m_idealLatency(DefaultIdealLatency),
+        m_warningLatency(DefaultWarningLatency),
+        m_useGradient(true) {
 
 }
 
 void Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) {
     auto graphMaxLatency = parentPlot()->yAxis->range().upper;
     auto rect = parentPlot()->axisRect()->rect();
-    auto smoothGradient = true;
 
-    auto lowStop = m_lowRangeLatency.count() / graphMaxLatency;
-    auto midStop = m_midRangeLatency.count() / graphMaxLatency;
+    auto idealStop = m_idealLatency.count()/graphMaxLatency;
+    auto warningStop = m_warningLatency.count()/graphMaxLatency;
 
     painter->save();
 
@@ -59,28 +61,39 @@ void Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) {
 
     QLinearGradient graphGradient = QLinearGradient(QPoint(rect.x(), rect.bottom()), QPoint(rect.x(), rect.top()));
 
-    if (lowStop > 1) {
-        graphGradient.setColorAt(0, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()));
-        graphGradient.setColorAt(1, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()));
+    if (idealStop > 1) {
+        graphGradient.setColorAt(0, QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()));
+        graphGradient.setColorAt(1, QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()));
     } else {
-        if (midStop > 1) {
-            if (lowStop < 1) {
-                graphGradient.setColorAt(0, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()));
-                graphGradient.setColorAt(1, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMidColour()));
+        if (warningStop > 1) {
+            if (idealStop < 1) {
+                graphGradient.setColorAt(0, QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()));
+                graphGradient.setColorAt(1, QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()));
+
+                if (!m_useGradient) {
+                    graphGradient.setColorAt(idealStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()));
+                    graphGradient.setColorAt(idealStop-tinyNumber, QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()));
+                }
             }
         } else {
-            graphGradient.setColorAt(0, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()));
-            graphGradient.setColorAt(lowStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMidColour()));
-            graphGradient.setColorAt(midStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMaxColour()));
-            graphGradient.setColorAt(1, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMaxColour()));
+            graphGradient.setColorAt(0, QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()));
+            graphGradient.setColorAt(idealStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()));
+            graphGradient.setColorAt(warningStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()));
+            graphGradient.setColorAt(1, QColor(Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()));
+
+            if (!m_useGradient) {
+                graphGradient.setColorAt(idealStop-tinyNumber, QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()));
+                graphGradient.setColorAt(warningStop-tinyNumber, QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()));
+            }
         }
     }
 
-    if (!smoothGradient) {
-        graphGradient.setColorAt(lowStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMidColour()));
-        graphGradient.setColorAt(lowStop - tinyNumber, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMinColour()));
-        graphGradient.setColorAt(midStop - tinyNumber, QColor(Nedrysoft::RouteAnalyser::ColourManager::getMaxColour()));
-    }
+    /*if (!m_useGradient) {
+        graphGradient.setColorAt(idealStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()));
+        graphGradient.setColorAt(idealStop - tinyNumber, QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()));
+        graphGradient.setColorAt(warningStop - tinyNumber, QColor(
+                Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()));
+    }*/
 
     painter->fillRect(rect, graphGradient);
 
@@ -88,30 +101,34 @@ void Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) {
     auto endPoint = QPointF();
     auto floatingPointRect = QRectF(rect);
 
-    if (lowStop < 1) {
+    if (idealStop < 1) {
         startPoint = QPointF(
                 floatingPointRect.left(),
-                floatingPointRect.bottom() - ( lowStop * floatingPointRect.height()) );
+                floatingPointRect.bottom()-(idealStop*floatingPointRect.height()) );
 
         endPoint = QPointF(
                 floatingPointRect.right(),
-                floatingPointRect.bottom() - ( lowStop * floatingPointRect.height()) );
+                floatingPointRect.bottom()-(idealStop*floatingPointRect.height()) );
     }
 
     auto pen = QPen(Qt::DashLine);
 
-    pen.setColor(Qt::lightGray);
+    pen.setColor(latencyStopLineColour);
 
     painter->setPen(pen);
 
     painter->drawLine(startPoint, endPoint);
 
-    if (midStop < 1) {
-        startPoint = QPointF(rect.left(), floatingPointRect.bottom() - ( midStop * floatingPointRect.height()));
-        endPoint = QPointF(rect.right(), floatingPointRect.bottom() - ( midStop * floatingPointRect.height()));
+    if (warningStop < 1) {
+        startPoint = QPointF(rect.left(), floatingPointRect.bottom()-(warningStop*floatingPointRect.height()));
+        endPoint = QPointF(rect.right(), floatingPointRect.bottom()-(warningStop*floatingPointRect.height()));
     }
 
     painter->drawLine(startPoint, endPoint);
 
     painter->restore();
+}
+
+void Nedrysoft::RouteAnalyser::GraphLatencyLayer::setGradientEnabled(bool useGradient) {
+    m_useGradient = useGradient;
 }

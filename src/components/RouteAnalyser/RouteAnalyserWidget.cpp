@@ -60,6 +60,7 @@ constexpr std::chrono::duration<double> DefaultMaxLatency = 0.01s;
 constexpr std::chrono::duration<double> DefaultTimeWindow = 10min;
 constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
+constexpr auto useSmoothGradient = false;
 
 QMap<int, QPair<QString, QString> > &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::headerMap() {
     static QMap<int, QPair<QString, QString> > &map = *new QMap<int, QPair<QString, QString> >
@@ -119,6 +120,8 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
     }
 
     auto routeGraphDelegate = new Nedrysoft::RouteAnalyser::RouteTableItemDelegate;
+
+    routeGraphDelegate->setGradientEnabled(useSmoothGradient);
 
     connect(this, &QObject::destroyed, routeGraphDelegate, [routeGraphDelegate](QObject *) {
         delete routeGraphDelegate;
@@ -313,7 +316,11 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             customPlot->addLayer("newBackground", customPlot->layer("grid"), QCustomPlot::limBelow);
 
-            new GraphLatencyLayer(customPlot);
+            auto latencyLayer = new GraphLatencyLayer(customPlot);
+
+            m_backgroundLayers.append(latencyLayer);
+
+            latencyLayer->setGradientEnabled(useSmoothGradient);
 
             customPlot->setCurrentLayer("main");
 

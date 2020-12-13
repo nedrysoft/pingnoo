@@ -40,6 +40,13 @@ namespace Nedrysoft::RouteAnalyser {
              */
             GraphLatencyLayer(QCustomPlot *customPlot);
 
+            /**
+             * @brief       Set whether to draw the background as a smooth gradient or steps.
+             *
+             * @param[in]   useGradient true if smooth gradient; otherwise false.
+             */
+            void setGradientEnabled(bool useGradient);
+
         protected:
             /**
              * @brief       Draws the layer to the given painter.
@@ -49,8 +56,10 @@ namespace Nedrysoft::RouteAnalyser {
             void draw(QCPPainter *painter);
 
         private:
-            std::chrono::duration<double> m_lowRangeLatency = {};            //! The lowest latency seen by this item
-            std::chrono::duration<double> m_midRangeLatency = {};            //! The highest latencty seen by this item
+            std::chrono::duration<double> m_idealLatency = {};
+            std::chrono::duration<double> m_warningLatency = {};
+
+            bool m_useGradient;
     };
 }
 
