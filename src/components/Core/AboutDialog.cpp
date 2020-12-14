@@ -74,7 +74,7 @@ auto Nedrysoft::Core::AboutDialog::compiler()->QString {
         return QString("MSVC <unknown>");
     } else if (_MSC_VER >= 1920) {
         return QString("MSVC 2019");
-    } else if if (_MSC_VER >= 1910) {
+    } else if (_MSC_VER >= 1910) {
         return QString("MSVC 2017");
     } else if (_MSC_VER >= 1900) {
         return QString("MSVC 2015");
