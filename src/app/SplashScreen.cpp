@@ -27,7 +27,12 @@
 
 constexpr auto splashScreenFilename = ":/app/images/splashscreen.png";
 constexpr auto fontFamily = "Poppins";
+#if defined(Q_OS_MAC)
 constexpr auto fontSize = 30;
+#else
+constexpr auto fontSize = 20;
+#endif
+
 constexpr auto splashScreenWidth = 700;
 constexpr auto alphaLevel = 255.0 * 0.8;
 constexpr auto textColour = qRgba(0xFF, 0xFF, 0xFF, alphaLevel);
