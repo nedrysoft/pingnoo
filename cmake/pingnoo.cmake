@@ -104,10 +104,6 @@ include_directories(${PINGNOO_COMPONENTS_SOURCE_DIR})
 link_directories(${PINGNOO_LIBRARIES_BINARY_DIR})
 link_directories(${PINGNOO_COMPONENTS_BINARY_DIR})
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-
 if(CMAKE_VERSION VERSION_LESS "3.7.0")
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
 endif()
@@ -153,6 +149,10 @@ macro(pingnoo_set_component_optional defaultValue)
 endmacro(pingnoo_set_component_optional)
 
 macro(pingnoo_start_component)
+    set(CMAKE_AUTOMOC ON)
+    set(CMAKE_AUTORCC ON)
+    set(CMAKE_AUTOUIC ON)
+
     get_filename_component(pingnooCurrentProjectName ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
     project(${pingnooCurrentProjectName})
@@ -188,6 +188,9 @@ macro(pingnoo_end_component)
 endmacro(pingnoo_end_component)
 
 macro(pingnoo_start_shared_library)
+    set(CMAKE_AUTOMOC ON)
+    set(CMAKE_AUTORCC ON)
+    set(CMAKE_AUTOUIC ON)
 
     get_filename_component(pingnooCurrentProjectName ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
@@ -221,6 +224,10 @@ macro(pingnoo_end_shared_library)
 endmacro(pingnoo_end_shared_library)
 
 macro(pingnoo_start_static_library)
+    set(CMAKE_AUTOMOC ON)
+    set(CMAKE_AUTORCC ON)
+    set(CMAKE_AUTOUIC ON)
+
     get_filename_component(pingnooCurrentProjectName ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
     project(${pingnooCurrentProjectName})
@@ -244,6 +251,10 @@ macro(pingnoo_end_static_library)
 endmacro(pingnoo_end_static_library)
 
 macro(pingnoo_start_executable)
+    set(CMAKE_AUTOMOC ON)
+    set(CMAKE_AUTORCC ON)
+    set(CMAKE_AUTOUIC ON)
+
     if (NOT ${ARGC})
         get_filename_component(pingnooCurrentProjectName ${CMAKE_CURRENT_SOURCE_DIR} NAME)
     else()
@@ -277,8 +288,21 @@ macro(pingnoo_end_executable)
 endmacro(pingnoo_end_executable)
 
 macro(add_logging_library)
-    include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/spdlog/include)
-    target_link_libraries(${PROJECT_NAME} "-L${spdlog_BINARY_DIR}" "-lspdlogd")
+    include_directories("${PINGNOO_LIBRARIES_SOURCE_DIR}/spdlog/include")
+
+    set(debug_SUFFIX)
+
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    if(WIN32)
+        set(debug_SUFFIX "d")
+    endif()
+endif()
+
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} \"${spdlog_BINARY_DIR}\\spdlog${debug_SUFFIX}\")
+else()
+    target_link_libraries(${PROJECT_NAME} \"-L${spdlog_BINARY_DIR}\" "-lspdlog${debug_SUFFIX}")
+endif()
 endmacro(add_logging_library)
 
 macro(pingnoo_use_qt_libraries)
