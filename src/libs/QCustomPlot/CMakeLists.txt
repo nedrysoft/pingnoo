@@ -21,7 +21,7 @@
 pingnoo_start_shared_library()
 
 pingnoo_add_defines(QCUSTOMPLOT_COMPILE_LIBRARY)
-#add_definitions(-DQCUSTOMPLOT_COMPILE_LIBRARY)
+
 pingnoo_add_sources(
     qcustomplot.cpp
     qcustomplot.h
