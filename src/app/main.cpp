@@ -27,6 +27,7 @@
 #include <QApplication>
 #include <QDir>
 #include <QDirIterator>
+#include <QIcon>
 #include <QJsonDocument>
 #include <QLibrary>
 #include <QProcessEnvironment>
@@ -151,6 +152,8 @@ int main(int argc, char **argv) {
 
         return true;
     });
+
+    qApp->setWindowIcon(QIcon(":/app/images/appicon-512x512@2x.png"));
 
     QTimer::singleShot(3000, [=]() {
         splashScreen->hide();
