@@ -41,6 +41,7 @@ class QScrollArea;
 
 namespace Nedrysoft::RouteAnalyser {
     class GraphLatencyLayer;
+    class RouteTableItemDelegate;
 
     /**
      * @brief       The RouteAnalyserWidget class provides the main widget for a route analyser.
@@ -102,6 +103,13 @@ namespace Nedrysoft::RouteAnalyser {
              */
             Q_SIGNAL void filteredEvent(QObject *watched, QEvent *event);
 
+            /**
+             * @brief       Sets whether this instance draws with solid or gradient backgrounds on graphs.
+             *
+             * @param[in]   useSmoothGradient true if gradient; otherwise false.
+             */
+            void setGradientEnabled(bool useSmoothGradient);
+
         protected:
             /**
              * @brief       Reimplements: QObject::eventFilter(QObject *watched, QEvent *event).
@@ -134,7 +142,7 @@ namespace Nedrysoft::RouteAnalyser {
             Nedrysoft::Core::IPingEngineFactory *m_pingEngineFactory;
             double m_interval;
             QList<Nedrysoft::RouteAnalyser::GraphLatencyLayer *> m_backgroundLayers;
-
+            Nedrysoft::RouteAnalyser::RouteTableItemDelegate *m_routeGraphDelegate;
     };
 }
 

@@ -88,7 +88,8 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
         Nedrysoft::Core::IPingEngineFactory *pingEngineFactory,
         QWidget *parent) :
 
-            QWidget(parent) {
+            QWidget(parent),
+            m_routeGraphDelegate(nullptr) {
 
     auto maskerConfig = QString(
             R"|({"id":"Nedrysoft::RegExHostMasker::RegExHostMasker","matchItems":[{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"},{"matchExpression":"(?<host>(.+))\\.fizzyade\\.(?<domain>(.+))","matchFlags":20,"matchHopString":"","matchReplacementString":"[host].<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"}]})|");
@@ -119,12 +120,12 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
         routeEngine->findRoute(targetHost, ipVersion);
     }
 
-    auto routeGraphDelegate = new Nedrysoft::RouteAnalyser::RouteTableItemDelegate;
+    m_routeGraphDelegate = new Nedrysoft::RouteAnalyser::RouteTableItemDelegate;
 
-    routeGraphDelegate->setGradientEnabled(useSmoothGradient);
+    m_routeGraphDelegate->setGradientEnabled(useSmoothGradient);
 
-    connect(this, &QObject::destroyed, routeGraphDelegate, [routeGraphDelegate](QObject *) {
-        delete routeGraphDelegate;
+    connect(this, &QObject::destroyed, m_routeGraphDelegate, [this](QObject *) {
+        delete m_routeGraphDelegate;
     });
 
     m_pingEngineFactory = pingEngineFactory;
@@ -146,7 +147,7 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
     m_tableView = new QTableView();
 
     m_tableView->setModel(m_tableModel);
-    m_tableView->setItemDelegate(routeGraphDelegate);
+    m_tableView->setItemDelegate(m_routeGraphDelegate);
     m_tableView->setShowGrid(false);
     m_tableView->verticalHeader()->setVisible(false);
 
@@ -616,4 +617,14 @@ bool Nedrysoft::RouteAnalyser::RouteAnalyserWidget::eventFilter(QObject *watched
 
 void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::paintEvent(QPaintEvent *paintEvent) {
     QWidget::paintEvent(paintEvent);
+}
+
+void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setGradientEnabled(bool useSmoothGradient) {
+    for(auto layer : m_backgroundLayers) {
+        layer->setGradientEnabled(useSmoothGradient);
+    }
+
+    if (m_routeGraphDelegate) {
+        m_routeGraphDelegate->setGradientEnabled(useSmoothGradient);
+    }
 }
