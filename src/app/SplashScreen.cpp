@@ -44,7 +44,7 @@ Nedrysoft::SplashScreen::SplashScreen() :
     auto pixmap = QPixmap(splashScreenFilename);
     auto scaledPixmap = pixmap.scaledToWidth(splashScreenWidth * pixmap.devicePixelRatio(), Qt::SmoothTransformation);
 
-    auto fontDirIterator = QDirIterator(":/app/fonts", QDirIterator::Subdirectories);
+    QDirIterator fontDirIterator(":/app/fonts", QDirIterator::Subdirectories);
 
     while (fontDirIterator.hasNext()) {
         fontDirIterator.next();

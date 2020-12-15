@@ -78,6 +78,7 @@ namespace Nedrysoft::Core {
             QAction *m_aboutComponentsAction;
             QAction *m_aboutAction;
             QAction *m_settingsAction;
+            QAction *m_exitAction;
 
             Nedrysoft::SettingsDialog::SettingsDialog *m_settingsDialog;
 

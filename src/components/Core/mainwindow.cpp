@@ -154,6 +154,7 @@ void Nedrysoft::Core::MainWindow::createDefaultCommands() {
     createCommand(Pingnoo::Constants::helpAbout, nullptr, QAction::ApplicationSpecificRole);
     createCommand(Pingnoo::Constants::helpAboutComponents, nullptr, QAction::ApplicationSpecificRole);
     createCommand(Pingnoo::Constants::filePreferences, nullptr, QAction::PreferencesRole);
+    createCommand(Pingnoo::Constants::fileExit, nullptr, QAction::QuitRole);
 
     // create the menus, we create a main menu bar, then sub menus on that (File, Edit, Help etc).  In each
     // menu we then create groups, this allows us to reserve sections of the menu for specific items, components
@@ -166,13 +167,15 @@ void Nedrysoft::Core::MainWindow::createDefaultCommands() {
     fileMenu->addGroupBefore(Pingnoo::Constants::defaultGroupTop, Pingnoo::Constants::fileNewGroup);
     fileMenu->addGroupAfter(Pingnoo::Constants::fileNewGroup, Pingnoo::Constants::fileOpenGroup);
     fileMenu->addGroupAfter(Pingnoo::Constants::fileOpenGroup, Pingnoo::Constants::fileSaveGroup);
-    fileMenu->addGroupAfter(Pingnoo::Constants::defaultGroupBottom, Pingnoo::Constants::fileMiscGroup);
+    fileMenu->addGroupAfter(Pingnoo::Constants::defaultGroupBottom, Pingnoo::Constants::defaultGroupBottom);
+    fileMenu->addGroupAfter(Pingnoo::Constants::defaultGroupBottom, Pingnoo::Constants::fileExitGroup);
 
     createMenu(Pingnoo::Constants::menuEdit, Pingnoo::Constants::applicationMenuBar);
     createMenu(Pingnoo::Constants::menuHelp, Pingnoo::Constants::applicationMenuBar);
 
     addMenuCommand(Pingnoo::Constants::fileOpen, Pingnoo::Constants::menuFile);
     addMenuCommand(Pingnoo::Constants::filePreferences, Pingnoo::Constants::menuFile);
+    addMenuCommand(Pingnoo::Constants::fileExit, Pingnoo::Constants::menuFile);
 
     addMenuCommand(Pingnoo::Constants::helpAbout, Pingnoo::Constants::menuHelp);
     addMenuCommand(Pingnoo::Constants::helpAboutComponents, Pingnoo::Constants::menuHelp);
@@ -249,6 +252,17 @@ void Nedrysoft::Core::MainWindow::registerDefaultCommands() {
 
             m_settingsDialog = nullptr;
         });
+    });
+
+    m_exitAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::fileExit));
+
+    m_exitAction->setEnabled(true);
+    m_exitAction->setMenuRole(QAction::QuitRole);
+
+    commandManager->registerAction(m_exitAction, Pingnoo::Constants::fileExit);
+
+    connect(m_exitAction, &QAction::triggered, [this](bool) {
+        close();
     });
 
     m_aboutAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::helpAbout));

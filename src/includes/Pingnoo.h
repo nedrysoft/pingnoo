@@ -36,6 +36,7 @@ namespace Pingnoo::Constants {
     constexpr auto menuHelp = "Menu.Help";
 
     constexpr auto fileOpen = "Menu.File.Open";
+    constexpr auto fileExit = "Menu.File.Exit";
 
     constexpr auto helpAbout = "Menu.Help.About";
     constexpr auto helpAboutComponents = "Menu.Help.AboutComponents";
@@ -50,6 +51,7 @@ namespace Pingnoo::Constants {
     constexpr auto fileOpenGroup = "Group.File.Open";
     constexpr auto fileSaveGroup = "Group.File.Save";
     constexpr auto fileMiscGroup = "Group.File.Misc";
+    constexpr auto fileExitGroup = "Group.File.Exit";
 
     constexpr auto ribbonHomePage = "Ribbon.Page.Home";
 
@@ -58,6 +60,12 @@ namespace Pingnoo::Constants {
         {editCopy,            QT_TR_NOOP("Copy")},
         {editPaste,           QT_TR_NOOP("Paste")},
         {fileOpen,            QT_TR_NOOP("Open...")},
+        {fileExit,            QT_TR_NOOP("Exit")},
+#if Q_OS_MACOS
+        {filePreferences,     QT_TR_NOOP("Preferences...")},
+#else
+        {filePreferences,     QT_TR_NOOP("Settings...")},
+#endif
         {helpAbout,           QT_TR_NOOP("About Pingnoo")},
         {helpAboutComponents, QT_TR_NOOP("About Components...")}
     };

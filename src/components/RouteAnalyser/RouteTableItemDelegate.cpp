@@ -43,8 +43,8 @@ constexpr auto DefaultIdealLatency = 100ms;
 constexpr auto DefaultWarningLatency = 200ms;
 
 constexpr auto roundedRectangleRadius = 10;
-constexpr auto alternateRowFactor = 10;
-constexpr auto tinyNumber = 0.0001;                             //! used to adjust a unit number to just under 1
+constexpr auto alternateRowFactor = 12.5;
+constexpr auto tinyNumber = 0.00001;                             //! used to adjust a unit number to just under 1
 
 constexpr auto NormalColourFactor = 100;
 constexpr auto ActiveSelectedColourFactor = 105;
@@ -577,6 +577,15 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
                 graphGradient.setColorAt(
                         1,
                         QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()).darker(colourFactor) );
+
+                if (!m_useGradient) {
+                    graphGradient.setColorAt(
+                            idealStop,
+                            QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()).darker(colourFactor) );
+                    graphGradient.setColorAt(
+                            idealStop-tinyNumber,
+                            QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()).darker(colourFactor) );
+                }
             }
         } else {
             graphGradient.setColorAt(
@@ -594,21 +603,17 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
             graphGradient.setColorAt(
                     1,
                     QColor(Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()).darker(colourFactor) );
+
+            if (!m_useGradient) {
+                graphGradient.setColorAt(
+                        idealStop-tinyNumber,
+                        QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()).darker(colourFactor) );
+
+                graphGradient.setColorAt(
+                        warningStop-tinyNumber,
+                        QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()).darker(colourFactor) );
+            }
         }
-    }
-
-    if (!m_useGradient) {
-        graphGradient.setColorAt(
-                idealStop,
-                QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()).darker(colourFactor) );
-
-        graphGradient.setColorAt(
-                idealStop - tinyNumber,
-                QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()).darker(colourFactor) );
-
-        graphGradient.setColorAt(
-                warningStop - tinyNumber,
-                QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()).darker(colourFactor) );
     }
 
     painter->fillRect(rect, graphGradient);

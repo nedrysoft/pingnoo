@@ -60,7 +60,7 @@ constexpr std::chrono::duration<double> DefaultMaxLatency = 0.01s;
 constexpr std::chrono::duration<double> DefaultTimeWindow = 10min;
 constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
-constexpr auto useSmoothGradient = false;
+constexpr auto useSmoothGradient = true;
 
 QMap<int, QPair<QString, QString> > &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::headerMap() {
     static QMap<int, QPair<QString, QString> > &map = *new QMap<int, QPair<QString, QString> >

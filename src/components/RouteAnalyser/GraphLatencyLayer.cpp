@@ -88,13 +88,6 @@ void Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) {
         }
     }
 
-    /*if (!m_useGradient) {
-        graphGradient.setColorAt(idealStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()));
-        graphGradient.setColorAt(idealStop - tinyNumber, QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()));
-        graphGradient.setColorAt(warningStop - tinyNumber, QColor(
-                Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()));
-    }*/
-
     painter->fillRect(rect, graphGradient);
 
     auto startPoint = QPointF();
