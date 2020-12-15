@@ -81,7 +81,6 @@ def endMessage(state, message=None):
         else:
             sys.stdout.write(Style.BRIGHT+'['+Fore.RED+'✘'+Fore.RESET+']\r\n')
 
-
     if not state and message:
         print('\r\n'+Fore.RED+'ERROR: '+Fore.RESET+message)
 
@@ -90,7 +89,7 @@ def parent(path):
 
 def execute(command):
     output = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    return(output.returncode, output.stdout.decode('utf-8'))
+    return(output.returncode, output.stdout.decode('utf-8')+output.stderr.decode('utf-8'))
 
 def which(appname):
     if platform.system()=="Windows" :
@@ -167,6 +166,8 @@ parser.add_argument('--curlbin', type=str, nargs='?', help='path to curl binary'
 
 if platform.system()=="Darwin":
     parser.add_argument('--arch', choices=['x86_64', 'arm64', 'universal'], type=str, default='x64_64', nargs='?', help='architecture type to deploy')
+elif platform.system()=="Linux":
+    parser.add_argument('--arch', choices=['x86', 'x86_64'], type=str, default='x86_64', nargs='?', help='architecture type to deploy')
 else:
     parser.add_argument('--arch', choices=['x86', 'x64'], type=str, default='x64', nargs='?', help='architecture type to deploy')
 
@@ -501,7 +502,7 @@ if platform.system()=="Linux" :
     resultCode, resultOutput = execute(f'{linuxdeployqt} \'bin/{buildArch}/Deploy/usr/share/applications/Pingnoo.desktop\' -qmake=\'{qtdir}/bin/qmake\' -exclude-libs=\'libqsqlodbc,libqsqlpsql\'')
 
     if resultCode:
-        endMessage(False, f'there was a problem running linuxdeployqt.\r\n\r\n{resultCode}\r\n')
+        endMessage(False, f'there was a problem running linuxdeployqt.\r\n\r\n{resultCode}\r\n{resultOutput}\r\n')
         exit(1)
 
     endMessage(True)
