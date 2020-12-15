@@ -6,7 +6,7 @@
 
 Pingnoo is an open-source combined traceroute and ping application for analysing network connections.  It runs under Windows, Mac OS and Linux.
 
-<img width="33%" src="https://user-images.githubusercontent.com/55795671/77832022-d5567680-712a-11ea-9680-1998915e4d2e.png"/>&nbsp;<img width="33%" src="https://user-images.githubusercontent.com/55795671/77832028-df787500-712a-11ea-9f8d-9a1c6df83409.png"/>&nbsp;<img width="33%" src="https://user-images.githubusercontent.com/55795671/77832017-cc65a500-712a-11ea-9918-58f9bb675eb9.jpg"/>
+<img src="https://user-images.githubusercontent.com/55795671/102199945-275b4a00-3ebc-11eb-8e64-1cf32e59cc05.png"/>
 
 ## Installation
 
@@ -134,13 +134,14 @@ Pingnoo uses the following third-party libraries/assets/tools/services in the de
 - [create-dmg](https://github.com/andreyvit/create-dmg) - automates the creation of Mac OS DMG files, licensed under the [MIT License](https://github.com/andreyvit/create-dmg/blob/master/LICENSE).
 - [colorama](https://github.com/tartley/colorama) - python module for terminal colour, licensed under the [BSD License](https://github.com/tartley/colorama/blob/master/LICENSE.txt).
 
-Also, Pingnoo uses the following commercially licensed tools/services.
+Also, Pingnoo was developed using the following commercially licensed tools/services.
 
 - [SmartCard Tools](https://www.mgtek.com/smartcard) - code-signing tool, allows automation of signing using a smartcard token.
 - [Certum Code Signing Certificate](https://en.sklep.certum.pl/data-safety/code-signing-certificates/open-source-code-signing-1022.html) - open-source code signing certificate for signing Windows binaries.
 - [AdvancedInstaller](https://www.advancedinstaller.com/) - Installer creator for windows, License kindly provided by them for free.
 - [Affinity Designer](https://www.serif.com/designer) - Vector artwork design application.
 - [Affinity Photo](https://www.serif.com/photo) - Bitmap artwork design application.
+- [CLion](https://www.jetbrains.com/clion/) - A C++ IDE
 
 # License
 
