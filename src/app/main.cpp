@@ -62,8 +62,6 @@ int main(int argc, char **argv) {
 
     spdlog::debug("Application started.");
 
-    QString sharedLibraryPath;
-
 #ifdef Q_OS_MAC
     CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
     CFStringRef macPath = CFURLCopyFileSystemPath(appUrlRef, kCFURLPOSIXPathStyle);
@@ -107,19 +105,22 @@ int main(int argc, char **argv) {
         }
     }
 #else
-    if (QProcessEnvironment::systemEnvironment().contains("APPDIR")) {
-        componentLoader->addComponents(QProcessEnvironment::systemEnvironment().value("APPDIR")+"/Components");
-        sharedLibraryPath =QProcessEnvironment::systemEnvironment().value("APPDIR");
-    } else {
+    QStringList componentLocations = QStringList() << "APPDIR" << "PINGNOO_COMPONENT_DIR";
+
+    for(auto dirName : componentLocations) {
+        if (QProcessEnvironment::systemEnvironment().contains(dirName)) {
+            spdlog::info(QString("%1 = %1")
+                                .arg(dirName)
+                                .arg(QProcessEnvironment::systemEnvironment().value(dirName)).toStdString());
+
+            componentLoader->addComponents(QProcessEnvironment::systemEnvironment().value(dirName) + "/Components");
+        }
+    }
+
+    if (QDir::current().exists("Components")) {
         componentLoader->addComponents("Components");
-        sharedLibraryPath = QDir::currentPath();
     }
 #endif
-
-    // load any shared libraries and see if they have the logging method
-
-    QDirIterator frameworkIterator(sharedLibraryPath);
-
     QString appSettingsFilename = QStandardPaths::standardLocations(
             QStandardPaths::GenericDataLocation).at(0) + "/" +
             qApp->organizationName() + "/" + qApp->applicationName() + "/appSettings.json";
