@@ -295,9 +295,7 @@ macro(add_logging_library)
     set(debug_SUFFIX)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
-    if(NOT APPLE)
-        set(debug_SUFFIX "d")
-    endif()
+    set(debug_SUFFIX "d")
 endif()
 
 if(WIN32)

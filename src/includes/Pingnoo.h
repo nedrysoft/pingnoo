@@ -61,7 +61,7 @@ namespace Pingnoo::Constants {
         {editPaste,           QT_TR_NOOP("Paste")},
         {fileOpen,            QT_TR_NOOP("Open...")},
         {fileExit,            QT_TR_NOOP("Exit")},
-#if Q_OS_MACOS
+#if defined(Q_OS_MACOS)
         {filePreferences,     QT_TR_NOOP("Preferences...")},
 #else
         {filePreferences,     QT_TR_NOOP("Settings...")},
