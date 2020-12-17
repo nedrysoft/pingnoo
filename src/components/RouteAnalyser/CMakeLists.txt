@@ -43,6 +43,7 @@ pingnoo_add_sources(
     RouteAnalyserSpec.h
     RouteAnalyserWidget.cpp
     RouteAnalyserWidget.h
+    Utils.cpp
     Utils.h
     ThemeSupport.mm
     ThemeSupport.h
@@ -56,6 +57,8 @@ pingnoo_add_sources(
     LatencyRibbonGroup.ui
     LatencyWidget.cpp
     LatencyWidget.h
+    LineSyntaxHighlighter.cpp
+    LineSyntaxHighlighter.h
     icons.qrc
 )
 

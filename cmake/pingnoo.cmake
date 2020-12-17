@@ -101,6 +101,8 @@ include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/SettingsDialog/includes)
 include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR})
 include_directories(${PINGNOO_COMPONENTS_SOURCE_DIR})
 
+include_directories(${CMAKE_BINARY_DIR})    # <- allows ui_ files to be available to the editor
+
 link_directories(${PINGNOO_LIBRARIES_BINARY_DIR})
 link_directories(${PINGNOO_COMPONENTS_BINARY_DIR})
 
@@ -441,7 +443,7 @@ macro(pingnoo_set_component_metadata pingnooComponentCategory pingnooComponentDe
 
             set(isFirst FALSE)
 
-            string(APPEND pingnooComponentDependencies "            \{ \"Name\" : \"${componentName}\", \"Version\" : \"1.0.0\" \}")
+            string(APPEND pingnooComponentDependencies "             { \"Name\" : \"${componentName}\", \"Version\" : \"1.0.0\"  }")
         endforeach()
     endif()
 endmacro(pingnoo_set_component_metadata)

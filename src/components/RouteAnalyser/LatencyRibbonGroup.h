@@ -24,10 +24,15 @@
 
 #include <QWidget>
 
+namespace Nedrysoft::Ribbon {
+    class RibbonLineEdit;
+}
 namespace Nedrysoft::RouteAnalyser {
     namespace Ui {
         class LatencyRibbonGroup;
     }
+
+    class LineSyntaxHighlighter;
 
     /**
      * @brief       The LatencyRibbonGroup is a Ribbon group that shows and allows modification of the latency values.
@@ -52,7 +57,14 @@ namespace Nedrysoft::RouteAnalyser {
             ~LatencyRibbonGroup() override;
 
         private:
+            void updatePeriod(Nedrysoft::Ribbon::RibbonLineEdit *lineEdit);
+
+        private:
             Ui::LatencyRibbonGroup *ui;
+
+            LineSyntaxHighlighter *m_idealHighlighter;
+            LineSyntaxHighlighter *m_warningHighlighter;
+            LineSyntaxHighlighter *m_criticalHighlighter;
     };
 };
 

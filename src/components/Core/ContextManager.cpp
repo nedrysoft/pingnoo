@@ -45,3 +45,11 @@ int Nedrysoft::Core::ContextManager::setContext(int contextIdentifier) {
 int Nedrysoft::Core::ContextManager::context() {
     return m_currentContextId;
 }
+
+int Nedrysoft::Core::ContextManager::context(QString contextName) {
+    if (m_contextIds.contains(contextName)) {
+        return m_contextIds[contextName];
+    }
+
+    return 0;
+}

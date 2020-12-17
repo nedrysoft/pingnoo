@@ -24,15 +24,24 @@
 #include "NewTargetRibbonGroup.h"
 #include "ui_NewTargetRibbonGroup.h"
 
-
-#include "Ribbon/RibbonDropButton.h"
+#include "ComponentSystem/IComponentManager.h"
+#include "Core/ICommandManager.h"
+#include "Core/IEditorManager.h"
 #include "Core/IPingEngineFactory.h"
+#include "LineSyntaxHighlighter.h"
+#include "Ribbon/RibbonDropButton.h"
+#include "RouteAnalyserEditor.h"
+#include "Utils.h"
 
 #include <QAbstractItemView>
 #include <QMenu>
-#include <ComponentSystem/IComponentManager.h>
+#include <QRegularExpressionMatch>
+#include <QDebug>
 
 constexpr auto comboPadding = 12;
+constexpr auto defaultInterval = "2.5s";
+constexpr auto defaultTarget = "1.1.1.1";
+constexpr auto lineEditHeight = 21;
 
 Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *parent) :
         QWidget(parent),
@@ -50,7 +59,7 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         menu.addSeparator();
         menu.addAction(tr("Load Favourite..."));
         menu.addAction(tr("New Favourite..."));
-        menu.addAction(tr("Edit Favrouite..."));
+        menu.addAction(tr("Edit Favourite..."));
         menu.addAction(tr("Save Favourite..."));
 
         menuPosition = mapToGlobal(menuPosition);
@@ -58,15 +67,25 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         menu.exec(menuPosition);
     });
 
-    ui->intervalLineEdit->setPlaceholderText("2.5s");
-    ui->targetLineEdit->setPlaceholderText("1.1.1.1");
+    m_intervalHighlighter = new LineSyntaxHighlighter(ui->intervalLineEdit->document(), [=](const QString &text) {
+        return Nedrysoft::Utils::parseIntervalString(text);
+    });
+
+    m_targetHighlighter = new LineSyntaxHighlighter(ui->targetLineEdit->document(), [=](const QString &text) {
+        return Nedrysoft::Utils::checkHostValid(text);
+    });
+
+    ui->intervalLineEdit->setPlaceholderText(defaultInterval);
+    ui->targetLineEdit->setPlaceholderText(defaultTarget);
 
     auto pingEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IPingEngineFactory>();
 
     if (pingEngines.count()) {
         auto minimumWidth = 0;
         for(auto pingEngine : pingEngines) {
-            ui->engineComboBox->addItem(pingEngine->description());
+            ui->engineComboBox->addItem(
+                    pingEngine->description(),
+                    QVariant::fromValue<Nedrysoft::Core::IPingEngineFactory *>(pingEngine) );
 
             QFontMetrics fontMetrics(ui->engineComboBox->font());
 
@@ -76,8 +95,101 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         ui->engineComboBox->view()->setMinimumWidth(minimumWidth);
         ui->engineComboBox->setPlaceholderText(pingEngines[0]->description());
     }
+
+    connect(ui->startButton, &Nedrysoft::Ribbon::RibbonButton::clicked, [=](bool checked) {
+        auto editorManager = Nedrysoft::Core::IEditorManager::getInstance();
+
+        if (editorManager) {
+            auto pingEngineFactoru = ui->engineComboBox->currentData().value<Nedrysoft::Core::IPingEngineFactory *>();
+
+            auto target = ui->targetLineEdit->toPlainText().isEmpty() ?
+                    ui->targetLineEdit->placeholderText() :
+                    ui->targetLineEdit->toPlainText();
+
+            auto interval = ui->intervalLineEdit->toPlainText().isEmpty() ?
+                    ui->intervalLineEdit->placeholderText() :
+                    ui->intervalLineEdit->toPlainText();
+
+            if (!Nedrysoft::Utils::checkHostValid(target)) {
+                return;
+            }
+
+            double intervalTime;
+
+            if (!Nedrysoft::Utils::parseIntervalString(interval, intervalTime)) {
+                return;
+            }
+
+            Nedrysoft::RouteAnalyser::RouteAnalyserEditor *editor = new Nedrysoft::RouteAnalyser::RouteAnalyserEditor;
+
+            editor->setPingEngine(pingEngineFactoru);
+            editor->setTarget(target);
+
+            if (ui->ipV4RadioButton->isChecked()) {
+                editor->setIPVersion(Nedrysoft::Core::IPVersion::V4);
+            } else {
+                editor->setIPVersion(Nedrysoft::Core::IPVersion::V6);
+            }
+
+            editor->setInterval(intervalTime);
+
+            Nedrysoft::ComponentSystem::addObject(editor);
+
+            editorManager->openEditor(editor);
+        }
+    });
+
+    connect(ui->intervalLineEdit, &Nedrysoft::Ribbon::RibbonLineEdit::textChanged, [=]() {
+        validateFields();
+    });
+
+    connect(ui->targetLineEdit, &Nedrysoft::Ribbon::RibbonLineEdit::textChanged, [=]() {
+        validateFields();
+    });
+
+    validateFields();
+
+    ui->targetLineEdit->setMaximumHeight(lineEditHeight);
+    ui->intervalLineEdit->setMaximumHeight(lineEditHeight);
 }
 
 Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::~NewTargetRibbonGroup() {
     delete ui;
+}
+
+
+QWidget *Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::checkFieldsValid(QString &string) {
+    double intervalValue;
+    QWidget *returnWidget = nullptr;
+
+    auto target = ui->targetLineEdit->toPlainText().isEmpty() ?
+                  ui->targetLineEdit->placeholderText() :
+                  ui->targetLineEdit->toPlainText();
+
+    auto interval = ui->intervalLineEdit->toPlainText().isEmpty() ?
+                    ui->intervalLineEdit->placeholderText() :
+                    ui->intervalLineEdit->toPlainText();
+
+    if (!Nedrysoft::Utils::checkHostValid(target)) {
+        returnWidget = ui->targetLineEdit;
+    }
+
+    if (!Nedrysoft::Utils::parseIntervalString(interval, intervalValue)) {
+        if (!returnWidget) {
+            returnWidget = ui->intervalLineEdit;
+        }
+    }
+
+    m_intervalHighlighter->updateSyntax();
+    m_targetHighlighter->updateSyntax();
+
+    return returnWidget;
+}
+
+void Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::validateFields() {
+    QString errorString;
+
+    auto invalidWidget = checkFieldsValid(errorString);
+
+    ui->startButton->setEnabled(invalidWidget == nullptr ? true : false);
 }

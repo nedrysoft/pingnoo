@@ -22,7 +22,13 @@
 #ifndef NEDRYSOFT_NEWTARGETRIBBONGROUP_H
 #define NEDRYSOFT_NEWTARGETRIBBONGROUP_H
 
+#include "LineSyntaxHighlighter.h"
+
 #include <QWidget>
+
+namespace Nedrysoft::Ribbon {
+    class RibbonLineEdit;
+}
 
 namespace Nedrysoft::RouteAnalyser {
     namespace Ui {
@@ -49,7 +55,25 @@ namespace Nedrysoft::RouteAnalyser {
             ~NewTargetRibbonGroup() override;
 
         private:
+            /**
+             * @brief       Validate the fields of the dialog.
+             *
+             * @param[out]  string the error string if validation failed.
+             *
+             * @returns     nullptr on no error; otherwise the first widget that failed validation.
+             */
+            QWidget *checkFieldsValid(QString &string);
+
+            /**
+             * @brief       Validates the fields of the dialog and enables/disables the ok/apply buttons.
+             */
+            void validateFields();
+
+        private:
             Ui::NewTargetRibbonGroup *ui;
+
+            LineSyntaxHighlighter *m_targetHighlighter;
+            LineSyntaxHighlighter *m_intervalHighlighter;
     };
 };
 

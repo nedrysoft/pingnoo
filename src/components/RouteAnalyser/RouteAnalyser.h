@@ -23,6 +23,7 @@
 #define NEDRYSOFT_ROUTEANALYSER_H
 
 namespace Pingnoo::Constants {
+    constexpr auto routeAnalyserContext = "RouteAnalyserComponent::RouteAnalyserEditor";
     constexpr auto ribbonRouteAnalyserPage = "Ribbon.Page.RouteAnalyser";
     constexpr auto ribbonRouteAnalyserNewTargetGroup = "Ribbon.Group.RouteAnalyser.NewTarget";
     constexpr auto ribbonRouteAnalyserLatencyGroup = "Ribbon.Group.RouteAnalyser.Latency";

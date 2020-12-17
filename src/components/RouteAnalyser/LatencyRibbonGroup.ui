@@ -35,9 +35,9 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="Nedrysoft::RouteAnalyser::LatencyWidget" name="lowWidget" native="true">
+      <widget class="Nedrysoft::RouteAnalyser::LatencyWidget" name="idealWidget" native="true">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -48,15 +48,21 @@
          <height>0</height>
         </size>
        </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>19</height>
+        </size>
+       </property>
        <property name="text" stdset="0">
         <string>ideal</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="Nedrysoft::Ribbon::RibbonLineEdit" name="lowLineEdit">
+      <widget class="Nedrysoft::Ribbon::RibbonLineEdit" name="idealLineEdit">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -77,9 +83,9 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="Nedrysoft::RouteAnalyser::LatencyWidget" name="mediumWidget" native="true">
+      <widget class="Nedrysoft::RouteAnalyser::LatencyWidget" name="warningWidget" native="true">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -90,13 +96,25 @@
          <height>0</height>
         </size>
        </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>19</height>
+        </size>
+       </property>
        <property name="text" stdset="0">
         <string>warning</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="Nedrysoft::Ribbon::RibbonLineEdit" name="mediumLineEdit">
+      <widget class="Nedrysoft::Ribbon::RibbonLineEdit" name="warningLineEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="maximumSize">
         <size>
          <width>60</width>
@@ -113,9 +131,9 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="Nedrysoft::RouteAnalyser::LatencyWidget" name="highWidget" native="true">
+      <widget class="Nedrysoft::RouteAnalyser::LatencyWidget" name="criticalWidget" native="true">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -126,13 +144,25 @@
          <height>0</height>
         </size>
        </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>19</height>
+        </size>
+       </property>
        <property name="text" stdset="0">
         <string>critical</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="Nedrysoft::Ribbon::RibbonLineEdit" name="highLineEdit">
+      <widget class="Nedrysoft::Ribbon::RibbonLineEdit" name="criticalLineEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="maximumSize">
         <size>
          <width>60</width>
@@ -163,6 +193,7 @@
    <class>Nedrysoft::Ribbon::RibbonLineEdit</class>
    <extends>QLineEdit</extends>
    <header>Ribbon/RibbonLineEdit.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>Nedrysoft::RouteAnalyser::LatencyWidget</class>

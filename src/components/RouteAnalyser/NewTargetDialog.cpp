@@ -22,11 +22,28 @@
 
 #include "ComponentSystem/IComponentManager.h"
 #include "Core/IPingEngineFactory.h"
+#include "LineSyntaxHighlighter.h"
+#include "Utils.h"
 #include "ui_NewTargetDialog.h"
+
+#include <QLineEdit>
+#include <QPushButton>
+
+constexpr auto lineEditHeightAdjustment = 2;
 
 Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
         QDialog(parent),
-        ui(new Nedrysoft::RouteAnalyser::Ui::NewTargetDialog) {
+        ui(new Nedrysoft::RouteAnalyser::Ui::NewTargetDialog),
+        m_targetHighlighter(nullptr),
+        m_intervalHighlighter(nullptr) {
+
+    static int minimumLineHeight = 0;
+
+    if (!minimumLineHeight) {
+        QLineEdit lineEdit;
+
+        minimumLineHeight = lineEdit.minimumSizeHint().height()+lineEditHeightAdjustment;
+    }
 
     ui->setupUi(this);
 
@@ -37,6 +54,40 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
                 pingEngine->description(),
                 QVariant::fromValue<Nedrysoft::Core::IPingEngineFactory *>(pingEngine) );
     }
+
+    m_intervalHighlighter = new LineSyntaxHighlighter(ui->intervalLineEdit->document(), [=](const QString &text) {
+        return Nedrysoft::Utils::parseIntervalString(text);
+    });
+
+    m_targetHighlighter = new LineSyntaxHighlighter(ui->targetLineEdit->document(), [=](const QString &text) {
+        return Nedrysoft::Utils::checkHostValid(text);
+    });
+
+    ui->targetLineEdit->setLineWrapMode(QTextEdit::NoWrap);
+    ui->targetLineEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->targetLineEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    ui->targetLineEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+
+    ui->targetLineEdit->setMaximumHeight(minimumLineHeight);
+
+    connect(ui->targetLineEdit, &QTextEdit::textChanged, [=]() {
+        validateFields();
+    });
+
+    ui->intervalLineEdit->setLineWrapMode(QTextEdit::NoWrap);
+    ui->intervalLineEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->intervalLineEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    ui->intervalLineEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+
+    ui->intervalLineEdit->setMaximumHeight(minimumLineHeight);
+
+    connect(ui->intervalLineEdit, &QTextEdit::textChanged, [=]() {
+        validateFields();
+    });
+
+    validateFields();
 }
 
 Nedrysoft::RouteAnalyser::NewTargetDialog::~NewTargetDialog() {
@@ -48,7 +99,11 @@ Nedrysoft::Core::IPingEngineFactory *Nedrysoft::RouteAnalyser::NewTargetDialog::
 }
 
 QString Nedrysoft::RouteAnalyser::NewTargetDialog::pingTarget() {
-    return ui->hostLineEdit->text();
+    if (ui->targetLineEdit->toPlainText().isEmpty()) {
+        return ui->targetLineEdit->placeholderText();
+    }
+
+    return ui->targetLineEdit->toPlainText();
 }
 
 Nedrysoft::Core::IPVersion Nedrysoft::RouteAnalyser::NewTargetDialog::ipVersion() {
@@ -60,6 +115,50 @@ Nedrysoft::Core::IPVersion Nedrysoft::RouteAnalyser::NewTargetDialog::ipVersion(
 }
 
 double Nedrysoft::RouteAnalyser::NewTargetDialog::interval() {
-    return ui->intervalDoubleSpinBox->value();
+    double intervalTime = 1;
+    auto intervalString = ui->intervalLineEdit->toPlainText().isEmpty() ?
+                  ui->intervalLineEdit->placeholderText() :
+                  ui->intervalLineEdit->toPlainText();
+
+    if (!Nedrysoft::Utils::parseIntervalString(intervalString, intervalTime)) {
+        return intervalTime;
+    }
+
+    return intervalTime;
 }
 
+QWidget *Nedrysoft::RouteAnalyser::NewTargetDialog::checkFieldsValid(QString &string) {
+    double intervalValue;
+    QWidget *returnWidget = nullptr;
+
+    auto target = ui->targetLineEdit->toPlainText().isEmpty() ?
+                  ui->targetLineEdit->placeholderText() :
+                  ui->targetLineEdit->toPlainText();
+
+    auto interval = ui->intervalLineEdit->toPlainText().isEmpty() ?
+                    ui->intervalLineEdit->placeholderText() :
+                    ui->intervalLineEdit->toPlainText();
+
+    if (!Nedrysoft::Utils::checkHostValid(target)) {
+        returnWidget=ui->targetLineEdit;
+    }
+
+    if (!Nedrysoft::Utils::parseIntervalString(interval, intervalValue)) {
+        if (!returnWidget) {
+            returnWidget=ui->intervalLineEdit;
+        }
+    }
+
+    m_intervalHighlighter->updateSyntax();
+    m_targetHighlighter->updateSyntax();
+
+    return returnWidget;
+}
+
+void Nedrysoft::RouteAnalyser::NewTargetDialog::validateFields() {
+    QString errorString;
+
+    auto invalidWidget = checkFieldsValid(errorString);
+
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(invalidWidget == nullptr ? true : false);
+}

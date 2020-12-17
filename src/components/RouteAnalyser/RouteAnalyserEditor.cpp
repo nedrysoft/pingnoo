@@ -20,18 +20,21 @@
 
 #include "RouteAnalyserEditor.h"
 
-#include "Core/ICommandManager.h"
-#include "Pingnoo.h"
-#include "RouteAnalyserComponent.h"
+#include "Core/IContextManager.h"
+#include "RouteAnalyser.h"
 #include "RouteAnalyserWidget.h"
 
 #include <QLabel>
 #include <QObject>
 
-Nedrysoft::RouteAnalyser::RouteAnalyserEditor::RouteAnalyserEditor(int contextId) :
-        m_contextId(contextId),
+Nedrysoft::RouteAnalyser::RouteAnalyserEditor::RouteAnalyserEditor() :
         m_editorWidget(nullptr) {
 
+    auto contextManger = Nedrysoft::Core::IContextManager::getInstance();
+
+    if (contextManger) {
+        m_contextId = contextManger->context(Pingnoo::Constants::routeAnalyserContext);
+    }
 }
 
 Nedrysoft::RouteAnalyser::RouteAnalyserEditor::~RouteAnalyserEditor() {

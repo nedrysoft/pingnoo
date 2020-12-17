@@ -29,7 +29,7 @@ option(Pingnoo_Build_Tests "Build tests" OFF)
 add_subdirectory(src/libs)
 add_subdirectory(src/components)
 
-if (Pingnoo_Build_Tests)
+if (${Pingnoo_Build_Tests})
     add_subdirectory(src/tests)
 else()
     add_subdirectory(src/app)

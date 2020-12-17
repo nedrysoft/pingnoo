@@ -90,6 +90,17 @@ namespace Nedrysoft::Core {
              */
             virtual int context();
 
+            /**
+             * @brief       Gets the context id by name.
+             *
+             * @details     Gets the numeric identifier of the given context.
+             *
+             * @param[in]   contextName the context name;
+             *
+             * @returns     the context identifier.
+             */
+            virtual int context(QString contextName);
+
         private:
             int m_nextContextId;                                //! The next available context id available to register
             int m_currentContextId;                             //! The currently selected context id

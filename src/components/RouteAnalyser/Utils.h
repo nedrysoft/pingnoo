@@ -24,6 +24,8 @@
 #include <limits.h>
 #include <stdint.h>
 
+#include <QString>
+
 namespace Nedrysoft::Utils {
     /**
      * @brief       Convert 16 bit words to 32 bit
@@ -39,6 +41,38 @@ namespace Nedrysoft::Utils {
     constexpr uint32_t fzMake32(uint16_t high, uint16_t low) {
         return ( static_cast<uint32_t>(( high << ( sizeof(high) * CHAR_BIT ) | low )));
     }
+
+    /**
+     * @brief       Validates and returns the interval from a string.
+     *
+     * @details     Handles strings with or without suffixes, 2.0 100ms etc.
+     *
+     * @param[in]   string the string to validate.
+     * @param[out]  intervalValue the interval value in seconds (if valid).
+     *
+     * @returns     true if interval was valid; otherwise false;
+     */
+    bool parseIntervalString(QString intervalString, double &intervalValue);
+
+    /**
+     * @brief       Validates an interval string;
+     *
+     * @details     Handles strings with or without suffixes, 2.0 100ms etc.
+     *
+     * @param[in]   string the string to validate.
+     *
+     * @returns     true if interval was valid; otherwise false;
+     */
+    bool parseIntervalString(QString intervalString);
+
+    /**
+     * @brief       Check if the host is a valid host name or ip address.
+     *
+     * @param[in]   host the host to check.
+     *
+     * @returns     true if valid; otherwise false.
+     */
+    bool checkHostValid(const QString &host);
 }
 
 #endif // NEDRYSOFT_UTILS_H

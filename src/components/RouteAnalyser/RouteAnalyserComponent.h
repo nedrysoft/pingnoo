@@ -50,6 +50,13 @@ class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
          */
         ~RouteAnalyserComponent();
 
+        /**
+         * @brief       Returns the context id for the route analyser.
+         *
+         * @return      the context id.
+         */
+        int contextId();
+
     public:
         /**
          * @brief       initialiseEvent

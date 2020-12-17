@@ -47,32 +47,13 @@ void RouteAnalyserComponent::initialiseEvent() {
     appNap->prevent(QT_TR_NOOP("App Nap has been disabled as it interferes with thread timing."));
 
     if (contextManager) {
-        m_editorContextId = contextManager->registerContext("RouteAnalyserComponent::RouteAnalyserEditor");
+        m_editorContextId = contextManager->registerContext(Pingnoo::Constants::routeAnalyserContext);
 
         connect(contextManager, &Nedrysoft::Core::IContextManager::contextChanged,
                 [&](int newContext, int previousContext) {
                     Q_UNUSED(newContext)
                     Q_UNUSED(previousContext)
                 });
-    }
-
-    auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
-
-    if (ribbonBarManager) {
-        auto ribbonPage = ribbonBarManager->addPage(tr("Route Analyser"), Pingnoo::Constants::ribbonRouteAnalyserPage);
-        auto newTargetGroupWidget = new Nedrysoft::RouteAnalyser::NewTargetRibbonGroup;
-        auto latencyGroupWidget = new Nedrysoft::RouteAnalyser::LatencyRibbonGroup;
-
-        ribbonPage->addGroup(
-                tr("New Target"),
-                Pingnoo::Constants::ribbonRouteAnalyserNewTargetGroup,
-                newTargetGroupWidget );
-
-        ribbonPage->addGroup(
-                tr("Latency"),
-                Pingnoo::Constants::ribbonRouteAnalyserLatencyGroup,
-                latencyGroupWidget );
-
     }
 
     auto core = Nedrysoft::Core::ICore::getInstance();
@@ -94,12 +75,14 @@ void RouteAnalyserComponent::initialiseEvent() {
 
                         if (editorManager) {
                             Nedrysoft::RouteAnalyser::RouteAnalyserEditor *editor =
-                                    new Nedrysoft::RouteAnalyser::RouteAnalyserEditor(m_editorContextId);
+                                    new Nedrysoft::RouteAnalyser::RouteAnalyserEditor;
 
                             editor->setPingEngine(newTargetDialog.pingEngineFactory());
                             editor->setTarget(newTargetDialog.pingTarget());
                             editor->setIPVersion(newTargetDialog.ipVersion());
                             editor->setInterval(newTargetDialog.interval());
+
+                            Nedrysoft::ComponentSystem::addObject(editor);
 
                             editorManager->openEditor(editor);
                         }
@@ -131,9 +114,32 @@ void RouteAnalyserComponent::initialiseEvent() {
                 action->setEnabled(true);
             }
         });
+
+        auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
+
+        if (ribbonBarManager) {
+            auto ribbonPage = ribbonBarManager->addPage(tr("Route Analyser"), Pingnoo::Constants::ribbonRouteAnalyserPage);
+            auto newTargetGroupWidget = new Nedrysoft::RouteAnalyser::NewTargetRibbonGroup;
+            auto latencyGroupWidget = new Nedrysoft::RouteAnalyser::LatencyRibbonGroup;
+
+            ribbonPage->addGroup(
+                    tr("New Target"),
+                    Pingnoo::Constants::ribbonRouteAnalyserNewTargetGroup,
+                    newTargetGroupWidget );
+
+            ribbonPage->addGroup(
+                    tr("Latency"),
+                    Pingnoo::Constants::ribbonRouteAnalyserLatencyGroup,
+                    latencyGroupWidget );
+
+        }
     }
 }
 
 void RouteAnalyserComponent::initialisationFinishedEvent() {
 
+}
+
+int RouteAnalyserComponent::contextId() {
+    return m_editorContextId;
 }

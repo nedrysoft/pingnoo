@@ -88,6 +88,15 @@ namespace Nedrysoft::Core {
             virtual int context() = 0;
 
             /**
+             * @brief       Gets the context id by name.
+             *
+             * @details     Gets the numeric identifier of the given context.
+             *
+             * @returns     the context identifier.
+             */
+            virtual int context(QString contextName) = 0;
+
+            /**
              * @brief       Signals that the context has changed.
              *
              * @details     Emitted when the context manager switches context.

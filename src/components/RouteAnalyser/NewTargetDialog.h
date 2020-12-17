@@ -25,10 +25,14 @@
 
 #include <QDialog>
 
+class QTextEdit;
+
 namespace Nedrysoft::RouteAnalyser {
     namespace Ui {
         class NewTargetDialog;
     }
+
+    class LineSyntaxHighlighter;
 
     /**
      * @brief       The NewTargetDialog class is a dialog that is used to create a new target.
@@ -87,7 +91,24 @@ namespace Nedrysoft::RouteAnalyser {
             double interval();
 
         private:
+            /**
+             * @brief       Validate the fields of the dialog.
+             *
+             * @param[out]  string the error string if validation failed.
+             *
+             * @returns     nullptr on no error; otherwise the first widget that failed validation.
+             */
+            QWidget *checkFieldsValid(QString &string);
+
+            /**
+             * @brief       Validates the fields of the dialog and enables/disables the ok/apply buttons.
+             */
+            void validateFields();
+
+        private:
             Ui::NewTargetDialog *ui;
+            LineSyntaxHighlighter *m_targetHighlighter;
+            LineSyntaxHighlighter *m_intervalHighlighter;
     };
 }
 

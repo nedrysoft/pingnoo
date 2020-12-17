@@ -52,9 +52,9 @@ namespace Nedrysoft::RouteAnalyser {
 
         public:
             /**
-             * @brief       Constructs a new RouteAnalyserEditor with the registered context id.
+             * @brief       Constructs a new RouteAnalyserEditor.
              */
-            RouteAnalyserEditor(int contextId);
+            RouteAnalyserEditor();
 
             /**
              * @brief       Destroys the RouteAnalyserEditor.

@@ -68,8 +68,6 @@ int main(int argc, char **argv) {
     const char *pathPtr = CFStringGetCStringPtr(macPath, CFStringGetSystemEncoding());
     QString componentPath = QString(pathPtr) + "/Contents/PlugIns";
 
-    sharedLibraryPath = QString(pathPtr) + "/Contents/Frameworks";
-
     CFRelease(appUrlRef);
     CFRelease(macPath);
 

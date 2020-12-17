@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>203</height>
+    <width>370</width>
+    <height>205</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>New Ping Target</string>
@@ -30,12 +36,21 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="hostLineEdit">
+      <widget class="QTextEdit" name="targetLineEdit">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>13</height>
+        </size>
+       </property>
+       <property name="placeholderText">
+        <string>1.1.1.1</string>
        </property>
       </widget>
      </item>
@@ -88,14 +103,36 @@
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QDoubleSpinBox" name="intervalDoubleSpinBox">
-       <property name="suffix">
-        <string> seconds</string>
+      <widget class="QTextEdit" name="intervalLineEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="value">
-        <double>1.000000000000000</double>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>13</height>
+        </size>
+       </property>
+       <property name="placeholderText">
+        <string>2.5s</string>
        </property>
       </widget>
+     </item>
+     <item row="4" column="1">
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>2</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>
