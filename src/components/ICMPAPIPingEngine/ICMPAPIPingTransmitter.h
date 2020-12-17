@@ -31,12 +31,10 @@ namespace Nedrysoft::Pingnoo {
     class ICMPAPIPingEngine;
 
     /**
-     * ICMPAPI packet transmitter thread implementation
+     * @brief       The ICMPAPIPingTransmitter class provides a thread for transmitting ICMP packets.
      *
-     * Created and used by the ICMPAPI engine, the transmitter thread
-     * creates requests for the associated targets and sends them
-     * at the given period
-     *
+     * @details     and used by the ICMPAPI engine, the transmitter thread creates requests for the associated
+     *              targets and sends them at the given period
      */
     class ICMPAPIPingTransmitter :
             public QObject {

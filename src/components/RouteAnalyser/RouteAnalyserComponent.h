@@ -59,15 +59,15 @@ class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
 
     public:
         /**
-         * @brief       initialiseEvent
+         * @brief       The initialiseEvent is called by the component loader to initialise the component.
          *
-         * @details     Called by the component loader after all components have been
-         *              loaded, called in load order.
+         * @details     Called by the component loader after all components have been loaded, called in load order.
          */
         virtual void initialiseEvent();
 
         /**
-         * @brief       initialisationFinishedEvent
+         * @brief       The initialisationFinishedEvent function is called by the component loader after all
+         *              components have been initialised.
          *
          * @details     Called by the component loader after all components have been
          *              initialised, called in reverse load order.

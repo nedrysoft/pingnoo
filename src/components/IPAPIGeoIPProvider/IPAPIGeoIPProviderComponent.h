@@ -26,9 +26,7 @@
 #include "IPAPIGeoIPProviderSpec.h"
 
 /**
- * @brief       IPAPIGeoIPProviderComponent class
- *
- * @details     Implements a GEO IP lookup provider using ipapi.com
+ * @brief       The IPAPIGeoIPProviderComponent provides ip-api.com geo lookups.
  */
 class NEDRYSOFT_IPAPIGEOIPPROVIDER_DLLSPEC IPAPIGeoIPProviderComponent :
         public QObject,

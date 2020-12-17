@@ -26,7 +26,6 @@
 #include "ComponentSystem/IComponentManager.h"
 #include "LineSyntaxHighlighter.h"
 #include "Ribbon/RibbonLineEdit.h"
-#include "RouteAnalyser.h"
 #include "RouteAnalyserEditor.h"
 #include "Utils.h"
 

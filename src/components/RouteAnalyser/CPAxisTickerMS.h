@@ -32,7 +32,7 @@ namespace Nedrysoft::RouteAnalyser {
 
         public:
             /**
-             * @brief       Returns a string which expressess the given tick as milliseconds.
+             * @brief       Returns a string which expresses the given tick as milliseconds.
              *
              * @param[in]   tick the tick value.
              * @param[in]   locale the locale to be used.

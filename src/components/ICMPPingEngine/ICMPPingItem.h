@@ -29,11 +29,10 @@ namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingTarget;
 
     /**
-     * @brief       Object used to store information about a tracked request
+     * @brief       The ICMPPingItem class stores information to track requests & responses.
      *
-     * @details     The FZICMPPingTransmitter registers each ping request with the
-     *              engine, this class holds the required information to allow
-     *              replies to be matched to requests (and timed) and also to allow
+     * @details     The ICMPPingTransmitter instance registers each ping request with the engine, this class holds the
+     *              required information to allow replies to be matched to requests (and timed) and also to allow
      *              timeouts to be discovered.
      */
     class ICMPPingItem :
@@ -49,35 +48,35 @@ namespace Nedrysoft::ICMPPingEngine {
             ICMPPingItem();
 
             /**
-             * @brief       Destructor
+             * @brief       Destroys the ICMPPingItem.
              */
             ~ICMPPingItem();
 
             /**
-             * @brief       Sets the id used in the ping request
+             * @brief       Sets the id used in the ping request.
              *
-             * @param[in]   id the id field for this request
+             * @param[in]   id the id field for this request.
              */
             void setId(uint16_t id);
 
             /**
-             * @brief       Returns the id used in the ping request
+             * @brief       Returns the id used in the ping request.
              *
-             * @return      id of the request
+             * @return      id of the request.
              */
             uint16_t id(void);
 
             /**
-             * @brief       Sets the sequence id used in the ping request
+             * @brief       Sets the sequence id used in the ping request.
              *
-             * @param[in]   sequence the sequence id to use
+             * @param[in]   sequence the sequence id to use.
              */
             void setSequenceId(uint16_t sequence);
 
             /**
-             * @brief       Returns the sequence id used in the ping request
+             * @brief       Returns the sequence id used in the ping request.
              *
-             * @return      the sequence id
+             * @return      the sequence id.
              */
             uint16_t sequenceId();
 
@@ -92,23 +91,23 @@ namespace Nedrysoft::ICMPPingEngine {
             void setServiced(bool serviced);
 
             /**
-             * @brief       Returns the serviced status of the request
+             * @brief       Returns the serviced status of the request.
              *
              * @return      true if request has been serviced; otherwise false.
              */
             bool serviced();
 
             /**
-             * @brief       Sets the sample number for this request
+             * @brief       Sets the sample number for this request.
              *
-             * @param[in]   sampleNumber the sample number
+             * @param[in]   sampleNumber the sample number.
              */
             void setSampleNumber(unsigned long sampleNumber);
 
             /**
-             * @brief       Returns the sample number for this request
+             * @brief       Returns the sample number for this request.
              *
-             * @return      the sample number
+             * @return      the sample number.
              */
             unsigned long sampleNumber();
 

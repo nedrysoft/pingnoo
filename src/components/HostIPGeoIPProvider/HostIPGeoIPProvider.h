@@ -31,7 +31,7 @@
 namespace Nedrysoft::HostIPGeoIPProvider {
     class Cache;
     /**
-     * @brief       The HostIPGeoIPProvider class provides a geo lookup using hostip.com
+     * @brief       The HostIPGeoIPProvider class provides a geo lookup using hostip.com.
      */
     class HostIPGeoIPProvider :
             public Nedrysoft::Core::IGeoIPProvider {

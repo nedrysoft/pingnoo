@@ -33,11 +33,9 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
     class Cache;
 
     /**
-     * @brief       Definition for the built in host masker
+     * @brief       The IPAPIGeoIPProvider provides a ip-api.com geo IP lookup.
      *
-     * @details     This host marker accepts a regular expression to match the host name
-     *              or address and allows the masked output to be generated using capture
-     *              groups
+     * @details     Uses ip-api.com to lookup an IP address to detetermine the geo location.
      */
     class IPAPIGeoIPProvider :
             public Nedrysoft::Core::IGeoIPProvider {

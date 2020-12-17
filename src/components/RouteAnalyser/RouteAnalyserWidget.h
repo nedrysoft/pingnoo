@@ -114,6 +114,8 @@ namespace Nedrysoft::RouteAnalyser {
             /**
              * @brief       Reimplements: QObject::eventFilter(QObject *watched, QEvent *event).
              *
+             * @details     Used to provide a signal which allows the processing of events.
+             *
              * @param[in]   watched the object that caused the event.
              * @param[in]   event the event information.
              *

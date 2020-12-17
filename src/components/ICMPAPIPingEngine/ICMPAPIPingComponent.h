@@ -25,7 +25,7 @@
 #include "ICMPAPIPingEngineSpec.h"
 
 /**
- * @brief       The ICMPAPIPingComponent class provides a ping engine for the Windows ICMPAPI feature.
+ * @brief       The ICMPAPIPingComponent class provides a ping engine for the Windows ICMPAPI api.
  */
 class NEDRYSOFT_PINGNOO_ICMPAPIPINGENGINE_DLLSPEC ICMPAPIPingComponent :
         public QObject, public Nedrysoft::ComponentSystem::IComponent {

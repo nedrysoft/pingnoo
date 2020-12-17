@@ -54,7 +54,7 @@ class NEDRYSOFT_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
         ~HostIPGeoIPProviderComponent();
 
         /**
-         * @brief       initialiseEvent
+         * @brief       The initialiseEvent is called by the component loader to initialise the component.
          *
          * @details     Called by the component loader after all components have been loaded, called in load order.
          *

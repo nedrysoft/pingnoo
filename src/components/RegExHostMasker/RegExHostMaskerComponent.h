@@ -44,12 +44,12 @@ class NEDRYSOFT_REGEXHOSTMASKER_DLLSPEC RegExHostMaskerComponent :
 
     public:
         /**
-         * @brief       Constructs a PublicIPHostMaskerComponent.
+         * @brief       Constructs a RegExHostMaskerComponent.
          */
         RegExHostMaskerComponent();
 
         /**
-         * @brief       Destroys the PublicIPHostMaskerComponent.
+         * @brief       Destroys the RegExHostMaskerComponent.
          */
         ~RegExHostMaskerComponent();
 

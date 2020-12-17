@@ -41,7 +41,7 @@ namespace Nedrysoft::RouteAnalyser {
     typedef std::chrono::duration<double, std::ratio<1, 1>> seconds_double;
 
     /**
-     * @brief       The PindData class is used to store data for a table model.
+     * @brief       The PingData class is used to store data for a table model.
      *
      * @details     Holds data about each hop and updates the route table when the object is updated.
      */

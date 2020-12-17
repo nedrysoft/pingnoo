@@ -45,9 +45,9 @@ namespace Nedrysoft::ICMPPingEngine {
         public:
 
             /**
-             * @brief       Constrcuts a new ICMPPingTransmitter for the given engine.
+             * @brief       Constructs a new ICMPPingTransmitter for the given engine.
              *
-             * @param[in]   engine the owner engine
+             * @param[in]   engine the owner engine.
              */
             ICMPPingTransmitter(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine);
 

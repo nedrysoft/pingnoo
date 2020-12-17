@@ -77,7 +77,7 @@ namespace Nedrysoft::Pingnoo {
             QHostAddress hostAddress() override;
 
             /**
-             * @brief       Returns the Nedrysoft::Core::IPingEngine that created this target
+             * @brief       Returns the Nedrysoft::Core::IPingEngine that created this target.
              *
              * @see         Nedrysoft::Core::IPingTarget::engine
              *

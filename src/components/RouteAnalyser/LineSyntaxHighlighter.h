@@ -44,7 +44,7 @@ namespace Nedrysoft::RouteAnalyser {
             LineSyntaxHighlighter(QTextDocument *parent, SyntaxFunction function);
 
             /**
-             * @brief       Reimplements QSyntaxHighlighter::highlightBlock
+             * @brief       Reimplements QSyntaxHighlighter::highlightBlock(const QString &text)
              *
              * @param[in]   text the text to apply the syntax highlighting to.
              */

@@ -60,10 +60,7 @@ namespace Nedrysoft::ICMPSocket {
     };
 
     /**
-     * @brief           ICMP Socket Abstraction
-     *
-     * @details         Provides functions for sending and receiving ICMP packets
-     *                  indepentently of the host platform.
+     * @brief           The ICMPSocket class abstracts the platform specific code for ICMP sockets.
      */
     class NEDRYSOFT_ICMPSOCKET_DLLSPEC ICMPSocket {
         private:
@@ -74,22 +71,22 @@ namespace Nedrysoft::ICMPSocket {
 #endif
         private:
             /**
-             * @brief       Constructor
+             * @brief       Constructs a new ICMPSocket.
              *
-             * @details     ICMPSocket constructor is private, instances are created
-             *              by calling either createReadSocket or createWriteSocket
+             * @details     The ICMPSocket constructor is private, instances are created by calling either
+             *              createReadSocket or createWriteSocket
              *
-             * @param[in]   socket platform socket handle
-             * @param[in]   version version of IP of the socket to open
+             * @param[in]   socket platform socket handle.
+             * @param[in]   version version of IP of the socket to open.
              */
             ICMPSocket(ICMPSocket::socket_t socket, IPVersion version = Nedrysoft::ICMPSocket::V4);
 
             /**
-             * @brief       Checks whether the given platform socket is valid
+             * @brief       Checks whether the given platform socket is valid.
              *
-             * @param[in]   socket platform socket handle
+             * @param[in]   socket platform socket handle.
              *
-             * @return      true if socket is valid; otherwise false.
+             * @returns     true if socket is valid; otherwise false..
              */
             static bool isValid(ICMPSocket::socket_t socket);
 
@@ -100,69 +97,69 @@ namespace Nedrysoft::ICMPSocket {
 
         public:
             /**
-             * @brief       Descriptor
+             * @brief       Destroys the ICMPSocket.
              */
             ~ICMPSocket();
 
             /**
-             * @brief       Create a socket for reading ALL incoming ICMP packets
+             * @brief       Creates a socket for reading ALL incoming ICMP packets.
              *
-             * @param[in]   version the ip version of the socket to create
+             * @param[in]   version the ip version of the socket to create.
              *
-             * @return      an instance of this class
+             * @returns      an instance of this class.
              */
             static ICMPSocket *createReadSocket(Nedrysoft::ICMPSocket::IPVersion version = Nedrysoft::ICMPSocket::V4);
 
             /**
-             * @brief       Create a socket for writing ICMP packets with the given ttl
+             * @brief       Creates a socket for writing ICMP packets with the given ttl.
              *
-             * @param[in]   ttl the ttl for the socket
+             * @param[in]   ttl the ttl for the socket.
              *
-             * @return      an instance of this class
+             * @returns     the write socket instance.
              */
-            static ICMPSocket *
-            createWriteSocket(int ttl = 0, Nedrysoft::ICMPSocket::IPVersion version = Nedrysoft::ICMPSocket::V4);
+            static ICMPSocket *createWriteSocket(
+                    int ttl = 0,
+                    Nedrysoft::ICMPSocket::IPVersion version = Nedrysoft::ICMPSocket::V4 );
 
             /**
-             * @brief       Receives data from a read or write socket
+             * @brief       Receives data from a read or write socket.
              *
-             * @param[in]   buffer the buffer to receive data
-             * @param[out]  receiveAddress the address that the packet was received from
-             * @param[in]   timeout read timeout
+             * @param[in]   buffer the buffer to receive data.
+             * @param[out]  receiveAddress the address that the packet was received from.
+             * @param[in]   timeout read timeout.
              *
-             * @return      -1 on timeout or error; otherwise the number of bytes read.
-             *
+             * @returns     -1 on timeout or error; otherwise the number of bytes read.
              */
             int recvfrom(QByteArray &buffer, QHostAddress &receiveAddress, std::chrono::milliseconds timeout);
 
             /**
-             * @brief       Sends data to a write socket
+             * @brief       Sends data to a write socket.
              *
-             * @param[in]   buffer the data to send
-             * @param[in]   hostAddress the address that the packet was received from
+             * @param[in]   buffer the data to send.
+             * @param[in]   hostAddress the address that the packet was received from.
              *
-             * @return      -1 on error; otherwise the number of bytes written
+             * @returns     -1 on error; otherwise the number of bytes written.
              */
             int sendto(QByteArray &buffer, const QHostAddress &hostAddress);
 
             /**
-             * @brief       Sets the TTL on a write socket
+             * @brief       Sets the TTL on a write socket.
              *
-             * @param[in]   ttl the ttl to set
+             * @param[in]   ttl the ttl for the socket.
              */
             void setTTL(int ttl);
 
             /**
-             * @brief       Sets the Hop Limit on a V6 write socket
+             * @brief       Sets the Hop Limit on a write socket.
              *
-             * @param[in]   hopLimit the hop limit to set
+             * @param[in]   hopLimit the hop limit to set.
              */
             void setHopLimit(int hopLimit);
 
             /**
-             * @brief       Returns the IP version of the socket
+             * @brief       Returns the IP version of the socket.
              *
-             * @return      V4 or V6
+             * @returns     V4 or V6.
              */
             Nedrysoft::ICMPSocket::IPVersion version();
 

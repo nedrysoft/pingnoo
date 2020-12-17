@@ -29,7 +29,7 @@ namespace Nedrysoft::RouteAnalyser {
      * @brief       The GraphLatencyLayer renders the background with the latency colours.
      *
      * @details     Draws the background of a chart showing the latency colouring and markers for the latency levels
-     *              in a QCustomPlot chart
+     *              in a QCustomPlot chart.
      */
     class GraphLatencyLayer :
             public QCPItemRect {

@@ -27,6 +27,7 @@
 namespace Nedrysoft::Ribbon {
     class RibbonLineEdit;
 }
+
 namespace Nedrysoft::RouteAnalyser {
     namespace Ui {
         class LatencyRibbonGroup;
@@ -47,7 +48,7 @@ namespace Nedrysoft::RouteAnalyser {
             /**
              * @brief       Constructs a new LatencyRibbonGroup instance which is a child of the parent.
              *
-             * @param[in]   parent the parent
+             * @param[in]   parent the parent.
              */
             explicit LatencyRibbonGroup(QWidget *parent = nullptr);
 
@@ -57,6 +58,11 @@ namespace Nedrysoft::RouteAnalyser {
             ~LatencyRibbonGroup() override;
 
         private:
+            /**
+             * @brief       Updates a period and makes it effective on editors.
+             *
+             * @param[in]   lineEdit the line edit to update.
+             */
             void updatePeriod(Nedrysoft::Ribbon::RibbonLineEdit *lineEdit);
 
         private:

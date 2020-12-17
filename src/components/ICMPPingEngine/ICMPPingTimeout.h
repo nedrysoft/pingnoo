@@ -27,7 +27,7 @@ namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingEngine;
 
     /**
-     * @brief       The ICMPPingTimeout class monitors packets and signals if a timeout occured.
+     * @brief       The ICMPPingTimeout class monitors packets and signals if a timeout occurred.
      */
     class ICMPPingTimeout :
             public QObject {
@@ -38,7 +38,7 @@ namespace Nedrysoft::ICMPPingEngine {
         public:
 
             /**
-             * @brief       Constrcuts a new ICMPPingTimeout with the given ping engine.
+             * @brief       Constructs a new ICMPPingTimeout with the given ping engine.
              *
              * @details     Creates the receiver object and passes in the engine so that the requests can be tagged
              *              to the correct engine.

@@ -58,7 +58,7 @@ namespace Nedrysoft::ICMPPingEngine {
             /**
              * @brief       Creates a ICMPAPIPingEngine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngineFactory::createEngine.
+             * @see         Nedrysoft::Core::IPingEngineFactory::createEngine
              *
              * @param[in]   version the IP version of the engine.
              *

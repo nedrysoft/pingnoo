@@ -32,9 +32,7 @@ namespace Nedrysoft::RouteEngine {
     class RouteEngine;
 
     /**
-     * Factory class for RouteEngine
-     *
-     * Creates instances of RouteEngine
+     * @brief       The RouteEngineFactory class provides a factory for the RouteEngine class.
      */
     class RouteEngineFactory :
             public Nedrysoft::Core::IRouteEngineFactory {
@@ -45,22 +43,52 @@ namespace Nedrysoft::RouteEngine {
             Q_INTERFACES(Nedrysoft::Core::IRouteEngineFactory)
 
         public:
+            /**
+             * @brief       Constructs a new RouteEngineFactory.
+             */
             RouteEngineFactory();
 
+            /**
+             * @brief       Destroys the RouteEngineFactory.
+             */
             ~RouteEngineFactory();
 
+        public:
             /**
-             * @sa      IRouteEngineFactory
+             * @brief       Creates a route engine instance.
+             *
+             * @details     Creates and returns a route engine instance.  The instance is owned by the factory
+             *              and is responsible for its life cycle.
+             *
+             * @returns     the route engine instance.
              */
             virtual Nedrysoft::Core::IRouteEngine *createEngine();
 
+            /**
+             * @brief       Returns the descriptive name of the route engine.
+             *
+             * @brief       Returns the description of the route engine, used to display the name of the engine
+             *              to the user.
+             *
+             * @returns     the descriptive name of the route engine.
+             */
             virtual QString description();
 
+        private:
             /**
-             * @sa      IConfiguration
+             * @brief       Saves the configuration to a JSON object.
+             *
+             * @returns     the JSON configuration.
              */
             virtual QJsonObject saveConfiguration();
 
+            /**
+             * @brief       Loads the configuration.
+             *
+             * @param[in]   configuration the configuration as JSON object.
+             *
+             * @returns     true if loaded; otherwise false.
+             */
             virtual bool loadConfiguration(QJsonObject configuration);
 
         protected:

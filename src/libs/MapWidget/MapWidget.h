@@ -33,12 +33,23 @@
 class QQuickWidget;
 
 namespace Nedrysoft::MapWidget {
+    /**
+     * @brief       THe MapWidget is a bridge from the QML map widget to a QWidget.
+     */
     class NEDRYSOFT_MAPWIDGET_DLLSPEC MapWidget :
             public QWidget {
 
         public:
+            /**
+             * @brief       Contructs a MapWidget that is a child of the parent.
+             *
+             * @param       parent the parent widget.
+             */
             MapWidget(QWidget *parent = nullptr);
 
+            /**
+             * @brief       Destroys the MapWidget.
+             */
             ~MapWidget();
 
         private:

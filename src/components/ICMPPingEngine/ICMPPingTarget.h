@@ -38,7 +38,7 @@ namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingEngine;
 
     /**
-     * @brief       The ICMPPingTarget describes a host target.
+     * @brief       The ICMPPingTarget describes a ping target.
      *
      * @details     A ping target is used by an Nedrysoft::Core::IPingEngine to keep track of destinations to be pinged.
      */
@@ -61,7 +61,7 @@ namespace Nedrysoft::ICMPPingEngine {
             ICMPPingTarget(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine, QHostAddress hostAddress, int ttl = 0);
 
             /**
-             * @brief       Destructor
+             * @brief       Destroys the ICMPPingTarget.
              */
             ~ICMPPingTarget();
 
@@ -84,7 +84,7 @@ namespace Nedrysoft::ICMPPingEngine {
             QHostAddress hostAddress() override;
 
             /**
-             * @brief       Returns the Nedrysoft::Core::IPingEngine that created this target
+             * @brief       Returns the Nedrysoft::Core::IPingEngine that created this target.
              *
              * @see         Nedrysoft::Core::IPingTarget::engine
              *

@@ -104,34 +104,34 @@ namespace Nedrysoft::ICMPPingEngine {
             virtual Nedrysoft::Core::IPingTarget *addTarget(QHostAddress hostAddress);
 
             /**
-             * @brief       Adds a ping target to this engine instance
+             * @brief       Adds a ping target to this engine instance.
              *
              * @see         Nedrysoft::Core::IPingEngine::addTarget
              *
-             * @param[in]   hostAddress the host address of the ping target
-             * @param[in]   ttl the time to live to use
+             * @param[in]   hostAddress the host address of the ping target.
+             * @param[in]   ttl the time to live to use.
              *
-             * @return      returns a pointer to the created ping target
+             * @return      returns a pointer to the created ping target.
              */
             virtual Nedrysoft::Core::IPingTarget *addTarget(QHostAddress hostAddress, int ttl);
 
             /**
-             * @brief       Removes a ping target from this engine instance
+             * @brief       Removes a ping target from this engine instance.
              *
              * @see         Nedrysoft::Core::IPingEngine::addTarbet
              *
-             * @param[in]   target the ping target to remove
+             * @param[in]   target the ping target to remove.
              *
              * @return      true on success; otherwise false.
              */
             virtual bool removeTarget(Nedrysoft::Core::IPingTarget *target);
 
             /**
-             * @brief       Gets the epoch for this engine instace.
+             * @brief       Gets the epoch for this engine instance.
              *
              * @see         Nedrysoft::Core::IPingEngine::epoch
              *
-             * @return      the time epoch
+             * @return      the time epoch.
              */
             virtual std::chrono::system_clock::time_point epoch();
 
@@ -168,7 +168,7 @@ namespace Nedrysoft::ICMPPingEngine {
 
         protected:
             /**
-             * @brief       Checks for any timed out requests and removes and signals that a timeout occured.
+             * @brief       Checks for any timed out requests and removes and signals that a timeout occurred.
              *
              * @see         Nedrysoft::ICMPPingEngine::ICMPPingTimeout
              */

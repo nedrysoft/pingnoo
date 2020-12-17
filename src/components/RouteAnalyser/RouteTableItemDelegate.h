@@ -38,7 +38,7 @@ namespace Nedrysoft::RouteAnalyser {
 
         public:
             /**
-             * @brief       Constructs a new NewTargetDialog instance which is a child of the parent.
+             * @brief       Constructs a new RouteTableItemDelegate instance which is a child of the parent.
              *
              * @param[in]   parent the owner widget.
              */

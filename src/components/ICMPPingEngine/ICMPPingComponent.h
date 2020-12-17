@@ -55,7 +55,7 @@ class NEDRYSOFT_ICMPPINGENGINE_DLLSPEC ICMPPingComponent :
 
     public:
         /**
-         * @brief       initialiseEvent
+         * @brief       The initialiseEvent is called by the component loader to intialise the ocmponent.
          *
          * @details     Called by the component loader after all components have been loaded, called in load order.
          *

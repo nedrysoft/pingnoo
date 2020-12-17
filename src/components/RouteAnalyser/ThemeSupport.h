@@ -25,17 +25,17 @@
 
 namespace Nedrysoft::Utils {
     /**
-     * @brief       theme support class
+     * @brief       The ThemeSupport class provides functions for light/dark mode.
      *
-     * @details     used by the macOS platform to detect changes between light and dark mode
+     * @details     used by the macOS platform to detect changes between light and dark mode.
      *
      */
     class ThemeSupport {
         public:
             /**
-             * @brief       Check if dark mode is being used
+             * @brief       Check if dark mode is active.
              *
-             * @returns     true if dark mode, else false
+             * @returns     true if dark mode; otherwise false.
              */
 #if defined(Q_OS_MACOS)
 

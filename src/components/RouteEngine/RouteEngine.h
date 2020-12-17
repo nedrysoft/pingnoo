@@ -34,10 +34,9 @@ namespace Nedrysoft::RouteEngine {
     class RouteWorker;
 
     /**
-     * @brief       IRouteEngine implementation
+     * @brief       The RouteEngine provides an implementation of IRouteEngine.
      *
-     * @details     Implements the IRouteEngine to determine the list of
-     *              hops between the source and target
+     * @details     Implements the IRouteEngine to determine the list of hops between the source and target.
      */
     class RouteEngine :
             public Nedrysoft::Core::IRouteEngine {
@@ -49,24 +48,31 @@ namespace Nedrysoft::RouteEngine {
 
         public:
             /**
-             * @brief       Constructor
+             * @brief       Constructs a RouteEngine.
              */
             RouteEngine();
 
             /**
-             * @brief       Destructor
+             * @brief       Destroys the RouteEngine.
              */
             ~RouteEngine();
 
+        public:
             /**
-             * @sa          IRouteEngine
+             * @brief       Starts route discovery for a host.
+             *
+             * @notes       Route discovery is a asynchronous operation, the result signal is emitted when the
+             *              discovery is completed.
+             *
+             * @param[in]   host the target host name or address.
+             * @param[in]   ipVersion the IP version to be used for discovery.
              */
             virtual void findRoute(QString host, Nedrysoft::Core::IPVersion ipVersion = Nedrysoft::Core::IPVersion::V4);
 
         private:
-            QThread *m_workerThread;                     //! The route finder thread
-            RouteWorker *m_worker;                       //! The thread worker for route finder
-            Nedrysoft::Core::IPVersion m_ipVersion;       //! The IP version to use for the route finder instance
+            QThread *m_workerThread;                     //! The route finder thread.
+            RouteWorker *m_worker;                       //! The thread worker for route finder.
+            Nedrysoft::Core::IPVersion m_ipVersion;       //! The IP version to use for the route finder instance.
     };
 }
 

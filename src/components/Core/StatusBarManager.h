@@ -25,9 +25,7 @@
 
 namespace Nedrysoft::Core {
     /**
-     * @brief       Implementation of a status bar manager
-     *
-     * @copydoc     Nedrysoft::Core::IStatusBarManager
+     * @brief       The StatusBarManager class provides an IStatusBarManager implementation.
      */
     class StatusBarManager :
             public IStatusBarManager {

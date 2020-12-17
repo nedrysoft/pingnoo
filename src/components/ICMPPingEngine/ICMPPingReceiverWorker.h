@@ -32,7 +32,7 @@ namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingEngine;
 
     /**
-     * @brief       ICMP packet receiver.
+     * @brief       The ICMP packet receiver class.
      *
      * @details     This is a singleton class, there is a single receive thread which reads packets as they arrive
      *              and then signals that a packet is available, other objects can then process the packet.
@@ -61,6 +61,7 @@ namespace Nedrysoft::ICMPPingEngine {
 
             /**
              * @brief       This signal is emitted when an ICMP packet has been received.
+             *
              * @param[in]   receiveTime the time at which the reception occured.
              * @param[in]   receiveBuffer the packet data.
              * @param[in]   receiveAddress the address the packet was received from (this may differ from the target).

@@ -95,23 +95,23 @@ namespace Nedrysoft::Pingnoo {
             void setServiced(bool serviced);
 
             /**
-             * @brief       Returns the serviced status of the request
+             * @brief       Returns the serviced status of the request.
              *
              * @return      true if request has been serviced; otherwise false.
              */
             bool serviced();
 
             /**
-             * @brief       Sets the sample number for this request
+             * @brief       Sets the sample number for this request.
              *
-             * @param[in]   sampleNumber the sample number
+             * @param[in]   sampleNumber the sample number.
              */
             void setSampleNumber(unsigned long sampleNumber);
 
             /**
-             * @brief       Returns the sample number for this request
+             * @brief       Returns the sample number for this request.
              *
-             * @return      the sample number
+             * @return      the sample number.
              */
             unsigned long sampleNumber();
 

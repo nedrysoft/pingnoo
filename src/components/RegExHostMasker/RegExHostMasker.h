@@ -44,7 +44,7 @@ namespace Nedrysoft::RegExHostMasker {
      * @brief       The RegExHostMasker class provides a host masker that redacts using a regular expression.
      *
      * @details     This host marker accepts a regular expression to match the host name or address and allows the
-     *              masked output to be generated using capture groups
+     *              masked output to be generated using capture groups.
      */
     class RegExHostMasker :
             public Nedrysoft::Core::IHostMasker {

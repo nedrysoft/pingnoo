@@ -29,7 +29,7 @@
 
 namespace Nedrysoft::RouteEngine {
     /**
-     * @brief       Route finder thread worker implementation
+     * @brief       THe RouteWorker class uses a thread to discover the route to a target.
      *
      * @details     Pings the target with an increasing TTL until reaching the target
      *              machine.
@@ -42,51 +42,47 @@ namespace Nedrysoft::RouteEngine {
 
         public:
             /**
-             * @brief       Constructor
+             * @brief       Constructs a RouteWorker for the given IP version.
              *
-             * @details     creates a route worker with the selected IP version
-             *
-             * @param[in]   ipVersion the ip version to be used
+             * @param[in]   ipVersion the ip version to be used.
              */
             RouteWorker(Nedrysoft::Core::IPVersion ipVersion);
 
             /**
-             * @brief       Destructor
+             * @brief       Destroys the RouteWorker.
              */
             ~RouteWorker() override;
 
             /**
-             * @brief       Sets the target host to find the route for
+             * @brief       Sets the target host to find the route for.
              *
-             * @param[in]   host the host
+             * @param[in]   host the host.
              */
             void setHost(QString host);
 
         private:
             /**
-             * @brief       Pings an IPv4 address with the given ttl
+             * @brief       Pings an IPv4 address with the given ttl.
              *
-             * @details     Helper function which returns the hop address and whether it was the
-             *              final destination.
+             * @details     Helper function which returns the hop address and whether it was the final destination.
              *
-             * @param[in]   hostAddress the host to ping
-             * @param[in]   ttl the TTL used for this ping
-             * @param[out]  returnAddress the address that the ping response came from
-             * @param[out]  isComplete true if final hop; otherwise false.
+             * @param[in]   hostAddress the host to ping.
+             * @param[in]   ttl the TTL used for this ping.
+             * @param[out]  returnAddress the address that the ping response came from.
+             * @param[out]  isComplete true if final hop; otherwise false..
              *
              * @return      true if ping sent; otherwise false.
              */
             bool ping_v4(const QHostAddress &hostAddress, int ttl, QHostAddress *returnAddress, bool *isComplete);
 
             /**
-             * @brief       Pings an IPv4 address with the given hop limit
+             * @brief       Pings an IPv6 address with the given hop limit.
              *
-             * @details     Helper function which returns the hop address and whether it was the
-             *              final destination.
+             * @details     Helper function which returns the hop address and whether it was the final destination.
              *
-             * @param[in]   hostAddress the host to ping
-             * @param[in]   hopLimit the hop limit used for this ping
-             * @param[out]  returnAddress the address that the ping response came from
+             * @param[in]   hostAddress the host to ping.
+             * @param[in]   hopLimit the hop limit used for this ping.
+             * @param[out]  returnAddress the address that the ping response came from.
              * @param[out]  isComplete true if final hop; otherwise false.
              *
              * @return      true if ping sent; otherwise false.
@@ -97,15 +93,15 @@ namespace Nedrysoft::RouteEngine {
         public:
 
             /**
-             * @brief       The receiver thread worker
+             * @brief       The receiver thread worker.
              */
             Q_SLOT void doWork();
 
             /**
-             * @brief       Signals when a route is available
+             * @brief       Signals when a route is available.
              *
-             * @param[in]   hostAddress the host address of the target
-             * @param[in]   result the list of hops
+             * @param[in]   hostAddress the host address of the target.
+             * @param[in]   result the list of hops.
              */
             Q_SIGNAL void result(const QHostAddress &hostAddress, const Nedrysoft::Core::RouteList &result);
 

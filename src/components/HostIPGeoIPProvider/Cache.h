@@ -31,12 +31,12 @@ namespace Nedrysoft::HostIPGeoIPProvider {
     class Cache {
         public:
             /**
-             * @brief       Constructs a Cache
+             * @brief       Constructs a Cache.
              */
             Cache();
 
             /**
-             * @brief       Destroys the Cache
+             * @brief       Destroys the Cache.
              */
             ~Cache();
 

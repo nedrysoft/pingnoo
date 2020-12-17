@@ -30,7 +30,7 @@
 namespace Nedrysoft::Core {
     class RibbonPage;
     /**
-     * @brief       Implementation of IRibbonBarManager using Nedrysoft::Ribbon
+     * @brief       The RibbonBarManager implements IRibbonBarManager using Nedrysoft::Ribbon as the implementation.
      */
     class RibbonBarManager :
             public Nedrysoft::Core::IRibbonBarManager {
@@ -42,21 +42,21 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Constructs a RibbonBarManager
+             * @brief       Constructs a RibbonBarManager.
              */
             RibbonBarManager();
 
             /**
-             * @brief       Constructs a RibbonBarManager with the supplied Ribbon Widget
+             * @brief       Constructs a RibbonBarManager with the supplied Ribbon Widget.
              *
-             * @param[in]   ribbonWidget the ribbon widget
+             * @param[in]   ribbonWidget the ribbon widget.
              */
             RibbonBarManager(Nedrysoft::Ribbon::RibbonWidget *ribbonWidget);
 
             /**
-             * @brief       Adds a page to the ribbon bar
+             * @brief       Adds a page to the ribbon bar.
              *
-             * @see         Nedrysoft::Core::IRibbonBarManager::addPage
+             * @see         Nedrysoft::Core::IRibbonBarManager::addPage.
              *
              * @param[in]   title the title of the page.
              * @param[in]   id the identifier of the page.
@@ -66,9 +66,9 @@ namespace Nedrysoft::Core {
             Nedrysoft::Core::IRibbonPage *addPage(QString title, QString id) override;
 
             /**
-             * @brief       Returns the page given by the id
+             * @brief       Returns the page given by the id.
              *
-             * @see         Nedrysoft::Core::IRibbonBarManager::addPage
+             * @see         Nedrysoft::Core::IRibbonBarManager::addPage.
              *
              * @param[in]   id the identifier of the page.
              *

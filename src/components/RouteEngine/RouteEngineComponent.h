@@ -26,10 +26,9 @@
 #include "RouteEngineSpec.h"
 
 /**
- * @brief       RouteEngineComponent class
+ * @brief       The RouteEngineComponent class provides a IRouteEngine implementation.
  *
- * @details     This component provides a route engine implementation which
- *              discovers the route to a host
+ * @details     This component provides a route engine implementation which  discovers the route to a host.
  */
 class NEDRYSOFT_ROUTEENGINE_DLLSPEC RouteEngineComponent :
         public QObject,
@@ -44,17 +43,19 @@ class NEDRYSOFT_ROUTEENGINE_DLLSPEC RouteEngineComponent :
 
     public:
         /**
-         * @brief       Constructor
+         * @brief       Constructs a new RouteEngineComponent.
          */
         RouteEngineComponent();
 
         /**
-         * @brief       Destructor
+         * @brief       Destroys the RouteEngineComponent.
          */
         ~RouteEngineComponent();
 
         /**
-         * @sa          Nedrysoft::ComponentSystem::IComponent
+         * @brief       The initialiseEvent is called by the component loader to initialise the component.
+         *
+         * @details     Called by the component loader after all components have been loaded, called in load order.
          */
         virtual void initialiseEvent();
 
