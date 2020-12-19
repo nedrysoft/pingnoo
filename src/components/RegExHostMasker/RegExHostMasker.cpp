@@ -38,7 +38,7 @@ bool Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(
     auto expressionMatch = QRegularExpressionMatch();
     auto tokenExpression = QRegularExpression(R"(\[\w+\])");
     auto tokenList = QList<QString>();
-    auto searchList = QList<unsigned int>() << MatchHost << MatchAddress;
+    auto searchList = QList<unsigned int>() << static_cast<int>(MatchFlags::MatchHost) << static_cast<int>(MatchFlags::MatchAddress);
     QString *outputString = nullptr;
     bool returnValue = false;
 
@@ -53,20 +53,20 @@ bool Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(
 
             auto matchExpression = QRegularExpression(maskItem.m_matchExpression);
 
-            if (matchFlag == MatchHost) {
+            if (static_cast<MatchFlags>(matchFlag) == MatchFlags::MatchHost) {
                 expressionMatch = matchExpression.match(hostName);
             } else {
-                if (matchFlag == MatchAddress) {
+                if (static_cast<MatchFlags>(matchFlag) == MatchFlags::MatchAddress) {
                     expressionMatch = matchExpression.match(hostAddress);
                 } else {
                     continue;
                 }
             }
 
-            if (maskItem.m_matchFlags & MaskHost) {
+            if (maskItem.m_matchFlags & static_cast<int>(MatchFlags::MaskHost)) {
                 outputString = &maskedHostName;
             } else {
-                if (maskItem.m_matchFlags & MaskAddress) {
+                if (maskItem.m_matchFlags & static_cast<int>(MatchFlags::MaskAddress)) {
                     outputString = &maskedHostAddress;
                 } else {
                     continue;

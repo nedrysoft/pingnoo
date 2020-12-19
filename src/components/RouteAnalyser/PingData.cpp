@@ -48,7 +48,7 @@ Nedrysoft::RouteAnalyser::PingData::PingData(QStandardItemModel *tableModel, int
 }
 
 double Nedrysoft::RouteAnalyser::PingData::runningAverage(double previousAverage, double value, double n) {
-    return ( previousAverage * ( n - 1 ) + value ) / n;
+    return (previousAverage*(n-1)+value)/n;
 }
 
 void Nedrysoft::RouteAnalyser::PingData::updateModel() {
@@ -106,7 +106,7 @@ void Nedrysoft::RouteAnalyser::PingData::updateItem(Nedrysoft::Core::PingResult 
 
     m_count = result.sampleNumber();
 
-    if (result.code() == Nedrysoft::Core::PingResult::NoReply) {
+    if (result.code() == Nedrysoft::Core::PingResult::ResultCode::NoReply) {
         m_timeoutPacketCount++;
 
         if (m_tableModel) {
@@ -139,7 +139,7 @@ void Nedrysoft::RouteAnalyser::PingData::updateItem(Nedrysoft::Core::PingResult 
             m_tableModel->setProperty("graphMaxLatency", QVariant(m_maximumLatency.count()));
         }
 
-        auto headerItem = m_tableModel->horizontalHeaderItem(Graph);
+        auto headerItem = m_tableModel->horizontalHeaderItem(static_cast<int>(Fields::Graph));
 
         headerItem->setTextAlignment(Qt::AlignRight);
 
@@ -165,8 +165,8 @@ void Nedrysoft::RouteAnalyser::PingData::updateItem(Nedrysoft::Core::PingResult 
 
     m_replyPacketCount++;
 
-    packetLoss = ( static_cast<double>(m_timeoutPacketCount) /
-                   static_cast<double>(m_replyPacketCount + m_timeoutPacketCount)) * 100.0;
+    packetLoss = (static_cast<double>(m_timeoutPacketCount)/
+                static_cast<double>(m_replyPacketCount+m_timeoutPacketCount))*100.0;
 
     if (m_tableModel) {
         updateModel();
@@ -222,21 +222,29 @@ void Nedrysoft::RouteAnalyser::PingData::setHistoricalLatency(std::chrono::durat
 }
 
 double Nedrysoft::RouteAnalyser::PingData::latency(int field) {
-    switch ( field ) {
-        case MinimumLatency: {
+    switch (static_cast<Fields>(field)) {
+        case Fields::MinimumLatency: {
             return m_minimumLatency.count();
         }
-        case MaximumLatency: {
+
+        case Fields::MaximumLatency: {
             return m_maximumLatency.count();
         }
-        case CurrentLatency: {
+
+        case Fields::CurrentLatency: {
             return m_currentLatency.count();
         }
-        case AverageLatency: {
+
+        case Fields::AverageLatency: {
             return m_averageLatency.count();
         }
-        case HistoricalLatency: {
+
+        case Fields::HistoricalLatency: {
             return m_historicalLatency.count();
+        }
+
+        default: {
+            break;
         }
     }
 

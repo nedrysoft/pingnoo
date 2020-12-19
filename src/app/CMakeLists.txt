@@ -23,13 +23,13 @@ pingnoo_start_executable(Pingnoo)
 set(MACOSX_BUNDLE_GUI_IDENTIFIER com.fizzyade.pingnoo)
 
 pingnoo_add_sources(
-    main.cpp
-    appicon.rc
-    appicon.icns
-    windowsicon.qrc
+    App.qrc
+    AppIcon.icns
+    AppIcon.rc
     SplashScreen.cpp
     SplashScreen.h
-    app.qrc
+    WindowsIcon.qrc
+    main.cpp
 )
 
 pingnoo_use_qt_libraries(Widgets)

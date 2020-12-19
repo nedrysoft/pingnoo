@@ -1,7 +1,9 @@
 /*
  * Copyright (C) 2020 Adrian Carpenter
  *
- * This file is part of Pingnoo
+ * This file is part of Pingnoo (https://github.com/fizzyade/pingnoo)
+ *
+ * An open-source cross-platform traceroute analyser.
  *
  * Created by Adrian Carpenter on 11/12/2020.
  *

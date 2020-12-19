@@ -83,26 +83,26 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
 
     auto pingData = index.siblingAtColumn(0).data(Qt::UserRole + 1).value<Nedrysoft::RouteAnalyser::PingData *>();
 
-    if (!pingData->hopValid() && ( index.column() != Nedrysoft::RouteAnalyser::PingData::Graph )) {
+    if (!pingData->hopValid() && ( static_cast<PingData::Fields>(index.column()) != PingData::Fields::Graph )) {
         paintInvalidHop(pingData, painter, option, index);
 
         return;
     }
 
-    switch ( index.column()) {
-        case Nedrysoft::RouteAnalyser::PingData::Graph: {
+    switch (static_cast<PingData::Fields>(index.column())) {
+        case PingData::Fields::Graph: {
             paintGraph(pingData, painter, option, index);
 
             break;
         }
 
-        case Nedrysoft::RouteAnalyser::PingData::Hop: {
+        case PingData::Fields::Hop: {
             paintHop(pingData, painter, option, index);
 
             break;
         }
 
-        case Nedrysoft::RouteAnalyser::PingData::Location: {
+        case PingData::Fields::Location: {
             paintBackground(pingData, painter, option, index);
 
             paintLocation(pingData, painter, option, index);
@@ -110,7 +110,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             break;
         }
 
-        case Nedrysoft::RouteAnalyser::PingData::IP: {
+        case PingData::Fields::IP: {
             paintBackground(pingData, painter, option, index);
 
             paintText(pingData->hostAddress(), painter, option, index);
@@ -118,7 +118,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             break;
         }
 
-        case Nedrysoft::RouteAnalyser::PingData::HostName: {
+        case PingData::Fields::HostName: {
             paintBackground(pingData, painter, option, index);
 
             paintText(pingData->hostName(), painter, option, index);
@@ -126,7 +126,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             break;
         }
 
-        case Nedrysoft::RouteAnalyser::PingData::MinimumLatency: {
+        case PingData::Fields::MinimumLatency: {
             paintBackground(pingData, painter, option, index);
 
             paintText(QString("%1").arg(
@@ -139,7 +139,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             break;
         }
 
-        case Nedrysoft::RouteAnalyser::PingData::MaximumLatency: {
+        case PingData::Fields::MaximumLatency: {
             paintBackground(pingData, painter, option, index);
 
             paintText(QString("%1").arg(
@@ -152,7 +152,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             break;
         }
 
-        case Nedrysoft::RouteAnalyser::PingData::AverageLatency: {
+        case PingData::Fields::AverageLatency: {
             paintBackground(pingData, painter, option, index);
 
             paintText(QString("%1").arg(
@@ -165,7 +165,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             break;
         }
 
-        case Nedrysoft::RouteAnalyser::PingData::CurrentLatency: {
+        case PingData::Fields::CurrentLatency: {
             paintBackground(pingData, painter, option, index);
 
             paintText(QString("%1").arg(
@@ -178,7 +178,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             break;
         }
 
-        case Nedrysoft::RouteAnalyser::PingData::PacketLoss: {
+        case PingData::Fields::PacketLoss: {
             paintBackground(pingData, painter, option, index);
 
             paintText(
@@ -191,7 +191,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             break;
         }
 
-        case Nedrysoft::RouteAnalyser::PingData::Count: {
+        case PingData::Fields::Count: {
             paintBackground(pingData, painter, option, index);
 
             paintText(
@@ -339,7 +339,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(
 
     auto rc = option.rect;
 
-    if (index.column() == Nedrysoft::RouteAnalyser::PingData::Hop) {
+    if (static_cast<PingData::Fields>(index.column()) == PingData::Fields::Hop) {
         paintBubble(pingData, painter, option, index, Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour());
     }
 
@@ -351,7 +351,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(
     pen.setWidth(InvalidEntryLineWidth);
 
     if (visualIndex == 0) {
-        if (index.column() == Nedrysoft::RouteAnalyser::PingData::Hop) {
+        if (static_cast<PingData::Fields>(index.column()) == PingData::Fields::Hop) {
             rc.setLeft(rc.center().x());
         } else {
             rc.setLeft(rc.left()+(pen.width()/2));
@@ -359,7 +359,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(
     }
 
     if (visualIndex == index.model()->columnCount()-2) {
-        if (index.column() == Nedrysoft::RouteAnalyser::PingData::Hop) {
+        if (static_cast<PingData::Fields>(index.column()) == PingData::Fields::Hop) {
             rc.setRight(rc.center().x());
         } else {
             rc.setRight(rc.right()-(pen.width()/2));
@@ -372,7 +372,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(
 
     painter->restore();
 
-    if (index.column() == Nedrysoft::RouteAnalyser::PingData::Hop) {
+    if (static_cast<PingData::Fields>(index.column()) == PingData::Fields::Hop) {
         paintText(
                 QString("%1").arg(pingData->hop()),
                 painter,
@@ -446,7 +446,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintHop(
         (!(option.state & QStyle::State_Active) && !(option.state & QStyle::State_Selected))) {
         bubbleColour = getInterpolatedColour(
                 gradientMap,
-                pingData->latency(Nedrysoft::RouteAnalyser::PingData::AverageLatency) );
+                pingData->latency(static_cast<int>(PingData::Fields::AverageLatency)) );
     }
 
     paintBubble(pingData, painter, option, index, bubbleColour.rgb());
@@ -677,9 +677,9 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
 
         // this is a valid hop, so draw accordingly
 
-        auto currentLatency = pingData->latency(Nedrysoft::RouteAnalyser::PingData::CurrentLatency);
-        auto minimumLatency = pingData->latency(Nedrysoft::RouteAnalyser::PingData::MinimumLatency);
-        auto maximumLatency = pingData->latency(Nedrysoft::RouteAnalyser::PingData::MaximumLatency);
+        auto currentLatency = pingData->latency(static_cast<int>(PingData::Fields::CurrentLatency));
+        auto minimumLatency = pingData->latency(static_cast<int>(PingData::Fields::MinimumLatency));
+        auto maximumLatency = pingData->latency(static_cast<int>(PingData::Fields::MaximumLatency));
 
         if (( minimumLatency >= 0 ) && ( maximumLatency >= 0 )) {
             // draw min/max latency timeline
@@ -730,7 +730,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
 
     if (pingData->tableModel()->property("showHistorical").toBool()) {
         drawLatencyLine(
-                Nedrysoft::RouteAnalyser::PingData::HistoricalLatency,
+                static_cast<int>(PingData::Fields::HistoricalLatency),
                 pingData,
                 painter,
                 option,
@@ -739,7 +739,7 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
     }
 
     drawLatencyLine(
-            Nedrysoft::RouteAnalyser::PingData::AverageLatency,
+            static_cast<int>(PingData::Fields::AverageLatency),
             pingData,
             painter,
             option,

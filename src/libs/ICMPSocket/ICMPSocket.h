@@ -25,7 +25,6 @@
 #include <chrono>
 
 #if defined(Q_OS_UNIX)
-
 #include <arpa/inet.h>
 #include <arpa/inet.h>
 #include <netdb.h>
@@ -37,7 +36,6 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
-
 #elif defined(Q_OS_WIN)
 #define NOMINMAX
 #include <WS2tcpip.h>

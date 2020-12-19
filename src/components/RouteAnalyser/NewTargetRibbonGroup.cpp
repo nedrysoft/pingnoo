@@ -120,7 +120,7 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
                 return;
             }
 
-            Nedrysoft::RouteAnalyser::RouteAnalyserEditor *editor = new Nedrysoft::RouteAnalyser::RouteAnalyserEditor;
+            RouteAnalyserEditor *editor = new RouteAnalyserEditor;
 
             editor->setPingEngine(pingEngineFactoru);
             editor->setTarget(target);

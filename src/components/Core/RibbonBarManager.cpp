@@ -1,9 +1,11 @@
 /*
  * Copyright (C) 2020 Adrian Carpenter
  *
- * This file is part of Pingnoo
+ * This file is part of Pingnoo (https://github.com/fizzyade/pingnoo)
  *
- * Created by Adrian Carpenter on 11/12/2020.
+ * An open-source cross-platform traceroute analyser.
+ *
+ * Created by Adrian Carpenter on 10/12/2020.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +25,6 @@
 
 #include "RibbonPage.h"
 
-#include <QGridLayout>
 #include <QString>
 
 Nedrysoft::Core::RibbonBarManager::RibbonBarManager() :

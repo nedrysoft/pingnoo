@@ -1,8 +1,11 @@
 /*
  * Copyright (C) 2020 Adrian Carpenter
  *
- * This file is part of pingnoo (https://github.com/fizzyade/pingnoo)
- * An open source ping path analyser
+ * This file is part of Pingnoo (https://github.com/fizzyade/pingnoo)
+ *
+ * An open-source cross-platform traceroute analyser.
+ *
+ * Created by Adrian Carpenter on 27/03/2020.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,12 +22,10 @@
  */
 
 #include "ICommand.h"
-#include "IContextManager.h"
 #include "Menu.h"
 #include "Pingnoo.h"
 
 #include <QDebug>
-
 
 Nedrysoft::Core::Menu::Menu() :
         m_menuBar(nullptr),

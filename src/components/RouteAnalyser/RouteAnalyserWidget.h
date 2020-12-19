@@ -23,6 +23,7 @@
 
 #include "Core/PingResult.h"
 #include "Core/IRouteEngine.h"
+#include "PingData.h"
 #include "QCustomPlot/qcustomplot.h"
 #include <QWidget>
 #include <QMap>
@@ -43,6 +44,7 @@ namespace Nedrysoft::RouteAnalyser {
     class GraphLatencyLayer;
     class RouteTableItemDelegate;
 
+
     /**
      * @brief       The RouteAnalyserWidget class provides the main widget for a route analyser.
      *
@@ -54,6 +56,13 @@ namespace Nedrysoft::RouteAnalyser {
 
         private:
             Q_OBJECT
+
+        private:
+            enum class ScaleMode {
+                None,
+                Normalised,
+                Fixed
+            };
 
         public:
             /**
@@ -130,7 +139,7 @@ namespace Nedrysoft::RouteAnalyser {
              */
             void paintEvent(QPaintEvent *paintEvent) override;
 
-            QMap<int, QPair<QString, QString> > &headerMap();
+            QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &headerMap();
 
         private:
             QMap<Nedrysoft::Core::IPingTarget *, int> m_targetMap;
@@ -145,6 +154,8 @@ namespace Nedrysoft::RouteAnalyser {
             double m_interval;
             QList<Nedrysoft::RouteAnalyser::GraphLatencyLayer *> m_backgroundLayers;
             Nedrysoft::RouteAnalyser::RouteTableItemDelegate *m_routeGraphDelegate;
+            ScaleMode m_graphScaleMode;
+
     };
 }
 

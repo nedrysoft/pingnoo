@@ -1,8 +1,11 @@
 /*
  * Copyright (C) 2020 Adrian Carpenter
  *
- * This file is part of pingnoo (https://github.com/fizzyade/pingnoo)
- * An open source ping path analyser
+ * This file is part of Pingnoo (https://github.com/fizzyade/pingnoo)
+ *
+ * An open-source cross-platform traceroute analyser.
+ *
+ * Created by Adrian Carpenter on 27/03/2020.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
 
 Nedrysoft::Core::PingResult::PingResult() :
     m_sampleNumber(0),
-    m_code(PingResult::NoReply),
+    m_code(PingResult::ResultCode::NoReply),
     m_hostAddress(QHostAddress()),
     m_roundTripTime(std::chrono::duration<double>(0)),
     m_requestTime(std::chrono::system_clock::now()),
@@ -34,7 +37,7 @@ Nedrysoft::Core::PingResult::~PingResult() = default;
 
 Nedrysoft::Core::PingResult::PingResult(
         unsigned long sampleNumber,
-        PingResultCode code, QHostAddress hostAddress,
+        PingResult::ResultCode code, QHostAddress hostAddress,
         std::chrono::system_clock::time_point requestTime,
         std::chrono::duration<double> roundTripTime,
         Nedrysoft::Core::IPingTarget *target) :
@@ -56,7 +59,7 @@ std::chrono::system_clock::time_point Nedrysoft::Core::PingResult::requestTime()
     return m_requestTime;
 }
 
-Nedrysoft::Core::PingResult::PingResultCode Nedrysoft::Core::PingResult::code() {
+Nedrysoft::Core::PingResult::ResultCode Nedrysoft::Core::PingResult::code() {
     return m_code;
 }
 

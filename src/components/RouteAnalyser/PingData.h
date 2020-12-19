@@ -50,7 +50,7 @@ namespace Nedrysoft::RouteAnalyser {
             /**
              * @brief       Column ID's. (columns appear in this order)
              */
-            enum PingDataFields {
+            enum class Fields {
                 Hop,
                 Count,
                 IP,

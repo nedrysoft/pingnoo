@@ -1,8 +1,11 @@
 /*
  * Copyright (C) 2020 Adrian Carpenter
  *
- * This file is part of pingnoo (https://github.com/fizzyade/pingnoo)
- * An open source ping path analyser
+ * This file is part of Pingnoo (https://github.com/fizzyade/pingnoo)
+ *
+ * An open-source cross-platform traceroute analyser.
+ *
+ * Created by Adrian Carpenter on 27/03/2020.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,14 +21,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mainwindow.h"
+#include "MainWindow.h"
 
 #include "AboutDialog.h"
 #include "ComponentSystem/Component.h"
 #include "ComponentSystem/ComponentLoader.h"
-#include "ComponentSystem/IComponentManager.h"
 #include "ComponentSystem/ComponentViewerDialog.h"
-#include "SettingsDialog/SettingsDialog.h"
+#include "ComponentSystem/IComponentManager.h"
 #include "Core/ICommandManager.h"
 #include "Core/IContextManager.h"
 #include "Core/ICore.h"
@@ -34,15 +36,15 @@
 #include "EditorManager.h"
 #include "Pingnoo.h"
 #include "RibbonBarManager.h"
+#include "SettingsDialog/SettingsDialog.h"
 #include "ui_mainwindow.h"
 
 #include <QApplication>
-#include <QDebug>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QStandardPaths>
-
+void closeColourPanel();
 Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Nedrysoft::Core::Ui::MainWindow) {

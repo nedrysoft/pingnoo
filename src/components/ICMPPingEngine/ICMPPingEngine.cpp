@@ -274,7 +274,7 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::timeoutRequests() {
 
                 Nedrysoft::Core::PingResult pingResult(
                         pingItem->sampleNumber(),
-                        Nedrysoft::Core::PingResult::NoReply,
+                        Nedrysoft::Core::PingResult::ResultCode::NoReply,
                         QHostAddress(), pingItem->transmitEpoch(),
                         diff,
                         pingItem->target() );
@@ -316,7 +316,7 @@ Nedrysoft::Core::IPVersion Nedrysoft::ICMPPingEngine::ICMPPingEngine::version() 
 void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(std::chrono::time_point < std::chrono::high_resolution_clock > receiveTime,
                             QByteArray receiveBuffer, QHostAddress receiveAddress) {
 
-    Nedrysoft::Core::PingResult::PingResultCode resultCode = Nedrysoft::Core::PingResult::NoReply;
+    Nedrysoft::Core::PingResult::ResultCode resultCode = Nedrysoft::Core::PingResult::ResultCode::NoReply;
 
     auto responsePacket = Nedrysoft::ICMPPacket::ICMPPacket::fromData(
             receiveBuffer,
@@ -327,11 +327,11 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(std::chrono::ti
     }
 
     if (responsePacket.resultCode() == Nedrysoft::ICMPPacket::EchoReply) {
-        resultCode = Nedrysoft::Core::PingResult::Ok;
+        resultCode = Nedrysoft::Core::PingResult::ResultCode::Ok;
     }
 
     if (responsePacket.resultCode() == Nedrysoft::ICMPPacket::TimeExceeded) {
-        resultCode = Nedrysoft::Core::PingResult::Ok;
+        resultCode = Nedrysoft::Core::PingResult::ResultCode::Ok;
     }
 
     auto pingItem = this->getRequest(Nedrysoft::Utils::fzMake32(responsePacket.id(), responsePacket.sequence()));

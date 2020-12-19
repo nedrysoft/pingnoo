@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/Pingnoo">
-        <file>appicon.ico</file>
+        <file>AppIcon.ico</file>
     </qresource>
 </RCC>

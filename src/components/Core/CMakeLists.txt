@@ -58,22 +58,22 @@ pingnoo_add_sources(
     IRouteEngine.h
     IRouteEngineFactory.h
     IStatusBarManager.h
+    MainWindow.cpp
+    MainWindow.h
+    MainWindow.ui
     Menu.cpp
     Menu.h
     PingResult.cpp
     PingResult.h
     RibbonBarManager.cpp
     RibbonBarManager.h
-    RibbonPage.cpp
-    RibbonPage.h
     RibbonGroup.cpp
     RibbonGroup.h
     RibbonIcons.qrc
+    RibbonPage.cpp
+    RibbonPage.h
     StatusBarManager.cpp
     StatusBarManager.h
-    mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
 )
 
 pingnoo_set_description("Core application support component")

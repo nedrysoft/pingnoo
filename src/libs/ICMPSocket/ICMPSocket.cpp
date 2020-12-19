@@ -23,7 +23,6 @@
 #include <fcntl.h>
 
 #if defined(Q_OS_UNIX)
-
 #include <arpa/inet.h>
 #include <arpa/inet.h>
 #include <netdb.h>

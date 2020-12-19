@@ -25,6 +25,7 @@ pingnoo_set_component_optional(ON)
 add_definitions(-DQCUSTOMPLOT_USE_LIBRARY)
 
 pingnoo_add_sources(
+    ColourDialog.h
     CPAxisTickerMS.cpp
     CPAxisTickerMS.h
     GraphLatencyLayer.cpp
@@ -61,6 +62,12 @@ pingnoo_add_sources(
     LineSyntaxHighlighter.h
     icons.qrc
 )
+
+if(APPLE)
+    pingnoo_add_sources(ColourDialog.mm)
+else()
+    pingnoo_add_sources(ColourDialog.cpp)
+endif()
 
 pingnoo_set_description("Route analyser component")
 

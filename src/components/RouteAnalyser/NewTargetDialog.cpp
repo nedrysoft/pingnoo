@@ -4,6 +4,8 @@
  * This file is part of pingnoo (https://github.com/fizzyade/pingnoo)
  * An open source ping path analyser
  *
+ * Created by Adrian Carpenter on 27/07/2020.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -33,7 +35,7 @@ constexpr auto lineEditHeightAdjustment = 2;
 
 Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
         QDialog(parent),
-        ui(new Nedrysoft::RouteAnalyser::Ui::NewTargetDialog),
+        ui(new Ui::NewTargetDialog),
         m_targetHighlighter(nullptr),
         m_intervalHighlighter(nullptr) {
 

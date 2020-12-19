@@ -84,6 +84,18 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::LatencyRibbonGroup(QWidget *parent
 
         m_criticalHighlighter->updateSyntax();
     });
+
+    connect(ui->idealWidget, &LatencyWidget::colourChanged, [=](QColor colour) {
+        // TODO: use the changed colour!
+    });
+
+    connect(ui->warningWidget, &LatencyWidget::colourChanged, [=](QColor colour) {
+        // TODO: use the changed colour!
+    });
+
+    connect(ui->criticalWidget, &LatencyWidget::colourChanged, [=](QColor colour) {
+        // TODO: use the changed colour!
+    });
 }
 
 Nedrysoft::RouteAnalyser::LatencyRibbonGroup::~LatencyRibbonGroup() {

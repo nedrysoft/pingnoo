@@ -1,11 +1,12 @@
+#if ($HEADER_COMMENTS)
 /*
- * Copyright (C) 2020 Adrian Carpenter
+ * Copyright (C) $YEAR $USER_NAME
  *
- * This file is part of Pingnoo (https://github.com/fizzyade/pingnoo)
+ * This file is part of $PROJECT_NAME (https://github.com/fizzyade/pingnoo)
  *
  * An open-source cross-platform traceroute analyser.
  *
- * Created by Adrian Carpenter on 27/03/2020.
+ * Created by $USER_NAME on ${DATE}.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,25 +21,4 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#include "Core.h"
-
-Nedrysoft::Core::Core::Core() :
-        m_mainWindow(new Nedrysoft::Core::MainWindow) {
-
-    m_mainWindow->show();
-}
-
-Nedrysoft::Core::Core::~Core() {
-    delete m_mainWindow;
-}
-
-void Nedrysoft::Core::Core::open() {
-    m_mainWindow->initialise();
-
-    emit coreOpened();
-}
-
-QMainWindow *Nedrysoft::Core::Core::mainWindow() {
-    return m_mainWindow;
-}
+#end

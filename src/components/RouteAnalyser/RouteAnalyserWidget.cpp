@@ -22,7 +22,6 @@
 
 #include "CPAxisTickerMS.h"
 #include "ComponentSystem/IComponentManager.h"
-#include "Core/IContextManager.h"
 #include "Core/IGeoIPProvider.h"
 #include "Core/IHostMasker.h"
 #include "Core/IPingEngine.h"
@@ -62,20 +61,20 @@ constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
 constexpr auto useSmoothGradient = true;
 
-QMap<int, QPair<QString, QString> > &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::headerMap() {
-    static QMap<int, QPair<QString, QString> > &map = *new QMap<int, QPair<QString, QString> >
+QMap< Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::headerMap() {
+    static QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &map = *new QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> >
             {
-                    {Nedrysoft::RouteAnalyser::PingData::Hop,            {tr("Hop"),      "XXXXX"}},
-                    {Nedrysoft::RouteAnalyser::PingData::Count,          {tr("Count"),    "XXXXX"}},
-                    {Nedrysoft::RouteAnalyser::PingData::IP,             {tr("IP"),       "888.888.888.888"}},
-                    {Nedrysoft::RouteAnalyser::PingData::HostName,       {tr("Name"),     "XXXXXXXXXXX.XXXXXXXXXX.XXXXXXXXX.XXX"}},
-                    {Nedrysoft::RouteAnalyser::PingData::Location,       {tr("Location"), "XXXXXXXXXXXXXXXX"}},
-                    {Nedrysoft::RouteAnalyser::PingData::AverageLatency, {tr("Avg"),      "8888.888"}},
-                    {Nedrysoft::RouteAnalyser::PingData::CurrentLatency, {tr("Cur"),      "8888.888"}},
-                    {Nedrysoft::RouteAnalyser::PingData::MinimumLatency, {tr("Min"),      "8888.888"}},
-                    {Nedrysoft::RouteAnalyser::PingData::MaximumLatency, {tr("Max"),      "8888.888"}},
-                    {Nedrysoft::RouteAnalyser::PingData::PacketLoss,     {tr("Loss %"),   "8888.888"}},
-                    {Nedrysoft::RouteAnalyser::PingData::Graph,          {"",             ""}}
+                    {PingData::Fields::Hop,            {tr("Hop"),      "XXXXX"}},
+                    {PingData::Fields::Count,          {tr("Count"),    "XXXXX"}},
+                    {PingData::Fields::IP,             {tr("IP"),       "888.888.888.888"}},
+                    {PingData::Fields::HostName,       {tr("Name"),     "XXXXXXXXXXX.XXXXXXXXXX.XXXXXXXXX.XXX"}},
+                    {PingData::Fields::Location,       {tr("Location"), "XXXXXXXXXXXXXXXX"}},
+                    {PingData::Fields::AverageLatency, {tr("Avg"),      "8888.888"}},
+                    {PingData::Fields::CurrentLatency, {tr("Cur"),      "8888.888"}},
+                    {PingData::Fields::MinimumLatency, {tr("Min"),      "8888.888"}},
+                    {PingData::Fields::MaximumLatency, {tr("Max"),      "8888.888"}},
+                    {PingData::Fields::PacketLoss,     {tr("Loss %"),   "8888.888"}},
+                    {PingData::Fields::Graph,          {"",             ""}}
             };
 
     return map;
@@ -89,7 +88,8 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
         QWidget *parent) :
 
             QWidget(parent),
-            m_routeGraphDelegate(nullptr) {
+            m_routeGraphDelegate(nullptr),
+            m_graphScaleMode(ScaleMode::None) {
 
     auto maskerConfig = QString(
             R"|({"id":"Nedrysoft::RegExHostMasker::RegExHostMasker","matchItems":[{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"},{"matchExpression":"(?<host>(.+))\\.fizzyade\\.(?<domain>(.+))","matchFlags":20,"matchHopString":"","matchReplacementString":"[host].<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"}]})|");
@@ -115,12 +115,12 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
                 routeEngine,
                 &Nedrysoft::Core::IRouteEngine::result,
                 this,
-                &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult );
+                &RouteAnalyserWidget::onRouteResult);
 
         routeEngine->findRoute(targetHost, ipVersion);
     }
 
-    m_routeGraphDelegate = new Nedrysoft::RouteAnalyser::RouteTableItemDelegate;
+    m_routeGraphDelegate = new RouteTableItemDelegate;
 
     m_routeGraphDelegate->setGradientEnabled(useSmoothGradient);
 
@@ -156,7 +156,7 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
     m_tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_tableView->horizontalHeader()->setStretchLastSection(true);
 
-    auto headerIterator = QMapIterator<int, QPair<QString, QString> >(headerMap());
+    auto headerIterator = QMapIterator<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> >(headerMap());
 
     while (headerIterator.hasNext()) {
         headerIterator.next();
@@ -171,9 +171,9 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
                 m_tableView->fontMetrics().horizontalAdvance(pair.first),
                 m_tableView->fontMetrics().horizontalAdvance(pair.second) );
 
-        m_tableModel->setHorizontalHeaderItem(headerIterator.key(), headerItem);
+        m_tableModel->setHorizontalHeaderItem(static_cast<int>(headerIterator.key()), headerItem);
 
-        m_tableView->horizontalHeader()->resizeSection(headerIterator.key(), maxWidth);
+        m_tableView->horizontalHeader()->resizeSection(static_cast<int>(headerIterator.key()), maxWidth);
     }
 
     m_splitter->addWidget(m_tableView);
@@ -200,7 +200,7 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::~RouteAnalyserWidget() {
 }
 
 void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core::PingResult result) {
-    auto pingData = static_cast<Nedrysoft::RouteAnalyser::PingData *>(result.target()->userData());
+    auto pingData = static_cast<PingData *>(result.target()->userData());
     QCustomPlot *customPlot;
 
     if (!pingData) {
@@ -214,8 +214,8 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
     }
 
     switch (result.code()) {
-        case Nedrysoft::Core::PingResult::Ok:
-        case Nedrysoft::Core::PingResult::TimeExceeded: {
+        case Nedrysoft::Core::PingResult::ResultCode::Ok:
+        case Nedrysoft::Core::PingResult::ResultCode::TimeExceeded: {
             QCPRange graphRange = customPlot->yAxis->range();
             auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
 
@@ -224,30 +224,40 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
 
             pingData->updateItem(result);
 
-            // individual vertical range
+            switch(m_graphScaleMode) {
+                case ScaleMode::None: {
+                    if (result.roundTripTime().count() > graphRange.upper) {
+                        customPlot->yAxis->setRange(0, result.roundTripTime().count());
+                    }
 
-            if (result.roundTripTime().count() > graphRange.upper) {
-                customPlot->yAxis->setRange(0, result.roundTripTime().count());
-            }
-
-            // normalised vertical range
-
-            /*
-            auto graphMaxLatency = m_tableView->property("graphMaxLatency").toDouble();
-
-            if (graphMaxLatency>graphRange.upper) {
-                for (QCustomPlot *customPlot : m_plotList) {
-                    customPlot->yAxis->setRange(0, graphMaxLatency);
-                    customPlot->replot();
+                    break;
                 }
-            }*/
+
+                case ScaleMode::Normalised:  {
+                    auto graphMaxLatency = m_tableView->property("graphMaxLatency").toDouble();
+
+                    if (graphMaxLatency>graphRange.upper) {
+                        for (QCustomPlot *customPlot : m_plotList) {
+                            customPlot->yAxis->setRange(0, graphMaxLatency);
+                            customPlot->replot();
+                        }
+                    }
+
+                    break;
+                }
+
+                case ScaleMode::Fixed: {
+                    // TODO: Fixed scaling, user sets the max value.
+                     break;
+                }
+            }
 
             m_tableView->viewport()->update();
 
             break;
         }
 
-        case Nedrysoft::Core::PingResult::NoReply: {
+        case Nedrysoft::Core::PingResult::ResultCode::NoReply: {
             auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
 
             customPlot->graph(RoundTripGraph)->addData(requestTime.count(), 0);
@@ -275,7 +285,7 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
                 routeEngine,
                 &Nedrysoft::Core::IRouteEngine::result,
                 this,
-                &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult );
+                &RouteAnalyserWidget::onRouteResult );
     }
 
     if (!m_pingEngineFactory) {
@@ -283,9 +293,9 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
     }
 
     if (routeHostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
-        m_pingEngine = m_pingEngineFactory->createEngine(Nedrysoft::Core::V4);
+        m_pingEngine = m_pingEngineFactory->createEngine(Nedrysoft::Core::IPVersion::V4);
     } else if (routeHostAddress.protocol() == QAbstractSocket::IPv6Protocol) {
-        m_pingEngine = m_pingEngineFactory->createEngine(Nedrysoft::Core::V6);
+        m_pingEngine = m_pingEngineFactory->createEngine(Nedrysoft::Core::IPVersion::V6);
     } else {
         return;
     }
@@ -297,7 +307,7 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
     connect(m_pingEngine,
             &Nedrysoft::Core::IPingEngine::result,
             this,
-            &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult );
+            &RouteAnalyserWidget::onPingResult );
 
     auto verticalLayout = new QVBoxLayout();
 
@@ -335,8 +345,8 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             customPlot->yAxis->ticker()->setTickCount(1);
 
-            QSharedPointer<Nedrysoft::RouteAnalyser::CPAxisTickerMS> msTicker(
-                    new Nedrysoft::RouteAnalyser::CPAxisTickerMS);
+            QSharedPointer<CPAxisTickerMS> msTicker(
+                    new CPAxisTickerMS);
 
             customPlot->yAxis->setTicker(msTicker);
             customPlot->yAxis->setLabel(tr("Latency (ms)"));

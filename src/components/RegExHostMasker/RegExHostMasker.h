@@ -55,7 +55,7 @@ namespace Nedrysoft::RegExHostMasker {
             Q_INTERFACES(Nedrysoft::Core::IHostMasker)
 
         public:
-            enum MatchFlags {
+            enum class MatchFlags {
                 MatchHop = ( 1 << 0 ),
                 MatchAddress = ( 1 << 1 ),
                 MatchHost = ( 1 << 2 ),

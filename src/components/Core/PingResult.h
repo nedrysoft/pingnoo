@@ -1,8 +1,11 @@
 /*
  * Copyright (C) 2020 Adrian Carpenter
  *
- * This file is part of pingnoo (https://github.com/fizzyade/pingnoo)
- * An open source ping path analyser
+ * This file is part of Pingnoo (https://github.com/fizzyade/pingnoo)
+ *
+ * An open-source cross-platform traceroute analyser.
+ *
+ * Created by Adrian Carpenter on 27/03/2020.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,7 +44,7 @@ namespace Nedrysoft::Core {
             /**
              * @brief       The result codes for a ping.
              */
-            enum PingResultCode {
+            enum class ResultCode {
                 Ok,
                 NoReply,
                 TimeExceeded
@@ -68,7 +71,7 @@ namespace Nedrysoft::Core {
              * @param[in]   target the target that was pinged.
              */
             PingResult(unsigned long sampleNumber,
-                       PingResultCode code,
+                       ResultCode code,
                        QHostAddress hostAddress,
                        std::chrono::system_clock::time_point requestTime,
                        std::chrono::duration<double> roundTripTime,
@@ -95,7 +98,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the result code.
              */
-            PingResultCode code();
+            ResultCode code();
 
             /**
              * @brief       The host address of the reply.
@@ -126,7 +129,7 @@ namespace Nedrysoft::Core {
 
         private:
             unsigned long m_sampleNumber;
-            PingResult::PingResultCode m_code;
+            PingResult::ResultCode m_code;
             QHostAddress m_hostAddress;
             std::chrono::duration<double> m_roundTripTime = {};
             Nedrysoft::Core::IPingTarget *m_target;

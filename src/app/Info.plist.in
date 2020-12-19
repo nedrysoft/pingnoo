@@ -9,7 +9,7 @@
 	<key>CFBundleGetInfoString</key>
 	<string></string>
 	<key>CFBundleIconFile</key>
-        <string>appicon.icns</string>
+        <string>AppIcon.icns</string>
 	<key>CFBundleIdentifier</key>
         <string>com.nedrysoft.pingnoo</string>
 	<key>CFBundleInfoDictionaryVersion</key>

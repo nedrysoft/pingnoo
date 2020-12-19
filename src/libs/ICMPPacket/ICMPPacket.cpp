@@ -44,16 +44,16 @@
 
 #endif
 #if defined(Q_OS_WIN)
+#include "windows_ip_icmp.h"
+
 #include <WS2tcpip.h>
 #include <WinSock2.h>
-
-#include "windows_ip_icmp.h"
 #endif
 
-#include <QtGlobal>
-#include <QtEndian>
 #include <QByteArray>
 #include <QDataStream>
+#include <QtEndian>
+#include <QtGlobal>
 #include <gsl/gsl>
 
 struct ipv6_header {

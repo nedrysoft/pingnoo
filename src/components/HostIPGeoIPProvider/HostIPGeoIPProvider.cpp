@@ -21,7 +21,6 @@
 #include "Cache.h"
 #include "HostIPGeoIPProvider.h"
 
-#include <QEventLoop>
 #include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>

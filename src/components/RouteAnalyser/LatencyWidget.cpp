@@ -21,19 +21,26 @@
 
 #include "LatencyWidget.h"
 
+#include "ColourDialog.h"
+
 #include <QPaintEvent>
 #include <QPainter>
 #include <QPainterPath>
 #include <QWidget>
+#include <QWindow>
 
+
+#include <QDebug>
 constexpr auto widgetRadius = 5;
 
 Nedrysoft::RouteAnalyser::LatencyWidget::LatencyWidget(QWidget *parent) :
         QWidget(parent),
         m_colour(Qt::transparent),
-        m_text("Colour Widget") {
+        m_text(tr("Colours")) {
 
 }
+
+Nedrysoft::RouteAnalyser::LatencyWidget::~LatencyWidget() = default;
 
 QColor Nedrysoft::RouteAnalyser::LatencyWidget::getContrastColour(QColor colour) {
     if (colour.lightnessF()<0.5) {
@@ -71,4 +78,12 @@ void Nedrysoft::RouteAnalyser::LatencyWidget::setColour(QColor colour) {
 
 QColor Nedrysoft::RouteAnalyser::LatencyWidget::colour() {
     return m_colour;
+}
+
+void Nedrysoft::RouteAnalyser::LatencyWidget::mouseDoubleClickEvent(QMouseEvent *event) {
+    auto colourDialog = ColourDialog::getInstance();
+
+    colourDialog->open(m_colour, m_text, [=](QColor colour) {
+        Q_EMIT colourChanged(colour);
+    });
 }

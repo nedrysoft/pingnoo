@@ -50,6 +50,11 @@ namespace Nedrysoft::RouteAnalyser {
             LatencyWidget(QWidget *parent=nullptr);
 
             /**
+             * @brief       Destroys the LatencyWidget
+             */
+            ~LatencyWidget();
+
+            /**
              * @brief       Sets the text to be displayed on the widget.
              *
              * @param[in]   text the displayed text.
@@ -77,6 +82,8 @@ namespace Nedrysoft::RouteAnalyser {
              */
             QColor colour();
 
+            Q_SIGNAL void colourChanged(QColor colour);
+
         private:
             /**
              * @brief       Returns a colour that contrasts with the given colour.
@@ -84,7 +91,7 @@ namespace Nedrysoft::RouteAnalyser {
              * @details     Determines the lightness of the colour, anything below 0.5 the function will return
              *              white, anything above 0.5 the function returns black.
              *
-             * @param[in]   colour the colour to get the contrast colour for.
+             * @param[in]   colour the colour.
              *
              * @returns     the contrast colour.
              */
@@ -96,7 +103,14 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @param[in]   event the event information.
              */
-            void paintEvent(QPaintEvent *event);
+            void paintEvent(QPaintEvent *event) override;
+
+            /**
+             * @brief       Reimplements: QWidget::mouseDoubleClickEvent(QMouseEvent *event).
+             *
+             * @param[in]   event the event information.
+             */
+            void mouseDoubleClickEvent(QMouseEvent *event) override;
 
         private:
             QColor m_colour;

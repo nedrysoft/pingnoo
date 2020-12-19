@@ -21,7 +21,6 @@
 #include "Cache.h"
 
 #include <QDateTime>
-#include <QDebug>
 #include <QDir>
 #include <QFileInfo>
 #include <QJsonArray>
