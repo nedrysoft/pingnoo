@@ -5,11 +5,11 @@
  *
  * An open-source cross-platform traceroute analyser.
  *
- * Created by Adrian Carpenter on 27/03/2020.
+ * Created by Adrian Carpenter on 25/07/2020.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation∂, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,

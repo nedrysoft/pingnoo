@@ -27,8 +27,8 @@ import datetime
 if len(sys.argv)==2:
     filename = sys.argv[1]
 
-    datePipe = os.popen(f'git log --follow --format=%aD {filename} | tail -1')
-    authorPipe = os.popen(f'git log --follow --format=%aN {filename} | tail -1')
+    datePipe = os.popen(f'git log --format=%aD {filename} | tail -1')
+    authorPipe = os.popen(f'git log --format=%aN {filename} | tail -1')
 
     author = authorPipe.read().rstrip()
 
