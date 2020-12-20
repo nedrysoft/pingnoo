@@ -103,6 +103,7 @@ include_directories(${PINGNOO_COMPONENTS_SOURCE_DIR})
 
 include_directories(${CMAKE_BINARY_DIR})    # <- allows ui_ files to be available to the editor
 
+link_directories(${spdlog_BINARY_DIR})
 link_directories(${PINGNOO_LIBRARIES_BINARY_DIR})
 link_directories(${PINGNOO_COMPONENTS_BINARY_DIR})
 
@@ -303,7 +304,7 @@ endif()
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} \"${spdlog_BINARY_DIR}\\spdlog${debug_SUFFIX}\")
 else()
-    target_link_libraries(${PROJECT_NAME} -L${spdlog_BINARY_DIR} -lspdlog${debug_SUFFIX})
+    target_link_libraries(${PROJECT_NAME} spdlog)
 endif()
 endmacro(add_logging_library)
 
