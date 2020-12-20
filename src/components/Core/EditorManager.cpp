@@ -38,7 +38,9 @@ Nedrysoft::Core::EditorManager::EditorManager(QTabWidget *tabWidget) :
 int Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) {
     auto tabIndex = m_tabWidget->addTab(editor->widget(), editor->displayName());
 
+#if defined(Q_OS_MACOS)
     m_tabWidget->tabBar()->setTabButton(tabIndex, QTabBar::RightSide, m_tabWidget->tabBar()->tabButton(tabIndex, QTabBar::LeftSide));
+#endif
 
     connect(m_tabWidget, &QTabWidget::tabCloseRequested, [=](int index) {
         this->m_tabWidget->removeTab(index);

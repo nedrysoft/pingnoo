@@ -37,14 +37,14 @@
 #include "Pingnoo.h"
 #include "RibbonBarManager.h"
 #include "SettingsDialog/SettingsDialog.h"
-#include "ui_mainwindow.h"
+#include "ui_MainWindow.h"
 
 #include <QApplication>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QStandardPaths>
-void closeColourPanel();
+
 Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Nedrysoft::Core::Ui::MainWindow) {
