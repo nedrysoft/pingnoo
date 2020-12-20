@@ -4,12 +4,12 @@
 [submodule "src/libs/Ribbon"]
 	path = src/libs/Ribbon
 	url = https://github.com/fizzyade/qt-ribbon
-[submodule "src/libs/fontawesome"]
-	path = src/libs/fontawesome
-	url = https://github.com/fizzyade/FontAwesomeForQt
 [submodule "src/libs/SettingsDialog"]
 	path = src/libs/SettingsDialog
 	url = https://github.com/fizzyade/SettingsDialog
 [submodule "src/libs/spdlog"]
 	path = src/libs/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "src/libs/FontAwesome"]
+	path = src/libs/FontAwesome
+	url = https://github.com/fizzyade/FontAwesomeForQt
