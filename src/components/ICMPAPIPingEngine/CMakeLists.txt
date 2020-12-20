@@ -21,9 +21,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-if(NOT WIN32)
+#if(NOT WIN32)
     return()
-endif()
+#endif()
 
 pingnoo_start_component()
 
