@@ -34,11 +34,13 @@
 #include "Core/IRibbonBarManager.h"
 #include "Core/IRibbonPage.h"
 #include "LatencyRibbonGroup.h"
+#include "LatencySettingsPage.h"
 #include "NewTargetDialog.h"
+#include "NewTargetRibbonGroup.h"
 #include "Pingnoo.h"
 #include "RouteAnalyser.h"
 #include "RouteAnalyserEditor.h"
-#include "NewTargetRibbonGroup.h"
+#include "TargetSettingsPage.h"
 
 RouteAnalyserComponent::RouteAnalyserComponent() = default;
 
@@ -139,6 +141,9 @@ void RouteAnalyserComponent::initialiseEvent() {
                     latencyGroupWidget );
 
         }
+
+        Nedrysoft::ComponentSystem::addObject(new Nedrysoft::RouteAnalyser::LatencySettingsPage);
+        Nedrysoft::ComponentSystem::addObject(new Nedrysoft::RouteAnalyser::TargetSettingsPage);
     }
 }
 

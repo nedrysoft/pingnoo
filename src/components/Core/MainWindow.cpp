@@ -36,6 +36,7 @@
 #include "EditorManager.h"
 #include "Pingnoo.h"
 #include "RibbonBarManager.h"
+#include "SettingsDialog/ISettingsPage.h"
 #include "SettingsDialog/SettingsDialog.h"
 #include "ui_MainWindow.h"
 
@@ -244,6 +245,8 @@ void Nedrysoft::Core::MainWindow::registerDefaultCommands() {
 
     connect(m_settingsAction, &QAction::triggered, [this](bool) {
         QList<Nedrysoft::SettingsDialog::ISettingsPage *> pages;
+
+        pages = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::SettingsDialog::ISettingsPage>();
 
         m_settingsDialog = new Nedrysoft::SettingsDialog::SettingsDialog(pages, this);
 

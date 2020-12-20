@@ -2,5 +2,6 @@
     <qresource prefix="/RouteAnalyser">
         <file>icons/favourite.png</file>
         <file>icons/favourite@2x.png</file>
+        <file>icons/analyser.png</file>
     </qresource>
 </RCC>
