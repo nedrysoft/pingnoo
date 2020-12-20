@@ -295,17 +295,7 @@ macro(add_logging_library)
 
     add_dependencies(${PROJECT_NAME} spdlog)
 
-    set(debug_SUFFIX)
-
-if(CMAKE_BUILD_TYPE MATCHES Debug)
-    set(debug_SUFFIX "d")
-endif()
-
-if(WIN32)
-    target_link_libraries(${PROJECT_NAME} \"${spdlog_BINARY_DIR}\\spdlog${debug_SUFFIX}\")
-else()
     target_link_libraries(${PROJECT_NAME} spdlog)
-endif()
 endmacro(add_logging_library)
 
 macro(pingnoo_use_qt_libraries)
