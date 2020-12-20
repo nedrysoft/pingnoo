@@ -23,6 +23,8 @@
 
 #include "LineSyntaxHighlighter.h"
 
+#include "ThemeSupport.h"
+
 Nedrysoft::RouteAnalyser::LineSyntaxHighlighter::LineSyntaxHighlighter(QTextDocument *parent, SyntaxFunction function) :
         QSyntaxHighlighter(parent),
         m_syntaxFunction(function) {
@@ -42,10 +44,15 @@ void Nedrysoft::RouteAnalyser::LineSyntaxHighlighter::updateSyntax() {
 void Nedrysoft::RouteAnalyser::LineSyntaxHighlighter::highlightBlock(const QString &text)
 {
     QTextCharFormat textFormat;
+    auto colour = Qt::red;
 
     if (!m_syntaxFunction(text)) {
-        textFormat.setUnderlineColor(Qt::yellow);
-        textFormat.setForeground(Qt::yellow);
+        if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
+            colour = Qt::yellow;
+        }
+
+        textFormat.setUnderlineColor(colour);
+        textFormat.setForeground(colour);
         textFormat.setUnderlineStyle(QTextCharFormat::WaveUnderline);
         textFormat.setFontItalic(true);
     }

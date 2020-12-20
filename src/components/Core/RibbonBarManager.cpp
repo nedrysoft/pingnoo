@@ -38,9 +38,11 @@ Nedrysoft::Core::RibbonBarManager::RibbonBarManager(Nedrysoft::Ribbon::RibbonWid
 }
 
 Nedrysoft::Core::IRibbonPage *Nedrysoft::Core::RibbonBarManager::addPage(QString title, QString id) {
-    auto ribbonPage = new Nedrysoft::Core::RibbonPage();
+    auto ribbonPage = new Nedrysoft::Core::RibbonPage(this);
 
-    m_ribbonWidget->addTab(ribbonPage->widget(), title);
+    int tabIndex = m_ribbonWidget->addTab(ribbonPage->widget(), title);
+
+    m_ribbonWidget->setTabVisible(tabIndex, false);
 
     m_pages[id] = ribbonPage;
 
@@ -57,4 +59,12 @@ Nedrysoft::Core::IRibbonPage *Nedrysoft::Core::RibbonBarManager::page(QString id
 
 void Nedrysoft::Core::RibbonBarManager::setRibbonWidget(Nedrysoft::Ribbon::RibbonWidget *ribbonWidget) {
     m_ribbonWidget = ribbonWidget;
+}
+
+void Nedrysoft::Core::RibbonBarManager::groupAdded(Nedrysoft::Core::RibbonPage *page) {
+    for(auto currentIndex=0;currentIndex<m_ribbonWidget->count();currentIndex++) {
+        if (m_ribbonWidget->widget(currentIndex)==page->widget()) {
+            m_ribbonWidget->setTabVisible(currentIndex, true);
+        }
+    }
 }

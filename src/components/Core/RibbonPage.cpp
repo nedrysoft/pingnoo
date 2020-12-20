@@ -24,13 +24,20 @@
 #include "RibbonPage.h"
 
 #include "Ribbon/RibbonGroup.h"
+#include "RibbonBarManager.h"
 
 #include <QDebug>
 
 constexpr auto spacerStretchFactor = 2;
-constexpr auto groupBottomMargin = 6;
 
-Nedrysoft::Core::RibbonPage::RibbonPage() :
+#if defined(Q_OS_WINDOWS)
+constexpr auto groupBottomMargin = 0;
+#else
+constexpr auto groupBottomMargin = 3;
+#endif
+
+Nedrysoft::Core::RibbonPage::RibbonPage(RibbonBarManager *manager) :
+        m_manager(manager),
         m_pageWidget(new QWidget()),
         m_pageLayout(new QHBoxLayout()),
         m_spacerItem(nullptr) {
@@ -71,6 +78,8 @@ Nedrysoft::Core::IRibbonGroup *Nedrysoft::Core::RibbonPage::addGroup(QString tit
     groupLayout->addWidget(widget);
 
     ribbonGroup->setLayout(groupLayout);
+
+    m_manager->groupAdded(this);
 
     return nullptr;
 }

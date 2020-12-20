@@ -93,6 +93,17 @@ namespace Nedrysoft::RouteAnalyser {
              */
             double interval();
 
+        protected:
+            /**
+             * @brief       Reimplements QWidget::eventFilter(QObject *watched, QEvent *event)
+             *
+             * @param[in]   watched the object that caused the event.
+             * @param[in]   event the event.
+             *
+             * @returns     true to stop further event processing; otherwise false.
+             */
+            bool eventFilter(QObject *watched, QEvent *event) override;
+
         private:
             /**
              * @brief       Validate the fields of the dialog.

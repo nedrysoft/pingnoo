@@ -73,6 +73,8 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
 
     ui->targetLineEdit->setMaximumHeight(minimumLineHeight);
 
+    ui->targetLineEdit->installEventFilter(this);
+
     connect(ui->targetLineEdit, &QTextEdit::textChanged, [=]() {
         validateFields();
     });
@@ -84,6 +86,8 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
     ui->intervalLineEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
     ui->intervalLineEdit->setMaximumHeight(minimumLineHeight);
+
+    ui->intervalLineEdit->installEventFilter(this);
 
     connect(ui->intervalLineEdit, &QTextEdit::textChanged, [=]() {
         validateFields();
@@ -163,4 +167,26 @@ void Nedrysoft::RouteAnalyser::NewTargetDialog::validateFields() {
     auto invalidWidget = checkFieldsValid(errorString);
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(invalidWidget == nullptr ? true : false);
+}
+
+bool Nedrysoft::RouteAnalyser::NewTargetDialog::eventFilter(QObject *watched, QEvent *event) {
+    if (event->type()==QEvent::Resize) {
+        QTextEdit *textEdit = qobject_cast<QTextEdit *>(watched);
+
+        if (textEdit) {
+            QFontMetrics fontMetrics(textEdit->font());
+
+            auto text = textEdit->toPlainText().isEmpty()?textEdit->placeholderText():textEdit->toPlainText();
+            auto offset = static_cast<double>(textEdit->rect().height()-fontMetrics.boundingRect(text).height())/2.0;
+            auto margin = textEdit->rect().height() - textEdit->contentsRect().height();
+
+            offset = floor(offset-(margin/2.0));
+
+            if (offset!=textEdit->document()->documentMargin()) {
+                textEdit->document()->setDocumentMargin(offset);
+            }
+        }
+    }
+
+    return false;
 }

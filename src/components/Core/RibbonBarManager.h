@@ -86,6 +86,15 @@ namespace Nedrysoft::Core {
              */
             void setRibbonWidget(Nedrysoft::Ribbon::RibbonWidget *ribbonWidget);
 
+            /**
+             * @brief       Called when a group is added to a page.
+             *
+             * @notes       Pages are by default hidden and are only visible when groups are added.
+             *
+             * @param[in]   page the page that has had a group added.
+             */
+            void groupAdded(Nedrysoft::Core::RibbonPage *page);
+
         private:
             Nedrysoft::Ribbon::RibbonWidget *m_ribbonWidget;
             QMap<QString, Nedrysoft::Core::RibbonPage *> m_pages;

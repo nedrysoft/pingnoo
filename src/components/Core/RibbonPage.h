@@ -31,6 +31,8 @@
 #include <QWidget>
 
 namespace Nedrysoft::Core {
+    class RibbonBarManager;
+
     /**
      * @brief       The RibbonPage describes a ribbon bar page.
      *
@@ -58,9 +60,11 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Constructs a RibbonPage instance.
+             * @brief       Constructs a RibbonPage which is a child of the manager.
+             *
+             * @param[in]   manager the manager that owns this page.
              */
-            RibbonPage();
+            RibbonPage(RibbonBarManager *manager);
 
             /**
              * @brief       Returns the pages widget.
@@ -73,6 +77,7 @@ namespace Nedrysoft::Core {
             QWidget *m_pageWidget;
             QHBoxLayout *m_pageLayout;
             QSpacerItem *m_spacerItem;
+            RibbonBarManager *m_manager;
     };
 };
 
