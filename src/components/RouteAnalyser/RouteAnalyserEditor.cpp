@@ -46,17 +46,17 @@ Nedrysoft::RouteAnalyser::RouteAnalyserEditor::~RouteAnalyserEditor() {
     }
 }
 
-QJsonObject Nedrysoft::RouteAnalyser::RouteAnalyserEditor::saveConfiguration() {
+auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::saveConfiguration() -> QJsonObject {
     return QJsonObject();
 }
 
-bool Nedrysoft::RouteAnalyser::RouteAnalyserEditor::loadConfiguration(QJsonObject configuration) {
+auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::loadConfiguration(QJsonObject configuration) -> bool {
     Q_UNUSED(configuration)
 
     return false;
 }
 
-QWidget *Nedrysoft::RouteAnalyser::RouteAnalyserEditor::widget() {
+auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::widget() -> QWidget * {
     m_editorWidget = new RouteAnalyserWidget(
             m_pingTarget,
             m_ipVersion,
@@ -66,22 +66,24 @@ QWidget *Nedrysoft::RouteAnalyser::RouteAnalyserEditor::widget() {
     return m_editorWidget;
 }
 
-void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setPingEngine(Nedrysoft::Core::IPingEngineFactory *pingEngineFactory) {
+auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setPingEngine(
+        Nedrysoft::Core::IPingEngineFactory *pingEngineFactory ) -> void {
+
     m_pingEngineFactory = pingEngineFactory;
 }
 
-void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setTarget(QString target) {
+auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setTarget(QString target) -> void {
     m_pingTarget = target;
 }
 
-QString Nedrysoft::RouteAnalyser::RouteAnalyserEditor::displayName() {
+auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::displayName() -> QString {
     return m_pingTarget;
 }
 
-void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setIPVersion(Nedrysoft::Core::IPVersion ipVersion) {
+auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setIPVersion(Nedrysoft::Core::IPVersion ipVersion) -> void {
     m_ipVersion = ipVersion;
 }
 
-void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setInterval(double interval) {
+auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setInterval(double interval) -> void {
     m_interval = interval;
 }

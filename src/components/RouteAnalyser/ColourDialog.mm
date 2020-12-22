@@ -42,11 +42,11 @@ Nedrysoft::RouteAnalyser::ColourDialog::ColourDialog() :
 
 Nedrysoft::RouteAnalyser::ColourDialog::~ColourDialog() = default;
 
-void Nedrysoft::RouteAnalyser::ColourDialog::close() {
+auto Nedrysoft::RouteAnalyser::ColourDialog::close() -> void {
     [m_colourPanel close];
 }
 
-Nedrysoft::RouteAnalyser::ColourDialog *Nedrysoft::RouteAnalyser::ColourDialog::getInstance() {
+auto Nedrysoft::RouteAnalyser::ColourDialog::getInstance() -> Nedrysoft::RouteAnalyser::ColourDialog * {
     static Nedrysoft::RouteAnalyser::ColourDialog *instance = nullptr;
 
     if (instance==nullptr) {
@@ -56,10 +56,10 @@ Nedrysoft::RouteAnalyser::ColourDialog *Nedrysoft::RouteAnalyser::ColourDialog::
     return instance;
 }
 
-void Nedrysoft::RouteAnalyser::ColourDialog::open(
+auto Nedrysoft::RouteAnalyser::ColourDialog::open(
         QColor initialColour,
         QString titleString,
-        Nedrysoft::RouteAnalyser::ColourFunction colourFunction) {
+        Nedrysoft::RouteAnalyser::ColourFunction colourFunction ) -> void {
 
     titleString = QString(
             QT_TR_NOOP("%1 Colour"))

@@ -116,11 +116,11 @@ Nedrysoft::Pingnoo::ICMPAPIPingEngine::ICMPAPIPingEngine() :
     d->m_transmitterThread->start();
 }
 
-QObject *Nedrysoft::Pingnoo::ICMPAPIPingEngine::asQObject() {
+auto Nedrysoft::Pingnoo::ICMPAPIPingEngine::asQObject() -> QObject * {
     return this;
 }
 
-Nedrysoft::Pingnoo::IPingTarget *Nedrysoft::Pingnoo::ICMPAPIPingEngine::addTarget(QHostAddress hostAddress) {
+auto Nedrysoft::Pingnoo::ICMPAPIPingEngine::addTarget(QHostAddress hostAddress) -> Nedrysoft::Pingnoo::IPingTarget * {
     Q_UNUSED(hostAddress)
     //Q_D(FZICMPAPIPingEngine);
 
@@ -132,7 +132,10 @@ Nedrysoft::Pingnoo::IPingTarget *Nedrysoft::Pingnoo::ICMPAPIPingEngine::addTarge
     return nullptr;
 }
 
-Nedrysoft::Pingnoo::IPingTarget *Nedrysoft::Pingnoo::ICMPAPIPingEngine::addTarget(QHostAddress hostAddress, int ttl) {
+auto Nedrysoft::Pingnoo::ICMPAPIPingEngine::addTarget(
+        QHostAddress hostAddress,
+        int ttl ) -> Nedrysoft::Pingnoo::IPingTarget * {
+
     Q_UNUSED(hostAddress)
     Q_UNUSED(ttl)
     //Q_D(FZICMPAPIPingEngine);
@@ -146,17 +149,17 @@ Nedrysoft::Pingnoo::IPingTarget *Nedrysoft::Pingnoo::ICMPAPIPingEngine::addTarge
     return nullptr;
 }
 
-bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::removeTarget(Nedrysoft::Pingnoo::IPingTarget *target) {
+auto Nedrysoft::Pingnoo::ICMPAPIPingEngine::removeTarget(Nedrysoft::Pingnoo::IPingTarget *target) -> bool {
     Q_UNUSED(target)
 
     return true;
 }
 
-bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::start() {
+auto Nedrysoft::Pingnoo::ICMPAPIPingEngine::start() -> bool {
     return true;
 }
 
-bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::stop() {
+auto Nedrysoft::Pingnoo::ICMPAPIPingEngine::stop() -> bool {
     return true;
 }
 
@@ -202,7 +205,7 @@ FZICMPPingItem *FZICMPPingEngine::getRequest(uint32_t id)
 }
 */
 
-bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::setInterval(std::chrono::milliseconds interval) {
+auto Nedrysoft::Pingnoo::ICMPAPIPingEngine::setInterval(std::chrono::milliseconds interval) -> bool {
     Q_UNUSED(interval)
     //Q_D(FZICMPAPIPingEngine);
 
@@ -210,23 +213,23 @@ bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::setInterval(std::chrono::millisecond
     return true;
 }
 
-bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::setTimeout(std::chrono::milliseconds timeout) {
+auto Nedrysoft::Pingnoo::ICMPAPIPingEngine::setTimeout(std::chrono::milliseconds timeout) -> bool {
     d->m_timeout = timeout;
 
     return true;
 }
 
-QJsonObject Nedrysoft::Pingnoo::ICMPAPIPingEngine::saveConfiguration() {
+auto Nedrysoft::Pingnoo::ICMPAPIPingEngine::saveConfiguration() -> QJsonObject {
     return QJsonObject();
 }
 
-bool Nedrysoft::Pingnoo::ICMPAPIPingEngine::loadConfiguration(QJsonObject configuration) {
+auto Nedrysoft::Pingnoo::ICMPAPIPingEngine::loadConfiguration(QJsonObject configuration) -> bool {
     Q_UNUSED(configuration)
 
     return false;
 }
 
-std::chrono::system_clock::time_point Nedrysoft::Pingnoo::ICMPAPIPingEngine::epoch() {
+auto Nedrysoft::Pingnoo::ICMPAPIPingEngine::epoch() -> std::chrono::system_clock::time_point {
     return std::chrono::system_clock::now();
 }
 

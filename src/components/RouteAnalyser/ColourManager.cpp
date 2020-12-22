@@ -33,7 +33,7 @@ constexpr auto DarkIdealColour = qRgb(0x92, 0xC8, 0x9F);
 constexpr auto DarkWarningColour = qRgb(0xe9, 0xc4, 0x6a);
 constexpr auto DarkCriticalColour = qRgb(0xe7, 0x6f, 0x51);
 
-QRgb Nedrysoft::RouteAnalyser::ColourManager::getIdealColour() {
+auto Nedrysoft::RouteAnalyser::ColourManager::getIdealColour() -> QRgb {
     if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
         return DarkIdealColour;
     }
@@ -41,7 +41,7 @@ QRgb Nedrysoft::RouteAnalyser::ColourManager::getIdealColour() {
     return LightIdealColour;
 }
 
-QRgb Nedrysoft::RouteAnalyser::ColourManager::getWarningColour() {
+auto Nedrysoft::RouteAnalyser::ColourManager::getWarningColour() -> QRgb {
     if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
         return DarkWarningColour;
     }
@@ -49,7 +49,7 @@ QRgb Nedrysoft::RouteAnalyser::ColourManager::getWarningColour() {
     return LightWarningColour;
 }
 
-QRgb Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour() {
+auto Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour() -> QRgb {
     if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
         return DarkCriticalColour;
     }

@@ -112,7 +112,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     The Nedrysoft::Core::MenuTypes type of the menu.
              */
-            virtual Nedrysoft::Core::MenuTypes type();
+            virtual auto type() -> Nedrysoft::Core::MenuTypes;
 
             /**
              * @brief       Returns the QMenu if this is a menu.
@@ -121,7 +121,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the menu instance.
              */
-            virtual QMenu *menu();
+            virtual auto menu() -> QMenu *;
 
             /**
              * @brief       Returns the QMenuBar if this is a menu bar.
@@ -130,7 +130,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the menubar instance.
              */
-            virtual QMenuBar *menuBar();
+            virtual auto menuBar() -> QMenuBar *;
 
             /**
              * @brief       Inserts a new group into the start of the menu.
@@ -142,7 +142,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   groupIdentifier the identifier of the group.
              */
-            virtual void insertGroup(QString groupIdentifier);
+            virtual auto insertGroup(QString groupIdentifier) -> void;
 
             /**
              * @brief       Appends a new group to the end of the menu.
@@ -154,7 +154,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   groupIdentifier the identifier of the group.
              */
-            virtual void appendGroup(QString groupIdentifier);
+            virtual auto appendGroup(QString groupIdentifier) -> void;
 
             /**
              * @brief       Adds a new group before the given identifier.
@@ -169,7 +169,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     true if added; otherwise false.
              */
-            virtual bool addGroupBefore(QString beforeIdentifier, QString groupIdentifier);
+            virtual auto addGroupBefore(QString beforeIdentifier, QString groupIdentifier) -> bool;
 
             /**
              * @brief       Adds a new group after the given identifier.
@@ -184,19 +184,19 @@ namespace Nedrysoft::Core {
              *
              * @returns     true if added; otherwise false.
              */
-            virtual bool addGroupAfter(QString afterIdentifier, QString groupIdentifier);
+            virtual auto addGroupAfter(QString afterIdentifier, QString groupIdentifier) -> bool;
 
             /**
              * @brief       Appends a command to the end of a group.
              *
              * @details     The added command will be added to the end of the given group.
              *
-             * @see         Nedrysoft::Core::Menu::appendCommaned
+             * @see         Nedrysoft::Core::Menu::appendCommand
              *
              * @param[in]   command the command to add.
              * @param[in]   groupIdentifier the identifier of the group.
              */
-            virtual void appendCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString());
+            virtual auto appendCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString()) -> void;
 
             /**
              * @brief       Inserts a command to the start of a group.
@@ -208,7 +208,7 @@ namespace Nedrysoft::Core {
              * @param[in]   command the command to add.
              * @param[in]   groupIdentifier the identifier of the group.
              */
-            virtual void insertCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString());
+            virtual auto insertCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString()) -> void;
 
         private:
             /**
@@ -221,7 +221,7 @@ namespace Nedrysoft::Core {
              *
              * @return      the list iterator.
              */
-            QList<GroupItem>::const_iterator findGroup(QString groupIdentifier);
+            auto findGroup(QString groupIdentifier) -> QList<GroupItem>::const_iterator;
 
             /**
              * @brief       Gets a pointer to the action for to be inserted before.
@@ -240,7 +240,7 @@ namespace Nedrysoft::Core {
              *
              * @return      a pointer to the QAction in the menu if found; otherwise nullptr.
              */
-            QAction *getInsertAction(QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator);
+            auto getInsertAction(QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator) -> QAction *;
 
             /**
              * @brief       Gets a pointer to the action for to be appended after.
@@ -259,7 +259,7 @@ namespace Nedrysoft::Core {
              *
              * @return      a pointer to the QAction in the menu if found; otherwise nullptr.
              */
-            QAction *getAppendAction(QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator);
+            auto getAppendAction(QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator) -> QAction *;
 
             friend class CommandManager;
 

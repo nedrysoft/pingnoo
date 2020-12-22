@@ -52,7 +52,10 @@ namespace Nedrysoft::Core {
                  *
                  * @returns     the IRibbonGroup instance of the group.
                  */
-                virtual Nedrysoft::Core::IRibbonGroup *addGroup(QString title, QString id, QWidget *widget) = 0;
+                virtual auto addGroup(
+                        QString title,
+                        QString id,
+                        QWidget *widget ) -> Nedrysoft::Core::IRibbonGroup * = 0;
     };
 }
 

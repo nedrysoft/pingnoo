@@ -29,14 +29,13 @@
 #include <QNetworkRequest>
 #include <QObject>
 #include <QRegularExpression>
-#include <QRegularExpressionMatch>
 
-bool Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::mask(
+auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::mask(
         int hop,
         const QString &hostName,
         const QString &hostAddress,
         QString &maskedHostName,
-        QString &maskedHostAddress) {
+        QString &maskedHostAddress) -> bool {
 
     Q_UNUSED(hop)
     Q_UNUSED(hostName)
@@ -81,11 +80,11 @@ bool Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::mask(
     return true;
 }
 
-QJsonObject Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::saveConfiguration() {
+auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::saveConfiguration() -> QJsonObject {
     return QJsonObject();
 }
 
-bool Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::loadConfiguration(QJsonObject configuration) {
+auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::loadConfiguration(QJsonObject configuration) -> bool {
     Q_UNUSED(configuration)
 
     return false;

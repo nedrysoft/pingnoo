@@ -39,7 +39,7 @@ IPAPIGeoIPProviderComponent::~IPAPIGeoIPProviderComponent() {
     }
 }
 
-void IPAPIGeoIPProviderComponent::initialiseEvent() {
+auto IPAPIGeoIPProviderComponent::initialiseEvent() -> void {
     m_provider = new Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider();
 
     Nedrysoft::ComponentSystem::addObject(m_provider);

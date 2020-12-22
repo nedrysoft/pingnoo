@@ -45,7 +45,7 @@ Nedrysoft::RouteAnalyser::GraphLatencyLayer::GraphLatencyLayer(QCustomPlot *cust
 
 }
 
-void Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) {
+auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> void {
     auto graphMaxLatency = parentPlot()->yAxis->range().upper;
     auto rect = parentPlot()->axisRect()->rect();
 
@@ -125,6 +125,6 @@ void Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) {
     painter->restore();
 }
 
-void Nedrysoft::RouteAnalyser::GraphLatencyLayer::setGradientEnabled(bool useGradient) {
+auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::setGradientEnabled(bool useGradient) -> void {
     m_useGradient = useGradient;
 }

@@ -89,12 +89,12 @@ namespace Nedrysoft::ICMPSocket {
              *
              * @returns     true if socket is valid; otherwise false..
              */
-            static bool isValid(ICMPSocket::socket_t socket);
+            static auto isValid(ICMPSocket::socket_t socket) -> bool;
 
             /**
              * @brief       Called by socket creation to ensure underlying networking subsystem is initialised.
              */
-            static void initialiseSockets();
+            static auto initialiseSockets() -> void;
 
         public:
             /**
@@ -109,7 +109,7 @@ namespace Nedrysoft::ICMPSocket {
              *
              * @returns      an instance of this class.
              */
-            static ICMPSocket *createReadSocket(Nedrysoft::ICMPSocket::IPVersion version = Nedrysoft::ICMPSocket::V4);
+            static auto createReadSocket(Nedrysoft::ICMPSocket::IPVersion version = Nedrysoft::ICMPSocket::V4) -> ICMPSocket *;
 
             /**
              * @brief       Creates a socket for writing ICMP packets with the given ttl.
@@ -118,9 +118,9 @@ namespace Nedrysoft::ICMPSocket {
              *
              * @returns     the write socket instance.
              */
-            static ICMPSocket *createWriteSocket(
+            static auto createWriteSocket(
                     int ttl = 0,
-                    Nedrysoft::ICMPSocket::IPVersion version = Nedrysoft::ICMPSocket::V4 );
+                    Nedrysoft::ICMPSocket::IPVersion version = Nedrysoft::ICMPSocket::V4 ) -> ICMPSocket *;
 
             /**
              * @brief       Receives data from a read or write socket.
@@ -131,7 +131,7 @@ namespace Nedrysoft::ICMPSocket {
              *
              * @returns     -1 on timeout or error; otherwise the number of bytes read.
              */
-            int recvfrom(QByteArray &buffer, QHostAddress &receiveAddress, std::chrono::milliseconds timeout);
+            auto recvfrom(QByteArray &buffer, QHostAddress &receiveAddress, std::chrono::milliseconds timeout) -> int;
 
             /**
              * @brief       Sends data to a write socket.
@@ -141,28 +141,28 @@ namespace Nedrysoft::ICMPSocket {
              *
              * @returns     -1 on error; otherwise the number of bytes written.
              */
-            int sendto(QByteArray &buffer, const QHostAddress &hostAddress);
+            auto sendto(QByteArray &buffer, const QHostAddress &hostAddress) -> int;
 
             /**
              * @brief       Sets the TTL on a write socket.
              *
              * @param[in]   ttl the ttl for the socket.
              */
-            void setTTL(int ttl);
+            auto setTTL(int ttl) -> void;
 
             /**
              * @brief       Sets the Hop Limit on a write socket.
              *
              * @param[in]   hopLimit the hop limit to set.
              */
-            void setHopLimit(int hopLimit);
+            auto setHopLimit(int hopLimit) -> void;
 
             /**
              * @brief       Returns the IP version of the socket.
              *
              * @returns     V4 or V6.
              */
-            Nedrysoft::ICMPSocket::IPVersion version();
+            auto version() -> Nedrysoft::ICMPSocket::IPVersion;
 
         private:
 

@@ -56,9 +56,9 @@ class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
         /**
          * @brief       Returns the context id for the route analyser.
          *
-         * @return      the context id.
+         * @returns     the context id.
          */
-        int contextId();
+        auto contextId() -> int;
 
     public:
         /**
@@ -66,7 +66,7 @@ class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
          *
          * @details     Called by the component loader after all components have been loaded, called in load order.
          */
-        virtual void initialiseEvent();
+        virtual auto initialiseEvent() -> void;
 
         /**
          * @brief       The initialisationFinishedEvent function is called by the component loader after all
@@ -75,7 +75,7 @@ class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
          * @details     Called by the component loader after all components have been
          *              initialised, called in reverse load order.
          */
-        virtual void initialisationFinishedEvent();
+        virtual auto initialisationFinishedEvent() -> void;
 
         friend class Nedrysoft::RouteAnalyser::RouteAnalyserEditor;
 

@@ -25,8 +25,6 @@
 #include "Menu.h"
 #include "Pingnoo.h"
 
-#include <QDebug>
-
 Nedrysoft::Core::Menu::Menu() :
         m_menuBar(nullptr),
         m_menu(nullptr) {
@@ -48,7 +46,7 @@ Nedrysoft::Core::Menu::Menu(QMenu *menu) :
     m_menu = menu;
 }
 
-Nedrysoft::Core::MenuTypes Nedrysoft::Core::Menu::type() {
+auto Nedrysoft::Core::Menu::type() -> Nedrysoft::Core::MenuTypes {
     if (m_menuBar) {
         return Nedrysoft::Core::MenuTypes::isMenuBar;
     }
@@ -60,15 +58,17 @@ Nedrysoft::Core::MenuTypes Nedrysoft::Core::Menu::type() {
     return Nedrysoft::Core::MenuTypes::isMenu;
 }
 
-QMenu *Nedrysoft::Core::Menu::menu() {
+auto Nedrysoft::Core::Menu::menu() -> QMenu * {
     return m_menu;
 }
 
-QMenuBar *Nedrysoft::Core::Menu::menuBar() {
+auto Nedrysoft::Core::Menu::menuBar() -> QMenuBar * {
     return m_menuBar;
 }
 
-QAction *Nedrysoft::Core::Menu::getInsertAction(QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator) {
+auto Nedrysoft::Core::Menu::getInsertAction(
+        QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator ) -> QAction * {
+
     if (groupIterator->m_items.count()) {
         auto castToCommand = qobject_cast<Nedrysoft::Core::ICommand *>(groupIterator->m_items.first());
 
@@ -100,7 +100,9 @@ QAction *Nedrysoft::Core::Menu::getInsertAction(QList<Nedrysoft::Core::Menu::Gro
     return nullptr;
 }
 
-QAction *Nedrysoft::Core::Menu::getAppendAction(QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator) {
+auto Nedrysoft::Core::Menu::getAppendAction(
+        QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator ) -> QAction * {
+
     groupIterator++;
 
     while (groupIterator != m_groupList.constEnd()) {
@@ -126,7 +128,7 @@ QAction *Nedrysoft::Core::Menu::getAppendAction(QList<Nedrysoft::Core::Menu::Gro
     return nullptr;
 }
 
-void Nedrysoft::Core::Menu::insertCommand(Nedrysoft::Core::ICommand *command, QString group) {
+auto Nedrysoft::Core::Menu::insertCommand(Nedrysoft::Core::ICommand *command, QString group) -> void {
     if (!m_menu || !command) {
         return;
     }
@@ -144,7 +146,7 @@ void Nedrysoft::Core::Menu::insertCommand(Nedrysoft::Core::ICommand *command, QS
     m_groupList[groupIterator - m_groupList.constBegin()].m_items.append(command);
 }
 
-void Nedrysoft::Core::Menu::appendCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier) {
+auto Nedrysoft::Core::Menu::appendCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier) -> void {
     if (!m_menu || !command) {
         return;
     }
@@ -162,7 +164,7 @@ void Nedrysoft::Core::Menu::appendCommand(Nedrysoft::Core::ICommand *command, QS
     m_groupList[groupIterator - m_groupList.constBegin()].m_items.append(command);
 }
 
-QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator Nedrysoft::Core::Menu::findGroup(QString groupIdentifier) {
+auto Nedrysoft::Core::Menu::findGroup(QString groupIdentifier) -> QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator {
     QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator = m_groupList.constBegin();
 
     while (groupIterator != m_groupList.constEnd()) {
@@ -176,7 +178,7 @@ QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator Nedrysoft::Core::Menu::f
     return groupIterator;
 }
 
-bool Nedrysoft::Core::Menu::addGroupAfter(QString afterIdentifier, QString groupIdentifier) {
+auto Nedrysoft::Core::Menu::addGroupAfter(QString afterIdentifier, QString groupIdentifier) -> bool {
     auto groupIterator = findGroup(afterIdentifier);
 
     if (groupIterator == m_groupList.constEnd()) {
@@ -190,7 +192,7 @@ bool Nedrysoft::Core::Menu::addGroupAfter(QString afterIdentifier, QString group
     return true;
 }
 
-bool Nedrysoft::Core::Menu::addGroupBefore(QString beforeIdentifier, QString groupIdentifier) {
+auto Nedrysoft::Core::Menu::addGroupBefore(QString beforeIdentifier, QString groupIdentifier) -> bool {
     auto groupIterator = findGroup(beforeIdentifier);
 
     if (groupIterator == m_groupList.constEnd()) {
@@ -208,11 +210,11 @@ bool Nedrysoft::Core::Menu::addGroupBefore(QString beforeIdentifier, QString gro
     return true;
 }
 
-void Nedrysoft::Core::Menu::appendGroup(QString groupIdentifier) {
+auto  Nedrysoft::Core::Menu::appendGroup(QString groupIdentifier) -> void {
     m_groupList.append(GroupItem(groupIdentifier));
 }
 
-void Nedrysoft::Core::Menu::insertGroup(QString groupIdentifier) {
+auto Nedrysoft::Core::Menu::insertGroup(QString groupIdentifier) -> void {
     m_groupList.insert(0, GroupItem(groupIdentifier));
 }
 

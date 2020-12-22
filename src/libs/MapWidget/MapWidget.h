@@ -44,7 +44,7 @@ namespace Nedrysoft::MapWidget {
 
         public:
             /**
-             * @brief       Contructs a MapWidget that is a child of the parent.
+             * @brief       Constructs a MapWidget that is a child of the parent.
              *
              * @param       parent the parent widget.
              */

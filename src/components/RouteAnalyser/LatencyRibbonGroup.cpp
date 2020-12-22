@@ -104,14 +104,14 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::~LatencyRibbonGroup() {
     delete ui;
 }
 
-void Nedrysoft::RouteAnalyser::LatencyRibbonGroup::updatePeriod(Nedrysoft::Ribbon::RibbonLineEdit *lineEdit) {
+auto Nedrysoft::RouteAnalyser::LatencyRibbonGroup::updatePeriod(Nedrysoft::Ribbon::RibbonLineEdit *lineEdit) -> void {
     double intervalValue;
 
     if (!Nedrysoft::Utils::parseIntervalString(lineEdit->toPlainText(), intervalValue)) {
         return;
     }
 
-    for(auto editor: Nedrysoft::ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::RouteAnalyserEditor>()) {
+    /*for(auto editor: Nedrysoft::ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::RouteAnalyserEditor>()) {
         // TODO: update editors
-    }
+    }*/
 }

@@ -49,8 +49,7 @@ Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::ICMPPingTransmitter(Nedrysoft::I
 
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
-    struct icmp icmp_request = {};
+auto Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() -> void {
     unsigned long sampleNumber = 0;
 
     m_isRunning = true;
@@ -94,7 +93,7 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
             auto result = socket->sendto(buffer, target->hostAddress());
 
             if (result != buffer.length()) {
-                spdlog::error("Unable to send packat to "+target->hostAddress().toString().toStdString());
+                spdlog::error("Unable to send packet to "+target->hostAddress().toString().toStdString());
             }
         }
 
@@ -111,13 +110,13 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
     }
 }
 
-bool Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::setInterval(std::chrono::milliseconds interval) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::setInterval(std::chrono::milliseconds interval) -> bool {
     m_interval = interval;
 
     return true;
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::addTarget(Nedrysoft::ICMPPingEngine::ICMPPingTarget *target) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::addTarget(Nedrysoft::ICMPPingEngine::ICMPPingTarget *target) -> void {
     QMutexLocker locker(&m_targetsMutex);
 
     m_targets.append(target);

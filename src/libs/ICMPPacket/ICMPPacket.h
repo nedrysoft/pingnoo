@@ -65,7 +65,7 @@ namespace Nedrysoft::ICMPPacket {
              *
              * @returns     the decoded packet.
              */
-            static ICMPPacket fromData(const QByteArray &dataBuffer, IPVersion version);
+            static auto fromData(const QByteArray &dataBuffer, IPVersion version) -> ICMPPacket;
 
             /**
              * @brief       Calculate ICMP crc16 from raw data.
@@ -75,7 +75,7 @@ namespace Nedrysoft::ICMPPacket {
              *
              * @returns     the crc16 result.
              */
-            static uint16_t checksum(void *buffer, int length);
+            static auto checksum(void *buffer, int length) -> uint16_t;
 
             /**
              * @brief       Create a ping request packet.
@@ -90,32 +90,32 @@ namespace Nedrysoft::ICMPPacket {
              *
              * @returns     a QByteArray containing the created raw packet.
              */
-            static QByteArray pingPacket(
+            static auto pingPacket(
                     uint16_t id,
                     uint16_t sequence,
                     int payLoadLength, const QHostAddress &destinationAddress,
-                    Nedrysoft::ICMPPacket::IPVersion version );
+                    Nedrysoft::ICMPPacket::IPVersion version ) -> QByteArray;
 
             /**
              * @brief       Returns the result of a packet decode.
              *
              * @returns     the ResultCode value which indicates what was decoded.
              */
-            Nedrysoft::ICMPPacket::ResultCode resultCode();
+            auto resultCode() -> Nedrysoft::ICMPPacket::ResultCode;
 
             /**
              * @brief       The id field of the ICMP packet.
              *
              * @returns     the icmp id.
              */
-            uint16_t id();
+            auto id() -> uint16_t;
 
             /**
              * @brief       The sequence field of the ICMP packet.
              *
              * @returns     the icmp sequence.
              */
-            uint16_t sequence();
+            auto sequence() -> uint16_t;
 
             /**
              * @brief       Cast to std::string operator.
@@ -147,7 +147,7 @@ namespace Nedrysoft::ICMPPacket {
              *
              * @returns     the decoded icmp packet.
              */
-            static ICMPPacket fromData_v4(const QByteArray &dataBuffer);
+            static auto fromData_v4(const QByteArray &dataBuffer) -> ICMPPacket;
 
             /**
              * @brief       Decodes a ipv6 icmp packet for from raw data.
@@ -156,7 +156,7 @@ namespace Nedrysoft::ICMPPacket {
              *
              * @returns     the decoded icmp packet.
              */
-            static ICMPPacket fromData_v6(const QByteArray &dataBuffer);
+            static auto fromData_v6(const QByteArray &dataBuffer) -> ICMPPacket;
 
             /**
              * @brief       Creates an ipv6 icmp packet.
@@ -168,11 +168,11 @@ namespace Nedrysoft::ICMPPacket {
              *
              * @returns     a QByteArray containing the raw ipv4 icmp packet.
              */
-            static QByteArray pingPacket_v6(
+            static auto pingPacket_v6(
                     uint16_t id,
                     uint16_t sequence,
                     int payLoadLength,
-                    const QHostAddress &destinationAddress );
+                    const QHostAddress &destinationAddress ) -> QByteArray;
 
             /**
              * @brief       Creates an ipv4 icmp packet.
@@ -184,17 +184,17 @@ namespace Nedrysoft::ICMPPacket {
              *
              * @returns     a QByteArray containing the raw ipv6 icmp packet.
              */
-            static QByteArray pingPacket_v4(
+            static auto  pingPacket_v4(
                     uint16_t id,
                     uint16_t sequence,
                     int payLoadLength,
-                    const QHostAddress &destinationAddress );
+                    const QHostAddress &destinationAddress ) -> QByteArray;
 
             /**
-             * @brief       Template to read raw data from a datastream.
+             * @brief       Template to read raw data from a data stream.
              */
             template<class T>
-            static T read(QDataStream &dataStream) {
+            static auto read(QDataStream &dataStream) -> T {
                 T data;
 
                 dataStream >> data;

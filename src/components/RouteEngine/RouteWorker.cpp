@@ -49,8 +49,12 @@ Nedrysoft::RouteEngine::RouteWorker::RouteWorker(Nedrysoft::Core::IPVersion ipVe
 
 Nedrysoft::RouteEngine::RouteWorker::~RouteWorker() = default;
 
-bool Nedrysoft::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddress, int ttl, QHostAddress *returnAddress,
-                                                  bool *isComplete) {
+auto Nedrysoft::RouteEngine::RouteWorker::ping_v4(
+        const QHostAddress &hostAddress,
+        int ttl,
+        QHostAddress *returnAddress,
+        bool *isComplete ) -> bool {
+
     if (!m_isRunning) {
         return false;
     }
@@ -113,8 +117,12 @@ bool Nedrysoft::RouteEngine::RouteWorker::ping_v4(const QHostAddress &hostAddres
     return false;
 }
 
-bool Nedrysoft::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddress, int hopLimit, QHostAddress *returnAddress,
-                                             bool *isComplete) {
+auto Nedrysoft::RouteEngine::RouteWorker::ping_v6(
+        const QHostAddress &hostAddress,
+        int hopLimit,
+        QHostAddress *returnAddress,
+        bool *isComplete ) -> bool {
+
     if (!m_isRunning) {
         return false;
     }
@@ -178,7 +186,7 @@ bool Nedrysoft::RouteEngine::RouteWorker::ping_v6(const QHostAddress &hostAddres
     return false;
 }
 
-void Nedrysoft::RouteEngine::RouteWorker::doWork() {
+auto Nedrysoft::RouteEngine::RouteWorker::doWork() -> void {
     auto addressList = QHostInfo::fromName(m_host).addresses();
     auto route = Nedrysoft::Core::RouteList();
     auto hopAddress = QHostAddress();
@@ -221,7 +229,7 @@ void Nedrysoft::RouteEngine::RouteWorker::doWork() {
     route = Nedrysoft::Core::RouteList();
 
     while ((!isComplete) && (hop<=MaxRouteHops) && (m_isRunning)) {
-        bool hopResponded;
+        bool hopResponded = false;
 
         if (targetAddress.protocol() == QAbstractSocket::IPv4Protocol) {
             hopResponded = ping_v4(targetAddress, hop, &hopAddress, &isComplete);
@@ -258,6 +266,6 @@ void Nedrysoft::RouteEngine::RouteWorker::doWork() {
     }
 }
 
-void Nedrysoft::RouteEngine::RouteWorker::setHost(QString host) {
+auto Nedrysoft::RouteEngine::RouteWorker::setHost(QString host) -> void {
     m_host = std::move(host);
 }

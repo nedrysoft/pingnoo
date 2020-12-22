@@ -37,7 +37,6 @@
 #include <QStandardPaths>
 #include <QString>
 #include <QTimer>
-#include <vector>
 #include <memory>
 
 #if defined(Q_OS_MAC)
@@ -53,7 +52,7 @@ int main(int argc, char **argv) {
     auto componentLoader = new Nedrysoft::ComponentSystem::ComponentLoader;
     auto applicationInstance = new QApplication(argc, argv);
 
-    Nedrysoft::SplashScreen *splashScreen = Nedrysoft::SplashScreen::getInstance();;
+    Nedrysoft::SplashScreen *splashScreen = Nedrysoft::SplashScreen::getInstance();
 
     splashScreen->show();
 
@@ -144,7 +143,7 @@ int main(int argc, char **argv) {
     }
 
     componentLoader->loadComponents([disabledComponents](Nedrysoft::ComponentSystem::Component *component) -> bool {
-        if (component->canBeDisabled() == false) {
+        if (!component->canBeDisabled()) {
             return true;
         }
 

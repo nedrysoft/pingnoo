@@ -66,7 +66,7 @@ namespace Nedrysoft {
              *
              * @returns         the SplashScreen instance.
              */
-            static SplashScreen *getInstance();
+            static auto getInstance() -> SplashScreen *;
 
         protected:
             /**
@@ -77,7 +77,7 @@ namespace Nedrysoft {
              *
              * @param[in]       painter the painter to draw to.
              */
-            void drawContents(QPainter *painter) override;
+            auto drawContents(QPainter *painter) -> void override;
 
         private:
             float m_scaleFactor;

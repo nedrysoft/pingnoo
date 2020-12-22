@@ -60,7 +60,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the compiler information
              */
-            auto compiler()->QString;
+            auto compiler() -> QString;
 
         private:
             Ui::AboutDialog *ui;                    //! The generated ui class for the dialog

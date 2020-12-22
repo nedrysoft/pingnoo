@@ -44,7 +44,7 @@ Nedrysoft::RouteAnalyser::LatencyWidget::LatencyWidget(QWidget *parent) :
 
 Nedrysoft::RouteAnalyser::LatencyWidget::~LatencyWidget() = default;
 
-QColor Nedrysoft::RouteAnalyser::LatencyWidget::getContrastColour(QColor colour) {
+auto Nedrysoft::RouteAnalyser::LatencyWidget::getContrastColour(QColor colour) -> QColor {
     if (colour.lightnessF()<0.5) {
         return Qt::white;
     }
@@ -52,7 +52,7 @@ QColor Nedrysoft::RouteAnalyser::LatencyWidget::getContrastColour(QColor colour)
     return Qt::black;
 }
 
-void Nedrysoft::RouteAnalyser::LatencyWidget::paintEvent(QPaintEvent *event) {
+auto Nedrysoft::RouteAnalyser::LatencyWidget::paintEvent(QPaintEvent *event) -> void {
     QPainter painter(this);
 
     QPainterPath path;
@@ -66,23 +66,23 @@ void Nedrysoft::RouteAnalyser::LatencyWidget::paintEvent(QPaintEvent *event) {
     painter.drawText(rect(), Qt::AlignHCenter | Qt::AlignVCenter, m_text);
 }
 
-void Nedrysoft::RouteAnalyser::LatencyWidget::setText(QString text) {
+auto Nedrysoft::RouteAnalyser::LatencyWidget::setText(QString text) -> void {
     m_text = text;
 }
 
-QString Nedrysoft::RouteAnalyser::LatencyWidget::text() {
+auto Nedrysoft::RouteAnalyser::LatencyWidget::text() -> QString {
     return m_text;
 }
 
-void Nedrysoft::RouteAnalyser::LatencyWidget::setColour(QColor colour) {
+auto Nedrysoft::RouteAnalyser::LatencyWidget::setColour(QColor colour) -> void {
     m_colour = colour;
 }
 
-QColor Nedrysoft::RouteAnalyser::LatencyWidget::colour() {
+auto Nedrysoft::RouteAnalyser::LatencyWidget::colour() -> QColor {
     return m_colour;
 }
 
-void Nedrysoft::RouteAnalyser::LatencyWidget::mouseDoubleClickEvent(QMouseEvent *event) {
+auto Nedrysoft::RouteAnalyser::LatencyWidget::mouseDoubleClickEvent(QMouseEvent *event) -> void {
     auto colourDialog = ColourDialog::getInstance();
 
     colourDialog->open(m_colour, m_text, [=](QColor colour) {

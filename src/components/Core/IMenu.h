@@ -59,14 +59,14 @@ namespace Nedrysoft::Core {
              *
              * @returns     the menu instance.
              */
-            virtual QMenu *menu() = 0;
+            virtual auto menu() -> QMenu * = 0;
 
             /**
              * @brief       Returns the QMenuBar if this is a menu bar.
              *
              * @returns     the menubar instance.
              */
-            virtual QMenuBar *menuBar() = 0;
+            virtual auto menuBar() -> QMenuBar * = 0;
 
             /**
              * @brief       Inserts a new group into the start of the menu.
@@ -76,7 +76,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   groupIdentifier the identifier of the group.
              */
-            virtual void insertGroup(QString groupIdentifier) = 0;
+            virtual auto insertGroup(QString groupIdentifier) -> void = 0;
 
             /**
              * @brief       Appends a new group to the end of the menu.
@@ -86,7 +86,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   groupIdentifier the identifier of the group.
              */
-            virtual void appendGroup(QString groupIdentifier) = 0;
+            virtual auto appendGroup(QString groupIdentifier) -> void = 0;
 
             /**
              * @brief       Adds a new group before the given identifier.
@@ -99,7 +99,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     true if added; otherwise false.
              */
-            virtual bool addGroupBefore(QString beforeIdentifier, QString groupIdentifier) = 0;
+            virtual auto addGroupBefore(QString beforeIdentifier, QString groupIdentifier) -> bool = 0;
 
             /**
              * @brief       Adds a new group after the given identifier.
@@ -112,7 +112,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     true if added; otherwise false.
              */
-            virtual bool addGroupAfter(QString afterIdentifier, QString groupIdentifier) = 0;
+            virtual auto addGroupAfter(QString afterIdentifier, QString groupIdentifier) -> bool = 0;
 
             /**
              * @brief       Appends a command to the end of a group.
@@ -122,7 +122,9 @@ namespace Nedrysoft::Core {
              * @param[in]   command the command to add.
              * @param[in]   groupIdentifier the identifier of the group.
              */
-            virtual void appendCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString()) = 0;
+            virtual auto appendCommand(
+                    Nedrysoft::Core::ICommand *command,
+                    QString groupIdentifier = QString() ) -> void = 0;
 
             /**
              * @brief       Inserts a command to the start of a group.
@@ -132,16 +134,17 @@ namespace Nedrysoft::Core {
              * @param[in]   command the command to add.
              * @param[in]   groupIdentifier the identifier of the group.
              */
-            virtual void insertCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString()) = 0;
+            virtual auto insertCommand(
+                    Nedrysoft::Core::ICommand *command,
+                    QString groupIdentifier = QString() ) -> void = 0;
 
         public:
-
             /**
              * @brief       Returns the type of menu (Menu Bar and Menu)
              *
              * @returns     The Nedrysoft::Core::MenuTypes type of the menu.
              */
-            virtual Nedrysoft::Core::MenuTypes type() = 0;
+            virtual auto type() -> Nedrysoft::Core::MenuTypes = 0;
     };
 }
 

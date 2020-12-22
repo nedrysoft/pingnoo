@@ -38,7 +38,7 @@ namespace Nedrysoft::Pingnoo {
      * @brief       The ICMPAPIPingEngineFactory creates instances of the windows ICMPAPI ping engine.
      */
     class ICMPAPIPingEngineFactory :
-            public QObject, public Nedrysoft::Core::IPingEngineFactory {
+            public Nedrysoft::Core::IPingEngineFactory {
 
         private:
             Q_OBJECT
@@ -66,7 +66,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     the new ICMPAPIPingEngine instance.
              */
-            virtual Nedrysoft::Core::IPingEngine *createEngine();
+            virtual auto createEngine() -> Nedrysoft::Core::IPingEngine *;
 
         public:
             /**
@@ -74,7 +74,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     the JSON configuration.
              */
-            virtual QJsonObject saveConfiguration();
+            virtual auto saveConfiguration() -> QJsonObject;
 
             /**
              * @brief       Loads the configuration.
@@ -85,7 +85,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual bool loadConfiguration(QJsonObject configuration);
+            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
 
         protected:
             std::shared_ptr<ICMPAPIAPIPingEngineFactoryData> d;

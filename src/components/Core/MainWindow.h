@@ -30,14 +30,13 @@
 #include <QAction>
 #include <QMainWindow>
 
-/**
- * @brief       Namespace for the core component user interface.
- */
-namespace Nedrysoft::Core::Ui {}
+namespace Nedrysoft::Core::Ui {
+
+}
 
 namespace Nedrysoft::SettingsDialog {
     class SettingsDialog;
-};
+}
 
 namespace Nedrysoft::Core {
     QT_BEGIN_NAMESPACE
@@ -57,21 +56,23 @@ namespace Nedrysoft::Core {
 
             ~MainWindow();
 
-            void initialise();
+            auto initialise() -> void;
 
         private:
-            void createDefaultCommands();
+            auto createDefaultCommands() -> void;
 
-            void registerDefaultCommands();
+            auto registerDefaultCommands() -> void;
 
-            Nedrysoft::Core::ICommand *
-            createCommand(QString commandId, QAbstractButton *button, QAction::MenuRole menuRole = QAction::NoRole);
+            auto createCommand(
+                    QString commandId,
+                    QAbstractButton *button,
+                    QAction::MenuRole menuRole = QAction::NoRole ) -> Nedrysoft::Core::ICommand *;
 
-            void addMenuCommand(QString commandId, QString menuId, QString groupId = QString());
+            auto addMenuCommand(QString commandId, QString menuId, QString groupId = QString()) -> void;
 
-            Nedrysoft::Core::IMenu *createMenu(QString menuId, QString parentMenuId = QString());
+            auto createMenu(QString menuId, QString parentMenuId = QString()) -> Nedrysoft::Core::IMenu *;
 
-            Nedrysoft::Core::IMenu *findMenu(QString menuId);
+            auto findMenu(QString menuId) -> Nedrysoft::Core::IMenu *;
 
         protected:
 

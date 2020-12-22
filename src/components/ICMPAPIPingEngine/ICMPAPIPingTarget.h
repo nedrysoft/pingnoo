@@ -43,7 +43,7 @@ namespace Nedrysoft::Pingnoo {
      * @details     A ping target is used by an Nedrysoft::Core::IPingEngine to keep track of destinations to be pinged.
      */
     class ICMPAPIPingTarget :
-            public QObject, public Nedrysoft::Core::IPingTarget {
+            public Nedrysoft::Core::IPingTarget {
 
         private:
             Q_OBJECT
@@ -68,7 +68,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @param[in]   hostAddress the host address to be pinged.
              */
-            void setHostAddress(QHostAddress hostAddress) override;
+            setHostAddress(QHostAddress hostAddress) -> void override;
 
             /**
              * @brief       Returns the host address for this target.
@@ -77,7 +77,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     the host address for this target.
              */
-            QHostAddress hostAddress() override;
+            hostAddress() -> QHostAddress override;
 
             /**
              * @brief       Returns the Nedrysoft::Core::IPingEngine that created this target.
@@ -86,7 +86,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     the Nedrysoft::Core::IPingEngine instance.
              */
-            Nedrysoft::Core::IPingEngine *engine() override;
+            auto engine() -> Nedrysoft::Core::IPingEngine * override;
 
             /**
              * @brief       Returns the user data attached to this target.
@@ -95,7 +95,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     the user data.
              */
-            void *userData() override;
+            auto userData() -> void * override;
 
             /**
              * @brief       Sets the user data attached to this target.
@@ -104,16 +104,16 @@ namespace Nedrysoft::Pingnoo {
              *
              * @param[in]   data the user data.
              */
-            void setUserData(void *data) override;
+            auto setUserData(void *data) -> void override;
 
             /**
-             * @brief       Rwturns the TTL of this target.
+             * @brief       Returns the TTL of this target.
              *
              * @see         Nedrysoft::Core::IPingTarget::ttl
              *
              * @returns     the ttl value.
              */
-            uint16_t ttl() override;
+            auto ttl() -> uint16_t override;
 
         public:
             /**
@@ -121,7 +121,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     the JSON configuration.
              */
-            QJsonObject saveConfiguration() override;
+            auto saveConfiguration() -> QJsonObject override;
 
             /**
              * @brief       Loads the configuration.
@@ -130,7 +130,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     true if loaded; otherwise false.
              */
-            bool loadConfiguration(QJsonObject configuration) override;
+            auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         protected:
             /**
@@ -138,18 +138,14 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     the socket descriptor.
              */
-#if defined(Q_OS_UNIX)
-            int socketDescriptor();
-#elif defined(Q_OS_WIN)
-            SOCKET socketDescriptor();
-#endif
+            auto socketDescriptor() -> SOCKET;
 
             /**
              * @brief       Returns the ICMP id used for this target.
              *
              * @return      the id.
              */
-            uint16_t id();
+            auto id() -> uint16_t;
 
             friend class ICMPAPIPingTransmitter;
 

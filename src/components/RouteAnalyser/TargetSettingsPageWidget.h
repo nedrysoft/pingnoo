@@ -32,6 +32,9 @@ namespace Nedrysoft::RouteAnalyser {
         class TargetSettingsPageWidget;
     }
 
+    /**
+     * @brief       The TargetSettingsPageWidget provides a widget for configuring a target.
+     */
     class TargetSettingsPageWidget :
             public QWidget {
 
@@ -39,13 +42,21 @@ namespace Nedrysoft::RouteAnalyser {
             Q_OBJECT
 
         public:
+            /**
+             * @brief       Constructs a TargetSettingsPageWidget which is a child of parent.
+             *
+             * @param       parent the parent widget.
+             */
             explicit TargetSettingsPageWidget(QWidget *parent = nullptr);
 
+            /**
+             * @brief       Destroys the TargetSettingsPageWidget.
+             */
             ~TargetSettingsPageWidget() override;
 
         private:
             Ui::TargetSettingsPageWidget *ui;
     };
-};
+}
 
 #endif //NEDRYSOFT_TARGETSETTINGSPAGEWIDGET_H

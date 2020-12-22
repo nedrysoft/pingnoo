@@ -54,11 +54,11 @@ Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::~ICMPAPIPingEngineFactory() {
     delete d;
 }
 
-QObject *Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::asQObject() {
+auto Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::asQObject() -> QObject * {
     return ( this );
 }
 
-Nedrysoft::Pingnoo::IPingEngine *Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::createEngine() {
+auto Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::createEngine() -> Nedrysoft::Pingnoo::IPingEngine * {
     auto engineInstance = new Nedrysoft::Pingnoo::ICMPAPIPingEngine;
 
     d->m_engineList.append(engineInstance);
@@ -66,11 +66,11 @@ Nedrysoft::Pingnoo::IPingEngine *Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::c
     return ( engineInstance );
 }
 
-QJsonObject Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::saveConfiguration() {
+auto Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::saveConfiguration() -> QJsonObject {
     return ( QJsonObject());
 }
 
-bool Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::loadConfiguration(QJsonObject configuration) {
+auto Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::loadConfiguration(QJsonObject configuration) -> bool {
     Q_UNUSED(configuration)
 
     return ( false );

@@ -69,28 +69,28 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @param[in]   pingEngineFactory the ping engine factory.
              */
-            void setPingEngine(Nedrysoft::Core::IPingEngineFactory *pingEngineFactory);
+            auto setPingEngine(Nedrysoft::Core::IPingEngineFactory *pingEngineFactory) -> void;
 
             /**
              * @brief       Sets the ping target.
              *
              * @param[in]   target the ping target.
              */
-            void setTarget(QString target);
+            auto setTarget(QString target) -> void;
 
             /**
              * @brief       Sets the IP Version used by this ping target.
              *
              * @param[in]   ipVersion the IP version.
              */
-            void setIPVersion(Nedrysoft::Core::IPVersion ipVersion);
+            auto setIPVersion(Nedrysoft::Core::IPVersion ipVersion) -> void;
 
             /**
              * @brief       Sets the ping interval used by this ping target.
              *
              * @param[in]   interval the interval time period.
              */
-            void setInterval(double interval);
+            auto setInterval(double interval) -> void;
 
         public:
             /**
@@ -100,7 +100,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     the widget.
              */
-            virtual QWidget *widget();
+            virtual auto widget() -> QWidget *;
 
             /**
              * @brief       Returns the display name for the editor.
@@ -112,7 +112,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     the displayed name of the editor.
              */
-            virtual QString displayName();
+            virtual auto displayName() -> QString;
 
         public:
             /**
@@ -122,7 +122,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     the JSON configuration.
              */
-            virtual QJsonObject saveConfiguration();
+            virtual auto saveConfiguration() -> QJsonObject;
 
             /**
              * @brief       Loads the configuration.
@@ -133,7 +133,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual bool loadConfiguration(QJsonObject configuration);
+            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
 
             friend class RouteAnalyserWidget;
 

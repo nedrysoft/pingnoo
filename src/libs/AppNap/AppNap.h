@@ -40,7 +40,7 @@ Q_FORWARD_DECLARE_OBJC_CLASS(NSObject);
 
 namespace Nedrysoft::AppNap {
     /**
-     * @brief       The AppNap class Pprovides control over sleep mode in macOS.
+     * @brief       The AppNap class Provides control over sleep mode in macOS.
      *
      * @details     macOS uses a sleep mode system which results in pings not working correctly if AppNap is enabled,
      *              this class under macOS disables AppNap on startup so that the app does not go to sleep.
@@ -56,7 +56,7 @@ namespace Nedrysoft::AppNap {
              *
              * @return      the singleton instance.
              */
-            static Nedrysoft::AppNap::AppNap *getInstance();
+            static auto getInstance() -> Nedrysoft::AppNap::AppNap *;
 
             /**
              * @brief       Prevents app from idle napping.

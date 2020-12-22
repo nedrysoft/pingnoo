@@ -44,52 +44,52 @@ namespace Nedrysoft::RouteAnalyser {
 
         public:
             /**
-             * @brief       The section name that this settings pagw should appear in, first level grouping.
+             * @brief       The section name that this settings page should appear in, first level grouping.
              *
              * @returns     a string containing the name.
              */
-            QString section() override;
+            auto section() -> QString override;
 
             /**
              * @brief       The category name that this settings page should appear in, second level grouping.
              *
              * @returns     a string containing the name.
              */
-            QString category() override;
+            auto category() -> QString override;
 
             /**
              * @brief       The descriptive label for this settings page.
              *
              * @returns     a string containing the name.
              */
-            QString description() override;
+            auto description() -> QString override;
 
             /**
              * @brief       The icon for this settings page.
              *
              * @returns     a QIcon
              */
-            QIcon icon() override;
+            auto icon() -> QIcon override;
 
             /**
              * @brief       The widget for the page.
              *
              * @returns     a widget.
              */
-            QWidget *widget() override;
+            auto widget() -> QWidget * override;
 
             /**
              * @brief       Checks if the settings can be applied.
              *
              * @returns     true if the settings can be applied (i.e valid); otherwise false.
              */
-            bool canAcceptSettings() override;
+            auto canAcceptSettings() -> bool override;
 
             /**
              * @brief       Applies the current settings.
              */
-            void acceptSettings() override;
+            auto acceptSettings() -> void override;
     };
-};
+}
 
 #endif //NEDRYSOFT_LATENCYSETTINGSPAGE_H

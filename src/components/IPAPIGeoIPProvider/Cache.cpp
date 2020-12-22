@@ -24,7 +24,6 @@
 #include "Cache.h"
 
 #include <QDateTime>
-#include <QDebug>
 #include <QDir>
 #include <QFileInfo>
 #include <QJsonArray>
@@ -88,7 +87,7 @@ Nedrysoft::IPAPIGeoIPProvider::Cache::Cache::~Cache() {
     QSqlDatabase::removeDatabase("Nedrysoft::IPAPIGeoIPProvider::Cache");
 }
 
-void Nedrysoft::IPAPIGeoIPProvider::Cache::add(QJsonObject object) {
+auto Nedrysoft::IPAPIGeoIPProvider::Cache::add(QJsonObject object) -> void {
     QSqlDatabase database = QSqlDatabase::database("Nedrysoft::IPAPIGeoIPProvider::Cache");
     QSqlQuery query(database);
 
@@ -118,7 +117,7 @@ void Nedrysoft::IPAPIGeoIPProvider::Cache::add(QJsonObject object) {
     }
 }
 
-bool Nedrysoft::IPAPIGeoIPProvider::Cache::find(const QString &name, QJsonObject &object) {
+auto Nedrysoft::IPAPIGeoIPProvider::Cache::find(const QString &name, QJsonObject &object) -> bool {
     QSqlDatabase database = QSqlDatabase::database("Nedrysoft::IPAPIGeoIPProvider::Cache");
     QSqlQuery query(database);
 

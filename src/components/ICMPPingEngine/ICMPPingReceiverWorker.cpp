@@ -35,7 +35,6 @@
 #include <QtEndian>
 #include <array>
 #include <chrono>
-#include <spdlog/spdlog.h>
 
 using namespace std::chrono_literals;
 
@@ -47,7 +46,7 @@ Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::ICMPPingReceiverWorker() :
 
 }
 
-Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker *Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::getInstance() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::getInstance() -> Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker * {
     static Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker *instance = nullptr;
 
     if (instance) {
@@ -69,7 +68,7 @@ Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker *Nedrysoft::ICMPPingEngine::IC
     return instance;
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::doWork() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::doWork() -> void {
     QByteArray receiveBuffer;
     Nedrysoft::ICMPSocket::ICMPSocket *socket = Nedrysoft::ICMPSocket::ICMPSocket::createReadSocket(
             static_cast<Nedrysoft::ICMPSocket::IPVersion>(Nedrysoft::ICMPSocket::V4));

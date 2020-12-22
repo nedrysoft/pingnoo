@@ -30,7 +30,6 @@
 #include <QObject>
 #include <QStandardItemModel>
 #include <QTableWidget>
-#include <QTableWidgetItem>
 #include <chrono>
 
 Nedrysoft::RouteAnalyser::PingData::PingData(QStandardItemModel *tableModel, int hop, bool hopValid) :
@@ -50,11 +49,11 @@ Nedrysoft::RouteAnalyser::PingData::PingData(QStandardItemModel *tableModel, int
 
 }
 
-double Nedrysoft::RouteAnalyser::PingData::runningAverage(double previousAverage, double value, double n) {
+auto Nedrysoft::RouteAnalyser::PingData::runningAverage(double previousAverage, double value, double n) -> double {
     return (previousAverage*(n-1)+value)/n;
 }
 
-void Nedrysoft::RouteAnalyser::PingData::updateModel() {
+auto Nedrysoft::RouteAnalyser::PingData::updateModel() -> void {
     if (m_tableModel) {
         auto topLeft = m_tableModel->index(0, 0);
         auto bottomRight = topLeft.sibling(m_tableModel->rowCount() - 1, m_tableModel->columnCount() - 1);
@@ -63,7 +62,7 @@ void Nedrysoft::RouteAnalyser::PingData::updateModel() {
     }
 }
 
-void Nedrysoft::RouteAnalyser::PingData::setHop(int hop) {
+auto Nedrysoft::RouteAnalyser::PingData::setHop(int hop) -> void {
     m_hop = hop;
 
     if (m_tableModel) {
@@ -71,11 +70,11 @@ void Nedrysoft::RouteAnalyser::PingData::setHop(int hop) {
     }
 }
 
-int Nedrysoft::RouteAnalyser::PingData::hop() {
+auto Nedrysoft::RouteAnalyser::PingData::hop() -> int {
     return m_hop;
 }
 
-void Nedrysoft::RouteAnalyser::PingData::setHostAddress(QString hostAddress) {
+auto Nedrysoft::RouteAnalyser::PingData::setHostAddress(QString hostAddress) -> void {
     m_hostAddress = std::move(hostAddress);
 
     if (m_tableModel) {
@@ -83,11 +82,11 @@ void Nedrysoft::RouteAnalyser::PingData::setHostAddress(QString hostAddress) {
     }
 }
 
-QString Nedrysoft::RouteAnalyser::PingData::hostAddress() {
+auto Nedrysoft::RouteAnalyser::PingData::hostAddress() -> QString {
     return m_hostAddress;
 }
 
-void Nedrysoft::RouteAnalyser::PingData::setHostName(QString hostName) {
+auto Nedrysoft::RouteAnalyser::PingData::setHostName(QString hostName) -> void {
     m_hostName = std::move(hostName);
 
     if (m_tableModel) {
@@ -95,18 +94,16 @@ void Nedrysoft::RouteAnalyser::PingData::setHostName(QString hostName) {
     }
 }
 
-QString Nedrysoft::RouteAnalyser::PingData::hostName() {
+auto Nedrysoft::RouteAnalyser::PingData::hostName() -> QString {
     return m_hostName;
 }
 
-double Nedrysoft::RouteAnalyser::PingData::packetLoss() {
-    return ( static_cast<double>(m_timeoutPacketCount) /
-             static_cast<double>(m_replyPacketCount + m_timeoutPacketCount)) * 100.0;
+auto Nedrysoft::RouteAnalyser::PingData::packetLoss() -> double {
+    return (static_cast<double>(m_timeoutPacketCount)/
+            static_cast<double>(m_replyPacketCount+m_timeoutPacketCount))*100.0;
 }
 
-void Nedrysoft::RouteAnalyser::PingData::updateItem(Nedrysoft::Core::PingResult result) {
-    double packetLoss;
-
+auto Nedrysoft::RouteAnalyser::PingData::updateItem(Nedrysoft::Core::PingResult result) -> void {
     m_count = result.sampleNumber();
 
     if (result.code() == Nedrysoft::Core::PingResult::ResultCode::NoReply) {
@@ -168,35 +165,35 @@ void Nedrysoft::RouteAnalyser::PingData::updateItem(Nedrysoft::Core::PingResult 
 
     m_replyPacketCount++;
 
-    packetLoss = (static_cast<double>(m_timeoutPacketCount)/
-                static_cast<double>(m_replyPacketCount+m_timeoutPacketCount))*100.0;
+    /*auto packetLoss = (static_cast<double>(m_timeoutPacketCount)/
+                static_cast<double>(m_replyPacketCount+m_timeoutPacketCount))*100.0;*/
 
     if (m_tableModel) {
         updateModel();
     }
 }
 
-void Nedrysoft::RouteAnalyser::PingData::setCustomPlot(QCustomPlot *customPlot) {
+auto Nedrysoft::RouteAnalyser::PingData::setCustomPlot(QCustomPlot *customPlot) -> void {
     m_customPlot = customPlot;
 }
 
-QCustomPlot *Nedrysoft::RouteAnalyser::PingData::customPlot() {
+auto Nedrysoft::RouteAnalyser::PingData::customPlot() -> QCustomPlot * {
     return m_customPlot;
 }
 
-void Nedrysoft::RouteAnalyser::PingData::setJitterPlot(QCustomPlot *jitterPlot) {
+auto Nedrysoft::RouteAnalyser::PingData::setJitterPlot(QCustomPlot *jitterPlot) -> void  {
     m_jitterPlot = jitterPlot;
 }
 
-QCustomPlot *Nedrysoft::RouteAnalyser::PingData::jitterPlot() {
+auto Nedrysoft::RouteAnalyser::PingData::jitterPlot() -> QCustomPlot * {
     return m_jitterPlot;
 }
 
-QString Nedrysoft::RouteAnalyser::PingData::location() {
+auto Nedrysoft::RouteAnalyser::PingData::location() -> QString {
     return m_location;
 }
 
-void Nedrysoft::RouteAnalyser::PingData::setLocation(const QString &location) {
+auto Nedrysoft::RouteAnalyser::PingData::setLocation(const QString &location) -> void {
     m_location = location;
 
     if (m_tableModel) {
@@ -204,11 +201,11 @@ void Nedrysoft::RouteAnalyser::PingData::setLocation(const QString &location) {
     }
 }
 
-bool Nedrysoft::RouteAnalyser::PingData::hopValid() {
+auto Nedrysoft::RouteAnalyser::PingData::hopValid() -> bool {
     return m_hopValid;
 }
 
-void Nedrysoft::RouteAnalyser::PingData::setHopValid(bool hopValid) {
+auto Nedrysoft::RouteAnalyser::PingData::setHopValid(bool hopValid) -> void {
     m_hopValid = hopValid;
 
     if (m_tableModel) {
@@ -216,7 +213,7 @@ void Nedrysoft::RouteAnalyser::PingData::setHopValid(bool hopValid) {
     }
 }
 
-void Nedrysoft::RouteAnalyser::PingData::setHistoricalLatency(std::chrono::duration<double> latency) {
+auto Nedrysoft::RouteAnalyser::PingData::setHistoricalLatency(std::chrono::duration<double> latency) -> void {
     m_historicalLatency = latency;
 
     if (m_tableModel) {
@@ -224,7 +221,7 @@ void Nedrysoft::RouteAnalyser::PingData::setHistoricalLatency(std::chrono::durat
     }
 }
 
-double Nedrysoft::RouteAnalyser::PingData::latency(int field) {
+auto Nedrysoft::RouteAnalyser::PingData::latency(int field) -> double {
     switch (static_cast<Fields>(field)) {
         case Fields::MinimumLatency: {
             return m_minimumLatency.count();
@@ -254,10 +251,10 @@ double Nedrysoft::RouteAnalyser::PingData::latency(int field) {
     return 0;
 }
 
-QStandardItemModel *Nedrysoft::RouteAnalyser::PingData::tableModel() {
+auto Nedrysoft::RouteAnalyser::PingData::tableModel() -> QStandardItemModel * {
     return m_tableModel;
 }
 
-unsigned long Nedrysoft::RouteAnalyser::PingData::count() {
+auto Nedrysoft::RouteAnalyser::PingData::count() -> unsigned long  {
     return m_count;
 }

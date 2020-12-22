@@ -61,7 +61,7 @@ namespace Nedrysoft::RouteEngine {
              *
              * @param[in]   host the host.
              */
-            void setHost(QString host);
+            auto setHost(QString host) -> void;
 
         private:
             /**
@@ -74,9 +74,13 @@ namespace Nedrysoft::RouteEngine {
              * @param[out]  returnAddress the address that the ping response came from.
              * @param[out]  isComplete true if final hop; otherwise false..
              *
-             * @return      true if ping sent; otherwise false.
+             * @returns     true if ping sent; otherwise false.
              */
-            bool ping_v4(const QHostAddress &hostAddress, int ttl, QHostAddress *returnAddress, bool *isComplete);
+            auto ping_v4(
+                    const QHostAddress &hostAddress,
+                    int ttl,
+                    QHostAddress *returnAddress,
+                    bool *isComplete ) -> bool;
 
             /**
              * @brief       Pings an IPv6 address with the given hop limit.
@@ -88,10 +92,13 @@ namespace Nedrysoft::RouteEngine {
              * @param[out]  returnAddress the address that the ping response came from.
              * @param[out]  isComplete true if final hop; otherwise false.
              *
-             * @return      true if ping sent; otherwise false.
-             *
+             * @returns     true if ping sent; otherwise false.
              */
-            bool ping_v6(const QHostAddress &hostAddress, int hopLimit, QHostAddress *returnAddress, bool *isComplete);
+            auto ping_v6(
+                    const QHostAddress &hostAddress,
+                    int hopLimit,
+                    QHostAddress *returnAddress,
+                    bool *isComplete ) -> bool;
 
         public:
 

@@ -53,7 +53,7 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Returns the IContextManager instance.
              */
-            static IContextManager *getInstance() {
+            static auto getInstance() -> IContextManager * {
                 return ComponentSystem::getObject<IContextManager>();
             }
 
@@ -68,7 +68,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the numeric identifier of this context.
              */
-            virtual int registerContext(QString contextIdentifier) = 0;
+            virtual auto registerContext(QString contextIdentifier) -> int = 0;
 
             /**
              * @brief       Sets the current context.
@@ -79,7 +79,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the status of the context switch.
              */
-            virtual int setContext(int contextIdentifier) = 0;
+            virtual auto setContext(int contextIdentifier) -> int = 0;
 
             /**
              * @brief       Gets the current context.
@@ -88,7 +88,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the context identifier.
              */
-            virtual int context() = 0;
+            virtual auto context() -> int = 0;
 
             /**
              * @brief       Gets the context id by name.
@@ -97,7 +97,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the context identifier.
              */
-            virtual int context(QString contextName) = 0;
+            virtual auto context(QString contextName) -> int = 0;
 
             /**
              * @brief       Signals that the context has changed.

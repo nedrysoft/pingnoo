@@ -70,7 +70,9 @@ namespace Nedrysoft::RouteEngine {
              * @param[in]   host the target host name or address.
              * @param[in]   ipVersion the IP version to be used for discovery.
              */
-            virtual void findRoute(QString host, Nedrysoft::Core::IPVersion ipVersion = Nedrysoft::Core::IPVersion::V4);
+            virtual auto findRoute(
+                    QString host,
+                    Nedrysoft::Core::IPVersion ipVersion = Nedrysoft::Core::IPVersion::V4 ) -> void;
 
         private:
             QThread *m_workerThread;                     //! The route finder thread.

@@ -35,7 +35,7 @@ Nedrysoft::Core::EditorManager::EditorManager(QTabWidget *tabWidget) :
     m_tabWidget->setDocumentMode(true);
 }
 
-int Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) {
+auto Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) -> int {
     auto tabIndex = m_tabWidget->addTab(editor->widget(), editor->displayName());
 
 #if defined(Q_OS_MACOS)

@@ -60,7 +60,7 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
-        virtual void initialiseEvent();
+        virtual auto initialiseEvent() -> void;
 
         /**
          * @brief       initialisationFinishedEvent
@@ -70,7 +70,7 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::initialisationFinishedEvent
          */
-        virtual void initialisationFinishedEvent();
+        virtual auto initialisationFinishedEvent() -> void;
 };
 
 #endif // NEDRYSOFT_CORE_CORECOMPONENT_H

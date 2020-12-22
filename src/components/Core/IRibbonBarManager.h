@@ -49,7 +49,7 @@ namespace Nedrysoft::Core {
              *
              * @return      the IRibbonBarManager singleton instance.
              */
-            static IRibbonBarManager *getInstance() {
+            static auto getInstance() -> IRibbonBarManager * {
                 return ComponentSystem::getObject<IRibbonBarManager>();
             }
 
@@ -61,7 +61,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the IRibbonPage instance of the page.
              */
-            virtual Nedrysoft::Core::IRibbonPage *addPage(QString title, QString id) = 0;
+            virtual auto addPage(QString title, QString id) -> Nedrysoft::Core::IRibbonPage * = 0;
 
             /**
              * @brief       Returns the page given by the id.
@@ -70,7 +70,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     if it exists, the IRibbonPage instance of the page; otherwise nullptr.
              */
-            virtual Nedrysoft::Core::IRibbonPage *page(QString id) = 0;
+            virtual auto page(QString id) -> Nedrysoft::Core::IRibbonPage * = 0;
     };
 }
 

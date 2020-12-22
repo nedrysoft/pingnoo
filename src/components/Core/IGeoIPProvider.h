@@ -60,18 +60,18 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   host the host address to be looked up.
              */
-            virtual void lookup(const QString host) = 0;
+            virtual auto lookup(const QString host) -> void = 0;
 
             /**
              * @brief       Performs a host lookup using IP address or hostname.
              *
              * @details     This overloaded function uses a std::function to obtain the result, this can be
-             *              a callback function or a lambda funcion.
+             *              a callback function or a lambda function.
              *
              * @param[in]   host the host address to be looked up.
              * @param[in]   function the function called when a result is available.
              */
-            virtual void lookup(const QString host, Nedrysoft::Core::GeoFunction function) = 0;
+            virtual auto lookup(const QString host, Nedrysoft::Core::GeoFunction function) -> void = 0;
 
             /**
              * @brief       Signals that a result is available.

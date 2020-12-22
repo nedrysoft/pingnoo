@@ -29,7 +29,7 @@ Nedrysoft::Core::ActionProxy::ActionProxy(QObject *parent) :
 
 }
 
-void Nedrysoft::Core::ActionProxy::setActive(QAction *action) {
+auto Nedrysoft::Core::ActionProxy::setActive(QAction *action) -> void {
     if (action == m_action) {
         return;
     }
@@ -45,7 +45,7 @@ void Nedrysoft::Core::ActionProxy::setActive(QAction *action) {
     connectAction();
 }
 
-void Nedrysoft::Core::ActionProxy::disconnectAction() {
+auto Nedrysoft::Core::ActionProxy::disconnectAction() -> void {
     if (!m_action) {
         return;
     }
@@ -54,7 +54,7 @@ void Nedrysoft::Core::ActionProxy::disconnectAction() {
     disconnect(this, &QAction::toggled, m_action, &QAction::setChecked);
 }
 
-void Nedrysoft::Core::ActionProxy::connectAction() {
+auto Nedrysoft::Core::ActionProxy::connectAction() -> void {
     if (!m_action) {
         return;
     }

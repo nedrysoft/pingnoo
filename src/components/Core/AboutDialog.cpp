@@ -65,7 +65,7 @@ Nedrysoft::Core::AboutDialog::~AboutDialog() {
     delete ui;
 }
 
-auto Nedrysoft::Core::AboutDialog::compiler()->QString {
+auto Nedrysoft::Core::AboutDialog::compiler() -> QString {
 #if defined(Q_CC_CLANG) && defined(__apple_build_version__)
     return QString("Clang %1.%2 (Apple)").arg(__clang_major__).arg(__clang_minor__);
 #elif defined(__apple_build_version__)

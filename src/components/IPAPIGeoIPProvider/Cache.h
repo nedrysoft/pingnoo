@@ -47,7 +47,7 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
              *
              * @param[in]   The cache JSON result object.
              */
-            void add(QJsonObject object);
+            auto add(QJsonObject object) -> void;
 
             /**
              * @brief       Check if a host has a cache entry.
@@ -57,7 +57,7 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
              *
              * @returns     returns true if cached; otherwise false.
              */
-            bool find(const QString &name, QJsonObject &object);
+            auto find(const QString &name, QJsonObject &object) -> bool;
     };
 }
 

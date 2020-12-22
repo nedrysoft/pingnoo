@@ -26,7 +26,6 @@
 #include "ComponentSystem/IComponentManager.h"
 #include "RegExHostMasker.h"
 
-#include <QDebug>
 #include <QJsonDocument>
 
 RegExHostMaskerComponent::RegExHostMaskerComponent() = default;
@@ -39,7 +38,7 @@ RegExHostMaskerComponent::~RegExHostMaskerComponent() {
     }
 }
 
-void RegExHostMaskerComponent::initialiseEvent() {
+auto RegExHostMaskerComponent::initialiseEvent() -> void {
     auto maskerInstance = new Nedrysoft::RegExHostMasker::RegExHostMasker();
 
     Nedrysoft::ComponentSystem::addObject(maskerInstance);

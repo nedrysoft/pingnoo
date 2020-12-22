@@ -34,7 +34,7 @@ ICMPAPIPingComponent::ICMPAPIPingComponent() = default;
 
 ICMPAPIPingComponent::~ICMPAPIPingComponent() = default;
 
-void ICMPAPIPingComponent::initialiseEvent() {
+auto ICMPAPIPingComponent::initialiseEvent() -> void {
 #if defined(Q_OS_WIN)
     WSADATA wsaData;
 

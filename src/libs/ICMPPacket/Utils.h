@@ -40,7 +40,7 @@ namespace Nedrysoft::Utils {
      * @returns     the 32 bit result.
      */
     constexpr uint32_t fzMake32(uint16_t high, uint16_t low) {
-        return ( static_cast<uint32_t>(( high << ( sizeof(high) * CHAR_BIT ) | low )));
+        return (static_cast<uint32_t>((high<<(sizeof(high)*CHAR_BIT) | low)));
     }
 }
 

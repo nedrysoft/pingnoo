@@ -52,21 +52,21 @@ namespace Nedrysoft::Core {
              *
              * @returns     the proxy action
              */
-            virtual QAction *action() = 0;
+            virtual auto action() -> QAction * = 0;
 
             /**
              * @brief       Sets the active state of the command.
              *
              * @param[in]   state true if active; otherwise false.
              */
-            virtual void setActive(bool state) = 0;
+            virtual auto setActive(bool state) -> void = 0;
 
             /**
              * @brief       Returns the active state of the command.
              *
              * @return      true if enabled; otherwise false.
              */
-            virtual bool active() = 0;
+            virtual auto active() -> bool = 0;
 
         public:
             /**
@@ -77,7 +77,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   widget the abstract button subclassed widget
              */
-            virtual void attachToWidget(QAbstractButton *widget) {
+            virtual auto attachToWidget(QAbstractButton *widget) -> void {
                 connect(widget, &QAbstractButton::clicked, [this](bool) {
                     this->action()->trigger();
                 });

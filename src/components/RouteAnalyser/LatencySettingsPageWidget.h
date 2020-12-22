@@ -32,6 +32,9 @@ namespace Nedrysoft::RouteAnalyser {
         class LatencySettingsPageWidget;
     }
 
+    /**
+     * @brief       The LatencySettingsPageWidget provides a settings page for modifying latency defaults.
+     */
     class LatencySettingsPageWidget :
             public QWidget {
 
@@ -39,13 +42,21 @@ namespace Nedrysoft::RouteAnalyser {
             Q_OBJECT
 
         public:
+            /**
+             * @brief       Constructs the LatencySettingsPageWidget settings page.
+             *
+             * @param[in]   parent the parent of this child.
+             */
             explicit LatencySettingsPageWidget(QWidget *parent = nullptr);
 
+            /**
+             * @brief       Destroys the LatencySettingsPageWidget.
+             */
             ~LatencySettingsPageWidget() override;
 
         private:
             Ui::LatencySettingsPageWidget *ui;
     };
-};
+}
 
 #endif //NEDRYSOFT_LATENCYSETTINGSPAGEWIDGET_H

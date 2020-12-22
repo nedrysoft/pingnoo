@@ -41,12 +41,9 @@ namespace Nedrysoft::Utils {
              * @returns     true if dark mode; otherwise false.
              */
 #if defined(Q_OS_MACOS)
-
-            static bool isDarkMode();
-
+            static auto isDarkMode() -> bool;
 #else
-            static bool isDarkMode()
-            {
+            static auto isDarkMode() -> bool {
                 return false;
             }
 #endif

@@ -23,6 +23,4 @@
 
 #include "StatusBarManager.h"
 
-Nedrysoft::Core::StatusBarManager::StatusBarManager() {
-
-}
+Nedrysoft::Core::StatusBarManager::StatusBarManager() = default;

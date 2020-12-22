@@ -64,12 +64,12 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     nullptr on no error; otherwise the first widget that failed validation.
              */
-            QWidget *checkFieldsValid(QString &string);
+            auto checkFieldsValid(QString &string) -> QWidget *;
 
             /**
              * @brief       Validates the fields of the dialog and enables/disables the ok/apply buttons.
              */
-            void validateFields();
+            auto validateFields() -> void ;
 
         private:
             Ui::NewTargetRibbonGroup *ui;
@@ -77,6 +77,6 @@ namespace Nedrysoft::RouteAnalyser {
             LineSyntaxHighlighter *m_targetHighlighter;
             LineSyntaxHighlighter *m_intervalHighlighter;
     };
-};
+}
 
 #endif //NEDRYSOFT_NEWTARGETRIBBONGROUP_H

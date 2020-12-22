@@ -25,11 +25,11 @@
 
 constexpr int MILLISECONDS_PER_SECOND = 1000;
 
-QString Nedrysoft::RouteAnalyser::CPAxisTickerMS::getTickLabel(
+auto Nedrysoft::RouteAnalyser::CPAxisTickerMS::getTickLabel(
         double tick,
         const QLocale &locale,
         QChar formatChar,
-        int precision) {
+        int precision ) -> QString {
 
     Q_UNUSED(locale)
     Q_UNUSED(formatChar)

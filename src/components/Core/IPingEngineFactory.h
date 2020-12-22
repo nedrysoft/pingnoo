@@ -60,14 +60,14 @@ namespace Nedrysoft::Core {
              *
              * @returns     the new Nedrysoft::Core::IPingEngine instance.
              */
-            virtual Nedrysoft::Core::IPingEngine *createEngine(Nedrysoft::Core::IPVersion version) = 0;
+            virtual auto createEngine(Nedrysoft::Core::IPVersion version) -> Nedrysoft::Core::IPingEngine * = 0;
 
             /**
              * @brief       Returns the descriptive name of the factory.
              *
              * @returns     the descriptive name of the ping engine.
              */
-            virtual QString description() = 0;
+            virtual auto description() -> QString = 0;
     };
 }
 

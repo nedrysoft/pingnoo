@@ -26,18 +26,25 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/NSAppearance.h>
 
-bool Nedrysoft::Utils::ThemeSupport::isDarkMode() {
-    if (@available(macOS 10.14, *)) {
-        NSAppearance *appearance = NSAppearance.currentAppearance;
+auto Nedrysoft::Utils::ThemeSupport::isDarkMode() -> bool {
+    NSAppearance *appearance = nil;
 
-        NSAppearanceName basicAppearance = [appearance bestMatchFromAppearancesWithNames:@[
-                NSAppearanceNameAqua,
-                NSAppearanceNameDarkAqua
-        ]];
-
-        return [basicAppearance isEqualToString:NSAppearanceNameDarkAqua] == YES;
+    if (@available(macOS 11.0, *)) {
+        appearance = NSAppearance.currentDrawingAppearance;
+    } else if (@available(macOS 10.9, *)) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        appearance = NSAppearance.currentAppearance;
+#pragma clang diagnostic pop
     } else {
         return false;
     }
+
+    NSAppearanceName basicAppearance = [appearance bestMatchFromAppearancesWithNames:@[
+            NSAppearanceNameAqua,
+            NSAppearanceNameDarkAqua
+    ]];
+
+    return [basicAppearance isEqualToString:NSAppearanceNameDarkAqua] == YES;
 }
 

@@ -55,7 +55,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the widget
              */
-            virtual QWidget *widget() = 0;
+            virtual auto widget() -> QWidget * = 0;
 
             /**
              * @brief       Returns the display name for the editor.
@@ -65,7 +65,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the displayed name of the editor.
              */
-            virtual QString displayName() = 0;
+            virtual auto displayName() -> QString = 0;
     };
 }
 

@@ -29,12 +29,12 @@
 #include <QJsonArray>
 #include <QRegularExpressionMatch>
 
-bool Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(
+auto Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(
         int hop,
         const QString &hostName,
         const QString &hostAddress,
         QString &maskedHostName,
-        QString &maskedHostAddress) {
+        QString &maskedHostAddress ) -> bool {
 
     Q_UNUSED(hop)
 
@@ -113,20 +113,20 @@ bool Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(
     return returnValue;
 }
 
-bool Nedrysoft::RegExHostMasker::RegExHostMasker::mask(
+auto Nedrysoft::RegExHostMasker::RegExHostMasker::mask(
         int hop,
         const QString &hostName,
         const QString &hostAddress,
-        QString &maskedHostName, QString &maskedHostAddress) {
+        QString &maskedHostName, QString &maskedHostAddress ) -> bool {
 
     return applyMask(hop, hostName, hostAddress, maskedHostName, maskedHostAddress);
 }
 
-void Nedrysoft::RegExHostMasker::RegExHostMasker::add(
+auto Nedrysoft::RegExHostMasker::RegExHostMasker::add(
         unsigned int matchFlags,
         QString matchExpression,
         QString replacementString,
-        QString hopString) {
+        QString hopString ) -> void {
 
     Nedrysoft::RegExHostMasker::RegExHostMaskerItem item;
 
@@ -138,7 +138,7 @@ void Nedrysoft::RegExHostMasker::RegExHostMasker::add(
     m_maskList.append(item);
 }
 
-QJsonObject Nedrysoft::RegExHostMasker::RegExHostMasker::saveConfiguration() {
+auto Nedrysoft::RegExHostMasker::RegExHostMasker::saveConfiguration() -> QJsonObject {
     auto rootObject = QJsonObject();
     auto itemArray = QJsonArray();
 
@@ -160,7 +160,7 @@ QJsonObject Nedrysoft::RegExHostMasker::RegExHostMasker::saveConfiguration() {
     return rootObject;
 }
 
-bool Nedrysoft::RegExHostMasker::RegExHostMasker::loadConfiguration(QJsonObject configuration) {
+auto Nedrysoft::RegExHostMasker::RegExHostMasker::loadConfiguration(QJsonObject configuration) -> bool {
     Q_UNUSED(configuration)
 
     if (configuration["id"] != this->metaObject()->className()) {

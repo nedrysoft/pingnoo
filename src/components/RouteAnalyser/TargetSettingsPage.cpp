@@ -27,6 +27,7 @@
 #include "TargetSettingsPageWidget.h"
 
 Nedrysoft::RouteAnalyser::TargetSettingsPage::TargetSettingsPage(QWidget *parent) {
+    Q_UNUSED(parent)
 
 }
 
@@ -34,31 +35,31 @@ Nedrysoft::RouteAnalyser::TargetSettingsPage::TargetSettingsPage::~TargetSetting
 
 }
 
-QString Nedrysoft::RouteAnalyser::TargetSettingsPage::section() {
-    return "Route Analyser";
+auto Nedrysoft::RouteAnalyser::TargetSettingsPage::section() -> QString {
+    return tr("Route Analyser");
 }
 
 
-QString Nedrysoft::RouteAnalyser::TargetSettingsPage::category() {
-    return "Target";
+auto Nedrysoft::RouteAnalyser::TargetSettingsPage::category() -> QString {
+    return tr("Target");
 }
 
-QString Nedrysoft::RouteAnalyser::TargetSettingsPage::description() {
+auto Nedrysoft::RouteAnalyser::TargetSettingsPage::description() -> QString {
     return "";
 }
 
-QIcon Nedrysoft::RouteAnalyser::TargetSettingsPage::icon() {
+auto Nedrysoft::RouteAnalyser::TargetSettingsPage::icon() -> QIcon {
     return QIcon(":/RouteAnalyser/icons/analyser.png");
 }
 
-QWidget *Nedrysoft::RouteAnalyser::TargetSettingsPage::widget() {
+auto Nedrysoft::RouteAnalyser::TargetSettingsPage::widget() -> QWidget * {
     return new TargetSettingsPageWidget;
 }
 
-bool Nedrysoft::RouteAnalyser::TargetSettingsPage::canAcceptSettings() {
+auto Nedrysoft::RouteAnalyser::TargetSettingsPage::canAcceptSettings() -> bool {
     return true;
 }
 
-void Nedrysoft::RouteAnalyser::TargetSettingsPage::acceptSettings() {
+auto Nedrysoft::RouteAnalyser::TargetSettingsPage::acceptSettings() -> void {
 
 }

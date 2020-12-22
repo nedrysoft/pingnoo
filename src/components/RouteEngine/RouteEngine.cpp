@@ -43,7 +43,7 @@ Nedrysoft::RouteEngine::RouteEngine::~RouteEngine() {
 
         m_workerThread->quit();
         m_workerThread->wait(
-                std::chrono::duration_cast<std::chrono::milliseconds>(DefaultTerminateThreadTimeout).count());
+                std::chrono::duration_cast<std::chrono::milliseconds>(DefaultTerminateThreadTimeout).count() );
 
         if (m_workerThread->isRunning()) {
             m_workerThread->terminate();
@@ -61,7 +61,7 @@ Nedrysoft::RouteEngine::RouteEngine::~RouteEngine() {
     }
 }
 
-void Nedrysoft::RouteEngine::RouteEngine::findRoute(QString host, Nedrysoft::Core::IPVersion ipVersion) {
+auto Nedrysoft::RouteEngine::RouteEngine::findRoute(QString host, Nedrysoft::Core::IPVersion ipVersion) -> void {
     m_workerThread = new QThread();
 
     m_worker = new Nedrysoft::RouteEngine::RouteWorker(ipVersion);

@@ -25,7 +25,6 @@
 
 #include "Cache.h"
 
-#include <QEventLoop>
 #include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -41,9 +40,9 @@ Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::~IPAPIGeoIPProvider() {
     delete m_cache;
 }
 
-void Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(
+auto Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(
         const QString host,
-        Nedrysoft::Core::GeoFunction function) {
+        Nedrysoft::Core::GeoFunction function ) -> void {
 
     auto cacheResultObject = QJsonObject();
 
@@ -99,7 +98,7 @@ void Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(
     }
 }
 
-void Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(const QString host) {
+auto Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(const QString host) -> void {
     lookup(host, [=](const QString &hostAddress, const QVariantMap &result) {
         emit this->result(hostAddress, result);
     });

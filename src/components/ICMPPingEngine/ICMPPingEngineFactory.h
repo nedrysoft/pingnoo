@@ -67,14 +67,14 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     the new ICMPAPIPingEngine instance.
              */
-            virtual Nedrysoft::Core::IPingEngine *createEngine(Nedrysoft::Core::IPVersion version);
+            virtual auto createEngine(Nedrysoft::Core::IPVersion version) -> Nedrysoft::Core::IPingEngine *;
 
             /**
              * @brief       Returns the descriptive name of the factory.
              *
              * @returns     the descriptive name of the ping engine.
              */
-            virtual QString description();
+            virtual auto description() -> QString;
 
         public:
             /**
@@ -82,7 +82,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     the JSON configuration.
              */
-            virtual QJsonObject saveConfiguration();
+            virtual auto saveConfiguration() -> QJsonObject;
 
             /**
              * @brief       Loads the configuration.
@@ -93,7 +93,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual bool loadConfiguration(QJsonObject configuration);
+            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
 
         protected:
             std::shared_ptr<ICMPPingEngineFactoryData> d;

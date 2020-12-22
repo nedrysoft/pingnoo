@@ -69,9 +69,10 @@ namespace Nedrysoft::Core {
              *
              * @returns     a pointer to the ICommand
              */
-            virtual Nedrysoft::Core::ICommand *registerAction(QAction *action,
-                                                              QString id,
-                                                              const Nedrysoft::Core::ContextList &contexts);
+            virtual auto registerAction(
+                    QAction *action,
+                    QString id,
+                    const Nedrysoft::Core::ContextList &contexts ) -> Nedrysoft::Core::ICommand *;
 
             /**
              * @brief       Registers a QAction with a command for a given context.
@@ -86,9 +87,10 @@ namespace Nedrysoft::Core {
              *
              * @returns     true if the QAction was registered; otherwise false.
              */
-            virtual bool registerAction(QAction *action,
-                                        Nedrysoft::Core::ICommand *command,
-                                        const Nedrysoft::Core::ContextList &contexts);
+            virtual auto registerAction(
+                    QAction *action,
+                    Nedrysoft::Core::ICommand *command,
+                    const Nedrysoft::Core::ContextList &contexts ) -> bool;
 
             /**
              * @brief       Sets the currently active context.
@@ -99,7 +101,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   contextId the context to set as active.
              */
-            virtual void setContext(int contextId);
+            virtual auto setContext(int contextId) -> void;
 
             /**
               * @brief       Create a menu.
@@ -113,7 +115,9 @@ namespace Nedrysoft::Core {
               *
               * @returns     a new IMenu instance for the menu.
               */
-            virtual Nedrysoft::Core::IMenu *createMenu(const QString &identifier, IMenu *parentMenu = nullptr);
+            virtual auto createMenu(
+                    const QString &identifier,
+                    IMenu *parentMenu = nullptr) -> Nedrysoft::Core::IMenu *;
 
             /**
              * @brief       Find a menu.
@@ -127,7 +131,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the IMenu instance if the menu exists; otherwise nullptr.
              */
-            virtual Nedrysoft::Core::IMenu *findMenu(const QString &identifier);
+            virtual auto findMenu(const QString &identifier) -> Nedrysoft::Core::IMenu *;
 
             /**
              * @brief       Find a command.
@@ -140,7 +144,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     The ICommand instance if the command exists; otherwise nullptr;
              */
-            virtual Nedrysoft::Core::ICommand *findCommand(const QString &identifier);
+            virtual auto findCommand(const QString &identifier) -> Nedrysoft::Core::ICommand *;
 
         private:
 

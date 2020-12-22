@@ -29,7 +29,7 @@ Nedrysoft::Core::ContextManager::ContextManager() :
 
 }
 
-int Nedrysoft::Core::ContextManager::registerContext(QString contextIdentifier) {
+auto Nedrysoft::Core::ContextManager::registerContext(QString contextIdentifier) -> int {
     Q_UNUSED(contextIdentifier)
 
     m_contextIds[contextIdentifier] = m_nextContextId;
@@ -37,7 +37,7 @@ int Nedrysoft::Core::ContextManager::registerContext(QString contextIdentifier) 
     return m_nextContextId++;
 }
 
-int Nedrysoft::Core::ContextManager::setContext(int contextIdentifier) {
+auto Nedrysoft::Core::ContextManager::setContext(int contextIdentifier) -> int {
     emit contextChanged(contextIdentifier, m_currentContextId);
 
     m_currentContextId = contextIdentifier;
@@ -45,11 +45,11 @@ int Nedrysoft::Core::ContextManager::setContext(int contextIdentifier) {
     return 0;
 }
 
-int Nedrysoft::Core::ContextManager::context() {
+auto Nedrysoft::Core::ContextManager::context() -> int {
     return m_currentContextId;
 }
 
-int Nedrysoft::Core::ContextManager::context(QString contextName) {
+auto Nedrysoft::Core::ContextManager::context(QString contextName) -> int {
     if (m_contextIds.contains(contextName)) {
         return m_contextIds[contextName];
     }

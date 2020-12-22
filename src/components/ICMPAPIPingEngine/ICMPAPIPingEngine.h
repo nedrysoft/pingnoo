@@ -36,7 +36,6 @@ namespace Nedrysoft::Pingnoo {
      * @brief       The ICMPAPIPingEngine provides An IPingEngine that uses the Windows ICMP API feature.
      */
     class ICMPAPIPingEngine :
-            public QObject,
             public Nedrysoft::Core::IPingEngine {
 
         private:
@@ -59,7 +58,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     returns true on success; otherwise false.
              */
-            virtual bool setInterval(std::chrono::milliseconds interval);
+            virtual auto setInterval(std::chrono::milliseconds interval) -> bool;
 
             /**
              * @brief       Sets the reply timeout for this engine instance.
@@ -70,7 +69,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual bool setTimeout(std::chrono::milliseconds timeout);
+            virtual auto setTimeout(std::chrono::milliseconds timeout) -> bool;
 
             /**
              * @brief       Starts ping operations for this engine instance.
@@ -79,7 +78,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @return      true on success; otherwise false.
              */
-            virtual bool start();
+            virtual auto start() -> bool;
 
             /**
              * @brief       Stops ping operations for this engine instance.
@@ -88,7 +87,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual bool stop();
+            virtual auto stop() -> bool;
 
             /**
              * @brief       Adds a ping target to this engine instance.
@@ -99,7 +98,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     returns a pointer to the created ping target.
              */
-            virtual Nedrysoft::Core::IPingTarget *addTarget(QHostAddress hostAddress);
+            virtual auto addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget *;
 
             /**
              * @brief       Adds a ping target to this engine instance
@@ -111,27 +110,27 @@ namespace Nedrysoft::Pingnoo {
              *
              * @return      returns a pointer to the created ping target
              */
-            virtual Nedrysoft::Core::IPingTarget *addTarget(QHostAddress hostAddress, int ttl);
+            virtual auto addTarget(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::IPingTarget *;
 
             /**
              * @brief       Removes a ping target from this engine instance
              *
-             * @see         Nedrysoft::Core::IPingEngine::addTarbet
+             * @see         Nedrysoft::Core::IPingEngine::addTarget
              *
              * @param[in]   target the ping target to remove
              *
              * @return      true on success; otherwise false.
              */
-            virtual bool removeTarget(Nedrysoft::Core::IPingTarget *target);
+            virtual auto removeTarget(Nedrysoft::Core::IPingTarget *target) -> bool;
 
             /**
-             * @brief       Gets the epoch for this engine instace.
+             * @brief       Gets the epoch for this engine instance.
              *
              * @see         Nedrysoft::Core::IPingEngine::epoch
              *
              * @return      the time epoch
              */
-            virtual std::chrono::system_clock::time_point epoch();
+            virtual auto epoch() -> std::chrono::system_clock::time_point;
 
         public:
             /**
@@ -141,7 +140,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     the JSON configuration.
              */
-            virtual QJsonObject saveConfiguration();
+            virtual auto saveConfiguration() -> QJsonObject;
 
             /**
              * @brief       Loads the configuration.
@@ -152,7 +151,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual bool loadConfiguration(QJsonObject configuration);
+            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
 
         protected:
             std::shared_ptr<ICMPAPIPingEngineData> d;
