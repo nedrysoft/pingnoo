@@ -78,7 +78,7 @@ namespace Nedrysoft::Core {
              *
              * @return      returns a pointer to the QMainWindow.
              */
-            virtual QMainWindow *mainWindow();
+            virtual auto mainWindow() -> QMainWindow *;
 
             /**
              * @brief       Opens the core.
@@ -88,7 +88,7 @@ namespace Nedrysoft::Core {
              *
              * @see         Nedrysoft::Core::ICore::open
              */
-            void open();
+            auto open() -> void;
 
         private:
             QPointer<MainWindow> m_mainWindow;                      //! The QMainWindow smart pointer

@@ -25,14 +25,9 @@
 
 #include "AboutDialog.h"
 #include "ComponentSystem/Component.h"
-#include "ComponentSystem/ComponentLoader.h"
 #include "ComponentSystem/ComponentViewerDialog.h"
-#include "ComponentSystem/IComponentManager.h"
 #include "Core/ICommandManager.h"
-#include "Core/IContextManager.h"
-#include "Core/ICore.h"
 #include "Core/IEditor.h"
-#include "Core/IMenu.h"
 #include "EditorManager.h"
 #include "Pingnoo.h"
 #include "RibbonBarManager.h"
@@ -100,39 +95,7 @@ Nedrysoft::Core::MainWindow::~MainWindow() {
     delete ui;
 }
 
-/*void Nedrysoft::Core::MainWindow::onCutButtonClicked() {
-    auto customPlot = m_plotList.at(0);
-    auto pdfWriter = QPdfWriter("/Users/adriancarpenter/test.pdf");
-
-    pdfWriter.setPageSize(QPageSize(QPageSize::A4));
-    pdfWriter.setPageOrientation(QPageLayout::Landscape);
-    pdfWriter.setResolution(StandardDPI);
-
-    pdfWriter.newPage();
-
-    QRectF pageRect = pdfWriter.pageLayout().paintRect();
-
-    auto plotWidth = static_cast<double>(customPlot->viewport().width());
-    auto plotHeight = static_cast<double>(customPlot->viewport().height());
-
-    auto scale = pageRect.width() / plotWidth;
-    auto scale2 = pageRect.height() / plotHeight;
-
-    if (scale2 < scale)
-        scale = scale2;
-
-    QCPPainter painter(&pdfWriter);
-
-    painter.setMode(QCPPainter::pmVectorized);
-    painter.setMode(QCPPainter::pmNoCaching);
-    painter.setMode(QCPPainter::pmNonCosmetic);
-
-    painter.scale(scale, scale);
-
-    customPlot->toPainter(&painter, static_cast<int>(plotWidth), static_cast<int>(plotHeight));
-}*/
-
-void Nedrysoft::Core::MainWindow::initialise() {
+auto Nedrysoft::Core::MainWindow::initialise() -> void {
     createDefaultCommands();
     registerDefaultCommands();
 
@@ -145,7 +108,7 @@ void Nedrysoft::Core::MainWindow::initialise() {
     }*/
 }
 
-void Nedrysoft::Core::MainWindow::createDefaultCommands() {
+auto Nedrysoft::Core::MainWindow::createDefaultCommands() -> void {
     //createCommand(Pingnoo::Constants::editCut, ui->cutButton);
     //createCommand(Pingnoo::Constants::editCopy, ui->copyButton);
     //createCommand(Pingnoo::Constants::editPaste, ui->pasteButton);
@@ -192,7 +155,7 @@ void Nedrysoft::Core::MainWindow::createDefaultCommands() {
     }
 }
 
-void Nedrysoft::Core::MainWindow::registerDefaultCommands() {
+auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
     auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
     m_aboutComponentsAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::helpAboutComponents));
@@ -284,10 +247,10 @@ void Nedrysoft::Core::MainWindow::registerDefaultCommands() {
     });
 }
 
-Nedrysoft::Core::ICommand *Nedrysoft::Core::MainWindow::createCommand(
+auto Nedrysoft::Core::MainWindow::createCommand(
         QString commandId,
         QAbstractButton *button,
-        QAction::MenuRole menuRole) {
+        QAction::MenuRole menuRole ) -> Nedrysoft::Core::ICommand * {
 
     auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
@@ -310,7 +273,7 @@ Nedrysoft::Core::ICommand *Nedrysoft::Core::MainWindow::createCommand(
     return command;
 }
 
-Nedrysoft::Core::IMenu *Nedrysoft::Core::MainWindow::createMenu(QString menuId, QString parentMenuId) {
+auto Nedrysoft::Core::MainWindow::createMenu(QString menuId, QString parentMenuId) -> Nedrysoft::Core::IMenu * {
     auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
     if (!commandManager) {
@@ -326,7 +289,7 @@ Nedrysoft::Core::IMenu *Nedrysoft::Core::MainWindow::createMenu(QString menuId, 
     return commandManager->createMenu(menuId, parentMenu);
 }
 
-Nedrysoft::Core::IMenu *Nedrysoft::Core::MainWindow::findMenu(QString menuId) {
+auto Nedrysoft::Core::MainWindow::findMenu(QString menuId) -> Nedrysoft::Core::IMenu * {
     auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
     if (!commandManager) {
@@ -336,7 +299,7 @@ Nedrysoft::Core::IMenu *Nedrysoft::Core::MainWindow::findMenu(QString menuId) {
     return commandManager->findMenu(menuId);
 }
 
-void Nedrysoft::Core::MainWindow::addMenuCommand(QString commandId, QString menuId, QString groupId) {
+auto Nedrysoft::Core::MainWindow::addMenuCommand(QString commandId, QString menuId, QString groupId) -> void {
     auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
     if (!commandManager) {

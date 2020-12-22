@@ -24,21 +24,18 @@
 #include "CommandManager.h"
 
 #include "Command.h"
-#include "IContextManager.h"
 #include "ICore.h"
-#include "Menu.h"
 #include "Pingnoo.h"
 
-#include <QAction>
 #include <QMenu>
 #include <QMenuBar>
 
 Nedrysoft::Core::CommandManager::CommandManager() = default;
 
-Nedrysoft::Core::ICommand *Nedrysoft::Core::CommandManager::registerAction(
+auto Nedrysoft::Core::CommandManager::registerAction(
         QAction *action,
         QString id,
-        const Nedrysoft::Core::ContextList &contexts) {
+        const Nedrysoft::Core::ContextList &contexts) -> Nedrysoft::Core::ICommand * {
 
     if (m_commandMap.contains(id)) {
         auto command = m_commandMap[id];
@@ -64,9 +61,10 @@ Nedrysoft::Core::ICommand *Nedrysoft::Core::CommandManager::registerAction(
     return command;
 }
 
-bool Nedrysoft::Core::CommandManager::registerAction(
-        QAction *action, Nedrysoft::Core::ICommand *command,
-        const Nedrysoft::Core::ContextList &contexts) {
+auto Nedrysoft::Core::CommandManager::registerAction(
+        QAction *action,
+        Nedrysoft::Core::ICommand *command,
+        const Nedrysoft::Core::ContextList &contexts) -> bool {
 
     Nedrysoft::Core::Command *commandClass = qobject_cast<Nedrysoft::Core::Command *>(command);
 
@@ -80,7 +78,7 @@ bool Nedrysoft::Core::CommandManager::registerAction(
     return false;
 }
 
-void Nedrysoft::Core::CommandManager::setContext(int contextId) {
+auto Nedrysoft::Core::CommandManager::setContext(int contextId) -> void {
     auto commandIterator = QMapIterator<QString, Command *>(m_commandMap);
 
     while (commandIterator.hasNext()) {
@@ -92,10 +90,13 @@ void Nedrysoft::Core::CommandManager::setContext(int contextId) {
 
 // TODO: also add createPopupMenu
 
-Nedrysoft::Core::IMenu *Nedrysoft::Core::CommandManager::createMenu(const QString &identifier, IMenu *parentMenu) {
+auto Nedrysoft::Core::CommandManager::createMenu(
+        const QString &identifier,
+        IMenu *parentMenu ) -> Nedrysoft::Core::IMenu * {
+
     Q_UNUSED(identifier)
 
-    Nedrysoft::Core::Menu *newMenu = nullptr;
+    Nedrysoft::Core::Menu *newMenu;
 
     if (m_menuMap.contains(identifier)) {
         return m_menuMap[identifier];
@@ -130,7 +131,7 @@ Nedrysoft::Core::IMenu *Nedrysoft::Core::CommandManager::createMenu(const QStrin
     return newMenu;
 }
 
-Nedrysoft::Core::IMenu *Nedrysoft::Core::CommandManager::findMenu(const QString &identifier) {
+auto Nedrysoft::Core::CommandManager::findMenu(const QString &identifier) -> Nedrysoft::Core::IMenu * {
     if (m_menuMap.contains(identifier)) {
         return m_menuMap[identifier];
     }
@@ -138,7 +139,7 @@ Nedrysoft::Core::IMenu *Nedrysoft::Core::CommandManager::findMenu(const QString 
     return nullptr;
 }
 
-Nedrysoft::Core::ICommand *Nedrysoft::Core::CommandManager::findCommand(const QString &identifier) {
+auto Nedrysoft::Core::CommandManager::findCommand(const QString &identifier) -> Nedrysoft::Core::ICommand * {
     if (m_commandMap.contains(identifier)) {
         return m_commandMap[identifier];
     }

@@ -31,7 +31,7 @@ Nedrysoft::RouteAnalyser::LineSyntaxHighlighter::LineSyntaxHighlighter(QTextDocu
 
 }
 
-void Nedrysoft::RouteAnalyser::LineSyntaxHighlighter::updateSyntax() {
+auto Nedrysoft::RouteAnalyser::LineSyntaxHighlighter::updateSyntax() -> void {
     if (document()==nullptr) {
         return;
     }
@@ -41,8 +41,7 @@ void Nedrysoft::RouteAnalyser::LineSyntaxHighlighter::updateSyntax() {
     }
 }
 
-void Nedrysoft::RouteAnalyser::LineSyntaxHighlighter::highlightBlock(const QString &text)
-{
+auto Nedrysoft::RouteAnalyser::LineSyntaxHighlighter::highlightBlock(const QString &text) -> void {
     QTextCharFormat textFormat;
     auto colour = Qt::red;
 

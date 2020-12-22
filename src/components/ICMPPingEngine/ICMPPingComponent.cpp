@@ -39,7 +39,7 @@ ICMPPingComponent::~ICMPPingComponent() {
     }
 }
 
-void ICMPPingComponent::initialiseEvent() {
+auto ICMPPingComponent::initialiseEvent() -> void {
     m_engineFactory = new Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory();
 
     Nedrysoft::ComponentSystem::addObject(m_engineFactory);

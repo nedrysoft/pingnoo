@@ -60,50 +60,52 @@ Nedrysoft::Pingnoo::ICMPAPIPingItem::ICMPAPIPingItem() :
 
 }
 
-void Nedrysoft::Pingnoo::ICMPAPIPingItem::setId(uint16_t id) {
+auto Nedrysoft::Pingnoo::ICMPAPIPingItem::setId(uint16_t id) -> void {
     d->m_id = id;
 }
 
-void Nedrysoft::Pingnoo::ICMPAPIPingItem::setSequenceId(uint16_t sequence) {
+auto Nedrysoft::Pingnoo::ICMPAPIPingItem::setSequenceId(uint16_t sequence) -> void {
     d->m_sequenceId = sequence;
 }
 
-uint16_t Nedrysoft::Pingnoo::ICMPAPIPingItem::sequenceId() {
-    return ( d->m_sequenceId );
+auto Nedrysoft::Pingnoo::ICMPAPIPingItem::sequenceId() -> uint16_t {
+    return d->m_sequenceId;
 }
 
-void Nedrysoft::Pingnoo::ICMPAPIPingItem::setTransmitTime(std::chrono::high_resolution_clock::time_point time) {
+auto Nedrysoft::Pingnoo::ICMPAPIPingItem::setTransmitTime(
+        std::chrono::high_resolution_clock::time_point time ) -> void {
+
     d->m_transmitTime = time;
 }
 
-void Nedrysoft::Pingnoo::ICMPAPIPingItem::setServiced(bool serviced) {
+auto Nedrysoft::Pingnoo::ICMPAPIPingItem::setServiced(bool serviced) -> void {
     d->m_serviced = serviced;
 }
 
-bool Nedrysoft::Pingnoo::ICMPAPIPingItem::serviced() {
-    return ( d->m_serviced );
+auto Nedrysoft::Pingnoo::ICMPAPIPingItem::serviced() -> bool {
+    return d->m_serviced;
 }
 
-uint16_t Nedrysoft::Pingnoo::ICMPAPIPingItem::id() {
-    return ( d->m_id );
+auto Nedrysoft::Pingnoo::ICMPAPIPingItem::id() -> uint16_t {
+    return d->m_id;
 }
 
-void Nedrysoft::Pingnoo::ICMPAPIPingItem::setTarget(Nedrysoft::Pingnoo::ICMPAPIPingTarget *target) {
+auto Nedrysoft::Pingnoo::ICMPAPIPingItem::setTarget(Nedrysoft::Pingnoo::ICMPAPIPingTarget *target) -> void {
     d->m_target = target;
 }
 
-Nedrysoft::Pingnoo::ICMPAPIPingTarget *Nedrysoft::Pingnoo::ICMPAPIPingItem::target() {
-    return ( d->m_target );
+auto Nedrysoft::Pingnoo::ICMPAPIPingItem::target() -> Nedrysoft::Pingnoo::ICMPAPIPingTarget * {
+    return d->m_target;
 }
 
-std::chrono::high_resolution_clock::time_point Nedrysoft::Pingnoo::ICMPAPIPingItem::transmitTime() {
-    return ( d->m_transmitTime );
+auto Nedrysoft::Pingnoo::ICMPAPIPingItem::transmitTime() -> std::chrono::high_resolution_clock::time_point {
+    return d->m_transmitTime;
 }
 
-void Nedrysoft::Pingnoo::ICMPAPIPingItem::setSampleNumber(unsigned long sampleNumber) {
+auto Nedrysoft::Pingnoo::ICMPAPIPingItem::setSampleNumber(unsigned long sampleNumber) -> void {
     d->m_sampleNumber = sampleNumber;
 }
 
-unsigned long Nedrysoft::Pingnoo::ICMPAPIPingItem::sampleNumber() {
-    return ( d->m_sampleNumber );
+auto Nedrysoft::Pingnoo::ICMPAPIPingItem::sampleNumber() -> unsigned long {
+    return d->m_sampleNumber;
 }

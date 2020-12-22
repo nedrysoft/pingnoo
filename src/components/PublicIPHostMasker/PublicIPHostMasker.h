@@ -63,8 +63,12 @@ namespace Nedrysoft::PublicIPHostMasker {
              *
              * @returns     returns true on replacement; otherwise false.
              */
-            virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName,
-                              QString &maskedHostAddress);
+            virtual auto mask(
+                    int hop,
+                    const QString &hostName,
+                    const QString &hostAddress,
+                    QString &maskedHostName,
+                    QString &maskedHostAddress ) -> bool;
 
         public:
             /**
@@ -74,7 +78,7 @@ namespace Nedrysoft::PublicIPHostMasker {
              *
              * @returns     the JSON configuration.
              */
-            virtual QJsonObject saveConfiguration();
+            virtual auto saveConfiguration() -> QJsonObject;
 
             /**
              * @brief       Loads the configuration.
@@ -85,7 +89,7 @@ namespace Nedrysoft::PublicIPHostMasker {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual bool loadConfiguration(QJsonObject configuration);
+            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
 
         private:
             QString m_publicIP;

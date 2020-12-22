@@ -33,12 +33,12 @@ Nedrysoft::Core::Core::~Core() {
     delete m_mainWindow;
 }
 
-void Nedrysoft::Core::Core::open() {
+auto Nedrysoft::Core::Core::open() -> void {
     m_mainWindow->initialise();
 
     emit coreOpened();
 }
 
-QMainWindow *Nedrysoft::Core::Core::mainWindow() {
+auto Nedrysoft::Core::Core::mainWindow() -> QMainWindow * {
     return m_mainWindow;
 }

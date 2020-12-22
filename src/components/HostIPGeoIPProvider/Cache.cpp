@@ -81,7 +81,7 @@ Nedrysoft::HostIPGeoIPProvider::Cache::Cache::~Cache() {
     QSqlDatabase::removeDatabase("Nedrysoft::HostIPGeoIPProvider::Cache");
 }
 
-void Nedrysoft::HostIPGeoIPProvider::Cache::add(QJsonObject object) {
+auto Nedrysoft::HostIPGeoIPProvider::Cache::add(QJsonObject object) -> void {
     QSqlDatabase database = QSqlDatabase::database("Nedrysoft::HostIPGeoIPProvider::Cache");
     QSqlQuery query(database);
 
@@ -101,7 +101,7 @@ void Nedrysoft::HostIPGeoIPProvider::Cache::add(QJsonObject object) {
     }
 }
 
-bool Nedrysoft::HostIPGeoIPProvider::Cache::find(const QString &name, QJsonObject &object) {
+auto Nedrysoft::HostIPGeoIPProvider::Cache::find(const QString &name, QJsonObject &object) -> bool {
     QSqlDatabase database = QSqlDatabase::database("Nedrysoft::HostIPGeoIPProvider::Cache");
     QSqlQuery query(database);
 

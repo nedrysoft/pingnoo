@@ -27,7 +27,6 @@
 #include <QRgb>
 
 namespace Nedrysoft::RouteAnalyser {
-
     /**
      * @brief       The ColourManager class is a convenience class for getting the min, mid and max colours, these
      *              change according to light or dark mode.
@@ -39,22 +38,22 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @return      the minimum colour
              */
-            static QRgb getIdealColour();
+            static auto getIdealColour() -> QRgb;
 
             /**
              * @brief       Returns the warning latency colour (mid latency).
              *
              * @return      the median colour
              */
-            static QRgb getWarningColour();
+            static auto getWarningColour() -> QRgb;
 
             /**
              * @brief       Returns the critical latency colour (high latency).
              *
              * @return      the maximum colour
              */
-            static QRgb getCriticalColour();
+            static auto getCriticalColour() -> QRgb;
     };
-};
+}
 
 #endif //NEDRYSOFT_COLOURMANAGER_H

@@ -60,7 +60,7 @@ namespace Nedrysoft::Core {
              * @param[in]   host the target host name or address.
              * @param[in]   ipVersion the IP version to be used for discovery.
              */
-            virtual void findRoute(QString host, Nedrysoft::Core::IPVersion ipVersion) = 0;
+            virtual auto findRoute(QString host, Nedrysoft::Core::IPVersion ipVersion) -> void = 0;
 
             /**
              * @brief       Signal emitted when the route discovery is completed.

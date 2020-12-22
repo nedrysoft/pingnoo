@@ -51,18 +51,18 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   action the action to be proxied.
              */
-            void setActive(QAction *action);
+            auto setActive(QAction *action) -> void;
 
         protected:
             /**
              * @brief       Connects the current action to the proxy.
              */
-            void connectAction();
+            auto connectAction() -> void;
 
             /**
              * @brief       Disconnects the current action from the proxy.
              */
-            void disconnectAction();
+            auto disconnectAction() -> void;
 
         private:
             QPointer<QAction> m_action;                         //! Pointer to active action

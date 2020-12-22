@@ -38,64 +38,66 @@ Nedrysoft::ICMPPingEngine::ICMPPingItem::ICMPPingItem() :
 
 Nedrysoft::ICMPPingEngine::ICMPPingItem::~ICMPPingItem() = default;
 
-void Nedrysoft::ICMPPingEngine::ICMPPingItem::setId(uint16_t id) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::setId(uint16_t id) -> void {
     m_id = id;
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingItem::setSequenceId(uint16_t sequence) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::setSequenceId(uint16_t sequence) -> void {
     m_sequenceId = sequence;
 }
 
-uint16_t Nedrysoft::ICMPPingEngine::ICMPPingItem::sequenceId() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::sequenceId() -> uint16_t {
     return m_sequenceId;
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingItem::setTransmitTime(std::chrono::high_resolution_clock::time_point time,
-                                                              std::chrono::system_clock::time_point epoch) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::setTransmitTime(
+        std::chrono::high_resolution_clock::time_point time,
+        std::chrono::system_clock::time_point epoch) -> void {
+
     m_transmitTime = time;
     m_transmitEpoch = epoch;
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingItem::setServiced(bool serviced) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::setServiced(bool serviced) -> void {
     m_serviced = serviced;
 }
 
-bool Nedrysoft::ICMPPingEngine::ICMPPingItem::serviced() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::serviced() -> bool {
     return m_serviced;
 }
 
-uint16_t Nedrysoft::ICMPPingEngine::ICMPPingItem::id() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::id() -> uint16_t {
     return m_id;
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingItem::setTarget(Nedrysoft::ICMPPingEngine::ICMPPingTarget *target) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::setTarget(Nedrysoft::ICMPPingEngine::ICMPPingTarget *target) -> void {
     m_target = target;
 }
 
-Nedrysoft::ICMPPingEngine::ICMPPingTarget *Nedrysoft::ICMPPingEngine::ICMPPingItem::target() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::target() -> Nedrysoft::ICMPPingEngine::ICMPPingTarget * {
     return m_target;
 }
 
-std::chrono::high_resolution_clock::time_point Nedrysoft::ICMPPingEngine::ICMPPingItem::transmitTime() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::transmitTime() -> std::chrono::high_resolution_clock::time_point {
     return m_transmitTime;
 }
 
-std::chrono::system_clock::time_point Nedrysoft::ICMPPingEngine::ICMPPingItem::transmitEpoch() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::transmitEpoch() -> std::chrono::system_clock::time_point {
     return m_transmitEpoch;
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingItem::setSampleNumber(unsigned long sampleNumber) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::setSampleNumber(unsigned long sampleNumber) -> void {
     m_sampleNumber = sampleNumber;
 }
 
-unsigned long Nedrysoft::ICMPPingEngine::ICMPPingItem::sampleNumber() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::sampleNumber() -> unsigned long {
     return m_sampleNumber;
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingItem::lock() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::lock() -> void {
     m_mutex.lock();
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingItem::unlock() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::unlock() -> void {
     m_mutex.unlock();
 }

@@ -23,7 +23,7 @@
 
 pingnoo_start_executable(Pingnoo)
 
-set(MACOSX_BUNDLE_GUI_IDENTIFIER com.fizzyade.pingnoo)
+set(MACOSX_BUNDLE_GUI_IDENTIFIER com.nedrysoft.pingnoo)
 
 pingnoo_add_sources(
     App.qrc

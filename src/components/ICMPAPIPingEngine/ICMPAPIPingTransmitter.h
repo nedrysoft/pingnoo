@@ -59,7 +59,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @param[in]   interval the interval.
              */
-            bool setInterval(std::chrono::milliseconds interval);
+            auto setInterval(std::chrono::milliseconds interval) -> bool;
 
             /**
              * @brief       The transmitter thread worker.
@@ -72,7 +72,7 @@ namespace Nedrysoft::Pingnoo {
             std::chrono::milliseconds m_interval = {};          //! The transmission period in milliseconds
             Nedrysoft::Pingnoo::ICMPAPIPingEngine *m_engine;    //! The engine that owns this transmitter worker
 
-            //QList<FZICMPPingTarget *> m_targets;              //! List of ping targets
+            //QList<Nedrysoft::Pingnoo::ICMPAPIPingEngine *> m_targets;              //! List of ping targets
             QMutex m_targetsMutex;                              //! Mutex to protect the ping target list
             bool m_isRunning;                                   //! Whether thread is running
     };

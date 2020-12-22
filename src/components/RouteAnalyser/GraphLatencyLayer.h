@@ -48,7 +48,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @param[in]   useGradient true if smooth gradient; otherwise false.
              */
-            void setGradientEnabled(bool useGradient);
+            auto setGradientEnabled(bool useGradient) -> void;
 
         protected:
             /**
@@ -56,7 +56,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @param[in]   painter the QPainter to draw in.
              */
-            void draw(QCPPainter *painter);
+            auto draw(QCPPainter *painter) -> void;
 
         private:
             std::chrono::duration<double> m_idealLatency = {};

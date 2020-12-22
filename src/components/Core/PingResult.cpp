@@ -31,7 +31,7 @@ Nedrysoft::Core::PingResult::PingResult() :
     m_requestTime(std::chrono::system_clock::now()),
     m_target(nullptr) {
 
-};
+}
 
 Nedrysoft::Core::PingResult::~PingResult() = default;
 
@@ -51,26 +51,26 @@ Nedrysoft::Core::PingResult::PingResult(
 
 }
 
-unsigned long Nedrysoft::Core::PingResult::sampleNumber() {
+auto Nedrysoft::Core::PingResult::sampleNumber() -> unsigned long {
     return m_sampleNumber;
 }
 
-std::chrono::system_clock::time_point Nedrysoft::Core::PingResult::requestTime() {
+auto Nedrysoft::Core::PingResult::requestTime() -> std::chrono::system_clock::time_point {
     return m_requestTime;
 }
 
-Nedrysoft::Core::PingResult::ResultCode Nedrysoft::Core::PingResult::code() {
+auto Nedrysoft::Core::PingResult::code() -> Nedrysoft::Core::PingResult::ResultCode {
     return m_code;
 }
 
-QHostAddress Nedrysoft::Core::PingResult::hostAddress() {
+auto Nedrysoft::Core::PingResult::hostAddress() -> QHostAddress {
     return m_hostAddress;
 }
 
-std::chrono::duration<double> Nedrysoft::Core::PingResult::roundTripTime() {
+auto Nedrysoft::Core::PingResult::roundTripTime() -> std::chrono::duration<double> {
     return m_roundTripTime;
 }
 
-Nedrysoft::Core::IPingTarget *Nedrysoft::Core::PingResult::target() {
+auto Nedrysoft::Core::PingResult::target() -> Nedrysoft::Core::IPingTarget * {
     return m_target;
 }

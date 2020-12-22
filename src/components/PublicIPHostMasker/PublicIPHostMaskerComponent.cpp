@@ -41,7 +41,7 @@ PublicIPHostMaskerComponent::~PublicIPHostMaskerComponent() {
     }
 }
 
-void PublicIPHostMaskerComponent::initialiseEvent() {
+auto PublicIPHostMaskerComponent::initialiseEvent() -> void {
     m_hostMasker = new Nedrysoft::PublicIPHostMasker::PublicIPHostMasker();
 
     Nedrysoft::ComponentSystem::addObject(m_hostMasker);

@@ -56,7 +56,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the IRibbonGroup instance of the group.
              */
-            Nedrysoft::Core::IRibbonGroup *addGroup(QString title, QString id, QWidget *widget) override;
+            auto addGroup(QString title, QString id, QWidget *widget) -> Nedrysoft::Core::IRibbonGroup * override;
 
         public:
             /**
@@ -71,7 +71,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the page widget.
              */
-            QWidget *widget();
+            auto widget() -> QWidget *;
 
         private:
             QWidget *m_pageWidget;
@@ -79,6 +79,6 @@ namespace Nedrysoft::Core {
             QSpacerItem *m_spacerItem;
             RibbonBarManager *m_manager;
     };
-};
+}
 
 #endif //NEDRYSOFT_RIBBONPAGE_H

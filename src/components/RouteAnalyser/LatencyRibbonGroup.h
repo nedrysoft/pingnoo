@@ -65,7 +65,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @param[in]   lineEdit the line edit to update.
              */
-            void updatePeriod(Nedrysoft::Ribbon::RibbonLineEdit *lineEdit);
+            auto updatePeriod(Nedrysoft::Ribbon::RibbonLineEdit *lineEdit) -> void;
 
         private:
             Ui::LatencyRibbonGroup *ui;
@@ -74,6 +74,6 @@ namespace Nedrysoft::RouteAnalyser {
             LineSyntaxHighlighter *m_warningHighlighter;
             LineSyntaxHighlighter *m_criticalHighlighter;
     };
-};
+}
 
 #endif //NEDRYSOFT_LATENCYRIBBONGROUP_H

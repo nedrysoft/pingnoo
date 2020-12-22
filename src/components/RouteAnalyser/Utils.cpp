@@ -24,14 +24,14 @@
 #include "Utils.h"
 
 #include <QRegularExpression>
-#include <QRegularExpressionMatch>
 
 constexpr auto millisecondsInSecond = 1000.0;
 constexpr auto secondsInMinute = 60.0;
 constexpr auto secondsInInHour = secondsInMinute*60.0;
 constexpr auto secondsInDay = secondsInInHour*24.0;
 
-constexpr auto timeIntervalRegularExpression = R"(^\s*(?<number>(\d*(\.\d+|\d*)))(\s*(?<units>ms|s|m|h|d)\s*)?$)";
+constexpr auto timeIntervalRegularExpression =
+        R"(^\s*(?<number>(\d*(\.\d+|\d*)))(\s*(?<units>ms|s|m|h|d)\s*)?$)";
 
 constexpr auto ipAddressRegularExpression =
         R"(^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$)";
@@ -39,13 +39,13 @@ constexpr auto ipAddressRegularExpression =
 constexpr auto hostNameRegularExpression =
         R"(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$)";
 
-bool Nedrysoft::Utils::parseIntervalString(QString intervalString) {
+auto Nedrysoft::Utils::parseIntervalString(QString intervalString) -> bool {
     double tempValue;
 
     return parseIntervalString(intervalString, tempValue);
 }
 
-bool Nedrysoft::Utils::parseIntervalString(QString intervalString, double &intervalValue) {
+auto Nedrysoft::Utils::parseIntervalString(QString intervalString, double &intervalValue) -> bool {
     bool numberOk;
     auto match = QRegularExpression(timeIntervalRegularExpression,
                                     QRegularExpression::CaseInsensitiveOption ).match(intervalString);
@@ -83,16 +83,16 @@ bool Nedrysoft::Utils::parseIntervalString(QString intervalString, double &inter
     return true;
 }
 
-bool Nedrysoft::Utils::checkHostValid(const QString &host) {
+auto Nedrysoft::Utils::checkHostValid(const QString &host) -> bool {
     auto hostMatch = QRegularExpression(
             hostNameRegularExpression,
-            QRegularExpression::CaseInsensitiveOption).match(host);
+            QRegularExpression::CaseInsensitiveOption ).match(host);
 
     auto ipMatch = QRegularExpression(
             ipAddressRegularExpression,
-            QRegularExpression::CaseInsensitiveOption).match(host);
+            QRegularExpression::CaseInsensitiveOption ).match(host);
 
-    if ((ipMatch.hasMatch()==false) && (hostMatch.hasMatch()==false)) {
+    if ((!ipMatch.hasMatch()) && (!hostMatch.hasMatch())) {
         return false;
     }
 

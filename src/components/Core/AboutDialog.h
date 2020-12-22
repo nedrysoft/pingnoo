@@ -40,6 +40,8 @@ namespace Nedrysoft::Core {
         private:
             Q_OBJECT
 
+            Q_DISABLE_COPY_MOVE(AboutDialog)
+
         public:
 
             /**
@@ -60,7 +62,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the compiler information
              */
-            auto compiler()->QString;
+            auto compiler() -> QString;
 
         private:
             Ui::AboutDialog *ui;                    //! The generated ui class for the dialog

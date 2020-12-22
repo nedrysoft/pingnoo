@@ -23,10 +23,7 @@
 
 #include "AppNap.h"
 
-#include <QDebug>
-
 #import <Foundation/Foundation.h>
-#import <Foundation/NSProcessInfo.h>
 
 void Nedrysoft::AppNap::AppNap::mac_init() {
     m_activity = nil;

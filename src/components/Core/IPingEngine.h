@@ -40,7 +40,7 @@ namespace Nedrysoft::Core {
      *
      * @details     An engine implements the logic of transmitting, receiving and associating replies to ping requests,
      *              it then signals when a ping result is available.  The underlying mechanism of handling the pings
-     *              is hidden from the applicaton.
+     *              is hidden from the application.
      */
     class NEDRYSOFT_CORE_DLLSPEC IPingEngine :
             public Nedrysoft::ComponentSystem::IInterface,
@@ -65,7 +65,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     returns true on success; otherwise false.
              */
-            virtual bool setInterval(std::chrono::milliseconds interval) = 0;
+            virtual auto setInterval(std::chrono::milliseconds interval) -> bool = 0;
 
             /**
              * @brief       Sets the reply timeout for this engine instance.
@@ -74,21 +74,21 @@ namespace Nedrysoft::Core {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual bool setTimeout(std::chrono::milliseconds timeout) = 0;
+            virtual auto setTimeout(std::chrono::milliseconds timeout) -> bool = 0;
 
             /**
              * @brief       Starts ping operations for this engine instance.
              *
              * @return      true on success; otherwise false.
              */
-            virtual bool start() = 0;
+            virtual auto start() -> bool = 0;
 
             /**
              * @brief       Stops ping operations for this engine instance.
              *
              * @returns     true on success; otherwise false.
              */
-            virtual bool stop() = 0;
+            virtual auto stop() -> bool = 0;
 
             /**
              * @brief       Adds a ping target to this engine instance.
@@ -97,7 +97,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     returns a pointer to the created ping target.
              */
-            virtual IPingTarget *addTarget(QHostAddress hostAddress) = 0;
+            virtual auto addTarget(QHostAddress hostAddress) -> IPingTarget * = 0;
 
             /**
              * @brief       Adds a ping target to this engine instance.
@@ -107,7 +107,7 @@ namespace Nedrysoft::Core {
              *
              * @return      returns a pointer to the created ping target.
              */
-            virtual IPingTarget *addTarget(QHostAddress hostAddress, int ttl) = 0;
+            virtual auto addTarget(QHostAddress hostAddress, int ttl) -> IPingTarget * = 0;
 
             /**
              * @brief       Removes a ping target from this engine instance.
@@ -116,14 +116,14 @@ namespace Nedrysoft::Core {
              *
              * @return      true on success; otherwise false.
              */
-            virtual bool removeTarget(IPingTarget *target) = 0;
+            virtual auto removeTarget(IPingTarget *target) -> bool = 0;
 
             /**
              * @brief       Gets the epoch for this engine instance.
              *
              * @return      the time epoch
              */
-            virtual std::chrono::system_clock::time_point epoch() = 0;
+            virtual auto epoch() -> std::chrono::system_clock::time_point = 0;
 
             /**
              * @brief       Signal emitted to indicate the state of a ping request.

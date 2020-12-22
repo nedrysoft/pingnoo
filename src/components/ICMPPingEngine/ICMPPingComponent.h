@@ -58,13 +58,13 @@ class NEDRYSOFT_ICMPPINGENGINE_DLLSPEC ICMPPingComponent :
 
     public:
         /**
-         * @brief       The initialiseEvent is called by the component loader to intialise the ocmponent.
+         * @brief       The initialiseEvent is called by the component loader to initialise the component.
          *
          * @details     Called by the component loader after all components have been loaded, called in load order.
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
-        virtual void initialiseEvent();
+        virtual auto initialiseEvent() -> void;
 
     private:
         Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory *m_engineFactory;

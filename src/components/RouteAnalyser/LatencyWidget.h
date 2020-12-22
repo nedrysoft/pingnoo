@@ -61,28 +61,28 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @param[in]   text the displayed text.
              */
-            void setText(QString text);
+            auto setText(QString text) -> void;
 
             /**
              * @brief       Returns the current text value.
              *
              * @returns     The text value.
              */
-            QString text();
+            auto text() -> QString;
 
             /**
              * @brief       Sets the current colour of the widget.
              *
              * @param[in]   colour the widget colour.
              */
-            void setColour(QColor colour);
+            auto setColour(QColor colour) -> void;
 
             /**
              * @brief       Returns the current colour of the widget
              *
              * @returns     the widget colour.
              */
-            QColor colour();
+            auto colour() -> QColor;
 
             Q_SIGNAL void colourChanged(QColor colour);
 
@@ -97,7 +97,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     the contrast colour.
              */
-            QColor getContrastColour(QColor colour);
+            auto getContrastColour(QColor colour) -> QColor;
 
         protected:
             /**
@@ -105,19 +105,19 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @param[in]   event the event information.
              */
-            void paintEvent(QPaintEvent *event) override;
+            auto paintEvent(QPaintEvent *event) -> void override;
 
             /**
              * @brief       Reimplements: QWidget::mouseDoubleClickEvent(QMouseEvent *event).
              *
              * @param[in]   event the event information.
              */
-            void mouseDoubleClickEvent(QMouseEvent *event) override;
+            auto mouseDoubleClickEvent(QMouseEvent *event) -> void override;
 
         private:
             QColor m_colour;
             QString m_text;
     };
-};
+}
 
 #endif //NEDRYSOFT_LATENCYWIDGET_H

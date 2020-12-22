@@ -84,21 +84,21 @@ namespace Nedrysoft::Core {
              *
              * @returns     the sample number.
              */
-            unsigned long sampleNumber();
+            auto sampleNumber() -> unsigned long;
 
             /**
              * @brief       Returns the time that the request was transmitted at.
              *
              * @returns     the request time.
              */
-            std::chrono::system_clock::time_point requestTime();
+            auto requestTime() -> std::chrono::system_clock::time_point;
 
             /**
              * @brief       The result code for the request (Echo Reply, Timeout).
              *
              * @returns     the result code.
              */
-            ResultCode code();
+            auto code() -> ResultCode;
 
             /**
              * @brief       The host address of the reply.
@@ -109,7 +109,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the IP address of the host that sent the reply..
              */
-            QHostAddress hostAddress();
+            auto hostAddress() -> QHostAddress;
 
             /**
              * @brief       The round trip time.
@@ -118,14 +118,14 @@ namespace Nedrysoft::Core {
              *
              * @returns     the round trip time.
              */
-            std::chrono::duration<double> roundTripTime();
+            auto roundTripTime() -> std::chrono::duration<double>;
 
             /**
              * @brief       The target associated with this result.
              *
              * @returns     the target.
              */
-            Nedrysoft::Core::IPingTarget *target();
+            auto target() -> Nedrysoft::Core::IPingTarget *;
 
         private:
             unsigned long m_sampleNumber;

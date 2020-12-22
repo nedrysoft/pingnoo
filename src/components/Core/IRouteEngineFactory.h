@@ -35,7 +35,7 @@ namespace Nedrysoft::Core {
     /**
      * @brief       The IRouteEngineFactory interface definition of a route engine factory.
      *
-     * @details     Creates instances of route engines.  Route engines are not instantiaed directly, instead the
+     * @details     Creates instances of route engines.  Route engines are not instantiated directly, instead the
      *              application can find all route engine factories and select a route engine factory to create
      *              route engines with.
      */
@@ -63,7 +63,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the route engine instance.
              */
-            virtual Nedrysoft::Core::IRouteEngine *createEngine() = 0;
+            virtual auto createEngine() -> Nedrysoft::Core::IRouteEngine * = 0;
 
             /**
              * @brief       Returns the descriptive name of the route engine.
@@ -73,7 +73,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the descriptive name of the route engine.
              */
-            virtual QString description() = 0;
+            virtual auto description() -> QString = 0;
     };
 }
 

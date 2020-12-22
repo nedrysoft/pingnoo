@@ -58,7 +58,7 @@ class NEDRYSOFT_PINGNOO_ICMPAPIPINGENGINE_DLLSPEC ICMPAPIPingComponent :
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
-        virtual void initialiseEvent();
+        virtual auto initialiseEvent() -> void;
 
 };
 

@@ -101,11 +101,11 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::~NewTargetDialog() {
     delete ui;
 }
 
-Nedrysoft::Core::IPingEngineFactory *Nedrysoft::RouteAnalyser::NewTargetDialog::pingEngineFactory() {
+auto Nedrysoft::RouteAnalyser::NewTargetDialog::pingEngineFactory() -> Nedrysoft::Core::IPingEngineFactory * {
     return ui->engineComboBox->currentData().value<Nedrysoft::Core::IPingEngineFactory *>();
 }
 
-QString Nedrysoft::RouteAnalyser::NewTargetDialog::pingTarget() {
+auto Nedrysoft::RouteAnalyser::NewTargetDialog::pingTarget() -> QString {
     if (ui->targetLineEdit->toPlainText().isEmpty()) {
         return ui->targetLineEdit->placeholderText();
     }
@@ -113,7 +113,7 @@ QString Nedrysoft::RouteAnalyser::NewTargetDialog::pingTarget() {
     return ui->targetLineEdit->toPlainText();
 }
 
-Nedrysoft::Core::IPVersion Nedrysoft::RouteAnalyser::NewTargetDialog::ipVersion() {
+auto Nedrysoft::RouteAnalyser::NewTargetDialog::ipVersion() -> Nedrysoft::Core::IPVersion {
     if (ui->ipv4RadioButton->isChecked()) {
         return Nedrysoft::Core::IPVersion::V4;
     } else {
@@ -121,7 +121,7 @@ Nedrysoft::Core::IPVersion Nedrysoft::RouteAnalyser::NewTargetDialog::ipVersion(
     }
 }
 
-double Nedrysoft::RouteAnalyser::NewTargetDialog::interval() {
+auto Nedrysoft::RouteAnalyser::NewTargetDialog::interval() -> double {
     double intervalTime = 1;
     auto intervalString = ui->intervalLineEdit->toPlainText().isEmpty() ?
                   ui->intervalLineEdit->placeholderText() :
@@ -134,7 +134,7 @@ double Nedrysoft::RouteAnalyser::NewTargetDialog::interval() {
     return intervalTime;
 }
 
-QWidget *Nedrysoft::RouteAnalyser::NewTargetDialog::checkFieldsValid(QString &string) {
+auto Nedrysoft::RouteAnalyser::NewTargetDialog::checkFieldsValid(QString &string) -> QWidget * {
     double intervalValue;
     QWidget *returnWidget = nullptr;
 
@@ -162,15 +162,15 @@ QWidget *Nedrysoft::RouteAnalyser::NewTargetDialog::checkFieldsValid(QString &st
     return returnWidget;
 }
 
-void Nedrysoft::RouteAnalyser::NewTargetDialog::validateFields() {
+auto Nedrysoft::RouteAnalyser::NewTargetDialog::validateFields() -> void {
     QString errorString;
 
     auto invalidWidget = checkFieldsValid(errorString);
 
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(invalidWidget == nullptr ? true : false);
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(invalidWidget==nullptr);
 }
 
-bool Nedrysoft::RouteAnalyser::NewTargetDialog::eventFilter(QObject *watched, QEvent *event) {
+auto Nedrysoft::RouteAnalyser::NewTargetDialog::eventFilter(QObject *watched, QEvent *event) -> bool {
     if (event->type()==QEvent::Resize) {
         QTextEdit *textEdit = qobject_cast<QTextEdit *>(watched);
 

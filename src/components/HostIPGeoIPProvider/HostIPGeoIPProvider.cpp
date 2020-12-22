@@ -39,9 +39,9 @@ Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::~HostIPGeoIPProvider() {
     delete m_cache;
 }
 
-void Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(
+auto Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(
         const QString host,
-        Nedrysoft::Core::GeoFunction function) {
+        Nedrysoft::Core::GeoFunction function ) -> void {
 
     auto cacheResultObject = QJsonObject();
 
@@ -88,7 +88,7 @@ void Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(
     }
 }
 
-void Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(const QString host) {
+auto Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(const QString host) -> void {
     lookup(host, [=](const QString &hostAddress, const QVariantMap &result) {
         emit this->result(hostAddress, result);
     });

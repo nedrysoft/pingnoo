@@ -27,38 +27,38 @@
 #include "LatencySettingsPageWidget.h"
 
 Nedrysoft::RouteAnalyser::LatencySettingsPage::LatencySettingsPage(QWidget *parent) {
-
+    Q_UNUSED(parent)
 }
 
 Nedrysoft::RouteAnalyser::LatencySettingsPage::LatencySettingsPage::~LatencySettingsPage() {
 
 }
 
-QString Nedrysoft::RouteAnalyser::LatencySettingsPage::section() {
-    return "Route Analyser";
+auto Nedrysoft::RouteAnalyser::LatencySettingsPage::section() -> QString {
+    return tr("Route Analyser");
 }
 
 
-QString Nedrysoft::RouteAnalyser::LatencySettingsPage::category() {
-    return "Latency";
+auto Nedrysoft::RouteAnalyser::LatencySettingsPage::category() -> QString {
+    return tr("Latency");
 }
 
-QString Nedrysoft::RouteAnalyser::LatencySettingsPage::description() {
+auto Nedrysoft::RouteAnalyser::LatencySettingsPage::description() -> QString {
     return "";
 }
 
-QIcon Nedrysoft::RouteAnalyser::LatencySettingsPage::icon() {
+auto Nedrysoft::RouteAnalyser::LatencySettingsPage::icon() -> QIcon {
     return QIcon(":/RouteAnalyser/icons/analyser.png");
 }
 
-QWidget *Nedrysoft::RouteAnalyser::LatencySettingsPage::widget() {
+auto Nedrysoft::RouteAnalyser::LatencySettingsPage::widget() -> QWidget * {
     return new LatencySettingsPageWidget;
 }
 
-bool Nedrysoft::RouteAnalyser::LatencySettingsPage::canAcceptSettings() {
+auto Nedrysoft::RouteAnalyser::LatencySettingsPage::canAcceptSettings() -> bool {
     return true;
 }
 
-void Nedrysoft::RouteAnalyser::LatencySettingsPage::acceptSettings() {
+auto Nedrysoft::RouteAnalyser::LatencySettingsPage::acceptSettings() -> void {
 
 }

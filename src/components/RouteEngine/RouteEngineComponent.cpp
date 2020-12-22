@@ -41,7 +41,7 @@ RouteEngineComponent::~RouteEngineComponent() {
     }
 }
 
-void RouteEngineComponent::initialiseEvent() {
+auto RouteEngineComponent::initialiseEvent() -> void {
     m_routeEngineFactory = new Nedrysoft::RouteEngine::RouteEngineFactory();
 
     Nedrysoft::ComponentSystem::addObject(m_routeEngineFactory);

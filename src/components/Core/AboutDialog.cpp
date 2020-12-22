@@ -65,7 +65,7 @@ Nedrysoft::Core::AboutDialog::~AboutDialog() {
     delete ui;
 }
 
-auto Nedrysoft::Core::AboutDialog::compiler()->QString {
+auto Nedrysoft::Core::AboutDialog::compiler() -> QString {
 #if defined(Q_CC_CLANG) && defined(__apple_build_version__)
     return QString("Clang %1.%2 (Apple)").arg(__clang_major__).arg(__clang_minor__);
 #elif defined(__apple_build_version__)
@@ -73,16 +73,16 @@ auto Nedrysoft::Core::AboutDialog::compiler()->QString {
 #elif defined(Q_CC_GNU)
     return QString("GCC %1").arg(__VERSION__);
 #elif defined(Q_CC_MSVC)
-    if (_MSC_VER > 1999) {
-        return QString("MSVC <unknown>");
-    } else if (_MSC_VER >= 1920) {
-        return QString("MSVC 2019");
-    } else if (_MSC_VER >= 1910) {
-        return QString("MSVC 2017");
-    } else if (_MSC_VER >= 1900) {
-        return QString("MSVC 2015");
-    }
+#if (_MSC_VER > 1999)
+    return QString("MSVC <unknown>");
+#elif (_MSC_VER >= 1920)
+    return QString("MSVC 2019");
+#elif (_MSC_VER >= 1910)
+    return QString("MSVC 2017");
+#elif (_MSC_VER >= 1900)
+    return QString("MSVC 2015");
 #else
     return QString("<unknown compiler>");
+#endif
 #endif
 }

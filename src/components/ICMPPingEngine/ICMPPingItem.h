@@ -60,28 +60,28 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @param[in]   id the id field for this request.
              */
-            void setId(uint16_t id);
+            auto setId(uint16_t id) -> void;
 
             /**
              * @brief       Returns the id used in the ping request.
              *
              * @return      id of the request.
              */
-            uint16_t id(void);
+            auto id(void) -> uint16_t;
 
             /**
              * @brief       Sets the sequence id used in the ping request.
              *
              * @param[in]   sequence the sequence id to use.
              */
-            void setSequenceId(uint16_t sequence);
+            auto setSequenceId(uint16_t sequence) -> void;
 
             /**
              * @brief       Returns the sequence id used in the ping request.
              *
              * @return      the sequence id.
              */
-            uint16_t sequenceId();
+            auto sequenceId() -> uint16_t;
 
             /**
              * @brief       Set whether this request has been serviced.
@@ -91,42 +91,42 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @param[in]   serviced true if serviced; otherwise false.
              */
-            void setServiced(bool serviced);
+            auto setServiced(bool serviced) -> void;
 
             /**
              * @brief       Returns the serviced status of the request.
              *
              * @return      true if request has been serviced; otherwise false.
              */
-            bool serviced();
+            auto serviced() -> bool;
 
             /**
              * @brief       Sets the sample number for this request.
              *
              * @param[in]   sampleNumber the sample number.
              */
-            void setSampleNumber(unsigned long sampleNumber);
+            auto setSampleNumber(unsigned long sampleNumber) -> void;
 
             /**
              * @brief       Returns the sample number for this request.
              *
              * @return      the sample number.
              */
-            unsigned long sampleNumber();
+            auto sampleNumber() -> unsigned long;
 
             /**
               * @brief       Sets the target associated with this request.
               *
               * @param[in]   target the target.
               */
-            void setTarget(Nedrysoft::ICMPPingEngine::ICMPPingTarget *target);
+            auto setTarget(Nedrysoft::ICMPPingEngine::ICMPPingTarget *target) -> void;
 
             /**
              * @brief       Returns the target associated with this request.
              *
              * @returns     the request.
              */
-            Nedrysoft::ICMPPingEngine::ICMPPingTarget *target();
+            auto target() -> Nedrysoft::ICMPPingEngine::ICMPPingTarget *;
 
             /**
              * @brief       Sets the time at which the request was transmitted.
@@ -134,32 +134,33 @@ namespace Nedrysoft::ICMPPingEngine {
              * @param[in]   time the high resolution clock time.
              * @param[in]   epoch the epoch for transmission.
              */
-            void setTransmitTime(std::chrono::high_resolution_clock::time_point time,
-                                 std::chrono::system_clock::time_point epoch);
+            auto setTransmitTime(
+                    std::chrono::high_resolution_clock::time_point time,
+                    std::chrono::system_clock::time_point epoch ) -> void;
 
             /**
              * @brief       Returns the time at which the request was transmitted.
              *
              * @returns     the high resolution clock time when the request was sent.
              */
-            std::chrono::high_resolution_clock::time_point transmitTime(void);
+            auto transmitTime(void) -> std::chrono::high_resolution_clock::time_point;
 
             /**
              * @brief       Returns the epoch at which the request was transmitted.
              *
              * @returns     the epoch when the request was sent.
              */
-            std::chrono::system_clock::time_point transmitEpoch();
+            auto transmitEpoch() -> std::chrono::system_clock::time_point;
 
             /**
              * @brief       Locks the item for exclusive access.
              */
-            void lock(void);
+            auto lock(void) -> void;
 
             /**
              * @brief       Unlocks the item that was previous locked.
              */
-            void unlock(void);
+            auto unlock(void) -> void;
 
         private:
             std::chrono::high_resolution_clock::time_point m_transmitTime;

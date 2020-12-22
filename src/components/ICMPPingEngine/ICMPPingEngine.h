@@ -64,7 +64,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     returns true on success; otherwise false.
              */
-            virtual bool setInterval(std::chrono::milliseconds interval);
+            virtual auto setInterval(std::chrono::milliseconds interval) -> bool;
 
             /**
              * @brief       Sets the reply timeout for this engine instance.
@@ -75,7 +75,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual bool setTimeout(std::chrono::milliseconds timeout);
+            virtual auto setTimeout(std::chrono::milliseconds timeout) -> bool;
 
             /**
              * @brief       Starts ping operations for this engine instance.
@@ -84,7 +84,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @return      true on success; otherwise false.
              */
-            virtual bool start();
+            virtual auto start() -> bool;
 
             /**
              * @brief       Stops ping operations for this engine instance.
@@ -93,7 +93,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual bool stop();
+            virtual auto stop() -> bool;
 
             /**
              * @brief       Adds a ping target to this engine instance.
@@ -104,7 +104,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     returns a pointer to the created ping target.
              */
-            virtual Nedrysoft::Core::IPingTarget *addTarget(QHostAddress hostAddress);
+            virtual auto addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget *;
 
             /**
              * @brief       Adds a ping target to this engine instance.
@@ -116,18 +116,18 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @return      returns a pointer to the created ping target.
              */
-            virtual Nedrysoft::Core::IPingTarget *addTarget(QHostAddress hostAddress, int ttl);
+            virtual auto addTarget(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::IPingTarget *;
 
             /**
              * @brief       Removes a ping target from this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::addTarbet
+             * @see         Nedrysoft::Core::IPingEngine::addTarget
              *
              * @param[in]   target the ping target to remove.
              *
              * @return      true on success; otherwise false.
              */
-            virtual bool removeTarget(Nedrysoft::Core::IPingTarget *target);
+            virtual auto removeTarget(Nedrysoft::Core::IPingTarget *target) -> bool;
 
             /**
              * @brief       Gets the epoch for this engine instance.
@@ -136,7 +136,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @return      the time epoch.
              */
-            virtual std::chrono::system_clock::time_point epoch();
+            virtual auto epoch() -> std::chrono::system_clock::time_point;
 
         public:
             /**
@@ -146,7 +146,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     the JSON configuration.
              */
-            virtual QJsonObject saveConfiguration();
+            virtual auto saveConfiguration() -> QJsonObject;
 
             /**
              * @brief       Loads the configuration.
@@ -157,7 +157,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual bool loadConfiguration(QJsonObject configuration);
+            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
 
         private:
             /**
@@ -175,7 +175,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @see         Nedrysoft::ICMPPingEngine::ICMPPingTimeout
              */
-            void timeoutRequests(void);
+            auto timeoutRequests(void) -> void;
 
             /**
              * @brief       Adds a ping request to the engine so it can be tracked.
@@ -185,7 +185,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @param[in]   pingItem the item being tracked.
              */
-            void addRequest(Nedrysoft::ICMPPingEngine::ICMPPingItem *pingItem);
+            auto addRequest(Nedrysoft::ICMPPingEngine::ICMPPingItem *pingItem) -> void;
 
             /**
              * @brief       Removes a tracked request and deletes the item.
@@ -195,14 +195,14 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @param[in]   pingItem is the item to be removed.
              */
-            void removeRequest(Nedrysoft::ICMPPingEngine::ICMPPingItem *pingItem);
+            auto removeRequest(Nedrysoft::ICMPPingEngine::ICMPPingItem *pingItem) -> void;
 
             /**
              * @brief       Returns a tracked request by id.
              *
              * @details     Finds the request by the id that was received in the packet, as the engine needs to
              *              figure out which response relates to a request to figure out the round trip time it uses
-             *              this identifer which is constructed from the ICMP header in the following manner:
+             *              this identifier which is constructed from the ICMP header in the following manner:
              *
              *                  (icmp_id<<16) | icmp_sequence_id
              *
@@ -210,7 +210,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     returns the request if found; nullptr otherwise.
              */
-            Nedrysoft::ICMPPingEngine::ICMPPingItem *getRequest(uint32_t id);
+            auto getRequest(uint32_t id) -> Nedrysoft::ICMPPingEngine::ICMPPingItem *;
 
             /**
              * @brief       Sets the transmission epoch.
@@ -220,7 +220,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @param[in]   epoch is the epoch.
              */
-            void setEpoch(std::chrono::system_clock::time_point epoch);
+            auto setEpoch(std::chrono::system_clock::time_point epoch) -> void;
 
             /**
              * @brief       Returns the IP version of the engine.
@@ -230,7 +230,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     the IP version.
              */
-            Nedrysoft::Core::IPVersion version();
+            auto version() -> Nedrysoft::Core::IPVersion;
 
             friend class ICMPPingTransmitter;
             friend class ICMPPingTimeout;

@@ -41,7 +41,7 @@ namespace Nedrysoft::Utils {
      *
      * @return      the 32 bit result.
      */
-    constexpr uint32_t fzMake32(uint16_t high, uint16_t low) {
+    constexpr auto fzMake32(uint16_t high, uint16_t low) -> uint32_t {
         return ( static_cast<uint32_t>(( high << ( sizeof(high) * CHAR_BIT ) | low )));
     }
 
@@ -55,7 +55,7 @@ namespace Nedrysoft::Utils {
      *
      * @returns     true if interval was valid; otherwise false;
      */
-    bool parseIntervalString(QString intervalString, double &intervalValue);
+    auto parseIntervalString(QString intervalString, double &intervalValue) -> bool;
 
     /**
      * @brief       Validates an interval string.
@@ -66,7 +66,7 @@ namespace Nedrysoft::Utils {
      *
      * @returns     true if interval was valid; otherwise false;
      */
-    bool parseIntervalString(QString intervalString);
+    auto parseIntervalString(QString intervalString) -> bool;
 
     /**
      * @brief       Check if the host is a valid host name or ip address.
@@ -75,7 +75,7 @@ namespace Nedrysoft::Utils {
      *
      * @returns     true if valid; otherwise false.
      */
-    bool checkHostValid(const QString &host);
+    auto checkHostValid(const QString &host) -> bool;
 }
 
 #endif // NEDRYSOFT_UTILS_H

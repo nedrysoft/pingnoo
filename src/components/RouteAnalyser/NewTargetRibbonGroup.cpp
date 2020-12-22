@@ -38,7 +38,6 @@
 #include <QAbstractItemView>
 #include <QMenu>
 #include <QRegularExpressionMatch>
-#include <QDebug>
 
 constexpr auto comboPadding = 12;
 constexpr auto defaultInterval = "2.5s";
@@ -102,7 +101,7 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         auto editorManager = Nedrysoft::Core::IEditorManager::getInstance();
 
         if (editorManager) {
-            auto pingEngineFactoru = ui->engineComboBox->currentData().value<Nedrysoft::Core::IPingEngineFactory *>();
+            auto pingEngineFactory = ui->engineComboBox->currentData().value<Nedrysoft::Core::IPingEngineFactory *>();
 
             auto target = ui->targetLineEdit->toPlainText().isEmpty() ?
                     ui->targetLineEdit->placeholderText() :
@@ -124,7 +123,7 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
             RouteAnalyserEditor *editor = new RouteAnalyserEditor;
 
-            editor->setPingEngine(pingEngineFactoru);
+            editor->setPingEngine(pingEngineFactory);
             editor->setTarget(target);
 
             if (ui->ipV4RadioButton->isChecked()) {
@@ -160,7 +159,7 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::~NewTargetRibbonGroup() {
 }
 
 
-QWidget *Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::checkFieldsValid(QString &string) {
+auto Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::checkFieldsValid(QString &string) -> QWidget * {
     double intervalValue;
     QWidget *returnWidget = nullptr;
 
@@ -188,10 +187,10 @@ QWidget *Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::checkFieldsValid(QStrin
     return returnWidget;
 }
 
-void Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::validateFields() {
+auto Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::validateFields() -> void {
     QString errorString;
 
     auto invalidWidget = checkFieldsValid(errorString);
 
-    ui->startButton->setEnabled(invalidWidget == nullptr ? true : false);
+    ui->startButton->setEnabled(invalidWidget==nullptr);
 }

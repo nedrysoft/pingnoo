@@ -59,23 +59,25 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     the singleton instance.
              */
-            static Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker *getInstance();
+            static auto getInstance() -> Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker *;
 
             /**
              * @brief       This signal is emitted when an ICMP packet has been received.
              *
-             * @param[in]   receiveTime the time at which the reception occured.
+             * @param[in]   receiveTime the time at which the reception occurred.
              * @param[in]   receiveBuffer the packet data.
              * @param[in]   receiveAddress the address the packet was received from (this may differ from the target).
              */
-            Q_SIGNAL void packetReceived(std::chrono::time_point < std::chrono::high_resolution_clock > receiveTime,
-                                         QByteArray receiveBuffer, QHostAddress receiveAddress);
+            Q_SIGNAL void packetReceived(
+                    std::chrono::time_point < std::chrono::high_resolution_clock > receiveTime,
+                    QByteArray receiveBuffer,
+                    QHostAddress receiveAddress);
 
         private:
             /**
              * @brief       The worker thread.
              */
-            void doWork();
+            auto doWork() -> void;
 
         private:
             Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_engine;
@@ -84,6 +86,6 @@ namespace Nedrysoft::ICMPPingEngine {
     };
 }
 
-Q_DECLARE_METATYPE(std::chrono::time_point<std::chrono::high_resolution_clock>);
+Q_DECLARE_METATYPE(std::chrono::time_point<std::chrono::high_resolution_clock>)
 
 #endif //NEDRYSOFT_ICMPPINGRECEIVERWORKER_H

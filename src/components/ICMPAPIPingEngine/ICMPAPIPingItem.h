@@ -59,9 +59,9 @@ namespace Nedrysoft::Pingnoo {
              * @notes       Some platforms do not allow setting of the id field and will ignore it, instead they
              *              may use the process id or something similar instead.
              *
-             * @param[in]   id the idendfier of the request.
+             * @param[in]   id the identifier of the request.
              */
-            void setId(uint16_t id);
+            auto setId(uint16_t id) -> void;
 
             /**
              * @brief       Sets the id field of the ping request.
@@ -69,23 +69,23 @@ namespace Nedrysoft::Pingnoo {
              * @notes       Some platforms do not allow setting of the id field and will ignore it, instead they
              *              may use the process id or something similar instead.
              *
-             * @param[in]   id the idendfier of the request.
+             * @param[in]   id the identifier of the request.
              */
-            void setId(uint16_t id);
+            auto setId(uint16_t id) -> void;
 
             /**
              * @brief       Returns the id used in the ping request.
              *
              * @returns     the id.
              */
-            uint16_t id(void);
+            auto id(void) -> uint16_t;
 
             /**
              * @brief       Sets the sequence id used in the ping request.
              *
              * @param[in]   sequence the sequence identifier.
              */
-            void setSequenceId(uint16_t sequence);
+            auto setSequenceId(uint16_t sequence) -> void;
 
             /**
              * @brief       Set whether this request has been serviced.
@@ -95,56 +95,56 @@ namespace Nedrysoft::Pingnoo {
              *
              * @param[in]   serviced true if serviced; otherwise false.
              */
-            void setServiced(bool serviced);
+            auto setServiced(bool serviced) -> void;
 
             /**
              * @brief       Returns the serviced status of the request.
              *
              * @return      true if request has been serviced; otherwise false.
              */
-            bool serviced();
+            auto serviced() -> bool;
 
             /**
              * @brief       Sets the sample number for this request.
              *
              * @param[in]   sampleNumber the sample number.
              */
-            void setSampleNumber(unsigned long sampleNumber);
+            auto setSampleNumber(unsigned long sampleNumber) -> void;
 
             /**
              * @brief       Returns the sample number for this request.
              *
              * @return      the sample number.
              */
-            unsigned long sampleNumber();
+            auto sampleNumber() -> unsigned long;
 
             /**
              * @brief       Sets the target associated with this request.
              *
              * @param[in]   target the target.
              */
-            void setTarget(Nedrysoft::Pingnoo::ICMPAPIPingTarget *target);
+            auto setTarget(Nedrysoft::Pingnoo::ICMPAPIPingTarget *target) -> void;
 
             /**
              * @brief       Returns the target associated with this request.
              *
              * @returns     the request.
              */
-            Nedrysoft::Pingnoo::ICMPAPIPingTarget *target();
+            auto target() -> Nedrysoft::Pingnoo::ICMPAPIPingTarget *;
 
             /**
              * @brief       Sets the time at which the request was transmitted.
              *
              * @param[in]   time the high resolution clock time.
              */
-            void setTransmitTime(std::chrono::high_resolution_clock::time_point time);
+            auto setTransmitTime(std::chrono::high_resolution_clock::time_point time) -> void;
 
             /**
              * @brief       Returns the time at which the request was transmitted.
              *
              * @returns     the high resolution clock time when the request was sent.
              */
-            std::chrono::high_resolution_clock::time_point transmitTime(void);
+            auto transmitTime(void) -> std::chrono::high_resolution_clock::time_point;
 
         protected:
 

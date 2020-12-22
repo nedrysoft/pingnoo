@@ -23,19 +23,11 @@
 
 #include "ICMPSocket.h"
 
-#include <fcntl.h>
-
 #if defined(Q_OS_UNIX)
-#include <arpa/inet.h>
-#include <arpa/inet.h>
-#include <netdb.h>
+#include <fcntl.h>
 #include <netinet/in.h>
-#include <netinet/ip.h>
-#include <netinet/ip_icmp.h>
 #include <poll.h>
 #include <sys/socket.h>
-#include <sys/time.h>
-#include <sys/types.h>
 #include <unistd.h>
 
 #elif defined(Q_OS_WIN)
@@ -43,8 +35,6 @@
 #include <WinSock2.h>
 #endif
 
-#include <QObject>
-#include <QString>
 #include <QtEndian>
 
 #if defined(Q_OS_WIN)
@@ -69,7 +59,9 @@ Nedrysoft::ICMPSocket::ICMPSocket::~ICMPSocket() {
 #endif
 }
 
-Nedrysoft::ICMPSocket::ICMPSocket *Nedrysoft::ICMPSocket::ICMPSocket::createReadSocket(Nedrysoft::ICMPSocket::IPVersion version) {
+auto Nedrysoft::ICMPSocket::ICMPSocket::createReadSocket(
+        Nedrysoft::ICMPSocket::IPVersion version ) -> Nedrysoft::ICMPSocket::ICMPSocket * {
+
     Nedrysoft::ICMPSocket::ICMPSocket::socket_t socketDescriptor;
 
     initialiseSockets();
@@ -132,7 +124,7 @@ Nedrysoft::ICMPSocket::ICMPSocket *Nedrysoft::ICMPSocket::ICMPSocket::createRead
             src->sin_family = AF_INET;
             src->sin_port = 0;
             src->sin_addr.S_un.S_addr = INADDR_ANY;
-        } else if (version==Nedrysoft::ICMPSocket::V6) {
+        } else {
             sockaddr_in6 *src = reinterpret_cast<sockaddr_in6 *>(&source);
 
             src->sin6_family = AF_INET6;
@@ -160,7 +152,10 @@ Nedrysoft::ICMPSocket::ICMPSocket *Nedrysoft::ICMPSocket::ICMPSocket::createRead
     return new Nedrysoft::ICMPSocket::ICMPSocket(socketDescriptor, version);
 }
 
-Nedrysoft::ICMPSocket::ICMPSocket *Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(int ttl, Nedrysoft::ICMPSocket::IPVersion version) {
+auto Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(
+        int ttl,
+        Nedrysoft::ICMPSocket::IPVersion version ) -> Nedrysoft::ICMPSocket::ICMPSocket * {
+
     Nedrysoft::ICMPSocket::ICMPSocket::socket_t socketDescriptor;
 
     initialiseSockets();
@@ -223,7 +218,7 @@ Nedrysoft::ICMPSocket::ICMPSocket *Nedrysoft::ICMPSocket::ICMPSocket::createWrit
         if (ttl) {
             if (version == V4) {
                 socketInstance->setTTL(ttl);
-            } else if (version == V6) {
+            } else  {
                 socketInstance->setHopLimit(ttl);
             }
         }
@@ -234,8 +229,11 @@ Nedrysoft::ICMPSocket::ICMPSocket *Nedrysoft::ICMPSocket::ICMPSocket::createWrit
     return socketInstance;
 }
 
-int Nedrysoft::ICMPSocket::ICMPSocket::recvfrom(QByteArray &buffer, QHostAddress &receiveAddress,
-                                                std::chrono::milliseconds timeout) {
+auto Nedrysoft::ICMPSocket::ICMPSocket::recvfrom(
+        QByteArray &buffer,
+        QHostAddress &receiveAddress,
+        std::chrono::milliseconds timeout) -> int {
+
 #if defined(Q_OS_UNIX)
     socklen_t addressLength;
     unsigned int socketErrorLength;
@@ -243,7 +241,7 @@ int Nedrysoft::ICMPSocket::ICMPSocket::recvfrom(QByteArray &buffer, QHostAddress
     int addressLength;
     int socketErrorLength;
 
-    int (WSAAPI *poll)(struct pollfd *fds, ulong nfds, int timeout) = WSAPoll;
+    int (WSAAPI *poll)(struct pollfd *, ulong , int ) = WSAPoll;
 #endif
     int socketError;
     struct sockaddr_storage fromAddress = {};
@@ -258,8 +256,11 @@ int Nedrysoft::ICMPSocket::ICMPSocket::recvfrom(QByteArray &buffer, QHostAddress
         if (descriptorSet.events & POLLIN) {
             socketErrorLength = sizeof(socketError);
 
-            auto result = getsockopt(m_socketDescriptor, SOL_SOCKET, SO_ERROR, reinterpret_cast<char *>(&socketError),
-                                     &socketErrorLength);
+            getsockopt(
+                    m_socketDescriptor,
+                    SOL_SOCKET, SO_ERROR,
+                    reinterpret_cast<char *>(&socketError),
+                    &socketErrorLength );
 
             memset(&fromAddress, 0, sizeof(fromAddress));
 
@@ -267,8 +268,13 @@ int Nedrysoft::ICMPSocket::ICMPSocket::recvfrom(QByteArray &buffer, QHostAddress
 
             buffer.resize(ReceiveBufferSize);
 
-            result = ::recvfrom(m_socketDescriptor, buffer.data(), buffer.length(), 0,
-                                reinterpret_cast<sockaddr *>(&fromAddress), &addressLength);
+            auto result = ::recvfrom(
+                                    m_socketDescriptor,
+                                    buffer.data(),
+                                    buffer.length(),
+                                    0,
+                                    reinterpret_cast<sockaddr *>(&fromAddress),
+                                    &addressLength );
 
             if (result >= 0) {
                 receiveAddress = QHostAddress(reinterpret_cast<sockaddr *>(&fromAddress));
@@ -283,7 +289,7 @@ int Nedrysoft::ICMPSocket::ICMPSocket::recvfrom(QByteArray &buffer, QHostAddress
     return -1;
 }
 
-int Nedrysoft::ICMPSocket::ICMPSocket::sendto(QByteArray &buffer, const QHostAddress &hostAddress) {
+auto Nedrysoft::ICMPSocket::ICMPSocket::sendto(QByteArray &buffer, const QHostAddress &hostAddress) -> int {
     if (m_version == V4) {
         struct sockaddr_in toAddress = {};
 
@@ -309,7 +315,7 @@ int Nedrysoft::ICMPSocket::ICMPSocket::sendto(QByteArray &buffer, const QHostAdd
     return -1;
 }
 
-bool Nedrysoft::ICMPSocket::ICMPSocket::isValid(Nedrysoft::ICMPSocket::ICMPSocket::socket_t socket) {
+auto Nedrysoft::ICMPSocket::ICMPSocket::isValid(Nedrysoft::ICMPSocket::ICMPSocket::socket_t socket) -> bool {
 #if defined(Q_OS_WIN)
     return socket!=INVALID_SOCKET;
 #else
@@ -317,7 +323,7 @@ bool Nedrysoft::ICMPSocket::ICMPSocket::isValid(Nedrysoft::ICMPSocket::ICMPSocke
 #endif
 }
 
-void Nedrysoft::ICMPSocket::ICMPSocket::initialiseSockets() {
+auto Nedrysoft::ICMPSocket::ICMPSocket::initialiseSockets() -> void {
     static auto initialised = false;
 
     if (!initialised) {
@@ -332,7 +338,7 @@ void Nedrysoft::ICMPSocket::ICMPSocket::initialiseSockets() {
     }
 }
 
-void Nedrysoft::ICMPSocket::ICMPSocket::setTTL(int ttl) {
+auto Nedrysoft::ICMPSocket::ICMPSocket::setTTL(int ttl) -> void {
     auto result = setsockopt(m_socketDescriptor, IPPROTO_IP, IP_TTL, reinterpret_cast<char *>(&ttl), sizeof(ttl));
 
     if (result == SocketError) {
@@ -340,7 +346,7 @@ void Nedrysoft::ICMPSocket::ICMPSocket::setTTL(int ttl) {
     }
 }
 
-void Nedrysoft::ICMPSocket::ICMPSocket::setHopLimit(int hopLimit) {
+auto Nedrysoft::ICMPSocket::ICMPSocket::setHopLimit(int hopLimit) -> void {
     auto result = setsockopt(m_socketDescriptor, IPPROTO_IPV6, IPV6_UNICAST_HOPS, reinterpret_cast<char *>(&hopLimit),
                              sizeof(hopLimit));
 
@@ -349,6 +355,6 @@ void Nedrysoft::ICMPSocket::ICMPSocket::setHopLimit(int hopLimit) {
     }
 }
 
-Nedrysoft::ICMPSocket::IPVersion Nedrysoft::ICMPSocket::ICMPSocket::version() {
+auto  Nedrysoft::ICMPSocket::ICMPSocket::version() -> Nedrysoft::ICMPSocket::IPVersion {
     return m_version;
 }

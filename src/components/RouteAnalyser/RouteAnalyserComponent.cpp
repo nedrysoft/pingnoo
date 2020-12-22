@@ -29,7 +29,6 @@
 #include "Core/ICommandManager.h"
 #include "Core/IContextManager.h"
 #include "Core/ICore.h"
-#include "Core/IEditor.h"
 #include "Core/IEditorManager.h"
 #include "Core/IRibbonBarManager.h"
 #include "Core/IRibbonPage.h"
@@ -46,7 +45,7 @@ RouteAnalyserComponent::RouteAnalyserComponent() = default;
 
 RouteAnalyserComponent::~RouteAnalyserComponent() = default;
 
-void RouteAnalyserComponent::initialiseEvent() {
+auto RouteAnalyserComponent::initialiseEvent() -> void {
     auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
     auto appNap = Nedrysoft::AppNap::AppNap::getInstance();
 
@@ -75,7 +74,7 @@ void RouteAnalyserComponent::initialiseEvent() {
 
                 auto action = new QAction(tr("New Target..."));
 
-                connect(action, &QAction::triggered, [this]() {
+                connect(action, &QAction::triggered, [=]() {
                     Nedrysoft::RouteAnalyser::NewTargetDialog newTargetDialog;
 
                     if (newTargetDialog.exec()) {
@@ -147,10 +146,10 @@ void RouteAnalyserComponent::initialiseEvent() {
     }
 }
 
-void RouteAnalyserComponent::initialisationFinishedEvent() {
+auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
 
 }
 
-int RouteAnalyserComponent::contextId() {
+auto RouteAnalyserComponent::contextId() -> int {
     return m_editorContextId;
 }

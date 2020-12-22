@@ -69,19 +69,19 @@ namespace Nedrysoft::RouteAnalyser {
              * @param[in]   initialColour the initial colour that is selected.
              * @param[in]   title the title of the dialog, this is suffixed with "Colour", ie. "Ideal Colour"
              */
-            void open(QColor initialColour, QString title, ColourFunction colourFunction);
+            auto open(QColor initialColour, QString title, ColourFunction colourFunction) -> void;
 
             /**
              * @brief       Closes the ColorDialog
              */
-            void close();
+            auto close() -> void;
 
             /**
              * @brief       Gets the instance of the colour dialog.
              *
              * @returns     a pointer to the singleton.
              */
-            static Nedrysoft::RouteAnalyser::ColourDialog *getInstance();
+            static auto getInstance() -> Nedrysoft::RouteAnalyser::ColourDialog *;
 
         private:
             ColourFunction *m_colourFunction;
@@ -92,6 +92,6 @@ namespace Nedrysoft::RouteAnalyser {
             QColorDialog *m_colourDialog;
 #endif
     };
-};
+}
 
 #endif //NEDRYSOFT_COLOURDIALOG_H

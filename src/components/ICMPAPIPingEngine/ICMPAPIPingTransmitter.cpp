@@ -53,7 +53,7 @@ Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::ICMPAPIPingTransmitter(Nedrysoft::Pi
 
 }
 
-void Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::doWork() {
+auto Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::doWork() -> void {
     HANDLE icmpHandle;
     uint16_t currentSequenceId;
     std::chrono::high_resolution_clock::time_point startTime;
@@ -119,14 +119,14 @@ void Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::doWork() {
     }
 }
 
-bool Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::setInterval(std::chrono::milliseconds interval) {
+auto Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::setInterval(std::chrono::milliseconds interval) -> bool {
     m_interval = interval;
 
     return ( true );
 }
 
 /*
-void FZICMPAPIPingTransmitter::addTarget(FZICMPPingTarget *target)
+void Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::addTarget(FZICMPPingTarget *target)
 {
     QMutexLocker locker(&m_targetsMutex);
 

@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_HOSTIPGEOAPITPROVIDER_HOSTIGEOPAPIPROVIDER_H
-#define NEDRYSOFT_HOSTIPGEOAPITPROVIDER_HOSTIGEOPAPIPROVIDER_H
+#ifndef NEDRYSOFT_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDER_H
+#define NEDRYSOFT_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDER_H
 
 #include "ComponentSystem/IInterface.h"
 #include "Core/IGeoIPProvider.h"
@@ -63,7 +63,7 @@ namespace Nedrysoft::HostIPGeoIPProvider {
              *
              * @param[in]   host the host address to be looked up.
              */
-            virtual void lookup(const QString host);
+            virtual auto lookup(const QString host) -> void;
 
             /**
              * @brief       Performs a host lookup using IP address or hostname.
@@ -76,13 +76,11 @@ namespace Nedrysoft::HostIPGeoIPProvider {
              * @param[in]   host the host address to be looked up.
              * @param[in]   function the function called when a result is available.
              */
-            virtual void lookup(const QString host, Nedrysoft::Core::GeoFunction function);
-
-        private:
+            virtual auto lookup(const QString host, Nedrysoft::Core::GeoFunction function) -> void;
 
         private:
             Nedrysoft::HostIPGeoIPProvider::Cache *m_cache;
     };
 }
 
-#endif // NEDRYSOFT_HOSTIPGEOAPITPROVIDER_HOSTIGEOPAPIPROVIDER_H
+#endif // NEDRYSOFT_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDER_H

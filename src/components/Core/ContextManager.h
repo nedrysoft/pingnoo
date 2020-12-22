@@ -67,7 +67,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the numeric identifier of this context.
              */
-            virtual int registerContext(QString contextIdentifier);
+            virtual auto registerContext(QString contextIdentifier) -> int;
 
             /**
              * @brief       Sets the current context.
@@ -80,7 +80,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the status of the context switch.
              */
-            virtual int setContext(int contextIdentifier);
+            virtual auto setContext(int contextIdentifier) -> int;
 
             /**
              * @brief       Gets the current context.
@@ -91,7 +91,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the context identifier.
              */
-            virtual int context();
+            virtual auto context() -> int;
 
             /**
              * @brief       Gets the context id by name.
@@ -102,7 +102,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the context identifier.
              */
-            virtual int context(QString contextName);
+            virtual auto context(QString contextName) -> int;
 
         private:
             int m_nextContextId;                                //! The next available context id available to register

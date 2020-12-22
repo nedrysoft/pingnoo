@@ -24,14 +24,13 @@
 #include "CoreComponent.h"
 
 #include "CommandManager.h"
-#include "ComponentSystem/IComponentManager.h"
 #include "ContextManager.h"
 #include "Core.h"
 #include "IPingEngineFactory.h"
 #include "IRouteEngine.h"
 #include "PingResult.h"
 
-void CoreComponent::initialiseEvent() {
+auto CoreComponent::initialiseEvent() -> void {
     qRegisterMetaType<Nedrysoft::Core::PingResult>("Nedrysoft::Core::PingResult");
     qRegisterMetaType<Nedrysoft::Core::RouteList>("Nedrysoft::Core::RouteList");
     qRegisterMetaType<QHostAddress>("QHostAddress");
@@ -42,7 +41,7 @@ void CoreComponent::initialiseEvent() {
     Nedrysoft::ComponentSystem::addObject(new Nedrysoft::Core::CommandManager());
 }
 
-void CoreComponent::initialisationFinishedEvent() {
+auto CoreComponent::initialisationFinishedEvent() -> void {
     auto core = Nedrysoft::ComponentSystem::getObject<Nedrysoft::Core::Core>();
 
     connect(Nedrysoft::Core::IContextManager::getInstance(), &Nedrysoft::Core::IContextManager::contextChanged,

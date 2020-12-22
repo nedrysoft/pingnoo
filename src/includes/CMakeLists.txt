@@ -23,4 +23,4 @@
 
 add_custom_target(Pingnoo SOURCES
     Pingnoo.h
-    )
+)

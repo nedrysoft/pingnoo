@@ -37,7 +37,6 @@
 #include <QStandardPaths>
 #include <QString>
 #include <QTimer>
-#include <vector>
 #include <memory>
 
 #if defined(Q_OS_MAC)
@@ -53,9 +52,13 @@ int main(int argc, char **argv) {
     auto componentLoader = new Nedrysoft::ComponentSystem::ComponentLoader;
     auto applicationInstance = new QApplication(argc, argv);
 
-    Nedrysoft::SplashScreen *splashScreen = Nedrysoft::SplashScreen::getInstance();;
+    Nedrysoft::SplashScreen *splashScreen = nullptr;
 
-    splashScreen->show();
+    if (argc>1) {
+        splashScreen = Nedrysoft::SplashScreen::getInstance();
+
+        splashScreen->show();
+    }
 
     auto componentManager = Nedrysoft::ComponentSystem::IComponentManager::getInstance();
 
@@ -144,7 +147,7 @@ int main(int argc, char **argv) {
     }
 
     componentLoader->loadComponents([disabledComponents](Nedrysoft::ComponentSystem::Component *component) -> bool {
-        if (component->canBeDisabled() == false) {
+        if (!component->canBeDisabled()) {
             return true;
         }
 
@@ -157,9 +160,11 @@ int main(int argc, char **argv) {
 
     qApp->setWindowIcon(QIcon(":/app/images/appicon-512x512@2x.png"));
 
-    QTimer::singleShot(3000, [=]() {
-        splashScreen->hide();
-    });
+    if (splashScreen) {
+        QTimer::singleShot(3000, [=]() {
+            splashScreen->hide();
+        });
+    }
 
     auto exitCode = QApplication::exec();
 

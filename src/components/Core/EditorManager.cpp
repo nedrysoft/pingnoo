@@ -28,6 +28,23 @@
 #include <QTabBar>
 #include <QTabWidget>
 
+constexpr auto stylesheet = R"(
+QTabBar::tab {
+    padding-right:16px;
+    text-align: center;
+    margin-left: 16px;
+}
+
+QTabBar::close-button {
+    image: url(:/RibbonIcons/Icons/close-button-light.png);
+}
+
+QTabBar::close-button:hover {
+    image: url(:/RibbonIcons/Icons/close-button-dark.png);
+}
+
+)";
+
 Nedrysoft::Core::EditorManager::EditorManager(QTabWidget *tabWidget) :
         m_tabWidget(tabWidget) {
 
@@ -35,11 +52,13 @@ Nedrysoft::Core::EditorManager::EditorManager(QTabWidget *tabWidget) :
     m_tabWidget->setDocumentMode(true);
 }
 
-int Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) {
+auto Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) -> int {
     auto tabIndex = m_tabWidget->addTab(editor->widget(), editor->displayName());
-
+    m_tabWidget->setStyleSheet(stylesheet);
 #if defined(Q_OS_MACOS)
     m_tabWidget->tabBar()->setTabButton(tabIndex, QTabBar::RightSide, m_tabWidget->tabBar()->tabButton(tabIndex, QTabBar::LeftSide));
+#else
+    Q_UNUSED(tabIndex)
 #endif
 
     connect(m_tabWidget, &QTabWidget::tabCloseRequested, [=](int index) {

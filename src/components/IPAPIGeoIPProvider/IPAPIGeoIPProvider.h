@@ -38,7 +38,7 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
     /**
      * @brief       The IPAPIGeoIPProvider provides a ip-api.com geo IP lookup.
      *
-     * @details     Uses ip-api.com to lookup an IP address to detetermine the geo location.
+     * @details     Uses ip-api.com to lookup an IP address to determine the geo location.
      */
     class IPAPIGeoIPProvider :
             public Nedrysoft::Core::IGeoIPProvider {
@@ -69,20 +69,20 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
              *
              * @param[in]   host the host address to be looked up.
              */
-            virtual void lookup(const QString host);
+            virtual auto lookup(const QString host) -> void;
 
             /**
              * @brief       Performs a host lookup using IP address or hostname.
              *
              * @details     This overloaded function uses a std::function to obtain the result, this can be
-             *              a callback function or a lambda funciton.
+             *              a callback function or a lambda function.
              *
              * @see         Nedrysoft::Core::IGeoIPProvider::lookup
              *
              * @param[in]   host the host address to be looked up.
              * @param[in]   function the function called when a result is available.
              */
-            virtual void lookup(const QString host, Nedrysoft::Core::GeoFunction function);
+            virtual auto lookup(const QString host, Nedrysoft::Core::GeoFunction function) -> void;
 
 
         private:

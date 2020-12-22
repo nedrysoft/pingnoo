@@ -51,8 +51,8 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::~ICMPPingEngineFactory() {
     }
 }
 
-Nedrysoft::Core::IPingEngine *Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::createEngine(
-        Nedrysoft::Core::IPVersion version) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::createEngine(
+        Nedrysoft::Core::IPVersion version ) -> Nedrysoft::Core::IPingEngine * {
 
     auto engineInstance = new Nedrysoft::ICMPPingEngine::ICMPPingEngine(version);
 
@@ -61,17 +61,17 @@ Nedrysoft::Core::IPingEngine *Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::
     return engineInstance;
 }
 
-QJsonObject Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::saveConfiguration() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::saveConfiguration() -> QJsonObject {
     return QJsonObject();
 }
 
-bool Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::loadConfiguration(QJsonObject configuration) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::loadConfiguration(QJsonObject configuration) -> bool {
     Q_UNUSED(configuration)
 
     return false;
 }
 
-QString Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::description() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::description() -> QString {
     return tr("ICMP Ping Engine");
 }
 

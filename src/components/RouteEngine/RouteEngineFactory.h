@@ -65,7 +65,7 @@ namespace Nedrysoft::RouteEngine {
              *
              * @returns     the route engine instance.
              */
-            virtual Nedrysoft::Core::IRouteEngine *createEngine();
+            virtual auto createEngine() -> Nedrysoft::Core::IRouteEngine *;
 
             /**
              * @brief       Returns the descriptive name of the route engine.
@@ -75,7 +75,7 @@ namespace Nedrysoft::RouteEngine {
              *
              * @returns     the descriptive name of the route engine.
              */
-            virtual QString description();
+            virtual auto description() -> QString;
 
         private:
             /**
@@ -83,7 +83,7 @@ namespace Nedrysoft::RouteEngine {
              *
              * @returns     the JSON configuration.
              */
-            virtual QJsonObject saveConfiguration();
+            virtual auto saveConfiguration() -> QJsonObject;
 
             /**
              * @brief       Loads the configuration.
@@ -92,7 +92,7 @@ namespace Nedrysoft::RouteEngine {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual bool loadConfiguration(QJsonObject configuration);
+            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
 
         protected:
             std::shared_ptr<RouteEngineFactoryData> d;

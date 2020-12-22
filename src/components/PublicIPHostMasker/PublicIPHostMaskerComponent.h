@@ -59,7 +59,7 @@ class NEDRYSOFT_PUBLICIPHOSTMASKER_DLLSPEC PublicIPHostMaskerComponent :
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
-        virtual void initialiseEvent();
+        virtual auto initialiseEvent() -> void;
 
     private:
 

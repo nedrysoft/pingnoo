@@ -67,21 +67,21 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     the selected IPingEngineFactory.
              */
-            Nedrysoft::Core::IPingEngineFactory *pingEngineFactory();
+            auto pingEngineFactory() -> Nedrysoft::Core::IPingEngineFactory *;
 
             /**
              * @brief       Returns the selected target.
              *
              * @returns     the target. (host or ip address)
              */
-            QString pingTarget();
+            auto pingTarget() -> QString;
 
             /**
              * @brief       Returns the selected IP version.
              *
              * @returns     the ip version, (V4 or V6)
              */
-            Nedrysoft::Core::IPVersion ipVersion();
+            auto ipVersion() -> Nedrysoft::Core::IPVersion;
 
             /**
              * @brief       Returns he ping interval.
@@ -91,7 +91,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     the ping internal in seconds.
              */
-            double interval();
+            auto interval() -> double;
 
         protected:
             /**
@@ -102,7 +102,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     true to stop further event processing; otherwise false.
              */
-            bool eventFilter(QObject *watched, QEvent *event) override;
+            auto eventFilter(QObject *watched, QEvent *event) -> bool override;
 
         private:
             /**
@@ -112,12 +112,12 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     nullptr on no error; otherwise the first widget that failed validation.
              */
-            QWidget *checkFieldsValid(QString &string);
+            auto checkFieldsValid(QString &string) -> QWidget *;
 
             /**
              * @brief       Validates the fields of the dialog and enables/disables the ok/apply buttons.
              */
-            void validateFields();
+            auto validateFields() -> void ;
 
         private:
             Ui::NewTargetDialog *ui;

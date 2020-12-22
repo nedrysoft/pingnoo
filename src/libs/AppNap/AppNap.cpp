@@ -29,7 +29,7 @@ Nedrysoft::AppNap::AppNap::AppNap() {
 #endif
 }
 
-Nedrysoft::AppNap::AppNap *Nedrysoft::AppNap::AppNap::getInstance() {
+auto Nedrysoft::AppNap::AppNap::getInstance() -> Nedrysoft::AppNap::AppNap * {
     static auto instance = new Nedrysoft::AppNap::AppNap();
 
     return instance;

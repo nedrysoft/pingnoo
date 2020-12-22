@@ -71,7 +71,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the proxy action
              */
-            auto action()->QAction* override;
+            auto action() -> QAction* override;
 
             /**
              * @brief       Sets the active state of the command.
@@ -80,7 +80,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   state true if active; otherwise false.
              */
-            void setActive(bool state) override;
+            auto setActive(bool state) -> void override;
 
             /**
              * @brief       Returns the active state of the command.
@@ -89,7 +89,7 @@ namespace Nedrysoft::Core {
              *
              * @return      true if enabled; otherwise false.
              */
-             auto active()->bool override;
+             auto active() -> bool override;
 
         protected:
             /**
@@ -98,7 +98,7 @@ namespace Nedrysoft::Core {
              * @param[in]   action the action.
              * @param[in]   contexts the list of contexts this action is used in.
              */
-            void registerAction(QAction *action, const Nedrysoft::Core::ContextList &contexts);
+            auto registerAction(QAction *action, const Nedrysoft::Core::ContextList &contexts) -> void;
 
             /**
              * @brief       Sets the current context for this command.
@@ -108,7 +108,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   contextId the context id.
              */
-            void setContext(int contextId);
+            auto setContext(int contextId) -> void;
 
             friend class CommandManager;
 

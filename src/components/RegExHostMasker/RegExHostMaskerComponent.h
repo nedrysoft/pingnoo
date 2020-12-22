@@ -63,11 +63,10 @@ class NEDRYSOFT_REGEXHOSTMASKER_DLLSPEC RegExHostMaskerComponent :
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
-        virtual void initialiseEvent();
+        virtual auto initialiseEvent() -> void;
 
     private:
         QList<Nedrysoft::RegExHostMasker::RegExHostMasker *> m_maskerList;
-
 };
 
 #endif // NEDRYSOFT_REGEXHOSTMASKER_REGEXHOSTMASKERCOMPONENT_H

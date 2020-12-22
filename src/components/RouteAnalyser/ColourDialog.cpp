@@ -36,16 +36,15 @@ Nedrysoft::RouteAnalyser::ColourDialog::~ColourDialog() {
     }
 }
 
-void Nedrysoft::RouteAnalyser::ColourDialog::close() {
+auto Nedrysoft::RouteAnalyser::ColourDialog::close() -> void {
     if (m_colourDialog) {
         delete m_colourDialog;
 
         m_colourDialog = nullptr;
     }
-};
+}
 
-
-Nedrysoft::RouteAnalyser::ColourDialog *Nedrysoft::RouteAnalyser::ColourDialog::getInstance() {
+auto Nedrysoft::RouteAnalyser::ColourDialog::getInstance() -> Nedrysoft::RouteAnalyser::ColourDialog * {
     static ColourDialog *instance = nullptr;
 
     if (instance==nullptr) {
@@ -55,7 +54,11 @@ Nedrysoft::RouteAnalyser::ColourDialog *Nedrysoft::RouteAnalyser::ColourDialog::
     return instance;
 }
 
-void Nedrysoft::RouteAnalyser::ColourDialog::open(QColor initialColour, QString title, ColourFunction colourFunction) {
+auto Nedrysoft::RouteAnalyser::ColourDialog::open(
+        QColor initialColour,
+        QString title,
+        ColourFunction colourFunction ) -> void {
+
     if (m_colourDialog) {
         delete m_colourDialog;
     }

@@ -61,7 +61,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     zero if editor successfully opened; otherwise non-zero.
              */
-            virtual int openEditor(IEditor *editor);
+            virtual auto openEditor(IEditor *editor) -> int;
 
         private:
             QTabWidget *m_tabWidget;

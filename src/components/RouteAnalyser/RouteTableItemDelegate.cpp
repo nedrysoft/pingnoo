@@ -67,10 +67,10 @@ Nedrysoft::RouteAnalyser::RouteTableItemDelegate::RouteTableItemDelegate(QWidget
 
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
+auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
         QPainter *painter,
         const QStyleOptionViewItem &option,
-        const QModelIndex &index) const {
+        const QModelIndex &index ) const -> void {
 
     if (!index.isValid()) {
         QStyledItemDelegate::paint(painter, option, index);
@@ -215,12 +215,12 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
     }
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintText(
+auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintText(
         const QString &text, QPainter *painter,
         const QStyleOptionViewItem &option,
         const QModelIndex &index,
         int alignment,
-        int flags) const {
+        int flags) const -> void {
 
     Q_UNUSED(index)
 
@@ -262,11 +262,11 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintText(
     painter->restore();
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBackground(
+auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBackground(
         Nedrysoft::RouteAnalyser::PingData *pingData,
         QPainter *painter,
         const QStyleOptionViewItem &option,
-        const QModelIndex &index) const {
+        const QModelIndex &index) const -> void {
 
     Q_UNUSED(index)
     Q_UNUSED(pingData)
@@ -284,11 +284,11 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBackground(
     }
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintLocation(
+auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintLocation(
         Nedrysoft::RouteAnalyser::PingData *pingData,
         QPainter *painter,
         const QStyleOptionViewItem &option,
-        const QModelIndex &index) const {
+        const QModelIndex &index) const -> void {
 
     auto pen = QPen(QBrush(Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()), option.rect.height() - InvalidEntryLineWidth);
 
@@ -317,11 +317,11 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintLocation(
     }
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(
+auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(
         Nedrysoft::RouteAnalyser::PingData *pingData,
         QPainter *painter,
         const QStyleOptionViewItem &option,
-        const QModelIndex &index) const {
+        const QModelIndex &index) const -> void {
 
     auto tableView = qobject_cast<const QTableView *>(option.widget);
     auto pen = QPen(
@@ -386,11 +386,11 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(
     }
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBubble(
+auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBubble(
         Nedrysoft::RouteAnalyser::PingData *pingData,
         QPainter *painter,
         const QStyleOptionViewItem &option,
-        const QModelIndex &index, QRgb bubbleColour) const {
+        const QModelIndex &index, QRgb bubbleColour) const -> void {
 
     Q_UNUSED(index)
     Q_UNUSED(pingData)
@@ -418,11 +418,11 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBubble(
     painter->restore();
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintHop(
+auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintHop(
         Nedrysoft::RouteAnalyser::PingData *pingData,
         QPainter *painter,
         const QStyleOptionViewItem &option,
-        const QModelIndex &index) const {
+        const QModelIndex &index) const -> void {
 
     constexpr auto interpolationTime = 1000.0;
 
@@ -492,11 +492,11 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getInterpolatedColour(
     return colour.rgb();
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
+auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
         Nedrysoft::RouteAnalyser::PingData *pingData,
         QPainter *painter,
         const QStyleOptionViewItem &option,
-        const QModelIndex &index) const {
+        const QModelIndex &index) const -> void {
 
     auto thisRect = option.rect.adjusted(xOffset, 0, -xOffset, 0);
     auto startPoint = QPointF();
@@ -752,13 +752,13 @@ void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
     painter->restore();
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::drawLatencyLine(
+auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::drawLatencyLine(
         int field,
         Nedrysoft::RouteAnalyser::PingData *pingData,
         QPainter *painter,
         const QStyleOptionViewItem &option,
         const QModelIndex &index,
-        const QPen &pen) const {
+        const QPen &pen) const -> void{
 
     auto thisRect = option.rect.adjusted(xOffset, 0, -xOffset, 0);
     auto nextRect = thisRect;
@@ -874,6 +874,6 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getSiblingData(
     return nullptr;
 }
 
-void Nedrysoft::RouteAnalyser::RouteTableItemDelegate::setGradientEnabled(bool useGradient) {
+auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::setGradientEnabled(bool useGradient) -> void {
     m_useGradient = useGradient;
 }

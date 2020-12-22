@@ -110,112 +110,112 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @param[in]   latency the latency.
              */
-            void setHistoricalLatency(std::chrono::duration<double> latency);
+            auto setHistoricalLatency(std::chrono::duration<double> latency) -> void;
 
             /**
              * @brief       Updates the route table item with the given result.
              *
              * @param[in]   result the ping result for this hop.
              */
-            void updateItem(Nedrysoft::Core::PingResult result);
+            auto updateItem(Nedrysoft::Core::PingResult result) -> void;
 
             /**
              * @brief       Sets the hop number for this item.
              *
              * @param[in]   hop the hop number.
              */
-            void setHop(int hop);
+            auto setHop(int hop) -> void;
 
             /**
              * @brief       Returns the hop number for this route item.
              *
              * @returns     the hop number.
              */
-            int hop();
+            auto hop() -> int;
 
             /**
              * @brief       Sets the displayed ip address for this route item.
              *
              * @param[in]   hostAddress address for this hop.
              */
-            void setHostAddress(QString hostAddress);
+            auto setHostAddress(QString hostAddress) -> void;
 
             /**
              * @brief       Returns the displayed ip address for this route item.
              *
              * @returns     the address for this hop.
              */
-            QString hostAddress();
+            auto hostAddress() -> QString;
 
             /**
              * @brief       Sets the displayed host name for this route item.
              *
              * @param[in]   hostName the host name.
              */
-            void setHostName(QString hostName);
+            auto setHostName(QString hostName) -> void;
 
             /**
              * @brief       Returns the displayed host name for this route item.
              *
              * @returns     the host name.
              */
-            QString hostName();
+            auto hostName() -> QString;
 
             /**
              * @brief       Sets the location position.
              *
              * @param[in]   location the location.
              */
-            void setLocation(const QString &location);
+            auto setLocation(const QString &location) -> void;
 
             /**
              * @brief       Returns the displayed location.
              *
              * @returns     the location.
              */
-            QString location();
+            auto location() -> QString;
 
             /**
              * @brief       Sets the graph associated with this route item.
              *
              * @param[in]   customPlot the plot.
              */
-            void setCustomPlot(QCustomPlot *customPlot);
+            auto setCustomPlot(QCustomPlot *customPlot) -> void;
 
             /**
              * @brief       Sets the jitter graph associated with this route item.
              *
              * @param[in]   jitterPlot the plot.
              */
-            void setJitterPlot(QCustomPlot *jitterPlot);
+            auto setJitterPlot(QCustomPlot *jitterPlot) -> void;
 
             /**
              * @brief       Returns the graph associated with this route item.
              *
              * @return      the plot.
              */
-            QCustomPlot *customPlot();
+            auto customPlot() -> QCustomPlot *;
 
             /**
              * @brief       Returns the jitter graph associated with this route item.
              *
              * @return      the plot.
              */
-            QCustomPlot *jitterPlot();
+            auto jitterPlot() -> QCustomPlot *;
 
             /**
              * @brief       Returns whether this hop is valid.
              *
              * @returns     true if valid; otherwise false.
              */
-            bool hopValid();
+            auto hopValid() -> bool;
 
             /**
              * @brief       Sets the valid state for this hop.
              *
              * @param[in]   hopValid whether the hop is valid.
              */
-            void setHopValid(bool hopValid);
+            auto setHopValid(bool hopValid) -> void;
 
             /**
              * @brief       Returns the latency.
@@ -224,14 +224,14 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @return      the latency.
              */
-            double latency(int field);
+            auto latency(int field) -> double;
 
             /**
              * @brief       Returns the packet loss %.
              *
              * @returns     the packet loss.
              */
-            double packetLoss();
+            auto packetLoss() -> double;
 
         protected:
             /**
@@ -245,26 +245,26 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @return      the average.
              */
-            static double runningAverage(double previousAverage, double value, double n);
+            static auto runningAverage(double previousAverage, double value, double n) -> double;
 
             /**
              * @brief       Updates the model so that views refresh.
              */
-            void updateModel();
+            auto updateModel() -> void;
 
             /**
              * @brief       Returns the table model associated with this item.
              *
              * @return      table model.
              */
-            QStandardItemModel *tableModel();
+            auto tableModel() -> QStandardItemModel *;
 
             /**
              * @brief       Returns the number of samples sent.
              *
              * @return      sample count.
              */
-            unsigned long count();
+            auto count() -> unsigned long ;
 
             friend class RouteTableItemDelegate;
 
@@ -272,7 +272,7 @@ namespace Nedrysoft::RouteAnalyser {
             QStandardItemModel *m_tableModel;                   //! The table model
             QCustomPlot *m_customPlot;                          //! The graph
             QCustomPlot *m_jitterPlot;                          //! The graph
-            QPersistentModelIndex m_modelIndex;                 //! Model index in the route talbe of this item
+            QPersistentModelIndex m_modelIndex;                 //! Model index in the route table of this item
 
             unsigned long m_replyPacketCount;                   //! Total number of replies received
             unsigned long m_timeoutPacketCount;                 //! Total number of timeouts

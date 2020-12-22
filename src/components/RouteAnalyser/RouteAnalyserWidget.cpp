@@ -39,17 +39,11 @@
 #include "RouteTableItemDelegate.h"
 
 #include <QDateTime>
-#include <QDebug>
 #include <QDnsLookup>
 #include <QHostAddress>
 #include <QHostInfo>
 #include <QLabel>
 #include <QLocale>
-#include <QPdfWriter>
-#include <QPersistentModelIndex>
-#include <QRegularExpression>
-#include <QSpacerItem>
-#include <QSslSocket>
 #include <QTableWidgetItem>
 #include <QVBoxLayout>
 #include <QVariant>
@@ -90,9 +84,9 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
         Nedrysoft::Core::IPingEngineFactory *pingEngineFactory,
         QWidget *parent) :
 
-            QWidget(parent),
-            m_routeGraphDelegate(nullptr),
-            m_graphScaleMode(ScaleMode::None) {
+        QWidget(parent),
+        m_routeGraphDelegate(nullptr),
+        m_graphScaleMode(ScaleMode::None) {
 
     auto maskerConfig = QString(
             R"|({"id":"Nedrysoft::RegExHostMasker::RegExHostMasker","matchItems":[{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"},{"matchExpression":"(?<host>(.+))\\.fizzyade\\.(?<domain>(.+))","matchFlags":20,"matchHopString":"","matchReplacementString":"[host].<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"}]})|");
@@ -202,7 +196,7 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::~RouteAnalyserWidget() {
     }
 }
 
-void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core::PingResult result) {
+auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core::PingResult result) -> void {
     auto pingData = static_cast<PingData *>(result.target()->userData());
     QCustomPlot *customPlot;
 
@@ -240,9 +234,9 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
                     auto graphMaxLatency = m_tableView->property("graphMaxLatency").toDouble();
 
                     if (graphMaxLatency>graphRange.upper) {
-                        for (QCustomPlot *customPlot : m_plotList) {
-                            customPlot->yAxis->setRange(0, graphMaxLatency);
-                            customPlot->replot();
+                        for (QCustomPlot *currentPlot : m_plotList) {
+                            currentPlot->yAxis->setRange(0, graphMaxLatency);
+                            currentPlot->replot();
                         }
                     }
 
@@ -251,7 +245,7 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
 
                 case ScaleMode::Fixed: {
                     // TODO: Fixed scaling, user sets the max value.
-                     break;
+                    break;
                 }
             }
 
@@ -275,9 +269,9 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
     customPlot->replot();
 }
 
-void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
+auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
         const QHostAddress &routeHostAddress,
-        const Nedrysoft::Core::RouteList &route) {
+        const Nedrysoft::Core::RouteList &route ) -> void {
 
     Nedrysoft::Core::IRouteEngine *routeEngine = qobject_cast<Nedrysoft::Core::IRouteEngine *>(this->sender());
     auto hop = 1;
@@ -390,13 +384,13 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
             customPlot->replot();
 
             /**
-             * scroll wheel events, by default QCustomPlot does not propogate these so this code ensures that they cause
-             * the scrollarea to scroll.
+             * scroll wheel events, by default QCustomPlot does not propagate these so this code ensures that they cause
+             * the scroll area to scroll.
              */
 
             connect(customPlot, &QCustomPlot::mouseWheel, [this](QWheelEvent *event) {
                 m_scrollArea->verticalScrollBar()->setValue(
-                    m_scrollArea->verticalScrollBar()->value() - event->angleDelta().y() );
+                        m_scrollArea->verticalScrollBar()->value() - event->angleDelta().y() );
             });
 
             /**
@@ -456,6 +450,7 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
                             this->m_tableModel->setProperty("showHistorical", true);
 
+                            /*
                             auto seconds = std::chrono::duration<double>(valueResultRange.upper);
 
                             if (seconds < std::chrono::seconds(1)) {
@@ -467,7 +462,6 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
                                 valueString = QString(tr("%1s")).arg(seconds.count(), 0, 'f', 2);
                             }
 
-                            /*
                             auto dateTime = QDateTime::fromSecsSinceEpoch(static_cast<qint64>(x));
 
                             m_pointInfoLabel->setText(FontAwesome::richText(QString("[fas fa-stopwatch] %1").arg(valueString)));
@@ -622,22 +616,22 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
     }
 }
 
-bool Nedrysoft::RouteAnalyser::RouteAnalyserWidget::eventFilter(QObject *watched, QEvent *event) {
+auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::eventFilter(QObject *watched, QEvent *event) -> bool {
     emit filteredEvent(watched, event);
 
     return QWidget::eventFilter(watched, event);
 }
 
-void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::paintEvent(QPaintEvent *paintEvent) {
+auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::paintEvent(QPaintEvent *paintEvent) -> void {
     QWidget::paintEvent(paintEvent);
 }
 
-void Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setGradientEnabled(bool useSmoothGradient) {
+auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setGradientEnabled(bool smoothGradient) -> void {
     for(auto layer : m_backgroundLayers) {
-        layer->setGradientEnabled(useSmoothGradient);
+        layer->setGradientEnabled(smoothGradient);
     }
 
     if (m_routeGraphDelegate) {
-        m_routeGraphDelegate->setGradientEnabled(useSmoothGradient);
+        m_routeGraphDelegate->setGradientEnabled(smoothGradient);
     }
 }

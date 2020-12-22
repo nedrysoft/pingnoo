@@ -50,7 +50,6 @@ class NEDRYSOFT_IPAPIGEOIPPROVIDER_DLLSPEC IPAPIGeoIPProviderComponent :
 
         /**
          * @brief       Destroys the IPAPIGeoIPProviderComponent.
-         *
          */
         ~IPAPIGeoIPProviderComponent();
 
@@ -61,7 +60,7 @@ class NEDRYSOFT_IPAPIGEOIPPROVIDER_DLLSPEC IPAPIGeoIPProviderComponent :
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
-        virtual void initialiseEvent();
+        virtual auto initialiseEvent() -> void;
 
     private:
 

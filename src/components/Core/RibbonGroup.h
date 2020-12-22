@@ -44,6 +44,6 @@ namespace Nedrysoft::Core {
 
             Q_INTERFACES(Nedrysoft::Core::IRibbonGroup);
     };
-};
+}
 
 #endif //NEDRYSOFT_RIBBONGROUP_H

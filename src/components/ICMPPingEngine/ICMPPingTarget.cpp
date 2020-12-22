@@ -78,19 +78,19 @@ Nedrysoft::ICMPPingEngine::ICMPPingTarget::~ICMPPingTarget() {
     }
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingTarget::setHostAddress(QHostAddress hostAddress) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::setHostAddress(QHostAddress hostAddress) -> void {
     d->m_hostAddress = hostAddress;
 }
 
-QHostAddress Nedrysoft::ICMPPingEngine::ICMPPingTarget::hostAddress() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::hostAddress() -> QHostAddress {
     return d->m_hostAddress;
 }
 
-Nedrysoft::Core::IPingEngine *Nedrysoft::ICMPPingEngine::ICMPPingTarget::engine() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::engine() -> Nedrysoft::Core::IPingEngine * {
     return d->m_engine;
 }
 
-Nedrysoft::ICMPSocket::ICMPSocket *Nedrysoft::ICMPPingEngine::ICMPPingTarget::socket() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::socket() -> Nedrysoft::ICMPSocket::ICMPSocket * {
     if (d->m_socketList[d->m_currentSocket] == 0) {
         if (d->m_hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
             d->m_socketList[d->m_currentSocket] = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(
@@ -112,27 +112,27 @@ Nedrysoft::ICMPSocket::ICMPSocket *Nedrysoft::ICMPPingEngine::ICMPPingTarget::so
     return socket;
 }
 
-uint16_t Nedrysoft::ICMPPingEngine::ICMPPingTarget::id() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::id() -> uint16_t {
     return d->m_id;
 }
 
-uint16_t Nedrysoft::ICMPPingEngine::ICMPPingTarget::ttl() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::ttl() -> uint16_t {
     return d->m_ttl;
 }
 
-void *Nedrysoft::ICMPPingEngine::ICMPPingTarget::userData() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::userData() -> void * {
     return d->m_userData;
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingTarget::setUserData(void *data) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::setUserData(void *data) -> void {
     d->m_userData = data;
 }
 
-QJsonObject Nedrysoft::ICMPPingEngine::ICMPPingTarget::saveConfiguration() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::saveConfiguration() -> QJsonObject {
     return QJsonObject();
 }
 
-bool Nedrysoft::ICMPPingEngine::ICMPPingTarget::loadConfiguration(QJsonObject configuration) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::loadConfiguration(QJsonObject configuration) -> bool {
     Q_UNUSED(configuration)
 
     return false;

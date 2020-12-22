@@ -39,7 +39,7 @@ HostIPGeoIPProviderComponent::~HostIPGeoIPProviderComponent() {
     }
 }
 
-void HostIPGeoIPProviderComponent::initialiseEvent() {
+auto HostIPGeoIPProviderComponent::initialiseEvent() -> void {
     m_provider = new Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider();
 
     Nedrysoft::ComponentSystem::addObject(m_provider);

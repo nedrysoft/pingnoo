@@ -21,7 +21,6 @@
 #include "Command.h"
 
 #include "ActionProxy.h"
-#include "IContextManager.h"
 
 #include <QDebug>
 
@@ -35,11 +34,14 @@ Nedrysoft::Core::Command::~Command() {
     delete m_action;
 }
 
-auto Nedrysoft::Core::Command::action()->QAction* {
+auto Nedrysoft::Core::Command::action() -> QAction* {
     return m_action;
 }
 
-void Nedrysoft::Core::Command::registerAction(QAction *action, const Nedrysoft::Core::ContextList &contexts) {
+auto Nedrysoft::Core::Command::registerAction(
+        QAction *action,
+        const Nedrysoft::Core::ContextList &contexts)  -> void {
+
     connect(action, &QAction::changed, [action, this] {
         m_action->setEnabled(action->isEnabled());
     });
@@ -53,7 +55,7 @@ void Nedrysoft::Core::Command::registerAction(QAction *action, const Nedrysoft::
     }
 }
 
-void Nedrysoft::Core::Command::setContext(int contextId) {
+auto Nedrysoft::Core::Command::setContext(int contextId) -> void {
     if (m_actions.contains(contextId)) {
         m_action->setActive(m_actions[contextId]);
     } else {
@@ -65,10 +67,10 @@ void Nedrysoft::Core::Command::setContext(int contextId) {
     }
 }
 
-void Nedrysoft::Core::Command::setActive(bool state) {
+auto Nedrysoft::Core::Command::setActive(bool state) -> void {
     m_action->setEnabled(state);
 }
 
-auto Nedrysoft::Core::Command::active()->bool {
+auto Nedrysoft::Core::Command::active() ->bool {
     return m_action->isEnabled();
 }

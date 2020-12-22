@@ -60,7 +60,7 @@ class NEDRYSOFT_ROUTEENGINE_DLLSPEC RouteEngineComponent :
          *
          * @details     Called by the component loader after all components have been loaded, called in load order.
          */
-        virtual void initialiseEvent();
+        virtual auto initialiseEvent() -> void;
 
     private:
         Nedrysoft::RouteEngine::RouteEngineFactory *m_routeEngineFactory;

@@ -65,7 +65,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the IRibbonPage instance of the page.
              */
-            Nedrysoft::Core::IRibbonPage *addPage(QString title, QString id) override;
+            auto addPage(QString title, QString id) -> Nedrysoft::Core::IRibbonPage * override;
 
             /**
              * @brief       Returns the page given by the id.
@@ -76,7 +76,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     if it exists, the IRibbonPage instance of the page; otherwise nullptr.
              */
-            Nedrysoft::Core::IRibbonPage *page(QString id) override;
+            auto page(QString id) -> Nedrysoft::Core::IRibbonPage * override;
 
         public:
             /**
@@ -84,7 +84,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   ribbonWidget the ribbon widget.
              */
-            void setRibbonWidget(Nedrysoft::Ribbon::RibbonWidget *ribbonWidget);
+            auto setRibbonWidget(Nedrysoft::Ribbon::RibbonWidget *ribbonWidget) -> void;
 
             /**
              * @brief       Called when a group is added to a page.
@@ -93,7 +93,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   page the page that has had a group added.
              */
-            void groupAdded(Nedrysoft::Core::RibbonPage *page);
+            auto groupAdded(Nedrysoft::Core::RibbonPage *page) -> void;
 
         private:
             Nedrysoft::Ribbon::RibbonWidget *m_ribbonWidget;

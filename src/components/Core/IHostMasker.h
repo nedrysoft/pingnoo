@@ -36,9 +36,9 @@ namespace Nedrysoft::Core {
     /**
      * @brief       Interface definition of a host masker.
      *
-     * @details     A host masker is used to mask the displayed host names & ip addresses in the softwares user
+     * @details     A host masker is used to mask the displayed host names & ip addresses in the software user
      *              interface (and any outputs), this allows screen captures to be taken without requiring further
-     *              editing/redaccting.
+     *              editing/redacting.
      */
     class NEDRYSOFT_CORE_DLLSPEC IHostMasker :
             public Nedrysoft::ComponentSystem::IInterface,
@@ -68,8 +68,12 @@ namespace Nedrysoft::Core {
              *
              * @returns     returns true on replacement; otherwise false.
              */
-            virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName,
-                              QString &maskedHostAddress) = 0;
+            virtual auto mask(
+                    int hop,
+                    const QString &hostName,
+                    const QString &hostAddress,
+                    QString &maskedHostName,
+                    QString &maskedHostAddress ) -> bool = 0;
     };
 }
 

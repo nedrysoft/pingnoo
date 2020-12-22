@@ -50,12 +50,12 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @param[in]   text the text to apply the syntax highlighting to.
              */
-            void highlightBlock(const QString &text) override;
+            auto highlightBlock(const QString &text) -> void override;
 
             /**
              * @brief       This function is used to force a re-highlight the document.
              */
-            void updateSyntax();
+            auto updateSyntax() -> void;
 
         private:
             SyntaxFunction m_syntaxFunction;

@@ -38,7 +38,7 @@ Nedrysoft::ICMPPingEngine::ICMPPingTimeout::ICMPPingTimeout(Nedrysoft::ICMPPingE
 
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingTimeout::doWork() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTimeout::doWork() -> void {
     m_isRunning = true;
 
     while (m_isRunning) {

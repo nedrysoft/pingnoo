@@ -118,9 +118,9 @@ namespace Nedrysoft::RouteAnalyser {
             /**
              * @brief       Sets whether this instance draws with solid or gradient backgrounds on graphs.
              *
-             * @param[in]   useSmoothGradient true if gradient; otherwise false.
+             * @param[in]   smoothGradient true if gradient; otherwise false.
              */
-            void setGradientEnabled(bool useSmoothGradient);
+            auto setGradientEnabled(bool smoothGradient) -> void;
 
         protected:
             /**
@@ -133,14 +133,14 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     true if event was handled; otherwise false.
              */
-            bool eventFilter(QObject *watched, QEvent *event) override;
+            auto eventFilter(QObject *watched, QEvent *event) -> bool override;
 
             /**
              * @brief       Reimplements: QWidget::paintEvent(QPaintEvent *event).
              *
              * @param[in]   event the event information.
              */
-            void paintEvent(QPaintEvent *paintEvent) override;
+            auto paintEvent(QPaintEvent *paintEvent) -> void override;
 
             QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &headerMap();
 

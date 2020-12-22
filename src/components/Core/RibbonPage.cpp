@@ -49,11 +49,11 @@ Nedrysoft::Core::RibbonPage::RibbonPage(RibbonBarManager *manager) :
     m_pageWidget->setLayout(m_pageLayout);
 }
 
-QWidget *Nedrysoft::Core::RibbonPage::widget() {
+auto Nedrysoft::Core::RibbonPage::widget() -> QWidget * {
     return m_pageWidget;
 }
 
-Nedrysoft::Core::IRibbonGroup *Nedrysoft::Core::RibbonPage::addGroup(QString title, QString id, QWidget *widget) {
+auto Nedrysoft::Core::RibbonPage::addGroup(QString title, QString id, QWidget *widget) -> Nedrysoft::Core::IRibbonGroup * {
     auto ribbonGroup = new Nedrysoft::Ribbon::RibbonGroup();
 
     ribbonGroup->setGroupName(title);

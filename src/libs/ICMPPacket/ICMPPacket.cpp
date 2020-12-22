@@ -27,36 +27,22 @@
 #include "Utils.h"
 
 #include <array>
-#include <cerrno>
-#include <cstdint>
-#include <fcntl.h>
+
+#if defined(Q_OS_MACOS)
+#include <netinet/ip.h>
+#endif
 
 #if defined(Q_OS_UNIX)
-
-#include <arpa/inet.h>
-#include <arpa/inet.h>
-#include <cstddef>
-#include <netdb.h>
 #include <netinet/in.h>
-#include <netinet/ip.h>
 #include <netinet/ip_icmp.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <unistd.h>
-
 #endif
+
 #if defined(Q_OS_WIN)
-#include "windows_ip_icmp.h"
-
 #include <WS2tcpip.h>
-#include <WinSock2.h>
 #endif
 
-#include <QByteArray>
 #include <QDataStream>
 #include <QtEndian>
-#include <QtGlobal>
 #include <gsl/gsl>
 
 struct ipv6_header {
@@ -77,7 +63,7 @@ struct icmp_header {
     uint32_t reserved;
 };
 
-struct ipv6_psuedo_header {
+struct ipv6_pseudo_header {
     struct in6_addr sourceAddress;
     struct in6_addr destinationAddress;
     uint32_t packetLength;
@@ -86,7 +72,7 @@ struct ipv6_psuedo_header {
 };
 
 struct icmp_v6 {
-    ipv6_psuedo_header header;
+    ipv6_pseudo_header header;
     struct icmp icmp;
 };
 
@@ -109,7 +95,10 @@ Nedrysoft::ICMPPacket::ICMPPacket::ICMPPacket(uint16_t id, uint16_t sequence, Re
 
 }
 
-Nedrysoft::ICMPPacket::ICMPPacket Nedrysoft::ICMPPacket::ICMPPacket::fromData(const QByteArray &dataBuffer, Nedrysoft::ICMPPacket::IPVersion version) {
+auto Nedrysoft::ICMPPacket::ICMPPacket::fromData(
+        const QByteArray &dataBuffer,
+        Nedrysoft::ICMPPacket::IPVersion version) -> Nedrysoft::ICMPPacket::ICMPPacket {
+
     if (version == Nedrysoft::ICMPPacket::V4) {
         return fromData_v4(dataBuffer);
     } else if (version == Nedrysoft::ICMPPacket::V6) {
@@ -119,17 +108,18 @@ Nedrysoft::ICMPPacket::ICMPPacket Nedrysoft::ICMPPacket::ICMPPacket::fromData(co
     }
 }
 
-Nedrysoft::ICMPPacket::ICMPPacket Nedrysoft::ICMPPacket::ICMPPacket::fromData_v4(const QByteArray &dataBuffer) {
+auto Nedrysoft::ICMPPacket::ICMPPacket::fromData_v4(const QByteArray &dataBuffer) -> Nedrysoft::ICMPPacket::ICMPPacket {
     unsigned char ip_vhl;
     unsigned char ip_vhl_tx;
     unsigned char ip_header_size;
     unsigned char ip_header_size_tx;
-    uint16_t received_id = 0;
-    uint16_t received_sequence = 0;
+    uint16_t received_id;
+    uint16_t received_sequence;
     constexpr unsigned int IP_HEADER_LENGTH_MASK = 0x0F;
 
-    auto mainSpan = gsl::span<const unsigned char>(reinterpret_cast<const unsigned char *>(dataBuffer.data()),
-                                                   dataBuffer.length());
+    auto mainSpan = gsl::span<const unsigned char>(
+            reinterpret_cast<const unsigned char *>(dataBuffer.data()),
+            dataBuffer.length() );
 
     ip_vhl = mainSpan[0];
     ip_header_size = ( ip_vhl & IP_HEADER_LENGTH_MASK ) * sizeof(uint32_t);
@@ -167,12 +157,13 @@ Nedrysoft::ICMPPacket::ICMPPacket Nedrysoft::ICMPPacket::ICMPPacket::fromData_v4
     return ICMPPacket();
 }
 
-Nedrysoft::ICMPPacket::ICMPPacket Nedrysoft::ICMPPacket::ICMPPacket::fromData_v6(const QByteArray &dataBuffer) {
-    uint16_t received_id = 0;
-    uint16_t received_sequence = 0;
+auto Nedrysoft::ICMPPacket::ICMPPacket::fromData_v6(const QByteArray &dataBuffer) -> Nedrysoft::ICMPPacket::ICMPPacket {
+    uint16_t received_id;
+    uint16_t received_sequence;
 
-    auto responseSpan = gsl::span<const unsigned char>(reinterpret_cast<const unsigned char *>(dataBuffer.data()),
-                                                       dataBuffer.length());
+    auto responseSpan = gsl::span<const unsigned char>(
+            reinterpret_cast<const unsigned char *>(dataBuffer.data()),
+            dataBuffer.length() );
 
     auto icmp_response = reinterpret_cast<const struct icmp *>(responseSpan.data());
 
@@ -199,8 +190,7 @@ Nedrysoft::ICMPPacket::ICMPPacket Nedrysoft::ICMPPacket::ICMPPacket::fromData_v6
     return ICMPPacket();
 }
 
-
-uint16_t Nedrysoft::ICMPPacket::ICMPPacket::checksum(void *buffer, int length) {
+auto Nedrysoft::ICMPPacket::ICMPPacket::checksum(void *buffer, int length) -> uint16_t {
     QByteArray dataArray(reinterpret_cast<char *>(buffer), length);
     QDataStream dataStream(dataArray);
     uint32_t checksum = 0;
@@ -219,21 +209,25 @@ uint16_t Nedrysoft::ICMPPacket::ICMPPacket::checksum(void *buffer, int length) {
     return static_cast<uint16_t>(~checksum);
 }
 
-Nedrysoft::ICMPPacket::ResultCode Nedrysoft::ICMPPacket::ICMPPacket::resultCode() {
+auto Nedrysoft::ICMPPacket::ICMPPacket::resultCode() -> Nedrysoft::ICMPPacket::ResultCode {
     return m_resultCode;
 }
 
-uint16_t Nedrysoft::ICMPPacket::ICMPPacket::id() {
+auto Nedrysoft::ICMPPacket::ICMPPacket::id() -> uint16_t {
     return m_id;
 }
 
-uint16_t Nedrysoft::ICMPPacket::ICMPPacket::sequence() {
+auto Nedrysoft::ICMPPacket::ICMPPacket::sequence() -> uint16_t {
     return m_sequence;
 }
 
-QByteArray Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(uint16_t id, uint16_t sequence, int payLoadLength,
-                                                         const QHostAddress &destinationAddress,
-                                                         Nedrysoft::ICMPPacket::IPVersion version) {
+auto Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(
+        uint16_t id,
+        uint16_t sequence,
+        int payLoadLength,
+        const QHostAddress &destinationAddress,
+        Nedrysoft::ICMPPacket::IPVersion version) -> QByteArray {
+
     if (version == Nedrysoft::ICMPPacket::V4) {
         return pingPacket_v4(id, sequence, payLoadLength, destinationAddress);
     } else if (version == Nedrysoft::ICMPPacket::V6) {
@@ -243,8 +237,12 @@ QByteArray Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(uint16_t id, uint16_t s
     }
 }
 
-QByteArray Nedrysoft::ICMPPacket::ICMPPacket::pingPacket_v6(uint16_t id, uint16_t sequence, int payLoadLength,
-                                                            const QHostAddress &destinationAddress) {
+auto Nedrysoft::ICMPPacket::ICMPPacket::pingPacket_v6(
+        uint16_t id,
+        uint16_t sequence,
+        int payLoadLength,
+        const QHostAddress &destinationAddress) -> QByteArray {
+
     QByteArray echoRequestBuffer(payLoadLength + sizeof(icmp_v6), 0);
     auto echoRequestLength = static_cast<int>(echoRequestBuffer.size());
     auto icmp_v6 = reinterpret_cast<struct icmp_v6 *>(echoRequestBuffer.data());
@@ -272,9 +270,14 @@ QByteArray Nedrysoft::ICMPPacket::ICMPPacket::pingPacket_v6(uint16_t id, uint16_
     return QByteArray(reinterpret_cast<char *>(icmp_request), icmp_v6->header.packetLength);
 }
 
-QByteArray Nedrysoft::ICMPPacket::ICMPPacket::pingPacket_v4(uint16_t id, uint16_t sequence, int payLoadLength,
-                                                            const QHostAddress &destinationAddress) {
-    Q_UNUSED(destinationAddress);
+auto Nedrysoft::ICMPPacket::ICMPPacket::pingPacket_v4(
+        uint16_t id,
+        uint16_t sequence,
+        int payLoadLength,
+        const QHostAddress &destinationAddress) -> QByteArray {
+
+    Q_UNUSED(destinationAddress)
+
     QByteArray echoRequestBuffer(payLoadLength + sizeof(icmp), 0);
     auto echoRequestLength = static_cast<int>(echoRequestBuffer.size());
     auto icmp_request = reinterpret_cast<icmp *>(echoRequestBuffer.data());

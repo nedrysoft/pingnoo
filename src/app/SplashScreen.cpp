@@ -68,7 +68,7 @@ Nedrysoft::SplashScreen::~SplashScreen() {
     delete getInstance();
 }
 
-Nedrysoft::SplashScreen *Nedrysoft::SplashScreen::getInstance() {
+auto Nedrysoft::SplashScreen::getInstance() -> Nedrysoft::SplashScreen * {
     static Nedrysoft::SplashScreen *instance;
 
     if (!instance) {
@@ -78,7 +78,7 @@ Nedrysoft::SplashScreen *Nedrysoft::SplashScreen::getInstance() {
     return ( instance );
 }
 
-void Nedrysoft::SplashScreen::drawContents(QPainter *painter) {
+auto Nedrysoft::SplashScreen::drawContents(QPainter *painter) -> void {
     auto font = QFont(fontFamily, fontSize, QFont::Weight::Bold);
     auto versionText = QString("%1.%2.%3").arg(PINGNOO_GIT_YEAR).arg(PINGNOO_GIT_MONTH).arg(PINGNOO_GIT_DAY);
     auto textRect = QRectF(versionRect.topLeft() * m_scaleFactor, versionRect.size() * m_scaleFactor).toRect();

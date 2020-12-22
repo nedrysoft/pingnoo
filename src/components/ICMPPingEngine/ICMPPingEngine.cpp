@@ -34,18 +34,14 @@
 
 #include <QMap>
 #include <QMutex>
-#include <QMutexLocker>
 #include <QThread>
 #include <chrono>
 #include <cstdint>
-#include <spdlog/spdlog.h>
 
 using namespace std::chrono_literals;
 
 constexpr auto DefaultReceiveTimeout = 3s;
 constexpr auto DefaultTerminateThreadTimeout = 5s;
-
-using seconds_double = std::chrono::duration<double>;
 
 class Nedrysoft::ICMPPingEngine::ICMPPingEngineData {
 
@@ -183,7 +179,7 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::~ICMPPingEngine() {
     }
 }
 
-Nedrysoft::Core::IPingTarget *Nedrysoft::ICMPPingEngine::ICMPPingEngine::addTarget(QHostAddress hostAddress) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget * {
     auto target = new Nedrysoft::ICMPPingEngine::ICMPPingTarget(this, hostAddress);
 
     d->m_transmitterWorker->addTarget(target);
@@ -191,7 +187,10 @@ Nedrysoft::Core::IPingTarget *Nedrysoft::ICMPPingEngine::ICMPPingEngine::addTarg
     return target;
 }
 
-Nedrysoft::Core::IPingTarget *Nedrysoft::ICMPPingEngine::ICMPPingEngine::addTarget(QHostAddress hostAddress, int ttl) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::addTarget(
+        QHostAddress hostAddress,
+        int ttl ) -> Nedrysoft::Core::IPingTarget * {
+
     auto target = new Nedrysoft::ICMPPingEngine::ICMPPingTarget(this, hostAddress, ttl);
 
     d->m_transmitterWorker->addTarget(target);
@@ -201,21 +200,21 @@ Nedrysoft::Core::IPingTarget *Nedrysoft::ICMPPingEngine::ICMPPingEngine::addTarg
     return target;
 }
 
-bool Nedrysoft::ICMPPingEngine::ICMPPingEngine::removeTarget(Nedrysoft::Core::IPingTarget *target) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::removeTarget(Nedrysoft::Core::IPingTarget *target) -> bool {
     Q_UNUSED(target)
 
     return true;
 }
 
-bool Nedrysoft::ICMPPingEngine::ICMPPingEngine::start() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::start() -> bool {
     return true;
 }
 
-bool Nedrysoft::ICMPPingEngine::ICMPPingEngine::stop() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::stop() -> bool {
     return true;
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingEngine::addRequest(Nedrysoft::ICMPPingEngine::ICMPPingItem *pingItem) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::addRequest(Nedrysoft::ICMPPingEngine::ICMPPingItem *pingItem) -> void {
     QMutexLocker locker(&d->m_requestsMutex);
 
     auto id = Nedrysoft::Utils::fzMake32(pingItem->id(), pingItem->sequenceId());
@@ -223,8 +222,9 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::addRequest(Nedrysoft::ICMPPingEn
     d->m_pingRequests[id] = pingItem;
 }
 
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::removeRequest(
+        Nedrysoft::ICMPPingEngine::ICMPPingItem *pingItem ) -> void {
 
-void Nedrysoft::ICMPPingEngine::ICMPPingEngine::removeRequest(Nedrysoft::ICMPPingEngine::ICMPPingItem *pingItem) {
     QMutexLocker locker(&d->m_requestsMutex);
 
     auto id = Nedrysoft::Utils::fzMake32(pingItem->id(), pingItem->sequenceId());
@@ -236,7 +236,7 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::removeRequest(Nedrysoft::ICMPPin
     }
 }
 
-Nedrysoft::ICMPPingEngine::ICMPPingItem *Nedrysoft::ICMPPingEngine::ICMPPingEngine::getRequest(uint32_t id) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::getRequest(uint32_t id) -> Nedrysoft::ICMPPingEngine::ICMPPingItem * {
     QMutexLocker locker(&d->m_requestsMutex);
 
     if (d->m_pingRequests.contains(id)) {
@@ -246,17 +246,17 @@ Nedrysoft::ICMPPingEngine::ICMPPingItem *Nedrysoft::ICMPPingEngine::ICMPPingEngi
     return nullptr;
 }
 
-bool Nedrysoft::ICMPPingEngine::ICMPPingEngine::setInterval(std::chrono::milliseconds interval) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::setInterval(std::chrono::milliseconds interval) -> bool {
     return d->m_transmitterWorker->setInterval(interval);
 }
 
-bool Nedrysoft::ICMPPingEngine::ICMPPingEngine::setTimeout(std::chrono::milliseconds timeout) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::setTimeout(std::chrono::milliseconds timeout) -> bool {
     d->m_timeout = timeout;
 
     return true;
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingEngine::timeoutRequests() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::timeoutRequests() -> void {
     QMutexLocker locker(&d->m_requestsMutex);
     QMutableMapIterator<uint32_t, Nedrysoft::ICMPPingEngine::ICMPPingItem *> i(d->m_pingRequests);
 
@@ -294,30 +294,32 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::timeoutRequests() {
     }
 }
 
-QJsonObject Nedrysoft::ICMPPingEngine::ICMPPingEngine::saveConfiguration() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::saveConfiguration() -> QJsonObject {
     return QJsonObject();
 }
 
-bool Nedrysoft::ICMPPingEngine::ICMPPingEngine::loadConfiguration(QJsonObject configuration) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::loadConfiguration(QJsonObject configuration) -> bool {
     Q_UNUSED(configuration)
 
     return false;
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingEngine::setEpoch(std::chrono::system_clock::time_point epoch) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::setEpoch(std::chrono::system_clock::time_point epoch) -> void {
     d->m_epoch = epoch;
 }
 
-std::chrono::system_clock::time_point Nedrysoft::ICMPPingEngine::ICMPPingEngine::epoch() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::epoch() -> std::chrono::system_clock::time_point {
     return d->m_epoch;
 }
 
-Nedrysoft::Core::IPVersion Nedrysoft::ICMPPingEngine::ICMPPingEngine::version() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::version() -> Nedrysoft::Core::IPVersion {
     return d->m_version;
 }
 
-void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(std::chrono::time_point < std::chrono::high_resolution_clock > receiveTime,
-                            QByteArray receiveBuffer, QHostAddress receiveAddress) {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
+        std::chrono::time_point < std::chrono::high_resolution_clock > receiveTime,
+        QByteArray receiveBuffer,
+        QHostAddress receiveAddress ) -> void {
 
     Nedrysoft::Core::PingResult::ResultCode resultCode = Nedrysoft::Core::PingResult::ResultCode::NoReply;
 

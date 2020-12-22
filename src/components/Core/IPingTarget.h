@@ -59,42 +59,42 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   hostAddress the host address to be pinged.
              */
-            virtual void setHostAddress(QHostAddress hostAddress) = 0;
+            virtual auto setHostAddress(QHostAddress hostAddress) -> void = 0;
 
             /**
              * @brief       Returns the host address for this target.
              *
              * @returns     the host address for this target.
              */
-            virtual QHostAddress hostAddress() = 0;
+            virtual auto hostAddress() -> QHostAddress = 0;
 
             /**
              * @brief       Returns the Nedrysoft::Core::IPingEngine that created this target
              *
              * @returns     the Nedrysoft::Core::IPingEngine instance.
              */
-            virtual IPingEngine *engine() = 0;
+            virtual auto engine() -> IPingEngine * = 0;
 
             /**
              * @brief       Returns the user data attached to this target.
              *
              * @returns     the user data.
              */
-            virtual void *userData() = 0;
+            virtual auto userData() -> void * = 0;
 
             /**
              * @brief       Sets the user data attached to this target.
              *
              * @param[in]   data the user data.
              */
-            virtual void setUserData(void *data) = 0;
+            virtual auto setUserData(void *data) -> void = 0;
 
             /**
-             * @brief       Rwturns the TTL of this target.
+             * @brief       Returns the TTL of this target.
              *
              * @returns     the ttl value.
              */
-            virtual uint16_t ttl() = 0;
+            virtual auto ttl() -> uint16_t = 0;
     };
 }
 

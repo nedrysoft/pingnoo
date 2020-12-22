@@ -51,7 +51,7 @@ Nedrysoft::RouteEngine::RouteEngineFactory::~RouteEngineFactory() {
     }
 }
 
-Nedrysoft::Core::IRouteEngine *Nedrysoft::RouteEngine::RouteEngineFactory::createEngine() {
+auto Nedrysoft::RouteEngine::RouteEngineFactory::createEngine() -> Nedrysoft::Core::IRouteEngine * {
     auto engineInstance = new Nedrysoft::RouteEngine::RouteEngine();
 
     d->m_engineList.append(engineInstance);
@@ -59,17 +59,17 @@ Nedrysoft::Core::IRouteEngine *Nedrysoft::RouteEngine::RouteEngineFactory::creat
     return engineInstance;
 }
 
-QJsonObject Nedrysoft::RouteEngine::RouteEngineFactory::saveConfiguration() {
+auto Nedrysoft::RouteEngine::RouteEngineFactory::saveConfiguration() -> QJsonObject {
     return QJsonObject();
 }
 
-bool Nedrysoft::RouteEngine::RouteEngineFactory::loadConfiguration(QJsonObject configuration) {
+auto Nedrysoft::RouteEngine::RouteEngineFactory::loadConfiguration(QJsonObject configuration) -> bool {
     Q_UNUSED(configuration)
 
     return false;
 }
 
-QString Nedrysoft::RouteEngine::RouteEngineFactory::description() {
+auto Nedrysoft::RouteEngine::RouteEngineFactory::description() -> QString {
     return tr("Route Engine");
 }
 

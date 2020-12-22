@@ -34,7 +34,7 @@ namespace Nedrysoft::Core {
     class IPingEngine;
 
     /**
-     * @brief       The IConfiguration interface provides a contract for laoding & saving data.
+     * @brief       The IConfiguration interface provides a contract for loading & saving data.
      */
     class NEDRYSOFT_CORE_DLLSPEC IConfiguration {
         public:
@@ -43,7 +43,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the JSON configuration.
              */
-            virtual QJsonObject saveConfiguration() = 0;
+            virtual auto saveConfiguration() -> QJsonObject = 0;
 
             /**
              * @brief       Loads the configuration.
@@ -52,7 +52,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual bool loadConfiguration(QJsonObject configuration) = 0;
+            virtual auto loadConfiguration(QJsonObject configuration) -> bool = 0;
     };
 }
 

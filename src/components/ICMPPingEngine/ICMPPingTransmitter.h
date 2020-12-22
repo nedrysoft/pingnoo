@@ -59,7 +59,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @param[in]   interval the interval.
              */
-            bool setInterval(std::chrono::milliseconds interval);
+            auto setInterval(std::chrono::milliseconds interval) -> bool;
 
             /**
              * @brief       Adds a ping target to the transmitter.
@@ -67,7 +67,7 @@ namespace Nedrysoft::ICMPPingEngine {
              * @param[in]   target the target to ping.
              *
              */
-            void addTarget(Nedrysoft::ICMPPingEngine::ICMPPingTarget *target);
+            auto addTarget(Nedrysoft::ICMPPingEngine::ICMPPingTarget *target) -> void;
 
         private:
 

@@ -48,7 +48,7 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Returns the Nedrysoft::Core::ICore instance.
              */
-            static ICore *getInstance() {
+            static auto getInstance() -> ICore * {
                 return ComponentSystem::getObject<ICore>();
             }
 
@@ -61,7 +61,7 @@ namespace Nedrysoft::Core {
              *
              * @return      returns a pointer to the QMainWindow.
              */
-            virtual QMainWindow *mainWindow() = 0;
+            virtual auto mainWindow() -> QMainWindow * = 0;
 
             /**
              * @brief       This signal is emitted after ICore has initialised.
@@ -78,7 +78,7 @@ namespace Nedrysoft::Core {
      *
      * @returns     The QMainWindow instance if created; otherwise nullptr;
      */
-    inline QMainWindow *mainWindow() {
+    inline auto mainWindow() -> QMainWindow * {
         auto core = ICore::getInstance();
 
         if (core)

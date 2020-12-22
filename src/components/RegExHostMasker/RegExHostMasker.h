@@ -75,8 +75,11 @@ namespace Nedrysoft::RegExHostMasker {
              * @param[in]   replacementString the string to be used for replacement.
              * @param[in]   hopString hop string listing hops this mask is valid for. (optional)
              */
-            void add(unsigned int matchFlags, QString matchExpression, QString replacementString,
-                     QString hopString = QString());
+            auto add(
+                    unsigned int matchFlags,
+                    QString matchExpression,
+                    QString replacementString,
+                    QString hopString = QString() ) -> void;
 
         public:
             /**
@@ -97,8 +100,13 @@ namespace Nedrysoft::RegExHostMasker {
              *
              * @returns     returns true on replacement; otherwise false.
              */
-            virtual bool mask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName,
-                              QString &maskedHostAddress);
+            virtual auto mask(
+                    int hop,
+                    const QString &hostName,
+                    const QString &hostAddress,
+                    QString &maskedHostName,
+                    QString &maskedHostAddress ) -> bool;
+
         public:
             /**
              * @brief       Saves the configuration to a JSON object.
@@ -107,7 +115,7 @@ namespace Nedrysoft::RegExHostMasker {
              *
              * @returns     the JSON configuration.
              */
-            virtual QJsonObject saveConfiguration();
+            virtual auto saveConfiguration() -> QJsonObject;
 
             /**
              * @brief       Loads the configuration.
@@ -118,7 +126,7 @@ namespace Nedrysoft::RegExHostMasker {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual bool loadConfiguration(QJsonObject configuration);
+            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
 
         private:
             /**
@@ -132,8 +140,12 @@ namespace Nedrysoft::RegExHostMasker {
              *
              * @returns     true on a match; otherwise false.
              */
-            bool applyMask(int hop, const QString &hostName, const QString &hostAddress, QString &maskedHostName,
-                           QString &maskedHostAddress);
+            auto applyMask(
+                    int hop,
+                    const QString &hostName,
+                    const QString &hostAddress,
+                    QString &maskedHostName,
+                    QString &maskedHostAddress ) -> bool;
 
         private:
             QList<RegExHostMaskerItem> m_maskList;
