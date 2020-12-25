@@ -58,7 +58,7 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Destroys the RibbonPage.
              */
-            Nedrysoft::Core::RibbonPage::~RibbonPage();
+            ~RibbonPage();
 
             /**
              * @brief       Returns the pages widget.
