@@ -44,6 +44,8 @@ namespace Nedrysoft::Core {
     QT_END_NAMESPACE
 
     class IMenu;
+    class RibbonBarManager;
+    class EditorManager;
 
     class MainWindow :
             public QMainWindow {
@@ -79,12 +81,11 @@ namespace Nedrysoft::Core {
         private:
             Ui::MainWindow *ui;
 
-            QAction *m_aboutComponentsAction;
-            QAction *m_aboutAction;
-            QAction *m_settingsAction;
-            QAction *m_exitAction;
-
             Nedrysoft::SettingsDialog::SettingsDialog *m_settingsDialog;
+
+            Nedrysoft::Core::RibbonBarManager *m_ribbonBarManager;
+
+            Nedrysoft::Core::EditorManager *m_editorManager;
 
             /*
             QLabel *m_pointInfoLabel;

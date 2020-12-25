@@ -168,6 +168,8 @@ int main(int argc, char **argv) {
 
     auto exitCode = QApplication::exec();
 
+    componentLoader->unloadComponents();
+
     delete componentLoader;
     delete applicationInstance;
 

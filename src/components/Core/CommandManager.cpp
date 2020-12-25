@@ -30,12 +30,22 @@
 #include <QMenu>
 #include <QMenuBar>
 
+
+#include "spdlog/spdlog.h"
+
 Nedrysoft::Core::CommandManager::CommandManager() = default;
+
+Nedrysoft::Core::CommandManager::~CommandManager() {
+    qDeleteAll(m_menuMap);
+    qDeleteAll(m_commandMap);
+}
 
 auto Nedrysoft::Core::CommandManager::registerAction(
         QAction *action,
         QString id,
         const Nedrysoft::Core::ContextList &contexts) -> Nedrysoft::Core::ICommand * {
+
+    spdlog::info(QString("registering action %1 %2 %3").arg(id).arg((uint64_t)action).arg(m_commandMap.count()+1).toStdString());
 
     if (m_commandMap.contains(id)) {
         auto command = m_commandMap[id];

@@ -156,8 +156,15 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
 Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::~NewTargetRibbonGroup() {
     delete ui;
-}
+/*
+    if (m_intervalHighlighter) {
+        delete m_intervalHighlighter;
+    }
 
+    if (m_targetHighlighter) {
+        delete m_targetHighlighter;
+    }*/
+}
 
 auto Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::checkFieldsValid(QString &string) -> QWidget * {
     double intervalValue;

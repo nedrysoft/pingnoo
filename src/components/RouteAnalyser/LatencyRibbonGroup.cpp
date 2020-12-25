@@ -102,6 +102,19 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::LatencyRibbonGroup(QWidget *parent
 
 Nedrysoft::RouteAnalyser::LatencyRibbonGroup::~LatencyRibbonGroup() {
     delete ui;
+/*
+    if (m_idealHighlighter) {
+        delete m_idealHighlighter;
+    }
+
+    if (m_warningHighlighter) {
+        delete m_warningHighlighter;
+    }
+
+    if (m_criticalHighlighter) {
+        delete m_criticalHighlighter;
+    }*/
+
 }
 
 auto Nedrysoft::RouteAnalyser::LatencyRibbonGroup::updatePeriod(Nedrysoft::Ribbon::RibbonLineEdit *lineEdit) -> void {

@@ -49,6 +49,12 @@ Nedrysoft::Core::RibbonPage::RibbonPage(RibbonBarManager *manager) :
     m_pageWidget->setLayout(m_pageLayout);
 }
 
+Nedrysoft::Core::RibbonPage::~RibbonPage() {
+    if (m_pageWidget) {
+        delete m_pageWidget;
+    }
+}
+
 auto Nedrysoft::Core::RibbonPage::widget() -> QWidget * {
     return m_pageWidget;
 }

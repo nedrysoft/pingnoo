@@ -30,9 +30,9 @@ Nedrysoft::AppNap::AppNap::AppNap() {
 }
 
 auto Nedrysoft::AppNap::AppNap::getInstance() -> Nedrysoft::AppNap::AppNap * {
-    static auto instance = new Nedrysoft::AppNap::AppNap();
+    static AppNap instance;
 
-    return instance;
+    return &instance;
 }
 
 void Nedrysoft::AppNap::AppNap::prevent(const QString &reason) {

@@ -47,7 +47,7 @@ namespace Nedrysoft::AppNap {
      *              On other platforms it does nothing.
      */
     class NEDRYSOFT_APPNAP_DLLSPEC AppNap {
-        private:
+        public:
             AppNap();
 
         public:

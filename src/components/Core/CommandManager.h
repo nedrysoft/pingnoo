@@ -54,6 +54,11 @@ namespace Nedrysoft::Core {
              */
             CommandManager();
 
+            /**
+             * @brief       Destroys the CommandManager.
+             */
+            ~CommandManager();
+
         public:
             /**
              * @brief       Registers a QAction with a command for a given context.

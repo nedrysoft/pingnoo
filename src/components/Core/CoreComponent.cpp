@@ -30,15 +30,35 @@
 #include "IRouteEngine.h"
 #include "PingResult.h"
 
+CoreComponent::CoreComponent() :
+        m_core(new Nedrysoft::Core::Core()),
+        m_contextManager(new Nedrysoft::Core::ContextManager()),
+        m_commandManager(new Nedrysoft::Core::CommandManager()) {
+
+}
+CoreComponent::~CoreComponent() {
+    if (m_core) {
+        delete m_core;
+    }
+
+    if (m_contextManager) {
+        delete m_contextManager;
+    }
+
+    if (m_commandManager) {
+        delete m_commandManager;
+    }
+}
+
 auto CoreComponent::initialiseEvent() -> void {
     qRegisterMetaType<Nedrysoft::Core::PingResult>("Nedrysoft::Core::PingResult");
     qRegisterMetaType<Nedrysoft::Core::RouteList>("Nedrysoft::Core::RouteList");
     qRegisterMetaType<QHostAddress>("QHostAddress");
     qRegisterMetaType<Nedrysoft::Core::IPingEngineFactory *>("Nedrysoft::Core::IPingEngineFactory *");
 
-    Nedrysoft::ComponentSystem::addObject(new Nedrysoft::Core::Core());
-    Nedrysoft::ComponentSystem::addObject(new Nedrysoft::Core::ContextManager());
-    Nedrysoft::ComponentSystem::addObject(new Nedrysoft::Core::CommandManager());
+    Nedrysoft::ComponentSystem::addObject(m_core);
+    Nedrysoft::ComponentSystem::addObject(m_contextManager);
+    Nedrysoft::ComponentSystem::addObject(m_commandManager);
 }
 
 auto CoreComponent::initialisationFinishedEvent() -> void {
@@ -47,7 +67,7 @@ auto CoreComponent::initialisationFinishedEvent() -> void {
     connect(Nedrysoft::Core::IContextManager::getInstance(), &Nedrysoft::Core::IContextManager::contextChanged,
             [&](int newContext, int oldContext) {
                 Q_UNUSED(oldContext)
-                
+
                 Nedrysoft::Core::ICommandManager::getInstance()->setContext(newContext);
             });
 

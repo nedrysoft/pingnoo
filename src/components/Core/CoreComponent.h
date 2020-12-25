@@ -27,6 +27,12 @@
 #include "ComponentSystem/IComponent.h"
 #include "CoreSpec.h"
 
+namespace Nedrysoft::Core {
+    class Core;
+    class ContextManager;
+    class CommandManager;
+}
+
 /**
  * @brief       The Core component
  *
@@ -50,7 +56,12 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
         /**
          * @brief       Constructs a new CoreComponent instance.
          */
-        CoreComponent() = default;
+        CoreComponent();
+
+        /**
+         * @brief       Destroys the CoreComponent.
+         */
+        ~CoreComponent();
 
     public:
         /**
@@ -71,6 +82,11 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
          * @see         Nedrysoft::ComponentSystem::IComponent::initialisationFinishedEvent
          */
         virtual auto initialisationFinishedEvent() -> void;
+
+    private:
+        Nedrysoft::Core::Core *m_core;
+        Nedrysoft::Core::ContextManager *m_contextManager;
+        Nedrysoft::Core::CommandManager *m_commandManager;
 };
 
 #endif // NEDRYSOFT_CORE_CORECOMPONENT_H

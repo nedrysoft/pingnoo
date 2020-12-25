@@ -30,6 +30,10 @@ Nedrysoft::Core::RibbonBarManager::RibbonBarManager() :
 
 }
 
+Nedrysoft::Core::RibbonBarManager::~RibbonBarManager() {
+    qDeleteAll(m_pages);
+}
+
 Nedrysoft::Core::RibbonBarManager::RibbonBarManager(Nedrysoft::Ribbon::RibbonWidget *ribbonWidget) :
         m_ribbonWidget(ribbonWidget) {
 

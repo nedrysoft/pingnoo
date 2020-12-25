@@ -41,17 +41,43 @@
 #include "RouteAnalyserEditor.h"
 #include "TargetSettingsPage.h"
 
-RouteAnalyserComponent::RouteAnalyserComponent() = default;
+RouteAnalyserComponent::RouteAnalyserComponent() :
+        m_latencySettingsPage(nullptr),
+        m_targetSettingsPage(nullptr),
+        m_newTargetGroupWidget(nullptr),
+        m_latencyGroupWidget(nullptr),
+        m_newTargetAction(nullptr)
+    {
 
-RouteAnalyserComponent::~RouteAnalyserComponent() = default;
+};
+
+RouteAnalyserComponent::~RouteAnalyserComponent() {
+    if (m_latencySettingsPage) {
+        delete m_latencySettingsPage;
+    }
+
+    if (m_targetSettingsPage) {
+        delete m_targetSettingsPage;
+    }
+
+    if (m_newTargetGroupWidget) {
+        delete m_newTargetGroupWidget;
+    }
+
+    if (m_latencyGroupWidget) {
+        delete m_latencyGroupWidget;
+    }
+
+    if (m_newTargetAction) {
+        delete m_newTargetAction;
+    }
+}
 
 auto RouteAnalyserComponent::initialiseEvent() -> void {
     auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
     auto appNap = Nedrysoft::AppNap::AppNap::getInstance();
 
     appNap->prevent(QT_TR_NOOP("App Nap has been disabled as it interferes with thread timing."));
-
-    //Nedrysoft::RouteAnalyser::ColourDialog::close();
 
     if (contextManager) {
         m_editorContextId = contextManager->registerContext(Pingnoo::Constants::routeAnalyserContext);
@@ -72,9 +98,9 @@ auto RouteAnalyserComponent::initialiseEvent() -> void {
             if (commandManager) {
                 // create New Target... action
 
-                auto action = new QAction(tr("New Target..."));
+                m_newTargetAction =  new QAction(tr("New Target..."));
 
-                connect(action, &QAction::triggered, [=]() {
+                connect(m_newTargetAction, &QAction::triggered, [=]() {
                     Nedrysoft::RouteAnalyser::NewTargetDialog newTargetDialog;
 
                     if (newTargetDialog.exec()) {
@@ -98,12 +124,12 @@ auto RouteAnalyserComponent::initialiseEvent() -> void {
 
                 // register File/New Target... menu option global context
 
-                auto command = commandManager->registerAction(action, "Menu.File.NewTarget");
+                auto command = commandManager->registerAction(m_newTargetAction, "Menu.File.NewTarget");
 
                 auto menu = commandManager->findMenu(Pingnoo::Constants::menuFile);
 
                 menu->appendCommand(command, Pingnoo::Constants::fileNewGroup);
-
+/*
                 // create Edit/Cut action for this context
 
                 action = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::editCut));
@@ -119,6 +145,7 @@ auto RouteAnalyserComponent::initialiseEvent() -> void {
                 Nedrysoft::Core::IContextManager::getInstance()->setContext(m_editorContextId);
 
                 action->setEnabled(true);
+*/
             }
         });
 
@@ -126,23 +153,26 @@ auto RouteAnalyserComponent::initialiseEvent() -> void {
 
         if (ribbonBarManager) {
             auto ribbonPage = ribbonBarManager->addPage(tr("Route Analyser"), Pingnoo::Constants::ribbonRouteAnalyserPage);
-            auto newTargetGroupWidget = new Nedrysoft::RouteAnalyser::NewTargetRibbonGroup;
-            auto latencyGroupWidget = new Nedrysoft::RouteAnalyser::LatencyRibbonGroup;
+            m_newTargetGroupWidget = new Nedrysoft::RouteAnalyser::NewTargetRibbonGroup;
+            m_latencyGroupWidget = new Nedrysoft::RouteAnalyser::LatencyRibbonGroup;
 
             ribbonPage->addGroup(
                     tr("New Target"),
                     Pingnoo::Constants::ribbonRouteAnalyserNewTargetGroup,
-                    newTargetGroupWidget );
+                    m_newTargetGroupWidget );
 
             ribbonPage->addGroup(
                     tr("Latency"),
                     Pingnoo::Constants::ribbonRouteAnalyserLatencyGroup,
-                    latencyGroupWidget );
+                    m_latencyGroupWidget );
 
         }
 
-        Nedrysoft::ComponentSystem::addObject(new Nedrysoft::RouteAnalyser::LatencySettingsPage);
-        Nedrysoft::ComponentSystem::addObject(new Nedrysoft::RouteAnalyser::TargetSettingsPage);
+        m_latencySettingsPage = new Nedrysoft::RouteAnalyser::LatencySettingsPage;
+        m_targetSettingsPage = new Nedrysoft::RouteAnalyser::TargetSettingsPage;
+
+        Nedrysoft::ComponentSystem::addObject(m_latencySettingsPage);
+        Nedrysoft::ComponentSystem::addObject(m_targetSettingsPage);
     }
 }
 

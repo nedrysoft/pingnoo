@@ -49,6 +49,26 @@ namespace Nedrysoft::Core {
 
         public:
             /**
+             * @brief       Constructs a RibbonPage which is a child of the manager.
+             *
+             * @param[in]   manager the manager that owns this page.
+             */
+            RibbonPage(RibbonBarManager *manager);
+
+            /**
+             * @brief       Destroys the RibbonPage.
+             */
+            Nedrysoft::Core::RibbonPage::~RibbonPage();
+
+            /**
+             * @brief       Returns the pages widget.
+             *
+             * @returns     the page widget.
+             */
+            auto widget() -> QWidget *;
+
+        public:
+            /**
              * @brief       Adds a group to the page.
              *
              * @param[in]   title the title of the group.
@@ -57,21 +77,6 @@ namespace Nedrysoft::Core {
              * @returns     the IRibbonGroup instance of the group.
              */
             auto addGroup(QString title, QString id, QWidget *widget) -> Nedrysoft::Core::IRibbonGroup * override;
-
-        public:
-            /**
-             * @brief       Constructs a RibbonPage which is a child of the manager.
-             *
-             * @param[in]   manager the manager that owns this page.
-             */
-            RibbonPage(RibbonBarManager *manager);
-
-            /**
-             * @brief       Returns the pages widget.
-             *
-             * @returns     the page widget.
-             */
-            auto widget() -> QWidget *;
 
         private:
             QWidget *m_pageWidget;

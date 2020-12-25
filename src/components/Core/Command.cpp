@@ -24,6 +24,8 @@
 
 #include <QDebug>
 
+#include "spdlog/spdlog.h"
+
 Nedrysoft::Core::Command::Command(QString id) :
         m_action(new ActionProxy()),
         m_id(id) {
@@ -31,16 +33,22 @@ Nedrysoft::Core::Command::Command(QString id) :
 }
 
 Nedrysoft::Core::Command::~Command() {
-    delete m_action;
+    if (m_action) {
+        delete m_action;
+    }
 }
 
-auto Nedrysoft::Core::Command::action() -> QAction* {
+auto Nedrysoft::Core::Command::action() -> QAction * {
     return m_action;
 }
 
 auto Nedrysoft::Core::Command::registerAction(
         QAction *action,
         const Nedrysoft::Core::ContextList &contexts)  -> void {
+
+    spdlog::info(QString("adding %1 %2").arg((uint64_t)action).arg(action->text()).toStdString());
+
+    action->setParent(this);
 
     connect(action, &QAction::changed, [action, this] {
         m_action->setEnabled(action->isEnabled());

@@ -43,7 +43,10 @@
 
 Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
-        ui(new Nedrysoft::Core::Ui::MainWindow) {
+        ui(new Nedrysoft::Core::Ui::MainWindow),
+        m_ribbonBarManager(nullptr) {
+
+    // TODO: m_ribbonBarManager should be created in the component initialisation
 
     ui->setupUi(this);
 
@@ -53,11 +56,11 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
     qApp->setWindowIcon(QIcon(":/app/appicon.ico"));
 #endif
 
-    auto ribbonBarManager = new Nedrysoft::Core::RibbonBarManager(ui->ribbonBar);
+    m_ribbonBarManager = new Nedrysoft::Core::RibbonBarManager(ui->ribbonBar);
 
-    Nedrysoft::ComponentSystem::addObject(ribbonBarManager);
+    Nedrysoft::ComponentSystem::addObject(m_ribbonBarManager);
 
-    ribbonBarManager->addPage(tr("Home"), Pingnoo::Constants::ribbonHomePage);
+    m_ribbonBarManager->addPage(tr("Home"), Pingnoo::Constants::ribbonHomePage);
 
     // QStatusBar *statusBar = new QStatusBar;
 
@@ -93,13 +96,24 @@ Nedrysoft::Core::MainWindow::~MainWindow() {
      delete m_tableModel;*/
 
     delete ui;
+
+    if (m_ribbonBarManager) {
+        delete m_ribbonBarManager;
+    }
+
+    if (m_editorManager) {
+        delete m_editorManager;
+    }
+
 }
 
 auto Nedrysoft::Core::MainWindow::initialise() -> void {
     createDefaultCommands();
     registerDefaultCommands();
 
-    Nedrysoft::ComponentSystem::addObject(new Nedrysoft::Core::EditorManager(ui->editorTabWidget));
+    m_editorManager = new Nedrysoft::Core::EditorManager(ui->editorTabWidget);
+
+    Nedrysoft::ComponentSystem::addObject(m_editorManager);
 
     /*auto editors = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IEditor>();
 
@@ -158,14 +172,14 @@ auto Nedrysoft::Core::MainWindow::createDefaultCommands() -> void {
 auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
     auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
-    m_aboutComponentsAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::helpAboutComponents));
+    auto aboutComponentsAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::helpAboutComponents));
 
-    m_aboutComponentsAction->setEnabled(true);
-    m_aboutComponentsAction->setMenuRole(QAction::ApplicationSpecificRole);
+    aboutComponentsAction->setEnabled(true);
+    aboutComponentsAction->setMenuRole(QAction::ApplicationSpecificRole);
 
-    commandManager->registerAction(m_aboutComponentsAction, Pingnoo::Constants::helpAboutComponents);
+    commandManager->registerAction(aboutComponentsAction, Pingnoo::Constants::helpAboutComponents);
 
-    connect(m_aboutComponentsAction, &QAction::triggered, [](bool) {
+    connect(aboutComponentsAction, &QAction::triggered, [](bool) {
         Nedrysoft::ComponentSystem::ComponentViewerDialog componentViewerDialog(
                 Nedrysoft::ComponentSystem::getObject<QMainWindow>() );
 
@@ -199,14 +213,14 @@ auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
         }
     });
 
-    m_settingsAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::filePreferences));
+    auto settingsAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::filePreferences));
 
-    m_settingsAction->setEnabled(true);
-    m_settingsAction->setMenuRole(QAction::PreferencesRole);
+    settingsAction->setEnabled(true);
+    settingsAction->setMenuRole(QAction::PreferencesRole);
 
-    commandManager->registerAction(m_settingsAction, Pingnoo::Constants::filePreferences);
+    commandManager->registerAction(settingsAction, Pingnoo::Constants::filePreferences);
 
-    connect(m_settingsAction, &QAction::triggered, [this](bool) {
+    connect(settingsAction, &QAction::triggered, [this](bool) {
         QList<Nedrysoft::SettingsDialog::ISettingsPage *> pages;
 
         pages = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::SettingsDialog::ISettingsPage>();
@@ -222,25 +236,25 @@ auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
         });
     });
 
-    m_exitAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::fileExit));
+    auto exitAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::fileExit));
 
-    m_exitAction->setEnabled(true);
-    m_exitAction->setMenuRole(QAction::QuitRole);
+    exitAction->setEnabled(true);
+    exitAction->setMenuRole(QAction::QuitRole);
 
-    commandManager->registerAction(m_exitAction, Pingnoo::Constants::fileExit);
+    commandManager->registerAction(exitAction, Pingnoo::Constants::fileExit);
 
-    connect(m_exitAction, &QAction::triggered, [this](bool) {
+    connect(exitAction, &QAction::triggered, [this](bool) {
         close();
     });
 
-    m_aboutAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::helpAbout));
+    auto aboutAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::helpAbout));
 
-    m_aboutAction->setEnabled(true);
-    m_aboutAction->setMenuRole(QAction::ApplicationSpecificRole);
+    aboutAction->setEnabled(true);
+    aboutAction->setMenuRole(QAction::ApplicationSpecificRole);
 
-    commandManager->registerAction(m_aboutAction, Pingnoo::Constants::helpAbout);
+    commandManager->registerAction(aboutAction, Pingnoo::Constants::helpAbout);
 
-    connect(m_aboutAction, &QAction::triggered, [](bool) {
+    connect(aboutAction, &QAction::triggered, [](bool) {
         AboutDialog aboutDialog;
 
         aboutDialog.exec();

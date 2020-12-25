@@ -49,6 +49,11 @@ namespace Nedrysoft::Core {
             RibbonBarManager();
 
             /**
+             * @brief       Destroys the RibbonBarManager.
+             */
+            ~RibbonBarManager();
+
+            /**
              * @brief       Constructs a RibbonBarManager with the supplied Ribbon Widget.
              *
              * @param[in]   ribbonWidget the ribbon widget.

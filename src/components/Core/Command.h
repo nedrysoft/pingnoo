@@ -95,6 +95,8 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Registers an action to the given contexts.
              *
+             * @note        The command manager becomes the owner of the action.
+             *
              * @param[in]   action the action.
              * @param[in]   contexts the list of contexts this action is used in.
              */
