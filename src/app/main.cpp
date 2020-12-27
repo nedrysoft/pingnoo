@@ -24,7 +24,7 @@
 #include "ComponentSystem/Component.h"
 #include "ComponentSystem/ComponentLoader.h"
 #include "ComponentSystem/IComponentManager.h"
-#include "spdlog.h"
+#include "spdlog/spdlog.h"
 #include "SplashScreen.h"
 
 #include <QApplication>

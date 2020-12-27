@@ -88,7 +88,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::getInstance() -> Nedryso
     return instance;
 }
 
-auto Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::doWork() -> void {
+void Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::doWork() {
     QByteArray receiveBuffer;
     m_socket =  Nedrysoft::ICMPSocket::ICMPSocket::createReadSocket(
             static_cast<Nedrysoft::ICMPSocket::IPVersion>(Nedrysoft::ICMPSocket::V4));

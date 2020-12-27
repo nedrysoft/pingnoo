@@ -319,10 +319,10 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::version() -> Nedrysoft::Core::IP
     return d->m_version;
 }
 
-auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
+void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
         std::chrono::time_point < std::chrono::high_resolution_clock > receiveTime,
         QByteArray receiveBuffer,
-        QHostAddress receiveAddress ) -> void {
+        QHostAddress receiveAddress ) {
 
     Nedrysoft::Core::PingResult::ResultCode resultCode = Nedrysoft::Core::PingResult::ResultCode::NoReply;
 

@@ -51,7 +51,7 @@ namespace Nedrysoft::ICMPPingEngine {
             ICMPPingTimeout(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine);
 
             /**
-             * @brief       The receiver thread worker.
+             * @brief       The timeout thread worker.
              */
             Q_SLOT void doWork();
 

@@ -52,7 +52,7 @@ Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::~ICMPPingTransmitter() {
     qDeleteAll(m_targets);
 }
 
-auto Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() -> void {
+void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
     unsigned long sampleNumber = 0;
 
     m_isRunning = true;
