@@ -21,5 +21,6 @@
         <file>images/splashscreen@2x.png</file>
         <file>images/splashscreen.png</file>
         <file>images/appicon-512x512@2x.png</file>
+        <file>AppIcon.ico</file>
     </qresource>
 </RCC>

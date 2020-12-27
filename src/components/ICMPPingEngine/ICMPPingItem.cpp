@@ -24,7 +24,6 @@
 #include "ICMPPingItem.h"
 
 #include <QDebug>
-#include <QMutex>
 #include <QTimer>
 
 Nedrysoft::ICMPPingEngine::ICMPPingItem::ICMPPingItem() :

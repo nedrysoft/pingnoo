@@ -23,15 +23,14 @@
 
 #include "Cache.h"
 
-#include <QDateTime>
 #include <QDir>
-#include <QFileInfo>
 #include <QJsonArray>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlResult>
 #include <QStandardPaths>
+#include <spdlog/spdlog.h>
 
 Nedrysoft::IPAPIGeoIPProvider::Cache::Cache() {
     auto dataLocations = QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation);
@@ -79,7 +78,7 @@ Nedrysoft::IPAPIGeoIPProvider::Cache::Cache() {
     ))");
 
     if (!result) {
-        //qDebug() << "error creating table." << query.lastError().text();
+        SPDLOG_WARN(QString("error creating table.  (%1)").arg(query.lastError().text()).toStdString());
     }
 }
 
@@ -113,7 +112,7 @@ auto Nedrysoft::IPAPIGeoIPProvider::Cache::add(QJsonObject object) -> void {
     auto result = query.exec();
 
     if (!result) {
-        qDebug() << "error adding record." << query.lastError().text();
+        SPDLOG_WARN(QString("error adding record.  (%1)").arg(query.lastError().text()).toStdString());
     }
 }
 

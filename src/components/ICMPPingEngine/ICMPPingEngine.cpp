@@ -53,7 +53,8 @@ class Nedrysoft::ICMPPingEngine::ICMPPingEngineData {
                 m_transmitterThread(nullptr),
                 m_timeoutThread(nullptr),
                 m_timeout(DefaultReceiveTimeout),
-                m_epoch(std::chrono::system_clock::now()) {
+                m_epoch(std::chrono::system_clock::now()),
+                m_receiverWorker(nullptr) {
 
         }
 
@@ -79,6 +80,8 @@ class Nedrysoft::ICMPPingEngine::ICMPPingEngineData {
         std::chrono::system_clock::time_point m_epoch;
 
         Nedrysoft::Core::IPVersion m_version;
+
+        Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker *m_receiverWorker;
 };
 
 Nedrysoft::ICMPPingEngine::ICMPPingEngine::ICMPPingEngine(Nedrysoft::Core::IPVersion version) :
@@ -104,9 +107,9 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::ICMPPingEngine(Nedrysoft::Core::IPVer
 
     // connect to the receiver thread
 
-    auto receiver = Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::getInstance();
+    d->m_receiverWorker = Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::getInstance();
 
-    connect(receiver,
+    connect(d->m_receiverWorker,
             &Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::packetReceived,
             this,
             &Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived);
@@ -170,12 +173,12 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::~ICMPPingEngine() {
     delete d->m_transmitterWorker;
     delete d->m_timeoutWorker;
 
-    for (auto target : d->m_targetList) {
-        delete target;
-    }
-
     for (auto request : d->m_pingRequests) {
         delete request;
+    }
+
+    if (d->m_receiverWorker) {
+        delete d->m_receiverWorker;
     }
 }
 

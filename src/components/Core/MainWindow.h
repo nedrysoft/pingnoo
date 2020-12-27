@@ -47,6 +47,9 @@ namespace Nedrysoft::Core {
     class RibbonBarManager;
     class EditorManager;
 
+    /**
+     * @brief       The MainWindow class provides the Main Application window.
+     */
     class MainWindow :
             public QMainWindow {
 
@@ -54,29 +57,74 @@ namespace Nedrysoft::Core {
             Q_OBJECT
 
         public:
+            /**
+             * @brief       Constructs a new MainWindow instance which is a child of the parent.
+             *
+             * @param[in]   parent the owner widget.
+             */
             MainWindow(QWidget *parent = nullptr);
 
+            /**
+             * @brief       Destroys the MainWindow.
+             */
             ~MainWindow();
 
+            /**
+             * @brief       The initialise class sets up various subsystems for the main application.
+             */
             auto initialise() -> void;
 
         private:
+            /**
+             * @brief       Creates the placeholders for the default commands which other plugins
+             *              can then use these in their own specific context.
+             */
             auto createDefaultCommands() -> void;
 
+            /**
+             * @brief       Registers the default actions for the global context to the
+             *              registered commands.
+             */
             auto registerDefaultCommands() -> void;
 
+            /**
+             * @brief      Creates a Command and registers it with the system.
+             *
+             * @param[in]  commandId the identifier string for the command.
+             * @param[in]  button the button class if this is also bound to a button.
+             * @param[in]   menuRole the menu role is used by some platforms to put menu items in the correct location.
+             *
+             * @returns     an ICommand instance of the newly created command.
+             */
             auto createCommand(
                     QString commandId,
-                    QAbstractButton *button,
+                    QAbstractButton *button = nullptr,
                     QAction::MenuRole menuRole = QAction::NoRole ) -> Nedrysoft::Core::ICommand *;
 
+            /**
+             * @brief       Adds a command to a menu.
+             * @param[in]   commandId the command identifier.
+             * @param[in]   menuId the menu identifier.
+             * @param[in]   groupId the group that the item is part of; otherwise nullptr if not a specific group.
+             */
             auto addMenuCommand(QString commandId, QString menuId, QString groupId = QString()) -> void;
 
+            /**
+             * @brief       Creates a menu with the given identifier.
+             * @param[in]   menuId the identifier of the menu.
+             * @param[in]   parentMenuId  if the menu is a submenu, then the identifier of the parent menu.
+             *
+             * @returns     an IMenu pointer to the menu.
+             */
             auto createMenu(QString menuId, QString parentMenuId = QString()) -> Nedrysoft::Core::IMenu *;
 
+            /**
+             * @brief       Returns the IMenu pointer for a named menu.
+             * @param[in]   menuId the identifier of the menu to find.
+             *
+             * @returns     The IMenu pointer if found; otherwise nullptr.
+             */
             auto findMenu(QString menuId) -> Nedrysoft::Core::IMenu *;
-
-        protected:
 
         private:
             Ui::MainWindow *ui;

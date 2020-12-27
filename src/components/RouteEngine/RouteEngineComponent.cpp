@@ -23,11 +23,6 @@
 
 #include "RouteEngineComponent.h"
 
-#include "ComponentSystem/IComponentManager.h"
-#include "RouteEngineFactory.h"
-
-#include <QDebug>
-
 RouteEngineComponent::RouteEngineComponent() :
         m_routeEngineFactory(nullptr) {
 

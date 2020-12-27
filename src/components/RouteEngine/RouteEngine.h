@@ -29,7 +29,6 @@
 #include <Core/Core.h>
 #include <QHostAddress>
 #include <QList>
-#include <QObject>
 
 class QThread;
 

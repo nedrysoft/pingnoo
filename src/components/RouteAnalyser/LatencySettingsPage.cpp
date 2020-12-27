@@ -52,7 +52,9 @@ auto Nedrysoft::RouteAnalyser::LatencySettingsPage::icon() -> QIcon {
 }
 
 auto Nedrysoft::RouteAnalyser::LatencySettingsPage::widget() -> QWidget * {
-    return new LatencySettingsPageWidget;
+    static auto widget = new LatencySettingsPageWidget;
+
+    return widget;
 }
 
 auto Nedrysoft::RouteAnalyser::LatencySettingsPage::canAcceptSettings() -> bool {

@@ -25,9 +25,7 @@
 
 #include "RegExHostMaskerComponent.h"
 
-#include <QDebug>
 #include <QJsonArray>
-#include <QRegularExpressionMatch>
 
 auto Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(
         int hop,

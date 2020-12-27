@@ -26,7 +26,6 @@
 #include <QPainter>
 #include <QDirIterator>
 #include <QFontDatabase>
-#include <QDebug>
 
 constexpr auto splashScreenFilename = ":/app/images/splashscreen.png";
 constexpr auto fontFamily = "Poppins";

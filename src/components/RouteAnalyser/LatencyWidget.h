@@ -24,8 +24,8 @@
 #ifndef NEDRYSOFT_LATENCYWIDGET_H
 #define NEDRYSOFT_LATENCYWIDGET_H
 
-#include <QWidget>
 #include <QColor>
+#include <QWidget>
 
 class QPaintEvent;
 

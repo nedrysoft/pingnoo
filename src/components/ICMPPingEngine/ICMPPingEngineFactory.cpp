@@ -46,9 +46,9 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::ICMPPingEngineFactory() :
 }
 
 Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::~ICMPPingEngineFactory() {
-    for (auto engineInstance : d->m_engineList) {
-        delete engineInstance;
-    }
+    qDeleteAll(d->m_engineList);
+
+    d.reset();
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::createEngine(

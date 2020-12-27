@@ -25,10 +25,7 @@
 
 #include "AppNap/AppNap.h"
 #include "ColourDialog.h"
-#include "ComponentSystem/IComponentManager.h"
 #include "Core/ICommandManager.h"
-#include "Core/IContextManager.h"
-#include "Core/ICore.h"
 #include "Core/IEditorManager.h"
 #include "Core/IRibbonBarManager.h"
 #include "Core/IRibbonPage.h"
@@ -38,7 +35,6 @@
 #include "NewTargetRibbonGroup.h"
 #include "Pingnoo.h"
 #include "RouteAnalyser.h"
-#include "RouteAnalyserEditor.h"
 #include "TargetSettingsPage.h"
 
 RouteAnalyserComponent::RouteAnalyserComponent() :
@@ -115,8 +111,6 @@ auto RouteAnalyserComponent::initialiseEvent() -> void {
                             editor->setIPVersion(newTargetDialog.ipVersion());
                             editor->setInterval(newTargetDialog.interval());
 
-                            Nedrysoft::ComponentSystem::addObject(editor);
-
                             editorManager->openEditor(editor);
                         }
                     }
@@ -174,6 +168,10 @@ auto RouteAnalyserComponent::initialiseEvent() -> void {
         Nedrysoft::ComponentSystem::addObject(m_latencySettingsPage);
         Nedrysoft::ComponentSystem::addObject(m_targetSettingsPage);
     }
+}
+
+auto RouteAnalyserComponent::finaliseEvent() -> void {
+    qDeleteAll(Nedrysoft::ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::RouteAnalyserEditor>());
 }
 
 auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {

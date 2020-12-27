@@ -26,7 +26,6 @@
 
 #include <QApplication>
 #include <QColor>
-#include <QObject>
 #include <QString>
 
 #if defined(__OBJC__)

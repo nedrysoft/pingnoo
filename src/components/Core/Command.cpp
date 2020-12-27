@@ -46,7 +46,7 @@ auto Nedrysoft::Core::Command::registerAction(
         QAction *action,
         const Nedrysoft::Core::ContextList &contexts)  -> void {
 
-    spdlog::info(QString("adding %1 %2").arg((uint64_t)action).arg(action->text()).toStdString());
+    SPDLOG_INFO(QString("adding %1 %2").arg((uint64_t)action).arg(action->text()).toStdString());
 
     action->setParent(this);
 

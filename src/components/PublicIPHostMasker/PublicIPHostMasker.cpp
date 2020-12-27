@@ -26,9 +26,22 @@
 #include <QEventLoop>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <QNetworkRequest>
-#include <QObject>
-#include <QRegularExpression>
+
+Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::PublicIPHostMasker() :
+        m_eventLoop(nullptr),
+        m_networkManager(nullptr) {
+
+}
+
+Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::~PublicIPHostMasker() {
+    if (m_eventLoop) {
+        delete m_eventLoop;
+    }
+
+    if (m_networkManager) {
+        delete m_networkManager;
+    }
+}
 
 auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::mask(
         int hop,
@@ -46,19 +59,19 @@ auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::mask(
     // retrieve checkip.dyndns.com
 
     if (m_publicIP.isNull()) {
-        auto eventLoop = new QEventLoop;
-        auto manager = new QNetworkAccessManager();
+        m_eventLoop = new QEventLoop;
+        m_networkManager = new QNetworkAccessManager();
         QNetworkRequest request;
 
-        connect(manager, &QNetworkAccessManager::finished, [=](QNetworkReply *) {
-            eventLoop->quit();
+        connect(m_networkManager, &QNetworkAccessManager::finished, [=](QNetworkReply *) {
+            m_eventLoop->quit();
         });
 
         request.setUrl(QUrl("http://checkip.dyndns.com"));
 
-        auto reply = manager->get(request);
+        auto reply = m_networkManager->get(request);
 
-        eventLoop->exec();
+        m_eventLoop->exec();
 
         auto responseTest(reply->readAll());
 

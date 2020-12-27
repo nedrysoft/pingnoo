@@ -25,10 +25,9 @@
 #define NEDRYSOFT_REGEXHOSTMASKER_REGEXHOSTMASKER_H
 
 #include "ComponentSystem/IInterface.h"
-#include "RegExHostMaskerSpec.h"
 #include "Core/IHostMasker.h"
+#include "RegExHostMaskerSpec.h"
 #include <QSet>
-#include <QObject>
 
 namespace Nedrysoft::RegExHostMasker {
     class RegExHostMaskerItem {

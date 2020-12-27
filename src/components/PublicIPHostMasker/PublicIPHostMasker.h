@@ -30,6 +30,9 @@
 
 #include <QObject>
 
+class QEventLoop;
+class QNetworkAccessManager;
+
 namespace Nedrysoft::PublicIPHostMasker {
     /**
      * @brief       The PublicIPHostMasker class provides a host masker that redacts the public ip.
@@ -45,6 +48,16 @@ namespace Nedrysoft::PublicIPHostMasker {
             Q_INTERFACES(Nedrysoft::Core::IHostMasker)
 
         public:
+            /**
+             * @brief       Constructs a new PublicIPHostMasker.
+             */
+            PublicIPHostMasker();
+
+            /**
+             * @brief       Destroys the PublicIPHostMasker.
+             */
+            ~PublicIPHostMasker();
+
             /**
              * @brief       Masks a host name/ip.
              *
@@ -93,7 +106,8 @@ namespace Nedrysoft::PublicIPHostMasker {
 
         private:
             QString m_publicIP;
-
+            QEventLoop *m_eventLoop;
+            QNetworkAccessManager *m_networkManager;
     };
 }
 

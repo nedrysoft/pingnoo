@@ -44,7 +44,8 @@
 Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Nedrysoft::Core::Ui::MainWindow),
-        m_ribbonBarManager(nullptr) {
+        m_ribbonBarManager(nullptr),
+        m_settingsDialog(nullptr) {
 
     // TODO: m_ribbonBarManager should be created in the component initialisation
 
@@ -53,7 +54,7 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
 #if defined(Q_OS_MACOS)
     qApp->setWindowIcon(QIcon(":/app/images/appicon-512x512@2x.png"));
 #else
-    qApp->setWindowIcon(QIcon(":/app/appicon.ico"));
+    qApp->setWindowIcon(QIcon(":/app/AppIcon.ico"));
 #endif
 
     m_ribbonBarManager = new Nedrysoft::Core::RibbonBarManager(ui->ribbonBar);
@@ -103,6 +104,10 @@ Nedrysoft::Core::MainWindow::~MainWindow() {
 
     if (m_editorManager) {
         delete m_editorManager;
+    }
+
+    if (m_settingsDialog) {
+        delete m_settingsDialog;
     }
 
 }
@@ -230,7 +235,7 @@ auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
         m_settingsDialog->show();
 
         connect(m_settingsDialog, &Nedrysoft::SettingsDialog::SettingsDialog::closed, [=]() {
-            m_settingsDialog->deleteLater();
+            delete m_settingsDialog;
 
             m_settingsDialog = nullptr;
         });

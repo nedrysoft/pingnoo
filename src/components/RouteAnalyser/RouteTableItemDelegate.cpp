@@ -27,9 +27,7 @@
 #include "PingData.h"
 #include "ThemeSupport.h"
 
-#include <QGradient>
 #include <QHeaderView>
-#include <QMap>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPropertyAnimation>

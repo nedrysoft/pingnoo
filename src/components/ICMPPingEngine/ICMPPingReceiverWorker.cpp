@@ -29,11 +29,9 @@
 #include "ICMPPingTarget.h"
 #include "ICMPSocket/ICMPSocket.h"
 
-#include <QDateTime>
 #include <QHostAddress>
 #include <QThread>
 #include <QtEndian>
-#include <array>
 #include <chrono>
 
 using namespace std::chrono_literals;
@@ -42,8 +40,30 @@ constexpr auto DefaultReplyTimeout = 1s;
 
 Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::ICMPPingReceiverWorker() :
         m_isRunning(false),
-        m_engine(nullptr) {
+        m_engine(nullptr),
+        m_receiveWorker(nullptr),
+        m_receiverThread(new QThread),
+        m_socket(nullptr) {
 
+}
+
+Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::~ICMPPingReceiverWorker() {
+    if (m_engine) {
+        delete m_engine;
+    }
+
+    m_receiveWorker->m_isRunning = false;
+
+    if (m_receiverThread) {
+        m_receiverThread->quit();
+        m_receiverThread->wait();
+
+        delete m_receiverThread;
+    }
+
+    if (m_socket) {
+        delete m_socket;
+    }
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::getInstance() -> Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker * {
@@ -53,24 +73,24 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::getInstance() -> Nedryso
         return instance;
     }
 
+    instance = new Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker;
+
     qRegisterMetaType<std::chrono::time_point<std::chrono::high_resolution_clock>>();
 
-    instance = new Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker();
+    instance->moveToThread(instance->m_receiverThread);
 
-    auto receiverThread = new QThread();
+    connect(instance->m_receiverThread, &QThread::started, instance, &Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::doWork);
 
-    instance->moveToThread(receiverThread);
+    instance->m_receiverThread->start();
 
-    connect(receiverThread, &QThread::started, instance, &Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::doWork);
-
-    receiverThread->start();
+    instance->m_receiveWorker = instance;
 
     return instance;
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::doWork() -> void {
     QByteArray receiveBuffer;
-    Nedrysoft::ICMPSocket::ICMPSocket *socket = Nedrysoft::ICMPSocket::ICMPSocket::createReadSocket(
+    m_socket =  Nedrysoft::ICMPSocket::ICMPSocket::createReadSocket(
             static_cast<Nedrysoft::ICMPSocket::IPVersion>(Nedrysoft::ICMPSocket::V4));
 
     QHostAddress receiveAddress;
@@ -79,16 +99,13 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::doWork() -> void {
 
     m_isRunning = true;
 
-    while (m_isRunning) {
-        auto result = socket->recvfrom(receiveBuffer, receiveAddress, DefaultReplyTimeout);
+    while (QThread::currentThread()->isRunning() && (m_isRunning)) {
+        auto result = m_socket->recvfrom(receiveBuffer, receiveAddress, DefaultReplyTimeout);
+
         std::chrono::time_point<std::chrono::high_resolution_clock> receiveTime = std::chrono::high_resolution_clock::now();
 
         if (result!=-1) {
             Q_EMIT packetReceived(receiveTime, receiveBuffer, receiveAddress);
         }
     }
-
-    delete socket;
-
-    QThread::currentThread()->deleteLater();
 }

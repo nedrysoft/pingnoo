@@ -21,7 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#pragma warning(push)
+#pragma warning(disable : 4996)
+
 #include "CPAxisTickerMS.h"
+
+#pragma warning(pop)
 
 constexpr int MILLISECONDS_PER_SECOND = 1000;
 

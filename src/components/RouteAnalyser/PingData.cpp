@@ -25,9 +25,7 @@
 
 #include "RouteTableItemDelegate.h"
 
-#include <QDebug>
 #include <QHeaderView>
-#include <QObject>
 #include <QStandardItemModel>
 #include <QTableWidget>
 #include <chrono>

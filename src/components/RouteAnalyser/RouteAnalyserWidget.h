@@ -24,13 +24,18 @@
 #ifndef NEDRYSOFT_ROUTEANALYSER_ROUTEANALYSERWIDGET_H
 #define NEDRYSOFT_ROUTEANALYSER_ROUTEANALYSERWIDGET_H
 
-#include "Core/PingResult.h"
+#pragma warning(push)
+#pragma warning(disable : 4996)
+
 #include "Core/IRouteEngine.h"
+#include "Core/PingResult.h"
 #include "PingData.h"
 #include "QCustomPlot/qcustomplot.h"
-#include <QWidget>
 #include <QMap>
 #include <QPair>
+#include <QWidget>
+
+#pragma warning(pop)
 
 namespace Nedrysoft::Core {
     class IHostMasker;

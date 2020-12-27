@@ -23,9 +23,7 @@
 
 #include "Cache.h"
 
-#include <QDateTime>
 #include <QDir>
-#include <QFileInfo>
 #include <QJsonArray>
 #include <QSqlDatabase>
 #include <QSqlError>

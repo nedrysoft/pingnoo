@@ -30,7 +30,6 @@
 #include <QHostInfo>
 #include <QRandomGenerator>
 #include <QtEndian>
-#include <array>
 #include <cstdint>
 #include <spdlog/spdlog.h>
 
@@ -237,7 +236,7 @@ auto Nedrysoft::RouteEngine::RouteWorker::doWork() -> void {
             hopResponded = ping_v6(targetAddress, hop, &hopAddress, &isComplete);
         }
 
-        spdlog::trace(QString("Hop %1 %2.")
+        SPDLOG_TRACE(QString("Hop %1 %2.")
                 .arg(hop)
                 .arg(hopResponded?(isComplete?"responded with echo":"responded with TTL exceeded"):"timed out")
                 .toStdString());
@@ -252,7 +251,7 @@ auto Nedrysoft::RouteEngine::RouteWorker::doWork() -> void {
     }
 
     if (isComplete) {
-        spdlog::trace(QString("Route to %1 (%2) completed, total of %3 hops.")
+        SPDLOG_TRACE(QString("Route to %1 (%2) completed, total of %3 hops.")
                 .arg(m_host)
                 .arg(targetAddress.toString())
                 .arg(hop)

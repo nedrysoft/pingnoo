@@ -30,14 +30,11 @@
 #include "Core/ICommandManager.h"
 #include "Core/IEditorManager.h"
 #include "Core/IPingEngineFactory.h"
-#include "LineSyntaxHighlighter.h"
-#include "Ribbon/RibbonDropButton.h"
 #include "RouteAnalyserEditor.h"
 #include "Utils.h"
 
 #include <QAbstractItemView>
 #include <QMenu>
-#include <QRegularExpressionMatch>
 
 constexpr auto comboPadding = 12;
 constexpr auto defaultInterval = "2.5s";

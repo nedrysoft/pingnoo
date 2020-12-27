@@ -30,8 +30,13 @@
 #include <QHostAddress>
 #include <QThread>
 
+namespace Nedrysoft::ICMPSocket {
+    class ICMPSocket;
+};
+
 namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingEngine;
+    class ICMPPingReceiverWorker;
 
     /**
      * @brief       The ICMP packet receiver class.
@@ -53,6 +58,11 @@ namespace Nedrysoft::ICMPPingEngine {
              */
             ICMPPingReceiverWorker();
 
+            /**
+             * @brief       Destroys the ICMPPingReceiverWorker.
+             */
+            ~ICMPPingReceiverWorker();
+
         public:
             /**
              * @brief       Returns the ICMPPingReceiverWorker singleton instance.
@@ -73,6 +83,8 @@ namespace Nedrysoft::ICMPPingEngine {
                     QByteArray receiveBuffer,
                     QHostAddress receiveAddress);
 
+            friend class ICMPPingEngine;
+
         private:
             /**
              * @brief       The worker thread.
@@ -81,6 +93,9 @@ namespace Nedrysoft::ICMPPingEngine {
 
         private:
             Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_engine;
+            Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker *m_receiveWorker;
+            Nedrysoft::ICMPSocket::ICMPSocket *m_socket;
+            QThread *m_receiverThread;
 
             bool m_isRunning;
     };

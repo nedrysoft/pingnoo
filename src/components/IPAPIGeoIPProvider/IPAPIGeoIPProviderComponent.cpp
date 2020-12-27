@@ -24,7 +24,6 @@
 #include "IPAPIGeoIPProviderComponent.h"
 
 #include "ComponentSystem/IComponentManager.h"
-#include "IPAPIGeoIPProvider.h"
 
 IPAPIGeoIPProviderComponent::IPAPIGeoIPProviderComponent() :
         m_provider(nullptr) {

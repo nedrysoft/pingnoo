@@ -24,29 +24,18 @@
 #include "RouteAnalyserWidget.h"
 
 #include "CPAxisTickerMS.h"
-#include "ComponentSystem/IComponentManager.h"
 #include "Core/IGeoIPProvider.h"
 #include "Core/IHostMasker.h"
 #include "Core/IPingEngine.h"
 #include "Core/IPingEngineFactory.h"
 #include "Core/IPingTarget.h"
-#include "Core/IRouteEngine.h"
 #include "Core/IRouteEngineFactory.h"
-#include "Core/PingResult.h"
 #include "GraphLatencyLayer.h"
-#include "PingData.h"
-#include "QCustomPlot/qcustomplot.h"
 #include "RouteTableItemDelegate.h"
 
 #include <QDateTime>
-#include <QDnsLookup>
 #include <QHostAddress>
 #include <QHostInfo>
-#include <QLabel>
-#include <QLocale>
-#include <QTableWidgetItem>
-#include <QVBoxLayout>
-#include <QVariant>
 
 using namespace std::chrono_literals;
 
@@ -59,7 +48,7 @@ constexpr auto TableRowHeight = 20;
 constexpr auto useSmoothGradient = true;
 
 QMap< Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::headerMap() {
-    static QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &map = *new QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> >
+    static QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > map = QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> >
             {
                     {PingData::Fields::Hop,            {tr("Hop"),      "XXXXX"}},
                     {PingData::Fields::Count,          {tr("Count"),    "XXXXX"}},
@@ -188,11 +177,12 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
 }
 
 Nedrysoft::RouteAnalyser::RouteAnalyserWidget::~RouteAnalyserWidget() {
-    delete m_tableView;
-    delete m_tableModel;
+    if (m_tableView) {
+        delete m_tableView;
+    }
 
-    if (m_pingEngine) {
-        delete m_pingEngine;
+    if (m_tableModel) {
+        delete m_tableModel;
     }
 }
 
@@ -360,8 +350,8 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             customPlot->xAxis->setTicker(dateTicker);
             customPlot->xAxis->setRange(
-                    QDateTime::currentDateTime().toSecsSinceEpoch(),
-                    QDateTime::currentDateTime().toSecsSinceEpoch() + DefaultTimeWindow.count() );
+                    static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch()),
+                    static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch() + DefaultTimeWindow.count()) );
 
             customPlot->graph(RoundTripGraph)->setLineStyle(QCPGraph::lsStepCenter);
             customPlot->graph(TimeoutGraph)->setBrush(QBrush(Qt::red));
@@ -418,10 +408,10 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
                             ( x >= dataRange.lower ) &&
                             ( x <= dataRange.upper )) {
                             auto valueString = QString();
-                            auto valueResultRange = customPlot->graph(RoundTripGraph)->data()->valueRange(
+                            /*auto valueResultRange = customPlot->graph(RoundTripGraph)->data()->valueRange(
                                     foundRange,
                                     QCP::sdBoth,
-                                    QCPRange(x - 1, x +1) );
+                                    QCPRange(x - 1, x +1) );*/
 
                             for (auto currentItem = 0; currentItem < m_tableModel->rowCount(); currentItem++) {
                                 auto pingData = m_tableModel->item(
@@ -592,28 +582,29 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
     for (auto sourcePlot : m_plotList) {
         connect(sourcePlot->xAxis, qOverload<const QCPRange &>(&QCPAxis::rangeChanged),
                 [this, sourcePlot](const QCPRange &range) {
-                    auto newRange = range;
-                    auto epoch = std::chrono::duration<double>(m_pingEngine->epoch().time_since_epoch());
 
-                    if (newRange.lower < epoch.count()) {
-                        newRange = QCPRange(epoch.count(), epoch.count() + DefaultTimeWindow.count());
+            auto newRange = range;
+            auto epoch = std::chrono::duration<double>(m_pingEngine->epoch().time_since_epoch());
 
-                        sourcePlot->xAxis->setRange(newRange);
-                    }
+            if (newRange.lower < epoch.count()) {
+                newRange = QCPRange(epoch.count(), epoch.count() + DefaultTimeWindow.count());
 
-                    for (auto targetPlot : m_plotList) {
-                        if (sourcePlot == targetPlot) {
-                            continue;
-                        }
+                sourcePlot->xAxis->setRange(newRange);
+            }
 
-                        targetPlot->xAxis->setRange(newRange);
+            for (auto targetPlot : m_plotList) {
+                if (sourcePlot == targetPlot) {
+                    continue;
+                }
 
-                        if (!targetPlot->visibleRegion().isNull()) {
-                            targetPlot->replot();
-                        }
-                    }
-                });
-    }
+                targetPlot->xAxis->setRange(newRange);
+
+                if (!targetPlot->visibleRegion().isNull()) {
+                    targetPlot->replot();
+                }
+            }
+        });
+}
 }
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::eventFilter(QObject *watched, QEvent *event) -> bool {

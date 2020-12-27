@@ -66,6 +66,15 @@ class NEDRYSOFT_ICMPPINGENGINE_DLLSPEC ICMPPingComponent :
          */
         virtual auto initialiseEvent() -> void;
 
+        /**
+         *  @brief       The finaliseEvent is called by the component loader to de-initialise the component.
+         *
+         *  @details    Called by the component loader in reverse load order to shutdown the component.
+         *
+         *  @see         Nedrysoft::ComponentSystem::IComponent::finaliseEvent
+         */
+        virtual auto finaliseEvent() -> void;
+
     private:
         Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory *m_engineFactory;
 };

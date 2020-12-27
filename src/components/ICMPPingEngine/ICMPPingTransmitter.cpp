@@ -29,7 +29,6 @@
 #include "ICMPPingTarget.h"
 #include "ICMPSocket/ICMPSocket.h"
 
-#include <QMutexLocker>
 #include <QRandomGenerator>
 #include <QThread>
 #include <QtEndian>
@@ -49,6 +48,10 @@ Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::ICMPPingTransmitter(Nedrysoft::I
 
 }
 
+Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::~ICMPPingTransmitter() {
+    qDeleteAll(m_targets);
+}
+
 auto Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() -> void {
     unsigned long sampleNumber = 0;
 
@@ -62,7 +65,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() -> void {
 
     while (m_isRunning) {
         if (!m_targets.isEmpty()) {
-            spdlog::trace("Sending ping to " + m_targets.last()->hostAddress().toString().toStdString());
+            SPDLOG_TRACE("Sending ping to " + m_targets.last()->hostAddress().toString().toStdString());
         }
 
         auto startTime = std::chrono::high_resolution_clock::now();

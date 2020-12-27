@@ -80,6 +80,13 @@ class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
         virtual auto initialiseEvent() -> void;
 
         /**
+         * @brief       The finaliseEvent is called by the component loader to initialise the component.
+         *
+         * @details     Called by the component loader after all components have been loaded, called in load order.
+         */
+        virtual auto finaliseEvent() -> void;
+
+        /**
          * @brief       The initialisationFinishedEvent function is called by the component loader after all
          *              components have been initialised.
          *

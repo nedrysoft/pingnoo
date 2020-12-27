@@ -32,7 +32,7 @@ Nedrysoft::RouteAnalyser::TargetSettingsPage::TargetSettingsPage(QWidget *parent
 }
 
 Nedrysoft::RouteAnalyser::TargetSettingsPage::TargetSettingsPage::~TargetSettingsPage() {
-
+    delete widget();
 }
 
 auto Nedrysoft::RouteAnalyser::TargetSettingsPage::section() -> QString {
@@ -53,7 +53,9 @@ auto Nedrysoft::RouteAnalyser::TargetSettingsPage::icon() -> QIcon {
 }
 
 auto Nedrysoft::RouteAnalyser::TargetSettingsPage::widget() -> QWidget * {
-    return new TargetSettingsPageWidget;
+    static auto widget = new TargetSettingsPageWidget;
+
+    return widget;
 }
 
 auto Nedrysoft::RouteAnalyser::TargetSettingsPage::canAcceptSettings() -> bool {

@@ -24,7 +24,7 @@
 #include "ComponentSystem/Component.h"
 #include "ComponentSystem/ComponentLoader.h"
 #include "ComponentSystem/IComponentManager.h"
-#include <spdlog/spdlog.h>
+#include "spdlog.h"
 #include "SplashScreen.h"
 
 #include <QApplication>
@@ -32,12 +32,9 @@
 #include <QDirIterator>
 #include <QIcon>
 #include <QJsonDocument>
-#include <QLibrary>
 #include <QProcessEnvironment>
 #include <QStandardPaths>
-#include <QString>
 #include <QTimer>
-#include <memory>
 
 #if defined(Q_OS_MAC)
 #include <CoreFoundation/CoreFoundation.h>
@@ -64,9 +61,9 @@ int main(int argc, char **argv) {
 
     componentManager->addObject(componentLoader);
 
-    spdlog::set_level(spdlog::level::trace);
+    //spdlog::set_level(spdlog::level::off);
 
-    spdlog::debug("Application started.");
+    SPDLOG_DEBUG("Application started.");
 
 #ifdef Q_OS_MAC
     CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
@@ -113,7 +110,7 @@ int main(int argc, char **argv) {
 
     for(auto dirName : componentLocations) {
         if (QProcessEnvironment::systemEnvironment().contains(dirName)) {
-            spdlog::info(QString("%1 = %1")
+            SPDLOG_INFO(QString("%1 = %1")
                                 .arg(dirName)
                                 .arg(QProcessEnvironment::systemEnvironment().value(dirName)).toStdString());
 
@@ -158,8 +155,11 @@ int main(int argc, char **argv) {
         return true;
     });
 
+#if defined(Q_OS_WINDOWS)
+    qApp->setWindowIcon(QIcon(":/app/AppIcon.ico"));
+#else
     qApp->setWindowIcon(QIcon(":/app/images/appicon-512x512@2x.png"));
-
+#endif
     if (splashScreen) {
         QTimer::singleShot(3000, [=]() {
             splashScreen->hide();

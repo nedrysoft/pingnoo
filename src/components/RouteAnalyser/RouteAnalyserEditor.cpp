@@ -23,11 +23,9 @@
 
 #include "RouteAnalyserEditor.h"
 
-#include "Core/IContextManager.h"
 #include "RouteAnalyser.h"
 #include "RouteAnalyserWidget.h"
 
-#include <QLabel>
 #include <QObject>
 
 Nedrysoft::RouteAnalyser::RouteAnalyserEditor::RouteAnalyserEditor() :
@@ -38,12 +36,16 @@ Nedrysoft::RouteAnalyser::RouteAnalyserEditor::RouteAnalyserEditor() :
     if (contextManger) {
         m_contextId = contextManger->context(Pingnoo::Constants::routeAnalyserContext);
     }
+
+    Nedrysoft::ComponentSystem::addObject(this);
 }
 
 Nedrysoft::RouteAnalyser::RouteAnalyserEditor::~RouteAnalyserEditor() {
     if (m_editorWidget) {
         m_editorWidget->deleteLater();
     }
+
+    Nedrysoft::ComponentSystem::removeObject(this);
 }
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::saveConfiguration() -> QJsonObject {

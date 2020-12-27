@@ -27,8 +27,6 @@
 #include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <QNetworkRequest>
-#include <QObject>
 
 Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::HostIPGeoIPProvider() :
         m_cache(new Nedrysoft::HostIPGeoIPProvider::Cache()) {

@@ -103,6 +103,7 @@ include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/ComponentSystem/includes)
 include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/SettingsDialog/includes)
 include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR})
 include_directories(${PINGNOO_COMPONENTS_SOURCE_DIR})
+include_directories(${PINGNOO_SOURCE_DIR}/common)
 
 include_directories(${CMAKE_BINARY_DIR})    # <- allows ui_ files to be available to the editor
 
@@ -294,9 +295,12 @@ macro(pingnoo_end_executable)
 endmacro(pingnoo_end_executable)
 
 macro(add_logging_library)
+
     include_directories("${PINGNOO_LIBRARIES_SOURCE_DIR}/spdlog/include")
 
     add_dependencies(${PROJECT_NAME} spdlog)
+
+    target_compile_definitions(${PROJECT_NAME} PRIVATE -DSPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_OFF)
 
     target_link_libraries(${PROJECT_NAME} spdlog)
 endmacro(add_logging_library)

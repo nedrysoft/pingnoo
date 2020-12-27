@@ -22,8 +22,6 @@
 
 #include "NewTargetDialog.h"
 
-#include "ComponentSystem/IComponentManager.h"
-#include "Core/IPingEngineFactory.h"
 #include "LineSyntaxHighlighter.h"
 #include "Utils.h"
 #include "ui_NewTargetDialog.h"

@@ -32,6 +32,10 @@ ICMPPingComponent::ICMPPingComponent() :
 }
 
 ICMPPingComponent::~ICMPPingComponent() {
+
+}
+
+auto ICMPPingComponent::finaliseEvent() -> void {
     if (m_engineFactory) {
         Nedrysoft::ComponentSystem::removeObject(m_engineFactory);
 

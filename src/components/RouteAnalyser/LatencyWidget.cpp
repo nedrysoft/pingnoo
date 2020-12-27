@@ -33,6 +33,7 @@
 
 
 #include <QDebug>
+
 constexpr auto widgetRadius = 5;
 
 Nedrysoft::RouteAnalyser::LatencyWidget::LatencyWidget(QWidget *parent) :

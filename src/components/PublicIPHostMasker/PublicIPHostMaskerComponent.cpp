@@ -24,9 +24,6 @@
 #include "PublicIPHostMaskerComponent.h"
 
 #include "ComponentSystem/IComponentManager.h"
-#include "PublicIPHostMasker.h"
-
-#include <QDebug>
 
 PublicIPHostMaskerComponent::PublicIPHostMaskerComponent() :
         m_hostMasker(nullptr) {
