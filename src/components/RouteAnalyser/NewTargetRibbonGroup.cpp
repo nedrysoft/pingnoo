@@ -131,8 +131,6 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
             editor->setInterval(intervalTime);
 
-            Nedrysoft::ComponentSystem::addObject(editor);
-
             editorManager->openEditor(editor);
         }
     });

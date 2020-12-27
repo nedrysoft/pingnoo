@@ -31,20 +31,16 @@
 Nedrysoft::RouteAnalyser::RouteAnalyserEditor::RouteAnalyserEditor() :
         m_editorWidget(nullptr) {
 
-    auto contextManger = Nedrysoft::Core::IContextManager::getInstance();
+    auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
 
-    if (contextManger) {
-        m_contextId = contextManger->context(Pingnoo::Constants::routeAnalyserContext);
+    if (contextManager) {
+        m_contextId = contextManager->context(Pingnoo::Constants::routeAnalyserContext);
     }
 
     Nedrysoft::ComponentSystem::addObject(this);
 }
 
 Nedrysoft::RouteAnalyser::RouteAnalyserEditor::~RouteAnalyserEditor() {
-    if (m_editorWidget) {
-        m_editorWidget->deleteLater();
-    }
-
     Nedrysoft::ComponentSystem::removeObject(this);
 }
 

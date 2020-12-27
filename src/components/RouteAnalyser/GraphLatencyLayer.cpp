@@ -21,7 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#pragma warning(push)
+#pragma warning(disable : 4996)
+
 #include "GraphLatencyLayer.h"
+
+#pragma warning(pop)
 
 #include "ColourManager.h"
 

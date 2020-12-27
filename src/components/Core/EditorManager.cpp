@@ -62,9 +62,9 @@ auto Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) -> int {
 #endif
 
     connect(m_tabWidget, &QTabWidget::tabCloseRequested, [=](int index) {
-        this->m_tabWidget->removeTab(index);
+        m_tabWidget->removeTab(index);
 
-        editor->deleteLater();
+        //editor->closed();
     });
 
     return 0;

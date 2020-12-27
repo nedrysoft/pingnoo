@@ -171,6 +171,11 @@ auto RouteAnalyserComponent::initialiseEvent() -> void {
 }
 
 auto RouteAnalyserComponent::finaliseEvent() -> void {
+/*    auto editorManager = Nedrysoft::Core::IEditorManager::getInstance();
+
+    if (editorManager) {
+        editorManager->closeEditor();
+    }*/
     qDeleteAll(Nedrysoft::ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::RouteAnalyserEditor>());
 }
 
