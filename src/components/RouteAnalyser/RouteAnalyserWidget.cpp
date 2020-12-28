@@ -23,6 +23,7 @@
 
 #include "RouteAnalyserWidget.h"
 
+#include "BarChart.h"
 #include "CPAxisTickerMS.h"
 #include "Core/IGeoIPProvider.h"
 #include "Core/IHostMasker.h"
@@ -40,12 +41,12 @@
 using namespace std::chrono_literals;
 
 constexpr auto RoundTripGraph = 0;
-constexpr auto TimeoutGraph = 1;
 constexpr std::chrono::duration<double> DefaultMaxLatency = 0.01s;
 constexpr std::chrono::duration<double> DefaultTimeWindow = 10min;
 constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
 constexpr auto useSmoothGradient = true;
+constexpr auto NoReplyColour = qRgb(255,255,255);
 
 QMap< Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::headerMap() {
     static QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > map = QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> >
@@ -217,7 +218,6 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
             auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
 
             customPlot->graph(RoundTripGraph)->addData(requestTime.count(), result.roundTripTime().count());
-            customPlot->graph(TimeoutGraph)->addData(requestTime.count(), 0);
 
             pingData->updateItem(result);
 
@@ -256,12 +256,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
         case Nedrysoft::Core::PingResult::ResultCode::NoReply: {
             auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
 
-            //customPlot->graph(RoundTripGraph)->addData(requestTime.count(), 0);
-            //customPlot->graph(TimeoutGraph)->addData(requestTime.count(), 1);
-
             QCPBars *barChart = m_barCharts[customPlot];
-
-
 
             barChart->addData(requestTime.count(), 1);
 
@@ -342,21 +337,19 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
             customPlot->setInteractions(QCP::iRangeDrag);
             customPlot->axisRect()->setRangeDrag(Qt::Horizontal);
 
-            customPlot->addGraph();
-            customPlot->addGraph();
+            QCPGraph *graph = customPlot->addGraph();
 
-            QCPBars *barChart = new QCPBars(customPlot->xAxis, customPlot->yAxis);
+            BarChart *barChart = new BarChart(customPlot->xAxis, customPlot->yAxis);
 
             barChart->setWidthType(QCPBars::wtPlotCoords);
-            barChart->setBrush(Qt::red);
-            barChart->setPen(QPen(Qt::red));
+            barChart->setBrush(QColor(NoReplyColour));
+            barChart->setPen(QPen(QColor(NoReplyColour)));
 
             m_barCharts[customPlot] = barChart;
 
             customPlot->yAxis->ticker()->setTickCount(1);
 
-            QSharedPointer<CPAxisTickerMS> msTicker(
-                    new CPAxisTickerMS);
+            QSharedPointer<CPAxisTickerMS> msTicker(new CPAxisTickerMS);
 
             customPlot->yAxis->setTicker(msTicker);
             customPlot->yAxis->setLabel(tr("Latency (ms)"));
@@ -377,7 +370,6 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
                     static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch() + DefaultTimeWindow.count()) );
 
             customPlot->graph(RoundTripGraph)->setLineStyle(QCPGraph::lsStepCenter);
-            customPlot->graph(TimeoutGraph)->setBrush(QBrush(Qt::red));
 
             customPlot->setBackground(this->palette().brush(QPalette::Base));
             customPlot->xAxis->setLabelColor(this->palette().color(QPalette::Text));
@@ -439,7 +431,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
                             for (auto currentItem = 0; currentItem < m_tableModel->rowCount(); currentItem++) {
                                 auto pingData = m_tableModel->item(
                                         currentItem,
-                                        0)->data().value<Nedrysoft::RouteAnalyser::PingData *>();
+                                        0 )->data().value<Nedrysoft::RouteAnalyser::PingData *>();
 
                                 auto valueRange = QCPRange(x - 1, x + 1);
 

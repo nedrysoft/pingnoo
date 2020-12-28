@@ -59,7 +59,7 @@ Nedrysoft::RouteAnalyser::GraphLatencyLayer::GraphLatencyLayer(QCustomPlot *cust
 auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::removeUnused() -> void {
     QMutableMapIterator<QString, int> mapIterator(m_age);
 
-    //TODO: mutex?
+    //TODO: this should probably be protected by a mutex.
 
     while(mapIterator.hasNext()) {
         mapIterator.next();
@@ -71,8 +71,6 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::removeUnused() -> void {
             m_age.remove(key);
         }
     }
-
-    SPDLOG_INFO(QString("GraphLatencyLayer off screen pixmap count = %1").arg(m_buffers.count()).toStdString());
 }
 
 auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> void {

@@ -28,6 +28,8 @@ pingnoo_set_component_optional(ON)
 pingnoo_add_defines(QCUSTOMPLOT_USE_LIBRARY)
 
 pingnoo_add_sources(
+    BarChart.cpp
+    BarChart.h
     ColourDialog.h
     CPAxisTickerMS.cpp
     CPAxisTickerMS.h
