@@ -174,6 +174,16 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
     verticalLayout->addWidget(m_splitter);
 
     this->setLayout(verticalLayout);
+
+    QTimer *timer = new QTimer();
+
+    timer->setInterval(1000);
+
+    connect(timer, &QTimer::timeout, [=]() {
+        GraphLatencyLayer::removeUnused();
+    });
+
+    timer->start();
 }
 
 Nedrysoft::RouteAnalyser::RouteAnalyserWidget::~RouteAnalyserWidget() {
@@ -226,7 +236,6 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
                     if (graphMaxLatency>graphRange.upper) {
                         for (QCustomPlot *currentPlot : m_plotList) {
                             currentPlot->yAxis->setRange(0, graphMaxLatency);
-                            currentPlot->replot();
                         }
                     }
 

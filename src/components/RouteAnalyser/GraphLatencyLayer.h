@@ -50,6 +50,11 @@ namespace Nedrysoft::RouteAnalyser {
              */
             auto setGradientEnabled(bool useGradient) -> void;
 
+            /**
+             * @brief       Removes buffered offscreen background Pixmaps.
+             */
+            static auto removeUnused() -> void;
+
         protected:
             /**
              * @brief       Draws the layer to the given painter.
@@ -63,6 +68,9 @@ namespace Nedrysoft::RouteAnalyser {
             std::chrono::duration<double> m_warningLatency = {};
 
             bool m_useGradient;
+
+            static QMap<QString, QPixmap> m_buffers;
+            static QMap<QString, int> m_age;
     };
 }
 
