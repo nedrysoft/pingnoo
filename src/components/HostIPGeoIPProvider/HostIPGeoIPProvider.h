@@ -38,7 +38,9 @@ namespace Nedrysoft::HostIPGeoIPProvider {
      */
     class HostIPGeoIPProvider :
             public Nedrysoft::Core::IGeoIPProvider {
-        Q_OBJECT
+
+        private:
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::Core::IGeoIPProvider)
 

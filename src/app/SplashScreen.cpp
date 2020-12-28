@@ -80,7 +80,7 @@ auto Nedrysoft::SplashScreen::getInstance() -> Nedrysoft::SplashScreen * {
 auto Nedrysoft::SplashScreen::drawContents(QPainter *painter) -> void {
     auto font = QFont(fontFamily, fontSize, QFont::Weight::Bold);
     auto versionText = QString("%1.%2.%3").arg(PINGNOO_GIT_YEAR).arg(PINGNOO_GIT_MONTH).arg(PINGNOO_GIT_DAY);
-    auto textRect = QRectF(versionRect.topLeft() * m_scaleFactor, versionRect.size() * m_scaleFactor).toRect();
+    auto textRect = QRectF(versionRect.topLeft()*m_scaleFactor, versionRect.size()*m_scaleFactor).toRect();
 
     painter->save();
 
@@ -92,8 +92,9 @@ auto Nedrysoft::SplashScreen::drawContents(QPainter *painter) -> void {
 
     auto boxRect = metrics.tightBoundingRect(versionText);
 
-    textRect.adjust(0, ( versionRect.height() - boxRect.height()), 0, ( versionRect.height() - boxRect.height()));
+    textRect.adjust(0, (versionRect.height()-boxRect.height()), 0, (versionRect.height()-boxRect.height()));
 
     painter->drawText(versionRect, Qt::AlignCenter | Qt::AlignVCenter, versionText);
+
     painter->restore();
 }

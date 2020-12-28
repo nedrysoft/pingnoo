@@ -31,15 +31,19 @@ IPAPIGeoIPProviderComponent::IPAPIGeoIPProviderComponent() :
 }
 
 IPAPIGeoIPProviderComponent::~IPAPIGeoIPProviderComponent() {
-    if (m_provider) {
-        Nedrysoft::ComponentSystem::removeObject(m_provider);
 
-        delete m_provider;
-    }
 }
 
 auto IPAPIGeoIPProviderComponent::initialiseEvent() -> void {
     m_provider = new Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider();
 
     Nedrysoft::ComponentSystem::addObject(m_provider);
+}
+
+auto IPAPIGeoIPProviderComponent::finaliseEvent() -> void {
+    if (m_provider) {
+        Nedrysoft::ComponentSystem::removeObject(m_provider);
+
+        delete m_provider;
+    }
 }

@@ -32,15 +32,19 @@ HostIPGeoIPProviderComponent::HostIPGeoIPProviderComponent() :
 }
 
 HostIPGeoIPProviderComponent::~HostIPGeoIPProviderComponent() {
-    if (m_provider) {
-        Nedrysoft::ComponentSystem::removeObject(m_provider);
 
-        delete m_provider;
-    }
 }
 
 auto HostIPGeoIPProviderComponent::initialiseEvent() -> void {
     m_provider = new Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider();
 
     Nedrysoft::ComponentSystem::addObject(m_provider);
+}
+
+auto HostIPGeoIPProviderComponent::finaliseEvent() -> void {
+    if (m_provider) {
+        Nedrysoft::ComponentSystem::removeObject(m_provider);
+
+        delete m_provider;
+    }
 }

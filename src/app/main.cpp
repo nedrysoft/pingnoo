@@ -61,8 +61,6 @@ int main(int argc, char **argv) {
 
     componentManager->addObject(componentLoader);
 
-    //spdlog::set_level(spdlog::level::off);
-
     SPDLOG_DEBUG("Application started.");
 
 #ifdef Q_OS_MAC
@@ -93,8 +91,9 @@ int main(int argc, char **argv) {
             auto folderName =
                     searchPath + "/" + qApp->organizationName() + "/" + qApp->applicationName() + "/" + folderPath;
 
-            if (QDir(folderName).exists())
+            if (QDir(folderName).exists()) {
                 qApp->addLibraryPath(folderName);
+            }
         }
     }
 

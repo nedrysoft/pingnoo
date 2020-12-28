@@ -59,9 +59,6 @@ namespace Nedrysoft::HostIPGeoIPProvider {
              * @returns     returns true if cached; otherwise false.
              */
             auto find(const QString &name, QJsonObject &object) -> bool;
-
-        private:
-            QSqlDatabase m_database;
     };
 }
 

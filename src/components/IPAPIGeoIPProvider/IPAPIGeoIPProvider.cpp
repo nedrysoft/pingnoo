@@ -28,6 +28,7 @@
 #include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QObject>
 
 Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::IPAPIGeoIPProvider() :
         m_cache(new Nedrysoft::IPAPIGeoIPProvider::Cache()) {

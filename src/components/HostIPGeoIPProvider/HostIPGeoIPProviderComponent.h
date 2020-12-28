@@ -42,6 +42,7 @@ class NEDRYSOFT_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
         Q_OBJECT
 
         Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
+
         Q_INTERFACES(Nedrysoft::ComponentSystem::IComponent)
 
     public:
@@ -64,6 +65,14 @@ class NEDRYSOFT_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
          * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
         virtual auto initialiseEvent() -> void;
+
+        /**
+         * @brief       The finaliseEvent method is called before the component is unloaded.
+         *
+         * @notes       The event is called in reverse load order for all loaded components, once every component
+         *              has been finalised the component manager then unloads all components in thr same order.
+         */
+        virtual auto finaliseEvent() -> void;
 
     private:
 

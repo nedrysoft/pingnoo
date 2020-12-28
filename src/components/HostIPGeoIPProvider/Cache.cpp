@@ -38,28 +38,34 @@ Nedrysoft::HostIPGeoIPProvider::Cache::Cache() {
     auto dataLocations = QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation);
 
     if (dataLocations.isEmpty()) {
+        SPDLOG_ERROR(QString("error opening database. (Unable to get AppLocalDataLocation)").toStdString());
+
         return;
     }
 
     auto dbFileInfo = QFileInfo(dataLocations.at(0), "host-ip-cache.db");
 
-    m_database = QSqlDatabase::addDatabase("QSQLITE", cacheDatabase);
+    auto database = QSqlDatabase::addDatabase("QSQLITE", cacheDatabase);
 
-    m_database.setDatabaseName(dbFileInfo.absoluteFilePath());
+    database.setDatabaseName(dbFileInfo.absoluteFilePath());
 
     if (!dbFileInfo.dir().exists()) {
         auto dir = QDir();
 
         if (!dir.mkpath(dbFileInfo.dir().absolutePath())) {
+            SPDLOG_ERROR(QString("error opening database. (%1)").arg(database.lastError().text()).toStdString());
+
             return;
         }
     }
 
-    if (!m_database.open()) {
+    if (!database.open()) {
+        SPDLOG_ERROR(QString("error opening database. (%1)").arg(database.lastError().text()).toStdString());
+
         return;
     }
 
-    QSqlQuery query(m_database);
+    QSqlQuery query(database);
 
     auto result = query.exec(R"(CREATE TABLE ip (
                                   id INTEGER PRIMARY KEY,
@@ -72,18 +78,19 @@ Nedrysoft::HostIPGeoIPProvider::Cache::Cache() {
     ))");
 
     if (!result) {
-        SPDLOG_ERROR(QString("error creating table. (%1)").arg(query.lastError().text()).toStdString());
+        SPDLOG_WARN(QString("error creating table. (%1)").arg(query.lastError().text()).toStdString());
     }
+
+    query.finish();
 }
 
 Nedrysoft::HostIPGeoIPProvider::Cache::Cache::~Cache() {
-    m_database.close();
-
     QSqlDatabase::removeDatabase(cacheDatabase);
 }
 
 auto Nedrysoft::HostIPGeoIPProvider::Cache::add(QJsonObject object) -> void {
-    QSqlQuery query(m_database);
+    QSqlDatabase database = QSqlDatabase::database(cacheDatabase);
+    QSqlQuery query(database);
 
     query.prepare("INSERT INTO ip (name, creationTime, country, countryCode, city) "
                   "VALUES (:name, :creationTime, :country, :countryCode, :city)");
@@ -97,12 +104,16 @@ auto Nedrysoft::HostIPGeoIPProvider::Cache::add(QJsonObject object) -> void {
     auto result = query.exec();
 
     if (!result) {
-        SPDLOG_ERROR(QString("error adding record. (%1)").arg(query.lastError().text()).toStdString());
+        SPDLOG_WARN(QString("error adding record. (%1)").arg(query.lastError().text()).toStdString());
     }
+
+    query.finish();
 }
 
 auto Nedrysoft::HostIPGeoIPProvider::Cache::find(const QString &name, QJsonObject &object) -> bool {
-    QSqlQuery query(m_database);
+    QSqlDatabase database = QSqlDatabase::database(cacheDatabase);
+    QSqlQuery query(database);
+    bool queryResult = false;
 
     query.prepare("SELECT * FROM ip WHERE name=:name");
     query.bindValue(":name", name);
@@ -114,9 +125,11 @@ auto Nedrysoft::HostIPGeoIPProvider::Cache::find(const QString &name, QJsonObjec
             object["countryCode"] = QJsonValue::fromVariant(query.value("countryCode"));
             object["city"] = QJsonValue::fromVariant(query.value("city"));
 
-            return true;
+            queryResult = true;
         }
     }
 
-    return false;
+    query.finish();
+
+    return queryResult;
 }
