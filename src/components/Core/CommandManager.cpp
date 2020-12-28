@@ -44,8 +44,6 @@ auto Nedrysoft::Core::CommandManager::registerAction(
         QString id,
         const Nedrysoft::Core::ContextList &contexts) -> Nedrysoft::Core::ICommand * {
 
-    SPDLOG_INFO(QString("registering action %1 %2 %3").arg(id).arg((uint64_t)action).arg(m_commandMap.count()+1).toStdString());
-
     if (m_commandMap.contains(id)) {
         auto command = m_commandMap[id];
 
