@@ -153,6 +153,7 @@ namespace Nedrysoft::RouteAnalyser {
             QMap<Nedrysoft::Core::IPingTarget *, int> m_targetMap;
             QList<QCustomPlot *> m_plotList;
             QMap<QCustomPlot *, QCPItemStraightLine *> m_graphLines;
+            QMap<QCustomPlot *, QCPBars *> m_barCharts;
             Nedrysoft::Core::IPingEngine *m_pingEngine = {};
             QStandardItemModel *m_tableModel;
             QTableView *m_tableView;

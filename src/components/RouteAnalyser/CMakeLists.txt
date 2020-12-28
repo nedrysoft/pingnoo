@@ -25,7 +25,7 @@ pingnoo_start_component()
 
 pingnoo_set_component_optional(ON)
 
-add_definitions(-DQCUSTOMPLOT_USE_LIBRARY)
+pingnoo_add_defines(QCUSTOMPLOT_USE_LIBRARY)
 
 pingnoo_add_sources(
     ColourDialog.h

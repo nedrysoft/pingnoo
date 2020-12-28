@@ -256,8 +256,14 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
         case Nedrysoft::Core::PingResult::ResultCode::NoReply: {
             auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
 
-            customPlot->graph(RoundTripGraph)->addData(requestTime.count(), 0);
-            customPlot->graph(TimeoutGraph)->addData(requestTime.count(), 1);
+            //customPlot->graph(RoundTripGraph)->addData(requestTime.count(), 0);
+            //customPlot->graph(TimeoutGraph)->addData(requestTime.count(), 1);
+
+            QCPBars *barChart = m_barCharts[customPlot];
+
+
+
+            barChart->addData(requestTime.count(), 1);
 
             pingData->updateItem(result);
 
@@ -338,6 +344,14 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             customPlot->addGraph();
             customPlot->addGraph();
+
+            QCPBars *barChart = new QCPBars(customPlot->xAxis, customPlot->yAxis);
+
+            barChart->setWidthType(QCPBars::wtPlotCoords);
+            barChart->setBrush(Qt::red);
+            barChart->setPen(QPen(Qt::red));
+
+            m_barCharts[customPlot] = barChart;
 
             customPlot->yAxis->ticker()->setTickCount(1);
 
