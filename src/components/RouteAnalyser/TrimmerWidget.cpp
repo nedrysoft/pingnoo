@@ -53,80 +53,114 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
     auto contentRect = rect();
     double contentWidth = contentRect.width();
     double viewportWidth = contentWidth * m_viewportSize;
-
     QPixmap pixmap(rect().size());
+
+    pixmap.fill(Qt::transparent);
+
+    /**
+     * the control is drawn to a pixmap buffer as it produces a repeatable image, drawing directly to the widget
+     * results in a platform dependent image, this is particularly important for macOS where coordinates are real
+     * numbers and depending on pixel position and therefore primatives may not appear as expected.
+     */
 
     QPainter painter(&pixmap);
 
-    // draw the trimmer background
+    auto gripperRectLeft = contentRect;
+    auto gripperRectRight = contentRect;
 
+    auto brush = QBrush(viewportBorderColour);
+    auto viewportBackgroundBrush = QBrush(viewportBackgroundColour);
+
+    auto colourPen = QPen(QColor(viewportBorderColour));
+
+    painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
-
     painter.setBrush(QColor(trimmerBackgroundColour));
-    painter.drawRoundedRect(contentRect, trimmerCornerRadius, trimmerCornerRadius, Qt::AbsoluteSize);
+
+    // draw the main trimmer background.
+
+    painter.drawRoundedRect(
+            contentRect,
+            static_cast<double>(trimmerCornerRadius)/2.0,
+            static_cast<double>(trimmerCornerRadius)/2.0,
+            Qt::AbsoluteSize );
 
     painter.translate(m_viewportPosition*contentWidth, 0);
 
-    auto gripperRectLeft = contentRect;
-    auto gripperRectRight = contentRect;
+    // set the gripper rectangles to the correct rectangles.
 
     gripperRectLeft.setWidth(trimmerCornerRadius-1);
 
     gripperRectRight.setLeft(viewportWidth-trimmerCornerRadius);
     gripperRectRight.setWidth(trimmerCornerRadius-1);
 
-    auto brush = QBrush(viewportBorderColour);
-
-    auto viewportBackgroundBrush = QBrush(viewportBackgroundColour);
+    // draw the highlight background for the viewport area.
 
     painter.fillRect(QRect(gripperRectLeft.topRight(), gripperRectRight.bottomLeft()), viewportBackgroundBrush);
 
-    // left gripper
-
     painter.setBrush(brush);
 
-    painter.drawRoundedRect(gripperRectLeft, trimmerCornerRadius, trimmerCornerRadius, Qt::AbsoluteSize);
-    painter.fillRect(gripperRectLeft.adjusted(trimmerCornerRadius/2,0,0,0), brush);
+    // draw viewport left (start) grip
+
+    painter.drawRoundedRect(
+            gripperRectLeft,
+            static_cast<double>(trimmerCornerRadius)/2.0,
+            static_cast<double>(trimmerCornerRadius)/2.0,
+            Qt::AbsoluteSize );
+
+    painter.fillRect(QRectF(gripperRectLeft.adjusted(static_cast<double>(trimmerCornerRadius)/2.0, 0, 0, 0)), brush);
 
     painter.fillRect(
-            QRect(
-                gripperRectLeft.center().x()-(gripperInsertWidth/2),
-                gripperRectLeft.center().y()-(gripperInsertHeight/2),
+            QRectF(
+                gripperRectLeft.center().x()-(static_cast<double>(gripperInsertWidth)/2.0),
+                gripperRectLeft.center().y()-(static_cast<double>(gripperInsertHeight)/2.0),
                 gripperInsertWidth+1,
                 gripperInsertHeight+1 ),
+
             Qt::darkYellow );
 
-    // right gripper
+    // draw viewport right (end) grip
 
-    painter.drawRoundedRect(gripperRectRight, trimmerCornerRadius, trimmerCornerRadius, Qt::AbsoluteSize);
+    painter.drawRoundedRect(
+            gripperRectRight,
+            static_cast<double>(trimmerCornerRadius)/2.0,
+            static_cast<double>(trimmerCornerRadius)/2.0,
+            Qt::AbsoluteSize );
+
     painter.fillRect(gripperRectRight.adjusted(0, 0, -(trimmerCornerRadius/2), 0), brush);
 
     painter.fillRect(
-            QRect(
-                    gripperRectRight.center().x()-(gripperInsertWidth/2),
-                    gripperRectRight.center().y()-(gripperInsertHeight/2),
-                    gripperInsertWidth+1,
-                    gripperInsertHeight+1 ),
+            QRectF(
+                gripperRectRight.center().x()-(static_cast<double>(gripperInsertWidth)/2.0),
+                gripperRectRight.center().y()-(static_cast<double>(gripperInsertHeight)/2.0),
+                gripperInsertWidth+1,
+                gripperInsertHeight+1 ),
 
             Qt::darkYellow );
 
-    // top and bottom border
+    // top and bottom viewport border
 
-    painter.fillRect(QRect(
-            gripperRectLeft.right(),
-            gripperRectLeft.top(),
-            gripperRectRight.left()-4,
-            gripperRectLeft.top()+viewportBorderSize),
+    painter.fillRect(
+            QRectF(
+                gripperRectLeft.right(),
+                gripperRectLeft.top(),
+                gripperRectRight.left()-(static_cast<double>(trimmerCornerRadius)/2.0),
+                gripperRectLeft.top()+viewportBorderSize ),
+
             brush );
 
-    painter.fillRect(QRect(
-            gripperRectLeft.right(),
-            gripperRectLeft.bottom()-viewportBorderSize,
-            gripperRectRight.left()-4,
-            gripperRectLeft.bottom()),
+    painter.fillRect(
+            QRectF(
+                gripperRectLeft.right(),
+                gripperRectLeft.bottom()-viewportBorderSize,
+                gripperRectRight.left()-(static_cast<double>(trimmerCornerRadius)/2.0),
+                gripperRectLeft.bottom() ),
+
             brush );
 
     painter.end();
+
+    // paint the pixmap to the widget.
 
     QPainter widgetPainter(this);
 
@@ -160,7 +194,7 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mousePressEvent(QMouseEvent *event
     }
 
     m_origin = event->pos().x();
-    m_offset = m_origin;
+    m_viewportEnd = m_viewportPosition+m_viewportSize;
 }
 
 void Nedrysoft::RouteAnalyser::TrimmerWidget::mouseReleaseEvent(QMouseEvent *event) {
@@ -176,14 +210,14 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mouseMoveEvent(QMouseEvent *event)
         case State::MovingViewport: {
             double trimmerWidth = rect().width();
             double delta = event->pos().x()-m_origin;
-            double min = static_cast<double>(trimmerCornerRadius/2)/trimmerWidth;
-            double max = 1.0-((static_cast<double>(trimmerCornerRadius/2))/trimmerWidth)-m_viewportSize;
+            double min = 0;
+            double max = 1.0-m_viewportSize;
 
             m_viewportPosition += (delta/trimmerWidth);
 
-            if (m_viewportPosition<=min) {
+            if (m_viewportPosition<min) {
                 m_viewportPosition = min;
-            } else if (m_viewportPosition>=max) {
+            } else if (m_viewportPosition>max) {
                 m_viewportPosition = max;
             }
 
@@ -195,10 +229,47 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mouseMoveEvent(QMouseEvent *event)
         }
 
         case State::MovingViewportStart: {
+            double trimmerWidth = rect().width();
+            double delta = event->pos().x()-m_origin;
+            double trimSize = (trimmerCornerRadius*2)/trimmerWidth;
+            double min = 0;
+            double max = m_viewportEnd-trimSize;
+
+            m_viewportPosition += (delta/trimmerWidth);
+
+            if (m_viewportPosition<min) {
+                m_viewportPosition = min;
+            } else if (m_viewportPosition>max) {
+                m_viewportPosition = max;
+            }
+
+            m_viewportSize = m_viewportEnd-m_viewportPosition;
+
+            m_origin = event->pos().x();
+
+            update();
+
             return;
         }
 
         case State::MovingViewportEnd: {
+            double trimmerWidth = rect().width();
+            double delta = event->pos().x()-m_origin;
+            double min = (trimmerCornerRadius*2)/trimmerWidth;
+            double max = 1-m_viewportPosition;
+
+            m_viewportSize += (delta/trimmerWidth);
+
+            if (m_viewportSize<min) {
+                m_viewportSize = min;
+            } else if (m_viewportSize>max) {
+                m_viewportSize = max;
+            }
+
+            m_origin = event->pos().x();
+
+            update();
+
             return;
         }
     }

@@ -91,11 +91,10 @@ namespace Nedrysoft::RouteAnalyser {
 
         private:
             State m_editingState;
-            double m_viewportPosition;                              //! unit value
-            double m_viewportSize;
-            double m_origin;
-            double m_offset;
-
+            double m_viewportPosition;                              //! the start position of the viewport (unit value)
+            double m_viewportSize;                                  //! the end position of the viewport (unit value)
+            double m_origin;                                        //! absolute value for movement, allows a delta to be computed
+            double m_viewportEnd;                                   //! the viewpoint end position at the start of a movement
     };
 };
 
