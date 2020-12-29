@@ -75,6 +75,11 @@ pingnoo_add_sources(
     TargetSettingsPageWidget.cpp
     TargetSettingsPageWidget.h
     TargetSettingsPageWidget.ui
+    TrimmerWidget.cpp
+    TrimmerWidget.h
+    ViewportRibbonGroup.cpp
+    ViewportRibbonGroup.h
+    ViewportRibbonGroup.ui
     icons.qrc
 )
 

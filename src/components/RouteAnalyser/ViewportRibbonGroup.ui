@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Nedrysoft::RouteAnalyser::ViewportRibbonGroup</class>
+ <widget class="QWidget" name="Nedrysoft::RouteAnalyser::ViewportRibbonGroup">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>481</width>
+    <height>163</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ViewportRibbonGroup</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="Nedrysoft::RouteAnalyser::TrimmerWidget" name="trimmerWidget" native="true"/>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Nedrysoft::RouteAnalyser::TrimmerWidget</class>
+   <extends>QWidget</extends>
+   <header>TrimmerWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -5,7 +5,7 @@
  *
  * An open-source cross-platform traceroute analyser.
  *
- * Created by Adrian Carpenter on 10/12/2020.
+ * Created by Adrian Carpenter on 13/12/2020.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,15 +21,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_ROUTEANALYSER_H
-#define NEDRYSOFT_ROUTEANALYSER_H
+#include "ViewportRibbonGroup.h"
 
-namespace Pingnoo::Constants {
-    constexpr auto routeAnalyserContext = "RouteAnalyserComponent::RouteAnalyserEditor";
-    constexpr auto ribbonRouteAnalyserPage = "Ribbon.Page.RouteAnalyser";
-    constexpr auto ribbonRouteAnalyserNewTargetGroup = "Ribbon.Group.RouteAnalyser.NewTarget";
-    constexpr auto ribbonRouteAnalyserLatencyGroup = "Ribbon.Group.RouteAnalyser.Latency";
-    constexpr auto ribbonRouteAnalyserViewportGroup = "Ribbon.Group.RouteAnalyser.Viewport";
+#include "ColourManager.h"
+#include "ComponentSystem/IComponentManager.h"
+#include "RouteAnalyserEditor.h"
+#include "ui_ViewportRibbonGroup.h"
+
+Nedrysoft::RouteAnalyser::ViewportRibbonGroup::ViewportRibbonGroup(QWidget *parent) :
+        QWidget(parent),
+        ui(new Ui::ViewportRibbonGroup) {
+
+    ui->setupUi(this);
 }
 
-#endif //NEDRYSOFT_ROUTEANALYSER_H
+Nedrysoft::RouteAnalyser::ViewportRibbonGroup::~ViewportRibbonGroup() {
+    delete ui;
+}

@@ -36,12 +36,14 @@
 #include "Pingnoo.h"
 #include "RouteAnalyser.h"
 #include "TargetSettingsPage.h"
+#include "ViewportRibbonGroup.h"
 
 RouteAnalyserComponent::RouteAnalyserComponent() :
         m_latencySettingsPage(nullptr),
         m_targetSettingsPage(nullptr),
         m_newTargetGroupWidget(nullptr),
         m_latencyGroupWidget(nullptr),
+        m_viewportGroupWidget(nullptr),
         m_newTargetAction(nullptr)
     {
 
@@ -62,6 +64,10 @@ RouteAnalyserComponent::~RouteAnalyserComponent() {
 
     if (m_latencyGroupWidget) {
         delete m_latencyGroupWidget;
+    }
+
+    if (m_viewportGroupWidget) {
+        delete m_viewportGroupWidget;
     }
 
     if (m_newTargetAction) {
@@ -149,6 +155,7 @@ auto RouteAnalyserComponent::initialiseEvent() -> void {
             auto ribbonPage = ribbonBarManager->addPage(tr("Route Analyser"), Pingnoo::Constants::ribbonRouteAnalyserPage);
             m_newTargetGroupWidget = new Nedrysoft::RouteAnalyser::NewTargetRibbonGroup;
             m_latencyGroupWidget = new Nedrysoft::RouteAnalyser::LatencyRibbonGroup;
+            m_viewportGroupWidget = new Nedrysoft::RouteAnalyser::ViewportRibbonGroup;
 
             ribbonPage->addGroup(
                     tr("New Target"),
@@ -160,6 +167,10 @@ auto RouteAnalyserComponent::initialiseEvent() -> void {
                     Pingnoo::Constants::ribbonRouteAnalyserLatencyGroup,
                     m_latencyGroupWidget );
 
+            ribbonPage->addGroup(
+                    tr("Viewport"),
+                    Pingnoo::Constants::ribbonRouteAnalyserViewportGroup,
+                    m_viewportGroupWidget );
         }
 
         m_latencySettingsPage = new Nedrysoft::RouteAnalyser::LatencySettingsPage;

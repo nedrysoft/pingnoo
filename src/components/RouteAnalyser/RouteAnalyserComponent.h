@@ -33,6 +33,7 @@ namespace Nedrysoft::RouteAnalyser {
     class LatencyRibbonGroup;
     class LatencySettingsPage;
     class TargetSettingsPage;
+    class ViewportRibbonGroup;
 }
 
 namespace Nedrysoft::AppNap {
@@ -101,6 +102,7 @@ class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
         int m_editorContextId = 0;
         Nedrysoft::RouteAnalyser::NewTargetRibbonGroup *m_newTargetGroupWidget;
         Nedrysoft::RouteAnalyser::LatencyRibbonGroup *m_latencyGroupWidget;
+        Nedrysoft::RouteAnalyser::ViewportRibbonGroup *m_viewportGroupWidget;
 
         Nedrysoft::RouteAnalyser::LatencySettingsPage *m_latencySettingsPage;
         Nedrysoft::RouteAnalyser::TargetSettingsPage *m_targetSettingsPage;
