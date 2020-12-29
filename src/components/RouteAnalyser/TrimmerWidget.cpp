@@ -65,8 +65,8 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
 
     QPainter painter(&pixmap);
 
-    auto gripperRectLeft = contentRect;
-    auto gripperRectRight = contentRect;
+    QRectF gripperRectLeft = QRectF(contentRect);
+    QRectF gripperRectRight = QRectF(contentRect);
 
     auto brush = QBrush(viewportBorderColour);
     auto viewportBackgroundBrush = QBrush(viewportBackgroundColour);
@@ -96,7 +96,7 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
 
     // draw the highlight background for the viewport area.
 
-    painter.fillRect(QRect(gripperRectLeft.topRight(), gripperRectRight.bottomLeft()), viewportBackgroundBrush);
+    painter.fillRect(QRectF(gripperRectLeft.topRight(), gripperRectRight.bottomLeft()), viewportBackgroundBrush);
 
     painter.setBrush(brush);
 
@@ -231,7 +231,7 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mouseMoveEvent(QMouseEvent *event)
         case State::MovingViewportStart: {
             double trimmerWidth = rect().width();
             double delta = event->pos().x()-m_origin;
-            double trimSize = (trimmerCornerRadius*2)/trimmerWidth;
+            double trimSize = static_cast<double>(trimmerCornerRadius*2)/trimmerWidth;
             double min = 0;
             double max = m_viewportEnd-trimSize;
 
