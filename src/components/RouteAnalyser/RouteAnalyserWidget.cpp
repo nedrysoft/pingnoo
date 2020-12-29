@@ -46,7 +46,7 @@ constexpr std::chrono::duration<double> DefaultTimeWindow = 10min;
 constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
 constexpr auto useSmoothGradient = true;
-constexpr auto NoReplyColour = qRgb(255,255,255);
+constexpr auto NoReplyColour = qRgb(255,0,0);
 
 QMap< Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::headerMap() {
     static QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > map = QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> >
