@@ -36,6 +36,7 @@ namespace Nedrysoft::RouteAnalyser {
     namespace Ui {
         class NewTargetRibbonGroup;
     }
+
     /**
      * @brief       The NewTargetRibbonGroup is a Ribbon group that allows a new target to be created.
      */

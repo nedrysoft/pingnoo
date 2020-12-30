@@ -54,7 +54,7 @@ namespace Nedrysoft::AppNap {
             /**
              * @brief       Gets the AppNap singleton.
              *
-             * @return      the singleton instance.
+             * @returns     the singleton instance.
              */
             static auto getInstance() -> Nedrysoft::AppNap::AppNap *;
 

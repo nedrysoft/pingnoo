@@ -100,7 +100,7 @@ namespace Nedrysoft::Pingnoo {
             /**
              * @brief       Returns the serviced status of the request.
              *
-             * @return      true if request has been serviced; otherwise false.
+             * @returns     true if request has been serviced; otherwise false.
              */
             auto serviced() -> bool;
 
@@ -114,7 +114,7 @@ namespace Nedrysoft::Pingnoo {
             /**
              * @brief       Returns the sample number for this request.
              *
-             * @return      the sample number.
+             * @returns     the sample number.
              */
             auto sampleNumber() -> unsigned long;
 

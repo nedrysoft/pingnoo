@@ -64,7 +64,7 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Returns the active state of the command.
              *
-             * @return      true if enabled; otherwise false.
+             * @returns     true if enabled; otherwise false.
              */
             virtual auto active() -> bool = 0;
 

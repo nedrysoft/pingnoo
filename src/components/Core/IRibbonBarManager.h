@@ -47,7 +47,7 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Returns the IRibbonBarManager instance.
              *
-             * @return      the IRibbonBarManager singleton instance.
+             * @returns     the IRibbonBarManager singleton instance.
              */
             static auto getInstance() -> IRibbonBarManager * {
                 return ComponentSystem::getObject<IRibbonBarManager>();

@@ -70,7 +70,6 @@ namespace Nedrysoft::RouteAnalyser {
         private:
             Ui::LatencyRibbonGroup *ui;
 
-            LineSyntaxHighlighter *m_idealHighlighter;
             LineSyntaxHighlighter *m_warningHighlighter;
             LineSyntaxHighlighter *m_criticalHighlighter;
     };

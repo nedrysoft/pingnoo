@@ -192,14 +192,14 @@ namespace Nedrysoft::RouteAnalyser {
             /**
              * @brief       Returns the graph associated with this route item.
              *
-             * @return      the plot.
+             * @returns     the plot.
              */
             auto customPlot() -> QCustomPlot *;
 
             /**
              * @brief       Returns the jitter graph associated with this route item.
              *
-             * @return      the plot.
+             * @returns     the plot.
              */
             auto jitterPlot() -> QCustomPlot *;
 
@@ -222,7 +222,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @param[in]   field which latency to retrieve.
              *
-             * @return      the latency.
+             * @returns     the latency.
              */
             auto latency(int field) -> double;
 
@@ -243,7 +243,7 @@ namespace Nedrysoft::RouteAnalyser {
              * @param[in]   value the new value to add to the average.
              * @param[in]   n the number of values (including the new one) used.
              *
-             * @return      the average.
+             * @returns     the average.
              */
             static auto runningAverage(double previousAverage, double value, double n) -> double;
 
@@ -255,14 +255,14 @@ namespace Nedrysoft::RouteAnalyser {
             /**
              * @brief       Returns the table model associated with this item.
              *
-             * @return      table model.
+             * @returns     table model.
              */
             auto tableModel() -> QStandardItemModel *;
 
             /**
              * @brief       Returns the number of samples sent.
              *
-             * @return      sample count.
+             * @returns     sample count.
              */
             auto count() -> unsigned long ;
 

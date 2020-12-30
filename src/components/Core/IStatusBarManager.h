@@ -48,7 +48,7 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Returns the IStatusBarManager instance.
              *
-             * @return      the IStatusBarManager instance.
+             * @returns     the IStatusBarManager instance.
              */
             static auto getInstance() -> IStatusBarManager * {
                 return ComponentSystem::getObject<IStatusBarManager>();

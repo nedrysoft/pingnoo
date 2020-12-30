@@ -70,7 +70,7 @@ namespace Nedrysoft::RouteAnalyser {
             bool m_useGradient;
 
             static QMap<QString, QPixmap> m_buffers;
-            static QMap<QString, int> m_age;
+            static QMap<QString, uint64_t> m_age;
     };
 }
 

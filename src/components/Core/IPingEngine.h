@@ -79,7 +79,7 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Starts ping operations for this engine instance.
              *
-             * @return      true on success; otherwise false.
+             * @returns     true on success; otherwise false.
              */
             virtual auto start() -> bool = 0;
 
@@ -105,7 +105,7 @@ namespace Nedrysoft::Core {
              * @param[in]   hostAddress the host address of the ping target.
              * @param[in]   ttl the time to live to use.
              *
-             * @return      returns a pointer to the created ping target.
+             * @returns     returns a pointer to the created ping target.
              */
             virtual auto addTarget(QHostAddress hostAddress, int ttl) -> IPingTarget * = 0;
 
@@ -114,14 +114,14 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   target the ping target to remove.
              *
-             * @return      true on success; otherwise false.
+             * @returns     true on success; otherwise false.
              */
             virtual auto removeTarget(IPingTarget *target) -> bool = 0;
 
             /**
              * @brief       Gets the epoch for this engine instance.
              *
-             * @return      the time epoch
+             * @returns     the time epoch
              */
             virtual auto epoch() -> std::chrono::system_clock::time_point = 0;
 

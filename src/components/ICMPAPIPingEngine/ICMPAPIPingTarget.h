@@ -143,7 +143,7 @@ namespace Nedrysoft::Pingnoo {
             /**
              * @brief       Returns the ICMP id used for this target.
              *
-             * @return      the id.
+             * @returns     the id.
              */
             auto id() -> uint16_t;
 

@@ -28,7 +28,7 @@
 
 #pragma warning(pop)
 
-constexpr int MILLISECONDS_PER_SECOND = 1000;
+constexpr int MillisecondsPerSecond = 1000;
 
 auto Nedrysoft::RouteAnalyser::CPAxisTickerMS::getTickLabel(
         double tick,
@@ -40,5 +40,5 @@ auto Nedrysoft::RouteAnalyser::CPAxisTickerMS::getTickLabel(
     Q_UNUSED(formatChar)
     Q_UNUSED(precision)
 
-    return QString("%1").arg(tick * MILLISECONDS_PER_SECOND);
+    return QString("%1").arg(tick * MillisecondsPerSecond);
 }

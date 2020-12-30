@@ -31,7 +31,6 @@
 #include "ColourManager.h"
 
 #include <chrono>
-#include <spdlog/spdlog.h>
 
 using namespace std::chrono_literals;
 
@@ -39,14 +38,14 @@ constexpr auto DefaultIdealLatency = 100ms;
 constexpr auto DefaultWarningLatency = 200ms;
 
 constexpr auto roundedRectangleRadius = 10;
-constexpr auto tinyNumber = 0.001;                             //! used to adjust a unit number to just under 1
+constexpr auto tinyNumber = 1.0/1e10;                             //! used to adjust a unit number to just under 1
 
 constexpr auto latencyStopLineColour = Qt::black;
 
 constexpr auto unusedRemovalTime = 5;
 
 QMap<QString, QPixmap> Nedrysoft::RouteAnalyser::GraphLatencyLayer::m_buffers;// = QMap<QString, QPixmap>();
-QMap<QString, int> Nedrysoft::RouteAnalyser::GraphLatencyLayer::m_age;
+QMap<QString, uint64_t> Nedrysoft::RouteAnalyser::GraphLatencyLayer::m_age;
 
 Nedrysoft::RouteAnalyser::GraphLatencyLayer::GraphLatencyLayer(QCustomPlot *customPlot) :
         QCPItemRect(customPlot),
@@ -57,9 +56,9 @@ Nedrysoft::RouteAnalyser::GraphLatencyLayer::GraphLatencyLayer(QCustomPlot *cust
 }
 
 auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::removeUnused() -> void {
-    QMutableMapIterator<QString, int> mapIterator(m_age);
+    QMutableMapIterator<QString, uint64_t> mapIterator(m_age);
 
-    //TODO: this should probably be protected by a mutex.
+    //TODO: this should probably be protected with a mutex.
 
     while(mapIterator.hasNext()) {
         mapIterator.next();

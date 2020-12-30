@@ -36,21 +36,21 @@ namespace Nedrysoft::RouteAnalyser {
             /**
              * @brief       Returns the ideal latency colour (low latency).
              *
-             * @return      the minimum colour
+             * @returns     the minimum colour
              */
             static auto getIdealColour() -> QRgb;
 
             /**
              * @brief       Returns the warning latency colour (mid latency).
              *
-             * @return      the median colour
+             * @returns     the median colour
              */
             static auto getWarningColour() -> QRgb;
 
             /**
              * @brief       Returns the critical latency colour (high latency).
              *
-             * @return      the maximum colour
+             * @returns     the maximum colour
              */
             static auto getCriticalColour() -> QRgb;
     };

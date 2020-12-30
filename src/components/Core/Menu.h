@@ -219,7 +219,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   groupIdentifier is the identifier of the group to find.
              *
-             * @return      the list iterator.
+             * @returns     the list iterator.
              */
             auto findGroup(QString groupIdentifier) -> QList<GroupItem>::const_iterator;
 
@@ -238,7 +238,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   groupIterator is the iterator for the groups.
              *
-             * @return      a pointer to the QAction in the menu if found; otherwise nullptr.
+             * @returns     a pointer to the QAction in the menu if found; otherwise nullptr.
              */
             auto getInsertAction(QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator) -> QAction *;
 
@@ -257,7 +257,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   groupIterator is the iterator for the groups.
              *
-             * @return      a pointer to the QAction in the menu if found; otherwise nullptr.
+             * @returns     a pointer to the QAction in the menu if found; otherwise nullptr.
              */
             auto getAppendAction(QList<Nedrysoft::Core::Menu::GroupItem>::const_iterator groupIterator) -> QAction *;
 

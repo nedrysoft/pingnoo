@@ -82,7 +82,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @see         Nedrysoft::Core::IPingEngine::start
              *
-             * @return      true on success; otherwise false.
+             * @returns     true on success; otherwise false.
              */
             virtual auto start() -> bool;
 
@@ -114,7 +114,7 @@ namespace Nedrysoft::ICMPPingEngine {
              * @param[in]   hostAddress the host address of the ping target.
              * @param[in]   ttl the time to live to use.
              *
-             * @return      returns a pointer to the created ping target.
+             * @returns     returns a pointer to the created ping target.
              */
             virtual auto addTarget(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::IPingTarget *;
 
@@ -125,7 +125,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @param[in]   target the ping target to remove.
              *
-             * @return      true on success; otherwise false.
+             * @returns     true on success; otherwise false.
              */
             virtual auto removeTarget(Nedrysoft::Core::IPingTarget *target) -> bool;
 
@@ -134,7 +134,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @see         Nedrysoft::Core::IPingEngine::epoch
              *
-             * @return      the time epoch.
+             * @returns     the time epoch.
              */
             virtual auto epoch() -> std::chrono::system_clock::time_point;
 

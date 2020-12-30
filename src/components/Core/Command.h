@@ -87,7 +87,7 @@ namespace Nedrysoft::Core {
              *
              * @see         Nedrysoft::Core::ICommand::active
              *
-             * @return      true if enabled; otherwise false.
+             * @returns     true if enabled; otherwise false.
              */
              auto active() -> bool override;
 

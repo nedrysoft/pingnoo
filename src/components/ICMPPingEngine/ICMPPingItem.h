@@ -65,7 +65,7 @@ namespace Nedrysoft::ICMPPingEngine {
             /**
              * @brief       Returns the id used in the ping request.
              *
-             * @return      id of the request.
+             * @returns     id of the request.
              */
             auto id(void) -> uint16_t;
 
@@ -79,7 +79,7 @@ namespace Nedrysoft::ICMPPingEngine {
             /**
              * @brief       Returns the sequence id used in the ping request.
              *
-             * @return      the sequence id.
+             * @returns     the sequence id.
              */
             auto sequenceId() -> uint16_t;
 
@@ -96,7 +96,7 @@ namespace Nedrysoft::ICMPPingEngine {
             /**
              * @brief       Returns the serviced status of the request.
              *
-             * @return      true if request has been serviced; otherwise false.
+             * @returns     true if request has been serviced; otherwise false.
              */
             auto serviced() -> bool;
 
@@ -110,7 +110,7 @@ namespace Nedrysoft::ICMPPingEngine {
             /**
              * @brief       Returns the sample number for this request.
              *
-             * @return      the sample number.
+             * @returns     the sample number.
              */
             auto sampleNumber() -> unsigned long;
 

@@ -32,9 +32,8 @@
 
 #include <QMenu>
 
-auto constexpr idealDefaultValue = "100ms";
-auto constexpr warningDefaultValue = "200ms";
-auto constexpr criticalDefaultValue = "300ms";
+auto constexpr warningDefaultValue = "100ms";
+auto constexpr criticalDefaultValue = "200ms";
 
 constexpr auto lineEditHeight = 21;
 
@@ -44,9 +43,8 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::LatencyRibbonGroup(QWidget *parent
 
     ui->setupUi(this);
 
-    m_idealHighlighter = new LineSyntaxHighlighter(ui->idealLineEdit->document(), [=](const QString &text) {
-        return Nedrysoft::Utils::parseIntervalString(text);
-    });
+    ui->idealWidget->setFixedHeight(ui->criticalWidget->height());
+    ui->idealWidget->setFixedWidth(ui->criticalWidget->width());
 
     m_warningHighlighter = new LineSyntaxHighlighter(ui->warningLineEdit->document(), [=](const QString &text) {
         return Nedrysoft::Utils::parseIntervalString(text);
@@ -60,19 +58,11 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::LatencyRibbonGroup(QWidget *parent
     ui->warningWidget->setColour(ColourManager::getWarningColour());
     ui->criticalWidget->setColour(ColourManager::getCriticalColour());
 
-    ui->idealLineEdit->setPlaceholderText(idealDefaultValue);
     ui->warningLineEdit->setPlaceholderText(warningDefaultValue);
     ui->criticalLineEdit->setPlaceholderText(criticalDefaultValue);
 
-    ui->idealLineEdit->setMaximumHeight(lineEditHeight);
     ui->warningLineEdit->setMaximumHeight(lineEditHeight);
     ui->criticalLineEdit->setMaximumHeight(lineEditHeight);
-
-    connect(ui->idealLineEdit, &Nedrysoft::Ribbon::RibbonLineEdit::textChanged, [=]() {
-        updatePeriod(ui->idealLineEdit);
-
-        m_idealHighlighter->updateSyntax();
-    });
 
     connect(ui->warningLineEdit, &Nedrysoft::Ribbon::RibbonLineEdit::textChanged, [=]() {
         updatePeriod(ui->warningLineEdit);
@@ -101,19 +91,6 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::LatencyRibbonGroup(QWidget *parent
 
 Nedrysoft::RouteAnalyser::LatencyRibbonGroup::~LatencyRibbonGroup() {
     delete ui;
-/*
-    if (m_idealHighlighter) {
-        delete m_idealHighlighter;
-    }
-
-    if (m_warningHighlighter) {
-        delete m_warningHighlighter;
-    }
-
-    if (m_criticalHighlighter) {
-        delete m_criticalHighlighter;
-    }*/
-
 }
 
 auto Nedrysoft::RouteAnalyser::LatencyRibbonGroup::updatePeriod(Nedrysoft::Ribbon::RibbonLineEdit *lineEdit) -> void {

@@ -27,12 +27,13 @@
 #include <QPainter>
 #include <QPaintEvent>
 
-auto constexpr gripperInsertWidth = 2;
-auto constexpr gripperInsertHeight = 30;
-auto constexpr viewportBorderSize = 2;
-auto constexpr trimmerBackgroundColour = qRgb(0x43,0x43, 0x43);
+auto constexpr gripInsertWidth = 2;
+auto constexpr gripInsertHeight = 30;
+auto constexpr gripInnerColour = qRgb(0x80, 0x80, 0x00);
+auto constexpr viewportGripBorderSize = 2;
+auto constexpr trimmerBackgroundColour = qRgb(0x43, 0x43, 0x43);
 auto constexpr viewportBackgroundColour = qRgb(0x80, 0x80, 0x80);
-auto constexpr viewportBorderColour = qRgb(0xff, 0xcc, 0x00);
+auto constexpr viewportGripColour = qRgb(0xff, 0xcc, 0x00);
 auto constexpr trimmerCornerRadius = 8;
 
 Nedrysoft::RouteAnalyser::TrimmerWidget::TrimmerWidget(QWidget *parent) :
@@ -68,19 +69,21 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
     QRectF gripperRectLeft = QRectF(contentRect);
     QRectF gripperRectRight = QRectF(contentRect);
 
-    auto brush = QBrush(viewportBorderColour);
+    auto gripBrush = QBrush(viewportGripColour);
+    auto gripInnerBrush = QBrush(gripInnerColour);
     auto viewportBackgroundBrush = QBrush(viewportBackgroundColour);
+    auto trimmerBrush = QBrush(trimmerBackgroundColour);
 
-    auto colourPen = QPen(QColor(viewportBorderColour));
+    auto colourPen = QPen(QColor(viewportGripColour));
 
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor(trimmerBackgroundColour));
+    painter.setBrush(trimmerBrush);
 
     // draw the main trimmer background.
 
     painter.drawRoundedRect(
-            contentRect,
+            contentRect.adjusted(0,0,-1,0),
             static_cast<double>(trimmerCornerRadius)/2.0,
             static_cast<double>(trimmerCornerRadius)/2.0,
             Qt::AbsoluteSize );
@@ -98,7 +101,7 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
 
     painter.fillRect(QRectF(gripperRectLeft.topRight(), gripperRectRight.bottomLeft()), viewportBackgroundBrush);
 
-    painter.setBrush(brush);
+    painter.setBrush(gripBrush);
 
     // draw viewport left (start) grip
 
@@ -108,16 +111,16 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
             static_cast<double>(trimmerCornerRadius)/2.0,
             Qt::AbsoluteSize );
 
-    painter.fillRect(QRectF(gripperRectLeft.adjusted(static_cast<double>(trimmerCornerRadius)/2.0, 0, 0, 0)), brush);
+    painter.fillRect(QRectF(gripperRectLeft.adjusted(static_cast<double>(trimmerCornerRadius)/2.0, 0, 0, 0)), gripBrush);
 
     painter.fillRect(
             QRectF(
-                gripperRectLeft.center().x()-(static_cast<double>(gripperInsertWidth)/2.0),
-                gripperRectLeft.center().y()-(static_cast<double>(gripperInsertHeight)/2.0),
-                gripperInsertWidth+1,
-                gripperInsertHeight+1 ),
+                gripperRectLeft.center().x()-(static_cast<double>(gripInsertWidth)/2.0),
+                gripperRectLeft.center().y()-(static_cast<double>(gripInsertHeight)/2.0),
+                gripInsertWidth+1,
+                gripInsertHeight+1 ),
 
-            Qt::darkYellow );
+            gripInnerBrush );
 
     // draw viewport right (end) grip
 
@@ -127,16 +130,16 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
             static_cast<double>(trimmerCornerRadius)/2.0,
             Qt::AbsoluteSize );
 
-    painter.fillRect(gripperRectRight.adjusted(0, 0, -(trimmerCornerRadius/2), 0), brush);
+    painter.fillRect(gripperRectRight.adjusted(0, 0, -(trimmerCornerRadius/2), 0), gripBrush);
 
     painter.fillRect(
             QRectF(
-                gripperRectRight.center().x()-(static_cast<double>(gripperInsertWidth)/2.0),
-                gripperRectRight.center().y()-(static_cast<double>(gripperInsertHeight)/2.0),
-                gripperInsertWidth+1,
-                gripperInsertHeight+1 ),
+                gripperRectRight.center().x()-(static_cast<double>(gripInsertWidth)/2.0),
+                gripperRectRight.center().y()-(static_cast<double>(gripInsertHeight)/2.0),
+                gripInsertWidth+1,
+                gripInsertHeight+1 ),
 
-            Qt::darkYellow );
+            gripInnerBrush );
 
     // top and bottom viewport border
 
@@ -145,18 +148,18 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
                 gripperRectLeft.right(),
                 gripperRectLeft.top(),
                 gripperRectRight.left()-(static_cast<double>(trimmerCornerRadius)/2.0),
-                gripperRectLeft.top()+viewportBorderSize ),
+                gripperRectLeft.top()+viewportGripBorderSize ),
 
-            brush );
+            gripBrush );
 
     painter.fillRect(
             QRectF(
                 gripperRectLeft.right(),
-                gripperRectLeft.bottom()-viewportBorderSize,
+                gripperRectLeft.bottom()-viewportGripBorderSize,
                 gripperRectRight.left()-(static_cast<double>(trimmerCornerRadius)/2.0),
                 gripperRectLeft.bottom() ),
 
-            brush );
+            gripBrush );
 
     painter.end();
 

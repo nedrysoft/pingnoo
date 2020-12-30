@@ -33,14 +33,13 @@ Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(Q
 
     ui->setupUi(this);
 
-    ui->idealWidget->setText(tr("Ideal"));
-    ui->warningWidget->setText(tr("Warning"));
-    ui->criticalWidget->setText(tr("Critical"));
+    ui->idealWidget->setText(tr("ideal"));
+    ui->warningWidget->setText(tr("warning"));
+    ui->criticalWidget->setText(tr("critical"));
 
     ui->idealWidget->setColour(ColourManager::getIdealColour());
     ui->warningWidget->setColour(ColourManager::getWarningColour());
     ui->criticalWidget->setColour(ColourManager::getCriticalColour());
-
 }
 
 Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::~LatencySettingsPageWidget() {
