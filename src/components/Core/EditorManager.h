@@ -24,12 +24,13 @@
 #ifndef NEDRYSOFT_CORE_EDITORMANAGER_H
 #define NEDRYSOFT_CORE_EDITORMANAGER_H
 
+#include "EditorManagerTabWidget.h"
 #include "IEditorManager.h"
 
 #include <QMap>
 #include <QObject>
 #include <QString>
-#include <QTabWidget>
+#include <QWidget>
 
 namespace Nedrysoft::Core {
 
@@ -48,11 +49,11 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Constructs a new CoreComponent instance.
+             * @brief       Constructs a new EditorManager instance.
              *
              * @param[in]   tabWidget the QTabWidget that is used to contain the editors.
              */
-            EditorManager(QTabWidget *tabWidget);
+            EditorManager(EditorManagerTabWidget *tabWidget);
 
             /**
              * @brief       Open an editor window.
@@ -64,7 +65,9 @@ namespace Nedrysoft::Core {
             virtual auto openEditor(IEditor *editor) -> int;
 
         private:
-            QTabWidget *m_tabWidget;
+            EditorManagerTabWidget *m_tabWidget;
+            int m_previousIndex;
+            QMap<QWidget *, IEditor *> m_editorMap;
     };
 }
 

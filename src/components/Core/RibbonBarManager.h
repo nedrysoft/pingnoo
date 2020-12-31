@@ -44,9 +44,11 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Constructs a RibbonBarManager.
+             * @brief       Constructs a RibbonBarManager with the supplied Ribbon Widget.
+             *
+             * @param[in]   ribbonWidget the ribbon widget.
              */
-            RibbonBarManager();
+            RibbonBarManager(Nedrysoft::Ribbon::RibbonWidget *ribbonWidget=nullptr);
 
             /**
              * @brief       Destroys the RibbonBarManager.
@@ -54,23 +56,19 @@ namespace Nedrysoft::Core {
             ~RibbonBarManager();
 
             /**
-             * @brief       Constructs a RibbonBarManager with the supplied Ribbon Widget.
-             *
-             * @param[in]   ribbonWidget the ribbon widget.
-             */
-            RibbonBarManager(Nedrysoft::Ribbon::RibbonWidget *ribbonWidget);
-
-            /**
              * @brief       Adds a page to the ribbon bar.
-             *
-             * @see         Nedrysoft::Core::IRibbonBarManager::addPage.
              *
              * @param[in]   title the title of the page.
              * @param[in]   id the identifier of the page.
+             * @param[in]   order the order of the page, a unit value between 0-1.
+             *
+             * @note        Pages are inserted according to the order parameter, where 0 would be the start,
+             *              0.5 the middule and 1 the end.  Where items have the same order value, position
+             *              is decided alphabetically.
              *
              * @returns     the IRibbonPage instance of the page.
              */
-            auto addPage(QString title, QString id) -> Nedrysoft::Core::IRibbonPage * override;
+            auto addPage(QString title, QString id, float order=1) -> Nedrysoft::Core::IRibbonPage * override;
 
             /**
              * @brief       Returns the page given by the id.
@@ -82,6 +80,15 @@ namespace Nedrysoft::Core {
              * @returns     if it exists, the IRibbonPage instance of the page; otherwise nullptr.
              */
             auto page(QString id) -> Nedrysoft::Core::IRibbonPage * override;
+
+            /**
+             * @brief       Switches the current page to the one with the given identifier.
+             *
+             * @param[in]   id the identifier of the page.
+             *
+             * @returns     true if page was switched; otherwise false.
+             */
+            auto selectPage(QString id) -> bool override;
 
         public:
             /**

@@ -114,6 +114,18 @@ namespace Nedrysoft::RouteAnalyser {
              */
             virtual auto displayName() -> QString;
 
+            /**
+             * @brief       The editor manager calls this method when an editor is activated. (i.e becomes the active
+             *              editor)
+             */
+            virtual auto activated() -> void;
+
+            /**
+             * @brief       The editor manager calls this method when an editor is deactivated. (i.e focus is lost)
+             *              editor)
+             */
+            virtual auto deactivated() -> void;
+
         public:
             /**
              * @brief       Saves the configuration to a JSON object.

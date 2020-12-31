@@ -63,6 +63,10 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
 
     m_ribbonBarManager->addPage(tr("Home"), Pingnoo::Constants::ribbonHomePage);
 
+    ui->editorTabWidget->setText(tr("Select New Target from the Menu or Ribbon bar to begin."));
+
+    showMaximized();
+
     // QStatusBar *statusBar = new QStatusBar;
 
     /*
@@ -109,7 +113,6 @@ Nedrysoft::Core::MainWindow::~MainWindow() {
     if (m_settingsDialog) {
         delete m_settingsDialog;
     }
-
 }
 
 auto Nedrysoft::Core::MainWindow::initialise() -> void {
@@ -119,19 +122,9 @@ auto Nedrysoft::Core::MainWindow::initialise() -> void {
     m_editorManager = new Nedrysoft::Core::EditorManager(ui->editorTabWidget);
 
     Nedrysoft::ComponentSystem::addObject(m_editorManager);
-
-    /*auto editors = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IEditor>();
-
-    for (auto editor : editors) {
-        ui->editorTabWidget->addTab(editor->widget(), "Route Analyser");
-    }*/
 }
 
 auto Nedrysoft::Core::MainWindow::createDefaultCommands() -> void {
-    //createCommand(Pingnoo::Constants::editCut, ui->cutButton);
-    //createCommand(Pingnoo::Constants::editCopy, ui->copyButton);
-    //createCommand(Pingnoo::Constants::editPaste, ui->pasteButton);
-
     // create the commands, these are essentially placeholders.  Commands can be added to menus, buttons,
     // shortcut keys etc.
 

@@ -57,6 +57,7 @@ namespace Pingnoo::Constants {
     constexpr auto fileExitGroup = "Group.File.Exit";
 
     constexpr auto ribbonHomePage = "Ribbon.Page.Home";
+    constexpr auto ribbonHostMaskingPage = "Ribbon.Page.HostMasking";
 
     const QMap<QString, QString> commandStringMap = {
         {editCut,             QT_TR_NOOP("Cut")},

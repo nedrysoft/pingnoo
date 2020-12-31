@@ -76,6 +76,19 @@ RouteAnalyserComponent::~RouteAnalyserComponent() {
 }
 
 auto RouteAnalyserComponent::initialiseEvent() -> void {
+
+}
+
+auto RouteAnalyserComponent::finaliseEvent() -> void {
+/*    auto editorManager = Nedrysoft::Core::IEditorManager::getInstance();
+
+    if (editorManager) {
+        editorManager->closeEditor();
+    }*/
+    qDeleteAll(Nedrysoft::ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::RouteAnalyserEditor>());
+}
+
+auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
     auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
     auto appNap = Nedrysoft::AppNap::AppNap::getInstance();
 
@@ -152,7 +165,13 @@ auto RouteAnalyserComponent::initialiseEvent() -> void {
         auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
 
         if (ribbonBarManager) {
-            auto ribbonPage = ribbonBarManager->addPage(tr("Route Analyser"), Pingnoo::Constants::ribbonRouteAnalyserPage);
+            auto ribbonPage = ribbonBarManager->addPage(
+                    tr("Route Analyser"),
+                    Pingnoo::Constants::ribbonRouteAnalyserPage,
+                    0.1 );
+
+            ribbonBarManager->selectPage(Pingnoo::Constants::ribbonRouteAnalyserPage);
+
             m_newTargetGroupWidget = new Nedrysoft::RouteAnalyser::NewTargetRibbonGroup;
             m_latencyGroupWidget = new Nedrysoft::RouteAnalyser::LatencyRibbonGroup;
             m_viewportGroupWidget = new Nedrysoft::RouteAnalyser::ViewportRibbonGroup;
@@ -179,19 +198,6 @@ auto RouteAnalyserComponent::initialiseEvent() -> void {
         Nedrysoft::ComponentSystem::addObject(m_latencySettingsPage);
         Nedrysoft::ComponentSystem::addObject(m_targetSettingsPage);
     }
-}
-
-auto RouteAnalyserComponent::finaliseEvent() -> void {
-/*    auto editorManager = Nedrysoft::Core::IEditorManager::getInstance();
-
-    if (editorManager) {
-        editorManager->closeEditor();
-    }*/
-    qDeleteAll(Nedrysoft::ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::RouteAnalyserEditor>());
-}
-
-auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
-
 }
 
 auto RouteAnalyserComponent::contextId() -> int {

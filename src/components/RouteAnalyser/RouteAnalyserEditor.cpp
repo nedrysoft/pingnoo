@@ -85,3 +85,11 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setIPVersion(Nedrysoft::Core
 auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setInterval(double interval) -> void {
     m_interval = interval;
 }
+
+auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::activated() -> void {
+
+}
+
+auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::deactivated() -> void {
+
+}

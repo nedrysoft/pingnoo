@@ -25,10 +25,7 @@
 
 #include "RibbonPage.h"
 
-Nedrysoft::Core::RibbonBarManager::RibbonBarManager() :
-        m_ribbonWidget(nullptr) {
-
-}
+constexpr auto ribbonOrderProperty = "nedrysoft.ribbon.order";
 
 Nedrysoft::Core::RibbonBarManager::~RibbonBarManager() {
     qDeleteAll(m_pages);
@@ -39,10 +36,45 @@ Nedrysoft::Core::RibbonBarManager::RibbonBarManager(Nedrysoft::Ribbon::RibbonWid
 
 }
 
-auto Nedrysoft::Core::RibbonBarManager::addPage(QString title, QString id) -> Nedrysoft::Core::IRibbonPage * {
+auto Nedrysoft::Core::RibbonBarManager::addPage(QString title, QString id, float order) -> Nedrysoft::Core::IRibbonPage * {
     auto ribbonPage = new Nedrysoft::Core::RibbonPage(this);
+    int tabIndex = -1;
 
-    int tabIndex = m_ribbonWidget->addTab(ribbonPage->widget(), title);
+    ribbonPage->widget()->setProperty(ribbonOrderProperty, QVariant(order));
+
+    if (m_ribbonWidget->count()) {
+        if (order<m_ribbonWidget->widget(0)->property(ribbonOrderProperty).toFloat()) {
+            tabIndex = m_ribbonWidget->insertTab(0,ribbonPage->widget(), title);
+        } else if (order>m_ribbonWidget->widget(m_ribbonWidget->count()-1)->property(ribbonOrderProperty).toFloat()) {
+            tabIndex = m_ribbonWidget->addTab(ribbonPage->widget(), title);
+        } else {
+            for (auto currentPage=0; currentPage<m_ribbonWidget->count(); currentPage++) {
+                auto currentOrder = m_ribbonWidget->widget(currentPage)->property(ribbonOrderProperty).toFloat();
+
+                if (order<currentOrder) {
+                    tabIndex = m_ribbonWidget->insertTab(currentPage,ribbonPage->widget(), title);
+
+                    break;
+                }
+
+                if (currentOrder>order) {
+                    tabIndex = m_ribbonWidget->insertTab(currentPage,ribbonPage->widget(), title);
+
+                    break;
+                }
+
+                if (title.compare(m_ribbonWidget->tabText(currentPage))<0) {
+                    tabIndex = m_ribbonWidget->insertTab(currentPage,ribbonPage->widget(), title);
+
+                    break;
+                }
+            }
+        }
+    }
+
+    if (tabIndex==-1) {
+        tabIndex = m_ribbonWidget->addTab(ribbonPage->widget(), title);
+    }
 
     m_ribbonWidget->setTabVisible(tabIndex, false);
 
@@ -69,4 +101,14 @@ auto Nedrysoft::Core::RibbonBarManager::groupAdded(Nedrysoft::Core::RibbonPage *
             m_ribbonWidget->setTabVisible(currentIndex, true);
         }
     }
+}
+
+auto Nedrysoft::Core::RibbonBarManager::selectPage(QString id) -> bool {
+    if (m_pages.contains(id)) {
+        m_ribbonWidget->setCurrentWidget(m_pages[id]->widget());
+
+        return true;
+    }
+
+    return false;
 }

@@ -58,10 +58,15 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   title the title of the page.
              * @param[in]   id the identifier of the page.
+             * @param[in]   order the order of the page, a unit value between 0-1.
+             *
+             * @note        Pages are inserted according to the order parameter, where 0 would be the start,
+             *              0.5 the middule and 1 the end.  Where items have the same order value, position
+             *              is decided alphabetically.
              *
              * @returns     the IRibbonPage instance of the page.
              */
-            virtual auto addPage(QString title, QString id) -> Nedrysoft::Core::IRibbonPage * = 0;
+            virtual auto addPage(QString title, QString id, float order=1) -> Nedrysoft::Core::IRibbonPage * = 0;
 
             /**
              * @brief       Returns the page given by the id.
@@ -71,6 +76,15 @@ namespace Nedrysoft::Core {
              * @returns     if it exists, the IRibbonPage instance of the page; otherwise nullptr.
              */
             virtual auto page(QString id) -> Nedrysoft::Core::IRibbonPage * = 0;
+
+            /**
+             * @brief       Switches the current page to the one with the given identifier.
+             *
+             * @param[in]   id the identifier of the page.
+             *
+             * @returns     true if page was switched; otherwise false.
+             */
+            virtual auto selectPage(QString id) -> bool = 0;
     };
 }
 

@@ -50,15 +50,45 @@ QTabBar::close-button:hover {
 }
 )";
 
-Nedrysoft::Core::EditorManager::EditorManager(QTabWidget *tabWidget) :
-        m_tabWidget(tabWidget) {
+Nedrysoft::Core::EditorManager::EditorManager(EditorManagerTabWidget *tabWidget) :
+        m_tabWidget(tabWidget),
+        m_previousIndex(-1) {
 
     m_tabWidget->setTabsClosable(true);
     m_tabWidget->setDocumentMode(true);
+
+    connect(m_tabWidget, &EditorManagerTabWidget::currentChanged, [=](int index) {
+        IEditor *previousEditor = nullptr;
+        IEditor *newEditor = nullptr;
+
+        if (m_previousIndex!=-1) {
+            if (m_editorMap.contains(m_tabWidget->widget(m_previousIndex))) {
+                previousEditor = m_editorMap[m_tabWidget->widget(m_previousIndex)];
+            }
+        }
+
+        if (index!=-1) {
+            if (m_editorMap.contains(m_tabWidget->widget(index))) {
+                newEditor = m_editorMap[m_tabWidget->widget(index)];
+            }
+        }
+
+        if (previousEditor) {
+            previousEditor->deactivated();
+        }
+
+        if (newEditor) {
+            newEditor->activated();
+        }
+
+        m_previousIndex = index;
+    });
 }
 
 auto Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) -> int {
     auto tabIndex = m_tabWidget->addTab(editor->widget(), editor->displayName());
+
+    m_editorMap[editor->widget()] = editor;
 
 #if !defined(Q_OS_MACOS)
     m_tabWidget->setStyleSheet(macStylesheet);
@@ -71,6 +101,7 @@ auto Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) -> int {
     connect(m_tabWidget, &QTabWidget::tabCloseRequested, [=](int index) {
         m_tabWidget->removeTab(index);
 
+        m_editorMap.remove(editor->widget());
         //editor->closed();
     });
 

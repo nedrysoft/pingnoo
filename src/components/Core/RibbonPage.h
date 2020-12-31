@@ -67,6 +67,12 @@ namespace Nedrysoft::Core {
              */
             auto widget() -> QWidget *;
 
+            /**
+             * @brief       Returns the order for this page.
+             * @returns     the order value.
+             */
+            auto order() -> float;
+
         public:
             /**
              * @brief       Adds a group to the page.

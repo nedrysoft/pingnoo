@@ -23,6 +23,8 @@
 
 #include "TrimmerWidget.h"
 
+#include "ThemeSupport.h"
+
 #include <QDebug>
 #include <QPainter>
 #include <QPaintEvent>
@@ -31,8 +33,10 @@ auto constexpr gripInsertWidth = 2;
 auto constexpr gripInsertHeight = 30;
 auto constexpr gripInnerColour = qRgb(0x80, 0x80, 0x00);
 auto constexpr viewportGripBorderSize = 2;
-auto constexpr trimmerBackgroundColour = qRgb(0x43, 0x43, 0x43);
-auto constexpr viewportBackgroundColour = qRgb(0x80, 0x80, 0x80);
+auto constexpr trimmerBackgroundColourDark = qRgb(0x43,0x43, 0x43);
+auto constexpr trimmerBackgroundColourLight = qRgb(0xff,0xff, 0xff);
+auto constexpr viewportBackgroundColourDark = qRgb(0x80, 0x80, 0x80);
+auto constexpr viewportBackgroundColourLight = qRgb(0xdd, 0xdd, 0xdd);
 auto constexpr viewportGripColour = qRgb(0xff, 0xcc, 0x00);
 auto constexpr trimmerCornerRadius = 8;
 
@@ -71,14 +75,25 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
 
     auto gripBrush = QBrush(viewportGripColour);
     auto gripInnerBrush = QBrush(gripInnerColour);
-    auto viewportBackgroundBrush = QBrush(viewportBackgroundColour);
-    auto trimmerBrush = QBrush(trimmerBackgroundColour);
+
+    QBrush viewportBackgroundBrush;
+
+    if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
+        viewportBackgroundBrush = QBrush(viewportBackgroundColourDark);
+    } else {
+        viewportBackgroundBrush = QBrush(viewportBackgroundColourLight);
+    }
 
     auto colourPen = QPen(QColor(viewportGripColour));
 
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
-    painter.setBrush(trimmerBrush);
+
+    if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
+        painter.setBrush(QColor(trimmerBackgroundColourDark));
+    } else {
+        painter.setBrush(QColor(trimmerBackgroundColourLight));
+    }
 
     // draw the main trimmer background.
 
@@ -205,18 +220,19 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mouseReleaseEvent(QMouseEvent *eve
 }
 
 void Nedrysoft::RouteAnalyser::TrimmerWidget::mouseMoveEvent(QMouseEvent *event) {
+    double trimmerWidth = rect().width();
+    double delta = static_cast<double>(event->pos().x()-m_origin)/trimmerWidth;
+
     switch(m_editingState) {
         case State::NotEditing: {
             return;
         }
 
         case State::MovingViewport: {
-            double trimmerWidth = rect().width();
-            double delta = event->pos().x()-m_origin;
             double min = 0;
             double max = 1.0-m_viewportSize;
 
-            m_viewportPosition += (delta/trimmerWidth);
+            m_viewportPosition += delta;
 
             if (m_viewportPosition<min) {
                 m_viewportPosition = min;
@@ -224,21 +240,14 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mouseMoveEvent(QMouseEvent *event)
                 m_viewportPosition = max;
             }
 
-            m_origin = event->pos().x();
-
-            update();
-
-            return;
+            break;
         }
 
         case State::MovingViewportStart: {
-            double trimmerWidth = rect().width();
-            double delta = event->pos().x()-m_origin;
-            double trimSize = static_cast<double>(trimmerCornerRadius*2)/trimmerWidth;
             double min = 0;
-            double max = m_viewportEnd-trimSize;
+            double max = m_viewportEnd-(static_cast<double>(trimmerCornerRadius*2.0)/trimmerWidth);
 
-            m_viewportPosition += (delta/trimmerWidth);
+            m_viewportPosition += delta;
 
             if (m_viewportPosition<min) {
                 m_viewportPosition = min;
@@ -248,20 +257,14 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mouseMoveEvent(QMouseEvent *event)
 
             m_viewportSize = m_viewportEnd-m_viewportPosition;
 
-            m_origin = event->pos().x();
-
-            update();
-
-            return;
+            break;
         }
 
         case State::MovingViewportEnd: {
-            double trimmerWidth = rect().width();
-            double delta = event->pos().x()-m_origin;
-            double min = (trimmerCornerRadius*2)/trimmerWidth;
+            double min = static_cast<double>(trimmerCornerRadius*2.0)/trimmerWidth;
             double max = 1-m_viewportPosition;
 
-            m_viewportSize += (delta/trimmerWidth);
+            m_viewportSize += delta;
 
             if (m_viewportSize<min) {
                 m_viewportSize = min;
@@ -269,11 +272,11 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mouseMoveEvent(QMouseEvent *event)
                 m_viewportSize = max;
             }
 
-            m_origin = event->pos().x();
-
-            update();
-
-            return;
+            break;
         }
     }
+
+    m_origin = event->pos().x();
+
+    update();
 }

@@ -42,6 +42,8 @@ pingnoo_add_sources(
     CoreSpec.h
     EditorManager.cpp
     EditorManager.h
+    EditorManagerTabWidget.cpp
+    EditorManagerTabWidget.h
     ICommand.h
     ICommandManager.h
     IConfiguration.h

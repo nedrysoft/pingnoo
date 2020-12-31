@@ -66,6 +66,18 @@ namespace Nedrysoft::Core {
              * @returns     the displayed name of the editor.
              */
             virtual auto displayName() -> QString = 0;
+
+            /**
+             * @brief       The editor manager calls this method when an editor is activated. (i.e becomes the active
+             *              editor)
+             */
+            virtual auto activated() -> void = 0;
+
+            /**
+             * @brief       The editor manager calls this method when an editor is deactivated. (i.e focus is lost)
+             *              editor)
+             */
+            virtual auto deactivated() -> void = 0;
     };
 }
 

@@ -84,6 +84,7 @@ namespace Nedrysoft::ICMPPingEngine {
                     QHostAddress receiveAddress);
 
             friend class ICMPPingEngine;
+            friend class ICMPPingEngineFactory;
 
         private:
             /**

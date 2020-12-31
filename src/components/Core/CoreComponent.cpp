@@ -27,8 +27,11 @@
 #include "ContextManager.h"
 #include "Core.h"
 #include "IPingEngineFactory.h"
+#include "IRibbonBarManager.h"
+#include "IRibbonPage.h"
 #include "IRouteEngine.h"
 #include "PingResult.h"
+#include "Pingnoo.h"
 
 CoreComponent::CoreComponent() :
         m_core(new Nedrysoft::Core::Core()),
@@ -59,6 +62,15 @@ auto CoreComponent::initialiseEvent() -> void {
     Nedrysoft::ComponentSystem::addObject(m_core);
     Nedrysoft::ComponentSystem::addObject(m_contextManager);
     Nedrysoft::ComponentSystem::addObject(m_commandManager);
+
+    auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
+
+    if (ribbonBarManager) {
+        auto page = ribbonBarManager->addPage(tr("Host Masking"), Pingnoo::Constants::ribbonHostMaskingPage);
+
+        page->addGroup("My Group", "com.c", new QWidget());
+    }
+
 }
 
 auto CoreComponent::initialisationFinishedEvent() -> void {

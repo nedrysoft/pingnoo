@@ -57,7 +57,7 @@
       <property name="childrenCollapsible">
        <bool>false</bool>
       </property>
-      <widget class="QTabWidget" name="editorTabWidget">
+      <widget class="Nedrysoft::Core::EditorManagerTabWidget" name="editorTabWidget">
        <property name="currentIndex">
         <number>-1</number>
        </property>
@@ -89,6 +89,12 @@
    <class>Nedrysoft::Ribbon::RibbonWidget</class>
    <extends>QTabWidget</extends>
    <header>Ribbon/RibbonWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Nedrysoft::Core::EditorManagerTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>EditorManagerTabWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -23,6 +23,7 @@
 
 #include "ICMPPingEngineFactory.h"
 #include "ICMPPingEngine.h"
+#include "ICMPPingReceiverWorker.h"
 
 class Nedrysoft::ICMPPingEngine::ICMPPingEngineFactoryData {
 
@@ -47,6 +48,10 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::ICMPPingEngineFactory() :
 
 Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::~ICMPPingEngineFactory() {
     qDeleteAll(d->m_engineList);
+
+    auto receiverWorker = Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::getInstance();
+
+    delete receiverWorker;
 
     d.reset();
 }

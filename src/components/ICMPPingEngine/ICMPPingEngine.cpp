@@ -176,10 +176,6 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::~ICMPPingEngine() {
     for (auto request : d->m_pingRequests) {
         delete request;
     }
-
-    if (d->m_receiverWorker) {
-        delete d->m_receiverWorker;
-    }
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget * {

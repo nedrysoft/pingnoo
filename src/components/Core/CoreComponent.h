@@ -31,6 +31,7 @@ namespace Nedrysoft::Core {
     class Core;
     class ContextManager;
     class CommandManager;
+    class RibbonBarManager;
 }
 
 /**
@@ -87,6 +88,7 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
         Nedrysoft::Core::Core *m_core;
         Nedrysoft::Core::ContextManager *m_contextManager;
         Nedrysoft::Core::CommandManager *m_commandManager;
+        Nedrysoft::Core::RibbonBarManager *m_ribbonBarManager;
 };
 
 #endif // NEDRYSOFT_CORE_CORECOMPONENT_H
