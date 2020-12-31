@@ -49,7 +49,11 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::ICMPPingEngineFactory() :
 Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::~ICMPPingEngineFactory() {
     qDeleteAll(d->m_engineList);
 
-    auto receiverWorker = Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::getInstance();
+    auto receiverWorker = Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::getInstance(true);
+
+    if (receiverWorker) {
+        delete receiverWorker;
+    }
 
     delete receiverWorker;
 

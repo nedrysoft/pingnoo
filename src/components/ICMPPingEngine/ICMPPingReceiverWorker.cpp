@@ -42,7 +42,7 @@ Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::ICMPPingReceiverWorker() :
         m_isRunning(false),
         m_engine(nullptr),
         m_receiveWorker(nullptr),
-        m_receiverThread(new QThread),
+        m_receiverThread(nullptr),
         m_socket(nullptr) {
 
 }
@@ -52,9 +52,9 @@ Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::~ICMPPingReceiverWorker() {
         delete m_engine;
     }
 
-    m_receiveWorker->m_isRunning = false;
+    if (m_receiveWorker) {
+        m_receiveWorker->m_isRunning = false;
 
-    if (m_receiverThread) {
         m_receiverThread->quit();
         m_receiverThread->wait();
 
@@ -66,12 +66,18 @@ Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::~ICMPPingReceiverWorker() {
     }
 }
 
-auto Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::getInstance() -> Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker * {
+auto Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::getInstance(bool returnNull) -> Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker * {
     static Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker *instance = nullptr;
 
     if (instance) {
         return instance;
     }
+
+    if (returnNull) {
+        return nullptr;
+    }
+
+    instance->m_receiverThread = new QThread;
 
     instance = new Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker;
 

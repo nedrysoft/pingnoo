@@ -67,9 +67,11 @@ namespace Nedrysoft::ICMPPingEngine {
             /**
              * @brief       Returns the ICMPPingReceiverWorker singleton instance.
              *
+             * @param[in]   returnNull if the singleton has not been allocated, then return null if true.
+             *
              * @returns     the singleton instance.
              */
-            static auto getInstance() -> Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker *;
+            static auto getInstance(bool returnNull=false) -> Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker *;
 
             /**
              * @brief       This signal is emitted when an ICMP packet has been received.
