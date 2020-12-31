@@ -77,9 +77,9 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::getInstance(bool returnN
         return nullptr;
     }
 
-    instance->m_receiverThread = new QThread;
-
     instance = new Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker;
+
+    instance->m_receiverThread = new QThread;
 
     qRegisterMetaType<std::chrono::time_point<std::chrono::high_resolution_clock>>();
 
