@@ -59,6 +59,7 @@ namespace Nedrysoft::Core {
 
         private:
             QString m_text;
+            int m_openSansRegular;
     };
 }
 

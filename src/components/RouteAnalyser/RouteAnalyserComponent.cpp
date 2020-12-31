@@ -44,10 +44,9 @@ RouteAnalyserComponent::RouteAnalyserComponent() :
         m_newTargetGroupWidget(nullptr),
         m_latencyGroupWidget(nullptr),
         m_viewportGroupWidget(nullptr),
-        m_newTargetAction(nullptr)
-    {
+        m_newTargetAction(nullptr) {
 
-};
+    };
 
 RouteAnalyserComponent::~RouteAnalyserComponent() {
     if (m_latencySettingsPage) {
@@ -168,7 +167,7 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
             auto ribbonPage = ribbonBarManager->addPage(
                     tr("Route Analyser"),
                     Pingnoo::Constants::ribbonRouteAnalyserPage,
-                    0.1 );
+                    0.1f );
 
             ribbonBarManager->selectPage(Pingnoo::Constants::ribbonRouteAnalyserPage);
 

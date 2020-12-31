@@ -33,6 +33,17 @@ Nedrysoft::RouteAnalyser::ViewportRibbonGroup::ViewportRibbonGroup(QWidget *pare
         ui(new Ui::ViewportRibbonGroup) {
 
     ui->setupUi(this);
+
+    ui->durationComboBox->addItems(
+            QStringList() <<
+                "60 Seconds" <<
+                "10 Minutes" <<
+                "15 Minutes" <<
+                "30 Minutes" <<
+                "45 Minutes" <<
+                "60 Minutes" <<
+                "12 Hours" <<
+                "24 Hours" );
 }
 
 Nedrysoft::RouteAnalyser::ViewportRibbonGroup::~ViewportRibbonGroup() {

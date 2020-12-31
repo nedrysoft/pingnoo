@@ -425,7 +425,7 @@ endmacro(pingnoo_add_defines)
 
 macro(pingnoo_set_component_metadata pingnooComponentCategory pingnooComponentDescription)
     set(pingnooComponentName ${pingnooCurrentProjectName})
-    set(pingnooComponentVersion ${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_YEAR})
+    set(pingnooComponentVersion ${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY})
     set(pingnooComponentBranch ${PINGNOO_GIT_BRANCH})
     set(pingnooComponentRevision ${PINGNOO_GIT_HASH}${PINGNOO_GIT_UNCOMMITTED})
     set(pingnooComponentCategory ${pingnooComponentCategory})

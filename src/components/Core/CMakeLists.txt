@@ -79,6 +79,7 @@ pingnoo_add_sources(
     RibbonPage.h
     StatusBarManager.cpp
     StatusBarManager.h
+    fonts.qrc
 )
 
 pingnoo_set_description("Core application support component")

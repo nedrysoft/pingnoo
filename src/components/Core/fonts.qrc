@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/Nedrysoft/Core/">
+        <file>OpenSans/OpenSans-Regular.ttf</file>
+    </qresource>
+</RCC>

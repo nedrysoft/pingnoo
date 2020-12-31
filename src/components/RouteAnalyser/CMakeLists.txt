@@ -30,34 +30,13 @@ pingnoo_add_defines(QCUSTOMPLOT_USE_LIBRARY)
 pingnoo_add_sources(
     BarChart.cpp
     BarChart.h
-    ColourDialog.h
     CPAxisTickerMS.cpp
     CPAxisTickerMS.h
-    GraphLatencyLayer.cpp
-    GraphLatencyLayer.h
-    PingData.cpp
-    PingData.h
-    RouteTableItemDelegate.cpp
-    RouteTableItemDelegate.h
-    RouteAnalyserComponent.cpp
-    RouteAnalyserComponent.h
-    RouteAnalyserEditor.cpp
-    RouteAnalyserEditor.h
-    NewTargetRibbonGroup.cpp
-    NewTargetRibbonGroup.h
-    NewTargetRibbonGroup.ui
-    RouteAnalyserSpec.h
-    RouteAnalyserWidget.cpp
-    RouteAnalyserWidget.h
-    Utils.cpp
-    Utils.h
-    ThemeSupport.mm
-    ThemeSupport.h
-    NewTargetDialog.cpp
-    NewTargetDialog.h
-    NewTargetDialog.ui
+    ColourDialog.h
     ColourManager.cpp
     ColourManager.h
+    GraphLatencyLayer.cpp
+    GraphLatencyLayer.h
     LatencyRibbonGroup.cpp
     LatencyRibbonGroup.h
     LatencyRibbonGroup.ui
@@ -70,13 +49,34 @@ pingnoo_add_sources(
     LatencyWidget.h
     LineSyntaxHighlighter.cpp
     LineSyntaxHighlighter.h
+    NewTargetDialog.cpp
+    NewTargetDialog.h
+    NewTargetDialog.ui
+    NewTargetRibbonGroup.cpp
+    NewTargetRibbonGroup.h
+    NewTargetRibbonGroup.ui
+    PingData.cpp
+    PingData.h
+    RouteAnalyserComponent.cpp
+    RouteAnalyserComponent.h
+    RouteAnalyserEditor.cpp
+    RouteAnalyserEditor.h
+    RouteAnalyserSpec.h
+    RouteAnalyserWidget.cpp
+    RouteAnalyserWidget.h
+    RouteTableItemDelegate.cpp
+    RouteTableItemDelegate.h
     TargetSettingsPage.cpp
     TargetSettingsPage.h
     TargetSettingsPageWidget.cpp
     TargetSettingsPageWidget.h
     TargetSettingsPageWidget.ui
+    ThemeSupport.h
+    ThemeSupport.mm
     TrimmerWidget.cpp
     TrimmerWidget.h
+    Utils.cpp
+    Utils.h
     ViewportRibbonGroup.cpp
     ViewportRibbonGroup.h
     ViewportRibbonGroup.ui
