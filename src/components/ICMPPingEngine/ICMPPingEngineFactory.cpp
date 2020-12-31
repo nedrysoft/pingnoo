@@ -55,8 +55,6 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::~ICMPPingEngineFactory() {
         delete receiverWorker;
     }
 
-    delete receiverWorker;
-
     d.reset();
 }
 
