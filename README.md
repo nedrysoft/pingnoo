@@ -142,6 +142,7 @@ Also, Pingnoo was developed using the following commercially licensed tools/serv
 - [Affinity Designer](https://www.serif.com/designer) - Vector artwork design application.
 - [Affinity Photo](https://www.serif.com/photo) - Bitmap artwork design application.
 - [CLion](https://www.jetbrains.com/clion/) - A C++ IDE
+- [Deleaker](https://deleaker.com) - A leak detector for Windows. (Currently using trial license)
 
 # License
 
