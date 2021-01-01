@@ -43,7 +43,7 @@ auto constexpr trimmerCornerRadius = 8;
 Nedrysoft::RouteAnalyser::TrimmerWidget::TrimmerWidget(QWidget *parent) :
         QWidget(parent),
         m_editingState(State::NotEditing),
-        m_viewportPosition(0.3),
+        m_viewportPosition(0),
         m_viewportSize(0.5) {
 
 }
@@ -204,11 +204,17 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mousePressEvent(QMouseEvent *event
     }
 
     if (origin>viewportSize-trimmerCornerRadius) {
-        m_editingState = State::MovingViewportEnd;
+        if (!m_flags.testFlag(TrimmerFlag::FixedEnd)) {
+            m_editingState = State::MovingViewportEnd;
+        }
     } else if (origin<trimmerCornerRadius) {
-        m_editingState = State::MovingViewportStart;
+        if (!m_flags.testFlag(TrimmerFlag::FixedStart)) {
+            m_editingState = State::MovingViewportStart;
+        }
     } else {
-        m_editingState = State::MovingViewport;
+        if (!m_flags) {
+            m_editingState = State::MovingViewport;
+        }
     }
 
     m_origin = event->pos().x();
@@ -279,4 +285,29 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mouseMoveEvent(QMouseEvent *event)
     m_origin = event->pos().x();
 
     update();
+
+    Q_EMIT positionChanged(startPosition(), endPosition());
+}
+
+auto Nedrysoft::RouteAnalyser::TrimmerWidget::setPosition(double start, double end) -> void {
+    if (start>end) {
+        std::swap<double>(start, end);
+    }
+
+    m_viewportPosition = qMax(start, 0.0);
+    m_viewportSize = qMin(end-start, 1.0);
+
+    update();
+}
+
+auto Nedrysoft::RouteAnalyser::TrimmerWidget::startPosition() -> double {
+    return qMin(qMax(0.0, m_viewportPosition), 1.0);
+}
+
+auto Nedrysoft::RouteAnalyser::TrimmerWidget::endPosition() -> double {
+    return qMin(qMax(0.0,  m_viewportPosition+m_viewportSize), 1.0);
+}
+
+auto Nedrysoft::RouteAnalyser::TrimmerWidget::setFlags(TrimmerWidget::TrimmerFlags flags) -> void {
+    m_flags = flags;
 }

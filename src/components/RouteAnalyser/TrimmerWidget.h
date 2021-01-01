@@ -25,6 +25,7 @@
 #define NEDRYSOFT_ROUTEANALYSER_TRIMMERWIDGET_H
 
 #include <QWidget>
+#include <QFlags>
 
 namespace Nedrysoft::RouteAnalyser {
     /**
@@ -35,12 +36,22 @@ namespace Nedrysoft::RouteAnalyser {
             public QWidget {
 
         private:
+            Q_OBJECT
+
+        private:
             enum class State {
                 NotEditing,
                 MovingViewport,
                 MovingViewportStart,
                 MovingViewportEnd
             };
+
+        public:
+            enum TrimmerFlag {
+                FixedStart = 0x1,
+                FixedEnd = 0x2,
+            };
+            Q_DECLARE_FLAGS(TrimmerFlags, TrimmerFlag)
 
         public:
             /**
@@ -52,6 +63,43 @@ namespace Nedrysoft::RouteAnalyser {
              * @brief       Destroys the TrimmerWidget.
              */
              ~TrimmerWidget();
+
+             /**
+              * @brief      Sets the start and end points of the timemr.
+              *
+              * @param[in]  start the start position as a unit value.
+              * @param[in]  end the end position as a unit value.
+              */
+              auto setPosition(double start, double end) -> void;
+
+              /**
+               * @brief     Returns the start position of the trimmer.
+               *
+               * @returns   A unit value of the start position.
+               */
+              auto startPosition() -> double;
+
+              /**
+               * @brief     Returns the start position of the trimmer.
+               *
+               * @returns   A unit value of the start position.
+               */
+              auto endPosition() -> double;
+
+              /**
+               * @brief     This signal is emitted when the viewport is moved or resized.
+               *
+               * @param[in] start the start value of the viewport.
+               * @param[in] end the end value of the viewport.
+               */
+              Q_SIGNAL void positionChanged(double start, double end);
+
+              /**
+               * @brief     Sets the flags for the trimmer widget.
+               *
+               * @param[in] flags the flags.
+               */
+              auto setFlags(TrimmerFlags flags) -> void;
 
         protected:
             /**
@@ -95,7 +143,10 @@ namespace Nedrysoft::RouteAnalyser {
             double m_viewportSize;                                  //! the end position of the viewport (unit value)
             double m_origin;                                        //! absolute value for movement, allows a delta to be computed
             double m_viewportEnd;                                   //! the viewpoint end position at the start of a movement
+            TrimmerFlags m_flags;
     };
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(Nedrysoft::RouteAnalyser::TrimmerWidget::TrimmerFlags)
 
 #endif //NEDRYSOFT_ROUTEANALYSER_TRIMMERWIDGET_H

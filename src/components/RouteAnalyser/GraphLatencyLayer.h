@@ -64,8 +64,8 @@ namespace Nedrysoft::RouteAnalyser {
             auto draw(QCPPainter *painter) -> void;
 
         private:
-            std::chrono::duration<double> m_idealLatency = {};
             std::chrono::duration<double> m_warningLatency = {};
+            std::chrono::duration<double> m_criticalLatency = {};
 
             bool m_useGradient;
 

@@ -224,8 +224,8 @@ namespace Nedrysoft::RouteAnalyser {
                                  const QPen &pen) const -> void;
 
         private:
-            std::chrono::duration<double> m_lowRangeLatency = {};            //! The lowest latency seen by this item
-            std::chrono::duration<double> m_midRangeLatency = {};            //! The highest latencty seen by this item
+            std::chrono::duration<double> m_warningLatency = {};            //! The lowest latency seen by this item
+            std::chrono::duration<double> m_criticalLatency = {};            //! The highest latencty seen by this item
 
             bool m_useGradient;
     };

@@ -44,6 +44,28 @@ Nedrysoft::RouteAnalyser::ViewportRibbonGroup::ViewportRibbonGroup(QWidget *pare
                 "60 Minutes" <<
                 "12 Hours" <<
                 "24 Hours" );
+
+    connect(ui->trimmerWidget, &TrimmerWidget::positionChanged, [=](double start, double end) {
+        // TODO: add logic.
+    });
+
+    connect(ui->durationComboBox, &QComboBox::currentTextChanged, [=](QString text) {
+        // TODO: add logic.
+    });
+
+    connect(ui->endLockCheckBox, &QCheckBox::stateChanged, [=](int state) {
+        // TODO: add logic.
+        
+        if (state==Qt::CheckState::Checked) {
+
+        } else if (state==Qt::CheckState::Unchecked) {
+
+        }
+    });
+
+    ui->trimmerWidget->setPosition(0.25, 0.5);
+
+
 }
 
 Nedrysoft::RouteAnalyser::ViewportRibbonGroup::~ViewportRibbonGroup() {

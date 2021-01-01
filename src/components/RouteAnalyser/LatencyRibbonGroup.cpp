@@ -32,8 +32,8 @@
 
 #include <QMenu>
 
-auto constexpr warningDefaultValue = "100ms";
-auto constexpr criticalDefaultValue = "200ms";
+auto constexpr warningDefaultValue = "200ms";
+auto constexpr criticalDefaultValue = "500ms";
 
 constexpr auto lineEditHeight = 21;
 

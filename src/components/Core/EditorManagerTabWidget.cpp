@@ -29,7 +29,7 @@
 
 constexpr auto fontPath = ":/Nedrysoft/Core/OpenSans/OpenSans-Regular.ttf";
 constexpr auto fontName = "Open Sans";
-#if Q_OS_MACOS
+#if defined(Q_OS_MACOS)
 constexpr auto fontSize = 14;
 #else
 constexpr auto fontSize = 12;

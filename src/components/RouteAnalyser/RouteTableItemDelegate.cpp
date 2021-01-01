@@ -40,8 +40,8 @@ constexpr auto AverageLatencyRadius = 4;
 constexpr auto CurrentLatencyLength = 3;
 constexpr auto xOffset = (AverageLatencyRadius*2);
 
-constexpr auto DefaultIdealLatency = 100ms;
 constexpr auto DefaultWarningLatency = 200ms;
+constexpr auto DefaultCriticalLatency = 500ms;
 
 constexpr auto roundedRectangleRadius = 10;
 constexpr auto alternateRowFactor = 12.5;
@@ -59,8 +59,8 @@ constexpr auto minMaxLatencyLineColour = Qt::black;
 
 Nedrysoft::RouteAnalyser::RouteTableItemDelegate::RouteTableItemDelegate(QWidget *parent) :
         QStyledItemDelegate(parent),
-        m_lowRangeLatency(DefaultIdealLatency),
-        m_midRangeLatency(DefaultWarningLatency),
+        m_warningLatency(DefaultWarningLatency),
+        m_criticalLatency(DefaultCriticalLatency),
         m_useGradient(true) {
 
 }
@@ -431,11 +431,11 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintHop(
 
     gradientMap[0] = Nedrysoft::RouteAnalyser::ColourManager::getIdealColour();
 
-    gradientMap[std::chrono::duration<double, std::milli>(m_lowRangeLatency).count()/
-            interpolationTime] = Nedrysoft::RouteAnalyser::ColourManager::getWarningColour();
+    gradientMap[std::chrono::duration<double, std::milli>(m_warningLatency).count() /
+                interpolationTime] = Nedrysoft::RouteAnalyser::ColourManager::getWarningColour();
 
-    gradientMap[std::chrono::duration<double, std::milli>(m_midRangeLatency).count() /
-            interpolationTime] = Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour();
+    gradientMap[std::chrono::duration<double, std::milli>(m_criticalLatency).count() /
+                interpolationTime] = Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour();
 
     gradientMap[1] = Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour();
 
@@ -535,8 +535,8 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
 
     painter->setClipPath(clippingPath);
 
-    auto idealStop = m_lowRangeLatency.count()/graphMaxLatency;
-    auto warningStop = m_midRangeLatency.count()/graphMaxLatency;
+    auto idealStop = m_warningLatency.count() / graphMaxLatency;
+    auto warningStop = m_criticalLatency.count() / graphMaxLatency;
 
     auto blankRect = option.rect;
 

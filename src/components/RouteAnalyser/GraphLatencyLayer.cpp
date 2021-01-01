@@ -34,8 +34,8 @@
 
 using namespace std::chrono_literals;
 
-constexpr auto DefaultIdealLatency = 100ms;
 constexpr auto DefaultWarningLatency = 200ms;
+constexpr auto DefaultCriticaLatency = 500ms;
 
 constexpr auto roundedRectangleRadius = 10;
 constexpr auto tinyNumber = 1.0/1e10;                             //! used to adjust a unit number to just under 1
@@ -49,8 +49,8 @@ QMap<QString, uint64_t> Nedrysoft::RouteAnalyser::GraphLatencyLayer::m_age;
 
 Nedrysoft::RouteAnalyser::GraphLatencyLayer::GraphLatencyLayer(QCustomPlot *customPlot) :
         QCPItemRect(customPlot),
-        m_idealLatency(DefaultIdealLatency),
         m_warningLatency(DefaultWarningLatency),
+        m_criticalLatency(DefaultCriticaLatency),
         m_useGradient(true) {
 
 }
@@ -77,8 +77,8 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
     auto rect = parentPlot()->axisRect()->rect();
     auto topLeft = rect.topLeft();
 
-    auto idealStop = m_idealLatency.count()/graphMaxLatency;
-    auto warningStop = m_warningLatency.count()/graphMaxLatency;
+    auto idealStop = m_warningLatency.count()/graphMaxLatency;
+    auto warningStop = m_criticalLatency.count()/graphMaxLatency;
 
     QString bufferName = QString("%1_%2_%3_%4_%5").arg(rect.size().width()).arg(rect.size().height()).arg(idealStop).arg(warningStop).arg(m_useGradient);
 

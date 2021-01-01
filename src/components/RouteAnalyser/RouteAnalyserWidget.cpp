@@ -42,7 +42,7 @@ using namespace std::chrono_literals;
 
 constexpr auto RoundTripGraph = 0;
 constexpr std::chrono::duration<double> DefaultMaxLatency = 0.01s;
-constexpr std::chrono::duration<double> DefaultTimeWindow = 10min;
+constexpr std::chrono::duration<double> DefaultTimeWindow = 60min;
 constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
 constexpr auto useSmoothGradient = true;
