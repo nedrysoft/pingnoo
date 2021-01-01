@@ -55,7 +55,7 @@ Nedrysoft::RouteAnalyser::ViewportRibbonGroup::ViewportRibbonGroup(QWidget *pare
 
     connect(ui->endLockCheckBox, &QCheckBox::stateChanged, [=](int state) {
         // TODO: add logic.
-        
+
         if (state==Qt::CheckState::Checked) {
 
         } else if (state==Qt::CheckState::Unchecked) {
@@ -64,8 +64,6 @@ Nedrysoft::RouteAnalyser::ViewportRibbonGroup::ViewportRibbonGroup(QWidget *pare
     });
 
     ui->trimmerWidget->setPosition(0.25, 0.5);
-
-
 }
 
 Nedrysoft::RouteAnalyser::ViewportRibbonGroup::~ViewportRibbonGroup() {
