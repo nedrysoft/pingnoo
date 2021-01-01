@@ -73,7 +73,7 @@ auto Nedrysoft::RouteEngine::RouteWorker::ping_v4(
         auto result = socket->sendto(buffer, hostAddress);
 
         if (result != buffer.length()) {
-            spdlog::error("There was an error sending the ICMP request.");
+            SPDLOG_ERROR("There was an error sending the ICMP request.");
 
             continue;
         }
@@ -142,7 +142,7 @@ auto Nedrysoft::RouteEngine::RouteWorker::ping_v6(
         auto result = socket->sendto(buffer, hostAddress);
 
         if (result != buffer.length()) {
-            spdlog::error("There was an error sending the ICMP request.");
+            SPDLOG_ERROR("There was an error sending the ICMP request.");
 
             continue;
         }
@@ -196,7 +196,7 @@ auto Nedrysoft::RouteEngine::RouteWorker::doWork() -> void {
     if (!addressList.count()) {
         emit result(QHostAddress(), Nedrysoft::Core::RouteList());
 
-        spdlog::error(QString("Failed to find address for %1.").arg(m_host).toStdString());
+        SPDLOG_ERROR(QString("Failed to find address for %1.").arg(m_host).toStdString());
 
         return;
     }
@@ -207,20 +207,20 @@ auto Nedrysoft::RouteEngine::RouteWorker::doWork() -> void {
 
     if (m_ipVersion == Nedrysoft::Core::IPVersion::V4) {
         if (targetAddress.protocol() != QAbstractSocket::IPv4Protocol) {
-            spdlog::error(QString("Socket IP version mismatch. (expecting QAbstractSocket::IPv4Protocol)")
+            SPDLOG_ERROR(QString("Socket IP version mismatch. (expecting QAbstractSocket::IPv4Protocol)")
                     .toStdString());
 
             return;
         }
     } else if (m_ipVersion == Nedrysoft::Core::IPVersion::V6) {
         if (targetAddress.protocol() != QAbstractSocket::IPv6Protocol) {
-            spdlog::error(QString("Socket IP version mismatch. (expecting QAbstractSocket::IPv6Protocol)")
+            SPDLOG_ERROR(QString("Socket IP version mismatch. (expecting QAbstractSocket::IPv6Protocol)")
                                   .toStdString());
 
             return;
         }
     } else {
-        spdlog::error(QString("Socket IP version unknown.)").toStdString());
+        SPDLOG_ERROR(QString("Socket IP version unknown.)").toStdString());
 
         return;
     }
@@ -259,7 +259,7 @@ auto Nedrysoft::RouteEngine::RouteWorker::doWork() -> void {
 
         emit result(targetAddress, route);
     } else {
-        spdlog::error(QString("Failed to discover route to %1.").arg(m_host).toStdString());
+        SPDLOG_ERROR(QString("Failed to discover route to %1.").arg(m_host).toStdString());
 
         emit result(targetAddress, Nedrysoft::Core::RouteList());
     }

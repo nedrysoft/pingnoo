@@ -29,7 +29,7 @@ set(PINGNOO_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 set(PINGNOO_BINARY_DIR "${PINGNOO_ROOT_DIR}/bin")
 set(PINGNOO_SOURCE_DIR "${PINGNOO_ROOT_DIR}/src")
 
-execute_process(COMMAND git --git-dir=${PINGNOO_ROOT_DIR}/.git log -1 --format=%cd --date=format:%y OUTPUT_VARIABLE PINGNOO_GIT_YEAR)
+execute_process(COMMAND git --git-dir=${PINGNOO_ROOT_DIR}/.git log -1 --format=%cd --date=format:%Y OUTPUT_VARIABLE PINGNOO_GIT_YEAR)
 execute_process(COMMAND git --git-dir=${PINGNOO_ROOT_DIR}/.git log -1 --format=%cd --date=format:%m OUTPUT_VARIABLE PINGNOO_GIT_MONTH)
 execute_process(COMMAND git --git-dir=${PINGNOO_ROOT_DIR}/.git log -1 --format=%cd --date=format:%d OUTPUT_VARIABLE PINGNOO_GIT_DAY)
 execute_process(COMMAND git --git-dir=${PINGNOO_ROOT_DIR}/.git log -1 --format=%h OUTPUT_VARIABLE PINGNOO_GIT_HASH)
@@ -300,7 +300,7 @@ macro(add_logging_library)
 
     add_dependencies(${PROJECT_NAME} spdlog)
 
-    target_compile_definitions(${PROJECT_NAME} PRIVATE -DSPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_DEBUG)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE -DSPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE)
 
     target_link_libraries(${PROJECT_NAME} spdlog)
 endmacro(add_logging_library)
