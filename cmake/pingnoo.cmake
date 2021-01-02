@@ -302,7 +302,7 @@ macro(add_logging_library)
 
     target_compile_definitions(${PROJECT_NAME} PRIVATE -DSPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE)
 
-    target_link_libraries(${PROJECT_NAME} spdlog)
+    target_link_libraries(${PROJECT_NAME} spdlog::spdlog_header_only)
 endmacro(add_logging_library)
 
 macro(pingnoo_use_qt_libraries)

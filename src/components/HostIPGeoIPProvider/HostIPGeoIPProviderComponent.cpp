@@ -26,13 +26,16 @@
 #include "ComponentSystem/IComponentManager.h"
 #include "HostIPGeoIPProvider.h"
 
+#include <spdlog/sinks/stdout_color_sinks.h>
+
 HostIPGeoIPProviderComponent::HostIPGeoIPProviderComponent() :
         m_provider(nullptr) {
 
+    Nedrysoft::ComponentSystem::addObject(static_cast<QObject *>(this));
 }
 
 HostIPGeoIPProviderComponent::~HostIPGeoIPProviderComponent() {
-
+    Nedrysoft::ComponentSystem::removeObject(static_cast<QObject *>(this));
 }
 
 auto HostIPGeoIPProviderComponent::initialiseEvent() -> void {
@@ -47,4 +50,8 @@ auto HostIPGeoIPProviderComponent::finaliseEvent() -> void {
 
         delete m_provider;
     }
+}
+
+auto HostIPGeoIPProviderComponent::logger() -> std::shared_ptr<spdlog::logger> {
+    return spdlog::stdout_color_mt(metaObject()->className());
 }

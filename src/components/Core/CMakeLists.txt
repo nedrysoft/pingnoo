@@ -53,6 +53,7 @@ pingnoo_add_sources(
     IEditorManager.h
     IGeoIPProvider.h
     IHostMasker.h
+    ILogger.h
     IMenu.h
     IPingEngine.h
     IPingEngineFactory.h
