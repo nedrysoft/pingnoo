@@ -67,6 +67,12 @@ auto Nedrysoft::RouteEngine::RouteWorker::ping_v4(
             break;
         }
 
+        SPDLOG_TRACE(QString("Sending ICMP echo request to %1 with TTL of %2 (id %3 seq %4)")
+            .arg(hostAddress.toString())
+            .arg(ttl)
+            .arg(id)
+            .arg(sequence).toStdString() );
+
         auto buffer = Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(id, sequence, PingPayloadLength, hostAddress,
                                                                     Nedrysoft::ICMPPacket::V4);
 
@@ -86,6 +92,8 @@ auto Nedrysoft::RouteEngine::RouteWorker::ping_v4(
             auto startTime = std::chrono::system_clock::now();
 
             if (socket->recvfrom(receiveBuffer, *returnAddress, responseTimeout)==-1) {
+                SPDLOG_TRACE(QString("Socket error while receiving response.").toStdString());
+
                 break;
             }
 
@@ -95,6 +103,9 @@ auto Nedrysoft::RouteEngine::RouteWorker::ping_v4(
 
             if (responsePacket.resultCode()!=Nedrysoft::ICMPPacket::Invalid) {
                 if (( responsePacket.id()==id) && (responsePacket.sequence()==sequence)) {
+
+                    SPDLOG_TRACE(QString("Received valid ICMP response (%1)").arg(responsePacket.resultCode()).toStdString());
+
                     if (responsePacket.resultCode()==Nedrysoft::ICMPPacket::EchoReply) {
                         *isComplete = true;
                     }
@@ -102,7 +113,11 @@ auto Nedrysoft::RouteEngine::RouteWorker::ping_v4(
                     delete socket;
 
                     return true;
+                } else {
+                    SPDLOG_TRACE(QString("Received ICMP response with wrong id and/or sequence.").toStdString());
                 }
+            } else {
+                SPDLOG_TRACE(QString("Invalid ICMP packet received.").toStdString());
             }
 
             std::chrono::milliseconds diff = std::chrono::duration_cast<std::chrono::milliseconds>(endTime-startTime);
@@ -257,11 +272,11 @@ auto Nedrysoft::RouteEngine::RouteWorker::doWork() -> void {
                 .arg(hop)
                 .toStdString() );
 
-        emit result(targetAddress, route);
+        Q_EMIT result(targetAddress, route);
     } else {
         SPDLOG_ERROR(QString("Failed to discover route to %1.").arg(m_host).toStdString());
 
-        emit result(targetAddress, Nedrysoft::Core::RouteList());
+        Q_EMIT result(targetAddress, Nedrysoft::Core::RouteList());
     }
 }
 

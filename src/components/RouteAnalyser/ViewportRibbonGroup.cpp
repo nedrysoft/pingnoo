@@ -63,7 +63,7 @@ Nedrysoft::RouteAnalyser::ViewportRibbonGroup::ViewportRibbonGroup(QWidget *pare
         }
     });
 
-    ui->trimmerWidget->setPosition(0.25, 0.5);
+    ui->trimmerWidget->setViewport(0.25, 0.5);
 }
 
 Nedrysoft::RouteAnalyser::ViewportRibbonGroup::~ViewportRibbonGroup() {

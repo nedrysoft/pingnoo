@@ -37,6 +37,7 @@
 #include <QDateTime>
 #include <QHostAddress>
 #include <QHostInfo>
+#include <spdlog/spdlog.h>
 
 using namespace std::chrono_literals;
 
@@ -277,6 +278,8 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
     auto hop = 1;
     auto geoIP = Nedrysoft::ComponentSystem::getObject<Nedrysoft::Core::IGeoIPProvider>();
 
+    SPDLOG_TRACE("Got route result");
+
     if (routeEngine) {
         disconnect(
                 routeEngine,
@@ -308,6 +311,8 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
     auto verticalLayout = new QVBoxLayout();
 
+    qDebug() << "route result" << route;
+
     for (const QHostAddress &host : route) {
         if (!host.isNull()) {
             auto hostAddress = host.toString();
@@ -337,7 +342,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
             customPlot->setInteractions(QCP::iRangeDrag);
             customPlot->axisRect()->setRangeDrag(Qt::Horizontal);
 
-            QCPGraph *graph = customPlot->addGraph();
+            customPlot->addGraph();
 
             BarChart *barChart = new BarChart(customPlot->xAxis, customPlot->yAxis);
 
@@ -623,7 +628,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 }
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::eventFilter(QObject *watched, QEvent *event) -> bool {
-    emit filteredEvent(watched, event);
+    Q_EMIT filteredEvent(watched, event);
 
     return QWidget::eventFilter(watched, event);
 }

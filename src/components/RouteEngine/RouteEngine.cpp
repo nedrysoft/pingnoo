@@ -26,6 +26,7 @@
 #include "RouteWorker.h"
 
 #include <QThread>
+#include <spdlog/spdlog.h>
 
 using namespace std::chrono_literals;
 
@@ -63,6 +64,8 @@ Nedrysoft::RouteEngine::RouteEngine::~RouteEngine() {
 
 auto Nedrysoft::RouteEngine::RouteEngine::findRoute(QString host, Nedrysoft::Core::IPVersion ipVersion) -> void {
     m_workerThread = new QThread();
+
+    SPDLOG_TRACE(QString("Finding route to %1").arg(host).toStdString());
 
     m_worker = new Nedrysoft::RouteEngine::RouteWorker(ipVersion);
 

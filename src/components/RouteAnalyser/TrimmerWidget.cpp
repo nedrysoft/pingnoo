@@ -39,6 +39,8 @@ auto constexpr viewportBackgroundColourDark = qRgb(0x80, 0x80, 0x80);
 auto constexpr viewportBackgroundColourLight = qRgb(0xdd, 0xdd, 0xdd);
 auto constexpr viewportGripColour = qRgb(0xff, 0xcc, 0x00);
 auto constexpr trimmerCornerRadius = 8;
+auto constexpr defaultWidth = 200;
+auto constexpr defaultHeight = 60;
 
 Nedrysoft::RouteAnalyser::TrimmerWidget::TrimmerWidget(QWidget *parent) :
         QWidget(parent),
@@ -186,7 +188,7 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
 }
 
 QSize Nedrysoft::RouteAnalyser::TrimmerWidget::sizeHint() const {
-    return QSize(200,60);
+    return QSize(defaultWidth, defaultHeight);
 }
 
 void Nedrysoft::RouteAnalyser::TrimmerWidget::mousePressEvent(QMouseEvent *event) {
@@ -286,10 +288,10 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mouseMoveEvent(QMouseEvent *event)
 
     update();
 
-    Q_EMIT positionChanged(startPosition(), endPosition());
+    Q_EMIT positionChanged(viewportStart(), viewportEnd());
 }
 
-auto Nedrysoft::RouteAnalyser::TrimmerWidget::setPosition(double start, double end) -> void {
+auto Nedrysoft::RouteAnalyser::TrimmerWidget::setViewport(double start, double end) -> void {
     if (start>end) {
         std::swap<double>(start, end);
     }
@@ -300,12 +302,16 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::setPosition(double start, double e
     update();
 }
 
-auto Nedrysoft::RouteAnalyser::TrimmerWidget::startPosition() -> double {
+auto Nedrysoft::RouteAnalyser::TrimmerWidget::viewportStart() -> double {
     return qMin(qMax(0.0, m_viewportPosition), 1.0);
 }
 
-auto Nedrysoft::RouteAnalyser::TrimmerWidget::endPosition() -> double {
-    return qMin(qMax(0.0,  m_viewportPosition+m_viewportSize), 1.0);
+auto Nedrysoft::RouteAnalyser::TrimmerWidget::viewportEnd() -> double {
+    return qMin(qMax(0.0, m_viewportPosition+m_viewportSize), 1.0);
+}
+
+auto Nedrysoft::RouteAnalyser::TrimmerWidget::viewportSize() -> double {
+    return viewportEnd()-viewportStart();
 }
 
 auto Nedrysoft::RouteAnalyser::TrimmerWidget::setFlags(TrimmerWidget::TrimmerFlags flags) -> void {

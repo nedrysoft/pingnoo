@@ -57,49 +57,56 @@ namespace Nedrysoft::RouteAnalyser {
             /**
              * @brief       Constructs a new TrimmerWidget.
              */
-             TrimmerWidget(QWidget *parent=nullptr);
+            TrimmerWidget(QWidget *parent=nullptr);
 
             /**
              * @brief       Destroys the TrimmerWidget.
              */
-             ~TrimmerWidget();
+            ~TrimmerWidget();
 
-             /**
-              * @brief      Sets the start and end points of the timemr.
-              *
-              * @param[in]  start the start position as a unit value.
-              * @param[in]  end the end position as a unit value.
-              */
-              auto setPosition(double start, double end) -> void;
+            /**
+             * @brief      Sets the start and end points of the trimmer viewport..
+             *
+             * @param[in]  start the start position as a unit value.
+             * @param[in]  end the end position as a unit value.
+             */
+            auto setViewport(double start, double end) -> void;
 
-              /**
-               * @brief     Returns the start position of the trimmer.
-               *
-               * @returns   A unit value of the start position.
-               */
-              auto startPosition() -> double;
+            /**
+             * @brief     Returns the start position of the viewport..
+             *
+             * @returns   A unit value of the start position.
+             */
+            auto viewportStart() -> double;
 
-              /**
-               * @brief     Returns the start position of the trimmer.
-               *
-               * @returns   A unit value of the start position.
-               */
-              auto endPosition() -> double;
+            /**
+             * @brief     Returns the start position of the viewport..
+             *
+             * @returns   A unit value of the start position.
+             */
+            auto viewportEnd() -> double;
 
-              /**
-               * @brief     This signal is emitted when the viewport is moved or resized.
-               *
-               * @param[in] start the start value of the viewport.
-               * @param[in] end the end value of the viewport.
-               */
-              Q_SIGNAL void positionChanged(double start, double end);
+            /**
+             * @brief       Returns the size of the viewport.
+             *
+             * @returns     A unit value of the size of the viewport.
+             */
+            auto viewportSize() -> double;
 
-              /**
-               * @brief     Sets the flags for the trimmer widget.
-               *
-               * @param[in] flags the flags.
-               */
-              auto setFlags(TrimmerFlags flags) -> void;
+            /**
+             * @brief     This signal is emitted when the viewport is moved or resized.
+             *
+             * @param[in] start the start value of the viewport.
+             * @param[in] end the end value of the viewport.
+             */
+            Q_SIGNAL void positionChanged(double start, double end);
+
+            /**
+             * @brief     Sets the flags for the viewport.
+             *
+             * @param[in] flags the flags.
+             */
+            auto setFlags(TrimmerFlags flags) -> void;
 
         protected:
             /**

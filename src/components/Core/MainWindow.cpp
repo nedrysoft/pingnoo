@@ -40,6 +40,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QStandardPaths>
+#include <spdlog/spdlog.h>
 
 Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -48,6 +49,8 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
         m_settingsDialog(nullptr) {
 
     // TODO: m_ribbonBarManager should be created in the component initialisation
+
+    spdlog::set_level(spdlog::level::trace);
 
     ui->setupUi(this);
 
