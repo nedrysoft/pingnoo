@@ -47,6 +47,7 @@ class QTableView;
 class QStandardItemModel;
 class QSplitter;
 class QScrollArea;
+class Timer;
 
 namespace Nedrysoft::RouteAnalyser {
     class GraphLatencyLayer;
@@ -164,6 +165,7 @@ namespace Nedrysoft::RouteAnalyser {
             QList<Nedrysoft::RouteAnalyser::GraphLatencyLayer *> m_backgroundLayers;
             Nedrysoft::RouteAnalyser::RouteTableItemDelegate *m_routeGraphDelegate;
             ScaleMode m_graphScaleMode;
+            QTimer *m_layerCleanupTimer;
 
     };
 }

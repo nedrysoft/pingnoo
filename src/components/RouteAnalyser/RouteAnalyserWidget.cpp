@@ -37,6 +37,8 @@
 #include <QDateTime>
 #include <QHostAddress>
 #include <QHostInfo>
+#include <QTimer>
+#include <chrono>
 #include <spdlog/spdlog.h>
 
 using namespace std::chrono_literals;
@@ -177,15 +179,15 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
 
     this->setLayout(verticalLayout);
 
-    QTimer *timer = new QTimer();
+    m_layerCleanupTimer = new QTimer();
 
-    timer->setInterval(1000);
+    m_layerCleanupTimer->setInterval(1000);
 
-    connect(timer, &QTimer::timeout, [=]() {
+    connect(m_layerCleanupTimer, &QTimer::timeout, [=]() {
         GraphLatencyLayer::removeUnused();
     });
 
-    timer->start();
+    m_layerCleanupTimer->start();
 }
 
 Nedrysoft::RouteAnalyser::RouteAnalyserWidget::~RouteAnalyserWidget() {
@@ -195,6 +197,10 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::~RouteAnalyserWidget() {
 
     if (m_tableModel) {
         delete m_tableModel;
+    }
+
+    if (m_layerCleanupTimer) {
+        delete m_layerCleanupTimer;
     }
 }
 
