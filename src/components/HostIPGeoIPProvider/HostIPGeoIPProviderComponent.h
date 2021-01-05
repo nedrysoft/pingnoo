@@ -37,8 +37,7 @@ namespace Nedrysoft::HostIPGeoIPProvider {
  */
 class NEDRYSOFT_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
         public QObject,
-        public Nedrysoft::ComponentSystem::IComponent,
-        public Nedrysoft::Core::ILogger {
+        public Nedrysoft::ComponentSystem::IComponent {
 
     private:
         Q_OBJECT
@@ -46,7 +45,6 @@ class NEDRYSOFT_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
         Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
 
         Q_INTERFACES(Nedrysoft::ComponentSystem::IComponent)
-        Q_INTERFACES(Nedrysoft::Core::ILogger)
 
     public:
         /**
@@ -76,14 +74,6 @@ class NEDRYSOFT_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
          *              has been finalised the component manager then unloads all components in thr same order.
          */
         virtual auto finaliseEvent() -> void;
-
-    private:
-        /**
-         * @brief       Returns the spdlog logger.
-         *
-         * @returns     the logger.
-         */
-        virtual auto logger() ->  std::shared_ptr<spdlog::logger>;
 
     private:
 

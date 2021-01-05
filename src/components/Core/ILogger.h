@@ -34,7 +34,12 @@ namespace Nedrysoft::Core {
      * @brief       The ILogger class is used to allow spdlog to be managed in the main application.
      */
     class NEDRYSOFT_CORE_DLLSPEC ILogger {
+
         public:
+            ILogger() {
+
+            };
+
             /**
              * @brief       Returns the spdlog logger.
              *

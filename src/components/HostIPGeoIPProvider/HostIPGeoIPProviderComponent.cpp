@@ -52,6 +52,3 @@ auto HostIPGeoIPProviderComponent::finaliseEvent() -> void {
     }
 }
 
-auto HostIPGeoIPProviderComponent::logger() -> std::shared_ptr<spdlog::logger> {
-    return spdlog::stdout_color_mt(metaObject()->className());
-}

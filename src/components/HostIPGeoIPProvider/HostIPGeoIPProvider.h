@@ -80,7 +80,7 @@ namespace Nedrysoft::HostIPGeoIPProvider {
              */
             virtual auto lookup(const QString host, Nedrysoft::Core::GeoFunction function) -> void;
 
-        private:
+    private:
             Nedrysoft::HostIPGeoIPProvider::Cache *m_cache;
     };
 }
