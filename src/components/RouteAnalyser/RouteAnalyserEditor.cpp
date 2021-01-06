@@ -23,13 +23,23 @@
 
 #include "RouteAnalyserEditor.h"
 
+#include "LatencyRibbonGroup.h"
 #include "RouteAnalyser.h"
 #include "RouteAnalyserWidget.h"
+#include "ViewportRibbonGroup.h"
 
+#include "QCustomPlot/qcustomplot.h"
 #include <QObject>
 
+using namespace std::chrono_literals;
+
+constexpr std::chrono::duration<double> defaultWindowSize = 10min;
+
 Nedrysoft::RouteAnalyser::RouteAnalyserEditor::RouteAnalyserEditor() :
-        m_editorWidget(nullptr) {
+        m_editorWidget(nullptr),
+        m_viewportStart(0),
+        m_viewportEnd(1),
+        m_viewportWindow(std::chrono::duration_cast<std::chrono::milliseconds>(defaultWindowSize).count()) {
 
     auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
 
@@ -61,6 +71,14 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::widget() -> QWidget * {
                 m_ipVersion,
                 m_interval,
                 m_pingEngineFactory );
+
+        m_editorWidget->setViewportWindow(m_viewportWindow);
+
+        connect(m_editorWidget, &RouteAnalyserWidget::plotChanged,
+                [=](QCustomPlot *customPlot, std::chrono::duration<double> time, std::chrono::duration<double> roundTrip) {
+
+
+        });
     }
 
     return m_editorWidget;
@@ -89,9 +107,39 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setInterval(double interval)
 }
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::activated() -> void {
+    auto viewportWidget = ComponentSystem::getObject<ViewportRibbonGroup>();
+    auto latencyWidget = ComponentSystem::getObject<LatencyRibbonGroup>();
 
+    if (viewportWidget) {
+        viewportWidget->setViewport(0.1, 0.9);
+
+        connect(viewportWidget, &ViewportRibbonGroup::viewportChanged, [=](double start, double end) {
+
+        });
+
+        connect(viewportWidget, &ViewportRibbonGroup::viewportWindowChanged, [=](double size) {
+            if (m_editorWidget) {
+                m_editorWidget->setViewportWindow(size);
+            }
+        });
+    }
+
+    if (latencyWidget)  {
+        connect(latencyWidget, &LatencyRibbonGroup::valueChanged, [=](LatencyRibbonGroup::LatencyType type, double value) {
+
+        });
+    }
 }
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::deactivated() -> void {
+    auto latencyWidget = ComponentSystem::getObject<LatencyRibbonGroup>();
+    auto viewportWidget = ComponentSystem::getObject<ViewportRibbonGroup>();
 
+    if (latencyWidget) {
+        disconnect(latencyWidget);
+    }
+
+    if (viewportWidget) {
+        disconnect(viewportWidget);
+    }
 }

@@ -157,6 +157,9 @@ namespace Nedrysoft::RouteAnalyser {
             Nedrysoft::Core::IPVersion m_ipVersion;
             double m_interval;
             Nedrysoft::RouteAnalyser::RouteAnalyserWidget *m_editorWidget;
+            double m_viewportStart;
+            double m_viewportEnd;
+            double m_viewportWindow;
 
     };
 }

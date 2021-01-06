@@ -36,7 +36,7 @@ Nedrysoft::Core::Core::~Core() {
 auto Nedrysoft::Core::Core::open() -> void {
     m_mainWindow->initialise();
 
-    emit coreOpened();
+    Q_EMIT coreOpened();
 }
 
 auto Nedrysoft::Core::Core::mainWindow() -> QMainWindow * {

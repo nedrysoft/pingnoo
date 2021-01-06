@@ -47,7 +47,8 @@ constexpr auto ReceiveBufferSize = 4096;
 
 Nedrysoft::ICMPSocket::ICMPSocket::ICMPSocket(Nedrysoft::ICMPSocket::ICMPSocket::socket_t socket, IPVersion version) :
         m_socketDescriptor(socket),
-        m_version(version) {
+        m_version(version),
+        m_ttl(64) {
 
 }
 
@@ -341,6 +342,8 @@ auto Nedrysoft::ICMPSocket::ICMPSocket::initialiseSockets() -> void {
 auto Nedrysoft::ICMPSocket::ICMPSocket::setTTL(int ttl) -> void {
     auto result = setsockopt(m_socketDescriptor, IPPROTO_IP, IP_TTL, reinterpret_cast<char *>(&ttl), sizeof(ttl));
 
+    m_ttl = ttl;
+
     if (result == SocketError) {
         qWarning() << QObject::tr("Error setting TTL.");
     }
@@ -357,4 +360,8 @@ auto Nedrysoft::ICMPSocket::ICMPSocket::setHopLimit(int hopLimit) -> void {
 
 auto  Nedrysoft::ICMPSocket::ICMPSocket::version() -> Nedrysoft::ICMPSocket::IPVersion {
     return m_version;
+}
+
+auto Nedrysoft::ICMPSocket::ICMPSocket::ttl() -> int {
+    return m_ttl;
 }

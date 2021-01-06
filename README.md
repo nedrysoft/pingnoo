@@ -107,6 +107,14 @@ Debugging memory leaks can be done with Valgrind, but as above the application r
 
 `sudo /usr/bin/valgrind --child-silent-after-fork=yes --xml=yes --smc-check=all-non-file --tool=memcheck --gen-suppressions=all --track-origins=yes --leak-check=summary --num-callers=25 --xml-file=./debug.xml ./Pingnoo_debug`
 
+#### Deleaker
+
+The primary mechanism of finding memory leaks is done with the Deleaker tool, it's currently Windows only, but works incredibly well for finding leaks.
+
+The user interface is simple and allows viewing the stack trace of the leak which is invaluable when figuring out which level of code is responsible for the leak.
+
+During development of modules, leaks often occur as code changes can be fluet, a tool like deleaker is essential for tracking these and it's a time saver not to worry about leaks during the intial coding phase knowing that you can easily and quickly fix them after development of the feature is complete.
+
 #### Unit Tests
 
 Set the `Pingnoo_Build_Tests` option to `ON` to generate a binary which performs unit tests.
@@ -142,7 +150,7 @@ Also, Pingnoo was developed using the following commercially licensed tools/serv
 - [Affinity Designer](https://www.serif.com/designer) - Vector artwork design application.
 - [Affinity Photo](https://www.serif.com/photo) - Bitmap artwork design application.
 - [CLion](https://www.jetbrains.com/clion/) - A C++ IDE
-- [Deleaker](https://deleaker.com) - A leak detector for Windows. (Currently using trial license)
+- [Deleaker](https://deleaker.com) - A memory leak detector for Windows, License kindly provided for free for the project. 
 
 # License
 

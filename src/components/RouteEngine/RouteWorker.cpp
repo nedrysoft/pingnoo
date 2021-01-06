@@ -209,7 +209,7 @@ auto Nedrysoft::RouteEngine::RouteWorker::doWork() -> void {
     m_isRunning = true;
 
     if (!addressList.count()) {
-        emit result(QHostAddress(), Nedrysoft::Core::RouteList());
+        Q_EMIT result(QHostAddress(), Nedrysoft::Core::RouteList());
 
         SPDLOG_ERROR(QString("Failed to find address for %1.").arg(m_host).toStdString());
 

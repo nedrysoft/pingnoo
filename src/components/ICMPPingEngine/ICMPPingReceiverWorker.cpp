@@ -33,6 +33,7 @@
 #include <QThread>
 #include <QtEndian>
 #include <chrono>
+#include <spdlog/spdlog.h>
 
 using namespace std::chrono_literals;
 
@@ -111,6 +112,8 @@ void Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::doWork() {
         std::chrono::time_point<std::chrono::high_resolution_clock> receiveTime = std::chrono::high_resolution_clock::now();
 
         if (result!=-1) {
+            SPDLOG_TRACE("ICMP Packet Received");
+
             Q_EMIT packetReceived(receiveTime, receiveBuffer, receiveAddress);
         }
     }

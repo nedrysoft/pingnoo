@@ -65,7 +65,7 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
 
     while (m_isRunning) {
         if (!m_targets.isEmpty()) {
-            SPDLOG_TRACE("Sending ping to " + m_targets.last()->hostAddress().toString().toStdString());
+            SPDLOG_TRACE("Preparing ping set to " + m_targets.last()->hostAddress().toString().toStdString());
         }
 
         auto startTime = std::chrono::high_resolution_clock::now();
@@ -95,8 +95,14 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
 
             auto result = socket->sendto(buffer, target->hostAddress());
 
+            SPDLOG_TRACE(
+                    QString("Sent ping to %1 (TTL=%2, Result=%3)")
+                    .arg(target->hostAddress().toString())
+                    .arg(socket->ttl()).arg(result)
+                    .toStdString() );
+
             if (result != buffer.length()) {
-                spdlog::error("Unable to send packet to "+target->hostAddress().toString().toStdString());
+                SPDLOG_ERROR("Unable to send packet to "+target->hostAddress().toString().toStdString());
             }
         }
 

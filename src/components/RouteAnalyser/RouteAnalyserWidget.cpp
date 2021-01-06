@@ -79,7 +79,8 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
 
         QWidget(parent),
         m_routeGraphDelegate(nullptr),
-        m_graphScaleMode(ScaleMode::None) {
+        m_graphScaleMode(ScaleMode::None),
+        m_viewportWindow(DefaultTimeWindow) {
 
     auto maskerConfig = QString(
             R"|({"id":"Nedrysoft::RegExHostMasker::RegExHostMasker","matchItems":[{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"},{"matchExpression":"(?<host>(.+))\\.fizzyade\\.(?<domain>(.+))","matchFlags":20,"matchHopString":"","matchReplacementString":"[host].<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"}]})|");
@@ -188,6 +189,8 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
     });
 
     m_layerCleanupTimer->start();
+
+    m_epoch = QDateTime::currentDateTime().toSecsSinceEpoch();
 }
 
 Nedrysoft::RouteAnalyser::RouteAnalyserWidget::~RouteAnalyserWidget() {
@@ -225,6 +228,22 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
             auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
 
             customPlot->graph(RoundTripGraph)->addData(requestTime.count(), result.roundTripTime().count());
+
+            int diff = requestTime.count()-m_epoch;
+
+            int max,min;
+
+            if (diff>m_viewportWindow.count()) {
+                max = requestTime.count();
+                min = max-m_viewportWindow.count();
+            } else {
+                min = m_epoch;
+                max = m_epoch+m_viewportWindow.count();
+            };
+
+            customPlot->xAxis->setRange(min, max);
+
+            Q_EMIT plotChanged(customPlot, requestTime, result.roundTripTime());
 
             pingData->updateItem(result);
 
@@ -317,8 +336,6 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
     auto verticalLayout = new QVBoxLayout();
 
-    qDebug() << "route result" << route;
-
     for (const QHostAddress &host : route) {
         if (!host.isNull()) {
             auto hostAddress = host.toString();
@@ -378,7 +395,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
             customPlot->xAxis->setTicker(dateTicker);
             customPlot->xAxis->setRange(
                     static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch()),
-                    static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch() + DefaultTimeWindow.count()) );
+                    static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch() + m_viewportWindow.count()) );
 
             customPlot->graph(RoundTripGraph)->setLineStyle(QCPGraph::lsStepCenter);
 
@@ -613,7 +630,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
             auto epoch = std::chrono::duration<double>(m_pingEngine->epoch().time_since_epoch());
 
             if (newRange.lower < epoch.count()) {
-                newRange = QCPRange(epoch.count(), epoch.count() + DefaultTimeWindow.count());
+                newRange = QCPRange(epoch.count(), epoch.count() + m_viewportWindow.count());
 
                 sourcePlot->xAxis->setRange(newRange);
             }
@@ -650,5 +667,17 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setGradientEnabled(bool smoo
 
     if (m_routeGraphDelegate) {
         m_routeGraphDelegate->setGradientEnabled(smoothGradient);
+    }
+}
+
+auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setViewportWindow(double windowSize) -> void {
+    m_viewportWindow = std::chrono::milliseconds((int)windowSize);
+
+    for (auto plot : m_plotList) {
+        plot->xAxis->setRange(
+                static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch()),
+                static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch() + m_viewportWindow.count()) );
+
+        plot->update();
     }
 }

@@ -281,7 +281,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::timeoutRequests() -> void {
                         diff,
                         pingItem->target() );
 
-                emit result(pingResult);
+                Q_EMIT result(pingResult);
 
                 i.remove();
 
@@ -354,7 +354,7 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
                                                           receiveAddress,
                                                           pingItem->transmitEpoch(), diff, pingItem->target() );
 
-            emit Nedrysoft::ICMPPingEngine::ICMPPingEngine::result(pingResult);
+            Q_EMIT Nedrysoft::ICMPPingEngine::ICMPPingEngine::result(pingResult);
         } else {
             pingItem->unlock();
         }

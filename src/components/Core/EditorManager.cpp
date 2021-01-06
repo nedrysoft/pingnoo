@@ -58,14 +58,8 @@ Nedrysoft::Core::EditorManager::EditorManager(EditorManagerTabWidget *tabWidget)
     m_tabWidget->setDocumentMode(true);
 
     connect(m_tabWidget, &EditorManagerTabWidget::currentChanged, [=](int index) {
-        IEditor *previousEditor = nullptr;
+        static IEditor *previousEditor = nullptr;
         IEditor *newEditor = nullptr;
-
-        if (m_previousIndex!=-1) {
-            if (m_editorMap.contains(m_tabWidget->widget(m_previousIndex))) {
-                previousEditor = m_editorMap[m_tabWidget->widget(m_previousIndex)];
-            }
-        }
 
         if (index!=-1) {
             if (m_editorMap.contains(m_tabWidget->widget(index))) {
@@ -81,14 +75,14 @@ Nedrysoft::Core::EditorManager::EditorManager(EditorManagerTabWidget *tabWidget)
             newEditor->activated();
         }
 
-        m_previousIndex = index;
+        previousEditor = newEditor;
     });
 }
 
 auto Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) -> int {
-    auto tabIndex = m_tabWidget->addTab(editor->widget(), editor->displayName());
-
     m_editorMap[editor->widget()] = editor;
+
+    auto tabIndex = m_tabWidget->addTab(editor->widget(), editor->displayName());
 
 #if !defined(Q_OS_MACOS)
     m_tabWidget->setStyleSheet(macStylesheet);

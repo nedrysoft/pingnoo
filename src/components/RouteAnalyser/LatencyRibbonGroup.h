@@ -47,6 +47,13 @@ namespace Nedrysoft::RouteAnalyser {
             Q_OBJECT
 
         public:
+            enum class LatencyType {
+                Ideal,
+                Warning,
+                Critical
+            };
+
+        public:
             /**
              * @brief       Constructs a new LatencyRibbonGroup instance which is a child of the parent.
              *
@@ -59,13 +66,24 @@ namespace Nedrysoft::RouteAnalyser {
              */
             ~LatencyRibbonGroup() override;
 
+            /**
+             * @brief       Sets the value of the given field.
+             *
+             * @param[in]   type type of field.
+             * @param[ib]   value the value.
+             */
+            auto setValue(LatencyType type, double value) -> void;
+
+        public:
+            Q_SIGNAL void valueChanged(LatencyType type, double value);
+
         private:
             /**
              * @brief       Updates a period and makes it effective on editors.
              *
              * @param[in]   lineEdit the line edit to update.
              */
-            auto updatePeriod(Nedrysoft::Ribbon::RibbonLineEdit *lineEdit) -> void;
+            auto updatePeriod(LatencyType type, Nedrysoft::Ribbon::RibbonLineEdit *lineEdit) -> void;
 
         private:
             Ui::LatencyRibbonGroup *ui;

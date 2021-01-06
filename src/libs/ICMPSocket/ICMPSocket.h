@@ -151,6 +151,13 @@ namespace Nedrysoft::ICMPSocket {
             auto setTTL(int ttl) -> void;
 
             /**
+             * @brief       Returns the TTL for this socket.
+             *
+             * @returns     The TTL.
+             */
+            auto ttl() -> int;
+
+            /**
              * @brief       Sets the Hop Limit on a write socket.
              *
              * @param[in]   hopLimit the hop limit to set.
@@ -168,6 +175,7 @@ namespace Nedrysoft::ICMPSocket {
 
             ICMPSocket::socket_t m_socketDescriptor;
             Nedrysoft::ICMPSocket::IPVersion m_version;
+            int m_ttl;
     };
 }
 

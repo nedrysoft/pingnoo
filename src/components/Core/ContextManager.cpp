@@ -38,7 +38,7 @@ auto Nedrysoft::Core::ContextManager::registerContext(QString contextIdentifier)
 }
 
 auto Nedrysoft::Core::ContextManager::setContext(int contextIdentifier) -> int {
-    emit contextChanged(contextIdentifier, m_currentContextId);
+    Q_EMIT contextChanged(contextIdentifier, m_currentContextId);
 
     m_currentContextId = contextIdentifier;
 

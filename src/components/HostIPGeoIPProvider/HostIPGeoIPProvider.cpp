@@ -89,7 +89,7 @@ auto Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(
 
 auto Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(const QString host) -> void {
     lookup(host, [=](const QString &hostAddress, const QVariantMap &result) {
-        emit this->result(hostAddress, result);
+        Q_EMIT this->result(hostAddress, result);
     });
 }
 

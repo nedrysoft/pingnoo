@@ -65,13 +65,13 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::LatencyRibbonGroup(QWidget *parent
     ui->criticalLineEdit->setMaximumHeight(lineEditHeight);
 
     connect(ui->warningLineEdit, &Nedrysoft::Ribbon::RibbonLineEdit::textChanged, [=]() {
-        updatePeriod(ui->warningLineEdit);
+        updatePeriod(LatencyType::Warning, ui->warningLineEdit);
 
         m_warningHighlighter->updateSyntax();
     });
 
     connect(ui->criticalLineEdit, &Nedrysoft::Ribbon::RibbonLineEdit::textChanged, [=]() {
-        updatePeriod(ui->criticalLineEdit);
+        updatePeriod(LatencyType::Critical, ui->criticalLineEdit);
 
         m_criticalHighlighter->updateSyntax();
     });
@@ -93,14 +93,32 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::~LatencyRibbonGroup() {
     delete ui;
 }
 
-auto Nedrysoft::RouteAnalyser::LatencyRibbonGroup::updatePeriod(Nedrysoft::Ribbon::RibbonLineEdit *lineEdit) -> void {
+auto Nedrysoft::RouteAnalyser::LatencyRibbonGroup::updatePeriod(LatencyType type, Nedrysoft::Ribbon::RibbonLineEdit *lineEdit) -> void {
     double intervalValue;
 
     if (!Nedrysoft::Utils::parseIntervalString(lineEdit->toPlainText(), intervalValue)) {
         return;
     }
 
+    Q_EMIT valueChanged(type, intervalValue);
+
     /*for(auto editor: Nedrysoft::ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::RouteAnalyserEditor>()) {
         // TODO: update editors
     }*/
+}
+
+auto Nedrysoft::RouteAnalyser::LatencyRibbonGroup::setValue(LatencyType type, double value) -> void {
+    switch(type) {
+        case LatencyType::Ideal: {
+            break;
+        }
+
+        case LatencyType::Warning: {
+            break;
+        }
+
+        case LatencyType::Critical: {
+            break;
+        }
+    }
 }

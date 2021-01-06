@@ -99,7 +99,7 @@ auto Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(
 
 auto Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider::lookup(const QString host) -> void {
     lookup(host, [=](const QString &hostAddress, const QVariantMap &result) {
-        emit this->result(hostAddress, result);
+        Q_EMIT this->result(hostAddress, result);
     });
 }
 

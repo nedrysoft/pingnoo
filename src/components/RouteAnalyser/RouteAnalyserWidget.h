@@ -128,6 +128,21 @@ namespace Nedrysoft::RouteAnalyser {
              */
             auto setGradientEnabled(bool smoothGradient) -> void;
 
+            /**
+             * @brief       Sets the viewport window size in milliseconds.
+             *
+             * @param[in]   windowSize the viewport size.
+             */
+            auto setViewportWindow(double windowSize) -> void;
+
+            /**
+             * @brief       This signal is emitted when the plot dataset has changed.
+             * @param[in]   customPlot the plot that changed.
+             * @param[in]   time the timestmap of the new data.
+             * @param[in]   roundTrip the round trip time of the ping.
+             */
+            Q_SIGNAL void plotChanged(QCustomPlot *customPlot, std::chrono::duration<double> time, std::chrono::duration<double> roundTrip);
+
         protected:
             /**
              * @brief       Reimplements: QObject::eventFilter(QObject *watched, QEvent *event).
@@ -166,6 +181,8 @@ namespace Nedrysoft::RouteAnalyser {
             Nedrysoft::RouteAnalyser::RouteTableItemDelegate *m_routeGraphDelegate;
             ScaleMode m_graphScaleMode;
             QTimer *m_layerCleanupTimer;
+            std::chrono::duration<double> m_viewportWindow;
+            double m_epoch;
 
     };
 }

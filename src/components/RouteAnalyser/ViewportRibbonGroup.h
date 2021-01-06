@@ -53,6 +53,27 @@ namespace Nedrysoft::RouteAnalyser {
              */
             ~ViewportRibbonGroup() override;
 
+            /**
+             * @brief       Sets the viewport start and end
+             * @param[in]   start the start.
+             * @paramp[in]  end the end.
+             */
+            auto setViewport(double start, double end) -> void;
+
+        public:
+            /**
+             * @brief       This signal is emitted when the viewport start and/or end has been modified.
+             * @param[in]   start the new start point. (unit value)
+             * @param[in]   end the new end point. (unit value)
+             */
+            Q_SIGNAL void viewportChanged(double start, double end);
+
+            /**
+             * @brief       This signal is emitted when the viewport size has changed.
+             * @param[in]   size the new size of the viewport.
+             */
+            Q_SIGNAL void viewportWindowChanged(double size);
+
         private:
             Ui::ViewportRibbonGroup *ui;
     };

@@ -50,7 +50,7 @@ Nedrysoft::RouteAnalyser::ViewportRibbonGroup::ViewportRibbonGroup(QWidget *pare
     });
 
     connect(ui->durationComboBox, &QComboBox::currentTextChanged, [=](QString text) {
-        // TODO: add logic.
+        Q_EMIT viewportWindowChanged(10*60*1000);
     });
 
     connect(ui->endLockCheckBox, &QCheckBox::stateChanged, [=](int state) {
@@ -68,4 +68,8 @@ Nedrysoft::RouteAnalyser::ViewportRibbonGroup::ViewportRibbonGroup(QWidget *pare
 
 Nedrysoft::RouteAnalyser::ViewportRibbonGroup::~ViewportRibbonGroup() {
     delete ui;
+}
+
+auto Nedrysoft::RouteAnalyser::ViewportRibbonGroup::setViewport(double start, double end) -> void {
+    ui->trimmerWidget->setViewport(start, end);
 }

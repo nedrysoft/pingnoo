@@ -196,6 +196,8 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
 
         Nedrysoft::ComponentSystem::addObject(m_latencySettingsPage);
         Nedrysoft::ComponentSystem::addObject(m_targetSettingsPage);
+        Nedrysoft::ComponentSystem::addObject(m_viewportGroupWidget);
+        Nedrysoft::ComponentSystem::addObject(m_latencyGroupWidget);
     }
 }
 
