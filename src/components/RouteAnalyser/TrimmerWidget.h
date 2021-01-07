@@ -108,6 +108,8 @@ namespace Nedrysoft::RouteAnalyser {
              */
             auto setFlags(TrimmerFlags flags) -> void;
 
+            auto setResizable(bool canBeResized) -> void;
+
         protected:
             /**
              * @brief       Reimplements: QWidget::mousePressEvent(QMouseEvent *event).
@@ -151,6 +153,7 @@ namespace Nedrysoft::RouteAnalyser {
             double m_origin;                                        //! absolute value for movement, allows a delta to be computed
             double m_viewportEnd;                                   //! the viewpoint end position at the start of a movement
             TrimmerFlags m_flags;
+            bool m_canBeResized;                                    //! whether the viewport can be resized.
     };
 };
 

@@ -33,13 +33,13 @@
 
 using namespace std::chrono_literals;
 
-constexpr std::chrono::duration<double> defaultWindowSize = 10min;
+constexpr auto defaultWindowSize = 60;
 
 Nedrysoft::RouteAnalyser::RouteAnalyserEditor::RouteAnalyserEditor() :
         m_editorWidget(nullptr),
         m_viewportStart(0),
         m_viewportEnd(1),
-        m_viewportWindow(std::chrono::duration_cast<std::chrono::milliseconds>(defaultWindowSize).count()) {
+        m_viewportWindow(defaultWindowSize) {
 
     auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
 
@@ -72,13 +72,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::widget() -> QWidget * {
                 m_interval,
                 m_pingEngineFactory );
 
-        m_editorWidget->setViewportWindow(m_viewportWindow);
-
-        connect(m_editorWidget, &RouteAnalyserWidget::plotChanged,
-                [=](QCustomPlot *customPlot, std::chrono::duration<double> time, std::chrono::duration<double> roundTrip) {
-
-
-        });
+        m_editorWidget->setViewportSize(m_viewportWindow);
     }
 
     return m_editorWidget;
@@ -111,15 +105,14 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::activated() -> void {
     auto latencyWidget = ComponentSystem::getObject<LatencyRibbonGroup>();
 
     if (viewportWidget) {
-        viewportWidget->setViewport(0.1, 0.9);
+        viewportWidget->setViewport(0.8, 1.0);
 
         connect(viewportWidget, &ViewportRibbonGroup::viewportChanged, [=](double start, double end) {
-
-        });
-
-        connect(viewportWidget, &ViewportRibbonGroup::viewportWindowChanged, [=](double size) {
             if (m_editorWidget) {
-                m_editorWidget->setViewportWindow(size);
+                double viewportSize = 1-(end-start);
+                double position = start/viewportSize;
+
+                m_editorWidget->setViewportPosition(position);
             }
         });
     }

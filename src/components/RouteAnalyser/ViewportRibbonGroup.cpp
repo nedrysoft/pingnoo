@@ -46,6 +46,7 @@ Nedrysoft::RouteAnalyser::ViewportRibbonGroup::ViewportRibbonGroup(QWidget *pare
                 "24 Hours" );
 
     connect(ui->trimmerWidget, &TrimmerWidget::positionChanged, [=](double start, double end) {
+        Q_EMIT viewportChanged(start, end);
         // TODO: add logic.
     });
 

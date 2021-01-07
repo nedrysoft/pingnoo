@@ -45,7 +45,7 @@ using namespace std::chrono_literals;
 
 constexpr auto RoundTripGraph = 0;
 constexpr std::chrono::duration<double> DefaultMaxLatency = 0.01s;
-constexpr std::chrono::duration<double> DefaultTimeWindow = 60min;
+constexpr auto DefaultTimeWindow = 60.0*10;
 constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
 constexpr auto useSmoothGradient = true;
@@ -80,7 +80,10 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
         QWidget(parent),
         m_routeGraphDelegate(nullptr),
         m_graphScaleMode(ScaleMode::None),
-        m_viewportWindow(DefaultTimeWindow) {
+        m_viewportSize(DefaultTimeWindow),
+        m_viewportPosition(1),
+        m_startPoint(-1),
+        m_endPoint(0) {
 
     auto maskerConfig = QString(
             R"|({"id":"Nedrysoft::RegExHostMasker::RegExHostMasker","matchItems":[{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"([0-9]{1,3})\\.([0-9]{1,3})-([0-9]{1,3})-([0-9]{1,3})\\.(?<domain>static.virginmediabusiness\\.co\\.uk)","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"},{"matchExpression":"(?<host>(.+))\\.fizzyade\\.(?<domain>(.+))","matchFlags":20,"matchHopString":"","matchReplacementString":"[host].<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":20,"matchHopString":"","matchReplacementString":"<hidden>.[domain]"},{"matchExpression":"^(?<host>tunnel[0-9]*)\.(?<domain>tunnel.tserv[0-9]*.lon[0-9]*.ipv6.he.net)$","matchFlags":12,"matchHopString":"","matchReplacementString":"<hidden>"}]})|");
@@ -189,8 +192,6 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
     });
 
     m_layerCleanupTimer->start();
-
-    m_epoch = QDateTime::currentDateTime().toSecsSinceEpoch();
 }
 
 Nedrysoft::RouteAnalyser::RouteAnalyserWidget::~RouteAnalyserWidget() {
@@ -229,21 +230,19 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
 
             customPlot->graph(RoundTripGraph)->addData(requestTime.count(), result.roundTripTime().count());
 
-            int diff = requestTime.count()-m_epoch;
-
-            int max,min;
-
-            if (diff>m_viewportWindow.count()) {
-                max = requestTime.count();
-                min = max-m_viewportWindow.count();
+            if (m_startPoint == -1) {
+                m_startPoint = requestTime.count();
             } else {
-                min = m_epoch;
-                max = m_epoch+m_viewportWindow.count();
-            };
+                if (requestTime.count() < m_startPoint) {
+                    m_startPoint = requestTime.count();
+                }
+            }
 
-            customPlot->xAxis->setRange(min, max);
+            if (requestTime.count() > m_endPoint) {
+                m_endPoint = requestTime.count();
+            }
 
-            Q_EMIT plotChanged(customPlot, requestTime, result.roundTripTime());
+            updateRanges();
 
             pingData->updateItem(result);
 
@@ -395,7 +394,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
             customPlot->xAxis->setTicker(dateTicker);
             customPlot->xAxis->setRange(
                     static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch()),
-                    static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch() + m_viewportWindow.count()) );
+                    static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch() + m_viewportSize) );
 
             customPlot->graph(RoundTripGraph)->setLineStyle(QCPGraph::lsStepCenter);
 
@@ -630,7 +629,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
             auto epoch = std::chrono::duration<double>(m_pingEngine->epoch().time_since_epoch());
 
             if (newRange.lower < epoch.count()) {
-                newRange = QCPRange(epoch.count(), epoch.count() + m_viewportWindow.count());
+                newRange = QCPRange(epoch.count(), epoch.count() + m_viewportSize);
 
                 sourcePlot->xAxis->setRange(newRange);
             }
@@ -670,14 +669,46 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setGradientEnabled(bool smoo
     }
 }
 
-auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setViewportWindow(double windowSize) -> void {
-    m_viewportWindow = std::chrono::milliseconds((int)windowSize);
+auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setViewportSize(double viewportSize) -> void {
+    m_viewportSize = viewportSize;
 
-    for (auto plot : m_plotList) {
-        plot->xAxis->setRange(
-                static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch()),
-                static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch() + m_viewportWindow.count()) );
+    updateRanges();
+}
 
-        plot->update();
+auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setViewportPosition(double position) -> void {
+    m_viewportPosition = position;
+
+    updateRanges();
+}
+
+auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::updateRanges() -> void {
+    double diff = m_endPoint - m_startPoint;
+    double max, min;
+    static double lastMin = -1, lastMax = -1;
+
+    // TODO: m_savedDiff should default to the viewport size
+
+    if (m_viewportPosition == 1) {
+        if (diff > m_viewportSize) {
+            max = m_endPoint;
+            min = max - m_viewportSize;
+            m_savedDiff = diff-m_viewportSize;
+        } else {
+            // TODO: deal with sitation where captured data length is less than the viewport size.
+        }
+    } else {
+        min = (m_savedDiff*m_viewportPosition)+m_startPoint;
+        max = min + m_viewportSize;
     }
+
+    if (( lastMin != min ) || ( lastMax != max )) {
+        for (auto plot : m_plotList) {
+            plot->xAxis->setRange(min, max);
+
+            plot->replot();
+        }
+    }
+
+    lastMin = min;
+    lastMax = max;
 }

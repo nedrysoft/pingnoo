@@ -46,7 +46,8 @@ Nedrysoft::RouteAnalyser::TrimmerWidget::TrimmerWidget(QWidget *parent) :
         QWidget(parent),
         m_editingState(State::NotEditing),
         m_viewportPosition(0),
-        m_viewportSize(0.5) {
+        m_viewportSize(0.5),
+        m_canBeResized(false) {
 
 }
 
@@ -206,12 +207,16 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mousePressEvent(QMouseEvent *event
     }
 
     if (origin>viewportSize-trimmerCornerRadius) {
-        if (!m_flags.testFlag(TrimmerFlag::FixedEnd)) {
-            m_editingState = State::MovingViewportEnd;
+        if (m_canBeResized) {
+            if (!m_flags.testFlag(TrimmerFlag::FixedEnd)) {
+                m_editingState = State::MovingViewportEnd;
+            }
         }
     } else if (origin<trimmerCornerRadius) {
-        if (!m_flags.testFlag(TrimmerFlag::FixedStart)) {
-            m_editingState = State::MovingViewportStart;
+        if (m_canBeResized) {
+            if (!m_flags.testFlag(TrimmerFlag::FixedStart)) {
+                m_editingState = State::MovingViewportStart;
+            }
         }
     } else {
         if (!m_flags) {
@@ -316,4 +321,8 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::viewportSize() -> double {
 
 auto Nedrysoft::RouteAnalyser::TrimmerWidget::setFlags(TrimmerWidget::TrimmerFlags flags) -> void {
     m_flags = flags;
+}
+
+auto Nedrysoft::RouteAnalyser::TrimmerWidget::setResizable(bool canBeResized) -> void {
+    m_canBeResized = canBeResized;
 }

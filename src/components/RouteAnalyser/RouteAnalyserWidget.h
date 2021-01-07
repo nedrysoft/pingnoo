@@ -129,19 +129,18 @@ namespace Nedrysoft::RouteAnalyser {
             auto setGradientEnabled(bool smoothGradient) -> void;
 
             /**
-             * @brief       Sets the viewport window size in milliseconds.
+             * @brief       Sets the viewport size in milliseconds.
              *
-             * @param[in]   windowSize the viewport size.
+             * @param[in]   viewportSize the viewport size.
              */
-            auto setViewportWindow(double windowSize) -> void;
+            auto setViewportSize(double viewportSize) -> void;
 
             /**
-             * @brief       This signal is emitted when the plot dataset has changed.
-             * @param[in]   customPlot the plot that changed.
-             * @param[in]   time the timestmap of the new data.
-             * @param[in]   roundTrip the round trip time of the ping.
+             * @brief       Sets the position of the viewport (0=start, 1=end)
+             *
+             * @param[in]   position the position of the viewport.
              */
-            Q_SIGNAL void plotChanged(QCustomPlot *customPlot, std::chrono::duration<double> time, std::chrono::duration<double> roundTrip);
+            auto setViewportPosition(double position) -> void;
 
         protected:
             /**
@@ -163,6 +162,11 @@ namespace Nedrysoft::RouteAnalyser {
              */
             auto paintEvent(QPaintEvent *paintEvent) -> void override;
 
+            /**
+             * @brief       Updates the ranges on the plots to match the viewport.
+             */
+            auto updateRanges() -> void;
+
             QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &headerMap();
 
         private:
@@ -181,9 +185,11 @@ namespace Nedrysoft::RouteAnalyser {
             Nedrysoft::RouteAnalyser::RouteTableItemDelegate *m_routeGraphDelegate;
             ScaleMode m_graphScaleMode;
             QTimer *m_layerCleanupTimer;
-            std::chrono::duration<double> m_viewportWindow;
-            double m_epoch;
-
+            double m_viewportSize;
+            double m_viewportPosition;
+            double m_startPoint;
+            double m_endPoint;
+            double m_savedDiff;
     };
 }
 
