@@ -29,8 +29,6 @@
 #include <QRandomGenerator>
 #include <cassert>
 
-constexpr int TotalTargetSockets = 255;
-
 class Nedrysoft::ICMPPingEngine::ICMPPingTargetData {
     public:
         ICMPPingTargetData(Nedrysoft::ICMPPingEngine::ICMPPingTarget *parent) :
@@ -39,11 +37,8 @@ class Nedrysoft::ICMPPingEngine::ICMPPingTargetData {
                 m_id(( QRandomGenerator::global()->generate() % ( UINT16_MAX - 1 )) + 1),
                 m_userData(nullptr),
                 m_ttl(0),
-                m_currentSocket(0) {
+                m_socket(nullptr) {
 
-            for (auto currentSocket = 0; currentSocket < TotalTargetSockets; currentSocket++) {
-                m_socketList.append(nullptr);
-            }
         }
 
         friend class ICMPPingTarget;
@@ -53,11 +48,10 @@ class Nedrysoft::ICMPPingEngine::ICMPPingTargetData {
 
         QHostAddress m_hostAddress;
         Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_engine;
-        QList<Nedrysoft::ICMPSocket::ICMPSocket *> m_socketList;
+        Nedrysoft::ICMPSocket::ICMPSocket *m_socket;
         uint16_t m_id;
         void *m_userData;
         int m_ttl;
-        int m_currentSocket;
 };
 
 Nedrysoft::ICMPPingEngine::ICMPPingTarget::ICMPPingTarget(
@@ -73,9 +67,11 @@ Nedrysoft::ICMPPingEngine::ICMPPingTarget::ICMPPingTarget(
 }
 
 Nedrysoft::ICMPPingEngine::ICMPPingTarget::~ICMPPingTarget() {
-    for (auto socket : d->m_socketList) {
-        delete socket;
+    if (d->m_socket) {
+        delete d->m_socket;
     }
+    
+    d.reset();
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::setHostAddress(QHostAddress hostAddress) -> void {
@@ -91,25 +87,19 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::engine() -> Nedrysoft::Core::IPi
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::socket() -> Nedrysoft::ICMPSocket::ICMPSocket * {
-    if (d->m_socketList[d->m_currentSocket] == 0) {
+    if (d->m_socket==nullptr) {
         if (d->m_hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
-            d->m_socketList[d->m_currentSocket] = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(
+            d->m_socket = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(
                     d->m_ttl,
                     Nedrysoft::ICMPSocket::V4 );
         } else if (d->m_hostAddress.protocol() == QAbstractSocket::IPv6Protocol) {
-            d->m_socketList[d->m_currentSocket] = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(
+            d->m_socket = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(
                     d->m_ttl,
-                    Nedrysoft::ICMPSocket::V6 );
+                    Nedrysoft::ICMPSocket::V6);
         }
     }
 
-    assert(d->m_socketList[d->m_currentSocket]!=nullptr);
-
-    auto socket = d->m_socketList[d->m_currentSocket];
-
-    d->m_currentSocket = ( d->m_currentSocket + 1 ) % d->m_socketList.count();
-
-    return socket;
+    return d->m_socket;
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::id() -> uint16_t {
