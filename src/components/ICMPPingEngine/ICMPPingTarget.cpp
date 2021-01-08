@@ -70,7 +70,7 @@ Nedrysoft::ICMPPingEngine::ICMPPingTarget::~ICMPPingTarget() {
     if (d->m_socket) {
         delete d->m_socket;
     }
-    
+
     d.reset();
 }
 
