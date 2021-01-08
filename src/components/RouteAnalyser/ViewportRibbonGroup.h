@@ -60,6 +60,12 @@ namespace Nedrysoft::RouteAnalyser {
              */
             auto setViewport(double start, double end) -> void;
 
+            /**
+             * @brief       Sets whether the viewport trimmer widget is enabled (i.e editable)
+             * @param[in]   enabled true if enabled; otherwise false.
+             */
+            auto setViewportEnabled(bool enabled) -> void;
+
         public:
             /**
              * @brief       This signal is emitted when the viewport start and/or end has been modified.

@@ -52,7 +52,7 @@ class Timer;
 namespace Nedrysoft::RouteAnalyser {
     class GraphLatencyLayer;
     class RouteTableItemDelegate;
-
+    class PlotScrollArea;
 
     /**
      * @brief       The RouteAnalyserWidget class provides the main widget for a route analyser.
@@ -122,6 +122,13 @@ namespace Nedrysoft::RouteAnalyser {
             Q_SIGNAL void filteredEvent(QObject *watched, QEvent *event);
 
             /**
+             * @brief       This signal is emitted when the dataset size changes.
+             * @param[in]   start the star time point. (seconds from unix epoch)
+             * @paramp[in]  end the end time point. (seconds from unix epoch)
+             */
+            Q_SIGNAL void datasetChanged(double start, double end);
+
+            /**
              * @brief       Sets whether this instance draws with solid or gradient backgrounds on graphs.
              *
              * @param[in]   smoothGradient true if gradient; otherwise false.
@@ -141,6 +148,20 @@ namespace Nedrysoft::RouteAnalyser {
              * @param[in]   position the position of the viewport.
              */
             auto setViewportPosition(double position) -> void;
+
+            /**
+             * @brief       Returns the current viewport size.
+             *
+             * @returns     the viewport size in milliseconds.
+             */
+            auto viewportSize(void) -> double;
+
+            /**
+             * @brief       Returns the size in seconds of the captured data.
+             *
+             * @returns     the size in seconds.
+             */
+            auto datasetSize(void) -> double;
 
         protected:
             /**
@@ -178,18 +199,18 @@ namespace Nedrysoft::RouteAnalyser {
             QStandardItemModel *m_tableModel;
             QTableView *m_tableView;
             QSplitter *m_splitter;
-            QScrollArea *m_scrollArea;
+            PlotScrollArea *m_scrollArea;
             Nedrysoft::Core::IPingEngineFactory *m_pingEngineFactory;
             double m_interval;
             QList<Nedrysoft::RouteAnalyser::GraphLatencyLayer *> m_backgroundLayers;
             Nedrysoft::RouteAnalyser::RouteTableItemDelegate *m_routeGraphDelegate;
             ScaleMode m_graphScaleMode;
             QTimer *m_layerCleanupTimer;
-            double m_viewportSize;
-            double m_viewportPosition;
-            double m_startPoint;
-            double m_endPoint;
-            double m_savedDiff;
+            double m_viewportSize;                                  //! size of the viewport in seconds
+            double m_viewportPosition;                              //! unit value specifying the position of the viewport
+            double m_startPoint;                                    //! the unix timestamp of the first ping result
+            double m_endPoint;                                      //! the unix timestamp of the most recent ping result
+            double m_savedDiff;                                     //! the latest calculated span of results in sseconds.
     };
 }
 

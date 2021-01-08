@@ -64,7 +64,8 @@ Nedrysoft::RouteAnalyser::ViewportRibbonGroup::ViewportRibbonGroup(QWidget *pare
         }
     });
 
-    ui->trimmerWidget->setViewport(0.25, 0.5);
+    ui->trimmerWidget->setViewport(0, 1);
+    ui->trimmerWidget->setEnabled(false);
 }
 
 Nedrysoft::RouteAnalyser::ViewportRibbonGroup::~ViewportRibbonGroup() {
@@ -73,4 +74,8 @@ Nedrysoft::RouteAnalyser::ViewportRibbonGroup::~ViewportRibbonGroup() {
 
 auto Nedrysoft::RouteAnalyser::ViewportRibbonGroup::setViewport(double start, double end) -> void {
     ui->trimmerWidget->setViewport(start, end);
+}
+
+auto Nedrysoft::RouteAnalyser::ViewportRibbonGroup::setViewportEnabled(bool enabled) -> void {
+    ui->trimmerWidget->setEnabled(enabled);
 }

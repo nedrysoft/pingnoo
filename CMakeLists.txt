@@ -38,3 +38,19 @@ else()
     add_subdirectory(src/app)
 endif()
 
+if(APPLE)
+    string(TOLOWER ${CMAKE_BUILD_TYPE} PINGNOO_BUILD_TYPE)
+
+    install(CODE
+        "execute_process(
+            WORKING_DIRECTORY \"${PINGNOO_ROOT_DIR}\"
+            COMMAND \"${PINGNOO_ROOT_DIR}/deploy.py\"
+            \"--appleid=$ENV{PINGNOO_DEVELOPER_EMAIL}\"
+            \"--password=$ENV{PINGNOO_DEVELOPER_PASSWORD}\"
+            \"--cert=$ENV{PINGNOO_DEVELOPER_CERTIFICATE}\"
+            \"--arch=${PINGNOO_PLATFORM_ARCH}\"
+            \"--type=${PINGNOO_BUILD_TYPE}\"
+            \"--qtdir=${CMAKE_PREFIX_PATH}\"
+        )"
+    )
+endif()

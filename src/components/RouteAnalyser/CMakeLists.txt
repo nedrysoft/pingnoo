@@ -57,6 +57,8 @@ pingnoo_add_sources(
     NewTargetRibbonGroup.ui
     PingData.cpp
     PingData.h
+    PlotScrollArea.cpp
+    PlotScrollArea.h
     RouteAnalyserComponent.cpp
     RouteAnalyserComponent.h
     RouteAnalyserEditor.cpp

@@ -94,20 +94,25 @@ namespace Nedrysoft::RouteAnalyser {
             auto viewportSize() -> double;
 
             /**
-             * @brief     This signal is emitted when the viewport is moved or resized.
+             * @brief       This signal is emitted when the viewport is moved or resized.
              *
-             * @param[in] start the start value of the viewport.
-             * @param[in] end the end value of the viewport.
+             * @param[in]   start the start value of the viewport.
+             * @param[in]   end the end value of the viewport.
              */
             Q_SIGNAL void positionChanged(double start, double end);
 
             /**
-             * @brief     Sets the flags for the viewport.
+             * @brief       Sets the flags for the viewport.
              *
              * @param[in] flags the flags.
              */
             auto setFlags(TrimmerFlags flags) -> void;
 
+            /**
+             * @brief       Sets whether the trimmer viewport can be resived.
+             *
+             * @param[in]   canBeResized true if viewport can be resized; otherwise false.
+             */
             auto setResizable(bool canBeResized) -> void;
 
         protected:

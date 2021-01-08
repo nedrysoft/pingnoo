@@ -38,7 +38,7 @@ import datetime
 import enum
 
 if platform.python_version_tuple()<('3','6','0'):
-    print('requires python >= 3.6')
+    print('requires python >= 3.6', flush=True)
     quit(1)
 
 try:
@@ -75,6 +75,7 @@ def timeDelta(seconds):
 
 def startMessage(message):
     sys.stdout.write(Style.BRIGHT+f'> {message} ')
+    sys.stdout.flush()
 
 def endMessage(state, message=None):
     if state:
@@ -89,7 +90,9 @@ def endMessage(state, message=None):
             sys.stdout.write(Style.BRIGHT+'['+Fore.RED+'✘'+Fore.RESET+']\r\n')
 
     if not state and message:
-        print('\r\n'+Fore.RED+'ERROR: '+Fore.RESET+message)
+        print('\r\n'+Fore.RED+'ERROR: '+Fore.RESET+message, flush=True)
+
+    sys.stdout.flush()
 
 def parent(path):
     return(os.path.normpath(os.path.join(path, os.pardir)))
@@ -199,7 +202,7 @@ buildArch = args.arch
 buildType = args.type.capitalize()
 
 if platform.system()=="Windows":
-    print(Style.BRIGHT+'Deployment process started at '+str(datetime.datetime.now())+'\r\n')
+    print(Style.BRIGHT+'Deployment process started at '+str(datetime.datetime.now())+'\r\n', flush=True)
 
     startTime = time.time()
 
@@ -368,14 +371,14 @@ if platform.system()=="Windows":
 
     # done!
 
-    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Installer at \"deployment\\Pingnoo.exe\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.')
+    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Installer at \"deployment\\Pingnoo.exe\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.', flush=True)
 
-    print(Style.BRIGHT+f'\r\nTotal time taken to perform deployment was '+timeDelta(endTime-startTime)+'.')
+    print(Style.BRIGHT+f'\r\nTotal time taken to perform deployment was '+timeDelta(endTime-startTime)+'.', flush=True)
 
     exit(0)
 
 if platform.system()=="Linux" :
-    print(Style.BRIGHT+'Deployment process started at '+str(datetime.datetime.now())+'\r\n')
+    print(Style.BRIGHT+'Deployment process started at '+str(datetime.datetime.now())+'\r\n', flush=True)
 
     startTime = time.time()
 
@@ -535,14 +538,14 @@ if platform.system()=="Linux" :
 
     # done!
 
-    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! AppImage at \"deployment/Pingnoo-x86_64.AppImage\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.')
+    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! AppImage at \"deployment/Pingnoo-x86_64.AppImage\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.', flush=True)
 
-    print(Style.BRIGHT+f'\r\nTotal time taken to perform deployment was '+timeDelta(endTime-startTime)+'.')
+    print(Style.BRIGHT+f'\r\nTotal time taken to perform deployment was '+timeDelta(endTime-startTime)+'.', flush=True)
 
     exit(0)
 
 if platform.system()=="Darwin":
-    print(Style.BRIGHT+'Deployment process started at '+str(datetime.datetime.now())+'\r\n')
+    print(Style.BRIGHT+'Deployment process started at '+str(datetime.datetime.now())+'\r\n', flush=True)
 
     startTime = time.time()
 
@@ -813,8 +816,8 @@ if platform.system()=="Darwin":
 
     # done!
 
-    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Disk Image at \"deployment/Pingnoo.dmg\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.')
+    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Disk Image at \"deployment/Pingnoo.dmg\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.', flush=True)
 
-    print(Style.BRIGHT+f'\r\nTotal time taken to perform deployment was '+timeDelta(endTime-startTime)+'.')
+    print(Style.BRIGHT+f'\r\nTotal time taken to perform deployment was '+timeDelta(endTime-startTime)+'.', flush=True)
 
     exit(0)

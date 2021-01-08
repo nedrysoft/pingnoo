@@ -32,6 +32,7 @@
 #include "Core/IPingTarget.h"
 #include "Core/IRouteEngineFactory.h"
 #include "GraphLatencyLayer.h"
+#include "PlotScrollArea.h"
 #include "RouteTableItemDelegate.h"
 
 #include <QDateTime>
@@ -125,7 +126,7 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
     m_pingEngineFactory = pingEngineFactory;
     m_interval = interval;
 
-    m_scrollArea = new QScrollArea();
+    m_scrollArea = new PlotScrollArea();
 
     m_splitter = new QSplitter(Qt::Vertical);
 
@@ -133,6 +134,16 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
 
     m_scrollArea->setWidget(new QWidget());
     m_scrollArea->widget()->setBackgroundRole(QPalette::Base);
+
+    connect(m_scrollArea, &PlotScrollArea::didScroll, [=](void) {
+        for (auto plot : m_plotList) {
+            if (plot->isVisible()) {
+                if (!plot->visibleRegion().isEmpty()) {
+                    plot->replot();
+                }
+            }
+        }
+    });
 
     m_tableModel = new QStandardItemModel();
 
@@ -244,6 +255,8 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
 
             updateRanges();
 
+            Q_EMIT datasetChanged(m_startPoint, m_endPoint);
+
             pingData->updateItem(result);
 
             switch(m_graphScaleMode) {
@@ -291,7 +304,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
         }
     }
 
-    customPlot->replot();
+    //customPlot->replot();
 }
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
@@ -620,7 +633,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
     });
 
     m_scrollArea->widget()->setLayout(verticalLayout);
-
+/*
     for (auto sourcePlot : m_plotList) {
         connect(sourcePlot->xAxis, qOverload<const QCPRange &>(&QCPAxis::rangeChanged),
                 [this, sourcePlot](const QCPRange &range) {
@@ -646,7 +659,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
                 }
             }
         });
-}
+    }*/
 }
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::eventFilter(QObject *watched, QEvent *event) -> bool {
@@ -675,6 +688,14 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setViewportSize(double viewp
     updateRanges();
 }
 
+auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::viewportSize(void) -> double {
+    return m_viewportSize;
+}
+
+auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::datasetSize(void) -> double {
+    return m_endPoint - m_startPoint;
+}
+
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setViewportPosition(double position) -> void {
     m_viewportPosition = position;
 
@@ -684,31 +705,51 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setViewportPosition(double p
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::updateRanges() -> void {
     double diff = m_endPoint - m_startPoint;
     double max, min;
-    static double lastMin = -1, lastMax = -1;
+    double maxVisibleLatency = 0;
 
     // TODO: m_savedDiff should default to the viewport size
+
+    min = m_startPoint;
+    max = m_startPoint+m_viewportSize;
 
     if (m_viewportPosition == 1) {
         if (diff > m_viewportSize) {
             max = m_endPoint;
             min = max - m_viewportSize;
             m_savedDiff = diff-m_viewportSize;
-        } else {
-            // TODO: deal with sitation where captured data length is less than the viewport size.
         }
     } else {
-        min = (m_savedDiff*m_viewportPosition)+m_startPoint;
-        max = min + m_viewportSize;
-    }
-
-    if (( lastMin != min ) || ( lastMax != max )) {
-        for (auto plot : m_plotList) {
-            plot->xAxis->setRange(min, max);
-
-            plot->replot();
+        if (diff > m_viewportSize) {
+            min = (m_savedDiff*m_viewportPosition)+m_startPoint;
+            max = min + m_viewportSize;
         }
     }
 
-    lastMin = min;
-    lastMax = max;
+    for (auto plot : m_plotList) {
+        bool foundRange;
+
+        plot->xAxis->setRange(min, max);
+
+        QCPRange visibleKeyRange = plot->xAxis->range();
+
+        QCPRange valueRange = plot->graph()->getValueRange(foundRange, QCP::sdBoth, visibleKeyRange);
+
+        if (valueRange.upper>maxVisibleLatency) {
+            maxVisibleLatency = valueRange.upper;
+        }
+    }
+
+    // TODO: go through the bar charts and set to maximum as well.
+
+    for (auto plot : m_plotList) {
+        if (m_graphScaleMode==ScaleMode::Normalised) {
+            plot->graph(0)->valueAxis()->setRangeUpper(maxVisibleLatency);
+        }
+
+        if (plot->isVisible()) {
+            if (!plot->visibleRegion().isEmpty()) {
+                plot->replot();
+            }
+        }
+    }
 }

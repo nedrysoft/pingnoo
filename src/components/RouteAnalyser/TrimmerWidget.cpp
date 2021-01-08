@@ -76,15 +76,27 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
     QRectF gripperRectLeft = QRectF(contentRect);
     QRectF gripperRectRight = QRectF(contentRect);
 
-    auto gripBrush = QBrush(viewportGripColour);
-    auto gripInnerBrush = QBrush(gripInnerColour);
-
+    QBrush gripBrush;
     QBrush viewportBackgroundBrush;
+    QBrush trimmerBackgroundBrush;
+    QBrush gripInnerBrush;
 
-    if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
-        viewportBackgroundBrush = QBrush(viewportBackgroundColourDark);
+    if (isEnabled()) {
+        gripBrush = QBrush(viewportGripColour);
+        gripInnerBrush = QBrush(gripInnerColour);
+
+        if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
+            viewportBackgroundBrush = QBrush(viewportBackgroundColourDark);
+            trimmerBackgroundBrush = QBrush(trimmerBackgroundColourDark);
+        } else {
+            viewportBackgroundBrush = QBrush(viewportBackgroundColourLight);
+            trimmerBackgroundBrush = QBrush(trimmerBackgroundColourLight);
+        }
     } else {
-        viewportBackgroundBrush = QBrush(viewportBackgroundColourLight);
+        gripBrush = QBrush(QColor(Qt::lightGray).darker());
+        viewportBackgroundBrush = QBrush(gripBrush.color().darker());
+        trimmerBackgroundBrush = QBrush(gripBrush.color().darker(100));
+        gripInnerBrush = QBrush(viewportBackgroundBrush.color().darker());
     }
 
     auto colourPen = QPen(QColor(viewportGripColour));
@@ -92,11 +104,7 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
 
-    if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
-        painter.setBrush(QColor(trimmerBackgroundColourDark));
-    } else {
-        painter.setBrush(QColor(trimmerBackgroundColourLight));
-    }
+    painter.setBrush(trimmerBackgroundBrush);
 
     // draw the main trimmer background.
 
@@ -197,6 +205,10 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mousePressEvent(QMouseEvent *event
     double viewportOrigin = static_cast<double>(rect().size().width())*m_viewportPosition;
 
     double origin = event->pos().x()-viewportOrigin;
+
+    if (!isEnabled()) {
+        return;
+    }
 
     if (origin<0) {
         return;

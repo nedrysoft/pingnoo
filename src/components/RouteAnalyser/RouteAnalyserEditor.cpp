@@ -28,12 +28,10 @@
 #include "RouteAnalyserWidget.h"
 #include "ViewportRibbonGroup.h"
 
-#include "QCustomPlot/qcustomplot.h"
 #include <QObject>
 
-using namespace std::chrono_literals;
-
-constexpr auto defaultWindowSize = 60;
+constexpr auto defaultWindowSize = 10.0*60.0;
+constexpr auto viewportSize = 0.5;
 
 Nedrysoft::RouteAnalyser::RouteAnalyserEditor::RouteAnalyserEditor() :
         m_editorWidget(nullptr),
@@ -103,13 +101,36 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setInterval(double interval)
 auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::activated() -> void {
     auto viewportWidget = ComponentSystem::getObject<ViewportRibbonGroup>();
     auto latencyWidget = ComponentSystem::getObject<LatencyRibbonGroup>();
+    static auto hasBeenInitialised = false;
 
     if (viewportWidget) {
-        viewportWidget->setViewport(0.8, 1.0);
+        if (m_editorWidget->datasetSize()<m_editorWidget->viewportSize()) {
+            viewportWidget->setViewport(0.0, 1.0);
+            viewportWidget->setViewportEnabled(false);
+        } else {
+            viewportWidget->setViewport(1-viewportSize, 1.0);
+            viewportWidget->setViewportEnabled(true);
+        }
+
+        connect(m_editorWidget, &RouteAnalyserWidget::datasetChanged, [=](double start, double end) {
+            if (end-start<defaultWindowSize) {
+                auto trimmerSize = ((end-start)/defaultWindowSize)*viewportSize;
+
+                viewportWidget->setViewport(qMin(1.0-viewportSize, trimmerSize), 1.0);
+                viewportWidget->setViewportEnabled(false);
+            } else {
+                if (!hasBeenInitialised) {
+                    viewportWidget->setViewport((1-viewportSize), 1.0);
+                    hasBeenInitialised = true;
+                }
+
+                viewportWidget->setViewportEnabled(true);
+            }
+        });
 
         connect(viewportWidget, &ViewportRibbonGroup::viewportChanged, [=](double start, double end) {
             if (m_editorWidget) {
-                double viewportSize = 1-(end-start);
+                double viewportSize = 1.0-(end-start);
                 double position = start/viewportSize;
 
                 m_editorWidget->setViewportPosition(position);
