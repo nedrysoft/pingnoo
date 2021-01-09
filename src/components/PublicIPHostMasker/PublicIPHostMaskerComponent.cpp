@@ -31,15 +31,19 @@ PublicIPHostMaskerComponent::PublicIPHostMaskerComponent() :
 }
 
 PublicIPHostMaskerComponent::~PublicIPHostMaskerComponent() {
-    if (m_hostMasker) {
-        Nedrysoft::ComponentSystem::removeObject(m_hostMasker);
 
-        delete m_hostMasker;
-    }
 }
 
 auto PublicIPHostMaskerComponent::initialiseEvent() -> void {
     m_hostMasker = new Nedrysoft::PublicIPHostMasker::PublicIPHostMasker();
 
     Nedrysoft::ComponentSystem::addObject(m_hostMasker);
+}
+
+auto PublicIPHostMaskerComponent::finaliseEvent() -> void {
+    if (m_hostMasker) {
+        Nedrysoft::ComponentSystem::removeObject(m_hostMasker);
+
+        delete m_hostMasker;
+    }
 }

@@ -28,14 +28,12 @@
 
 #include <QJsonDocument>
 
-RegExHostMaskerComponent::RegExHostMaskerComponent() = default;
+RegExHostMaskerComponent::RegExHostMaskerComponent() {
+
+};
 
 RegExHostMaskerComponent::~RegExHostMaskerComponent() {
-    for (auto maskerInstance : m_maskerList) {
-        Nedrysoft::ComponentSystem::removeObject(maskerInstance);
 
-        delete maskerInstance;
-    }
 }
 
 auto RegExHostMaskerComponent::initialiseEvent() -> void {
@@ -44,4 +42,12 @@ auto RegExHostMaskerComponent::initialiseEvent() -> void {
     Nedrysoft::ComponentSystem::addObject(maskerInstance);
 
     m_maskerList.append(maskerInstance);
+}
+
+auto RegExHostMaskerComponent::finaliseEvent() -> void {
+    for (auto maskerInstance : m_maskerList) {
+        Nedrysoft::ComponentSystem::removeObject(maskerInstance);
+
+        delete maskerInstance;
+    }
 }

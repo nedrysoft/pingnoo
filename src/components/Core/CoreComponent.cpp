@@ -34,23 +34,12 @@
 #include "Pingnoo.h"
 
 CoreComponent::CoreComponent() :
-        m_core(new Nedrysoft::Core::Core()),
-        m_contextManager(new Nedrysoft::Core::ContextManager()),
-        m_commandManager(new Nedrysoft::Core::CommandManager()) {
+        m_core(nullptr),
+        m_contextManager(nullptr),
+        m_commandManager(nullptr) {
 
 }
 CoreComponent::~CoreComponent() {
-    if (m_core) {
-        delete m_core;
-    }
-
-    if (m_contextManager) {
-        delete m_contextManager;
-    }
-
-    if (m_commandManager) {
-        delete m_commandManager;
-    }
 }
 
 auto CoreComponent::initialiseEvent() -> void {
@@ -58,6 +47,10 @@ auto CoreComponent::initialiseEvent() -> void {
     qRegisterMetaType<Nedrysoft::Core::RouteList>("Nedrysoft::Core::RouteList");
     qRegisterMetaType<QHostAddress>("QHostAddress");
     qRegisterMetaType<Nedrysoft::Core::IPingEngineFactory *>("Nedrysoft::Core::IPingEngineFactory *");
+
+    m_core = new Nedrysoft::Core::Core();
+    m_contextManager = new Nedrysoft::Core::ContextManager();
+    m_commandManager = new Nedrysoft::Core::CommandManager();
 
     Nedrysoft::ComponentSystem::addObject(m_core);
     Nedrysoft::ComponentSystem::addObject(m_contextManager);
@@ -84,4 +77,18 @@ auto CoreComponent::initialisationFinishedEvent() -> void {
             });
 
     core->open();
+}
+
+auto CoreComponent::finaliseEvent() -> void {
+    if (m_core) {
+        delete m_core;
+    }
+
+    if (m_contextManager) {
+        delete m_contextManager;
+    }
+
+    if (m_commandManager) {
+        delete m_commandManager;
+    }
 }

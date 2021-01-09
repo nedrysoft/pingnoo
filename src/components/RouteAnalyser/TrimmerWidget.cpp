@@ -38,6 +38,11 @@ auto constexpr trimmerBackgroundColourLight = qRgb(0xff,0xff, 0xff);
 auto constexpr viewportBackgroundColourDark = qRgb(0x80, 0x80, 0x80);
 auto constexpr viewportBackgroundColourLight = qRgb(0xdd, 0xdd, 0xdd);
 auto constexpr viewportGripColour = qRgb(0xff, 0xcc, 0x00);
+constexpr auto darkModeTrimmerBackgroundFactor = 100;
+constexpr auto lightModeGripBackgroundFactor = 100;
+constexpr auto lightModeTrimmerBackgroundFactor = 120;
+constexpr auto lightModeViewportBackgroundFactor = 100;
+
 auto constexpr trimmerCornerRadius = 8;
 auto constexpr defaultWidth = 200;
 auto constexpr defaultHeight = 60;
@@ -93,10 +98,23 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
             trimmerBackgroundBrush = QBrush(trimmerBackgroundColourLight);
         }
     } else {
-        gripBrush = QBrush(QColor(Qt::lightGray).darker());
-        viewportBackgroundBrush = QBrush(gripBrush.color().darker());
-        trimmerBackgroundBrush = QBrush(gripBrush.color().darker(100));
-        gripInnerBrush = QBrush(viewportBackgroundBrush.color().darker());
+        if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
+            gripBrush = QBrush(QColor(Qt::lightGray).darker());
+            viewportBackgroundBrush = QBrush(gripBrush.color().darker());
+            trimmerBackgroundBrush = QBrush(gripBrush.color().darker(darkModeTrimmerBackgroundFactor));
+            gripInnerBrush = QBrush(viewportBackgroundBrush.color().darker());
+        } else {
+            gripBrush = QBrush(
+                    QColor(Qt::lightGray).darker(lightModeGripBackgroundFactor) );
+
+            viewportBackgroundBrush = QBrush(
+                    QColor(viewportBackgroundColourLight).darker(lightModeViewportBackgroundFactor) );
+
+            trimmerBackgroundBrush = QBrush(
+                    QColor(trimmerBackgroundColourLight).darker(lightModeTrimmerBackgroundFactor) );
+
+            gripInnerBrush = QBrush(viewportBackgroundBrush.color().lighter());
+        }
     }
 
     auto colourPen = QPen(QColor(viewportGripColour));
@@ -137,7 +155,9 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
             static_cast<double>(trimmerCornerRadius)/2.0,
             Qt::AbsoluteSize );
 
-    painter.fillRect(QRectF(gripperRectLeft.adjusted(static_cast<double>(trimmerCornerRadius)/2.0, 0, 0, 0)), gripBrush);
+    painter.fillRect(
+            QRectF(gripperRectLeft.adjusted(static_cast<double>(trimmerCornerRadius)/2.0, 0, 0, 0)),
+            gripBrush );
 
     painter.fillRect(
             QRectF(

@@ -29,15 +29,19 @@ RouteEngineComponent::RouteEngineComponent() :
 }
 
 RouteEngineComponent::~RouteEngineComponent() {
-    if (m_routeEngineFactory) {
-        delete m_routeEngineFactory;
 
-        Nedrysoft::ComponentSystem::removeObject(m_routeEngineFactory);
-    }
 }
 
 auto RouteEngineComponent::initialiseEvent() -> void {
     m_routeEngineFactory = new Nedrysoft::RouteEngine::RouteEngineFactory();
 
     Nedrysoft::ComponentSystem::addObject(m_routeEngineFactory);
+}
+
+auto RouteEngineComponent::finaliseEvent() -> void {
+    if (m_routeEngineFactory) {
+        Nedrysoft::ComponentSystem::removeObject(m_routeEngineFactory);
+
+        delete m_routeEngineFactory;
+    }
 }

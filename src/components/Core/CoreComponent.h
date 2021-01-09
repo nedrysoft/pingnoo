@@ -84,6 +84,15 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
          */
         virtual auto initialisationFinishedEvent() -> void;
 
+        /**
+         * @brief       finaliseEvent
+         *
+         * @details     Called by the component loader to unload the component.
+         *
+         * @see         Nedrysoft::ComponentSystem::IComponent::finaliseEvent
+         */
+        virtual auto finaliseEvent() -> void;
+
     private:
         Nedrysoft::Core::Core *m_core;
         Nedrysoft::Core::ContextManager *m_contextManager;

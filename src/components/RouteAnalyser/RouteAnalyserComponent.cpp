@@ -46,32 +46,10 @@ RouteAnalyserComponent::RouteAnalyserComponent() :
         m_viewportGroupWidget(nullptr),
         m_newTargetAction(nullptr) {
 
-    };
+};
 
 RouteAnalyserComponent::~RouteAnalyserComponent() {
-    if (m_latencySettingsPage) {
-        delete m_latencySettingsPage;
-    }
 
-    if (m_targetSettingsPage) {
-        delete m_targetSettingsPage;
-    }
-
-    if (m_newTargetGroupWidget) {
-        delete m_newTargetGroupWidget;
-    }
-
-    if (m_latencyGroupWidget) {
-        delete m_latencyGroupWidget;
-    }
-
-    if (m_viewportGroupWidget) {
-        delete m_viewportGroupWidget;
-    }
-
-    if (m_newTargetAction) {
-        delete m_newTargetAction;
-    }
 }
 
 auto RouteAnalyserComponent::initialiseEvent() -> void {
@@ -79,12 +57,39 @@ auto RouteAnalyserComponent::initialiseEvent() -> void {
 }
 
 auto RouteAnalyserComponent::finaliseEvent() -> void {
-/*    auto editorManager = Nedrysoft::Core::IEditorManager::getInstance();
+    auto editorList = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::RouteAnalyserEditor>();
 
-    if (editorManager) {
-        editorManager->closeEditor();
-    }*/
-    qDeleteAll(Nedrysoft::ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::RouteAnalyserEditor>());
+    if (!editorList.isEmpty()) {
+        qDeleteAll(editorList);
+    }
+
+    if (m_latencySettingsPage) {
+        Nedrysoft::ComponentSystem::removeObject(m_latencySettingsPage);
+
+        delete m_latencySettingsPage;
+    }
+
+    if (m_targetSettingsPage) {
+        Nedrysoft::ComponentSystem::removeObject(m_targetSettingsPage);
+
+        delete m_targetSettingsPage;
+    }
+
+    if (m_viewportGroupWidget) {
+        Nedrysoft::ComponentSystem::removeObject(m_viewportGroupWidget);
+
+        //delete m_viewportGroupWidget;
+    }
+
+    if (m_latencyGroupWidget) {
+        Nedrysoft::ComponentSystem::removeObject(m_latencyGroupWidget);
+
+        //delete m_latencyGroupWidget;
+    }
+
+    if (m_newTargetAction) {
+        delete m_newTargetAction;
+    }
 }
 
 auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
@@ -196,6 +201,7 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
 
         Nedrysoft::ComponentSystem::addObject(m_latencySettingsPage);
         Nedrysoft::ComponentSystem::addObject(m_targetSettingsPage);
+        Nedrysoft::ComponentSystem::addObject(m_newTargetGroupWidget);
         Nedrysoft::ComponentSystem::addObject(m_viewportGroupWidget);
         Nedrysoft::ComponentSystem::addObject(m_latencyGroupWidget);
     }

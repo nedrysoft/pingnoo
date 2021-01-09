@@ -65,6 +65,13 @@ class NEDRYSOFT_REGEXHOSTMASKER_DLLSPEC RegExHostMaskerComponent :
          */
         virtual auto initialiseEvent() -> void;
 
+        /**
+         * @brief       The finaliseEvent function is called by the component system during shutdown.
+         *
+         * @see         Nedrysoft::ComponentSystem::IComponent::finaliseEvent
+         */
+        virtual auto finaliseEvent() -> void;
+
     private:
         QList<Nedrysoft::RegExHostMasker::RegExHostMasker *> m_maskerList;
 };
