@@ -295,7 +295,6 @@ macro(pingnoo_end_executable)
 endmacro(pingnoo_end_executable)
 
 macro(add_logging_library)
-
     include_directories("${PINGNOO_LIBRARIES_SOURCE_DIR}/spdlog/include")
 
     add_dependencies(${PROJECT_NAME} spdlog)

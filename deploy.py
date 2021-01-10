@@ -557,7 +557,7 @@ if platform.system()=="Linux" :
 
     buildFilename = f'Pingnoo [{buildVersion}] (x86_64).AppImage'
 
-    resultCode, resultOutput = execute(f'{appimagetool} -g {signParameters} bin/{buildArch}/Deploy deployment/{buildFilename}')
+    resultCode, resultOutput = execute(f'{appimagetool} -g {signParameters} bin/{buildArch}/Deploy \"deployment/{buildFilename}\"')
 
     if resultCode:
         endMessage(False, f'there was a problem creating the AppImage.\r\n\r\n{resultCode}\r\n')
