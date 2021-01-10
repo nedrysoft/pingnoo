@@ -38,9 +38,9 @@ else()
     add_subdirectory(src/app)
 endif()
 
-if(APPLE)
-    string(TOLOWER ${CMAKE_BUILD_TYPE} PINGNOO_BUILD_TYPE)
+string(TOLOWER ${CMAKE_BUILD_TYPE} PINGNOO_BUILD_TYPE)
 
+if(APPLE)
     install(CODE
         "execute_process(
             WORKING_DIRECTORY \"${PINGNOO_ROOT_DIR}\"
@@ -55,8 +55,6 @@ if(APPLE)
         )"
     )
 elseif(WIN32)
-    string(TOLOWER ${CMAKE_BUILD_TYPE} PINGNOO_BUILD_TYPE)
-
     install(CODE
             "execute_process(
             WORKING_DIRECTORY \"${PINGNOO_ROOT_DIR}\"
@@ -68,6 +66,18 @@ elseif(WIN32)
             \"--arch=${PINGNOO_PLATFORM_ARCH}\"
             \"--cert=$ENV{PINGNOO_DEVELOPER_CERTIFICATE}\"
             \"--version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}\"
-            )"
+        )"
+    )
+elseif(UNIX)
+    install(CODE
+            "execute_process(
+            WORKING_DIRECTORY \"${PINGNOO_ROOT_DIR}\"
+            COMMAND \"${PINGNOO_ROOT_DIR}/deploy.py\"
+            \"--curlbin=/usr/bin/curl\"
+            \"--arch=${PINGNOO_PLATFORM_ARCH}\"
+            \"--qtdir=${CMAKE_PREFIX_PATH}\"
+            \"--type=${PINGNOO_BUILD_TYPE}\"
+            \"--version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}\"
+        )"
     )
 endif()

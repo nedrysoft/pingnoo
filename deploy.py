@@ -555,7 +555,9 @@ if platform.system()=="Linux" :
 
     startMessage('Creating AppImage...')
 
-    resultCode, resultOutput = execute(f'{appimagetool} -g {signParameters} bin/{buildArch}/Deploy deployment/Pingnoo-x86_64.AppImage')
+    buildFilename = f'Pingnoo [{buildVersion}] (x86_64).AppImage'
+
+    resultCode, resultOutput = execute(f'{appimagetool} -g {signParameters} bin/{buildArch}/Deploy deployment/{buildFilename}')
 
     if resultCode:
         endMessage(False, f'there was a problem creating the AppImage.\r\n\r\n{resultCode}\r\n')
@@ -567,7 +569,7 @@ if platform.system()=="Linux" :
 
     # done!
 
-    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! AppImage at \"deployment/Pingnoo-x86_64.AppImage\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.', flush=True)
+    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! AppImage at \"deployment/{buildFilename}\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.', flush=True)
 
     print(Style.BRIGHT+f'\r\nTotal time taken to perform deployment was '+timeDelta(endTime-startTime)+'.', flush=True)
 
