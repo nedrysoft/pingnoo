@@ -87,3 +87,7 @@ tools/create-dmg
 tools/macdeployqtfix
 
 build/
+
+installer/Pingnoo.back.aip
+
+installer/PingnooBuild.aip

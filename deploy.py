@@ -179,7 +179,7 @@ if platform.system()=="Darwin":
 elif platform.system()=="Linux":
     parser.add_argument('--arch', choices=['x86', 'x86_64'], type=str, default='x86_64', nargs='?', help='architecture type to deploy')
 else:
-    parser.add_argument('--arch', choices=['x86', 'x64'], type=str, default='x64', nargs='?', help='architecture type to deploy')
+    parser.add_argument('--arch', choices=['x86', 'x86_64'], type=str, default='x86_64', nargs='?', help='architecture type to deploy')
 
 parser.add_argument('--type', choices=['release', 'debug'], default='release', type=str, nargs='?', help='type of build to deploy')
 parser.add_argument('--cert', type=str, nargs='?', help='certificate id to sign with')
@@ -196,10 +196,13 @@ if platform.system()=="Darwin":
     parser.add_argument('--appleid', type=str, nargs='?', help='apple id to use for notarization')
     parser.add_argument('--password', type=str, nargs='?', help='password for apple id')
 
+parser.add_argument('--version', type=str, nargs='?', help='version string')
+
 args = parser.parse_args()
 
 buildArch = args.arch
 buildType = args.type.capitalize()
+buildVersion = args.version
 
 if platform.system()=="Windows":
     print(Style.BRIGHT+'Deployment process started at '+str(datetime.datetime.now())+'\r\n', flush=True)
@@ -346,7 +349,33 @@ if platform.system()=="Windows":
 
     startMessage('Creating installer...')
 
-    resultCode, resultOutput = execute(f'AdvancedInstaller.com /build installer\\Pingnoo.aip')
+    if os.path.exists('installer\\PingnooBuild.aip'):
+        os.remove('installer\\PingnooBuild.aip')
+
+    shutil.copy2('installer\\Pingnoo.aip', 'installer\\PingnooBuild.aip')
+
+    buildParts = args.version.split('-', 1)
+
+    if len(buildParts)!=2:
+        winBuildVersion = "0.0.0"
+    else:
+        winBuildVersion = buildParts[0][2:]
+
+    buildFilename=f'Pingnoo Setup [{buildVersion}] ({buildArch}).exe'
+
+    resultCode, resultOutput = execute(f'AdvancedInstaller.com /edit installer\\PingnooBuild.aip /SetVersion {winBuildVersion}')
+
+    if resultCode:
+        endMessage(False, f'there was a problem creating the installer.\r\n\r\n{resultOutput}\r\n')
+        exit(1)
+
+    resultCode, resultOutput = execute(f'AdvancedInstaller.com /edit installer\\PingnooBuild.aip /SetPackageName "{buildFilename}" -buildname MsiBuild')
+
+    if resultCode:
+        endMessage(False, f'there was a problem creating the installer.\r\n\r\n{resultOutput}\r\n')
+        exit(1)
+
+    resultCode, resultOutput = execute(f'AdvancedInstaller.com /build installer\\PingnooBuild.aip')
 
     if resultCode:
         endMessage(False, f'there was a problem creating the installer.\r\n\r\n{resultOutput}\r\n')
@@ -359,7 +388,7 @@ if platform.system()=="Windows":
     if args.cert:
         startMessage('Signing installer...')
 
-        resultCode, resultOutput = winSignBinary(signtool, 'deployment\\Pingnoo.exe', args.cert, args.timeserver)
+        resultCode, resultOutput = winSignBinary(signtool, f'deployment\\{buildFilename}', args.cert, args.timeserver)
 
         if resultCode:
             endMessage(False, f'there was a problem signing the installer.\r\n\r\n{resultOutput}\r\n')
@@ -371,7 +400,7 @@ if platform.system()=="Windows":
 
     # done!
 
-    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Installer at \"deployment\\Pingnoo.exe\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.', flush=True)
+    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Installer at \"deployment\\{buildFilename}\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.', flush=True)
 
     print(Style.BRIGHT+f'\r\nTotal time taken to perform deployment was '+timeDelta(endTime-startTime)+'.', flush=True)
 
@@ -808,7 +837,9 @@ if platform.system()=="Darwin":
 
     startMessage('Copying dmg to deployment directory...')
 
-    shutil.copy2(f'bin/{buildArch}/Deploy/Pingnoo.dmg', 'deployment/Pingnoo.dmg')
+    buildFilename = f'deployment/Pingnoo [{buildVersion}] ({buildArch}).dmg'
+
+    shutil.copy2(f'bin/{buildArch}/Deploy/Pingnoo.dmg', buildFilename)
 
     endMessage(True)
 
@@ -816,7 +847,7 @@ if platform.system()=="Darwin":
 
     # done!
 
-    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Disk Image at \"deployment/Pingnoo.dmg\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.', flush=True)
+    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Disk Image at \"deployment/{buildFilename}\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.', flush=True)
 
     print(Style.BRIGHT+f'\r\nTotal time taken to perform deployment was '+timeDelta(endTime-startTime)+'.', flush=True)
 

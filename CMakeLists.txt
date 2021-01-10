@@ -51,6 +51,23 @@ if(APPLE)
             \"--arch=${PINGNOO_PLATFORM_ARCH}\"
             \"--type=${PINGNOO_BUILD_TYPE}\"
             \"--qtdir=${CMAKE_PREFIX_PATH}\"
+            \"--version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}\"
         )"
+    )
+elseif(WIN32)
+    string(TOLOWER ${CMAKE_BUILD_TYPE} PINGNOO_BUILD_TYPE)
+
+    install(CODE
+            "execute_process(
+            WORKING_DIRECTORY \"${PINGNOO_ROOT_DIR}\"
+            COMMAND python
+            \"${PINGNOO_ROOT_DIR}\\deploy.py\"
+            \"--curlbin=$ENV{PINGNOO_CURL_BINARY}\"
+            \"--qtdir=${CMAKE_PREFIX_PATH}\"
+            \"--type=${PINGNOO_BUILD_TYPE}\"
+            \"--arch=${PINGNOO_PLATFORM_ARCH}\"
+            \"--cert=$ENV{PINGNOO_DEVELOPER_CERTIFICATE}\"
+            \"--version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}\"
+            )"
     )
 endif()
