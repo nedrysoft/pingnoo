@@ -374,8 +374,8 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             customPlot->setMinimumHeight(DefaultGraphHeight);
 
-            customPlot->setInteractions(QCP::iRangeDrag);
-            customPlot->axisRect()->setRangeDrag(Qt::Horizontal);
+            //customPlot->setInteractions(QCP::iRangeDrag);
+            //customPlot->axisRect()->setRangeDrag(Qt::Horizontal);
 
             customPlot->addGraph();
 
@@ -697,10 +697,15 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::datasetSize(void) -> double 
 }
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setViewportPosition(double position) -> void {
-    m_viewportPosition = position;
+    m_viewportPosition = qMin(qMax(0.0, position), 1.0);
 
     updateRanges();
 }
+
+auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::viewportPosition() -> double {
+    return m_viewportPosition;
+}
+
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::updateRanges() -> void {
     double diff = m_endPoint - m_startPoint;

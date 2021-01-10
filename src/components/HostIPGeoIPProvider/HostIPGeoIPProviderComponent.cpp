@@ -31,11 +31,10 @@
 HostIPGeoIPProviderComponent::HostIPGeoIPProviderComponent() :
         m_provider(nullptr) {
 
-    Nedrysoft::ComponentSystem::addObject(static_cast<QObject *>(this));
 }
 
 HostIPGeoIPProviderComponent::~HostIPGeoIPProviderComponent() {
-    Nedrysoft::ComponentSystem::removeObject(static_cast<QObject *>(this));
+
 }
 
 auto HostIPGeoIPProviderComponent::initialiseEvent() -> void {

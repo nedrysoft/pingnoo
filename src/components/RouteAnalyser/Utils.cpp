@@ -31,7 +31,7 @@ constexpr auto secondsInInHour = secondsInMinute*60.0;
 constexpr auto secondsInDay = secondsInInHour*24.0;
 
 constexpr auto timeIntervalRegularExpression =
-        R"(^\s*(?<number>(\d*(\.\d+|\d*)))(\s*(?<units>ms|s|m|h|d)\s*)?$)";
+        R"(^\s*(?<number>(\d*(\.\d+|\d*)))(\s*(?<units>ms|s|m|h|d|sec(s?)|second(s?)|min(s?)|minute(s?)|hour(s?)|day(s?))\s*)?$)";
 
 constexpr auto ipAddressRegularExpression =
         R"(^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$)";
@@ -65,13 +65,13 @@ auto Nedrysoft::Utils::parseIntervalString(QString intervalString, double &inter
 
         if (unitString=="ms") {
             intervalTime = intervalTime/millisecondsInSecond;
-        } else if (unitString=="s") {
+        } else if ((unitString=="s") || (unitString=="sec" ) || (unitString=="secs" ) || (unitString=="second") || (unitString=="seconds")) {
             // nothing to do!
-        } else if (unitString=="m") {
+        } else if ((unitString=="m") || (unitString=="min") || (unitString=="mins") || (unitString=="minute") || (unitString=="minutes")) {
             intervalTime = intervalTime * secondsInMinute;
-        } else if (unitString=="h") {
+        } else if ((unitString=="h") || (unitString=="hour") || (unitString=="hours")){
             intervalTime = intervalTime * secondsInInHour;
-        } else if (unitString=="d") {
+        } else if ((unitString=="d") || (unitString=="day") || (unitString=="days")) {
             intervalTime = intervalTime * secondsInDay;
         } else {
             return false;

@@ -38,7 +38,11 @@ auto constexpr trimmerBackgroundColourLight = qRgb(0xff,0xff, 0xff);
 auto constexpr viewportBackgroundColourDark = qRgb(0x80, 0x80, 0x80);
 auto constexpr viewportBackgroundColourLight = qRgb(0xdd, 0xdd, 0xdd);
 auto constexpr viewportGripColour = qRgb(0xff, 0xcc, 0x00);
+#if defined(Q_OS_MACOS)
+constexpr auto darkModeTrimmerBackgroundFactor = 150;
+#else
 constexpr auto darkModeTrimmerBackgroundFactor = 100;
+#endif
 constexpr auto lightModeGripBackgroundFactor = 100;
 constexpr auto lightModeTrimmerBackgroundFactor = 120;
 constexpr auto lightModeViewportBackgroundFactor = 100;

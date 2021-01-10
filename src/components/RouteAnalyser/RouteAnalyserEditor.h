@@ -159,8 +159,6 @@ namespace Nedrysoft::RouteAnalyser {
             Nedrysoft::RouteAnalyser::RouteAnalyserWidget *m_editorWidget;
             double m_viewportStart;
             double m_viewportEnd;
-            double m_viewportWindow;
-
     };
 }
 

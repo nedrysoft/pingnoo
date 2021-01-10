@@ -152,6 +152,10 @@ Also, Pingnoo was developed using the following commercially licensed tools/serv
 - [CLion](https://www.jetbrains.com/clion/) - A C++ IDE
 - [Deleaker](https://deleaker.com) - A memory leak detector for Windows, License kindly provided for free for the project. 
 
+## Thanks
+
+This project was the gratefully the recipient of a micro grant from [icculus](https://icculus.org/microgrant2020/).
+
 # License
 
 Pingnoo is open source and released under the GPLv3 License

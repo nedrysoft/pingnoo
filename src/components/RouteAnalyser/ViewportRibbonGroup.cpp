@@ -26,6 +26,7 @@
 #include "ColourManager.h"
 #include "ComponentSystem/IComponentManager.h"
 #include "RouteAnalyserEditor.h"
+#include "Utils.h"
 #include "ui_ViewportRibbonGroup.h"
 
 Nedrysoft::RouteAnalyser::ViewportRibbonGroup::ViewportRibbonGroup(QWidget *parent) :
@@ -51,16 +52,10 @@ Nedrysoft::RouteAnalyser::ViewportRibbonGroup::ViewportRibbonGroup(QWidget *pare
     });
 
     connect(ui->durationComboBox, &QComboBox::currentTextChanged, [=](QString text) {
-        Q_EMIT viewportWindowChanged(10*60*1000);
-    });
+        double value;
 
-    connect(ui->endLockCheckBox, &QCheckBox::stateChanged, [=](int state) {
-        // TODO: add logic.
-
-        if (state==Qt::CheckState::Checked) {
-
-        } else if (state==Qt::CheckState::Unchecked) {
-
+        if (Nedrysoft::Utils::parseIntervalString(text, value)) {
+            Q_EMIT viewportWindowChanged(value);
         }
     });
 
@@ -78,4 +73,23 @@ auto Nedrysoft::RouteAnalyser::ViewportRibbonGroup::setViewport(double start, do
 
 auto Nedrysoft::RouteAnalyser::ViewportRibbonGroup::setViewportEnabled(bool enabled) -> void {
     ui->trimmerWidget->setEnabled(enabled);
+}
+
+auto Nedrysoft::RouteAnalyser::ViewportRibbonGroup::isViewportEnabled() -> bool {
+    return ui->trimmerWidget->isEnabled();
+}
+
+auto Nedrysoft::RouteAnalyser::ViewportRibbonGroup::setStartAndEnd(double start, double end) -> void {
+    ui->startLineEdit->setText(QDateTime::fromTime_t(start).toString());
+    ui->endLineEdit->setText(QDateTime::fromTime_t(end).toString());
+}
+
+auto Nedrysoft::RouteAnalyser::ViewportRibbonGroup::viewportSize() -> double {
+    double value;
+
+    if (Nedrysoft::Utils::parseIntervalString(ui->durationComboBox->currentText(), value)) {
+        return value;
+    }
+
+    return (10*60);
 }

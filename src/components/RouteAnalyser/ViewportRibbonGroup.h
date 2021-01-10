@@ -66,6 +66,27 @@ namespace Nedrysoft::RouteAnalyser {
              */
             auto setViewportEnabled(bool enabled) -> void;
 
+            /**
+             * @brief       Returns whether the trimmer widget is enabled.
+             * @param[in]   enabled true if enabled; otherwise false.
+             */
+            auto isViewportEnabled() -> bool;
+
+            /**
+             * @brief       Sets the start and end text boxes on the ribbon control.
+             *
+             * @param[in]   start the start unix time.
+             * @param[in]   end the end unix time.
+             */
+            auto setStartAndEnd(double start, double end) -> void;
+
+            /**
+             * @brief       Returns the size of the viewport in seconds.
+             *
+             * @returns     the viewport size.
+             */
+            auto viewportSize() -> double;
+
         public:
             /**
              * @brief       This signal is emitted when the viewport start and/or end has been modified.

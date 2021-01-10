@@ -150,6 +150,13 @@ namespace Nedrysoft::RouteAnalyser {
             auto setViewportPosition(double position) -> void;
 
             /**
+             * @brief       Gets the current position of the viewport
+             *
+             * @returns     the position.
+             */
+            auto viewportPosition() -> double;
+
+            /**
              * @brief       Returns the current viewport size.
              *
              * @returns     the viewport size in milliseconds.
