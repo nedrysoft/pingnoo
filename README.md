@@ -154,7 +154,7 @@ Also, Pingnoo was developed using the following commercially licensed tools/serv
 
 ## Thanks
 
-This project was the gratefully the recipient of a micro grant from [icculus](https://icculus.org/microgrant2020/).
+This project is a grateful recipient of a micro-grant from [icculus](https://icculus.org/microgrant2020/) who provide micro-grants each year to open-source projects.
 
 # License
 
