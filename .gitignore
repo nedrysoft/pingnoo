@@ -93,3 +93,5 @@ installer/Pingnoo.back.aip
 installer/PingnooBuild.aip
 
 installer/Prerequisites/Visual C\+\+ Redistributable for Visual Studio 2015-2019/VC_redist.x64.exe
+
+venv/
