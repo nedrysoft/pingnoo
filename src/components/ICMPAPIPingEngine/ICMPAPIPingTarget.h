@@ -58,7 +58,7 @@ namespace Nedrysoft::Pingnoo {
              * @param[in]   hostAddress the target of the ping.
              * @param[in]   ttl the TTL to be used in the ping.
              */
-            ICMPAPIPingTarget(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine, QHostAddress hostAddress, int ttl = 0);
+            ICMPAPIPingTarget(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine, const QHostAddress &hostAddress, int ttl = 0);
 
         public:
             /**
@@ -68,7 +68,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @param[in]   hostAddress the host address to be pinged.
              */
-            setHostAddress(QHostAddress hostAddress) -> void override;
+            setHostAddress(const QHostAddress &hostAddress) -> void override;
 
             /**
              * @brief       Returns the host address for this target.

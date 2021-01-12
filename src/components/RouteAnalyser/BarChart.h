@@ -33,7 +33,7 @@
 
 namespace Nedrysoft::RouteAnalyser {
     /**
-     * @brief       The BarChart class is a sublcass of QCPBars which clips the chart to a rounded rectangle.
+     * @brief       The BarChart class is a subclass of QCPBars which clips the chart to a rounded rectangle.
      */
     class BarChart :
             public QCPBars {

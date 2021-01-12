@@ -60,25 +60,25 @@ namespace Pingnoo::Constants {
     constexpr auto ribbonHostMaskingPage = "Ribbon.Page.HostMasking";
 
     const QMap<QString, QString> commandStringMap = {
-        {editCut,             QT_TR_NOOP("Cut")},
-        {editCopy,            QT_TR_NOOP("Copy")},
-        {editPaste,           QT_TR_NOOP("Paste")},
-        {fileOpen,            QT_TR_NOOP("Open...")},
-        {fileExit,            QT_TR_NOOP("Exit")},
+            {editCut, QT_TR_NOOP("Cut")},
+            {editCopy, QT_TR_NOOP("Copy")},
+            {editPaste, QT_TR_NOOP("Paste")},
+            {fileOpen, QT_TR_NOOP("Open...")},
+            {fileExit, QT_TR_NOOP("Exit")},
 #if defined(Q_OS_MACOS)
-        {filePreferences,     QT_TR_NOOP("Preferences...")},
+            {filePreferences, QT_TR_NOOP("Preferences...")},
 #else
-        {filePreferences,     QT_TR_NOOP("Settings...")},
+            {filePreferences,     QT_TR_NOOP("Settings...")},
 #endif
-        {helpAbout,           QT_TR_NOOP("About Pingnoo")},
-        {helpAboutComponents, QT_TR_NOOP("About Components...")}
+            {helpAbout, QT_TR_NOOP("About Pingnoo")},
+            {helpAboutComponents, QT_TR_NOOP("About Components...")}
     };
 
     const QMap<QString, QString> menuStringMap = {
-        {menuFile,        QT_TR_NOOP("File")},
-        {menuEdit,        QT_TR_NOOP("Edit")},
-        {menuHelp,        QT_TR_NOOP("Help")},
-        {menuApplication, QT_TR_NOOP("Pingnoo")}
+            {menuFile,        QT_TR_NOOP("File")},
+            {menuEdit,        QT_TR_NOOP("Edit")},
+            {menuHelp,        QT_TR_NOOP("Help")},
+            {menuApplication, QT_TR_NOOP("Pingnoo")}
     };
 
     inline QString commandText(const QString &string) {
@@ -94,6 +94,6 @@ namespace Pingnoo::Constants {
 
         return string;
     }
-}
+};
 
 #endif // NEDRYSOFT_PINGNOO_CONSTANTS_H

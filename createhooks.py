@@ -27,7 +27,7 @@ import shutil
 import os
 
 try:
-	shutil.copy2('tools/githooks/post-commit', '.git/hooks/')
+    shutil.copy2('tools/githooks/post-commit', '.git/hooks/')
 except IOError as io_err:
     os.makedirs(os.path.dirname('.git/hooks/'))
     shutil.copy('tools/githooks/post-commit', '.git/hooks/')

@@ -24,7 +24,6 @@
 
 import platform
 import os
-import fnmatch
 import shutil
 import glob
 import tempfile
@@ -35,9 +34,8 @@ import subprocess
 import sys
 import logging
 import datetime
-import enum
 
-if platform.python_version_tuple()<('3','6','0'):
+if platform.python_version_tuple() < ('3', '6', '0'):
     print('requires python >= 3.6', flush=True)
     quit(1)
 
@@ -57,7 +55,8 @@ except ModuleNotFoundError:
         CYAN = ''
         RESET = ''
 
-def timeDelta(seconds):
+
+def timedelta(seconds):
     seconds = abs(int(seconds))
     
     days, seconds = divmod(seconds, 86400)
@@ -65,26 +64,28 @@ def timeDelta(seconds):
     minutes, seconds = divmod(seconds, 60)
 
     if days > 0:
-        return(f'{days}d{hours}h{minutes}m{seconds}s')
+        return f'{days}d{hours}h{minutes}m{seconds}s'
     elif hours > 0:
-        return(f'{hours}h{minutes}m{seconds}s')
+        return f'{hours}h{minutes}m{seconds}s'
     elif minutes > 0:
-        return(f'{minutes}m{seconds}s')
+        return f'{minutes}m{seconds}s'
     else:
-        return(f'{seconds}s')
+        return f'{seconds}s'
 
-def startMessage(message):
+
+def startmessage(message):
     sys.stdout.write(Style.BRIGHT+f'> {message} ')
     sys.stdout.flush()
 
-def endMessage(state, message=None):
+
+def endmessage(state, message=None):
     if state:
-        if platform.system()=="Windows":
+        if platform.system() == "Windows":
             sys.stdout.write(Style.BRIGHT+'['+Fore.GREEN+'Y'+Fore.RESET+']\r\n')
         else:
             sys.stdout.write(Style.BRIGHT+'['+Fore.GREEN+'✓'+Fore.RESET+']\r\n')
     else:
-        if platform.system()=="Windows":
+        if platform.system() == "Windows":
             sys.stdout.write(Style.BRIGHT+'['+Fore.RED+'N'+Fore.RESET+']\r\n')
         else:
             sys.stdout.write(Style.BRIGHT+'['+Fore.RED+'✘'+Fore.RESET+']\r\n')
@@ -94,78 +95,87 @@ def endMessage(state, message=None):
 
     sys.stdout.flush()
 
+
 def parent(path):
-    return(os.path.normpath(os.path.join(path, os.pardir)))
+    return os.path.normpath(os.path.join(path, os.pardir))
+
 
 def execute(command):
     output = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    return(output.returncode, output.stdout.decode('utf-8')+output.stderr.decode('utf-8'))
+    return output.returncode, output.stdout.decode('utf-8')+output.stderr.decode('utf-8')
+
 
 def which(appname):
-    if platform.system()=="Windows" :
+    if platform.system() == "Windows":
         command = 'where'
     else:
         command = 'which'
 
-    status, output = execute(f'{command} {appname}')
+    whichstatusresult, output = execute(f'{command} {appname}')
 
-    if status and output:
-        return(output.split()[0])
+    if whichstatusresult and output:
+        return output.split()[0]
 
-def run(command) :
+
+def run(command):
     stream = os.popen(command)
 
     return stream.read()
 
-def macSignBinary(file, cert):
-    return(execute(f'codesign --verify --timestamp -o runtime --force --sign "{cert}" "{file}"'))
 
-def winSignBinary(signtool, file, cert, timeserver):
-    return(execute(f'{signtool} sign /n "{cert}" /t {timeserver} /fd sha256 /v "{file}"'))
+def macsignbinary(filetosign, cert):
+    return execute(f'codesign --verify --timestamp -o runtime --force --sign "{cert}" "{filetosign}"')
 
-def notarizeFile(file, username, password):
-    uuidPattern = re.compile(r'RequestUUID\s=\s(?P<requestUUID>[a-f|0-9]{8}-[a-f|0-9]{4}-[a-f|0-9]{4}-[a-f|0-9]{4}-[a-f|0-9]{12})\n')
-    statusPattern = re.compile(r'\s*Status:\s(?P<status>\w+)\n')
 
-    filename = os.path.basename(file)
+def winsignbinary(signingtool, filetosign, cert, timeserver):
+    return execute(f'{signingtool} sign /n "{cert}" /t {timeserver} /fd sha256 /v "{filetosign}"')
 
-    uploadId = str(int(time.time()))
 
-    resultCode,result = execute(f'xcrun altool --notarize-app --primary-bundle-id "com.nedrysoft.pingnoo.{uploadId}" -u {args.appleid} --password {args.password} --file {file}')
+def notarizefile(filetonotarize, username, password):
+    uuidpattern = re.compile(r'RequestUUID\s=\s(?P<requestUUID>[a-f|0-9]{8}-[a-f|0-9]{4}-[a-f|0-9]{4}-[a-f|0-9]{4}-['
+                             r'a-f|0-9]{12})\n')
+    statuspattern = re.compile(r'\s*Status:\s(?P<status>\w+)\n')
 
-    if resultCode:
-        return(False)
+    uploadid = str(int(time.time()))
 
-    match = uuidPattern.search(result)
+    resultcode, result = execute(f'xcrun altool --notarize-app --primary-bundle-id "com.nedrysoft.pingnoo.{uploadid}" '
+                                 f'-u {username} --password {password} --file {filetonotarize}')
+
+    if resultcode:
+        return False
+
+    match = uuidpattern.search(result)
 
     if not match:
-        return(False)
+        return False
 
-    requestId = match.groupdict()["requestUUID"]
+    requestid = match.groupdict()["requestUUID"]
 
-    if not requestId:
-        return(False)
+    if not requestid:
+        return False
 
     while True:
-        resultCode,result = execute(f'xcrun altool --notarization-info {requestId} -u {username} --password {password}')
+        resultcode, result = execute(f'xcrun altool --notarization-info {requestid} -u {username}'
+                                     f' --password {password}')
 
-        if not resultCode:
-            match = statusPattern.search(result)
+        if not resultcode:
+            match = statuspattern.search(result)
 
             if match:
-                status = match.groupdict()["status"]
+                currentstatus = match.groupdict()["status"]
 
-                if status=="in progress":
+                if currentstatus == "in progress":
                     time.sleep(10)
                     continue
 
-                if status=="success":
+                if currentstatus == "success":
                     break
 
-                if status=="invalid":
+                if currentstatus == "invalid":
                     break
 
-    return(status)
+    return currentstatus
+
 
 # application entry point
 
@@ -174,25 +184,64 @@ parser = argparse.ArgumentParser(description='Pingnoo deployment tool')
 parser.add_argument('--qtdir', type=str, nargs='?', help='path to qt')
 parser.add_argument('--curlbin', type=str, nargs='?', help='path to curl binary')
 
-if platform.system()=="Darwin":
-    parser.add_argument('--arch', choices=['x86_64', 'arm64', 'universal'], type=str, default='x64_64', nargs='?', help='architecture type to deploy')
-elif platform.system()=="Linux":
-    parser.add_argument('--arch', choices=['x86', 'x86_64'], type=str, default='x86_64', nargs='?', help='architecture type to deploy')
+if platform.system() == "Darwin":
+    parser.add_argument('--arch',
+                        choices=['x86_64', 'arm64', 'universal'],
+                        type=str,
+                        default='x64_64',
+                        nargs='?',
+                        help='architecture type to deploy')
+elif platform.system() == "Linux":
+    parser.add_argument('--arch',
+                        choices=['x86', 'x86_64'],
+                        type=str,
+                        default='x86_64',
+                        nargs='?',
+                        help='architecture type to deploy')
 else:
-    parser.add_argument('--arch', choices=['x86', 'x86_64'], type=str, default='x86_64', nargs='?', help='architecture type to deploy')
+    parser.add_argument('--arch',
+                        choices=['x86', 'x86_64'],
+                        type=str,
+                        default='x86_64',
+                        nargs='?',
+                        help='architecture type to deploy')
 
-parser.add_argument('--type', choices=['release', 'debug'], default='release', type=str, nargs='?', help='type of build to deploy')
+parser.add_argument('--type',
+                    choices=['release', 'debug'],
+                    default='release',
+                    type=str,
+                    nargs='?',
+                    help='type of build to deploy')
+
 parser.add_argument('--cert', type=str, nargs='?', help='certificate id to sign with')
 
-if platform.system()=="Linux":
-    parser.add_argument('--linuxdeployqt', type=str, default='tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage', nargs='?', help='path to linuxdeployqt')
-    parser.add_argument('--appimagetool', type=str, default='tools/appimagetool/appimagetool-x86_64.AppImage', nargs='?', help='path to appimagetool')
+if platform.system() == "Linux":
+    parser.add_argument('--linuxdeployqt',
+                        type=str,
+                        default='tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage',
+                        nargs='?',
+                        help='path to linuxdeployqt')
 
-if platform.system()=="Windows":
-    parser.add_argument('--timeserver', type=str, default='http://time.certum.pl/', nargs='?', help='time server to use for signing')
-    parser.add_argument('--signtool', type=str, nargs='?', default='tools\\smartcardtools\\x64\\ScSignTool.exe', help='path to signing binary')
+    parser.add_argument('--appimagetool',
+                        type=str,
+                        default='tools/appimagetool/appimagetool-x86_64.AppImage',
+                        nargs='?',
+                        help='path to appimagetool')
 
-if platform.system()=="Darwin":
+if platform.system() == "Windows":
+    parser.add_argument('--timeserver',
+                        type=str,
+                        default='http://time.certum.pl/',
+                        nargs='?',
+                        help='time server to use for signing')
+
+    parser.add_argument('--signtool',
+                        type=str,
+                        nargs='?',
+                        default='tools\\smartcardtools\\x64\\ScSignTool.exe',
+                        help='path to signing binary')
+
+if platform.system() == "Darwin":
     parser.add_argument('--appleid', type=str, nargs='?', help='apple id to use for notarization')
     parser.add_argument('--password', type=str, nargs='?', help='password for apple id')
 
@@ -204,14 +253,14 @@ buildArch = args.arch
 buildType = args.type.capitalize()
 buildVersion = args.version
 
-if platform.system()=="Windows":
+if platform.system() == "Windows":
     print(Style.BRIGHT+'Deployment process started at '+str(datetime.datetime.now())+'\r\n', flush=True)
 
     startTime = time.time()
 
     # check curl is available
 
-    startMessage('Checking for curl...')
+    startmessage('Checking for curl...')
 
     if args.curlbin:
         if os.path.isfile(args.curlbin):
@@ -222,14 +271,14 @@ if platform.system()=="Windows":
         curl = which('curl.exe')
 
     if not curl:
-        endMessage(False, 'curl could not be found. (see --curlbin).')
+        endmessage(False, 'curl could not be found. (see --curlbin).')
         exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
     # check for qt installATION
 
-    startMessage('Checking qtdir...')
+    startmessage('Checking qtdir...')
 
     if args.qtdir:
         if os.path.isfile(f'{args.qtdir}\\bin\\windeployqt.exe'):
@@ -240,10 +289,10 @@ if platform.system()=="Windows":
         windeployqt = which('windeployqt')
 
     if not windeployqt:
-        endMessage(False, 'qt could not be found. (see --qtdir).')
+        endmessage(False, 'qt could not be found. (see --qtdir).')
         exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
     tempdir = os.path.normpath(tempfile.mkdtemp())
 
@@ -251,38 +300,42 @@ if platform.system()=="Windows":
 
     if args.cert:
         if not os.path.exists(signtool):
-            startMessage('Downloading SmartCardTools...')
+            startmessage('Downloading SmartCardTools...')
 
-            resultCode, resultOutput = execute(f'cd \"{tempdir}\" && \"{curl}\" -LJO https://www.mgtek.com/files/smartcardtools.zip')
+            resultCode, resultOutput = execute(f'cd \"{tempdir}\" && \"{curl}\"'
+                                               f' -LJO https://www.mgtek.com/files/smartcardtools.zip')
 
             if resultCode:
-                endMessage(False, f'unable to download SmartCardTools.\r\n\r\n{resultOutput}\r\n')
+                endmessage(False, f'unable to download SmartCardTools.\r\n\r\n{resultOutput}\r\n')
                 exit(1)
 
-            resultCode, resultOutput = execute(f'cd \"{tempdir}\" && \"{curl}\" -LJO ftp://ftp.info-zip.org/pub/infozip/win32/unz600xn.exe & unz600xn -jo unzip.exe')
+            resultCode, resultOutput = execute(f'cd \"{tempdir}\" && \"{curl}\"'
+                                               f' -LJO ftp://ftp.info-zip.org/pub/infozip/win32/unz600xn.exe'
+                                               f' & unz600xn -jo unzip.exe')
 
             if resultCode:
-                endMessage(False, f'unable to download info-zip tools.\r\n\r\n{resultOutput}\r\n')
+                endmessage(False, f'unable to download info-zip tools.\r\n\r\n{resultOutput}\r\n')
                 exit(1)
 
-            resultCode, resultOutput = execute(f'\"{tempdir}\\unzip\" \"{tempdir}\\smartcardtools.zip\" -d tools\\smartcardtools')
+            resultCode, resultOutput = execute(f'\"{tempdir}\\unzip\" \"{tempdir}'
+                                               f'\\smartcardtools.zip\" -d tools\\smartcardtools')
 
             if resultCode:
-                endMessage(False, f'unable to unzip SmartCardTools.\r\n\r\n{resultOutput}\r\n')
+                endmessage(False, f'unable to unzip SmartCardTools.\r\n\r\n{resultOutput}\r\n')
                 exit(1)
 
             signtool = 'tools\\smartcardtools\\x64\\ScSignTool.exe'
 
-            endMessage(True)
+            endmessage(True)
 
     # remove previous deployment files and copy current binaries
 
-    startMessage('Setting up deployment directory...')
+    startmessage('Setting up deployment directory...')
 
     deployDir = f'bin\\{buildArch}\\Deploy'
     binaryDir = f'bin\\{buildArch}\\{buildType}'
 
-    extensions=['.exe', '.dll']
+    extensions = ['.exe', '.dll']
 
     if os.path.exists(deployDir):
         shutil.rmtree(deployDir)
@@ -309,24 +362,24 @@ if platform.system()=="Windows":
         files += glob.glob(f'{deployDir}\\*{extension}')
 
     if not files:
-        endMessage(False, 'no files could be found to deploy.')
+        endmessage(False, 'no files could be found to deploy.')
         exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
     # sign the application binaries
 
     if args.cert:
-        startMessage('Signing binaries...')
+        startmessage('Signing binaries...')
 
         for file in signList:
-            resultCode, resultOutput = winSignBinary(signtool, file, args.cert, args.timeserver)
+            resultCode, resultOutput = winsignbinary(signtool, file, args.cert, args.timeserver)
 
             if resultCode:
-                endMessage(False, f'there was a problem signing a file ({file}).\r\n\r\n{resultOutput}\r\n')
+                endmessage(False, f'there was a problem signing a file ({file}).\r\n\r\n{resultOutput}\r\n')
                 exit(1)
 
-        endMessage(True)
+        endmessage(True)
 
     filesString = ''
 
@@ -335,19 +388,19 @@ if platform.system()=="Windows":
 
     # run windeplotqt
 
-    startMessage('Running windeployqt...')
+    startmessage('Running windeployqt...')
 
     resultCode, resultOutput = execute(f'{windeployqt} --dir {deployDir} {filesString}')
 
     if resultCode:
-        endMessage(False, f'there was a problem running windeployqt.\r\n\r\n{resultOutput}\r\n')
+        endmessage(False, f'there was a problem running windeployqt.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
-    endMessage(True)    
+    endmessage(True)
 
     # run advanced installer
 
-    startMessage('Creating installer...')
+    startmessage('Creating installer...')
 
     if os.path.exists('installer\\PingnooBuild.aip'):
         os.remove('installer\\PingnooBuild.aip')
@@ -356,64 +409,68 @@ if platform.system()=="Windows":
 
     buildParts = args.version.split('-', 1)
 
-    if len(buildParts)!=2:
+    if len(buildParts) != 2:
         winBuildVersion = "0.0.0"
     else:
         winBuildVersion = buildParts[0][2:]
 
-    buildFilename=f'Pingnoo Setup [{buildVersion}] ({buildArch}).exe'
+    buildFilename = f'Pingnoo Setup [{buildVersion}] ({buildArch}).exe'
 
-    resultCode, resultOutput = execute(f'AdvancedInstaller.com /edit installer\\PingnooBuild.aip /SetVersion {winBuildVersion}')
+    resultCode, resultOutput = execute(f'AdvancedInstaller.com /edit installer\\PingnooBuild.aip'
+                                       f' /SetVersion {winBuildVersion}')
 
     if resultCode:
-        endMessage(False, f'there was a problem creating the installer.\r\n\r\n{resultOutput}\r\n')
+        endmessage(False, f'there was a problem creating the installer.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
-    resultCode, resultOutput = execute(f'AdvancedInstaller.com /edit installer\\PingnooBuild.aip /SetPackageName "{buildFilename}" -buildname MsiBuild')
+    resultCode, resultOutput = execute(f'AdvancedInstaller.com /edit installer\\PingnooBuild.aip'
+                                       f' /SetPackageName "{buildFilename}" -buildname MsiBuild')
 
     if resultCode:
-        endMessage(False, f'there was a problem creating the installer.\r\n\r\n{resultOutput}\r\n')
+        endmessage(False, f'there was a problem creating the installer.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
     resultCode, resultOutput = execute(f'AdvancedInstaller.com /build installer\\PingnooBuild.aip')
 
     if resultCode:
-        endMessage(False, f'there was a problem creating the installer.\r\n\r\n{resultOutput}\r\n')
+        endmessage(False, f'there was a problem creating the installer.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
-    endMessage(True)  
+    endmessage(True)
 
     # sign the installer file
 
     if args.cert:
-        startMessage('Signing installer...')
+        startmessage('Signing installer...')
 
-        resultCode, resultOutput = winSignBinary(signtool, f'deployment\\{buildFilename}', args.cert, args.timeserver)
+        resultCode, resultOutput = winsignbinary(signtool, f'deployment\\{buildFilename}', args.cert, args.timeserver)
 
         if resultCode:
-            endMessage(False, f'there was a problem signing the installer.\r\n\r\n{resultOutput}\r\n')
+            endmessage(False, f'there was a problem signing the installer.\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
-        endMessage(True)
+        endmessage(True)
 
     endTime = time.time()
 
     # done!
 
-    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Installer at \"deployment\\{buildFilename}\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.', flush=True)
+    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Installer at \"deployment\\{buildFilename}\" is ' +
+          Fore.GREEN+'ready'+Fore.CYAN+' for distribution.', flush=True)
 
-    print(Style.BRIGHT+f'\r\nTotal time taken to perform deployment was '+timeDelta(endTime-startTime)+'.', flush=True)
+    print(Style.BRIGHT + f'\r\nTotal time taken to perform deployment was ' +
+          timedelta(endTime - startTime) + '.', flush=True)
 
     exit(0)
 
-if platform.system()=="Linux" :
+if platform.system() == "Linux":
     print(Style.BRIGHT+'Deployment process started at '+str(datetime.datetime.now())+'\r\n', flush=True)
 
     startTime = time.time()
 
     # check curl is available
 
-    startMessage('Checking for curl...')
+    startmessage('Checking for curl...')
 
     if args.curlbin:
         if os.path.isfile(args.curlbin):
@@ -424,14 +481,14 @@ if platform.system()=="Linux" :
         curl = which('curl')
 
     if not curl:
-        endMessage(False, 'curl could not be found. (see --curlbin).')
+        endmessage(False, 'curl could not be found. (see --curlbin).')
         exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
     # check for qt installation
 
-    startMessage('Checking qtdir...')
+    startmessage('Checking qtdir...')
 
     if args.qtdir:
         if os.path.isfile(args.qtdir+'/bin/qmake'):
@@ -447,68 +504,74 @@ if platform.system()=="Linux" :
             qtdir = None
 
     if not qtdir:
-        endMessage(False, 'qt directory could not be found. (see --qtdir).')
+        endmessage(False, 'qt directory could not be found. (see --qtdir).')
         exit(1)
     else:
         if not os.path.isdir(qtdir):
-            endMessage(False, 'qt directory could not be found. (see --qtdir).')
+            endmessage(False, 'qt directory could not be found. (see --qtdir).')
             exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
     # download linuxdeployqt
 
     linuxdeployqt = args.linuxdeployqt
 
-    if not os.path.isfile(linuxdeployqt) :
-        startMessage('Downloading linuxdeployqt...')
+    if not os.path.isfile(linuxdeployqt):
+        startmessage('Downloading linuxdeployqt...')
 
         if not os.path.exists('tools/linuxdeployqt'):
             os.mkdir('tools/linuxdeployqt')
 
-        resultCode, resultOutput = execute('cd tools/linuxdeployqt; curl -LJO https://github.com/probonopd/linuxdeployqt/releases/download/6/linuxdeployqt-6-x86_64.AppImage')
+        resultCode, resultOutput = execute('cd tools/linuxdeployqt; '
+                                           'curl -LJO '
+                                           'https://github.com/probonopd/linuxdeployqt/releases/download/6/'
+                                           'linuxdeployqt-6-x86_64.AppImage')
 
         if resultCode:
-            endMessage(False, f'unable to download linuxdeployqt.\r\n\r\n{resultOutput}\r\n')
+            endmessage(False, f'unable to download linuxdeployqt.\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
         resultCode, resultOutput = execute('chmod +x tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage')
 
         if resultCode:
-            endMessage(False, f'unable to set permissions on linuxdeployqt.\r\n\r\n{resultOutput}\r\n')
+            endmessage(False, f'unable to set permissions on linuxdeployqt.\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
         linuxdeployqt = 'tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage'
 
-        endMessage(True)
+        endmessage(True)
 
     appimagetool = args.appimagetool
 
     if not os.path.isfile(appimagetool):
-        startMessage('Downloading appimagetool...')
+        startmessage('Downloading appimagetool...')
 
         if not os.path.exists('tools/appimagetool'):
             os.mkdir('tools/appimagetool')
 
-        resultCode, resultOutput = execute('cd tools/appimagetool; curl -LJO https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage')
+        resultCode, resultOutput = execute('cd tools/appimagetool; '
+                                           'curl -LJO '
+                                           'https://github.com/AppImage/AppImageKit/releases/download/continuous/'
+                                           'appimagetool-x86_64.AppImage')
 
         if resultCode:
-            endMessage(False, f'unable to download appimagetool.\r\n\r\n{resultOutput}\r\n')
+            endmessage(False, f'unable to download appimagetool.\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
         resultCode, resultOutput = execute('chmod +x tools/appimagetool/appimagetool-x86_64.AppImage')
 
         if resultCode:
-            endMessage(False, f'unable to set permissions on appimagetool.\r\n\r\n{resultOutput}\r\n')
+            endmessage(False, f'unable to set permissions on appimagetool.\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
         appimagetool = 'tools/appimagetool/appimagetool-x86_64.AppImage'
 
-        endMessage(True)
+        endmessage(True)
 
     # remove previous deployment files and copy current binaries
 
-    startMessage('Setting up deployment directory...')
+    startmessage('Setting up deployment directory...')
 
     if os.path.exists(f'bin/{buildArch}/Deploy/'):
         shutil.rmtree(f'bin/{buildArch}/Deploy/')
@@ -529,22 +592,24 @@ if platform.system()=="Linux" :
     shutil.copy2(f'installer/AppRun', f'bin/{buildArch}/Deploy/')
     shutil.copytree(f'bin/{buildArch}/{buildType}/Components', f'bin/{buildArch}/Deploy/Components', symlinks=True)
 
-    for file in glob.glob(f'bin/{buildArch}/{buildType}/*.so') :
+    for file in glob.glob(f'bin/{buildArch}/{buildType}/*.so'):
         shutil.copy2(file, f'bin/{buildArch}/Deploy/usr/lib')
 
-    endMessage(True)
+    endmessage(True)
 
     # create the app dir
 
-    startMessage('Running linuxdeployqt...')
+    startmessage('Running linuxdeployqt...')
 
-    resultCode, resultOutput = execute(f'{linuxdeployqt} \'bin/{buildArch}/Deploy/usr/share/applications/Pingnoo.desktop\' -qmake=\'{qtdir}/bin/qmake\' -exclude-libs=\'libqsqlodbc,libqsqlpsql\'')
+    resultCode, resultOutput = execute(f'{linuxdeployqt} '
+                                       f'\'bin/{buildArch}/Deploy/usr/share/applications/Pingnoo.desktop\' '
+                                       f'-qmake=\'{qtdir}/bin/qmake\' -exclude-libs=\'libqsqlodbc,libqsqlpsql\'')
 
     if resultCode:
-        endMessage(False, f'there was a problem running linuxdeployqt.\r\n\r\n{resultCode}\r\n{resultOutput}\r\n')
+        endmessage(False, f'there was a problem running linuxdeployqt.\r\n\r\n{resultCode}\r\n{resultOutput}\r\n')
         exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
     # create the AppImage
 
@@ -553,36 +618,39 @@ if platform.system()=="Linux" :
     if args.cert:
         signParameters = f'-s --sign-key={args.cert} '
 
-    startMessage('Creating AppImage...')
+    startmessage('Creating AppImage...')
 
     buildFilename = f'Pingnoo [{buildVersion}] (x86_64).AppImage'
 
-    resultCode, resultOutput = execute(f'{appimagetool} -g {signParameters} bin/{buildArch}/Deploy \"deployment/{buildFilename}\"')
+    resultCode, resultOutput = execute(f'{appimagetool} -g {signParameters} '
+                                       f'bin/{buildArch}/Deploy \"deployment/{buildFilename}\"')
 
     if resultCode:
-        endMessage(False, f'there was a problem creating the AppImage.\r\n\r\n{resultCode}\r\n')
+        endmessage(False, f'there was a problem creating the AppImage.\r\n\r\n{resultCode}\r\n')
         exit(1)   
 
-    endMessage(True)
+    endmessage(True)
 
     endTime = time.time()
 
     # done!
 
-    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! AppImage at \"deployment/{buildFilename}\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.', flush=True)
+    print(f'\r\n' + Style.BRIGHT + Fore.CYAN + f'Finished! AppImage at \"deployment/{buildFilename}\" is '
+          + Fore.GREEN+'ready' + Fore.CYAN + ' for distribution.', flush=True)
 
-    print(Style.BRIGHT+f'\r\nTotal time taken to perform deployment was '+timeDelta(endTime-startTime)+'.', flush=True)
+    print(Style.BRIGHT + f'\r\nTotal time taken to perform deployment was ' +
+          timedelta(endTime - startTime) + '.', flush=True)
 
     exit(0)
 
-if platform.system()=="Darwin":
+if platform.system() == "Darwin":
     print(Style.BRIGHT+'Deployment process started at '+str(datetime.datetime.now())+'\r\n', flush=True)
 
     startTime = time.time()
 
     # check for qt installation
 
-    startMessage('Checking qtdir...')
+    startmessage('Checking qtdir...')
 
     if args.qtdir:
         if os.path.isfile(args.qtdir+'/bin/qmake'):
@@ -598,18 +666,18 @@ if platform.system()=="Darwin":
             qtdir = None
 
     if not qtdir:
-        endMessage(False, 'qt directory could not be found. (see --qtdir).')
+        endmessage(False, 'qt directory could not be found. (see --qtdir).')
         exit(1)
     else:
         if not os.path.isdir(qtdir):
-            endMessage(False, 'qt directory could not be found. (see --qtdir).')
+            endmessage(False, 'qt directory could not be found. (see --qtdir).')
             exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
     # remove previous deployment files and copy current binaries
 
-    startMessage('Setting up deployment directory...')
+    startmessage('Setting up deployment directory...')
 
     if os.path.exists(f'deployment'):
         shutil.rmtree(f'deployment')
@@ -621,236 +689,257 @@ if platform.system()=="Darwin":
     
     os.makedirs(f'bin/{buildArch}/Deploy')
 
-    endMessage(True)
+    endmessage(True)
 
     if not os.path.isfile('tools/macdeployqtfix/macdeployqtfix.py'):
         if os.path.exists('tools/macdeployqtfix'):
             shutil.rmtree(f'tools/macdeployqtfix')
 
-        startMessage('Cloning macdeployqtfix...')
+        startmessage('Cloning macdeployqtfix...')
 
         resultCode, resultOutput = execute('cd tools;git clone https://github.com/fizzyade/macdeployqtfix.git')
 
         if resultCode:
-            endMessage(False, f'unable to clone macdeployqtfix.\r\n\r\n{resultOutput}\r\n')
+            endmessage(False, f'unable to clone macdeployqtfix.\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
-        endMessage(True)
+        endmessage(True)
 
     if not os.path.isfile('tools/create-dmg/create-dmg'):
         if os.path.exists('tools/create-dmg'):
             shutil.rmtree(f'tools/create-dmg')
 
-        startMessage('Cloning create-dmg...')
+        startmessage('Cloning create-dmg...')
 
         resultCode, resultOutput = execute('cd tools;git clone https://github.com/andreyvit/create-dmg.git')
 
         if resultCode:
-            endMessage(False, f'unable to clone create-dmg.\r\n\r\n{resultOutput}\r\n')
+            endmessage(False, f'unable to clone create-dmg.\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
-        endMessage(True)
+        endmessage(True)
 
-    if not buildArch=="universal":
-        shutil.copytree(f'bin/{buildArch}/{buildType}/Pingnoo.app', f'bin/{buildArch}/Deploy/Pingnoo.app', symlinks=True)
+    if not buildArch == "universal":
+        shutil.copytree(f'bin/{buildArch}/{buildType}/Pingnoo.app',
+                        f'bin/{buildArch}/Deploy/Pingnoo.app', symlinks=True)
     else:
         if not os.path.isfile('tools/makeuniversal/makeuniversal'):
             if os.path.exists('tools/makeuniversal'):
                 shutil.rmtree(f'tools/makeuniversal')
 
-            startMessage('Cloning makeuniversal...')
+            startmessage('Cloning makeuniversal...')
 
             resultCode, resultOutput = execute('cd tools;git clone https://github.com/fizzyade/makeuniversal.git')
 
             if resultCode:
-                endMessage(False, f'unable to clone makeuniversal.\r\n\r\n{resultOutput}\r\n')
+                endmessage(False, f'unable to clone makeuniversal.\r\n\r\n{resultOutput}\r\n')
                 exit(1)
 
-            endMessage(True)
+            endmessage(True)
 
-            startMessage('Building makeuniversal...')
+            startmessage('Building makeuniversal...')
 
             resultCode, resultOutput = execute(f'cd tools/makeuniversal;{qtdir}/bin/qmake;make')
 
             if resultCode:
-                endMessage(False, f'error building makeuniversal.\r\n\r\n{resultOutput}\r\n')
+                endmessage(False, f'error building makeuniversal.\r\n\r\n{resultOutput}\r\n')
                 exit(1)
 
-            endMessage(True)
+            endmessage(True)
 
-        startMessage('Running makeuniversal...')
+        startmessage('Running makeuniversal...')
 
-        resultCode, resultOutput = execute(f'tools/makeuniversal/makeuniversal bin/universal/Deploy/Pingnoo.app bin/x86_64/{buildType}/Pingnoo.app bin/arm64/{buildType}/Pingnoo.app')
+        resultCode, resultOutput = execute(f'tools/makeuniversal/makeuniversal bin/universal/Deploy/Pingnoo.app '
+                                           f'bin/x86_64/{buildType}/Pingnoo.app bin/arm64/{buildType}/Pingnoo.app')
 
         if resultCode:
-            endMessage(False, f'error building makeuniversal.\r\n\r\n{resultOutput}\r\n')
+            endmessage(False, f'error building makeuniversal.\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
-        endMessage(True)
+        endmessage(True)
 
     # run standard qt deployment tool
 
-    startMessage('Running macdeployqt...')
+    startmessage('Running macdeployqt...')
 
     resultCode, resultOutput = execute(f'{qtdir}/bin/macdeployqt bin/{buildArch}/Deploy/Pingnoo.app -no-strip')
 
     if resultCode:
-        endMessage(False, f'there was a problem running macdeployqt.\r\n\r\n{resultOutput}\r\n')
+        endmessage(False, f'there was a problem running macdeployqt.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
     # remove the sql drivers that we don't use
 
-    startMessage('Removing unwanted qt plugins...')
+    startmessage('Removing unwanted qt plugins...')
 
-    if os.path.isfile(f'bin/{buildArch}/Deploy/Pingnoo.app/Contents/PlugIns/sqldrivers/libqsqlodbc.dylib') :
+    if os.path.isfile(f'bin/{buildArch}/Deploy/Pingnoo.app/Contents/PlugIns/sqldrivers/libqsqlodbc.dylib'):
         os.remove(f'bin/{buildArch}/Deploy/Pingnoo.app/Contents/PlugIns/sqldrivers/libqsqlodbc.dylib')
 
-    if os.path.isfile(f'bin/{buildArch}/Deploy/Pingnoo.app/Contents/PlugIns/sqldrivers/libqsqlpsql.dylib') :
+    if os.path.isfile(f'bin/{buildArch}/Deploy/Pingnoo.app/Contents/PlugIns/sqldrivers/libqsqlpsql.dylib'):
         os.remove(f'bin/{buildArch}/Deploy/Pingnoo.app/Contents/PlugIns/sqldrivers/libqsqlpsql.dylib')
 
-    endMessage(True)
+    endmessage(True)
 
     # run fixed qt deployment tool
 
-    startMessage('Running macdeployqtfix...')
+    startmessage('Running macdeployqtfix...')
 
     sys.path.insert(1, 'tools/macdeployqtfix')
 
-    import macdeployqtfix as fixDeploy
+    import macdeployqtfix as fixdeploy
 
-    fixDeploy.GlobalConfig.qtpath = os.path.normpath(f'{qtdir}/bin')
-    fixDeploy.GlobalConfig.exepath = f'bin/{buildArch}/Deploy/Pingnoo.app'
-    fixDeploy.GlobalConfig.logger = logging.getLogger()
-    fixDeploy.GlobalConfig.logger.addHandler(logging.NullHandler())
+    fixdeploy.GlobalConfig.qtpath = os.path.normpath(f'{qtdir}/bin')
+    fixdeploy.GlobalConfig.exepath = f'bin/{buildArch}/Deploy/Pingnoo.app'
+    fixdeploy.GlobalConfig.logger = logging.getLogger()
+    fixdeploy.GlobalConfig.logger.addHandler(logging.NullHandler())
 
-    if not fixDeploy.fix_main_binaries():
-        endMessage(False, 'there was a problem running macdeployqtfix.')
+    if not fixdeploy.fix_main_binaries():
+        endmessage(False, 'there was a problem running macdeployqtfix.')
         exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
     # sign the application
 
-    startMessage('Signing binaries...')
+    startmessage('Signing binaries...')
 
     for file in glob.glob(f'bin/{buildArch}/Deploy/Pingnoo.app/**/*.framework', recursive=True):
-        resultCode, resultOutput = macSignBinary(file, args.cert)
+        resultCode, resultOutput = macsignbinary(file, args.cert)
         if resultCode:
-            endMessage(False, f'there was a problem signing a file ({file}).\r\n\r\n{resultOutput}\r\n')
+            endmessage(False, f'there was a problem signing a file ({file}).\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
     for file in glob.glob(f'bin/{buildArch}/Deploy/Pingnoo.app/**/*.dylib', recursive=True):
-        resultCode, resultOutput = macSignBinary(file, args.cert)
+        resultCode, resultOutput = macsignbinary(file, args.cert)
         if resultCode:
-            endMessage(False, f'there was a problem signing a file ({file}).\r\n\r\n{resultOutput}\r\n')
+            endmessage(False, f'there was a problem signing a file ({file}).\r\n\r\n{resultOutput}\r\n')
             exit(1)
 
-    resultCode, resultOutput = macSignBinary(f'bin/{buildArch}/Deploy/Pingnoo.app', args.cert)
+    resultCode, resultOutput = macsignbinary(f'bin/{buildArch}/Deploy/Pingnoo.app', args.cert)
 
     if resultCode:
-        endMessage(False, f'there was a problem signing a file ({file}).\r\n\r\n{resultOutput}\r\n')
+        endmessage(False, f'there was a problem signing a file (bin/{buildArch}/Deploy/Pingnoo.app).'
+                          f'\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
     # package the application into a zip file and notarize the application
     
-    startMessage('Creating zip archive...')
+    startmessage('Creating zip archive...')
 
-    resultCode, resultOutput = execute(f'ditto -ck --sequesterRsrc --keepParent bin/{buildArch}/Deploy/Pingnoo.app bin/{buildArch}/Deploy/Pingnoo.zip')
+    resultCode, resultOutput = execute(f'ditto '
+                                       f'-ck '
+                                       f'--sequesterRsrc '
+                                       f'--keepParent bin/{buildArch}/Deploy/Pingnoo.app '
+                                       f'bin/{buildArch}/Deploy/Pingnoo.zip')
 
     if resultCode:
-        endMessage(False, f'there was a problem generating the application zip.\r\n\r\n{resultOutput}\r\n')
+        endmessage(False, f'there was a problem generating the application zip.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
-    startMessage('Performing notarization of application binary...')
+    startmessage('Performing notarization of application binary...')
 
-    status = notarizeFile(f'bin/{buildArch}/Deploy/Pingnoo.zip', args.appleid, args.password)
+    status = notarizefile(f'bin/{buildArch}/Deploy/Pingnoo.zip', args.appleid, args.password)
 
-    if not status=="success":
-        endMessage(False, f'there was a problem notarizing the application ({status}).')
+    if not status == "success":
+        endmessage(False, f'there was a problem notarizing the application ({status}).')
         exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
-    startMessage('Stapling notarization ticket to binary...')
+    startmessage('Stapling notarization ticket to binary...')
 
     resultCode, resultOutput = execute(f'xcrun stapler staple bin/{buildArch}/Deploy/Pingnoo.app')
 
     if resultCode:
-        endMessage(False, f'there was a problem stapling the ticket to application.\r\n\r\n{resultOutput}\r\n')
+        endmessage(False, f'there was a problem stapling the ticket to application.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
     # create dmg    
 
-    startMessage('Creating installation dmg...')
+    startmessage('Creating installation dmg...')
 
-    resultCode, resultOutput = execute('tiffutil -cat artwork/background.tiff artwork/background@2x.tiff -out artwork/pingnoo_background.tiff')
-
-    if resultCode:
-        endMessage(False, f'there was a problem creating the combined tiff.\r\n\r\n{resultOutput}\r\n')
-        exit(1)
-
-    resultCode, resultOutput = execute(f'tools/create-dmg/create-dmg --volname "Pingnoo" --background ./artwork/pingnoo_background.tiff --window-size 768 534 --icon-size 160 --icon Pingnoo.app 199 276 --app-drop-link 569 276 ./bin/{buildArch}/Deploy/Pingnoo.dmg bin/{buildArch}/Deploy/Pingnoo.app')
+    resultCode, resultOutput = execute('tiffutil '
+                                       '-cat '
+                                       'artwork/background.tiff artwork/background@2x.tiff '
+                                       '-out '
+                                       'artwork/pingnoo_background.tiff')
 
     if resultCode:
-        endMessage(False, f'there was a problem creating the dmg.\r\n\r\n{resultOutput}\r\n')
+        endmessage(False, f'there was a problem creating the combined tiff.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
-    endMessage(True)
+    resultCode, resultOutput = execute(f'tools/create-dmg/create-dmg '
+                                       f'--volname "Pingnoo" '
+                                       f'--background ./artwork/pingnoo_background.tiff '
+                                       f'--window-size 768 534 '
+                                       f'--icon-size 160 '
+                                       f'--icon Pingnoo.app 199 276 -'
+                                       f'-app-drop-link 569 276 '
+                                       f'./bin/{buildArch}/Deploy/Pingnoo.dmg '
+                                       f'bin/{buildArch}/Deploy/Pingnoo.app')
+
+    if resultCode:
+        endmessage(False, f'there was a problem creating the dmg.\r\n\r\n{resultOutput}\r\n')
+        exit(1)
+
+    endmessage(True)
 
     # sign the dmg and notarize it
 
-    startMessage('Signing dmg...')
+    startmessage('Signing dmg...')
 
-    resultCode, resultOutput = macSignBinary(f'./bin/{buildArch}/Deploy/Pingnoo.dmg', args.cert)
+    resultCode, resultOutput = macsignbinary(f'./bin/{buildArch}/Deploy/Pingnoo.dmg', args.cert)
 
     if resultCode:
-        endMessage(False, f'there was a problem signing the dmg.\r\n\r\n{resultOutput}\r\n')
+        endmessage(False, f'there was a problem signing the dmg.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
-    startMessage('Performing notarization of installation dmg...')
+    startmessage('Performing notarization of installation dmg...')
 
-    status = notarizeFile(f'bin/{buildArch}/Deploy/Pingnoo.dmg', args.appleid, args.password)
+    status = notarizefile(f'bin/{buildArch}/Deploy/Pingnoo.dmg', args.appleid, args.password)
 
-    if not status=="success":
-        endMessage(False, f'there was a problem notarizing the dmg ({status}).')
+    if not status == "success":
+        endmessage(False, f'there was a problem notarizing the dmg ({status}).')
         exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
-    startMessage('Stapling notarization ticket to dmg...')
+    startmessage('Stapling notarization ticket to dmg...')
 
     resultCode, resultOutput = execute(f'xcrun stapler staple bin/{buildArch}/Deploy/Pingnoo.dmg')
 
     if resultCode:
-        endMessage(False, f'there was a problem stapling the ticket to dmg.\r\n\r\n{resultOutput}\r\n')
+        endmessage(False, f'there was a problem stapling the ticket to dmg.\r\n\r\n{resultOutput}\r\n')
         exit(1)
 
-    endMessage(True)
+    endmessage(True)
 
-    startMessage('Copying dmg to deployment directory...')
+    startmessage('Copying dmg to deployment directory...')
 
     buildFilename = f'deployment/Pingnoo [{buildVersion}] ({buildArch}).dmg'
 
     shutil.copy2(f'bin/{buildArch}/Deploy/Pingnoo.dmg', buildFilename)
 
-    endMessage(True)
+    endmessage(True)
 
     endTime = time.time()
 
     # done!
 
-    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Disk Image at \"deployment/{buildFilename}\" is '+Fore.GREEN+'ready'+Fore.CYAN+' for distribution.', flush=True)
+    print(f'\r\n' + Style.BRIGHT + Fore.CYAN + f'Finished! Disk Image at \"deployment/{buildFilename}\" is ' +
+          Fore.GREEN+'ready' + Fore.CYAN+' for distribution.', flush=True)
 
-    print(Style.BRIGHT+f'\r\nTotal time taken to perform deployment was '+timeDelta(endTime-startTime)+'.', flush=True)
+    print(Style.BRIGHT + f'\r\nTotal time taken to perform deployment was ' +
+          timedelta(endTime - startTime) + '.', flush=True)
 
     exit(0)

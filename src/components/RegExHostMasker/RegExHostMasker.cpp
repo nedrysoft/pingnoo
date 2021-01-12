@@ -122,16 +122,16 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::mask(
 
 auto Nedrysoft::RegExHostMasker::RegExHostMasker::add(
         unsigned int matchFlags,
-        QString matchExpression,
-        QString replacementString,
-        QString hopString ) -> void {
+        const QString &matchExpression,
+        const QString &replacementString,
+        const QString &hopString ) -> void {
 
     Nedrysoft::RegExHostMasker::RegExHostMaskerItem item;
 
     item.m_matchFlags = matchFlags;
-    item.m_matchExpression = std::move(matchExpression);
+    item.m_matchExpression = matchExpression;
     item.m_replacementString = std::move(replacementString);
-    item.m_hopString = std::move(hopString);
+    item.m_hopString = hopString;
 
     m_maskList.append(item);
 }

@@ -76,9 +76,9 @@ namespace Nedrysoft::RegExHostMasker {
              */
             auto add(
                     unsigned int matchFlags,
-                    QString matchExpression,
-                    QString replacementString,
-                    QString hopString = QString() ) -> void;
+                    const QString &matchExpression,
+                    const QString &replacementString,
+                    const QString &hopString = QString() ) -> void;
 
         public:
             /**

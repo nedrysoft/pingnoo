@@ -72,7 +72,7 @@ namespace Nedrysoft::Core {
              */
             PingResult(unsigned long sampleNumber,
                        ResultCode code,
-                       QHostAddress hostAddress,
+                       const QHostAddress &hostAddress,
                        std::chrono::system_clock::time_point requestTime,
                        std::chrono::duration<double> roundTripTime,
                        Nedrysoft::Core::IPingTarget *target);

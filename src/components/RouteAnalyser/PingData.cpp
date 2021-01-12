@@ -72,8 +72,8 @@ auto Nedrysoft::RouteAnalyser::PingData::hop() -> int {
     return m_hop;
 }
 
-auto Nedrysoft::RouteAnalyser::PingData::setHostAddress(QString hostAddress) -> void {
-    m_hostAddress = std::move(hostAddress);
+auto Nedrysoft::RouteAnalyser::PingData::setHostAddress(const QString &hostAddress) -> void {
+    m_hostAddress = hostAddress;
 
     if (m_tableModel) {
         updateModel();
@@ -84,8 +84,8 @@ auto Nedrysoft::RouteAnalyser::PingData::hostAddress() -> QString {
     return m_hostAddress;
 }
 
-auto Nedrysoft::RouteAnalyser::PingData::setHostName(QString hostName) -> void {
-    m_hostName = std::move(hostName);
+auto Nedrysoft::RouteAnalyser::PingData::setHostName(const QString &hostName) -> void {
+    m_hostName = hostName;
 
     if (m_tableModel) {
         updateModel();

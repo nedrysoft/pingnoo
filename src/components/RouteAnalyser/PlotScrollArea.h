@@ -28,10 +28,10 @@
 
 namespace Nedrysoft::RouteAnalyser {
     /**
-     * @brief       The PlotScrollArea class is a thin wrapper around QScrolLArea.  It's sole purpose is o emit the
-     *              didScroll() signal when the view is scrolled, this allows the editor widget to replot graphs
+     * @brief       The PlotScrollArea class is a thin wrapper around QScrollArea.  It's sole purpose is o emit the
+     *              didScroll() signal when the view is scrolled, this allows the editor widget to re-plot graphs
      *              that were out of view but are now in view.  By doing this, the load when plotting the current
-     *              graphcs is reduced as only those that are partially or fully in view will be plotted.
+     *              graphics is reduced as only those that are partially or fully in view will be plotted.
      */
     class PlotScrollArea :
             public QScrollArea {

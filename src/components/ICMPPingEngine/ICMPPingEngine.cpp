@@ -271,13 +271,16 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::timeoutRequests() -> void {
         if (diff > d->m_timeout) {
             pingItem->lock();
             if (!pingItem->serviced()) {
+                QHostAddress hostAddress;
+
                 pingItem->setServiced(true);
                 pingItem->unlock();
 
                 Nedrysoft::Core::PingResult pingResult(
                         pingItem->sampleNumber(),
                         Nedrysoft::Core::PingResult::ResultCode::NoReply,
-                        QHostAddress(), pingItem->transmitEpoch(),
+                        hostAddress,
+                        pingItem->transmitEpoch(),
                         diff,
                         pingItem->target() );
 

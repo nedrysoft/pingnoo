@@ -27,7 +27,7 @@ import os
 import sys
 import datetime
 
-if len(sys.argv)==2:
+if len(sys.argv) == 2:
     filename = sys.argv[1]
 
     datePipe = os.popen(f'git log --format=%aD {filename} | tail -1')

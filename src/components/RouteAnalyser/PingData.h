@@ -138,7 +138,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @param[in]   hostAddress address for this hop.
              */
-            auto setHostAddress(QString hostAddress) -> void;
+            auto setHostAddress(const QString &hostAddress) -> void;
 
             /**
              * @brief       Returns the displayed ip address for this route item.
@@ -152,7 +152,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @param[in]   hostName the host name.
              */
-            auto setHostName(QString hostName) -> void;
+            auto setHostName(const QString &hostName) -> void;
 
             /**
              * @brief       Returns the displayed host name for this route item.

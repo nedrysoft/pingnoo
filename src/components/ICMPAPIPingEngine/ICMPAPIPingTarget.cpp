@@ -86,12 +86,12 @@ class Nedrysoft::Pingnoo::ICMPAPIPingTargetData {
 
 Nedrysoft::Pingnoo::ICMPAPIPingTarget::ICMPAPIPingTarget(
         Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine,
-        QHostAddress hostAddress,
+        const QHostAddress &hostAddress,
         int ttl) :
 
             d(std::make_shared<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTargetData>(this)) {
 
-    d->m_hostAddress = std::move(hostAddress);
+    d->m_hostAddress = hostAddress;
     d->m_engine = engine;
     d->m_ttl = ttl;
 }
@@ -100,7 +100,7 @@ auto Nedrysoft::Pingnoo::ICMPAPIPingTarget::asQObject() -> QObject * {
     return this;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingTarget::setHostAddress(QHostAddress hostAddress) -> void {
+auto Nedrysoft::Pingnoo::ICMPAPIPingTarget::setHostAddress(const QHostAddress &hostAddress) -> void {
     d->m_hostAddress = hostAddress;
 }
 
