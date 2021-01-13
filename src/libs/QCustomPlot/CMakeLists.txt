@@ -31,6 +31,6 @@ pingnoo_set_description("QCustomPlot library extension")
 
 pingnoo_add_compiler_options(WIN32 "/wd4996")
 
-pingnoo_use_qt_libraries(Widgets PrintSupport)
+pingnoo_use_qt_libraries(Core Widgets PrintSupport)
 
 pingnoo_end_shared_library()

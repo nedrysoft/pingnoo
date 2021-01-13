@@ -94,6 +94,6 @@ namespace Pingnoo::Constants {
 
         return string;
     }
-};
+}
 
 #endif // NEDRYSOFT_PINGNOO_CONSTANTS_H

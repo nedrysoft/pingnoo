@@ -61,7 +61,7 @@ namespace Nedrysoft::Core {
              * @param[in]   order the order of the page, a unit value between 0-1.
              *
              * @note        Pages are inserted according to the order parameter, where 0 would be the start,
-             *              0.5 the middule and 1 the end.  Where items have the same order value, position
+             *              0.5 the middle and 1 the end.  Where items have the same order value, position
              *              is decided alphabetically.
              *
              * @returns     the IRibbonPage instance of the page.

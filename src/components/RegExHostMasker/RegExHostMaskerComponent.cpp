@@ -31,7 +31,7 @@
 RegExHostMaskerComponent::RegExHostMaskerComponent() :
         m_hostMasker(nullptr) {
 
-};
+}
 
 RegExHostMaskerComponent::~RegExHostMaskerComponent() {
 

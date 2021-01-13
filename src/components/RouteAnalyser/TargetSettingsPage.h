@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #ifndef NEDRYSOFT_TARGETSETTINGSPAGE_H
 #define NEDRYSOFT_TARGETSETTINGSPAGE_H
 
@@ -29,6 +30,8 @@
 #include <SettingsDialog/ISettingsPage.h>
 
 namespace Nedrysoft::RouteAnalyser {
+    class TargetSettingsPageWidget;
+
     class TargetSettingsPage :
             public Nedrysoft::SettingsDialog::ISettingsPage {
 
@@ -44,7 +47,7 @@ namespace Nedrysoft::RouteAnalyser {
 
         public:
             /**
-             * @brief       The section name that this settings pagw should appear in, first level grouping.
+             * @brief       The section name that this settings page should appear in, first level grouping.
              *
              * @returns     a string containing the name.
              */
@@ -89,7 +92,10 @@ namespace Nedrysoft::RouteAnalyser {
              * @brief       Applies the current settings.
              */
             void acceptSettings() override;
+
+        private:
+            TargetSettingsPageWidget *m_widget;
     };
-};
+}
 
 #endif //NEDRYSOFT_TARGETSETTINGSPAGE_H

@@ -30,7 +30,7 @@ pingnoo_add_sources(
 
 pingnoo_set_description("ICMP socket abstraction extension")
 
-pingnoo_use_qt_libraries(Network)
+pingnoo_use_qt_libraries(Core Network)
 
 pingnoo_use_system_libraries(WIN32 ws2_32)
 

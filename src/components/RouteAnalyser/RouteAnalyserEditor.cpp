@@ -70,13 +70,13 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::widget() -> QWidget * {
                 m_pingEngineFactory );
 
         auto viewportWidget = ComponentSystem::getObject<ViewportRibbonGroup>();
-        double viewportSize = defaultWindowSize;
+        double newViewportSize = defaultWindowSize;
 
         if (viewportWidget) {
-            viewportSize = viewportWidget->viewportSize();
+            newViewportSize = viewportWidget->viewportSize();
         }
 
-        m_editorWidget->setViewportSize(viewportSize);
+        m_editorWidget->setViewportSize(newViewportSize);
     }
 
     return m_editorWidget;

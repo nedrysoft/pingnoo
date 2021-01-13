@@ -32,6 +32,6 @@ pingnoo_add_sources(
 
 pingnoo_set_description("ICMP packet decoder/encoder extension")
 
-pingnoo_use_qt_libraries(Network)
+pingnoo_use_qt_libraries(Core Network)
 
 pingnoo_end_shared_library()

@@ -276,7 +276,7 @@ if platform.system() == "Windows":
 
     endmessage(True)
 
-    # check for qt installATION
+    # check for qt installation
 
     startmessage('Checking qtdir...')
 
@@ -603,7 +603,9 @@ if platform.system() == "Linux":
 
     resultCode, resultOutput = execute(f'{linuxdeployqt} '
                                        f'\'bin/{buildArch}/Deploy/usr/share/applications/Pingnoo.desktop\' '
-                                       f'-qmake=\'{qtdir}/bin/qmake\' -exclude-libs=\'libqsqlodbc,libqsqlpsql\'')
+                                       f'-qmake=\'{qtdir}/bin/qmake\' '
+                                       f'-bundle-non-qt-libs '
+                                       f'-exclude-libs=\'libqsqlodbc,libqsqlpsql\'')
 
     if resultCode:
         endmessage(False, f'there was a problem running linuxdeployqt.\r\n\r\n{resultCode}\r\n{resultOutput}\r\n')

@@ -20,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-// You may need to build the project (run Qt uic code generator) to get "ui_LatencySettingsPage.h" resolved
 
 #include "TargetSettingsPageWidget.h"
 #include "ui_TargetSettingsPageWidget.h"

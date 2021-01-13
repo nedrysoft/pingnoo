@@ -217,7 +217,7 @@ namespace Nedrysoft::RouteAnalyser {
             double m_viewportPosition;                              //! unit value specifying the position of the viewport
             double m_startPoint;                                    //! the unix timestamp of the first ping result
             double m_endPoint;                                      //! the unix timestamp of the most recent ping result
-            double m_savedDiff;                                     //! the latest calculated span of results in sseconds.
+            double m_savedDiff;                                     //! the latest calculated span of results in seconds.
     };
 }
 

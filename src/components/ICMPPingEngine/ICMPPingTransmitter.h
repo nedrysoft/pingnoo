@@ -36,7 +36,7 @@ namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingItem;
 
     /**
-     * @brief       The ICMPPingTransmitter class sends pings to the target (and intermedite nodes) at a prescribed
+     * @brief       The ICMPPingTransmitter class sends pings to the target (and intermediate nodes) at a prescribed
      *              interval.
      */
     class ICMPPingTransmitter :

@@ -47,7 +47,7 @@ pingnoo_add_sources(
 
 pingnoo_set_description("ICMPAPI ping engine component")
 
-pingnoo_use_qt_libraries(Network)
+pingnoo_use_qt_libraries(Core Network)
 
 pingnoo_use_component(Core)
 

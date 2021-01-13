@@ -24,8 +24,6 @@
 
 #include <QDebug>
 
-#include "spdlog/spdlog.h"
-
 Nedrysoft::Core::Command::Command(QString id) :
         m_action(new ActionProxy()),
         m_id(id) {

@@ -35,7 +35,7 @@
 using namespace std::chrono_literals;
 
 constexpr auto DefaultWarningLatency = 200ms;
-constexpr auto DefaultCriticaLatency = 500ms;
+constexpr auto DefaultCriticalLatency = 500ms;
 
 constexpr auto roundedRectangleRadius = 10;
 constexpr auto tinyNumber = 1.0/1e10;                             //! used to adjust a unit number to just under 1
@@ -50,7 +50,7 @@ QMap<QString, uint64_t> Nedrysoft::RouteAnalyser::GraphLatencyLayer::m_age;
 Nedrysoft::RouteAnalyser::GraphLatencyLayer::GraphLatencyLayer(QCustomPlot *customPlot) :
         QCPItemRect(customPlot),
         m_warningLatency(DefaultWarningLatency),
-        m_criticalLatency(DefaultCriticaLatency),
+        m_criticalLatency(DefaultCriticalLatency),
         m_useGradient(true) {
 
 }

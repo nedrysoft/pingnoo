@@ -77,7 +77,7 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
     /**
      * the control is drawn to a pixmap buffer as it produces a repeatable image, drawing directly to the widget
      * results in a platform dependent image, this is particularly important for macOS where coordinates are real
-     * numbers and depending on pixel position and therefore primatives may not appear as expected.
+     * numbers and depending on pixel position and therefore primitives may not appear as expected.
      */
 
     QPainter painter(&pixmap);

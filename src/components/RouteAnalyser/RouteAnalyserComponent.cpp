@@ -46,7 +46,7 @@ RouteAnalyserComponent::RouteAnalyserComponent() :
         m_viewportGroupWidget(nullptr),
         m_newTargetAction(nullptr) {
 
-};
+}
 
 RouteAnalyserComponent::~RouteAnalyserComponent() {
 

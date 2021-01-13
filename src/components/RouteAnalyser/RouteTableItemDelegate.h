@@ -73,7 +73,7 @@ namespace Nedrysoft::RouteAnalyser {
              *              index if there is not a previous/next item that is valid.
              *
              * @param[in]   modelIndex the starting model index.
-             * @param[in]   adjustment set to 1 to look for the next valud, -1 for previous.
+             * @param[in]   adjustment set to 1 to look for the next valid, -1 for previous.
              *
              * @returns     The model index of the next/previous item. (or invalid)
              */
@@ -86,7 +86,7 @@ namespace Nedrysoft::RouteAnalyser {
              *              rectangle as well.
              *
              * @param[in]   modelIndex the starting model index.
-             * @param[in]   adjustment set to 1 to look for the next valud, -1 for previous.
+             * @param[in]   adjustment set to 1 to look for the next valid, -1 for previous.
              * @param[in]   tableView view associated with this.
              * @param[out]  rect the visual rectangle of the item.
              *
@@ -225,7 +225,7 @@ namespace Nedrysoft::RouteAnalyser {
 
         private:
             std::chrono::duration<double> m_warningLatency = {};            //! The lowest latency seen by this item
-            std::chrono::duration<double> m_criticalLatency = {};            //! The highest latencty seen by this item
+            std::chrono::duration<double> m_criticalLatency = {};            //! The highest latency seen by this item
 
             bool m_useGradient;
     };

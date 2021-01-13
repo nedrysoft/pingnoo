@@ -32,7 +32,7 @@
 
 namespace Nedrysoft::ICMPSocket {
     class ICMPSocket;
-};
+}
 
 namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingEngine;

@@ -30,8 +30,6 @@
 #include <QMenu>
 #include <QMenuBar>
 
-#include "spdlog/spdlog.h"
-
 Nedrysoft::Core::CommandManager::CommandManager() = default;
 
 Nedrysoft::Core::CommandManager::~CommandManager() {

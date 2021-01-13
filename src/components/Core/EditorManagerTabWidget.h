@@ -38,7 +38,7 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Constructs a new EditorManagerTabWidget that is a child of the parent.
              *
-             * @param[in]   parent the parent wisget.
+             * @param[in]   parent the parent widget.
              */
             EditorManagerTabWidget(QWidget *parent=nullptr);
 

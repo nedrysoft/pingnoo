@@ -26,19 +26,21 @@
 
 #include "TargetSettingsPageWidget.h"
 
-Nedrysoft::RouteAnalyser::TargetSettingsPage::TargetSettingsPage(QWidget *parent) {
-    Q_UNUSED(parent)
+Nedrysoft::RouteAnalyser::TargetSettingsPage::TargetSettingsPage(QWidget *parent) :
+        m_widget(new TargetSettingsPageWidget) {
 
+    Q_UNUSED(parent)
 }
 
 Nedrysoft::RouteAnalyser::TargetSettingsPage::TargetSettingsPage::~TargetSettingsPage() {
-    delete widget();
+    if (m_widget->parentWidget()==nullptr) {
+        delete m_widget;
+    }
 }
 
 auto Nedrysoft::RouteAnalyser::TargetSettingsPage::section() -> QString {
     return tr("Route Analyser");
 }
-
 
 auto Nedrysoft::RouteAnalyser::TargetSettingsPage::category() -> QString {
     return tr("Target");
@@ -53,9 +55,7 @@ auto Nedrysoft::RouteAnalyser::TargetSettingsPage::icon() -> QIcon {
 }
 
 auto Nedrysoft::RouteAnalyser::TargetSettingsPage::widget() -> QWidget * {
-    static auto widget = new TargetSettingsPageWidget;
-
-    return widget;
+    return m_widget;
 }
 
 auto Nedrysoft::RouteAnalyser::TargetSettingsPage::canAcceptSettings() -> bool {

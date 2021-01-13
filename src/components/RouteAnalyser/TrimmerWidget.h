@@ -109,7 +109,7 @@ namespace Nedrysoft::RouteAnalyser {
             auto setFlags(TrimmerFlags flags) -> void;
 
             /**
-             * @brief       Sets whether the trimmer viewport can be resived.
+             * @brief       Sets whether the trimmer viewport can be resized.
              *
              * @param[in]   canBeResized true if viewport can be resized; otherwise false.
              */
@@ -160,7 +160,7 @@ namespace Nedrysoft::RouteAnalyser {
             TrimmerFlags m_flags;
             bool m_canBeResized;                                    //! whether the viewport can be resized.
     };
-};
+}
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Nedrysoft::RouteAnalyser::TrimmerWidget::TrimmerFlags)
 

@@ -29,6 +29,8 @@
 #include "Utils.h"
 #include "ui_ViewportRibbonGroup.h"
 
+constexpr auto defaultViewportSize = 10*60;
+
 Nedrysoft::RouteAnalyser::ViewportRibbonGroup::ViewportRibbonGroup(QWidget *parent) :
         QWidget(parent),
         ui(new Ui::ViewportRibbonGroup) {
@@ -91,5 +93,5 @@ auto Nedrysoft::RouteAnalyser::ViewportRibbonGroup::viewportSize() -> double {
         return value;
     }
 
-    return (10*60);
+    return defaultViewportSize;
 }

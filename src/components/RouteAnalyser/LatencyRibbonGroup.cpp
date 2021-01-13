@@ -93,7 +93,10 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::~LatencyRibbonGroup() {
     delete ui;
 }
 
-auto Nedrysoft::RouteAnalyser::LatencyRibbonGroup::updatePeriod(LatencyType type, Nedrysoft::Ribbon::RibbonLineEdit *lineEdit) -> void {
+auto Nedrysoft::RouteAnalyser::LatencyRibbonGroup::updatePeriod(
+        LatencyType type,
+        Nedrysoft::Ribbon::RibbonLineEdit *lineEdit) -> void {
+
     double intervalValue;
 
     if (!Nedrysoft::Utils::parseIntervalString(lineEdit->toPlainText(), intervalValue)) {
@@ -108,6 +111,8 @@ auto Nedrysoft::RouteAnalyser::LatencyRibbonGroup::updatePeriod(LatencyType type
 }
 
 auto Nedrysoft::RouteAnalyser::LatencyRibbonGroup::setValue(LatencyType type, double value) -> void {
+    Q_UNUSED(value)
+
     switch(type) {
         case LatencyType::Ideal: {
             break;

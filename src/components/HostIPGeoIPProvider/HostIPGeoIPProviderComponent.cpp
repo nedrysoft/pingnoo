@@ -26,8 +26,6 @@
 #include "ComponentSystem/IComponentManager.h"
 #include "HostIPGeoIPProvider.h"
 
-#include <spdlog/sinks/stdout_color_sinks.h>
-
 HostIPGeoIPProviderComponent::HostIPGeoIPProviderComponent() :
         m_provider(nullptr) {
 

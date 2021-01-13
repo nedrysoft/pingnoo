@@ -35,7 +35,7 @@ pingnoo_add_sources(
     main.cpp
 )
 
-pingnoo_use_qt_libraries(Widgets)
+pingnoo_use_qt_libraries(Core Widgets)
 
 pingnoo_use_shared_library(ComponentSystem)
 
