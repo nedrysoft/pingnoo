@@ -5,7 +5,7 @@
 #
 # An open-source cross-platform traceroute analyser.
 #
-# Created by Adrian Carpenter on 27/03/2020.
+# Created by Adrian Carpenter on 22/01/2020.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,17 +21,28 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-include(${CMAKE_CURRENT_LIST_DIR}/../../cmake/pingnoo.cmake)
+pingnoo_start_component()
 
-file(GLOB children RELATIVE ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_LIST_DIR}/*)
+pingnoo_set_component_optional(ON)
 
-foreach(child ${children})
-	if(IS_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/${child})
-		if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/${child}/CMakeLists.txt)
-			add_subdirectory(${child})
-		endif()
-	endif()
-endforeach()
+pingnoo_add_sources(
+    CommandRouteEngine.cpp
+    CommandRouteEngine.h
+    CommandRouteEngineComponent.cpp
+    CommandRouteEngineComponent.h
+    CommandRouteEngineSpec.h
+    CommandRouteEngineFactory.cpp
+    CommandRouteEngineFactory.h
+)
 
-set(NEDRYSOFT_COMPONENTSYSTEM_COMPONENTVIEWER ON)
+pingnoo_set_description("Ping command route detection component")
 
+pingnoo_use_qt_libraries(Core)
+
+pingnoo_use_component(Core)
+
+pingnoo_use_shared_library(ComponentSystem)
+
+pingnoo_set_component_metadata("Route Engines" "Provides a ping command based route trace engine")
+
+pingnoo_end_component()

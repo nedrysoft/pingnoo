@@ -5,7 +5,7 @@
 #
 # An open-source cross-platform traceroute analyser.
 #
-# Created by Adrian Carpenter on 27/03/2020.
+# Created by Adrian Carpenter on 22/01/2021.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,17 +21,27 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-include(${CMAKE_CURRENT_LIST_DIR}/../../cmake/pingnoo.cmake)
+cmake_minimum_required(VERSION 3.10)
 
-file(GLOB children RELATIVE ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_LIST_DIR}/*)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-foreach(child ${children})
-	if(IS_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/${child})
-		if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/${child}/CMakeLists.txt)
-			add_subdirectory(${child})
-		endif()
-	endif()
-endforeach()
+project(helper)
 
-set(NEDRYSOFT_COMPONENTSYSTEM_COMPONENTVIEWER ON)
+include(FindPkgConfig)
 
+pkg_check_modules(dbus REQUIRED dbus-1)
+
+add_executable(helper
+        helper.cpp
+)
+
+target_include_directories(helper PUBLIC ${dbus_INCLUDE_DIRS})
+target_link_libraries(helper PUBLIC ${dbus_LIBRARIES})
+
+if(DEFINED NEDRYSOFT_LIBRARY_DIR)
+    set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${NEDRYSOFT_LIBRARY_DIR}")
+    set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${NEDRYSOFT_LIBRARY_DIR}")
+else()
+    message(STATUS "Set NEDRYSOFT_LIBRARY_DIR to set the binary output dir.")
+endif()

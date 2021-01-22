@@ -38,6 +38,12 @@ else()
     add_subdirectory(src/app)
 endif()
 
+if(UNIX AND NOT APPLE)
+    set(NEDRYSOFT_LIBRARY_DIR ${PINGNOO_BINARY_ROOT})
+
+    add_subdirectory(src/helper)
+endif()
+
 string(TOLOWER ${CMAKE_BUILD_TYPE} PINGNOO_BUILD_TYPE)
 
 if(APPLE)
