@@ -30,7 +30,7 @@ Pingnoo is an open-source combined traceroute and ping application for analysing
 - CMake for building the application
 - Qt Creator (Optional development environment)
 - Linux has unique requirements; please read the Linux Notes section.
-- Installers will be provided per platform and contain all required dependencies.
+- Installers are provided per platform and contain all dependencies.
 
 ## Development
 
@@ -55,6 +55,8 @@ The deploy.py python script creates runnable/installable binaries for the given 
 
 The script requires Python 3.6 or later, curl and the [colorama](https://github.com/tartley/colorama) python module to enhance the console output. You can install the Colorama module with the following command.
 
+*The CMake script provides an install target which uses the deploy script and will generate the appropriate deployable image for the platform being used.*
+
 `pip3 install colorama`
 
 The script provides the following parameters:
@@ -74,7 +76,11 @@ The script stores the deployable asset in the deployment folder.
 
 ### Linux Notes
 
-The application requires RAW socket privileges and therefore must be run as root or given raw socket access using the setcap command.
+The PingCommandPingEngine ping engine is an experimental ping engine that uses the linux system ping command, this allows the software to run without any special privileges.
+
+If the ICMPPingEngine is selected, then the application will require RAW socket privileges and therefore must be run as root or given raw socket access using the setcap* command.
+
+The setcap comamnd will not work on the AppImage linux release as the privileges will not propagate down into the AppImage when it is mounted via fuse. 
 
 The CMake configuration for Linux has the following post link command, this command is optional, and you can control this with the option `Pingnoo_SetRawCapabilities`.
 
@@ -150,7 +156,7 @@ Also, Pingnoo was developed using the following commercially licensed tools/serv
 - [Affinity Designer](https://www.serif.com/designer) - Vector artwork design application.
 - [Affinity Photo](https://www.serif.com/photo) - Bitmap artwork design application.
 - [CLion](https://www.jetbrains.com/clion/) - A C++ IDE
-- [Deleaker](https://deleaker.com) - A memory leak detector for Windows, License kindly provided for free for the project. 
+- [Deleaker](https://deleaker.com) - A memory leak detector for Windows, the license was kindly provided for free for the project. 
 
 ## Thanks
 

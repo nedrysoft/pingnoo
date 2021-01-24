@@ -67,6 +67,13 @@ namespace Nedrysoft::ICMPPingEngine {
             auto setInterval(std::chrono::milliseconds interval) -> bool;
 
             /**
+             * @brief       Returns the ping interval.
+             *
+             * @returns     the interval.
+             */
+            auto interval() -> std::chrono::milliseconds;
+
+            /**
              * @brief       Adds a ping target to the transmitter.
              *
              * @param[in]   target the target to ping.

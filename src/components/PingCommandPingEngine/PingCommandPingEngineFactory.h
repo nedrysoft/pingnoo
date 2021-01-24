@@ -21,23 +21,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_COMMANDPINGENGINE_COMMANDPINGENGINEFACTORY_H
-#define NEDRYSOFT_COMMANDPINGENGINE_COMMANDPINGENGINEFACTORY_H
+#ifndef NEDRYSOFT_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGENGINEFACTORY_H
+#define NEDRYSOFT_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGENGINEFACTORY_H
 
 #include "ComponentSystem/IInterface.h"
 #include "Core/IPingEngineFactory.h"
 
 #include <memory>
 
-namespace Nedrysoft::CommandPingEngine {
-    class CommandPingEngine;
+namespace Nedrysoft::PingCommandPingEngine {
+    class PingCommandPingEngine;
 
     /**
-     * @brief       Factory class for CommandPingEngine
+     * @brief       Factory class for PingCommandPingEngine
      *
-     * @details     The factory class for creating instances of the CommandPingEngine type
+     * @details     The factory class for creating instances of the PingCommandPingEngine type
      */
-    class CommandPingEngineFactory :
+    class PingCommandPingEngineFactory :
             public Nedrysoft::Core::IPingEngineFactory {
 
         private:
@@ -47,24 +47,24 @@ namespace Nedrysoft::CommandPingEngine {
 
         public:
             /**
-             * @brief       Constructs an CommandPingEngineFactory.
+             * @brief       Constructs an PingCommandPingEngineFactory.
              */
-            CommandPingEngineFactory();
+            PingCommandPingEngineFactory();
 
             /**
-             * @brief       Constructs the CommandPingEngineFactory.
+             * @brief       Constructs the PingCommandPingEngineFactory.
              */
-            ~CommandPingEngineFactory();
+            ~PingCommandPingEngineFactory();
 
         public:
             /**
-             * @brief       Creates a CommandPingEngine instance.
+             * @brief       Creates a PingCommandPingEngine instance.
              *
              * @see         Nedrysoft::Core::IPingEngineFactory::createEngine
              *
              * @param[in]   version the IP version of the engine.
              *
-             * @returns     the new CommandPingEngine instance.
+             * @returns     the new PingCommandPingEngine instance.
              */
             virtual auto createEngine(Nedrysoft::Core::IPVersion version) -> Nedrysoft::Core::IPingEngine *;
 
@@ -74,6 +74,24 @@ namespace Nedrysoft::CommandPingEngine {
              * @returns     the descriptive name of the ping engine.
              */
             virtual auto description() -> QString;
+
+            /**
+             * @brief       Priority of the ping engine.  The priority is 0=lowest, 1=highest.  This allows
+             *              the application to provide a default engine per platform.
+             *
+             * @returns     the priority.
+             */
+            virtual auto priority() -> double;
+
+            /**
+             * @brief      Returns whether the ping engine is available for use.
+             *
+             * @note       Under linux, the ICMP ping engine may not be available if raw sockets cannot
+             *             be created, so this allows us to disable a ping engine from being used.
+             *
+             * @returns    true if available; otherwise false.
+             */
+            virtual auto available() -> bool;
 
         public:
             /**
@@ -97,4 +115,4 @@ namespace Nedrysoft::CommandPingEngine {
 }
 
 
-#endif // NEDRYSOFT_COMMANDPINGENGINE_COMMANDINGENGINEFACTORY_H
+#endif // NEDRYSOFT_PINGCOMMANDPINGENGINE_PINGCOMMANDINGENGINEFACTORY_H

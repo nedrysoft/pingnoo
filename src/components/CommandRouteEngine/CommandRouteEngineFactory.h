@@ -77,6 +77,14 @@ namespace Nedrysoft::CommandRouteEngine {
              */
             virtual auto description() -> QString;
 
+            /**
+             * @brief       Priority of the route engine.  The priority is 0=lowest, 1=highest.  This allows
+             *              the application to provide a default engine per platform.
+             *
+             * @returns     the priority.
+             */
+            virtual auto priority() -> double;
+
         private:
             /**
              * @brief       Saves the configuration to a JSON object.

@@ -79,6 +79,36 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::loadConfiguration(QJsonOb
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::description() -> QString {
-    return tr("ICMP Ping Engine");
+    return tr("ICMP Socket");
+}
+
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::priority() -> double {
+#if defined(Q_OS_LINUX)
+    auto socket = Nedrysoft::ICMPSocket::ICMPSocket::createReadSocket(Nedrysoft::ICMPSocket::V4);
+
+    if (socket) {
+        delete socket;
+
+        return 1;
+    }
+
+    return 0;
+#endif
+    return 1;
+}
+
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::available() -> bool {
+#if defined(Q_OS_LINUX)
+    auto socket = Nedrysoft::ICMPSocket::ICMPSocket::createReadSocket(Nedrysoft::ICMPSocket::V4);
+
+    if (socket) {
+        delete socket;
+
+        return true;
+    }
+
+    return false;
+#endif
+    return true;
 }
 

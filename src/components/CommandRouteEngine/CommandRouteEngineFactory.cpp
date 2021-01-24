@@ -73,3 +73,10 @@ auto Nedrysoft::CommandRouteEngine::CommandRouteEngineFactory::description() -> 
     return tr("Ping Command Route Engine");
 }
 
+auto Nedrysoft::CommandRouteEngine::CommandRouteEngineFactory::priority() -> double {
+#if defined(Q_OS_LINUX)
+    return 0.1;
+#else
+    return 0;
+#endif
+}

@@ -21,21 +21,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "CommandPingComponent.h"
+#include "PingCommandPingComponent.h"
 
 #include "ComponentSystem/IComponentManager.h"
-#include "CommandPingEngineFactory.h"
+#include "PingCommandPingEngineFactory.h"
 
-CommandPingComponent::CommandPingComponent() :
+PingCommandPingComponent::PingCommandPingComponent() :
         m_engineFactory(nullptr) {
 
 }
 
-CommandPingComponent::~CommandPingComponent() {
+PingCommandPingComponent::~PingCommandPingComponent() {
 
 }
 
-auto CommandPingComponent::finaliseEvent() -> void {
+auto PingCommandPingComponent::finaliseEvent() -> void {
     if (m_engineFactory) {
         Nedrysoft::ComponentSystem::removeObject(m_engineFactory);
 
@@ -43,8 +43,8 @@ auto CommandPingComponent::finaliseEvent() -> void {
     }
 }
 
-auto CommandPingComponent::initialiseEvent() -> void {
-    m_engineFactory = new Nedrysoft::CommandPingEngine::CommandPingEngineFactory();
+auto PingCommandPingComponent::initialiseEvent() -> void {
+    m_engineFactory = new Nedrysoft::PingCommandPingEngine::PingCommandPingEngineFactory();
 
     Nedrysoft::ComponentSystem::addObject(m_engineFactory);
 }

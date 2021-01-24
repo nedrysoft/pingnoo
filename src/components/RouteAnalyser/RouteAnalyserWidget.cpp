@@ -97,13 +97,22 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
         hostMasker->loadConfiguration(doc.object());
     }
 
-    auto routeEngineFactory = Nedrysoft::ComponentSystem::getObject<Nedrysoft::Core::IRouteEngineFactory>();
+    // TODO: Refactor route engine to use the selected ping engine rather than creating multiple route engines
+    // which only differ by the ping implementation.
 
-    if (!routeEngineFactory) {
+    auto routeEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IRouteEngineFactory>();
+
+    if (routeEngines.empty()) {
         return;
     }
 
-    auto routeEngine = routeEngineFactory->createEngine();
+    QMultiMap<double, Nedrysoft::Core::IRouteEngineFactory *> sortedRouteEngines;
+
+    for(auto routeEngine : routeEngines) {
+        sortedRouteEngines.insert(1-routeEngine->priority(), routeEngine);
+    }
+
+    auto routeEngine = sortedRouteEngines.first()->createEngine();
 
     if (routeEngine) {
         connect(

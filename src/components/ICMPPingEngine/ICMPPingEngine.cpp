@@ -367,3 +367,7 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
         delete pingItem;
     }
 }
+
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::interval() -> std::chrono::milliseconds {
+    return d->m_transmitterWorker->interval();
+}

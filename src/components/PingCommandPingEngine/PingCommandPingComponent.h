@@ -21,21 +21,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_ICMPPINGENGINE_COMMANDPINGCOMPONENT_H
-#define NEDRYSOFT_ICMPPINGENGINE_COMMANDPINGCOMPONENT_H
+#ifndef NEDRYSOFT_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGCOMPONENT_H
+#define NEDRYSOFT_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGCOMPONENT_H
 
 #include "ComponentSystem/IComponent.h"
-#include "CommandPingEngineSpec.h"
+#include "PingCommandPingEngineSpec.h"
 
-namespace Nedrysoft::CommandPingEngine {
-    class CommandPingEngineFactory;
+namespace Nedrysoft::PingCommandPingEngine {
+    class PingCommandPingEngineFactory;
 }
 
 /**
- * @brief       The CommandPingComponent class provides a ping engine using the ping executable, this
+ * @brief       The PingCommandPingComponent class provides a ping engine using the ping executable, this
  *              is mainly for Linux as it allows the pings to be sent without elevated privileges.
  */
-class NEDRYSOFT_COMMANDPINGENGINE_DLLSPEC CommandPingComponent :
+class NEDRYSOFT_PINGCOMMANDPINGENGINE_DLLSPEC PingCommandPingComponent :
         public QObject,
         public Nedrysoft::ComponentSystem::IComponent {
 
@@ -48,14 +48,14 @@ class NEDRYSOFT_COMMANDPINGENGINE_DLLSPEC CommandPingComponent :
 
     public:
         /**
-         * @brief       Constructs the CommandPingComponent.
+         * @brief       Constructs the PingCommandPingComponent.
          */
-        CommandPingComponent();
+        PingCommandPingComponent();
 
         /**
-         * @brief       Destroys the CommandPingComponent.
+         * @brief       Destroys the PingCommandPingComponent.
          */
-        ~CommandPingComponent();
+        ~PingCommandPingComponent();
 
     public:
         /**
@@ -77,7 +77,7 @@ class NEDRYSOFT_COMMANDPINGENGINE_DLLSPEC CommandPingComponent :
         virtual auto finaliseEvent() -> void;
 
     private:
-        Nedrysoft::CommandPingEngine::CommandPingEngineFactory *m_engineFactory;
+        Nedrysoft::PingCommandPingEngine::PingCommandPingEngineFactory *m_engineFactory;
 };
 
-#endif // NEDRYSOFT_COMMANDPINGENGINE_COMMANDPINGCOMPONENT_H
+#endif // NEDRYSOFT_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGCOMPONENT_H

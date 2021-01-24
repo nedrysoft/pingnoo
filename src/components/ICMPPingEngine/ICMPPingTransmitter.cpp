@@ -130,3 +130,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::addTarget(Nedrysoft::ICMPPi
 
     m_targets.append(target);
 }
+
+auto Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::interval() -> std::chrono::milliseconds {
+    return m_interval;
+}

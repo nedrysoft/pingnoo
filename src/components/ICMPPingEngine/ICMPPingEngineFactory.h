@@ -26,6 +26,7 @@
 
 #include "ComponentSystem/IInterface.h"
 #include "Core/IPingEngineFactory.h"
+#include "ICMPSocket/ICMPSocket.h"
 
 #include <memory>
 
@@ -75,6 +76,24 @@ namespace Nedrysoft::ICMPPingEngine {
              * @returns     the descriptive name of the ping engine.
              */
             virtual auto description() -> QString;
+
+            /**
+             * @brief       Priority of the ping engine.  The priority is 0=lowest, 1=highest.  This allows
+             *              the application to provide a default engine per platform.
+             *
+             * @returns     the priority.
+             */
+            virtual auto priority() -> double;
+
+            /**
+             * @brief      Returns whether the ping engine is available for use.
+             *
+             * @note       Under linux, the ICMP ping engine may not be available if raw sockets cannot
+             *             be created, so this allows us to disable a ping engine from being used.
+             *
+             * @returns    true if available; otherwise false.
+             */
+            virtual auto available() -> bool;
 
         public:
             /**

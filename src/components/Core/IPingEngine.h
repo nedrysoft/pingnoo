@@ -68,6 +68,13 @@ namespace Nedrysoft::Core {
             virtual auto setInterval(std::chrono::milliseconds interval) -> bool = 0;
 
             /**
+             * @brief       Returns the interval set on the engine.
+             *
+             * @returns     the interval.
+             */
+            virtual auto interval() -> std::chrono::milliseconds = 0;
+
+            /**
              * @brief       Sets the reply timeout for this engine instance.
              *
              * @param[in]   timeout the amount of time before we consider that the packet was lost.

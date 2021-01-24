@@ -21,18 +21,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_COMMANDPINGENGINE_COMMANDPINGENGINE_H
-#define NEDRYSOFT_COMMANDPINGENGINE_COMMANDPINGENGINE_H
+#ifndef NEDRYSOFT_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGENGINE_H
+#define NEDRYSOFT_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGENGINE_H
 
 #include "ComponentSystem/IInterface.h"
 #include "Core/IPingEngine.h"
 #include "Core/IPingEngineFactory.h"
 
-namespace Nedrysoft::CommandPingEngine {
+#include <chrono>
+
+namespace Nedrysoft::PingCommandPingEngine {
+    class PingCommandPingTarget;
+
     /**
-     * @brief       THe CommandPingEngine provides a command based ping engine implementation.
+     * @brief       THe PingCommandPingEngine provides a command based ping engine implementation.
      */
-    class CommandPingEngine :
+    class PingCommandPingEngine :
             public Nedrysoft::Core::IPingEngine {
 
         private:
@@ -42,14 +46,14 @@ namespace Nedrysoft::CommandPingEngine {
 
         public:
             /**
-             * @brief       Constructs an CommandPingEngine for the given IP version.
+             * @brief       Constructs an PingCommandPingEngine for the given IP version.
              */
-            CommandPingEngine(Nedrysoft::Core::IPVersion version);
+            PingCommandPingEngine(Nedrysoft::Core::IPVersion version);
 
             /**
-             * @brief       Destroys the CommandPingEngine.
+             * @brief       Destroys the PingCommandPingEngine.
              */
-            ~CommandPingEngine();
+            ~PingCommandPingEngine();
 
             /**
              * @brief       Sets the measurement interval for this engine instance.
@@ -61,6 +65,15 @@ namespace Nedrysoft::CommandPingEngine {
              * @returns     returns true on success; otherwise false.
              */
             virtual auto setInterval(std::chrono::milliseconds interval) -> bool;
+
+            /**
+             * @brief       Returns the measurement interval.
+             *
+             * @see         Nedrysoft::Core::IPingEngine::interval
+             *
+             * @returns     returns the measurement interval.
+             */
+            virtual auto interval() -> std::chrono::milliseconds;
 
             /**
              * @brief       Sets the reply timeout for this engine instance.
@@ -154,7 +167,17 @@ namespace Nedrysoft::CommandPingEngine {
              * @returns     true if loaded; otherwise false.
              */
             virtual auto loadConfiguration(QJsonObject configuration) -> bool;
+
+        private:
+            auto emitResult(Nedrysoft::Core::PingResult pingResult) -> void;
+
+            friend class PingCommandPingTarget;
+
+        private:
+            QList<PingCommandPingTarget *> m_pingTargets;
+
+            std::chrono::milliseconds m_interval;
     };
 }
 
-#endif // NEDRYSOFT_COMMANDPINGENGINE_COMMANDPINGENGINE_H
+#endif // NEDRYSOFT_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGENGINE_H

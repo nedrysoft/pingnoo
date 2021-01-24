@@ -35,6 +35,7 @@
 
 #include <QAbstractItemView>
 #include <QMenu>
+#include <QStandardItemModel>
 
 constexpr auto comboPadding = 12;
 constexpr auto defaultInterval = "2.5s";
@@ -80,10 +81,21 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
     if (pingEngines.count()) {
         auto minimumWidth = 0;
+
+        QMultiMap<double, Nedrysoft::Core::IPingEngineFactory *> sortedPingEngines;
+
         for(auto pingEngine : pingEngines) {
+            sortedPingEngines.insert(1-pingEngine->priority(), pingEngine);
+        }
+
+        for(auto pingEngine : sortedPingEngines) {
             ui->engineComboBox->addItem(
                     pingEngine->description(),
                     QVariant::fromValue<Nedrysoft::Core::IPingEngineFactory *>(pingEngine) );
+
+            auto model = dynamic_cast<QStandardItemModel *>(ui->engineComboBox->model());
+
+            model->item(model->rowCount()-1, 0)->setEnabled(pingEngine->available());
 
             QFontMetrics fontMetrics(ui->engineComboBox->font());
 

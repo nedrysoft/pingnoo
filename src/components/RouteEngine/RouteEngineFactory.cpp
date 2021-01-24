@@ -23,6 +23,7 @@
 
 #include "RouteEngineFactory.h"
 
+#include "ICMPSocket/ICMPSocket.h"
 #include "RouteEngine.h"
 
 class Nedrysoft::RouteEngine::RouteEngineFactoryData {
@@ -72,4 +73,20 @@ auto Nedrysoft::RouteEngine::RouteEngineFactory::loadConfiguration(QJsonObject c
 auto Nedrysoft::RouteEngine::RouteEngineFactory::description() -> QString {
     return tr("Route Engine");
 }
+
+auto Nedrysoft::RouteEngine::RouteEngineFactory::priority() -> double {
+#if defined(Q_OS_LINUX)
+    auto socket = Nedrysoft::ICMPSocket::ICMPSocket::createReadSocket(Nedrysoft::ICMPSocket::V4);
+
+    if (socket) {
+        delete socket;
+
+        return 1;
+    }
+
+    return 0;
+#endif
+    return 1;
+}
+
 

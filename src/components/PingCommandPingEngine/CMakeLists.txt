@@ -26,13 +26,15 @@ pingnoo_start_component()
 pingnoo_set_component_optional(ON)
 
 pingnoo_add_sources(
-    CommandPingComponent.cpp
-    CommandPingComponent.h
-    CommandPingEngine.cpp
-    CommandPingEngine.h
-    CommandPingEngineFactory.cpp
-    CommandPingEngineFactory.h
-    CommandPingEngineSpec.h
+        PingCommandPingComponent.cpp
+        PingCommandPingComponent.h
+        PingCommandPingEngine.cpp
+        PingCommandPingEngine.h
+        PingCommandPingEngineFactory.cpp
+        PingCommandPingEngineFactory.h
+        PingCommandPingEngineSpec.h
+        PingCommandPingTarget.cpp
+        PingCommandPingTarget.h
 )
 
 pingnoo_set_description("Ping command ping engine component")
@@ -43,6 +45,6 @@ pingnoo_use_qt_libraries(Core)
 
 pingnoo_use_shared_library(ComponentSystem)
 
-pingnoo_set_component_metadata("Ping Engines" "Provides an ping engine based on the ping command")
+pingnoo_set_component_metadata("Ping Engines" "Provides a ping engine using the operating system ping executable")
 
 pingnoo_end_component()

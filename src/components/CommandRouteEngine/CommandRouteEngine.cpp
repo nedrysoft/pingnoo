@@ -23,10 +23,16 @@
 
 #include "CommandRouteEngine.h"
 
+#include <QElapsedTimer>
+#include <QObject>
+#include <QProcess>
+#include <QRegularExpression>
 #include <QThread>
 #include <spdlog/spdlog.h>
 
 using namespace std::chrono_literals;
+
+constexpr auto nanosecondsInMillisecond = 1.0e6;
 
 constexpr auto DefaultTerminateThreadTimeout = 5s;
 
@@ -37,43 +43,57 @@ Nedrysoft::CommandRouteEngine::CommandRouteEngine::CommandRouteEngine() :
 }
 
 Nedrysoft::CommandRouteEngine::CommandRouteEngine::~CommandRouteEngine() {
-/*    if (m_workerThread) {
-        m_worker->m_isRunning = false;
-
-        m_workerThread->quit();
-        m_workerThread->wait(
-                std::chrono::duration_cast<std::chrono::milliseconds>(DefaultTerminateThreadTimeout).count() );
-
-        if (m_workerThread->isRunning()) {
-            m_workerThread->terminate();
-        }
-
-        delete m_workerThread;
-
-        m_workerThread = nullptr;
-    }
-
-    if (m_worker) {
-        delete m_worker;
-
-        m_worker = nullptr;
-    }*/
 }
 
 auto Nedrysoft::CommandRouteEngine::CommandRouteEngine::findRoute(QString host, Nedrysoft::Core::IPVersion ipVersion) -> void {
-    m_workerThread = new QThread();
-/*
-    SPDLOG_TRACE(QString("Finding route to %1").arg(host).toStdString());
+    m_workerThread = QThread::create([=]() {
+        Nedrysoft::Core::RouteList routeList;
 
-    m_worker = new Nedrysoft::CommandRouteEngine::RouteWorker(ipVersion);
+        for (auto ttl=1;ttl<64;ttl++) {
+            QProcess pingProcess;
+            QElapsedTimer timer;
 
-    m_worker->setHost(host);
+            qint64 start, started, finished;
 
-    m_worker->moveToThread(m_workerThread);
+            start = timer.nsecsElapsed();
 
-    connect(m_workerThread, &QThread::started, m_worker, &Nedrysoft::CommandRouteEngine::RouteWorker::doWork);
+            connect(&pingProcess, &QProcess::started, [&]() {
+                started = timer.nsecsElapsed();
+            });
 
-    connect(m_worker, &Nedrysoft::CommandRouteEngine::RouteWorker::result, this, &Nedrysoft::Core::ICommandRouteEngine::result);
+            connect(&pingProcess, qOverload<int, QProcess::ExitStatus>(&QProcess::finished), [&](int ExitCode, QProcess::ExitStatus) {
+                finished = timer.nsecsElapsed();
+            });
 
-    m_workerThread->start();*/
+            pingProcess.start("ping", QStringList() <<  "-w" << "1" << "-D" << "-c" << "1" << "-t" << QString("%1").arg(ttl) << host);
+
+            if (pingProcess.waitForStarted()) {
+                if (pingProcess.waitForFinished()) {
+                    auto time = static_cast<double>(finished - started) / nanosecondsInMillisecond;
+
+                    auto commandOutput = pingProcess.readAll();
+
+                    constexpr auto exceededRegex = R"(From\ (?<ip>[\d\.]*)\ .*exceeded)";
+
+                    QRegularExpression re(exceededRegex);
+
+                    if (pingProcess.exitCode() == 0) {
+                        Q_EMIT result(QHostAddress(host), routeList << QHostAddress(host));
+
+                        return;
+                    } else {
+                        auto match = re.match(commandOutput);
+
+                        if (match.hasMatch()) {
+                            routeList << QHostAddress(match.captured("ip"));
+                        } else {
+                            routeList << QHostAddress();
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    m_workerThread->start();
 }

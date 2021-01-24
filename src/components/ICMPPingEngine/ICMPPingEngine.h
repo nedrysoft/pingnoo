@@ -67,6 +67,15 @@ namespace Nedrysoft::ICMPPingEngine {
             virtual auto setInterval(std::chrono::milliseconds interval) -> bool;
 
             /**
+             * @brief       Returns the interval set on the engine.
+             *
+             * @see         Nedrysoft::Core::IPingEngine::interval
+             *
+             * @returns     the interval.
+             */
+            virtual auto interval() -> std::chrono::milliseconds;
+
+            /**
              * @brief       Sets the reply timeout for this engine instance.
              *
              * @see         Nedrysoft::Core::IPingEngine::setTimeout
@@ -234,6 +243,7 @@ namespace Nedrysoft::ICMPPingEngine {
 
             friend class ICMPPingTransmitter;
             friend class ICMPPingTimeout;
+
 
         protected:
             std::shared_ptr<ICMPPingEngineData> d;
