@@ -55,34 +55,34 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
 
         while(!m_quitThread) {
             auto pingThread = QThread::create([sampleNumber, pingArguments, engine, this]() {
-                QProcess *pingProcess;
+                QProcess pingProcess;
                 qint64 started, finished;
                 QElapsedTimer timer;
 
                 std::chrono::system_clock::time_point epoch;
 
-                pingProcess = new QProcess();
+               // pingProcess = new QProcess();
 
-                pingProcess->start("ping", pingArguments);
+                pingProcess.start("ping", pingArguments);
 
-                pingProcess->waitForStarted();
+                pingProcess.waitForStarted();
 
                 started = timer.nsecsElapsed();
 
                 epoch = std::chrono::system_clock::now();
 
-                pingProcess->waitForFinished();
+                pingProcess.waitForFinished();
 
                 finished = timer.nsecsElapsed();
 
                 auto roundTripTime = static_cast<double>(finished - started) / nanosecondsInMillisecond;
 
-                auto commandOutput = pingProcess->readAll();
+                auto commandOutput = pingProcess.readAll();
 
                 QRegularExpression ttlExceededRegEx(ttlExceededRegularExpression);
                 QRegularExpression packetLostRegEx(packetLostRegularExpression);
 
-                if (pingProcess->exitCode() == 0) {
+                if (pingProcess.exitCode() == 0) {
                     auto pingResult = Nedrysoft::Core::PingResult(
                             sampleNumber,
                             Nedrysoft::Core::PingResult::ResultCode::Ok,
