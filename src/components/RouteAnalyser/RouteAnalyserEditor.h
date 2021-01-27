@@ -28,6 +28,7 @@
 #include "Core/Core.h"
 #include "Core/IConfiguration.h"
 #include "Core/IEditor.h"
+#include "LatencyRibbonGroup.h"
 
 #include <QObject>
 
@@ -149,6 +150,38 @@ namespace Nedrysoft::RouteAnalyser {
 
             friend class RouteAnalyserWidget;
 
+        private:
+            /**
+             * @brief       Called when the graph dataset has changed.
+             *
+             * @param[in]   start the epoch of the dataset.
+             * @param[in]   end the end of the dataset.
+             */
+            void onDatasetChanged(double start, double end);
+
+            /**
+             * @brief       Called when the start and/or end of the ribbon viewport has changed.
+             *
+             * @param[in]   start the new start position.
+             * @param[in]   end the new end position.
+             */
+            void onViewportChanged(double start, double end);
+
+            /**
+             * @brief       Called when the size of the ribbon viewport has changed.
+             *
+             * @param[in]   size the new size of the viewport.
+             */
+            void onViewportWindowChanged(double size);
+
+            /**
+             * @brief       Called when one of the latency values has been changed.
+             *
+             * @param[in]   type the type of latency value that was changed.
+             * @param[in]   value the new value for the given latency type.
+             */
+            void onLatencyValueChanged(LatencyRibbonGroup::LatencyType type, double value);
+
         protected:
 
             int m_contextId;
@@ -159,6 +192,7 @@ namespace Nedrysoft::RouteAnalyser {
             Nedrysoft::RouteAnalyser::RouteAnalyserWidget *m_editorWidget;
             double m_viewportStart;
             double m_viewportEnd;
+            QMetaObject::Connection m_dataChangedConnection;
     };
 }
 

@@ -25,18 +25,18 @@
 
 #include "PingCommandPingTarget.h"
 
-#include <QMap>
 #include <QMutex>
 #include <QThread>
 #include <chrono>
-#include <cstdint>
 
 using namespace std::chrono_literals;
 
 constexpr auto DefaultReceiveTimeout = 3s;
 constexpr auto DefaultTerminateThreadTimeout = 5s;
+constexpr auto DefaultTTL = 64;
 
 Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::PingCommandPingEngine(Nedrysoft::Core::IPVersion version) {
+    Q_UNUSED(version)
 
 }
 
@@ -45,7 +45,7 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::~PingCommandPingEngine(
 }
 
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget * {
-
+    return addTarget(hostAddress, DefaultTTL);
 }
 
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::addTarget(
@@ -78,6 +78,8 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::stop() -> bool {
 
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::setInterval(std::chrono::milliseconds interval) -> bool {
     m_interval = interval;
+
+    return true;
 }
 
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::interval() -> std::chrono::milliseconds {
@@ -85,11 +87,13 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::interval() -> std:
 }
 
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::setTimeout(std::chrono::milliseconds timeout) -> bool {
+    Q_UNUSED(timeout)
 
+    return true;
 }
 
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::epoch() -> std::chrono::system_clock::time_point {
-
+    return std::chrono::system_clock::now();
 }
 
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::saveConfiguration() -> QJsonObject {
@@ -97,6 +101,8 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::saveConfiguration(
 }
 
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::loadConfiguration(QJsonObject configuration) -> bool {
+    Q_UNUSED(configuration)
+
     return true;
 }
 

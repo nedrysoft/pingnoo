@@ -28,7 +28,6 @@
 #include <QProcess>
 #include <QRegularExpression>
 #include <QThread>
-#include <spdlog/spdlog.h>
 
 using namespace std::chrono_literals;
 
@@ -51,26 +50,11 @@ auto Nedrysoft::CommandRouteEngine::CommandRouteEngine::findRoute(QString host, 
 
         for (auto ttl=1;ttl<64;ttl++) {
             QProcess pingProcess;
-            QElapsedTimer timer;
-
-            qint64 start, started, finished;
-
-            start = timer.nsecsElapsed();
-
-            connect(&pingProcess, &QProcess::started, [&]() {
-                started = timer.nsecsElapsed();
-            });
-
-            connect(&pingProcess, qOverload<int, QProcess::ExitStatus>(&QProcess::finished), [&](int ExitCode, QProcess::ExitStatus) {
-                finished = timer.nsecsElapsed();
-            });
 
             pingProcess.start("ping", QStringList() <<  "-w" << "1" << "-D" << "-c" << "1" << "-t" << QString("%1").arg(ttl) << host);
 
             if (pingProcess.waitForStarted()) {
                 if (pingProcess.waitForFinished()) {
-                    auto time = static_cast<double>(finished - started) / nanosecondsInMillisecond;
-
                     auto commandOutput = pingProcess.readAll();
 
                     constexpr auto exceededRegex = R"(From\ (?<ip>[\d\.]*)\ .*exceeded)";

@@ -21,7 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "ICMPPacket.h"
 
 #include "Utils.h"
@@ -76,8 +75,8 @@ struct icmp_v6 {
     struct icmp icmp;
 };
 
-#define ICMP6_ECHO 128
-#define ICMP6_ECHO_REPLY 129
+constexpr auto ICMP6_ECHO = 128;
+constexpr auto  ICMP6_ECHO_REPLY = 129;
 
 Nedrysoft::ICMPPacket::ICMPPacket::ICMPPacket() :
         m_resultCode(Invalid),

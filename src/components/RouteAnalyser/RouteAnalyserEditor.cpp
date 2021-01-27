@@ -109,6 +109,9 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::activated() -> void {
     auto latencyWidget = ComponentSystem::getObject<LatencyRibbonGroup>();
     static auto hasBeenInitialised = false;
 
+    // TODO: the viewport widget needs to be properly sized when switching editors, currently it reverts to the initial
+    // size and when the next data result comes it then changes to the correct size and position.
+
     if (viewportWidget) {
         if (m_editorWidget->datasetSize()<m_editorWidget->viewportSize()) {
             viewportWidget->setViewport(0.0, 1.0);
@@ -118,68 +121,31 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::activated() -> void {
             viewportWidget->setViewportEnabled(true);
         }
 
-        // datasetChanged -         the dataset in the editor has changed, start is the unit time when capture began
-        //                          and end if the endpoint of the latest data.
+        connect(
+                m_editorWidget,
+                &RouteAnalyserWidget::datasetChanged,
+                this,
+                &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onDatasetChanged);
 
-        connect(m_editorWidget, &RouteAnalyserWidget::datasetChanged, [=](double start, double end) {
-            if (end-start<m_editorWidget->viewportSize()) {
-                auto trimmerSize = ((end-start)/m_editorWidget->viewportSize())*viewportSize;
+        connect(
+                viewportWidget,
+                &ViewportRibbonGroup::viewportChanged,
+                this,
+                &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportChanged);
 
-                viewportWidget->setViewport(qMin(1.0-viewportSize, trimmerSize), 1.0);
-                viewportWidget->setViewportEnabled(false);
-            } else {
-                if (!viewportWidget->isViewportEnabled()) {
-                    viewportWidget->setViewport((1-viewportSize), 1.0);
-                    m_editorWidget->setViewportPosition(1);
-                }
-
-                viewportWidget->setViewportEnabled(true);
-            }
-
-            viewportWidget->setStartAndEnd(start, end);
-        });
-
-        // viewportChanged -        the trimmer widget start or end has changed, start is the starting value of the
-        //                          new window (0-1) and end is the stop point (0-1)
-
-        connect(viewportWidget, &ViewportRibbonGroup::viewportChanged, [=](double start, double end) {
-            if (m_editorWidget) {
-                double viewportSize = 1.0-(end-start);
-                double position = start/viewportSize;
-
-                m_editorWidget->setViewportPosition(position);
-            }
-        });
-
-        // viewportWindowChanged -  the size of the current viewport has been changed, size is number of seconds that
-        //                          is displayed in the viewport.
-
-        connect(viewportWidget, &ViewportRibbonGroup::viewportWindowChanged, [=](double size) {
-            if (m_editorWidget) {
-                m_editorWidget->setViewportSize(size);
-
-                if (m_editorWidget->datasetSize()<m_editorWidget->viewportSize()) {
-                    auto trimmerSize = (m_editorWidget->datasetSize()/m_editorWidget->viewportSize())*viewportSize;
-
-                    m_editorWidget->setViewportPosition(0);
-                    viewportWidget->setViewport(qMin(1.0-viewportSize, trimmerSize), 1.0);
-                    viewportWidget->setViewportEnabled(false);
-                } else {
-                    if (!viewportWidget->isViewportEnabled()) {
-                        m_editorWidget->setViewportPosition(1.0);
-                        viewportWidget->setViewport((1-viewportSize), 1.0);
-                    }
-
-                    viewportWidget->setViewportEnabled(true);
-                }
-            }
-        });
+        connect(
+                viewportWidget,
+                &ViewportRibbonGroup::viewportWindowChanged,
+                this,
+                &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportWindowChanged);
     }
 
     if (latencyWidget)  {
-        connect(latencyWidget, &LatencyRibbonGroup::valueChanged, [=](LatencyRibbonGroup::LatencyType type, double value) {
-
-        });
+        connect(
+                latencyWidget,
+                &LatencyRibbonGroup::valueChanged,
+                this,
+                &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onLatencyValueChanged);
     }
 }
 
@@ -188,10 +154,88 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::deactivated() -> void {
     auto viewportWidget = ComponentSystem::getObject<ViewportRibbonGroup>();
 
     if (latencyWidget) {
-        disconnect(latencyWidget);
+        disconnect(
+                latencyWidget,
+                &LatencyRibbonGroup::valueChanged,
+                this,
+                &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onLatencyValueChanged);
     }
 
     if (viewportWidget) {
-        disconnect(viewportWidget);
+        disconnect(
+                viewportWidget,
+                &ViewportRibbonGroup::viewportChanged,
+                this,
+                &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportChanged);
+
+        disconnect(
+                viewportWidget,
+                &ViewportRibbonGroup::viewportWindowChanged,
+                this,
+                &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportWindowChanged);
     }
+
+    disconnect(
+            m_editorWidget,
+            &RouteAnalyserWidget::datasetChanged,
+            this,
+            &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onDatasetChanged);
+}
+
+void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onDatasetChanged(double start, double end) {
+    auto viewportWidget = ComponentSystem::getObject<ViewportRibbonGroup>();
+
+    if (end-start<m_editorWidget->viewportSize()) {
+        auto trimmerSize = ((end-start)/m_editorWidget->viewportSize())*viewportSize;
+
+        viewportWidget->setViewport(qMin(1.0-viewportSize, trimmerSize), 1.0);
+        viewportWidget->setViewportEnabled(false);
+    } else {
+        if (!viewportWidget->isViewportEnabled()) {
+            viewportWidget->setViewport((1-viewportSize), 1.0);
+            m_editorWidget->setViewportPosition(1);
+        }
+
+        viewportWidget->setViewportEnabled(true);
+    }
+
+    viewportWidget->setStartAndEnd(start, end);
+}
+
+void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportChanged(double start, double end) {
+    if (m_editorWidget) {
+        double viewportSize = 1.0 - ( end - start );
+        double position = start / viewportSize;
+
+        m_editorWidget->setViewportPosition(position);
+    }
+}
+
+void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportWindowChanged(double size) {
+    auto viewportWidget = ComponentSystem::getObject<ViewportRibbonGroup>();
+
+    if (m_editorWidget) {
+        m_editorWidget->setViewportSize(size);
+
+        if (m_editorWidget->datasetSize()<m_editorWidget->viewportSize()) {
+            auto trimmerSize = (m_editorWidget->datasetSize()/m_editorWidget->viewportSize())*viewportSize;
+
+            m_editorWidget->setViewportPosition(0);
+            viewportWidget->setViewport(qMin(1.0-viewportSize, trimmerSize), 1.0);
+            viewportWidget->setViewportEnabled(false);
+        } else {
+            if (!viewportWidget->isViewportEnabled()) {
+                m_editorWidget->setViewportPosition(1.0);
+                viewportWidget->setViewport((1-viewportSize), 1.0);
+            }
+
+            viewportWidget->setViewportEnabled(true);
+        }
+    }
+}
+
+void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onLatencyValueChanged(
+        LatencyRibbonGroup::LatencyType type,
+        double value) {
+
 }

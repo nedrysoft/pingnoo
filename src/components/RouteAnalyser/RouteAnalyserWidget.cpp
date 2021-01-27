@@ -312,8 +312,6 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
             break;
         }
     }
-
-    //customPlot->replot();
 }
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
@@ -383,12 +381,15 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             customPlot->setMinimumHeight(DefaultGraphHeight);
 
-            //customPlot->setInteractions(QCP::iRangeDrag);
-            //customPlot->axisRect()->setRangeDrag(Qt::Horizontal);
-
             customPlot->addGraph();
 
-            BarChart *barChart = new BarChart(customPlot->xAxis, customPlot->yAxis);
+            // the timeout bar chart uses axis 2 which is a unit axis.  This means it will always draw to the top
+            // of the axis independently of the main axis which may scale up/down depending on latency.
+
+            customPlot->yAxis2->setRange(0,1);
+            customPlot->yAxis2->setVisible(true);
+
+            auto barChart = new BarChart(customPlot->xAxis, customPlot->yAxis2);
 
             barChart->setWidthType(QCPBars::wtPlotCoords);
             barChart->setBrush(QColor(NoReplyColour));

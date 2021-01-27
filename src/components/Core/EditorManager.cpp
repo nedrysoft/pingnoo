@@ -29,25 +29,25 @@
 #include <QTabWidget>
 
 constexpr auto macStylesheet = R"(
-QTabBar::close-button {
-    text-align: right;
-}
+    QTabBar::close-button {
+        text-align: right;
+    }
 )";
 
 constexpr auto otherStylesheet = R"(
-QTabBar::tab {
-    padding-right:16px;
-    text-align: center;
-    margin-left: 16px;
-}
+    QTabBar::tab {
+        padding-right:16px;
+        text-align: center;
+        margin-left: 16px;
+    }
 
-QTabBar::close-button {
-    image: url(:/RibbonIcons/Icons/close-button-light.png);
-}
+    QTabBar::close-button {
+        image: url(:/RibbonIcons/Icons/close-button-light.png);
+    }
 
-QTabBar::close-button:hover {
-    image: url(:/RibbonIcons/Icons/close-button-dark.png);
-}
+    QTabBar::close-button:hover {
+        image: url(:/RibbonIcons/Icons/close-button-dark.png);
+    }
 )";
 
 Nedrysoft::Core::EditorManager::EditorManager(EditorManagerTabWidget *tabWidget) :

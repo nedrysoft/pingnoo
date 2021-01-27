@@ -61,7 +61,7 @@ auto CoreComponent::initialiseEvent() -> void {
     if (ribbonBarManager) {
         auto page = ribbonBarManager->addPage(tr("Host Masking"), Pingnoo::Constants::ribbonHostMaskingPage);
 
-        page->addGroup("My Group", "com.c", new QWidget());
+        //page->addGroup("My Group", "com.c", new QWidget());
     }
 
 }

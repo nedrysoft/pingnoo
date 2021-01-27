@@ -39,21 +39,27 @@ Nedrysoft::Core::AboutDialog::AboutDialog(QWidget *parent) :
 
     ui->titleLabel->setTextFormat(Qt::RichText);
 
-    ui->titleLabel->setText(
-            QString("<span style=\"font-size:16pt; font-weight:600;\">Pingnoo %1.%2.%3-%4</span>")
+    auto versionOpenTag = "<span style=\"font-size:16pt; font-weight:600;\">";
+    auto versionCloseTag = "</span>";
+    auto versionText = versionOpenTag+QString(tr("Pingnoo %1.%2.%3-%4"))
             .arg(PINGNOO_GIT_YEAR)
             .arg(PINGNOO_GIT_MONTH)
             .arg(PINGNOO_GIT_DAY)
-            .arg(PINGNOO_GIT_BRANCH) );
+            .arg(PINGNOO_GIT_BRANCH)+versionCloseTag;
 
-    ui->buildTimeLabel->setText(QString("Built on %1 %2").arg(__DATE__).arg(__TIME__));
+    ui->titleLabel->setText(versionText);
 
-    ui->buildRevisionLabel->setText(
-            QString("From revision <a href=\"https://github.com/fizzyade/pingnoo/commit/%1\">%1</a>")
-            .arg(PINGNOO_GIT_HASH) );
+    ui->buildTimeLabel->setText(QString(tr("Built on %1 %2")).arg(__DATE__).arg(__TIME__));
+
+    auto revisionOpenTag = QString("<a href=\"https://github.com/fizzyade/pingnoo/commit/%1\">").arg(PINGNOO_GIT_HASH);
+    auto revisionCloseTag = "</a>";
+    auto revisionText = QString(tr("From revision %1"))
+            .arg(revisionOpenTag+PINGNOO_GIT_HASH+revisionCloseTag);
+
+    ui->buildRevisionLabel->setText(revisionText);
 
     ui->qtVersionLabel->setText(
-            QString("Based on Qt %1.%2.%3 (%4, %5 bit), runtime Qt %6")
+            QString(tr("Based on Qt %1.%2.%3 (%4, %5 bit), runtime Qt %6"))
             .arg(QT_VERSION_MAJOR)
             .arg(QT_VERSION_MINOR)
             .arg(QT_VERSION_PATCH)
@@ -67,7 +73,7 @@ Nedrysoft::Core::AboutDialog::~AboutDialog() {
 
 auto Nedrysoft::Core::AboutDialog::compiler() -> QString {
 #if defined(Q_CC_CLANG) && defined(__apple_build_version__)
-    return QString("Clang %1.%2 (Apple)").arg(__clang_major__).arg(__clang_minor__);
+    return QString(tr("Clang %1.%2 (Apple)")).arg(__clang_major__).arg(__clang_minor__);
 #elif defined(__apple_build_version__)
     return QString("Clang %1.%2").arg(__clang_major__).arg(__clang_minor__);
 #elif defined(Q_CC_GNU)
