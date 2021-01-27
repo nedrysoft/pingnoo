@@ -95,3 +95,9 @@ installer/PingnooBuild.aip
 installer/Prerequisites/Visual C\+\+ Redistributable for Visual Studio 2015-2019/VC_redist.x64.exe
 
 venv/
+
+docs/sphinx/Makefile
+
+docs/sphinx/_build/
+
+docs/sphinx/make.bat
