@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sphinx-autobuild -a sphinx sphinx/_build/html
+

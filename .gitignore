@@ -96,8 +96,8 @@ installer/Prerequisites/Visual C\+\+ Redistributable for Visual Studio 2015-2019
 
 venv/
 
-docs/sphinx/Makefile
-
 docs/sphinx/_build/
 
 docs/sphinx/make.bat
+
+docs/sphinx/Makefile
