@@ -24,6 +24,10 @@ Pingnoo is an open-source combined traceroute and ping application for analysing
 
   `sudo ./<downloaded filename>`
 
+## Documentation
+
+Documentation can be found on https://pingnoo.readthedocs.io/en/latest/
+
 ## Requirements (Development)
 
 - Qt 5 libraries (Requirement for development)
