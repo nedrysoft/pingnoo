@@ -2,7 +2,7 @@
 
 # Copyright (C) 2019 Adrian Carpenter
 #
-# This file is part of Pingnoo (https://github.com/fizzyade/pingnoo)
+# This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
 #
 # An open-source cross-platform traceroute analyser.
 #
@@ -699,7 +699,7 @@ if platform.system() == "Darwin":
 
         startmessage('Cloning macdeployqtfix...')
 
-        resultCode, resultOutput = execute('cd tools;git clone https://github.com/fizzyade/macdeployqtfix.git')
+        resultCode, resultOutput = execute('cd tools;git clone https://github.com/nedrysoft/macdeployqtfix.git')
 
         if resultCode:
             endmessage(False, f'unable to clone macdeployqtfix.\r\n\r\n{resultOutput}\r\n')
@@ -731,7 +731,7 @@ if platform.system() == "Darwin":
 
             startmessage('Cloning makeuniversal...')
 
-            resultCode, resultOutput = execute('cd tools;git clone https://github.com/fizzyade/makeuniversal.git')
+            resultCode, resultOutput = execute('cd tools;git clone https://github.com/nedrysoft/makeuniversal.git')
 
             if resultCode:
                 endmessage(False, f'unable to clone makeuniversal.\r\n\r\n{resultOutput}\r\n')

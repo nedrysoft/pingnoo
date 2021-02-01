@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2021 Adrian Carpenter
  *
- * This file is part of Pingnoo (https://github.com/fizzyade/pingnoo)
+ * This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
  *
  * An open-source cross-platform traceroute analyser.
  *

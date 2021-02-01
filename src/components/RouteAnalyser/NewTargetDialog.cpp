@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2020 Adrian Carpenter
  *
- * This file is part of pingnoo (https://github.com/fizzyade/pingnoo)
+ * This file is part of pingnoo (https://github.com/nedrysoft/pingnoo)
  * An open source ping path analyser
  *
  * Created by Adrian Carpenter on 27/07/2020.

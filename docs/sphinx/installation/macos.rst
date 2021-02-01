@@ -12,5 +12,5 @@ Pingnoo is distributed as a DMG file for macOS, after downloading the appropriat
 .. tip::
   For your safety and convenience, Pingnoo is fully signed and notarized by Apple ensuring that the software is free from malware.
 
-.. _repo: https://github.com/fizzyade/pingnoo
-.. _releases: https://github.com/fizzyade/pingnoo/releases
+.. _repo: https://github.com/nedrysoft/pingnoo
+.. _releases: https://github.com/nedrysoft/pingnoo/releases

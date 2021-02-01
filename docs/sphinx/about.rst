@@ -45,6 +45,6 @@ If you've read this far, then all that remains is to head to the releases_ secti
 .. _ttl: https://en.wikipedia.org/wiki/Time_to_live
 .. _hops: https://en.wikipedia.org/wiki/Hop_(networking)
 .. _rtt: https://en.wikipedia.org/wiki/Round-trip_delay
-.. _license: https://github.com/fizzyade/pingnoo/blob/develop/LICENSE
-.. _repo: https://github.com/fizzyade/pingnoo
-.. _releases: https://github.com/fizzyade/pingnoo/releases
+.. _license: https://github.com/nedrysoft/pingnoo/blob/develop/LICENSE
+.. _repo: https://github.com/nedrysoft/pingnoo
+.. _releases: https://github.com/nedrysoft/pingnoo/releases

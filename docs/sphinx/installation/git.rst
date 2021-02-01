@@ -28,4 +28,4 @@ Linux
 Depending on the distro and/or the packages that are installed, a compatible compiler must be installed.
 
 
-.. _repo: https://github.com/fizzyade/pingnoo
+.. _repo: https://github.com/nedrysoft/pingnoo

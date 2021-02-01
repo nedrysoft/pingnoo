@@ -42,5 +42,5 @@ Pingnoo has been designed in such a way that different ping engines can be selec
 .. tip:
   Use the ping command engine to run Pingnoo without needing elevated priiliges.
 
-.. _repo: https://github.com/fizzyade/pingnoo
-.. _releases: https://github.com/fizzyade/pingnoo/releases
+.. _repo: https://github.com/nedrysoft/pingnoo
+.. _releases: https://github.com/nedrysoft/pingnoo/releases

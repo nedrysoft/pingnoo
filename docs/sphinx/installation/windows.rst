@@ -16,5 +16,5 @@ Portable Edition
 
 Pingnoo is also supplied as a portable application.  WHen using a portable applicatiom, the application can simply be stored in a folder (most likely on a USB thumb drive) that can be moved between computers quickly and easily, nothing needs to be installed and the applicaiton will run directly.
 
-.. _repo: https://github.com/fizzyade/pingnoo
-.. _releases: https://github.com/fizzyade/pingnoo/releases
+.. _repo: https://github.com/nedrysoft/pingnoo
+.. _releases: https://github.com/nedrysoft/pingnoo/releases

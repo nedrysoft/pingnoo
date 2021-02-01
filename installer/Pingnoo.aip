@@ -11,11 +11,11 @@
     <ROW Property="AI_UNINSTALLER" Value="msiexec.exe"/>
     <ROW Property="ALLUSERS" Value="1"/>
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
-    <ROW Property="ARPHELPLINK" Value="https://github.com/fizzyade/pingnoo"/>
+    <ROW Property="ARPHELPLINK" Value="https://github.com/nedrysoft/pingnoo"/>
     <ROW Property="ARPNOREPAIR" Value="1" MultiBuildValue="MsiBuild:1"/>
     <ROW Property="ARPPRODUCTICON" Value="appicon.exe" Type="8"/>
     <ROW Property="ARPSYSTEMCOMPONENT" Value="1"/>
-    <ROW Property="ARPURLINFOABOUT" Value="https://github.com/fizzyade/pingnoo"/>
+    <ROW Property="ARPURLINFOABOUT" Value="https://github.com/nedrysoft/pingnoo"/>
     <ROW Property="AppLogoIcon" Value="applogoicon" Type="1" MsiKey="AppLogoIcon"/>
     <ROW Property="InstallerIcon" Value="pingnoobox.ico" Type="1" MsiKey="InstallerIcon"/>
     <ROW Property="Manufacturer" Value="nedrysoft.com"/>

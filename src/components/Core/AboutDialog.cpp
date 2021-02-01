@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2020 Adrian Carpenter
  *
- * This file is part of Pingnoo (https://github.com/fizzyade/pingnoo)
+ * This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
  *
  * An open-source cross-platform traceroute analyser.
  *
@@ -51,7 +51,7 @@ Nedrysoft::Core::AboutDialog::AboutDialog(QWidget *parent) :
 
     ui->buildTimeLabel->setText(QString(tr("Built on %1 %2")).arg(__DATE__).arg(__TIME__));
 
-    auto revisionOpenTag = QString("<a href=\"https://github.com/fizzyade/pingnoo/commit/%1\">").arg(PINGNOO_GIT_HASH);
+    auto revisionOpenTag = QString("<a href=\"https://github.com/nedrysoft/pingnoo/commit/%1\">").arg(PINGNOO_GIT_HASH);
     auto revisionCloseTag = "</a>";
     auto revisionText = QString(tr("From revision %1"))
             .arg(revisionOpenTag+PINGNOO_GIT_HASH+revisionCloseTag);

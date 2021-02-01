@@ -1,7 +1,7 @@
 #
 # Copyright (C) 2020 Adrian Carpenter
 #
-# This file is part of pingnoo (https://github.com/fizzyade/pingnoo)
+# This file is part of pingnoo (https://github.com/nedrysoft/pingnoo)
 # An open source ping path analyser
 #
 # This program is free software: you can redistribute it and/or modify

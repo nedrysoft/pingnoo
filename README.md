@@ -10,7 +10,7 @@ Pingnoo is an open-source combined traceroute and ping application for analysing
 
 ## Installation
 
-[The binaries are available under the releases page.](https://github.com/fizzyade/pingnoo/releases)
+[The binaries are available under the releases page.](https://github.com/nedrysoft/pingnoo/releases)
 
 - **Windows**.  The application is supplied as an installer executable, download and run the installer to install the application; this will create a shortcut which will launch the software.
 

@@ -3,7 +3,7 @@
 #
 # Copyright (C) 2020 Adrian Carpenter
 #
-# This file is part of Pingnoo (https://github.com/fizzyade/pingnoo)
+# This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
 #
 # An open-source cross-platform traceroute analyser.
 #
@@ -37,7 +37,7 @@ if len(sys.argv) == 2:
 
     dateString = datetime.datetime.strptime(datePipe.read().rstrip(), "%a, %d %b %Y %H:%M:%S %z").strftime("%d/%m/%Y")
 
-    print(f' * This file is part of Pingnoo (https://github.com/fizzyade/pingnoo)')
+    print(f' * This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)')
     print(f' *')
     print(f' * An open-source cross-platform traceroute analyser.')
     print(f' *')
