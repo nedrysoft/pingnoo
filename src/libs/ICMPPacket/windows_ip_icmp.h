@@ -28,7 +28,7 @@
 
 #if !defined(Q_OS_WIN)
 #error This file can only be used by windows builds
-#endif
+#else
 
 #define NOMINMAX
 
@@ -101,5 +101,5 @@ struct icmp {
 #define ICMP_TIMXCEED           11
 
 #pragma pack(pop)
-
+#endif
 #endif

@@ -64,16 +64,6 @@ namespace Nedrysoft::Pingnoo {
             auto setId(uint16_t id) -> void;
 
             /**
-             * @brief       Sets the id field of the ping request.
-             *
-             * @notes       Some platforms do not allow setting of the id field and will ignore it, instead they
-             *              may use the process id or something similar instead.
-             *
-             * @param[in]   id the identifier of the request.
-             */
-            auto setId(uint16_t id) -> void;
-
-            /**
              * @brief       Returns the id used in the ping request.
              *
              * @returns     the id.

@@ -40,8 +40,8 @@ namespace Nedrysoft::RouteAnalyser {
             Q_OBJECT
 
         public:
-            Q_PROPERTY(QString text READ text WRITE setText)
-            Q_PROPERTY(QColor colour READ colour WRITE setColour)
+            //Q_PROPERTY(QString text READ text WRITE setText)
+            //Q_PROPERTY(QColor colour READ colour WRITE setColour)
 
         public:
             /**

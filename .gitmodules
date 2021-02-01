@@ -1,15 +1,15 @@
 [submodule "src/libs/ComponentSystem"]
 	path = src/libs/ComponentSystem
-	url = https://github.com/fizzyade/componentsystem
+	url = https://github.com/nedrysoft/componentsystem
 [submodule "src/libs/Ribbon"]
 	path = src/libs/Ribbon
-	url = https://github.com/fizzyade/qt-ribbon
+	url = https://github.com/nedrysoft/qt-ribbon
 [submodule "src/libs/SettingsDialog"]
 	path = src/libs/SettingsDialog
-	url = https://github.com/fizzyade/SettingsDialog
+	url = https://github.com/nedrysoft/SettingsDialog
 [submodule "src/libs/spdlog"]
 	path = src/libs/spdlog
 	url = https://github.com/gabime/spdlog.git
 [submodule "src/libs/FontAwesome"]
 	path = src/libs/FontAwesome
-	url = https://github.com/fizzyade/FontAwesomeForQt
+	url = https://github.com/nedrysoft/FontAwesomeForQt

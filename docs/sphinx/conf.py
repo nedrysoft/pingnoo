@@ -30,6 +30,8 @@ author = 'Adrian Carpenter'
 # ones.
 extensions = [
 	"sphinx_rtd_theme",
+	"breathe",
+	"exhale"
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -51,3 +53,34 @@ html_theme = "sphinx_rtd_theme"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# breathe settings for doxygen
+
+breathe_projects = { "pingnoo": "../generated/xml/" }
+
+breathe_default_project = "pingnoo"
+
+cpp_id_attributes = ["Q_SLOT", "Q_SIGNAL","Q_SLOTS","Q_SIGNALS", "Q_PROPERTY"]
+
+
+# Setup the exhale extension
+exhale_args = {
+    # These arguments are required
+    "containmentFolder":     "./api",
+    "rootFileName":          "library_root.rst",
+    "rootFileTitle":         "Library API",
+    "doxygenStripFromPath":  "..",
+    # Suggested optional arguments
+    "createTreeView":        True,
+    # TIP: if using the sphinx-bootstrap-theme, you need
+    # "treeViewIsBootstrap": True,
+    "exhaleExecutesDoxygen": True,
+    "exhaleDoxygenStdin":    "INPUT = ../../src"
+}
+
+# Tell sphinx what the primary language being documented is.
+primary_domain = 'cpp'
+
+# Tell sphinx what the pygments highlight language should be.
+highlight_language = 'cpp'
+
