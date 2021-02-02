@@ -29,6 +29,7 @@
 
 namespace Nedrysoft::RegExHostMasker {
     class RegExHostMasker;
+    class RegExHostMaskerSettingsPage;
 }
 
 /**
@@ -72,8 +73,18 @@ class NEDRYSOFT_REGEXHOSTMASKER_DLLSPEC RegExHostMaskerComponent :
          */
         virtual auto finaliseEvent() -> void;
 
+        /**
+         * @brief       The initialisationFinishedEvent function is called by the component loader after all
+         *              components have been initialised.
+         *
+         * @details     Called by the component loader after all components have been
+         *              initialised, called in reverse load order.
+         */
+        virtual auto initialisationFinishedEvent() -> void;
+
     private:
         Nedrysoft::RegExHostMasker::RegExHostMasker *m_hostMasker;
+        Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPage *m_settingsPage;
 };
 
 #endif // NEDRYSOFT_REGEXHOSTMASKER_REGEXHOSTMASKERCOMPONENT_H

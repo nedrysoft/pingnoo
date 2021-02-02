@@ -31,11 +31,16 @@ pingnoo_add_sources(
     RegExHostMaskerComponent.cpp
     RegExHostMaskerComponent.h
     RegExHostMaskerSpec.h
+    RegExHostMaskerSettingsPage.cpp
+    RegExHostMaskerSettingsPage.h
+    RegExHostMaskerSettingsPageWidget.cpp
+    RegExHostMaskerSettingsPageWidget.h
+    RegExHostMaskerSettingsPageWidget.ui
 )
 
 pingnoo_set_description("Regular Expression masker component")
 
-pingnoo_use_qt_libraries(Core)
+pingnoo_use_qt_libraries(Core Widgets)
 
 pingnoo_use_component(Core)
 

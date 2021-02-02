@@ -26,6 +26,7 @@
 #include "CommandManager.h"
 #include "ContextManager.h"
 #include "Core.h"
+#include "HostMaskerSettingsPage.h"
 #include "IPingEngineFactory.h"
 #include "IRibbonBarManager.h"
 #include "IRibbonPage.h"
@@ -51,10 +52,12 @@ auto CoreComponent::initialiseEvent() -> void {
     m_core = new Nedrysoft::Core::Core();
     m_contextManager = new Nedrysoft::Core::ContextManager();
     m_commandManager = new Nedrysoft::Core::CommandManager();
+    m_hostMaskerSettingsPage = new Nedrysoft::Core::HostMaskerSettingsPage();
 
     Nedrysoft::ComponentSystem::addObject(m_core);
     Nedrysoft::ComponentSystem::addObject(m_contextManager);
     Nedrysoft::ComponentSystem::addObject(m_commandManager);
+    Nedrysoft::ComponentSystem::addObject(m_hostMaskerSettingsPage);
 
     auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
 
@@ -80,6 +83,10 @@ auto CoreComponent::initialisationFinishedEvent() -> void {
 }
 
 auto CoreComponent::finaliseEvent() -> void {
+    if (m_hostMaskerSettingsPage) {
+        delete m_hostMaskerSettingsPage;
+    }
+
     if (m_core) {
         delete m_core;
     }

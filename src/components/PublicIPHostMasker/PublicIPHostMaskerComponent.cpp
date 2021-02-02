@@ -23,6 +23,8 @@
 
 #include "PublicIPHostMaskerComponent.h"
 
+#include "PublicIPHostMaskerSettingsPage.h"
+
 #include "ComponentSystem/IComponentManager.h"
 
 PublicIPHostMaskerComponent::PublicIPHostMaskerComponent() :
@@ -36,11 +38,19 @@ PublicIPHostMaskerComponent::~PublicIPHostMaskerComponent() {
 
 auto PublicIPHostMaskerComponent::initialiseEvent() -> void {
     m_hostMasker = new Nedrysoft::PublicIPHostMasker::PublicIPHostMasker();
+    m_settingsPage = new Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPage();
 
     Nedrysoft::ComponentSystem::addObject(m_hostMasker);
+    Nedrysoft::ComponentSystem::addObject(m_settingsPage);
 }
 
 auto PublicIPHostMaskerComponent::finaliseEvent() -> void {
+    if (m_settingsPage) {
+        Nedrysoft::ComponentSystem::removeObject(m_settingsPage);
+
+        delete m_settingsPage;
+    }
+
     if (m_hostMasker) {
         Nedrysoft::ComponentSystem::removeObject(m_hostMasker);
 

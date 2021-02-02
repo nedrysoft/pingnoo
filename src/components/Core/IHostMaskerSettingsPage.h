@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2020 Adrian Carpenter
+ * Copyright (C) 2021 Adrian Carpenter
  *
  * This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
  *
  * An open-source cross-platform traceroute analyser.
  *
- * Created by Adrian Carpenter on 27/03/2020.
+ * Created by Adrian Carpenter on 02/02/2021.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_CORE_ISETTINGSPAGE_H
-#define NEDRYSOFT_CORE_ISETTINGSPAGE_H
+#ifndef NEDRYSOFT_IHOSTMASKERSETTINGSPAGE_H
+#define NEDRYSOFT_IHOSTMASKERSETTINGSPAGE_H
 
 #include "ComponentSystem/IInterface.h"
 #include "CoreSpec.h"
@@ -33,7 +33,7 @@ namespace Nedrysoft::Core {
     /**
      * @brief       The ISettingsPage interface defines a settings page.
      */
-    class NEDRYSOFT_CORE_DLLSPEC ISettingsPage :
+    class NEDRYSOFT_CORE_DLLSPEC IHostMaskerSettingsPage :
             public Nedrysoft::ComponentSystem::IInterface {
 
         private:
@@ -47,17 +47,17 @@ namespace Nedrysoft::Core {
              *
              * @returns     the widget
              */
-            virtual auto widget() -> QWidget = 0;
+            virtual auto widget() -> QWidget * = 0;
 
             /**
-             * @brief       Returns the display name for the settings page.
+             * @brief       Returns the display name for the host masker.
              *
-             * @returns     the displayed name of the settings page.
+             * @returns     the displayed name of the host masker.
              */
             virtual auto displayName() -> QString = 0;
     };
 }
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::ISettingsPage, "com.nedrysoft.core.ISettingsPage/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IHostMaskerSettingsPage, "com.nedrysoft.core.IHostMaskerSettingsPage/1.0.0")
 
-#endif // NEDRYSOFT_CORE_ISETTINGSPAGE_H
+#endif //NEDRYSOFT_IHOSTMASKERSETTINGSPAGE_H

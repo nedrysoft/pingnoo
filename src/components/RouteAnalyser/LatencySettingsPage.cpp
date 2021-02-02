@@ -64,3 +64,7 @@ auto Nedrysoft::RouteAnalyser::LatencySettingsPage::canAcceptSettings() -> bool 
 auto Nedrysoft::RouteAnalyser::LatencySettingsPage::acceptSettings() -> void {
 
 }
+
+auto Nedrysoft::RouteAnalyser::LatencySettingsPage::initialise() -> void {
+
+}

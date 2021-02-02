@@ -30,12 +30,17 @@ pingnoo_add_sources(
     PublicIPHostMasker.h
     PublicIPHostMaskerComponent.cpp
     PublicIPHostMaskerComponent.h
+    PublicIPHostMaskerSettingsPage.cpp
+    PublicIPHostMaskerSettingsPage.h
+    PublicIPHostMaskerSettingsPageWidget.cpp
+    PublicIPHostMaskerSettingsPageWidget.h
+    PublicIPHostMaskerSettingsPageWidget.ui
     PublicIPHostMaskerSpec.h
 )
 
 pingnoo_set_description("ip masker for public ip component")
 
-pingnoo_use_qt_libraries(Core Network)
+pingnoo_use_qt_libraries(Core Network Widgets)
 
 pingnoo_use_component(Core)
 

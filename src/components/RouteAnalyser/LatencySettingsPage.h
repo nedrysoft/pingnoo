@@ -90,6 +90,11 @@ namespace Nedrysoft::RouteAnalyser {
              * @brief       Applies the current settings.
              */
             auto acceptSettings() -> void override;
+
+            /**
+             * @brief       Initialises the page.
+             */
+            auto initialise() -> void override;
     };
 }
 

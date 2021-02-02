@@ -44,6 +44,11 @@ pingnoo_add_sources(
     EditorManager.h
     EditorManagerTabWidget.cpp
     EditorManagerTabWidget.h
+    HostMaskerSettingsPage.cpp
+    HostMaskerSettingsPage.h
+    HostMaskerSettingsPageWidget.cpp
+    HostMaskerSettingsPageWidget.h
+    HostMaskerSettingsPageWidget.ui
     ICommand.h
     ICommandManager.h
     IConfiguration.h
@@ -53,6 +58,7 @@ pingnoo_add_sources(
     IEditorManager.h
     IGeoIPProvider.h
     IHostMasker.h
+    IHostMaskerSettingsPage.h
     ILogger.h
     IMenu.h
     IPingEngine.h
@@ -81,6 +87,7 @@ pingnoo_add_sources(
     StatusBarManager.cpp
     StatusBarManager.h
     fonts.qrc
+    icons.qrc
 )
 
 pingnoo_set_description("Core application support component")

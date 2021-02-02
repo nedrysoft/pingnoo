@@ -5,7 +5,7 @@
  *
  * An open-source cross-platform traceroute analyser.
  *
- * Created by Adrian Carpenter on 20/12/2020.
+ * Created by Adrian Carpenter on 01/02/2021.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,18 +21,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_TARGETSETTINGSPAGE_H
-#define NEDRYSOFT_TARGETSETTINGSPAGE_H
+#ifndef NEDRYSOFT_COREHOSTMASKERSETTINGSPAGE_H
+#define NEDRYSOFT_COREHOSTMASKERSETTINGSPAGE_H
+
+#include "SettingsDialog/ISettingsPage.h"
 
 #include <QIcon>
 #include <QString>
 #include <QWidget>
-#include <SettingsDialog/ISettingsPage.h>
 
-namespace Nedrysoft::RouteAnalyser {
-    class TargetSettingsPageWidget;
+namespace Nedrysoft::Core {
+    class HostMaskerSettingsPageWidget;
 
-    class TargetSettingsPage :
+    /**
+     * @brief       HostMaskerSettingsPage class provides a settings page for host maskers.
+     */
+    class HostMaskerSettingsPage :
             public Nedrysoft::SettingsDialog::ISettingsPage {
 
         private:
@@ -41,9 +45,17 @@ namespace Nedrysoft::RouteAnalyser {
             Q_INTERFACES(Nedrysoft::SettingsDialog::ISettingsPage)
 
         public:
-            explicit TargetSettingsPage(QWidget *parent = nullptr);
+            /**
+             * @brief       Constructs a new HostMaskerSettingsPage instance which is a child of the parent.
+             *
+             * @param[in]   parent the parent of this widget.
+             */
+            explicit HostMaskerSettingsPage(QWidget *parent = nullptr);
 
-            ~TargetSettingsPage() override;
+            /**
+             * @brief       Destroys the HostMaskerSettingsPage.
+             */
+            ~HostMaskerSettingsPage() override;
 
         public:
             /**
@@ -79,14 +91,14 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     a widget.
              */
-            auto widget() ->QWidget * override;
+            auto widget() -> QWidget * override;
 
             /**
              * @brief       Checks if the settings can be applied.
              *
              * @returns     true if the settings can be applied (i.e valid); otherwise false.
              */
-            auto canAcceptSettings() ->bool override;
+            auto canAcceptSettings() -> bool override;
 
             /**
              * @brief       Applies the current settings.
@@ -96,11 +108,11 @@ namespace Nedrysoft::RouteAnalyser {
             /**
              * @brief       Initialises the page.
              */
-            auto initialise() -> void override;
+            virtual auto initialise() -> void override;
 
         private:
-            TargetSettingsPageWidget *m_widget;
+            HostMaskerSettingsPageWidget *m_widget;
     };
 }
 
-#endif //NEDRYSOFT_TARGETSETTINGSPAGE_H
+#endif //NEDRYSOFT_COREHOSTMASKERSETTINGSPAGE_H

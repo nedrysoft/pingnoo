@@ -48,7 +48,9 @@ namespace Nedrysoft::RouteAnalyser {
 
         public:
             /**
-             * @brief       Constructs a new NewTargetRibbonGroup instance.
+             * @brief       Constructs a new NewTargetRibbonGroup instance which is a child of the parent.
+             *
+             * @param[in]   parent the parent for this widget.
              */
             explicit NewTargetRibbonGroup(QWidget *parent = nullptr);
 

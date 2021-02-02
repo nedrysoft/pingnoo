@@ -1,12 +1,11 @@
-#if ($HEADER_COMMENTS)
 /*
- * Copyright (C) $YEAR $USER_NAME
+ * Copyright (C) 2021 Adrian Carpenter
  *
- * This file is part of $PROJECT_NAME (https://github.com/nedrysoft/pingnoo)
+ * This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
  *
  * An open-source cross-platform traceroute analyser.
  *
- * Created by $USER_NAME on ${DATE}.
+ * Created by Adrian Carpenter on 02/02/2021.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,4 +20,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#end
+
+#include "RegExHostMaskerSettingsPage.h"
+
+#include "RegExHostMaskerSettingsPageWidget.h"
+
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPage::widget() -> QWidget * {
+    return new Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget;
+}
+
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPage::displayName() -> QString {
+    return tr("Regular Expressions");
+}

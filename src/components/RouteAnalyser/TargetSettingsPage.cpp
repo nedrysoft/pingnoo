@@ -65,3 +65,7 @@ auto Nedrysoft::RouteAnalyser::TargetSettingsPage::canAcceptSettings() -> bool {
 auto Nedrysoft::RouteAnalyser::TargetSettingsPage::acceptSettings() -> void {
 
 }
+
+auto Nedrysoft::RouteAnalyser::TargetSettingsPage::initialise() -> void {
+
+}

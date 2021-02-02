@@ -28,6 +28,12 @@
 #include "PublicIPHostMasker.h"
 #include "PublicIPHostMaskerSpec.h"
 
+namespace Nedrysoft::PublicIPHostMasker {
+    class PublicIPHostMasker;
+    class PublicIPHostMaskerSettingsPage;
+}
+
+
 /**
  * @brief       The PublicIPHostMaskerComponent class provides a host masker for the clients public ip.
  */
@@ -71,6 +77,7 @@ class NEDRYSOFT_PUBLICIPHOSTMASKER_DLLSPEC PublicIPHostMaskerComponent :
     private:
 
         Nedrysoft::PublicIPHostMasker::PublicIPHostMasker *m_hostMasker;
+        Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPage *m_settingsPage;
 };
 
 #endif // NEDRYSOFT_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKERCOMPONENT_H

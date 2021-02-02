@@ -32,6 +32,7 @@ namespace Nedrysoft::Core {
     class ContextManager;
     class CommandManager;
     class RibbonBarManager;
+    class HostMaskerSettingsPage;
 }
 
 /**
@@ -98,6 +99,7 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
         Nedrysoft::Core::ContextManager *m_contextManager;
         Nedrysoft::Core::CommandManager *m_commandManager;
         Nedrysoft::Core::RibbonBarManager *m_ribbonBarManager;
+        Nedrysoft::Core::HostMaskerSettingsPage *m_hostMaskerSettingsPage;
 };
 
 #endif // NEDRYSOFT_CORE_CORECOMPONENT_H
