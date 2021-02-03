@@ -38,6 +38,7 @@ namespace Nedrysoft::RegExHostMasker {
             QString m_replacementString;
             QString m_addressReplacementString;
             QString m_hopString;
+            QString m_description;
 
             unsigned int m_matchFlags;
     };
@@ -66,6 +67,11 @@ namespace Nedrysoft::RegExHostMasker {
             };
 
         public:
+            /*
+             * @brief       Constructs a new RegExHostMasker.
+             */
+            RegExHostMasker();
+
             /**
              * @brief       Adds a host name match expression.
              *
@@ -76,6 +82,7 @@ namespace Nedrysoft::RegExHostMasker {
              */
             auto add(
                     unsigned int matchFlags,
+                    const QString &description,
                     const QString &matchExpression,
                     const QString &replacementString,
                     const QString &hopString = QString() ) -> void;
@@ -145,6 +152,8 @@ namespace Nedrysoft::RegExHostMasker {
                     const QString &hostAddress,
                     QString &maskedHostName,
                     QString &maskedHostAddress ) -> bool;
+
+            friend class RegExHostMaskerSettingsPageWidget;
 
         private:
             QList<RegExHostMaskerItem> m_maskList;

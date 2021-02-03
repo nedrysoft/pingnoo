@@ -43,7 +43,9 @@ Nedrysoft::Core::HostMaskerSettingsPageWidget::~HostMaskerSettingsPageWidget() {
 auto Nedrysoft::Core::HostMaskerSettingsPageWidget::initialise() -> void {
     auto maskers = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IHostMaskerSettingsPage>();
 
-    ui->maskersTreeWidget->setHeaderLabels(QStringList() << "Masker Type");
+    ui->maskersTreeWidget->clear();
+
+    ui->maskersTreeWidget->setHeaderLabels(QStringList() << tr("Masker Type"));
 
     for(auto masker : maskers) {
         QTreeWidgetItem *maskerItem = new QTreeWidgetItem;

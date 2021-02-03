@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>710</width>
-    <height>438</height>
+    <width>726</width>
+    <height>393</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -34,6 +34,9 @@
    </property>
    <item>
     <widget class="QTreeWidget" name="expressionsTreeWidget">
+     <property name="indentation">
+      <number>0</number>
+     </property>
      <column>
       <property name="text">
        <string notr="true">1</string>
@@ -77,34 +80,151 @@
      <property name="fieldGrowthPolicy">
       <enum>QFormLayout::ExpandingFieldsGrow</enum>
      </property>
-     <item row="0" column="0">
+     <item row="1" column="0">
+      <widget class="QLabel" name="descriptionLabel">
+       <property name="text">
+        <string>Description:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="descriptionLineEdit"/>
+     </item>
+     <item row="2" column="0">
       <widget class="QLabel" name="regularExpressionLabel">
        <property name="text">
         <string>Regular Expression:</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
+     <item row="2" column="1">
       <widget class="QLineEdit" name="regularExpressionLineEdit"/>
      </item>
-     <item row="1" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="substitutionLabel">
        <property name="text">
         <string>Substitution:</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="3" column="1">
       <widget class="QLineEdit" name="substitutionLineEdit"/>
      </item>
-     <item row="2" column="0">
+     <item row="5" column="1">
+      <layout class="QHBoxLayout" name="flagsLayout">
+       <property name="spacing">
+        <number>-1</number>
+       </property>
+       <item>
+        <widget class="QCheckBox" name="matchHopsCheckbox">
+         <property name="text">
+          <string>Match Hops</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="matchHostCheckbox">
+         <property name="text">
+          <string>Match Host</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="matchAddressCheckbox">
+         <property name="text">
+          <string>Match Address</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="maskHostCheckbox">
+         <property name="text">
+          <string>Mask Host</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="maskAddressCheckbox">
+         <property name="text">
+          <string>Mask Address</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="6" column="1">
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="0">
       <widget class="QLabel" name="enabledLabel">
        <property name="text">
         <string>Enabled:</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="0" column="1">
       <widget class="QCheckBox" name="enabledCheckBox"/>
      </item>
     </layout>

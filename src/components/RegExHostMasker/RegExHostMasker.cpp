@@ -25,7 +25,28 @@
 
 #include "RegExHostMaskerComponent.h"
 
+#include <QFile>
 #include <QJsonArray>
+#include <QJsonDocument>
+#include <QStandardPaths>
+
+Nedrysoft::RegExHostMasker::RegExHostMasker::RegExHostMasker() {
+    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+
+    if (configPaths.count()) {
+        QString configurationFilename = configPaths.at(0)+"/Nedrysoft/pingnoo/Components/RegExHostMasker.json";
+
+        auto file = QFile(configurationFilename);
+
+        if (file.open(QFile::ReadOnly)) {
+            auto jsonDocument = QJsonDocument::fromJson(file.readAll());
+
+            if (jsonDocument.isObject()) {
+                loadConfiguration(jsonDocument.object());
+            }
+        }
+    }
+}
 
 auto Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(
         int hop,
@@ -122,6 +143,7 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::mask(
 
 auto Nedrysoft::RegExHostMasker::RegExHostMasker::add(
         unsigned int matchFlags,
+        const QString &description,
         const QString &matchExpression,
         const QString &replacementString,
         const QString &hopString ) -> void {
@@ -132,6 +154,7 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::add(
     item.m_matchExpression = matchExpression;
     item.m_replacementString = std::move(replacementString);
     item.m_hopString = hopString;
+    item.m_description = description;
 
     m_maskList.append(item);
 }
@@ -149,6 +172,7 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::saveConfiguration() -> QJsonOb
         object.insert("matchExpression", item.m_matchExpression);
         object.insert("matchReplacementString", item.m_replacementString);
         object.insert("matchHopString", item.m_hopString);
+        object.insert("description", item.m_description);
 
         itemArray.append(object);
     }
@@ -172,8 +196,11 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::loadConfiguration(QJsonObject 
     for (auto v : array) {
         auto item = v.toObject();
 
-        add(item["matchFlags"].toVariant().toUInt(), item["matchExpression"].toString(),
-            item["matchReplacementString"].toString(), item["matchHopString"].toString());
+        add(item["matchFlags"].toVariant().toUInt(),
+            item["description"].toString(),
+            item["matchExpression"].toString(),
+            item["matchReplacementString"].toString(),
+            item["matchHopString"].toString() );
     }
 
     return false;
