@@ -26,6 +26,8 @@
 
 #include <QWidget>
 
+class QTreeWidgetItem;
+
 namespace Nedrysoft::RegExHostMasker {
     namespace Ui {
         class RegExHostMaskerSettingsPageWidget;
@@ -53,6 +55,22 @@ namespace Nedrysoft::RegExHostMasker {
              * @brief       Destroys the RegExHostMaskerSettingsPageWidget.
              */
             ~RegExHostMaskerSettingsPageWidget() override;
+
+        private:
+            /**
+             * @brief       Updates the widgets for the selected item.
+             *
+             * @param[in]   item the item to display (nullptr if none)
+             */
+            auto updateWidgets(QTreeWidgetItem *item) -> void;
+
+        public:
+            /**
+             * @brief       Reimplements: QWidget::sizeHint().
+             *
+             * @returns     the preferred size for the widdget.
+             */
+            QSize sizeHint() const override;
 
         private:
             Ui::RegExHostMaskerSettingsPageWidget *ui;

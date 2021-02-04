@@ -69,6 +69,10 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(
 
     for (auto matchFlag : searchList) {
         for (const auto &maskItem : m_maskList) {
+            if (!maskItem.m_enabled) {
+                continue;
+            }
+
             if (!( maskItem.m_matchFlags & matchFlag )) {
                 continue;
             }
@@ -146,7 +150,8 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::add(
         const QString &description,
         const QString &matchExpression,
         const QString &replacementString,
-        const QString &hopString ) -> void {
+        const QString &hopString,
+        const bool enabled ) -> void {
 
     Nedrysoft::RegExHostMasker::RegExHostMaskerItem item;
 
@@ -155,6 +160,7 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::add(
     item.m_replacementString = std::move(replacementString);
     item.m_hopString = hopString;
     item.m_description = description;
+    item.m_enabled = enabled;
 
     m_maskList.append(item);
 }
@@ -173,6 +179,7 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::saveConfiguration() -> QJsonOb
         object.insert("matchReplacementString", item.m_replacementString);
         object.insert("matchHopString", item.m_hopString);
         object.insert("description", item.m_description);
+        object.insert("enabled", item.m_enabled);
 
         itemArray.append(object);
     }
@@ -200,7 +207,8 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::loadConfiguration(QJsonObject 
             item["description"].toString(),
             item["matchExpression"].toString(),
             item["matchReplacementString"].toString(),
-            item["matchHopString"].toString() );
+            item["matchHopString"].toString(),
+            item["enabled"].toBool(true) );
     }
 
     return false;

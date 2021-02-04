@@ -33,6 +33,7 @@ RegExHostMaskerComponent::RegExHostMaskerComponent() :
         m_hostMasker(nullptr),
         m_settingsPage(nullptr) {
 
+    qRegisterMetaType<Nedrysoft::RegExHostMasker::RegExHostMaskerItem>();
 }
 
 RegExHostMaskerComponent::~RegExHostMaskerComponent() {

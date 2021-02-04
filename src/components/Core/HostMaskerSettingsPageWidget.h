@@ -59,7 +59,7 @@ namespace Nedrysoft::Core {
              * @brief       Initialises the host masker widget, searches for HostMasker settings pages and updates
              *              the list.
              */
-            void initialise();
+            auto initialise() -> void;
 
         private:
             Ui::HostMaskerSettingsPageWidget *ui;

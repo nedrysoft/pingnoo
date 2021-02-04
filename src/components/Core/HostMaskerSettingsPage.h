@@ -107,8 +107,11 @@ namespace Nedrysoft::Core {
 
             /**
              * @brief       Initialises the page.
+             *
+             * @note        The settings dialog calls this before showing the settings dialog so that any pages
+             *              can set up their content accordingly.
              */
-            virtual auto initialise() -> void override;
+            auto initialise() -> void override;
 
         private:
             HostMaskerSettingsPageWidget *m_widget;

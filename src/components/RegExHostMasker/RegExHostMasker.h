@@ -39,6 +39,7 @@ namespace Nedrysoft::RegExHostMasker {
             QString m_addressReplacementString;
             QString m_hopString;
             QString m_description;
+            bool m_enabled;
 
             unsigned int m_matchFlags;
     };
@@ -79,13 +80,15 @@ namespace Nedrysoft::RegExHostMasker {
              * @param[in]   matchExpression the regular expression used for name matching.
              * @param[in]   replacementString the string to be used for replacement.
              * @param[in]   hopString hop string listing hops this mask is valid for. (optional)
+             * @param[in]   enabled whether this entry is enabled.
              */
             auto add(
                     unsigned int matchFlags,
                     const QString &description,
                     const QString &matchExpression,
                     const QString &replacementString,
-                    const QString &hopString = QString() ) -> void;
+                    const QString &hopString,
+                    const bool enabled= true ) -> void;
 
         public:
             /**
@@ -160,5 +163,7 @@ namespace Nedrysoft::RegExHostMasker {
 
     };
 }
+
+Q_DECLARE_METATYPE(Nedrysoft::RegExHostMasker::RegExHostMaskerItem)
 
 #endif // NEDRYSOFT_REGEXHOSTMASKER_REGEXHOSTMASKER_H

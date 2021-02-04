@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>726</width>
-    <height>393</height>
+    <width>689</width>
+    <height>360</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -47,14 +47,14 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="newButton">
        <property name="text">
         <string>New</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="deleteButton">
        <property name="text">
         <string>Delete</string>
        </property>
@@ -80,6 +80,16 @@
      <property name="fieldGrowthPolicy">
       <enum>QFormLayout::ExpandingFieldsGrow</enum>
      </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="enabledLabel">
+       <property name="text">
+        <string>Enabled:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QCheckBox" name="enabledCheckBox"/>
+     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="descriptionLabel">
        <property name="text">
@@ -110,39 +120,9 @@
      <item row="3" column="1">
       <widget class="QLineEdit" name="substitutionLineEdit"/>
      </item>
-     <item row="5" column="1">
-      <layout class="QHBoxLayout" name="flagsLayout">
-       <property name="spacing">
-        <number>-1</number>
-       </property>
-       <item>
-        <widget class="QCheckBox" name="matchHopsCheckbox">
-         <property name="text">
-          <string>Match Hops</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="matchHostCheckbox">
-         <property name="text">
-          <string>Match Host</string>
-         </property>
-        </widget>
-       </item>
-       <item>
+     <item row="4" column="1">
+      <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,2,0">
+       <item row="0" column="3">
         <spacer name="horizontalSpacer_3">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -155,14 +135,42 @@
          </property>
         </spacer>
        </item>
-       <item>
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="matchHopsCheckbox">
+         <property name="text">
+          <string>Match Hops</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
         <widget class="QCheckBox" name="matchAddressCheckbox">
          <property name="text">
           <string>Match Address</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="0" column="2">
+        <widget class="QCheckBox" name="matchHostCheckbox">
+         <property name="text">
+          <string>Match Host</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="maskHostCheckbox">
+         <property name="text">
+          <string>Mask Host</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="maskAddressCheckbox">
+         <property name="text">
+          <string>Mask Address</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
         <spacer name="horizontalSpacer_4">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -175,57 +183,7 @@
          </property>
         </spacer>
        </item>
-       <item>
-        <widget class="QCheckBox" name="maskHostCheckbox">
-         <property name="text">
-          <string>Mask Host</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="maskAddressCheckbox">
-         <property name="text">
-          <string>Mask Address</string>
-         </property>
-        </widget>
-       </item>
       </layout>
-     </item>
-     <item row="6" column="1">
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="enabledLabel">
-       <property name="text">
-        <string>Enabled:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QCheckBox" name="enabledCheckBox"/>
      </item>
     </layout>
    </item>
