@@ -390,7 +390,7 @@ if platform.system() == "Windows":
 
     startmessage('Running windeployqt...')
 
-    resultCode, resultOutput = execute(f'{windeployqt} --dir {deployDir} {filesString}')
+    resultCode, resultOutput = execute(f'{windeployqt} --dir {deployDir} {filesString} --{args.type}')
 
     if resultCode:
         endmessage(False, f'there was a problem running windeployqt.\r\n\r\n{resultOutput}\r\n')
