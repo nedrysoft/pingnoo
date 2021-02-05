@@ -25,7 +25,7 @@
 
 #include "PublicIPHostMaskerSettingsPageWidget.h"
 
-auto Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPage::widget() -> QWidget * {
+auto Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPage::createWidget() -> QWidget * {
     return new Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPageWidget;
 }
 

@@ -25,16 +25,11 @@
 
 #include "HostMaskerSettingsPageWidget.h"
 
-Nedrysoft::Core::HostMaskerSettingsPage::HostMaskerSettingsPage(QWidget *parent) :
-        m_widget(new HostMaskerSettingsPageWidget) {
-
+Nedrysoft::Core::HostMaskerSettingsPage::HostMaskerSettingsPage(QWidget *parent) {
     Q_UNUSED(parent)
 }
 
 Nedrysoft::Core::HostMaskerSettingsPage::HostMaskerSettingsPage::~HostMaskerSettingsPage() {
-    if (m_widget->parentWidget()==nullptr) {
-        delete m_widget;
-    }
 }
 
 auto Nedrysoft::Core::HostMaskerSettingsPage::section() -> QString {
@@ -53,8 +48,12 @@ auto Nedrysoft::Core::HostMaskerSettingsPage::icon() -> QIcon {
     return QIcon(":/Core/icons/mask.png");
 }
 
-auto Nedrysoft::Core::HostMaskerSettingsPage::widget() -> QWidget * {
-    return m_widget;
+auto Nedrysoft::Core::HostMaskerSettingsPage::createWidget() -> QWidget * {
+    auto pageWidget = new HostMaskerSettingsPageWidget;
+
+    pageWidget->initialise();
+
+    return pageWidget;
 }
 
 auto Nedrysoft::Core::HostMaskerSettingsPage::canAcceptSettings() -> bool {
@@ -63,8 +62,4 @@ auto Nedrysoft::Core::HostMaskerSettingsPage::canAcceptSettings() -> bool {
 
 auto Nedrysoft::Core::HostMaskerSettingsPage::acceptSettings() -> void {
 
-}
-
-auto Nedrysoft::Core::HostMaskerSettingsPage::initialise() -> void {
-    m_widget->initialise();
 }

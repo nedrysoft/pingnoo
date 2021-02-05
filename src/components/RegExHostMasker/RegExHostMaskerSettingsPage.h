@@ -45,11 +45,11 @@ namespace Nedrysoft::RegExHostMasker {
                 ~RegExHostMaskerSettingsPage() = default;
 
                 /**
-                 * @brief       Returns the widget for the settings page.
+                 * @brief       Creates a new instance of the page widget.
                  *
-                 * @returns     the widget
+                 * @returns     the new widget instance.
                  */
-                virtual auto widget() -> QWidget *;
+                auto createWidget() -> QWidget * override;
 
                 /**
                  * @brief       Returns the display name for the settings page.

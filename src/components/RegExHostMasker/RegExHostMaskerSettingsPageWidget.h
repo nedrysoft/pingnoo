@@ -26,7 +26,10 @@
 
 #include <QWidget>
 
+#include "RegExHostMasker.h"
+
 class QTreeWidgetItem;
+class QCheckBox;
 
 namespace Nedrysoft::RegExHostMasker {
     namespace Ui {
@@ -63,6 +66,71 @@ namespace Nedrysoft::RegExHostMasker {
              * @param[in]   item the item to display (nullptr if none)
              */
             auto updateWidgets(QTreeWidgetItem *item) -> void;
+
+            /**
+             * @brief       Called when the data is changed by the user.
+             *
+             * @note        Under Windows and Linux this function does nothing, on macOS it applies the changes
+             *              immediately, this is standard macOS behavior.
+             */
+            auto updateSettings() -> void;
+
+            /**
+             * @brief       Adds an expression configuration to the list.
+             *
+             * @param[in]   item the item to add.
+             */
+            auto addExpression(Nedrysoft::RegExHostMasker::RegExHostMaskerItem masker) -> void;
+
+            /**
+             * @brief       Saves the current configuration.
+             */
+            auto saveSettings() -> void;
+
+            /**
+             * @brief       Adds a checkbox cell to a treeview.
+             *
+             * @param[in]   isChecked the initial state of the checkbox.
+             *
+             * @returns     the checkbox widget.
+             */
+            auto addCheckBox(bool isChecked) -> QCheckBox *;
+
+            /**
+             * @brief       Returns the checkbox from the container.
+             *
+             * @param[in]   container the container that has the checkbox.
+             *
+             * @returns     the checkbox.
+             */
+            auto getCheckBox(QWidget *container) -> QCheckBox *;
+
+            /**
+             * @brief       Updates the checkbox in the table to the given state.
+             *
+             * @param[in]   item the tree view item.
+             * @param[in]   column the checkbox column to modify.
+             * @param[in]   isChecked true if item is checked; otherwise false.
+             */
+            auto updateCheckBox(QTreeWidgetItem *item, int column, bool isChecked) -> void;
+
+            /**
+             * @brief       Returns the masker item for the tree item.
+             *
+             * @param[in]   item the tree widget item.
+             *
+             * @returns     the masker item.
+             */
+            auto getMaskerItem(QTreeWidgetItem *item) -> RegExHostMaskerItem;
+
+            /**
+             * @brief       Sets the masker item for the tree item
+             *
+             * @param[in]   item the tree widget item to set.
+             *
+             * @param[in]   maskerItem the masker item.
+             */
+            auto setMaskerItem(QTreeWidgetItem *item, RegExHostMaskerItem maskerItem) -> void;
 
         public:
             /**

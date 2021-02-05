@@ -232,7 +232,7 @@ auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
 
         connect(m_settingsDialog, &Nedrysoft::SettingsDialog::SettingsDialog::closed, [=]() {
             delete m_settingsDialog;
-
+qDebug() << "settings closed";
             m_settingsDialog = nullptr;
         });
     });

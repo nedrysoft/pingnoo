@@ -51,10 +51,8 @@ auto Nedrysoft::RouteAnalyser::LatencySettingsPage::icon() -> QIcon {
     return QIcon(":/RouteAnalyser/icons/analyser.png");
 }
 
-auto Nedrysoft::RouteAnalyser::LatencySettingsPage::widget() -> QWidget * {
-    static auto widget = new LatencySettingsPageWidget;
-
-    return widget;
+auto Nedrysoft::RouteAnalyser::LatencySettingsPage::createWidget() -> QWidget * {
+    return new LatencySettingsPageWidget;
 }
 
 auto Nedrysoft::RouteAnalyser::LatencySettingsPage::canAcceptSettings() -> bool {
@@ -62,9 +60,5 @@ auto Nedrysoft::RouteAnalyser::LatencySettingsPage::canAcceptSettings() -> bool 
 }
 
 auto Nedrysoft::RouteAnalyser::LatencySettingsPage::acceptSettings() -> void {
-
-}
-
-auto Nedrysoft::RouteAnalyser::LatencySettingsPage::initialise() -> void {
 
 }

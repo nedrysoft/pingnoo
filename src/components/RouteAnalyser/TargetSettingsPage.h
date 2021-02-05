@@ -75,11 +75,11 @@ namespace Nedrysoft::RouteAnalyser {
             auto icon() -> QIcon override;
 
             /**
-             * @brief       The widget for the page.
+             * @brief       Creates a new instance of the page widget.
              *
-             * @returns     a widget.
+             * @returns     the new widget instance.
              */
-            auto widget() ->QWidget * override;
+            auto createWidget() -> QWidget * override;
 
             /**
              * @brief       Checks if the settings can be applied.
@@ -92,14 +92,6 @@ namespace Nedrysoft::RouteAnalyser {
              * @brief       Applies the current settings.
              */
             auto acceptSettings() -> void override;
-
-            /**
-             * @brief       Initialises the page.
-             */
-            auto initialise() -> void override;
-
-        private:
-            TargetSettingsPageWidget *m_widget;
     };
 }
 

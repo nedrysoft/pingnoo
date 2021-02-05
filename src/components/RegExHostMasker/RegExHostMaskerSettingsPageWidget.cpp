@@ -30,7 +30,8 @@
 
 #include <QStandardPaths>
 
-constexpr auto defaultWidgetWidth = 600;
+constexpr auto defaultWidgetWidth = 650;
+constexpr auto defaultWidgetHeight = 800;
 constexpr auto columnPadding = 8;
 
 Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSettingsPageWidget(QWidget *parent) :
@@ -41,19 +42,12 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSe
 
     auto headerLabels = QStringList() <<
         tr("Description") <<
+        tr("Enabled") <<
         tr("Match\r\nHop") <<
         tr("Match\r\nAddress") <<
         tr("Match\r\nHost") <<
         tr("Mask\r\nAddress") <<
         tr("Mask\r\nHost");
-
-    RegExHostMasker::MatchFlags matchFlags[] = {
-            RegExHostMasker::MatchFlags::MatchHop,
-            RegExHostMasker::MatchFlags::MatchAddress,
-            RegExHostMasker::MatchFlags::MatchHost,
-            RegExHostMasker::MatchFlags::MaskAddress,
-            RegExHostMasker::MatchFlags::MaskHost
-    };
 
     ui->expressionsTreeWidget->header()->setDefaultAlignment(Qt::AlignHCenter);
     ui->expressionsTreeWidget->setHeaderLabels(headerLabels);
@@ -67,49 +61,21 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSe
     QFontMetrics fontMetrics(ui->expressionsTreeWidget->header()->font());
 
     for (auto masker : hostMasker->m_maskList) {
-        auto treeItem = new QTreeWidgetItem;
-
-        treeItem->setText(0, masker.m_description);
-        treeItem->setData(0, Qt::UserRole, QVariant::fromValue(masker));
-
-        ui->expressionsTreeWidget->addTopLevelItem(treeItem);
-
-        // bit of a hack, can't centre the checkbox directly, so stick it in a widget with a centered layout.
-
-        for (int column = 1; column<headerLabels.count(); column++) {
-            auto checkBox = new QCheckBox;
-            auto containerWidget = new QWidget;
-            auto containerLayout = new QHBoxLayout;
-
-            if (masker.m_matchFlags & static_cast<int>(matchFlags[column-1])) {
-                checkBox->setCheckState(Qt::Checked);
-            } else {
-                checkBox->setCheckState(Qt::Unchecked);
-            }
-
-            containerLayout->setAlignment(Qt::AlignCenter);
-            containerLayout->setContentsMargins(1, 1, 1, 1);
-
-            containerWidget->setLayout(containerLayout);
-
-            containerLayout->addWidget(checkBox);
-
-            ui->expressionsTreeWidget->setItemWidget(treeItem, column, containerWidget);
-        }
+        addExpression(masker);
     }
 
     // resize the checkbox columns and resize the first column to be the remaining space
 
     ui->expressionsTreeWidget->header()->setStretchLastSection(false);
 
-    auto resizedColumnsWidth = columnPadding;
+    auto resizedColumnsWidth = 0;
 
-    for (int column = 1; column<headerLabels.count(); column++) {
+    for (int column = 0; column<headerLabels.count(); column++) {
         auto columnWidth = fontMetrics.boundingRect(headerLabels.at(column)).width();
 
         ui->expressionsTreeWidget->setColumnWidth(column, columnWidth);
 
-        resizedColumnsWidth += columnWidth-columnPadding;
+        resizedColumnsWidth += columnWidth-4;
     }
 
     auto adjustment = rect().width()-defaultWidgetWidth;
@@ -121,6 +87,164 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSe
     });
 
     ui->expressionsTreeWidget->setCurrentItem(ui->expressionsTreeWidget->topLevelItem(0));
+
+    // connect the signals for editing
+
+    connect(ui->enabledCheckBox, &QCheckBox::stateChanged, [=](int state) {
+        auto maskerItem = getMaskerItem(ui->expressionsTreeWidget->currentItem());
+
+        maskerItem.m_enabled = state;
+
+        updateCheckBox(ui->expressionsTreeWidget->currentItem(), 1, state);
+
+        setMaskerItem(ui->expressionsTreeWidget->currentItem(), maskerItem);
+
+        updateSettings();
+    });
+
+    connect(ui->matchHopsCheckbox, &QCheckBox::stateChanged, [=](int state) {
+        auto maskerItem = getMaskerItem(ui->expressionsTreeWidget->currentItem());
+
+        if (state) {
+            maskerItem.m_matchFlags |= static_cast<int>(RegExHostMasker::MatchFlags::MatchHop);
+        } else {
+            maskerItem.m_matchFlags &= ~static_cast<int>(RegExHostMasker::MatchFlags::MatchHop);
+        }
+
+        updateCheckBox(ui->expressionsTreeWidget->currentItem(), 2, state);
+
+        setMaskerItem(ui->expressionsTreeWidget->currentItem(), maskerItem);
+
+        updateSettings();
+    });
+
+    connect(ui->matchAddressCheckbox, &QCheckBox::stateChanged, [=](int state) {
+        auto maskerItem = getMaskerItem(ui->expressionsTreeWidget->currentItem());
+
+        if (state) {
+            maskerItem.m_matchFlags |= static_cast<int>(RegExHostMasker::MatchFlags::MatchAddress);
+        } else {
+            maskerItem.m_matchFlags &= ~static_cast<int>(RegExHostMasker::MatchFlags::MatchAddress);
+        }
+
+        updateCheckBox(ui->expressionsTreeWidget->currentItem(), 3, state);
+
+        setMaskerItem(ui->expressionsTreeWidget->currentItem(), maskerItem);
+
+        updateSettings();
+    });
+
+    connect(ui->matchHostCheckbox, &QCheckBox::stateChanged, [=](int state) {
+        auto maskerItem = getMaskerItem(ui->expressionsTreeWidget->currentItem());
+
+        if (state) {
+            maskerItem.m_matchFlags |= static_cast<int>(RegExHostMasker::MatchFlags::MatchHost);
+        } else {
+            maskerItem.m_matchFlags &= ~static_cast<int>(RegExHostMasker::MatchFlags::MatchHost);
+        }
+
+        updateCheckBox(ui->expressionsTreeWidget->currentItem(), 4, state);
+
+        setMaskerItem(ui->expressionsTreeWidget->currentItem(), maskerItem);
+
+        updateSettings();
+    });
+
+    connect(ui->maskAddressCheckbox, &QCheckBox::stateChanged, [=](int state) {
+        auto maskerItem = getMaskerItem(ui->expressionsTreeWidget->currentItem());
+
+        if (state) {
+            maskerItem.m_matchFlags |= static_cast<int>(RegExHostMasker::MatchFlags::MaskAddress);
+        } else {
+            maskerItem.m_matchFlags &= ~static_cast<int>(RegExHostMasker::MatchFlags::MaskAddress);
+        }
+
+        updateCheckBox(ui->expressionsTreeWidget->currentItem(), 5, state);
+
+        setMaskerItem(ui->expressionsTreeWidget->currentItem(), maskerItem);
+
+        updateSettings();
+    });
+
+    connect(ui->maskHostCheckbox, &QCheckBox::stateChanged, [=](int state) {
+        auto maskerItem = getMaskerItem(ui->expressionsTreeWidget->currentItem());
+
+        if (state) {
+            maskerItem.m_matchFlags |= static_cast<int>(RegExHostMasker::MatchFlags::MaskHost);
+        } else {
+            maskerItem.m_matchFlags &= ~static_cast<int>(RegExHostMasker::MatchFlags::MaskHost);
+        }
+
+        updateCheckBox(ui->expressionsTreeWidget->currentItem(), 6, state);
+
+        setMaskerItem(ui->expressionsTreeWidget->currentItem(), maskerItem);
+
+        updateSettings();
+    });
+
+    connect(ui->regularExpressionLineEdit, &QLineEdit::textChanged, [=](const QString &newString) {
+        auto maskerItem = getMaskerItem(ui->expressionsTreeWidget->currentItem());
+
+        maskerItem.m_matchExpression = newString;
+
+        setMaskerItem(ui->expressionsTreeWidget->currentItem(), maskerItem);
+
+        updateSettings();
+    });
+
+    connect(ui->substitutionLineEdit, &QLineEdit::textChanged, [=](const QString &newString) {
+        auto maskerItem = getMaskerItem(ui->expressionsTreeWidget->currentItem());
+
+        maskerItem.m_replacementString = newString;
+
+        setMaskerItem(ui->expressionsTreeWidget->currentItem(), maskerItem);
+
+    });
+
+    connect(ui->addressSubstitutionLineEdit, &QLineEdit::textChanged, [=](const QString &newString) {
+        auto maskerItem = getMaskerItem(ui->expressionsTreeWidget->currentItem());
+
+        maskerItem.m_addressReplacementString = newString;
+
+        setMaskerItem(ui->expressionsTreeWidget->currentItem(), maskerItem);
+    });
+
+    connect(ui->descriptionLineEdit, &QLineEdit::textChanged, [=](const QString &newString) {
+        auto maskerItem = getMaskerItem(ui->expressionsTreeWidget->currentItem());
+
+        maskerItem.m_description = newString;
+
+        if (ui->expressionsTreeWidget->currentItem()) {
+            ui->expressionsTreeWidget->currentItem()->setText(0, newString);
+        }
+
+        setMaskerItem(ui->expressionsTreeWidget->currentItem(), maskerItem);
+
+        updateSettings();
+    });
+
+    connect(ui->deleteButton, &QPushButton::clicked, [=](bool checked) {
+        delete ui->expressionsTreeWidget->currentItem();
+
+        updateSettings();
+    });
+
+    connect(ui->newButton, &QPushButton::clicked, [=](bool checked) {
+        Nedrysoft::RegExHostMasker::RegExHostMaskerItem masker;
+
+        masker.m_enabled = true;
+        masker.m_matchFlags = 0;
+        masker.m_replacementString = "";
+        masker.m_matchExpression = "";
+        masker.m_description = tr("New Masker");
+        masker.m_hopString = "";
+        masker.m_addressReplacementString = "";
+        masker.m_hops = QSet<int>();
+
+        addExpression(masker);
+
+        updateSettings();
+    });
 }
 
 Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::~RegExHostMaskerSettingsPageWidget() {
@@ -128,13 +252,14 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::~RegExHostMaskerS
 }
 
 QSize Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::sizeHint() const {
-    return QSize(defaultWidgetWidth, QWidget::sizeHint().height());
+    return QSize(defaultWidgetWidth, defaultWidgetHeight);
 }
 
 auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::updateWidgets(QTreeWidgetItem *item) -> void {
     ui->descriptionLineEdit->setEnabled(item!=nullptr);
     ui->regularExpressionLineEdit->setEnabled(item!=nullptr);
     ui->substitutionLineEdit->setEnabled(item!=nullptr);
+    ui->addressSubstitutionLineEdit->setEnabled(item!=nullptr);
     ui->matchHopsCheckbox->setEnabled(item!=nullptr);
     ui->maskHostCheckbox->setEnabled(item!=nullptr);
     ui->maskAddressCheckbox->setEnabled(item!=nullptr);
@@ -146,6 +271,7 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::updateWidget
     if (!item) {
         ui->descriptionLineEdit->setText("");
         ui->regularExpressionLineEdit->setText("");
+        ui->addressSubstitutionLineEdit->setText("");
         ui->substitutionLineEdit->setText("");
         ui->matchHopsCheckbox->setChecked(false);
         ui->maskHostCheckbox->setChecked(false);
@@ -164,6 +290,7 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::updateWidget
     ui->descriptionLineEdit->setText(regexItem.m_description);
     ui->regularExpressionLineEdit->setText(regexItem.m_matchExpression);
     ui->substitutionLineEdit->setText(regexItem.m_replacementString);
+    ui->addressSubstitutionLineEdit->setText(regexItem.m_addressReplacementString);
 
     int flags = static_cast<int>(regexItem.m_matchFlags);
 
@@ -175,3 +302,153 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::updateWidget
 
     ui->enabledCheckBox->setChecked(regexItem.m_enabled);
 }
+
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::updateSettings() -> void {
+#if !defined(Q_OS_MACOS)
+    return;
+#endif
+    saveSettings();
+}
+
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::saveSettings() -> void {
+    auto hostMasker = Nedrysoft::ComponentSystem::getObject<RegExHostMasker>();
+
+    if (!hostMasker) {
+        return;
+    }
+
+    QFontMetrics fontMetrics(ui->expressionsTreeWidget->header()->font());
+
+    QList<Nedrysoft::RegExHostMasker::RegExHostMaskerItem> itemList;
+
+    for(auto currentIndex=0; currentIndex<ui->expressionsTreeWidget->topLevelItemCount(); currentIndex++) {
+        auto currentItem = ui->expressionsTreeWidget->topLevelItem(currentIndex);
+
+        Nedrysoft::RegExHostMasker::RegExHostMaskerItem newItem;
+
+        itemList.append(currentItem->data(0, Qt::UserRole).value<Nedrysoft::RegExHostMasker::RegExHostMaskerItem>());
+    }
+
+    hostMasker->m_maskList = itemList;
+}
+
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::addExpression(
+        Nedrysoft::RegExHostMasker::RegExHostMaskerItem masker) -> void {
+
+    auto treeItem = new QTreeWidgetItem;
+
+    RegExHostMasker::MatchFlags matchFlags[] = {
+            RegExHostMasker::MatchFlags::MatchHop,
+            RegExHostMasker::MatchFlags::MatchAddress,
+            RegExHostMasker::MatchFlags::MatchHost,
+            RegExHostMasker::MatchFlags::MaskAddress,
+            RegExHostMasker::MatchFlags::MaskHost
+    };
+
+    treeItem->setText(0, masker.m_description);
+    treeItem->setData(0, Qt::UserRole, QVariant::fromValue(masker));
+
+    ui->expressionsTreeWidget->addTopLevelItem(treeItem);
+
+    // create enabled column
+
+    auto enabledCheckBox = addCheckBox(masker.m_enabled);
+
+    ui->expressionsTreeWidget->setItemWidget(treeItem, 1, enabledCheckBox->parentWidget());
+
+    connect(enabledCheckBox, &QCheckBox::stateChanged, [=](int state) {
+        updateSettings();
+    });
+
+    // bit of a hack, can't centre the checkbox directly, so stick it in a widget with a centered layout.
+
+    for (int column = 2; column<ui->expressionsTreeWidget->header()->count(); column++) {
+        auto checkBox = addCheckBox(masker.m_matchFlags & static_cast<int>(matchFlags[column-2]));
+
+        ui->expressionsTreeWidget->setItemWidget(treeItem, column, checkBox->parentWidget());
+
+        connect(checkBox, &QCheckBox::stateChanged, [=](int state) {
+            updateSettings();
+        });
+    }
+
+    ui->expressionsTreeWidget->setCurrentItem(treeItem);
+}
+
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget:: addCheckBox(
+        bool isChecked ) -> QCheckBox * {
+
+    auto containerWidget = new QWidget;
+    auto checkBox = new QCheckBox(containerWidget);
+    auto containerLayout = new QHBoxLayout;
+
+    checkBox->setCheckState(isChecked ? Qt::Checked : Qt::Unchecked);
+
+    containerLayout->setAlignment(Qt::AlignCenter);
+    containerLayout->setContentsMargins(1, 1, 1, 1);
+
+    containerWidget->setLayout(containerLayout);
+
+    containerLayout->addWidget(checkBox);
+
+    return checkBox;
+}
+
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::getCheckBox(QWidget *container) -> QCheckBox * {
+    auto layout = qobject_cast<QHBoxLayout *>(container->layout());
+
+    if (!layout) {
+        return nullptr;
+    }
+
+    auto layoutItem = layout->itemAt(0);
+
+    if (!layoutItem) {
+        return nullptr;
+    }
+
+    return qobject_cast<QCheckBox *>(layoutItem->widget());
+}
+
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::updateCheckBox(
+        QTreeWidgetItem *item,
+        int column,
+        bool isChecked) -> void {
+
+    if (!item) {
+        return;
+    }
+
+    auto containerWidget = ui->expressionsTreeWidget->itemWidget(item, column);
+
+    if (!containerWidget) {
+        return;
+    }
+
+    auto checkBox = getCheckBox(containerWidget);
+
+    if (checkBox) {
+        checkBox->setChecked(isChecked ? Qt::Checked : Qt::Unchecked);
+    }
+}
+
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::getMaskerItem(QTreeWidgetItem *item) ->
+        Nedrysoft::RegExHostMasker::RegExHostMaskerItem {
+
+    auto maskerItem = ui->expressionsTreeWidget->currentItem()->data(
+            0, Qt::UserRole).value<Nedrysoft::RegExHostMasker::RegExHostMaskerItem>();
+
+    return maskerItem;
+}
+
+
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::setMaskerItem(
+        QTreeWidgetItem *item,
+        Nedrysoft::RegExHostMasker::RegExHostMaskerItem maskerItem) -> void {
+
+    item->setData(
+            0,
+            Qt::UserRole, QVariant::fromValue<Nedrysoft::RegExHostMasker::RegExHostMaskerItem>(maskerItem) );
+}
+
+

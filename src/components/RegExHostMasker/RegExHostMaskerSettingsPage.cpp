@@ -25,7 +25,7 @@
 
 #include "RegExHostMaskerSettingsPageWidget.h"
 
-auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPage::widget() -> QWidget * {
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPage::createWidget() -> QWidget * {
     return new Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget;
 }
 

@@ -52,7 +52,7 @@ auto Nedrysoft::Core::HostMaskerSettingsPageWidget::initialise() -> void {
 
         maskerItem->setText(0, masker->displayName());
 
-        auto maskerWidget = masker->widget();
+        auto maskerWidget = masker->createWidget();
 
         ui->maskersTreeWidget->addTopLevelItem(maskerItem);
         ui->maskersStackedWidget->addWidget(maskerWidget);
@@ -63,6 +63,10 @@ auto Nedrysoft::Core::HostMaskerSettingsPageWidget::initialise() -> void {
     connect(ui->maskersTreeWidget,
             &QTreeWidget::currentItemChanged,
             [=](QTreeWidgetItem *current, QTreeWidgetItem *previous) {
+
+        if (!current) {
+            return;
+        }
 
         auto widget = current->data(0, Qt::UserRole).value<QWidget *>();
 

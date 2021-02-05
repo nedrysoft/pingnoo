@@ -43,11 +43,11 @@ namespace Nedrysoft::Core {
 
         public:
             /**
-             * @brief       Returns the widget for the settings page.
+             * @brief       Creates a new instance of the page widget.
              *
-             * @returns     the widget
+             * @returns     the new widget instance.
              */
-            virtual auto widget() -> QWidget * = 0;
+            virtual auto createWidget() -> QWidget * = 0;
 
             /**
              * @brief       Returns the display name for the host masker.
