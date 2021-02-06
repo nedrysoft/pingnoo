@@ -74,6 +74,27 @@ namespace Nedrysoft::RegExHostMasker {
             RegExHostMasker();
 
             /**
+             * @brief       Loads the configuration from disk.
+             *
+             * @note        If no filename is passed, then the components configuration is used.
+             *
+             * @param[in]   filename the file to load.
+             * @param[in]   append if true configuration is appended; otherwise it overwrites.
+             *
+             * @returns     true if configuration was changed; otherwise false.
+             */
+            auto loadFromFile(QString filename = QString::Null(), bool append = false) -> bool;
+
+            /**
+             * @brief       Saves the configuration to disk.
+             *
+             * @note        If no filename is passed, then the components configuration is used.
+             *
+             * @param[in]   filename the file to save to.
+             */
+            auto saveToFile(QString filename = QString::Null()) -> void;
+
+            /**
              * @brief       Adds a host name match expression.
              *
              * @param[in]   matchFlags the bit mask of values from MatchFlags to control masking.

@@ -24,13 +24,19 @@
 #include "PublicIPHostMasker.h"
 
 #include <QEventLoop>
+#include <QFile>
+#include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QStandardPaths>
+
+constexpr auto configurationFilename = "/Nedrysoft/pingnoo/Components/PublicIPHostMasker.json";
 
 Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::PublicIPHostMasker() :
         m_eventLoop(nullptr),
         m_networkManager(nullptr) {
 
+    loadFromFile();
 }
 
 Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::~PublicIPHostMasker() {
@@ -40,6 +46,48 @@ Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::~PublicIPHostMasker() {
 
     if (m_networkManager) {
         delete m_networkManager;
+    }
+}
+
+auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::loadFromFile() -> bool {
+    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+
+    if (configPaths.count()) {
+        QFile configurationFile;
+
+        configurationFile.setFileName(configPaths.at(0) + configurationFilename);
+
+        if (configurationFile.open(QFile::ReadOnly)) {
+            auto jsonDocument = QJsonDocument::fromJson(configurationFile.readAll());
+
+            if (jsonDocument.isObject()) {
+                loadConfiguration(jsonDocument.object());
+
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::saveToFile() -> void {
+    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+
+    if (configPaths.count()) {
+        QFile configurationFile;
+
+        configurationFile.setFileName(configPaths.at(0) + configurationFilename);
+
+        if (configurationFile.open(QFile::WriteOnly)) {
+            QJsonObject configuration = saveConfiguration();
+
+            auto jsonDocument = QJsonDocument(configuration);
+
+            if (jsonDocument.isObject()) {
+                configurationFile.write(jsonDocument.toJson());
+            }
+        }
     }
 }
 
@@ -59,30 +107,7 @@ auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::mask(
     // retrieve checkip.dyndns.com
 
     if (m_publicIP.isNull()) {
-        m_eventLoop = new QEventLoop;
-        m_networkManager = new QNetworkAccessManager();
-        QNetworkRequest request;
-
-        connect(m_networkManager, &QNetworkAccessManager::finished, [=](QNetworkReply *) {
-            m_eventLoop->quit();
-        });
-
-        request.setUrl(QUrl("http://checkip.dyndns.com"));
-
-        auto reply = m_networkManager->get(request);
-
-        m_eventLoop->exec();
-
-        auto responseTest(reply->readAll());
-
-        auto matchExpression = QRegularExpression(
-                R"(Current IP Address: (?<ip>([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})))");
-
-        auto expressionMatch = matchExpression.match(responseTest);
-
-        if (expressionMatch.hasMatch()) {
-            m_publicIP = expressionMatch.captured("ip");
-        }
+        m_publicIP = getPublicIP();
     }
 
     if (hostAddress == m_publicIP) {
@@ -93,13 +118,50 @@ auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::mask(
     return true;
 }
 
+auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::getPublicIP() -> QString {
+    m_eventLoop = new QEventLoop;
+    m_networkManager = new QNetworkAccessManager();
+    QNetworkRequest request;
+
+    connect(m_networkManager, &QNetworkAccessManager::finished, [=](QNetworkReply *) {
+        m_eventLoop->quit();
+    });
+
+    request.setUrl(QUrl("http://checkip.dyndns.com"));
+
+    auto reply = m_networkManager->get(request);
+
+    m_eventLoop->exec();
+
+    auto responseTest(reply->readAll());
+
+    auto matchExpression = QRegularExpression(
+            R"(Current IP Address: (?<ip>([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})))");
+
+    auto expressionMatch = matchExpression.match(responseTest);
+
+    if (expressionMatch.hasMatch()) {
+        m_publicIP = expressionMatch.captured("ip");
+    }
+
+    return m_publicIP;
+}
+
 auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::saveConfiguration() -> QJsonObject {
-    return QJsonObject();
+    auto rootObject = QJsonObject();
+
+    rootObject.insert("id", this->metaObject()->className());
+    rootObject.insert("enabled", m_enabled);
+
+    return rootObject;
 }
 
 auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::loadConfiguration(QJsonObject configuration) -> bool {
-    Q_UNUSED(configuration)
+    if (configuration["id"] != this->metaObject()->className()) {
+        return false;
+    }
 
-    return false;
+    m_enabled = configuration["enabled"].toBool();
+
+    return true;
 }
-

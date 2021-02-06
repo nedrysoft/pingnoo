@@ -34,6 +34,8 @@ class QEventLoop;
 class QNetworkAccessManager;
 
 namespace Nedrysoft::PublicIPHostMasker {
+    class PublicIPHostMaskerSettingsPageWidget;
+
     /**
      * @brief       The PublicIPHostMasker class provides a host masker that redacts the public ip.
      *
@@ -57,6 +59,18 @@ namespace Nedrysoft::PublicIPHostMasker {
              * @brief       Destroys the PublicIPHostMasker.
              */
             ~PublicIPHostMasker();
+
+            /**
+             * @brief       Loads the configuration from disk.
+             *
+             * @returns     true if configuration was changed; otherwise false.
+             */
+            auto loadFromFile() -> bool;
+
+            /**
+             * @brief       Saves the configuration to disk.
+             */
+            auto saveToFile() -> void;
 
             /**
              * @brief       Masks a host name/ip.
@@ -83,6 +97,13 @@ namespace Nedrysoft::PublicIPHostMasker {
                     QString &maskedHostName,
                     QString &maskedHostAddress ) -> bool;
 
+            /**
+             * @brief       Gets the public IP.
+             *
+             * @returns     The public IP.
+             */
+            auto getPublicIP() -> QString;
+
         public:
             /**
              * @brief       Saves the configuration to a JSON object.
@@ -104,10 +125,13 @@ namespace Nedrysoft::PublicIPHostMasker {
              */
             virtual auto loadConfiguration(QJsonObject configuration) -> bool;
 
+            friend class PublicIPHostMaskerSettingsPageWidget;
+
         private:
             QString m_publicIP;
             QEventLoop *m_eventLoop;
             QNetworkAccessManager *m_networkManager;
+            bool m_enabled;
     };
 }
 

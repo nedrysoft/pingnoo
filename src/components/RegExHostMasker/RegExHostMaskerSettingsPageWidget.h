@@ -142,6 +142,8 @@ namespace Nedrysoft::RegExHostMasker {
 
         private:
             Ui::RegExHostMaskerSettingsPageWidget *ui;
+
+            bool m_loadingConfiguration;
     };
 }
 

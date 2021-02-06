@@ -56,7 +56,7 @@ namespace Nedrysoft::RegExHostMasker {
                  *
                  * @returns     the displayed name of the settings page.
                  */
-                virtual auto displayName() -> QString;
+                virtual auto displayName() -> QString override;
     };
 }
 

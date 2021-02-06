@@ -33,7 +33,6 @@ Nedrysoft::Core::HostMaskerSettingsPageWidget::HostMaskerSettingsPageWidget(QWid
         QWidget(parent), ui(new Ui::HostMaskerSettingsPageWidget) {
 
     ui->setupUi(this);
-
 }
 
 Nedrysoft::Core::HostMaskerSettingsPageWidget::~HostMaskerSettingsPageWidget() {
@@ -47,6 +46,8 @@ auto Nedrysoft::Core::HostMaskerSettingsPageWidget::initialise() -> void {
 
     ui->maskersTreeWidget->setHeaderLabels(QStringList() << tr("Masker Type"));
 
+    int minimumHeight = 0;
+
     for(auto masker : maskers) {
         QTreeWidgetItem *maskerItem = new QTreeWidgetItem;
 
@@ -58,7 +59,11 @@ auto Nedrysoft::Core::HostMaskerSettingsPageWidget::initialise() -> void {
         ui->maskersStackedWidget->addWidget(maskerWidget);
 
         maskerItem->setData(0, Qt::UserRole, QVariant::fromValue(maskerWidget));
+
+        minimumHeight = qMax(maskerWidget->sizeHint().height(), minimumHeight);
     }
+
+    this->setMinimumHeight(minimumHeight);
 
     connect(ui->maskersTreeWidget,
             &QTreeWidget::currentItemChanged,

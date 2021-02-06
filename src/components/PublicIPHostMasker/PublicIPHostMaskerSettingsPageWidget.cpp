@@ -23,6 +23,9 @@
 
 #include "PublicIPHostMaskerSettingsPageWidget.h"
 
+#include "ComponentSystem/IComponentManager.h"
+#include "PublicIPHostMasker.h"
+
 #include "ui_PublicIPHostMaskerSettingsPageWidget.h"
 
 Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPageWidget::PublicIPHostMaskerSettingsPageWidget(QWidget *parent) :
@@ -30,8 +33,44 @@ Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPageWidget::PublicIPHos
         ui(new Ui::PublicIPHostMaskerSettingsPageWidget) {
 
     ui->setupUi(this);
+
+    auto hostMasker = Nedrysoft::ComponentSystem::getObject<PublicIPHostMasker>();
+
+    assert(hostMasker!=nullptr);
+
+    connect(ui->enabledCheckBox, &QCheckBox::toggled, [=](bool checked) {
+        hostMasker->m_enabled = checked;
+
+        updateSettings();
+    });
+
+    ui->detectedPublicIPLineEdit->setText(hostMasker->getPublicIP());
+
+    m_loadingConfiguration = true;
+
+    ui->enabledCheckBox->setChecked(hostMasker->m_enabled);
+
+    m_loadingConfiguration = false;
+
 }
 
 Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPageWidget::~PublicIPHostMaskerSettingsPageWidget() {
     delete ui;
+}
+
+auto Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPageWidget::updateSettings() -> void {
+#if !defined(Q_OS_MACOS)
+    return;
+#endif
+    if (!m_loadingConfiguration) {
+        saveSettings();
+    }
+}
+
+auto Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPageWidget::saveSettings() -> void {
+    auto hostMasker = Nedrysoft::ComponentSystem::getObject<PublicIPHostMasker>();
+
+    assert(hostMasker!=nullptr);
+
+    hostMasker->saveToFile();
 }

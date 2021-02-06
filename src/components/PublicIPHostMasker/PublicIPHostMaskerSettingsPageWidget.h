@@ -54,8 +54,22 @@ namespace Nedrysoft::PublicIPHostMasker {
              */
             ~PublicIPHostMaskerSettingsPageWidget() override;
 
+            /**
+             * @brief       Called when the data is changed by the user.
+             *
+             * @note        Under Windows and Linux this function does nothing, on macOS it applies the changes
+             *              immediately, this is standard macOS behavior.
+             */
+            auto updateSettings() -> void;
+
+            /**
+             * @brief       Saves the current configuration.
+             */
+            auto saveSettings() -> void;
+
         private:
             Ui::PublicIPHostMaskerSettingsPageWidget *ui;
+            bool m_loadingConfiguration;
     };
 }
 

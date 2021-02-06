@@ -25,20 +25,80 @@
 
 #include "RegExHostMasker.h"
 #include "ComponentSystem/IComponentManager.h"
+#include "Core/ICore.h"
 
 #include "ui_RegExHostMaskerSettingsPageWidget.h"
 
+#include <QFileDialog>
+#include <QMessageBox>
 #include <QStandardPaths>
 
 constexpr auto defaultWidgetWidth = 650;
-constexpr auto defaultWidgetHeight = 800;
+constexpr auto defaultWidgetHeight = 0;
 constexpr auto columnPadding = 8;
+constexpr auto toolbarAdjustment = 50;
 
 Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSettingsPageWidget(QWidget *parent) :
         QWidget(parent),
-        ui(new Ui::RegExHostMaskerSettingsPageWidget) {
+        ui(new Ui::RegExHostMaskerSettingsPageWidget),
+        m_loadingConfiguration(true) {
 
     ui->setupUi(this);
+
+    auto hostMasker = Nedrysoft::ComponentSystem::getObject<RegExHostMasker>();
+
+    assert(hostMasker!=nullptr);
+
+    connect(ui->importButton, &QPushButton::clicked, [=](bool checked) {
+        auto filename = QFileDialog::getOpenFileName(Nedrysoft::Core::mainWindow(), "Import Configuration");
+
+        if (!filename.isEmpty()) {
+            auto messageBox = QMessageBox();
+            bool append;
+
+            messageBox.setText(tr("Do you want to append to or overwrite the existing configuration?"));
+            messageBox.setWindowTitle(tr("Import Configuration"));
+            messageBox.setIcon(QMessageBox::Question);
+
+            auto yesButton = messageBox.addButton(tr("Append"), QMessageBox::YesRole);
+            auto noButton = messageBox.addButton(tr("Overwrite"), QMessageBox::NoRole);
+            auto cancelButton = messageBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
+
+            messageBox.exec();
+
+            if (messageBox.clickedButton()==yesButton) {
+                append = true;
+            } else if (messageBox.clickedButton()==noButton) {
+                append = false;
+            } else if (messageBox.clickedButton()==cancelButton) {
+                return;
+            } else {
+                return;
+            }
+
+            if (hostMasker->loadFromFile(filename, append)) {
+                m_loadingConfiguration = true;
+
+                ui->expressionsTreeWidget->clear();
+
+                for (auto masker : hostMasker->m_maskList) {
+                    addExpression(masker);
+                }
+
+                m_loadingConfiguration = false;
+            }
+
+            ui->exportButton->setEnabled(hostMasker->m_maskList.count() ? true : false);
+        };
+    });
+
+    connect(ui->exportButton, &QPushButton::clicked, [=](bool checked) {
+        auto filename = QFileDialog::getSaveFileName(Nedrysoft::Core::mainWindow(), "Export Configuration");
+
+        if (!filename.isEmpty()) {
+            hostMasker->saveToFile(filename);
+        }
+    });
 
     auto headerLabels = QStringList() <<
         tr("Description") <<
@@ -52,17 +112,13 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSe
     ui->expressionsTreeWidget->header()->setDefaultAlignment(Qt::AlignHCenter);
     ui->expressionsTreeWidget->setHeaderLabels(headerLabels);
 
-    auto hostMasker = Nedrysoft::ComponentSystem::getObject<RegExHostMasker>();
-
-    if (!hostMasker) {
-        return;
-    }
-
     QFontMetrics fontMetrics(ui->expressionsTreeWidget->header()->font());
 
     for (auto masker : hostMasker->m_maskList) {
         addExpression(masker);
     }
+
+    ui->exportButton->setEnabled(hostMasker->m_maskList.count() ? true : false);
 
     // resize the checkbox columns and resize the first column to be the remaining space
 
@@ -199,6 +255,7 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSe
 
         setMaskerItem(ui->expressionsTreeWidget->currentItem(), maskerItem);
 
+        updateSettings();
     });
 
     connect(ui->addressSubstitutionLineEdit, &QLineEdit::textChanged, [=](const QString &newString) {
@@ -207,6 +264,8 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSe
         maskerItem.m_addressReplacementString = newString;
 
         setMaskerItem(ui->expressionsTreeWidget->currentItem(), maskerItem);
+
+        updateSettings();
     });
 
     connect(ui->descriptionLineEdit, &QLineEdit::textChanged, [=](const QString &newString) {
@@ -245,6 +304,8 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSe
 
         updateSettings();
     });
+
+    m_loadingConfiguration = false;
 }
 
 Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::~RegExHostMaskerSettingsPageWidget() {
@@ -252,7 +313,13 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::~RegExHostMaskerS
 }
 
 QSize Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::sizeHint() const {
-    return QSize(defaultWidgetWidth, defaultWidgetHeight);
+    QSize size;
+
+    size = QWidget::sizeHint()+QSize(0, toolbarAdjustment);
+
+    size.setWidth(qMax(size.width(), defaultWidgetWidth));
+
+    return size;
 }
 
 auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::updateWidgets(QTreeWidgetItem *item) -> void {
@@ -304,18 +371,24 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::updateWidget
 }
 
 auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::updateSettings() -> void {
+    auto hostMasker = Nedrysoft::ComponentSystem::getObject<RegExHostMasker>();
+
+    assert(hostMasker!=nullptr);
+
+    ui->exportButton->setEnabled(hostMasker->m_maskList.count() ? true : false);
+
 #if !defined(Q_OS_MACOS)
     return;
 #endif
-    saveSettings();
+    if (!m_loadingConfiguration) {
+        saveSettings();
+    }
 }
 
 auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::saveSettings() -> void {
     auto hostMasker = Nedrysoft::ComponentSystem::getObject<RegExHostMasker>();
 
-    if (!hostMasker) {
-        return;
-    }
+    assert(hostMasker!=nullptr);
 
     QFontMetrics fontMetrics(ui->expressionsTreeWidget->header()->font());
 
@@ -324,12 +397,12 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::saveSettings
     for(auto currentIndex=0; currentIndex<ui->expressionsTreeWidget->topLevelItemCount(); currentIndex++) {
         auto currentItem = ui->expressionsTreeWidget->topLevelItem(currentIndex);
 
-        Nedrysoft::RegExHostMasker::RegExHostMaskerItem newItem;
-
         itemList.append(currentItem->data(0, Qt::UserRole).value<Nedrysoft::RegExHostMasker::RegExHostMaskerItem>());
     }
 
     hostMasker->m_maskList = itemList;
+
+    hostMasker->saveToFile();
 }
 
 auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::addExpression(
@@ -345,6 +418,14 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::addExpressio
             RegExHostMasker::MatchFlags::MaskHost
     };
 
+    QCheckBox *checkBoxes[] = {
+            ui->matchHopsCheckbox,
+            ui->matchAddressCheckbox,
+            ui->matchHostCheckbox,
+            ui->maskAddressCheckbox,
+            ui->maskHostCheckbox
+    };
+
     treeItem->setText(0, masker.m_description);
     treeItem->setData(0, Qt::UserRole, QVariant::fromValue(masker));
 
@@ -357,6 +438,18 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::addExpressio
     ui->expressionsTreeWidget->setItemWidget(treeItem, 1, enabledCheckBox->parentWidget());
 
     connect(enabledCheckBox, &QCheckBox::stateChanged, [=](int state) {
+        auto itemData = treeItem->data(0, Qt::UserRole).value<Nedrysoft::RegExHostMasker::RegExHostMaskerItem>();
+
+        itemData.m_enabled = state;
+
+        treeItem->setData(0, Qt::UserRole, QVariant::fromValue(itemData));
+
+        // block signals, we don't want to end up in a recursive loop.
+
+        ui->enabledCheckBox->blockSignals(true);
+        ui->enabledCheckBox->setChecked(state);
+        ui->enabledCheckBox->blockSignals(false);
+
         updateSettings();
     });
 
@@ -367,7 +460,26 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::addExpressio
 
         ui->expressionsTreeWidget->setItemWidget(treeItem, column, checkBox->parentWidget());
 
+        treeItem->setData(column, Qt::UserRole+1, static_cast<int>(matchFlags[column-2]));
+
         connect(checkBox, &QCheckBox::stateChanged, [=](int state) {
+            auto itemData = treeItem->data(0, Qt::UserRole).value<Nedrysoft::RegExHostMasker::RegExHostMaskerItem>();
+            auto field = treeItem->data(column, Qt::UserRole+1).toInt();
+
+            if (state) {
+                itemData.m_matchFlags |= field;
+            } else {
+                itemData.m_matchFlags &= ~field;
+            }
+
+            treeItem->setData(0, Qt::UserRole, QVariant::fromValue(itemData));
+
+            // block signals, we don't want to end up in a recursive loop.
+
+            checkBoxes[column-2]->blockSignals(true);
+            checkBoxes[column-2]->setChecked(state);
+            checkBoxes[column-2]->blockSignals(false);
+
             updateSettings();
         });
     }
@@ -375,7 +487,7 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::addExpressio
     ui->expressionsTreeWidget->setCurrentItem(treeItem);
 }
 
-auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget:: addCheckBox(
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::addCheckBox(
         bool isChecked ) -> QCheckBox * {
 
     auto containerWidget = new QWidget;
@@ -435,20 +547,28 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::updateCheckB
 auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::getMaskerItem(QTreeWidgetItem *item) ->
         Nedrysoft::RegExHostMasker::RegExHostMaskerItem {
 
+    if (!ui->expressionsTreeWidget->currentItem()) {
+        RegExHostMaskerItem item;
+
+        return item;
+    }
+
     auto maskerItem = ui->expressionsTreeWidget->currentItem()->data(
             0, Qt::UserRole).value<Nedrysoft::RegExHostMasker::RegExHostMaskerItem>();
 
     return maskerItem;
 }
 
-
 auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::setMaskerItem(
         QTreeWidgetItem *item,
         Nedrysoft::RegExHostMasker::RegExHostMaskerItem maskerItem) -> void {
+
+    if (!item) {
+        return;
+    }
 
     item->setData(
             0,
             Qt::UserRole, QVariant::fromValue<Nedrysoft::RegExHostMasker::RegExHostMaskerItem>(maskerItem) );
 }
-
 

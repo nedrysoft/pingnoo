@@ -23,26 +23,66 @@
 
 #include "RegExHostMasker.h"
 
-#include "RegExHostMaskerComponent.h"
-
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QStandardPaths>
 
+constexpr auto configurationFilename = "/Nedrysoft/pingnoo/Components/RegExHostMasker.json";
+
 Nedrysoft::RegExHostMasker::RegExHostMasker::RegExHostMasker() {
+    loadFromFile();
+}
+
+auto Nedrysoft::RegExHostMasker::RegExHostMasker::loadFromFile(QString filename, bool append) -> bool {
     QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
 
     if (configPaths.count()) {
-        QString configurationFilename = configPaths.at(0)+"/Nedrysoft/pingnoo/Components/RegExHostMasker.json";
+        QFile configurationFile;
 
-        auto file = QFile(configurationFilename);
+        if (filename.isNull()) {
+            configurationFile.setFileName(configPaths.at(0) + configurationFilename);
+        } else {
+            configurationFile.setFileName(filename);
+        }
 
-        if (file.open(QFile::ReadOnly)) {
-            auto jsonDocument = QJsonDocument::fromJson(file.readAll());
+        if (configurationFile.open(QFile::ReadOnly)) {
+            auto jsonDocument = QJsonDocument::fromJson(configurationFile.readAll());
 
             if (jsonDocument.isObject()) {
+                if (!append) {
+                    m_maskList.clear();
+                }
+
                 loadConfiguration(jsonDocument.object());
+
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+auto Nedrysoft::RegExHostMasker::RegExHostMasker::saveToFile(QString filename) -> void {
+    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+
+    if (configPaths.count()) {
+        QFile configurationFile;
+
+        if (filename.isNull()) {
+            configurationFile.setFileName(configPaths.at(0) + configurationFilename);
+        } else {
+            configurationFile.setFileName(filename);
+        }
+
+        if (configurationFile.open(QFile::WriteOnly)) {
+            QJsonObject configuration = saveConfiguration();
+
+            auto jsonDocument = QJsonDocument(configuration);
+
+            if (jsonDocument.isObject()) {
+                configurationFile.write(jsonDocument.toJson());
             }
         }
     }
@@ -190,13 +230,9 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::saveConfiguration() -> QJsonOb
 }
 
 auto Nedrysoft::RegExHostMasker::RegExHostMasker::loadConfiguration(QJsonObject configuration) -> bool {
-    Q_UNUSED(configuration)
-
     if (configuration["id"] != this->metaObject()->className()) {
         return false;
     }
-
-    m_maskList.clear();
 
     auto array = configuration["matchItems"].toArray();
 
@@ -211,6 +247,6 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::loadConfiguration(QJsonObject 
             item["enabled"].toBool(true) );
     }
 
-    return false;
+    return true;
 }
 
