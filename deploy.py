@@ -573,27 +573,27 @@ if platform.system() == "Linux":
 
     startmessage('Setting up deployment directory...')
 
-    if os.path.exists(f'bin/{buildArch}/Deploy/'):
-        shutil.rmtree(f'bin/{buildArch}/Deploy/')
+    if os.path.exists(f'bin/{buildArch}/Deploy/AppImage/'):
+        shutil.rmtree(f'bin/{buildArch}/Deploy/AppImage/')
 
     if os.path.exists(f'deployment'):
         shutil.rmtree(f'deployment')
 
     os.makedirs(f'deployment')
 
-    os.makedirs(f'bin/{buildArch}/Deploy/usr/bin')
-    os.makedirs(f'bin/{buildArch}/Deploy/usr/lib')
-    os.makedirs(f'bin/{buildArch}/Deploy/usr/share/icons/hicolor/128x128/apps')
-    os.makedirs(f'bin/{buildArch}/Deploy/usr/share/applications')
+    os.makedirs(f'bin/{buildArch}/Deploy/AppImage/usr/bin')
+    os.makedirs(f'bin/{buildArch}/Deploy/AppImage/usr/lib')
+    os.makedirs(f'bin/{buildArch}/Deploy/AppImage/usr/share/icons/hicolor/128x128/apps')
+    os.makedirs(f'bin/{buildArch}/Deploy/AppImage/usr/share/applications')
 
-    shutil.copy2(f'bin/{buildArch}/{buildType}/Pingnoo', f'bin/{buildArch}/Deploy/usr/bin')
-    shutil.copy2(f'installer/Pingnoo.png', f'bin/{buildArch}/Deploy/usr/share/icons/hicolor/128x128/apps')
-    shutil.copy2(f'installer/Pingnoo.desktop', f'bin/{buildArch}/Deploy/usr/share/applications')
-    shutil.copy2(f'installer/AppRun', f'bin/{buildArch}/Deploy/')
-    shutil.copytree(f'bin/{buildArch}/{buildType}/Components', f'bin/{buildArch}/Deploy/Components', symlinks=True)
+    shutil.copy2(f'bin/{buildArch}/{buildType}/Pingnoo', f'bin/{buildArch}/Deploy/AppImage/usr/bin')
+    shutil.copy2(f'installer/Pingnoo.png', f'bin/{buildArch}/Deploy/AppImage/usr/share/icons/hicolor/128x128/apps')
+    shutil.copy2(f'installer/Pingnoo.desktop', f'bin/{buildArch}/Deploy/AppImage/usr/share/applications')
+    shutil.copy2(f'installer/AppRun', f'bin/{buildArch}/Deploy/AppImage/')
+    shutil.copytree(f'bin/{buildArch}/{buildType}/Components', f'bin/{buildArch}/Deploy/AppImage/Components', symlinks=True)
 
     for file in glob.glob(f'bin/{buildArch}/{buildType}/*.so'):
-        shutil.copy2(file, f'bin/{buildArch}/Deploy/usr/lib')
+        shutil.copy2(file, f'bin/{buildArch}/Deploy/AppImage/usr/lib')
 
     endmessage(True)
 
@@ -602,7 +602,7 @@ if platform.system() == "Linux":
     startmessage('Running linuxdeployqt...')
 
     resultCode, resultOutput = execute(f'{linuxdeployqt} '
-                                       f'\'bin/{buildArch}/Deploy/usr/share/applications/Pingnoo.desktop\' '
+                                       f'\'bin/{buildArch}/Deploy/AppImage/usr/share/applications/Pingnoo.desktop\' '
                                        f'-qmake=\'{qtdir}/bin/qmake\' '
                                        f'-bundle-non-qt-libs '
                                        f'-exclude-libs=\'libqsqlodbc,libqsqlpsql\'')
@@ -625,7 +625,7 @@ if platform.system() == "Linux":
     buildFilename = f'Pingnoo [{buildVersion}] (x86_64).AppImage'
 
     resultCode, resultOutput = execute(f'{appimagetool} -g {signParameters} '
-                                       f'bin/{buildArch}/Deploy \"deployment/{buildFilename}\"')
+                                       f'bin/{buildArch}/Deploy/AppImage \"deployment/{buildFilename}\"')
 
     if resultCode:
         endmessage(False, f'there was a problem creating the AppImage.\r\n\r\n{resultCode}\r\n')

@@ -83,6 +83,11 @@ endif()
 set(PINGNOO_LIBRARIES_SOURCE_DIR "${PINGNOO_SOURCE_DIR}/libs")
 set(PINGNOO_COMPONENTS_SOURCE_DIR "${PINGNOO_SOURCE_DIR}/components")
 
+# fix for using deb qt libs
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-sized-deallocation")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-sized-deallocation")
+
 if(APPLE)
     set(PINGNOO_BINARY_ROOT "${PINGNOO_BINARY_DIR}/${PINGNOO_PLATFORM_ARCH}/${CMAKE_BUILD_TYPE}")
     set(PINGNOO_APPLICATION_BINARY "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/MacOS/${PROJECT_NAME}")
@@ -167,6 +172,10 @@ macro(pingnoo_start_component)
     set(pingnooCurrentProjectType "SHARED")
 
     string(TOUPPER ${pingnooCurrentProjectName} pingnooCurrentProjectNameUpperCase)
+
+    if(UNIX AND NOT APPLE)
+        set(CMAKE_BUILD_RPATH "$ORIGIN/../")
+    endif()
 
     add_definitions("-DNEDRYSOFT_COMPONENT_${pingnooCurrentProjectNameUpperCase}_EXPORT")
     add_definitions("-DNEDRYSOFT_MODULE_FILENAME=\"${pingnooCurrentProjectName}.dll\"")
@@ -272,7 +281,11 @@ macro(pingnoo_start_executable)
 
     set(pingnooCurrentProjectType "EXECUTABLE")
 
-    set(CMAKE_BUILD_RPATH "@executable_path/../Frameworks")
+    if (APPLE)
+        set(CMAKE_BUILD_RPATH "@executable_path/../Frameworks")
+    elseif(UNIX)
+        set(CMAKE_BUILD_RPATH "$ORIGIN/.")
+    endif()
 
     add_definitions("-DNEDRYSOFT_MODULE_FILENAME=\"${pingnooCurrentProjectName}.exe\"")
     add_definitions("-DNEDRYSOFT_MODULE_NAME=\"${pingnooCurrentProjectName}\"")

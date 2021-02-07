@@ -1,0 +1,11 @@
+Package: pingnoo
+Version: $version
+Maintainer: Adrian Carpenter <adrian@fizzyade.com>
+Section: net
+Homepage: https://www.pingnoo.com
+Architecture: all
+Priority: optional
+Depends: $dependencies
+Description: A ping/traceroute analyser
+ Pingnoo is an open-source ping/traceroute analyser which provides visualisation of hop latency & packet loss.
+
