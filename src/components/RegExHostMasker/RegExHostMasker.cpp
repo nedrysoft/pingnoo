@@ -26,6 +26,7 @@
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QRegularExpression>
 #include <QStandardPaths>
 
 constexpr auto configurationFilename = "/Nedrysoft/pingnoo/Components/RegExHostMasker.json";

@@ -24,8 +24,11 @@
 #include "PingCommandPingTarget.h"
 
 #include "PingCommandPingEngine.h"
+
+#include <QElapsedTimer>
 #include <QHostAddress>
 #include <QProcess>
+#include <QRegularExpression>
 #include <QThread>
 
 constexpr auto replyTimeout = 3;

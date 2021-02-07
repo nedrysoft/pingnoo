@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/Core">
-        <file>icons/mask.png</file>
+        <file>Icons/mask.png</file>
     </qresource>
 </RCC>

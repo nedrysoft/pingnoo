@@ -23,6 +23,8 @@
 
 #include "ViewportRibbonGroup.h"
 
+#include <QDateTime>
+
 #include "ColourManager.h"
 #include "ComponentSystem/IComponentManager.h"
 #include "RouteAnalyserEditor.h"

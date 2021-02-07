@@ -103,7 +103,9 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         }
 
         ui->engineComboBox->view()->setMinimumWidth(minimumWidth);
+#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
         ui->engineComboBox->setPlaceholderText(pingEngines[0]->description());
+#endif
     }
 
     connect(ui->startButton, &Nedrysoft::Ribbon::RibbonButton::clicked, [=](bool checked) {

@@ -76,7 +76,9 @@ auto Nedrysoft::Core::RibbonBarManager::addPage(QString title, QString id, float
         tabIndex = m_ribbonWidget->addTab(ribbonPage->widget(), title);
     }
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
     m_ribbonWidget->setTabVisible(tabIndex, false);
+#endif
 
     m_pages[id] = ribbonPage;
 
@@ -96,11 +98,13 @@ auto Nedrysoft::Core::RibbonBarManager::setRibbonWidget(Nedrysoft::Ribbon::Ribbo
 }
 
 auto Nedrysoft::Core::RibbonBarManager::groupAdded(Nedrysoft::Core::RibbonPage *page) -> void {
+#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
     for(auto currentIndex=0;currentIndex<m_ribbonWidget->count();currentIndex++) {
         if (m_ribbonWidget->widget(currentIndex)==page->widget()) {
             m_ribbonWidget->setTabVisible(currentIndex, true);
         }
     }
+#endif
 }
 
 auto Nedrysoft::Core::RibbonBarManager::selectPage(QString id) -> bool {
