@@ -41,6 +41,8 @@
 #include <CoreFoundation/CoreFoundation.h>
 #endif
 
+auto constexpr splashscreenTimeout = 3000;
+
 int main(int argc, char **argv) {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 
@@ -52,11 +54,9 @@ int main(int argc, char **argv) {
 
     Nedrysoft::SplashScreen *splashScreen = nullptr;
 
-    if (argc>1) {
-        splashScreen = Nedrysoft::SplashScreen::getInstance();
+    splashScreen = Nedrysoft::SplashScreen::getInstance();
 
-        splashScreen->show();
-    }
+    splashScreen->show();
 
     auto componentManager = Nedrysoft::ComponentSystem::IComponentManager::getInstance();
 
@@ -118,8 +118,12 @@ int main(int argc, char **argv) {
         }
     }
 
-    if (QDir::current().exists("Components")) {
-        componentLoader->addComponents("Components");
+    auto applicationDir = QDir(qApp->applicationDirPath());
+
+    if (applicationDir.exists("Components")) {
+        auto componentsPath = applicationDir.absoluteFilePath("Components");
+
+        componentLoader->addComponents(componentsPath);
     }
 #endif
     QString appSettingsFilename = QStandardPaths::standardLocations(
@@ -167,7 +171,7 @@ int main(int argc, char **argv) {
     qApp->setWindowIcon(QIcon(":/app/images/appicon-512x512@2x.png"));
 #endif
     if (splashScreen) {
-        QTimer::singleShot(3000, [=]() {
+        QTimer::singleShot(splashscreenTimeout, [=]() {
             splashScreen->hide();
         });
     }

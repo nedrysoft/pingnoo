@@ -188,7 +188,7 @@ if platform.system() == "Darwin":
     parser.add_argument('--arch',
                         choices=['x86_64', 'arm64', 'universal'],
                         type=str,
-                        default='x64_64',
+                        default='x86_64',
                         nargs='?',
                         help='architecture type to deploy')
 elif platform.system() == "Linux":

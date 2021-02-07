@@ -29,104 +29,147 @@ import os
 import re
 import shutil
 import string
-
-# TODO: integrate into deploy.py and add "--deb" as an option and also "--appimage"
+import argparse
 
 def execute(command):
     output = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     return(output.returncode, output.stdout.decode('utf-8')+output.stderr.decode('utf-8'))
 
-controlTemplate = ""
+def debCreate(buildArch, buildType, version):
+	controlTemplate = ""
 
-with open("dpkg/control.in", 'r') as controlFile:
-	controlTemplate = string.Template(controlFile.read())
+	with open("dpkg/control.in", 'r') as controlFile:
+		controlTemplate = string.Template(controlFile.read())
 
-	controlFile.close()
+		controlFile.close()
 
-buildArch = "x86_64"
-buildType = "Release"
-version = "2021.10.01"
+	# remove previous dpkg build tree if it exists
 
-# remove previous dpkg build tree if it exists
+	if os.path.exists(f'bin/{buildArch}/Deploy/dpkg'):
+		shutil.rmtree(f'bin/{buildArch}/Deploy/dpkg')
 
-if os.path.exists(f'bin/{buildArch}/Deploy/dpkg'):
-	shutil.rmtree(f'bin/{buildArch}/Deploy/dpkg')
+	os.makedirs(f'bin/{buildArch}/Deploy/dpkg/usr/local/bin/pingnoo')
+	os.makedirs(f'bin/{buildArch}/Deploy/dpkg/DEBIAN')
+	os.makedirs(f'bin/{buildArch}/Deploy/dpkg/usr/share/icons/hicolor/512x512/apps')
+	os.makedirs(f'bin/{buildArch}/Deploy/dpkg/usr/share/applications')
+	os.makedirs(f'bin/{buildArch}/Deploy/dpkg/usr/share/doc/pingnoo')
+	os.makedirs(f'bin/{buildArch}/Deploy/dpkg/etc/ld.so.conf.d')
 
-os.makedirs(f'bin/{buildArch}/Deploy/dpkg/usr/local/bin/pingnoo')
-os.makedirs(f'bin/{buildArch}/Deploy/dpkg/DEBIAN')
-os.makedirs(f'bin/{buildArch}/Deploy/dpkg/usr/share/icons/hicolor/128x128/apps')
-os.makedirs(f'bin/{buildArch}/Deploy/dpkg/etc/ld.so.conf.d')
+	# copy data + binaries into the deb tree
 
-shutil.copy2(f'bin/{buildArch}/{buildType}/Pingnoo', f'bin/{buildArch}/Deploy/dpkg/usr/local/bin/pingnoo')
-shutil.copy2(f'installer/Pingnoo.png', f'bin/{buildArch}/Deploy/dpkg/usr/share/icons/hicolor/128x128/apps')
+	shutil.copy2(f'bin/{buildArch}/{buildType}/Pingnoo', f'bin/{buildArch}/Deploy/dpkg/usr/local/bin/pingnoo')
+	shutil.copy2(f'src/app/images/appicon-512x512-.png', f'bin/{buildArch}/Deploy/dpkg/usr/share/icons/hicolor/512x512/apps/pingnoo.png')
 
-shutil.copytree(f'bin/{buildArch}/{buildType}/Components', f'bin/{buildArch}/Deploy/dpkg/usr/local/bin/pingnoo/Components', symlinks=True)
+	shutil.copytree(f'bin/{buildArch}/{buildType}/Components', f'bin/{buildArch}/Deploy/dpkg/usr/local/bin/pingnoo/Components', symlinks=True)
 
-for file in glob.glob(f'bin/{buildArch}/{buildType}/*.so'):
-	shutil.copy2(file, f'bin/{buildArch}/Deploy/dpkg/usr/local/bin/pingnoo')
+	for file in glob.glob(f'bin/{buildArch}/{buildType}/*.so'):
+		shutil.copy2(file, f'bin/{buildArch}/Deploy/dpkg/usr/local/bin/pingnoo')
 
-shutil.copy2(f'dpkg/postinst', f'bin/{buildArch}/Deploy/dpkg/DEBIAN')
-shutil.copy2(f'dpkg/pingnoo.conf', f'bin/{buildArch}/Deploy/dpkg/etc/ld.so.conf.d')
+	shutil.copy2(f'dpkg/postinst', f'bin/{buildArch}/Deploy/dpkg/DEBIAN')
+	shutil.copy2(f'dpkg/pingnoo.conf', f'bin/{buildArch}/Deploy/dpkg/etc/ld.so.conf.d')
+	shutil.copy2(f'dpkg/copyright', f'bin/{buildArch}/Deploy/dpkg/usr/share/doc/pingnoo')
+	shutil.copy2(f'dpkg/Pingnoo.desktop', f'bin/{buildArch}/Deploy/dpkg/usr/share/applications')
 
-dependencies = set()
-libraries = set()
-hashes = list()
+	dependencies = set()
+	libraries = set()
+	hashes = list()
 
-for filepath in glob.iglob(f'bin/{buildArch}/Deploy/dpkg/usr/local/bin/pingnoo/**/*', recursive=True):
-	if os.path.isdir(filepath):
-		continue
+	# create list of all shared libraries that the application uses (and at the same time create hashes)
 
-	resultCode, resultOutput = execute(f'md5sum {filepath}')
-
-	if not resultCode:
-		hashes.append(resultOutput.rstrip())
-
-	soRegex = re.compile(r"\s*(?P<soname>.*)\s=>")
-
-	resultCode, resultOutput = execute(f'ldd {filepath}')
-
-	for line in io.StringIO(resultOutput):
-		if not line:
+	for filepath in glob.iglob(f'bin/{buildArch}/Deploy/dpkg/usr/local/bin/pingnoo/**/*', recursive=True):
+		if os.path.isdir(filepath):
 			continue
 
-		result = soRegex.match(line.rstrip())
+		resultCode, resultOutput = execute(f'md5sum {filepath}')
 
-		if not result:
-			continue
+		if not resultCode:
+			hashes.append(resultOutput.rstrip())
 
-		dependencies.add(result.group("soname"))
+		soRegex = re.compile(r"\s*(?P<soname>.*)\s=>")
 
-dpkgRegex = re.compile(r"(?P<pkg>.*)\:(?P<arch>.*)\:\s(?P<lib>.*)")
+		resultCode, resultOutput = execute(f'ldd {filepath}')
 
-dependencies = dependencies-libraries
-packages = ""
+		for line in io.StringIO(resultOutput):
+			if not line:
+				continue
 
-for dependency in dependencies:
-	resultCode, resultOutput = execute(f'dpkg -S {dependency}')
+			result = soRegex.match(line.rstrip())
 
-	result = dpkgRegex.match(resultOutput)
+			if not result:
+				continue
 
-	if result:
-		if not packages=="":
-			packages += ","
+			dependencies.add(result.group("soname"))
 
-		packages += result.group("pkg")
+	# using the shared library list, find the package that provides the shared library and add to
+	# the list of dependencies
 
-controlFileContent = controlTemplate.substitute(version=version, dependencies=packages)
+	dpkgRegex = re.compile(r"(?P<pkg>.*)\:(?P<arch>.*)\:\s(?P<lib>.*)")
 
-with open(f'bin/{buildArch}/Deploy/dpkg/DEBIAN/control', 'w') as controlFile:
-	controlFile.write(controlFileContent)
+	dependencies = dependencies-libraries
+	packages = ""
 
-	controlFile.close()
+	for dependency in dependencies:
+		resultCode, resultOutput = execute(f'dpkg -S {dependency}')
 
-with open(f'bin/{buildArch}/Deploy/dpkg/DEBIAN/md5sums', 'w') as md5sumsFile:
-	md5sumsFile.writelines(hashes)
+		result = dpkgRegex.match(resultOutput)
 
-	md5sumsFile.close()
+		if result:
+			if not packages=="":
+				packages += ","
 
-packageRoot = f'bin/{buildArch}/Deploy/dpkg/'
-outputFile = "deployment/pingnoo.deb"
+			packages += result.group("pkg")
 
-resultCode, resultOutput = execute(f'dpkg-deb --build {packageRoot} {outputFile}')
+	# use control.in template to create the deb control file
 
+	controlFileContent = controlTemplate.substitute(version=version, dependencies=packages)
+
+	with open(f'bin/{buildArch}/Deploy/dpkg/DEBIAN/control', 'w') as controlFile:
+		controlFile.write(controlFileContent)
+
+		controlFile.close()
+
+	# add the hashes to the deb hash file
+
+	with open(f'bin/{buildArch}/Deploy/dpkg/DEBIAN/md5sums', 'w') as md5sumsFile:
+		md5sumsFile.writelines(hashes)
+
+		md5sumsFile.close()
+
+	packageRoot = f'bin/{buildArch}/Deploy/dpkg/'
+	outputFile = "deployment/pingnoo.deb"
+
+	# create the deb file
+
+	resultCode, resultOutput = execute(f'dpkg-deb --build {packageRoot} {outputFile}')
+
+	if resultCode==0:
+		exit(0)
+
+	exit(1)
+
+def main():
+	parser = argparse.ArgumentParser(description='dpkg build script')
+
+	parser.add_argument('--arch',
+						choices=['x86_64'],
+						type=str,
+						default='x86_64',
+						nargs='?',
+						help='architecture type to deploy')
+
+	parser.add_argument('--type',
+						choices=['Release', 'Debug'],
+						type=str,
+						default='Release',
+						nargs='?',
+						help='architecture type to deploy')
+
+	parser.add_argument('--version', type=str, nargs='?', help='version')
+
+	args = parser.parse_args()
+
+	debCreate(args.arch, args.type, args.version)
+
+if __name__ == "__main__":
+	main()
