@@ -21,6 +21,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+if(NOT (UNIX AND NOT APPLE))
+    return()
+endif()
+
 pingnoo_start_component()
 
 pingnoo_set_component_optional(ON)
