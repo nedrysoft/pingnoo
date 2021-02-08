@@ -34,6 +34,7 @@ import subprocess
 import sys
 import logging
 import datetime
+import makedeb
 
 if platform.python_version_tuple() < ('3', '6', '0'):
     print('requires python >= 3.6', flush=True)
@@ -54,7 +55,6 @@ except ModuleNotFoundError:
         RED = ''
         CYAN = ''
         RESET = ''
-
 
 def timedelta(seconds):
     seconds = abs(int(seconds))
@@ -121,7 +121,6 @@ def run(command):
     stream = os.popen(command)
 
     return stream.read()
-
 
 def macsignbinary(filetosign, cert):
     return execute(f'codesign --verify --timestamp -o runtime --force --sign "{cert}" "{filetosign}"')
@@ -227,6 +226,14 @@ if platform.system() == "Linux":
                         default='tools/appimagetool/appimagetool-x86_64.AppImage',
                         nargs='?',
                         help='path to appimagetool')
+
+    parser.add_argument('--deb',
+                        action='store_true',
+                        help='generate deb package')
+
+    parser.add_argument('--appimage',
+                        action='store_true',
+                        help='generate AppImage package')
 
 if platform.system() == "Windows":
     parser.add_argument('--timeserver',
@@ -455,7 +462,7 @@ if platform.system() == "Windows":
 
     # done!
 
-    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Finished! Installer at \"deployment\\{buildFilename}\" is ' +
+    print(f'\r\n'+Style.BRIGHT+Fore.CYAN+f'Installer at \"deployment\\{buildFilename}\" is ' +
           Fore.GREEN+'ready'+Fore.CYAN+' for distribution.', flush=True)
 
     print(Style.BRIGHT + f'\r\nTotal time taken to perform deployment was ' +
@@ -464,6 +471,11 @@ if platform.system() == "Windows":
     exit(0)
 
 if platform.system() == "Linux":
+    if not (args.appimage or args.deb):
+        print('You must select at least one type of output.')
+
+        exit(0);
+
     print(Style.BRIGHT+'Deployment process started at '+str(datetime.datetime.now())+'\r\n', flush=True)
 
     startTime = time.time()
@@ -513,132 +525,170 @@ if platform.system() == "Linux":
 
     endmessage(True)
 
-    # download linuxdeployqt
+    deployedMessage=""
 
-    linuxdeployqt = args.linuxdeployqt
+    if args.appimage:
+        linuxdeployqt = args.linuxdeployqt
 
-    if not os.path.isfile(linuxdeployqt):
-        startmessage('Downloading linuxdeployqt...')
+        if os.path.isfile(linuxdeployqt):
+            resultCode, resultOutput = execute(f'ldd --version')
 
-        if not os.path.exists('tools/linuxdeployqt'):
-            os.mkdir('tools/linuxdeployqt')
+            lddRegex = re.compile(r"^ldd\s\(.*\)\s(?P<version>.*)$", re.MULTILINE)
 
-        resultCode, resultOutput = execute('cd tools/linuxdeployqt; '
-                                           'curl -LJO '
-                                           'https://github.com/probonopd/linuxdeployqt/releases/download/6/'
-                                           'linuxdeployqt-6-x86_64.AppImage')
+            matchResult = lddRegex.match(resultOutput)
+
+            if not matchResult:
+                print("> Skipping AppImage deployment, unable to get glibc version.")
+            else:
+                glibcVersion = float(matchResult.group("version"))
+
+                if glibcVersion>2.20:
+                    print("> Skipping AppImage deployment, glibc is too new..")
+                else:
+                    startmessage('Downloading linuxdeployqt...')
+
+                    if not os.path.exists('tools/linuxdeployqt'):
+                        os.mkdir('tools/linuxdeployqt')
+
+                    resultCode, resultOutput = execute('cd tools/linuxdeployqt; '
+                                                       'curl -LJO '
+                                                       'https://github.com/probonopd/linuxdeployqt/releases/download/6/'
+                                                       'linuxdeployqt-6-x86_64.AppImage')
+
+                    if resultCode:
+                        endmessage(False, f'unable to download linuxdeployqt.\r\n\r\n{resultOutput}\r\n')
+                        exit(1)
+
+                    resultCode, resultOutput = execute('chmod +x tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage')
+
+                    if resultCode:
+                        endmessage(False, f'unable to set permissions on linuxdeployqt.\r\n\r\n{resultOutput}\r\n')
+                        exit(1)
+
+                    endmessage(True)
+
+                    linuxdeployqt = 'tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage'
+
+                    appimagetool = args.appimagetool
+
+                    if not os.path.isfile(appimagetool):
+                        startmessage('Downloading appimagetool...')
+
+                        if not os.path.exists('tools/appimagetool'):
+                            os.mkdir('tools/appimagetool')
+
+                        resultCode, resultOutput = execute('cd tools/appimagetool; '
+                                                           'curl -LJO '
+                                                           'https://github.com/AppImage/AppImageKit/releases/download/continuous/'
+                                                           'appimagetool-x86_64.AppImage')
+
+                        if resultCode:
+                            endmessage(False, f'unable to download appimagetool.\r\n\r\n{resultOutput}\r\n')
+                            exit(1)
+
+                        resultCode, resultOutput = execute('chmod +x tools/appimagetool/appimagetool-x86_64.AppImage')
+
+                        if resultCode:
+                            endmessage(False, f'unable to set permissions on appimagetool.\r\n\r\n{resultOutput}\r\n')
+                            exit(1)
+
+                        appimagetool = 'tools/appimagetool/appimagetool-x86_64.AppImage'
+
+                        endmessage(True)
+
+                        # remove previous deployment files and copy current binaries
+
+                        startmessage('Setting up deployment directory...')
+
+                        if os.path.exists(f'bin/{buildArch}/Deploy/AppImage/'):
+                            shutil.rmtree(f'bin/{buildArch}/Deploy/AppImage/')
+
+                        if os.path.exists(f'deployment'):
+                            shutil.rmtree(f'deployment')
+
+                        os.makedirs(f'deployment')
+
+                        os.makedirs(f'bin/{buildArch}/Deploy/AppImage/usr/bin')
+                        os.makedirs(f'bin/{buildArch}/Deploy/AppImage/usr/lib')
+                        os.makedirs(f'bin/{buildArch}/Deploy/AppImage/usr/share/icons/hicolor/128x128/apps')
+                        os.makedirs(f'bin/{buildArch}/Deploy/AppImage/usr/share/applications')
+
+                        shutil.copy2(f'bin/{buildArch}/{buildType}/Pingnoo', f'bin/{buildArch}/Deploy/AppImage/usr/bin')
+                        shutil.copy2(f'installer/Pingnoo.png', f'bin/{buildArch}/Deploy/AppImage/usr/share/icons/hicolor/128x128/apps')
+                        shutil.copy2(f'installer/Pingnoo.desktop', f'bin/{buildArch}/Deploy/AppImage/usr/share/applications')
+                        shutil.copy2(f'installer/AppRun', f'bin/{buildArch}/Deploy/AppImage/')
+                        shutil.copytree(f'bin/{buildArch}/{buildType}/Components', f'bin/{buildArch}/Deploy/AppImage/Components', symlinks=True)
+
+                        for file in glob.glob(f'bin/{buildArch}/{buildType}/*.so'):
+                            shutil.copy2(file, f'bin/{buildArch}/Deploy/AppImage/usr/lib')
+
+                        endmessage(True)
+
+                        # create the app dir
+
+                        startmessage('Running linuxdeployqt...')
+
+                        resultCode, resultOutput = execute(f'{linuxdeployqt} '
+                                                           f'\'bin/{buildArch}/Deploy/AppImage/usr/share/applications/Pingnoo.desktop\' '
+                                                           f'-qmake=\'{qtdir}/bin/qmake\' '
+                                                           f'-bundle-non-qt-libs '
+                                                           f'-exclude-libs=\'libqsqlodbc,libqsqlpsql\'')
+
+                        if resultCode:
+                            endmessage(False, f'there was a problem running linuxdeployqt.\r\n\r\n{resultCode}\r\n{resultOutput}\r\n')
+                            exit(1)
+
+                        endmessage(True)
+
+                        # create the AppImage
+
+                        signParameters = ''
+
+                        if args.cert:
+                            signParameters = f'-s --sign-key={args.cert} '
+
+                        startmessage('Creating AppImage...')
+
+                        buildFilename = f'Pingnoo [{buildVersion}] (x86_64).AppImage'
+
+                        resultCode, resultOutput = execute(f'{appimagetool} -g {signParameters} '
+                                                           f'bin/{buildArch}/Deploy/AppImage \"deployment/{buildFilename}\"')
+
+                        if resultCode:
+                            endmessage(False, f'there was a problem creating the AppImage.\r\n\r\n{resultCode}\r\n')
+                            exit(1)
+
+                        endmessage(True)
+
+                        deployedMessage = deployedMessage + f'\r\n' + Style.BRIGHT + Fore.CYAN + f'AppImage at \"deployment/{buildFilename}\" is '+ Fore.GREEN+'ready' + Fore.CYAN + ' for distribution.',
+
+    if args.deb:
+        startmessage('Creating deb package...')
+
+        debArch = "all"
+
+        if args.arch=='x86_64':
+            debArch = "amd64"
+
+        debVersion = buildVersion.replace('/','.')
+
+        buildFilename = f'deployment/pingnoo_{debVersion}_{debArch}.deb'
+
+        resultCode = makedeb.debCreate(buildArch, buildType, debVersion, buildFilename)
 
         if resultCode:
-            endmessage(False, f'unable to download linuxdeployqt.\r\n\r\n{resultOutput}\r\n')
+            endmessage(False)
             exit(1)
-
-        resultCode, resultOutput = execute('chmod +x tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage')
-
-        if resultCode:
-            endmessage(False, f'unable to set permissions on linuxdeployqt.\r\n\r\n{resultOutput}\r\n')
-            exit(1)
-
-        linuxdeployqt = 'tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage'
 
         endmessage(True)
 
-    appimagetool = args.appimagetool
-
-    if not os.path.isfile(appimagetool):
-        startmessage('Downloading appimagetool...')
-
-        if not os.path.exists('tools/appimagetool'):
-            os.mkdir('tools/appimagetool')
-
-        resultCode, resultOutput = execute('cd tools/appimagetool; '
-                                           'curl -LJO '
-                                           'https://github.com/AppImage/AppImageKit/releases/download/continuous/'
-                                           'appimagetool-x86_64.AppImage')
-
-        if resultCode:
-            endmessage(False, f'unable to download appimagetool.\r\n\r\n{resultOutput}\r\n')
-            exit(1)
-
-        resultCode, resultOutput = execute('chmod +x tools/appimagetool/appimagetool-x86_64.AppImage')
-
-        if resultCode:
-            endmessage(False, f'unable to set permissions on appimagetool.\r\n\r\n{resultOutput}\r\n')
-            exit(1)
-
-        appimagetool = 'tools/appimagetool/appimagetool-x86_64.AppImage'
-
-        endmessage(True)
-
-    # remove previous deployment files and copy current binaries
-
-    startmessage('Setting up deployment directory...')
-
-    if os.path.exists(f'bin/{buildArch}/Deploy/AppImage/'):
-        shutil.rmtree(f'bin/{buildArch}/Deploy/AppImage/')
-
-    if os.path.exists(f'deployment'):
-        shutil.rmtree(f'deployment')
-
-    os.makedirs(f'deployment')
-
-    os.makedirs(f'bin/{buildArch}/Deploy/AppImage/usr/bin')
-    os.makedirs(f'bin/{buildArch}/Deploy/AppImage/usr/lib')
-    os.makedirs(f'bin/{buildArch}/Deploy/AppImage/usr/share/icons/hicolor/128x128/apps')
-    os.makedirs(f'bin/{buildArch}/Deploy/AppImage/usr/share/applications')
-
-    shutil.copy2(f'bin/{buildArch}/{buildType}/Pingnoo', f'bin/{buildArch}/Deploy/AppImage/usr/bin')
-    shutil.copy2(f'installer/Pingnoo.png', f'bin/{buildArch}/Deploy/AppImage/usr/share/icons/hicolor/128x128/apps')
-    shutil.copy2(f'installer/Pingnoo.desktop', f'bin/{buildArch}/Deploy/AppImage/usr/share/applications')
-    shutil.copy2(f'installer/AppRun', f'bin/{buildArch}/Deploy/AppImage/')
-    shutil.copytree(f'bin/{buildArch}/{buildType}/Components', f'bin/{buildArch}/Deploy/AppImage/Components', symlinks=True)
-
-    for file in glob.glob(f'bin/{buildArch}/{buildType}/*.so'):
-        shutil.copy2(file, f'bin/{buildArch}/Deploy/AppImage/usr/lib')
-
-    endmessage(True)
-
-    # create the app dir
-
-    startmessage('Running linuxdeployqt...')
-
-    resultCode, resultOutput = execute(f'{linuxdeployqt} '
-                                       f'\'bin/{buildArch}/Deploy/AppImage/usr/share/applications/Pingnoo.desktop\' '
-                                       f'-qmake=\'{qtdir}/bin/qmake\' '
-                                       f'-bundle-non-qt-libs '
-                                       f'-exclude-libs=\'libqsqlodbc,libqsqlpsql\'')
-
-    if resultCode:
-        endmessage(False, f'there was a problem running linuxdeployqt.\r\n\r\n{resultCode}\r\n{resultOutput}\r\n')
-        exit(1)
-
-    endmessage(True)
-
-    # create the AppImage
-
-    signParameters = ''
-
-    if args.cert:
-        signParameters = f'-s --sign-key={args.cert} '
-
-    startmessage('Creating AppImage...')
-
-    buildFilename = f'Pingnoo [{buildVersion}] (x86_64).AppImage'
-
-    resultCode, resultOutput = execute(f'{appimagetool} -g {signParameters} '
-                                       f'bin/{buildArch}/Deploy/AppImage \"deployment/{buildFilename}\"')
-
-    if resultCode:
-        endmessage(False, f'there was a problem creating the AppImage.\r\n\r\n{resultCode}\r\n')
-        exit(1)   
-
-    endmessage(True)
+        deployedMessage = deployedMessage + f'\r\n' + Style.BRIGHT + Fore.CYAN + f'deb package at \"{buildFilename}\" is '+ Fore.GREEN+'ready' + Fore.CYAN + ' for distribution.'
 
     endTime = time.time()
 
     # done!
 
-    print(f'\r\n' + Style.BRIGHT + Fore.CYAN + f'Finished! AppImage at \"deployment/{buildFilename}\" is '
-          + Fore.GREEN+'ready' + Fore.CYAN + ' for distribution.', flush=True)
+    print(f"{deployedMessage}", flush=True)
 
     print(Style.BRIGHT + f'\r\nTotal time taken to perform deployment was ' +
           timedelta(endTime - startTime) + '.', flush=True)
@@ -938,7 +988,7 @@ if platform.system() == "Darwin":
 
     # done!
 
-    print(f'\r\n' + Style.BRIGHT + Fore.CYAN + f'Finished! Disk Image at \"deployment/{buildFilename}\" is ' +
+    print(f'\r\n' + Style.BRIGHT + Fore.CYAN + f'Disk Image at \"deployment/{buildFilename}\" is ' +
           Fore.GREEN+'ready' + Fore.CYAN+' for distribution.', flush=True)
 
     print(Style.BRIGHT + f'\r\nTotal time taken to perform deployment was ' +

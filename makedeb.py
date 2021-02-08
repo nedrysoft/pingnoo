@@ -36,7 +36,7 @@ def execute(command):
 
     return(output.returncode, output.stdout.decode('utf-8')+output.stderr.decode('utf-8'))
 
-def debCreate(buildArch, buildType, version):
+def debCreate(buildArch, buildType, version, outputFile):
 	controlTemplate = ""
 
 	with open("dpkg/control.in", 'r') as controlFile:
@@ -137,16 +137,15 @@ def debCreate(buildArch, buildType, version):
 		md5sumsFile.close()
 
 	packageRoot = f'bin/{buildArch}/Deploy/dpkg/'
-	outputFile = "deployment/pingnoo.deb"
 
 	# create the deb file
 
-	resultCode, resultOutput = execute(f'dpkg-deb --build {packageRoot} {outputFile}')
+	resultCode, resultOutput = execute(f'dpkg-deb --build {packageRoot} \"{outputFile}\"')
 
 	if resultCode==0:
-		exit(0)
+		return(0)
 
-	exit(1)
+	return(1)
 
 def main():
 	parser = argparse.ArgumentParser(description='dpkg build script')
@@ -165,11 +164,18 @@ def main():
 						nargs='?',
 						help='architecture type to deploy')
 
+	parser.add_argument('--output',
+						type=str,
+						default='./deployment/pingnoo.deb',
+						nargs='?',
+						help='the output deb file')
+
 	parser.add_argument('--version', type=str, nargs='?', help='version')
 
 	args = parser.parse_args()
 
-	debCreate(args.arch, args.type, args.version)
+	debCreate(args.arch, args.type, args.version, args.output)
 
 if __name__ == "__main__":
 	main()
+

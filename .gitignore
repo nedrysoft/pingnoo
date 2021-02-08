@@ -103,3 +103,7 @@ docs/sphinx/make.bat
 docs/sphinx/Makefile
 
 docs/sphinx/api/
+
+__pycache__/
+
+*.deb
