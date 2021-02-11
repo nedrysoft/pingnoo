@@ -694,15 +694,17 @@ if platform.system() == "Linux":
         startmessage('Creating rpm package...')
 
         rpmVersion = buildVersion.replace('/','.')
+        rpmRelease = 1
 
-        resultCode = makerpm.rpmCreate(buildArch, buildType, rpmVersion)
+        resultCode = makerpm.rpmCreate(buildArch, buildType, rpmVersion, rpmRelease)
 
         if resultCode:
             endmessage(False)
             exit(1)
 
         endmessage(True)
-        buildFilename=''
+
+        buildFilename=f'bin/{buildArch}/Deploy/rpm/RPMS/{buildArch}/pingnoo-{rpmVersion}-{rpmRelease}.{buildArch}.rpm'
 
         deployedMessage = deployedMessage + f'\r\n' + Style.BRIGHT + Fore.CYAN + f'rpm package at \"{buildFilename}\" is '+ Fore.GREEN+'ready' + Fore.CYAN + ' for distribution.'
 

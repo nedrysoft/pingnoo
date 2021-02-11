@@ -36,15 +36,13 @@ def execute(command):
 
     return(output.returncode, output.stdout.decode('utf-8')+output.stderr.decode('utf-8'))
 
-def rpmCreate(buildArch, buildType, version):
+def rpmCreate(buildArch, buildType, version, release):
 	controlTemplate = ""
 
 	with open("rpm/pingnoo.spec.in", 'r') as controlFile:
 		controlTemplate = string.Template(controlFile.read())
 
 		controlFile.close()
-
-	release = '1'
 
 	rpmFolder = f'pingnoo-{version}-{release}.{buildArch}'
 
@@ -117,12 +115,12 @@ def main():
 						nargs='?',
 						help='architecture type to deploy')
 
-
 	parser.add_argument('--version', type=str, nargs='?', help='version')
+	parser.add_argument('--release', type=str, nargs='?', help='release')
 
 	args = parser.parse_args()
 
-	rpmCreate(args.arch, args.type, args.version)
+	rpmCreate(args.arch, args.type, args.version, args.release)
 
 if __name__ == "__main__":
 	main()
