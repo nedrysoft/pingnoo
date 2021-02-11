@@ -35,6 +35,7 @@ import sys
 import logging
 import datetime
 import makedeb
+import makerpm
 
 if platform.python_version_tuple() < ('3', '6', '0'):
     print('requires python >= 3.6', flush=True)
@@ -230,6 +231,10 @@ if platform.system() == "Linux":
     parser.add_argument('--deb',
                         action='store_true',
                         help='generate deb package')
+
+    parser.add_argument('--rpm',
+                        action='store_true',
+                        help='generate rpm package')
 
     parser.add_argument('--appimage',
                         action='store_true',
@@ -471,7 +476,7 @@ if platform.system() == "Windows":
     exit(0)
 
 if platform.system() == "Linux":
-    if not (args.appimage or args.deb):
+    if not (args.appimage or args.deb or args.rpm):
         print('You must select at least one type of output.')
 
         exit(0);
@@ -683,6 +688,24 @@ if platform.system() == "Linux":
         endmessage(True)
 
         deployedMessage = deployedMessage + f'\r\n' + Style.BRIGHT + Fore.CYAN + f'deb package at \"{buildFilename}\" is '+ Fore.GREEN+'ready' + Fore.CYAN + ' for distribution.'
+
+
+    if args.rpm:
+        startmessage('Creating rpm package...')
+
+        rpmVersion = buildVersion.replace('/','.')
+
+        resultCode = makerpm.rpmCreate(buildArch, buildType, rpmVersion)
+
+        if resultCode:
+            endmessage(False)
+            exit(1)
+
+        endmessage(True)
+        buildFilename=''
+
+        deployedMessage = deployedMessage + f'\r\n' + Style.BRIGHT + Fore.CYAN + f'rpm package at \"{buildFilename}\" is '+ Fore.GREEN+'ready' + Fore.CYAN + ' for distribution.'
+
 
     endTime = time.time()
 
