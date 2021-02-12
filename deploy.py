@@ -34,6 +34,7 @@ import subprocess
 import sys
 import logging
 import datetime
+import string
 import makedeb
 import makerpm
 
@@ -123,12 +124,16 @@ def run(command):
 
     return stream.read()
 
+
 def macsignbinary(filetosign, cert):
     return execute(f'codesign --verify --timestamp -o runtime --force --sign "{cert}" "{filetosign}"')
 
 
-def winsignbinary(signingtool, filetosign, cert, timeserver):
-    return execute(f'{signingtool} sign /n "{cert}" /t {timeserver} /fd sha256 /v "{filetosign}"')
+def winsignbinary(signingtool, filetosign, cert, timeserver, pin):
+    if pin:
+        pin = "-pin "+pin
+
+    return execute(f'{signingtool} {pin} sign /fd sha256 /t {timeserver} /a "{filetosign}"')
 
 
 def notarizefile(filetonotarize, username, password):
@@ -252,6 +257,12 @@ if platform.system() == "Windows":
                         nargs='?',
                         default='tools\\smartcardtools\\x64\\ScSignTool.exe',
                         help='path to signing binary')
+
+    parser.add_argument('--pin',
+                        type=str,
+                        nargs='?',
+                        default='',
+                        help='pin when using scsigntool')
 
 if platform.system() == "Darwin":
     parser.add_argument('--appleid', type=str, nargs='?', help='apple id to use for notarization')
@@ -385,7 +396,7 @@ if platform.system() == "Windows":
         startmessage('Signing binaries...')
 
         for file in signList:
-            resultCode, resultOutput = winsignbinary(signtool, file, args.cert, args.timeserver)
+            resultCode, resultOutput = winsignbinary(signtool, file, args.cert, args.timeserver, args.pin)
 
             if resultCode:
                 endmessage(False, f'there was a problem signing a file ({file}).\r\n\r\n{resultOutput}\r\n')
@@ -417,7 +428,21 @@ if platform.system() == "Windows":
     if os.path.exists('installer\\PingnooBuild.aip'):
         os.remove('installer\\PingnooBuild.aip')
 
-    shutil.copy2('installer\\Pingnoo.aip', 'installer\\PingnooBuild.aip')
+    # use python templating to set the pin in the aip file as it can't lookup an environment variable directly
+
+    with open("installer\\Pingnoo.aip", 'r') as installerFile:
+        installerTemplate = string.Template(installerFile.read())
+
+        installerFile.close()
+
+        pinCode = os.environ.get('PINGNOO_CERTIFICATE_PIN')
+
+        installerFileContent = installerTemplate.substitute(pinCode=f'{pinCode}')
+
+        with open('installer\\PingnooBuild.aip', 'w') as installerFile:
+            installerFile.write(installerFileContent)
+
+        installerFile.close()
 
     buildParts = args.version.split('-', 1)
 
@@ -455,7 +480,7 @@ if platform.system() == "Windows":
     if args.cert:
         startmessage('Signing installer...')
 
-        resultCode, resultOutput = winsignbinary(signtool, f'deployment\\{buildFilename}', args.cert, args.timeserver)
+        resultCode, resultOutput = winsignbinary(signtool, f'deployment\\{buildFilename}', args.cert, args.timeserver, args.pin)
 
         if resultCode:
             endmessage(False, f'there was a problem signing the installer.\r\n\r\n{resultOutput}\r\n')

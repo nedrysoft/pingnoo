@@ -61,17 +61,34 @@ if(APPLE)
         )"
     )
 elseif(WIN32)
+    file(TO_NATIVE_PATH "${PINGNOO_ROOT_DIR}" rootDir)
+    file(TO_NATIVE_PATH "$ENV{PINGNOO_CURL_BINARY}" curlBin)
+
+    if(NOT DEFINED ENV{PINGNOO_PYTHON_BINARY})
+        set(pythonBin python)
+    else()
+        file(TO_NATIVE_PATH "$ENV{PINGNOO_PYTHON_BINARY}" pythonBin)
+        string(REPLACE "\\" "\\\\" pythonBin ${pythonBin})
+    endif()
+
+    file(TO_NATIVE_PATH "${CMAKE_PREFIX_PATH}" qtPath)
+
+    string(REPLACE "\\" "\\\\" curlBin ${curlBin})
+    string(REPLACE "\\" "\\\\" rootDir ${rootDir})
+    string(REPLACE "\\" "\\\\" qtPath ${qtPath})
+
     install(CODE
             "execute_process(
-            WORKING_DIRECTORY \"${PINGNOO_ROOT_DIR}\"
-            COMMAND python
-            \"${PINGNOO_ROOT_DIR}\\deploy.py\"
-            \"--curlbin=$ENV{PINGNOO_CURL_BINARY}\"
-            \"--qtdir=${CMAKE_PREFIX_PATH}\"
-            \"--type=${PINGNOO_BUILD_TYPE}\"
-            \"--arch=${PINGNOO_PLATFORM_ARCH}\"
-            \"--cert=$ENV{PINGNOO_DEVELOPER_CERTIFICATE}\"
-            \"--version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}\"
+            WORKING_DIRECTORY ${PINGNOO_ROOT_DIR}
+            COMMAND ${pythonBin}
+            ${rootDir}\\\\deploy.py
+            --curlbin=${curlBin}
+            --qtdir=${qtPath}
+            --pin=$ENV{PINGNOO_CERTIFICATE_PIN}
+            --type=${PINGNOO_BUILD_TYPE}
+            --arch=${PINGNOO_PLATFORM_ARCH}
+            --cert=$ENV{PINGNOO_DEVELOPER_CERTIFICATE}
+            --version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}
         )"
     )
 elseif(UNIX)

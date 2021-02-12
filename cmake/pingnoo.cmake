@@ -85,8 +85,10 @@ set(PINGNOO_COMPONENTS_SOURCE_DIR "${PINGNOO_SOURCE_DIR}/components")
 
 # fix for using deb qt libs
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-sized-deallocation")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-sized-deallocation")
+if(UNIX AND NOT APPLE)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-sized-deallocation")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-sized-deallocation")
+endif()
 
 if(APPLE)
     set(PINGNOO_BINARY_ROOT "${PINGNOO_BINARY_DIR}/${PINGNOO_PLATFORM_ARCH}/${CMAKE_BUILD_TYPE}")
@@ -191,14 +193,13 @@ macro(pingnoo_end_component)
     endif()
 
     if (WIN32)
+        configure_file("${PINGNOO_SOURCE_DIR}/common/PingnooVersion.h.in" "PingnooVersion.h")
         target_sources(${pingnooCurrentProjectName} "PRIVATE" "${PINGNOO_SOURCE_DIR}/common/version.rc")
     endif()
 
     pingnoo_set_component_outputs()
 
     add_logging_library()
-
-    target_include_directories(${pingnooCurrentProjectName} PRIVATE ".")
 
     pingnoo_sign(\"${PINGNOO_COMPONENTS_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${pingnooCurrentProjectName}${CMAKE_SHARED_LIBRARY_SUFFIX}\")
 endmacro(pingnoo_end_component)
@@ -227,6 +228,7 @@ macro(pingnoo_end_shared_library)
     endif()
 
     if (WIN32)
+        configure_file("${PINGNOO_SOURCE_DIR}/common/PingnooVersion.h.in" "PingnooVersion.h")
         target_sources(${pingnooCurrentProjectName} "PRIVATE" "${PINGNOO_SOURCE_DIR}/common/version.rc")
     endif()
 
@@ -297,6 +299,7 @@ macro(pingnoo_end_executable)
 
     if (WIN32)
         set_property(TARGET ${pingnooCurrentProjectName} PROPERTY WIN32_EXECUTABLE true)
+        configure_file("${PINGNOO_SOURCE_DIR}/common/PingnooVersion.h.in" "PingnooVersion.h")
         target_sources(${pingnooCurrentProjectName} "PRIVATE" "${PINGNOO_SOURCE_DIR}/common/version.rc")
     endif()
 
