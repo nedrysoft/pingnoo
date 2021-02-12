@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/Core">
         <file>Icons/mask.png</file>
+        <file>Icons/mask-inverted.png</file>
     </qresource>
 </RCC>

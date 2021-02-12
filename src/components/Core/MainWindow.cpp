@@ -228,6 +228,8 @@ auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
 
         m_settingsDialog = new Nedrysoft::SettingsDialog::SettingsDialog(pages, this);
 
+        m_settingsDialog->setWindowTitle(tr("Pingnoo configuration"));
+
         m_settingsDialog->show();
 
         connect(m_settingsDialog, &Nedrysoft::SettingsDialog::SettingsDialog::closed, [=]() {

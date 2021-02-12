@@ -29,6 +29,8 @@
 
 #include "ui_HostMaskerSettingsPageWidget.h"
 
+auto constexpr treeItemAdjustment = 32;
+
 Nedrysoft::Core::HostMaskerSettingsPageWidget::HostMaskerSettingsPageWidget(QWidget *parent) :
         QWidget(parent), ui(new Ui::HostMaskerSettingsPageWidget) {
 
@@ -62,6 +64,22 @@ auto Nedrysoft::Core::HostMaskerSettingsPageWidget::initialise() -> void {
 
         minimumHeight = qMax(maskerWidget->sizeHint().height(), minimumHeight);
     }
+
+    int listWidth = 0;
+
+    for (auto currentIndex=0;currentIndex<ui->maskersTreeWidget->topLevelItemCount();currentIndex++) {
+        auto item = ui->maskersTreeWidget->topLevelItem(currentIndex);
+
+        auto fontMetrics = QFontMetrics(ui->maskersTreeWidget->font());
+
+        auto width = fontMetrics.boundingRect(item->text(0)).width();
+
+        if (width>listWidth) {
+            listWidth = width;
+        }
+    }
+
+    ui->maskersTreeWidget->setMinimumWidth(listWidth+treeItemAdjustment);
 
     this->setMinimumHeight(minimumHeight);
 

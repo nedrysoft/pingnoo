@@ -37,15 +37,19 @@ auto Nedrysoft::Core::HostMaskerSettingsPage::section() -> QString {
 }
 
 auto Nedrysoft::Core::HostMaskerSettingsPage::category() -> QString {
-    return "";
+    return tr("Configuration");
 }
 
 auto Nedrysoft::Core::HostMaskerSettingsPage::description() -> QString {
-    return "";
+    return tr("The configuration options for the available host maskers.");
 }
 
 auto Nedrysoft::Core::HostMaskerSettingsPage::icon() -> QIcon {
-    return QIcon(":/Core/icons/mask.png");
+#if !defined(Q_OS_MACOS)
+    return QIcon(":/Core/Icons/mask-inverted.png");
+#else
+    return QIcon(":/Core/Icons/mask.png");
+#endif
 }
 
 auto Nedrysoft::Core::HostMaskerSettingsPage::createWidget() -> QWidget * {
