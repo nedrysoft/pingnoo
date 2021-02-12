@@ -26,6 +26,7 @@ Release:        $release
 Summary:        A network traceroute analyser
 License:        GPLv3+
 URL:            https://www.pingnoo.com
+Requires:		$dependencies
 
 %description 
 A network traceroute analyser
@@ -42,3 +43,5 @@ set -e
 setcap cap_net_raw=+ep /usr/local/bin/pingnoo/Pingnoo
 ldconfig
 
+%clean
+echo "no clean!"

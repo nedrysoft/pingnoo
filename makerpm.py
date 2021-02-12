@@ -36,6 +36,37 @@ def execute(command):
 
     return(output.returncode, output.stdout.decode('utf-8')+output.stderr.decode('utf-8'))
 
+def findPackage(library):
+	result, output = execute(f'yum provides {library}')
+
+	#if not output:
+	#	return None
+
+	lines = output.splitlines()
+
+	if len(lines):
+		parts = lines[1].split(':')
+
+		file = parts[0].rstrip()
+
+		result, output = execute(f'yum info {file}')
+
+		#lines = output.splitlines()
+
+		nameRegex = re.compile(r"Name\s*:\s*(?P<name>.*)")
+
+		lines = output.splitlines()
+
+		for line in lines:
+			result = nameRegex.match(line.rstrip())
+
+
+			if result:
+				return result.group('name')
+
+	return None
+
+
 def rpmCreate(buildArch, buildType, version, release):
 	controlTemplate = ""
 
@@ -80,7 +111,63 @@ def rpmCreate(buildArch, buildType, version, release):
 	shutil.copy2(f'dpkg/copyright', f'{buildRoot}/usr/share/doc/pingnoo')
 	shutil.copy2(f'dpkg/Pingnoo.desktop', f'{buildRoot}/usr/share/applications')
 
-	controlFileContent = controlTemplate.substitute(version=version, release=release)
+	# discover the dependencies
+
+	dependencies = set()
+	packagesMap = dict()
+	packages = set()
+	ignore = set()
+
+	# create list of all shared libraries that the application uses (and at the same time create hashes)
+
+	for filepath in glob.iglob(f'{buildRoot}/usr/local/bin/pingnoo/**/*', recursive=True):
+		if os.path.isdir(filepath):
+			continue
+
+		ignore.add(os.path.basename(filepath))
+
+		soRegex = re.compile(r"\s*(?P<soname>.*)\s=>")
+
+		resultCode, resultOutput = execute(f'ldd {filepath}')
+
+		for line in io.StringIO(resultOutput):
+			if not line:
+				continue
+
+			result = soRegex.match(line.rstrip())
+
+			if not result:
+				continue
+
+			dependencies.add(result.group("soname"))
+
+	# find which package provides the libraries
+
+	for dep in dependencies:
+		if not dep in  packagesMap:
+			if dep in ignore:
+				continue
+
+			package = findPackage(dep)
+
+			if package:
+				packagesMap[dep] = package
+
+				packages.add(package)
+
+	# generate a string of the dependencies
+
+	dependencyList = ''
+
+	for package in packages:
+		if not dependencyList:
+			dependencyList = package
+		else:
+			dependencyList = dependencyList+", "+package			
+
+	# create the spec file from the tempalte
+
+	controlFileContent = controlTemplate.substitute(version=version, release=release, dependencies=dependencyList)
 
 	with open(f'bin/x86_64/Deploy/rpm/SPECS/pingnoo.spec', 'w') as controlFile:
 		controlFile.write(controlFileContent)
@@ -99,7 +186,7 @@ def rpmCreate(buildArch, buildType, version, release):
 	return(1)
 
 def main():
-	parser = argparse.ArgumentParser(description='dpkg build script')
+	parser = argparse.ArgumentParser(description='rpm build script')
 
 	parser.add_argument('--arch',
 						choices=['x86_64'],
