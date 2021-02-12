@@ -45,9 +45,9 @@ Pingnoo uses a modular design architecture based on components (aka plugins); th
 The following compiler configurations are known to work for development.
 
 - ***Linux*** - 32 & 64-bit using GNU g++
-- ***Windows*** - 32 & 64-bit using MSVC 2017 Community Edition
+- ***Windows*** - 32 & 64-bit using MSVC 2019 Community Edition
 - ***Windows*** - 32 & 64-bit using mingw-g++
-- ***Mac OS*** - 64-bit using clang from xcode command line tools
+- ***Mac OS*** - 64-bit using clang from the xcode command line tools
 
 ### Deployment
 
@@ -159,8 +159,9 @@ Also, Pingnoo was developed using the following commercially licensed tools/serv
 - [AdvancedInstaller](https://www.advancedinstaller.com/) - Installer creator for windows, License kindly provided by them for free.
 - [Affinity Designer](https://www.serif.com/designer) - Vector artwork design application.
 - [Affinity Photo](https://www.serif.com/photo) - Bitmap artwork design application.
-- [CLion](https://www.jetbrains.com/clion/) - A C++ IDE
+- [CLion](https://www.jetbrains.com/clion/) - The C++ IDE Pingnoo is developed in, the license was kindly provided for free for the project.
 - [Deleaker](https://deleaker.com) - A memory leak detector for Windows, the license was kindly provided for free for the project. 
+- [Icofx](https://icofx.ro) - A tool for producing icon & icns files from source images.
 
 ## Thanks
 
