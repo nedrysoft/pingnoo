@@ -83,9 +83,13 @@ Nedrysoft::Core::EditorManager::EditorManager(EditorManagerTabWidget *tabWidget)
 auto Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) -> int {
     m_editorMap[editor->widget()] = editor;
 
-    m_tabWidget->addTab(editor->widget(), editor->displayName());
+    auto tabIndex = m_tabWidget->addTab(editor->widget(), editor->displayName());
 
-#if !defined(Q_OS_MACOS)
+#if defined(Q_OS_MACOS)
+    m_tabWidget->tabBar()->setTabButton(tabIndex, QTabBar::RightSide, m_tabWidget->tabBar()->tabButton(tabIndex, QTabBar::LeftSide));
+#else
+    Q_UNUSED(tabIndex);
+    
     m_tabWidget->setStyleSheet(otherStylesheet);
 #endif
 
