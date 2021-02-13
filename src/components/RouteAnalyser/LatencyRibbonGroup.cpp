@@ -43,6 +43,10 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::LatencyRibbonGroup(QWidget *parent
 
     ui->setupUi(this);
 
+    ui->idealWidget->setText(tr("Ideal"));
+    ui->warningWidget->setText(tr("Warning"));
+    ui->criticalWidget->setText(tr("Critical"));
+
     ui->idealWidget->setFixedHeight(ui->criticalWidget->height());
     ui->idealWidget->setFixedWidth(ui->criticalWidget->width());
 

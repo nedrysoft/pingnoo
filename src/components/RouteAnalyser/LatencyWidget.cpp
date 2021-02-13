@@ -39,7 +39,7 @@ constexpr auto widgetRadius = 5;
 Nedrysoft::RouteAnalyser::LatencyWidget::LatencyWidget(QWidget *parent) :
         QWidget(parent),
         m_colour(Qt::transparent),
-        m_text(tr("Colours")) {
+        m_text(tr("")) {
 
 }
 
