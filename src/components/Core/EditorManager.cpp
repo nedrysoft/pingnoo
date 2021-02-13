@@ -89,7 +89,7 @@ auto Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) -> int {
     m_tabWidget->tabBar()->setTabButton(tabIndex, QTabBar::RightSide, m_tabWidget->tabBar()->tabButton(tabIndex, QTabBar::LeftSide));
 #else
     Q_UNUSED(tabIndex);
-    
+
     m_tabWidget->setStyleSheet(otherStylesheet);
 #endif
 
