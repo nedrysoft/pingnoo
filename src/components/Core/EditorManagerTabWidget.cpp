@@ -40,6 +40,7 @@ Nedrysoft::Core::EditorManagerTabWidget::EditorManagerTabWidget(QWidget *parent)
         QTabWidget(parent),
         m_openSansRegular(QFontDatabase::addApplicationFont(fontPath)) {
 
+    setTabsClosable(true);
 }
 
 auto Nedrysoft::Core::EditorManagerTabWidget::setText(QString text) -> void {

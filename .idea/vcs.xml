@@ -7,8 +7,5 @@
     <mapping directory="$PROJECT_DIR$/src/libs/Ribbon" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/libs/SettingsDialog" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/libs/spdlog" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/tools/create-dmg" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/tools/macdeployqtfix" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/tools/makeuniversal" vcs="Git" />
   </component>
 </project>

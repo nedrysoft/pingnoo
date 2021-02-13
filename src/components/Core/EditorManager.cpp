@@ -25,6 +25,7 @@
 
 #include "IEditor.h"
 
+#include <QCheckBox>
 #include <QTabBar>
 #include <QTabWidget>
 
@@ -36,7 +37,7 @@ constexpr auto macStylesheet = R"(
 
 constexpr auto otherStylesheet = R"(
     QTabBar::tab {
-        padding-right:16px;
+        padding-right:8px;
         text-align: center;
         margin-left: 16px;
     }
@@ -82,14 +83,10 @@ Nedrysoft::Core::EditorManager::EditorManager(EditorManagerTabWidget *tabWidget)
 auto Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) -> int {
     m_editorMap[editor->widget()] = editor;
 
-    auto tabIndex = m_tabWidget->addTab(editor->widget(), editor->displayName());
+    m_tabWidget->addTab(editor->widget(), editor->displayName());
 
 #if !defined(Q_OS_MACOS)
-    m_tabWidget->setStyleSheet(macStylesheet);
-    m_tabWidget->tabBar()->setTabButton(tabIndex, QTabBar::RightSide, m_tabWidget->tabBar()->tabButton(tabIndex, QTabBar::LeftSide));
-#else
-    Q_UNUSED(tabIndex)
-    //m_tabWidget->setStyleSheet(otherStylesheet);
+    m_tabWidget->setStyleSheet(otherStylesheet);
 #endif
 
     connect(m_tabWidget, &QTabWidget::tabCloseRequested, [=](int index) {
