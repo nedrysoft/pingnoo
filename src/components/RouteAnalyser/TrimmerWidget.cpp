@@ -334,7 +334,7 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mouseMoveEvent(QMouseEvent *event)
 
 auto Nedrysoft::RouteAnalyser::TrimmerWidget::setViewport(double start, double end) -> void {
     if (start>end) {
-        std::swap<double>(start, end);
+        std::swap(start, end);
     }
 
     m_viewportPosition = qMax(start, 0.0);
