@@ -149,12 +149,16 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         }
     });
 
-    connect(ui->intervalLineEdit, &Nedrysoft::Ribbon::RibbonLineEdit::textChanged, [=]() {
+    connect(ui->intervalLineEdit, &Nedrysoft::Ribbon::RibbonLineEdit::textChanged, [this]() {
+        ui->intervalLineEdit->blockSignals(true);
         validateFields();
+        ui->intervalLineEdit->blockSignals(false);
     });
 
-    connect(ui->targetLineEdit, &Nedrysoft::Ribbon::RibbonLineEdit::textChanged, [=]() {
+    connect(ui->targetLineEdit, &Nedrysoft::Ribbon::RibbonLineEdit::textChanged, [this]() {
+        ui->targetLineEdit->blockSignals(true);
         validateFields();
+        ui->targetLineEdit->blockSignals(false);
     });
 
     validateFields();
