@@ -24,6 +24,7 @@
 #include "ComponentSystem/Component.h"
 #include "ComponentSystem/ComponentLoader.h"
 #include "ComponentSystem/IComponentManager.h"
+#include "Core/ICore.h"
 #include "Core/ILogger.h"
 #include "SplashScreen.h"
 
@@ -32,6 +33,7 @@
 #include <QDirIterator>
 #include <QIcon>
 #include <QJsonDocument>
+#include <QMainWindow>
 #include <QProcessEnvironment>
 #include <QStandardPaths>
 #include <QTimer>
@@ -159,24 +161,30 @@ int main(int argc, char **argv) {
         return true;
     });
 
-    auto loggerInstances = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::ILogger>();
+    int exitCode;
 
-    for (auto logger : loggerInstances) {
-        SPDLOG_INFO(QString("Registering logger %1").arg(logger->logger()->name().c_str()).toStdString());
-    }
+    if (Nedrysoft::Core::mainWindow()) {
+        auto loggerInstances = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::ILogger>();
+
+        for (auto logger : loggerInstances) {
+            SPDLOG_INFO(QString("Registering logger %1").arg(logger->logger()->name().c_str()).toStdString());
+        }
 
 #if defined(Q_OS_WINDOWS)
-    qApp->setWindowIcon(QIcon(":/app/AppIcon.ico"));
+        qApp->setWindowIcon(QIcon(":/app/AppIcon.ico"));
 #else
-    qApp->setWindowIcon(QIcon(":/app/images/appicon-512x512@2x.png"));
+        qApp->setWindowIcon(QIcon(":/app/images/appicon-512x512@2x.png"));
 #endif
-    if (splashScreen) {
-        QTimer::singleShot(splashscreenTimeout, [=]() {
-            splashScreen->hide();
-        });
-    }
+        if (splashScreen) {
+            QTimer::singleShot(splashscreenTimeout, [=]() {
+                splashScreen->hide();
+            });
+        }
 
-    auto exitCode = QApplication::exec();
+        exitCode = QApplication::exec();
+    } else {
+        exitCode = 1;
+    }
 
     componentLoader->unloadComponents();
 
