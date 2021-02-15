@@ -25,6 +25,10 @@ cmake_minimum_required(VERSION 3.10)
 
 project(Pingnoo)
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/pingnoo.cmake)
 
 option(Pingnoo_Build_Tests "Build tests" OFF)
@@ -42,10 +46,6 @@ if(UNIX AND NOT APPLE)
     set(NEDRYSOFT_LIBRARY_DIR ${PINGNOO_BINARY_ROOT})
 
     add_subdirectory(src/helper)
-endif()
-
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
 endif()
 
 string(TOLOWER ${CMAKE_BUILD_TYPE} PINGNOO_BUILD_TYPE)
