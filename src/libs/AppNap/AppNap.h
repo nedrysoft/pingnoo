@@ -25,7 +25,6 @@
 #define NEDRYSOFT_APPNAP_APPNAP_H
 
 #include <QObject>
-#include <QRecursiveMutex>
 #include <QtGlobal>
 
 #if ( defined(NEDRYSOFT_LIBRARY_APPNAP_EXPORT))
@@ -35,6 +34,8 @@
 #endif
 
 #if defined(Q_OS_MACOS)
+#include <QRecursiveMutex>
+
 Q_FORWARD_DECLARE_OBJC_CLASS(NSObject);
 #endif
 

@@ -49,6 +49,47 @@ The following compiler configurations are known to work for development.
 - ***Windows*** - 32 & 64-bit using mingw-g++
 - ***Mac OS*** - 64-bit using clang from the xcode command line tools
 
+### Building
+
+Building the project will require certain libraries and toolchairs to be installed, the instructions below should be used as a guide for setting up a build environment.
+
+The source can be obtained using Git.
+
+```bash
+git clone https://github.com/nedrysoft/pingnoo.git
+```
+
+#### Fedora
+
+```bash
+sudo yum install dbus-devel
+```
+#### Ubunbu
+
+```bash
+sudo apt-get install build-essential
+sudo apt-get install qt5-default
+sudo apt-get install mesa-common-dev
+sudo apt-get install libdbus-1-dev
+```
+
+#### Building
+
+Change to the folder that contains the source code, and then execute the following commands.
+
+```bash
+mkdir build
+cd build
+cmake ../
+make
+```
+
+The software will be configured and the resulting binaries can be found in ../bin/<arch>/<build type>
+
+For example, an x86_64 Release build would be located at ,,/bin/x86_64/Release
+
+Change to that folder and execute ./Pingnoo to run the application.
+
 ### Deployment
 
 The deploy.py python script creates runnable/installable binaries for the given operating system.

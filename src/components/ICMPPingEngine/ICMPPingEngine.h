@@ -28,6 +28,8 @@
 #include "Core/IPingEngine.h"
 #include "Core/IPingEngineFactory.h"
 
+#include <memory>
+
 namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingEngineData;
 
