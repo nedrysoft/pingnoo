@@ -25,6 +25,10 @@ cmake_minimum_required(VERSION 3.10)
 
 project(Pingnoo)
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/pingnoo.cmake)
 
 option(Pingnoo_Build_Tests "Build tests" OFF)
