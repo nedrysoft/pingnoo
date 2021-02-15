@@ -44,6 +44,10 @@ if(UNIX AND NOT APPLE)
     add_subdirectory(src/helper)
 endif()
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
 string(TOLOWER ${CMAKE_BUILD_TYPE} PINGNOO_BUILD_TYPE)
 
 if(APPLE)
