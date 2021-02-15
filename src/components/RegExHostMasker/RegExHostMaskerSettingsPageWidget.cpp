@@ -50,29 +50,33 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSe
     assert(hostMasker!=nullptr);
 
     connect(ui->importButton, &QPushButton::clicked, [=](bool checked) {
-        auto filename = QFileDialog::getOpenFileName(Nedrysoft::Core::mainWindow(), "Import Configuration");
+        auto filename = QFileDialog::getOpenFileName(Nedrysoft::Core::mainWindow(), tr("Import Configuration"));
 
         if (!filename.isEmpty()) {
-            auto messageBox = QMessageBox();
+            auto messageBox = new QMessageBox(Nedrysoft::ComponentSystem::getObject<QMainWindow>());
             bool append;
 
-            messageBox.setText(tr("Do you want to append to or overwrite the existing configuration?"));
-            messageBox.setWindowTitle(tr("Import Configuration"));
-            messageBox.setIcon(QMessageBox::Question);
+            messageBox->setText(tr("Do you want to append to or overwrite the existing configuration?"));
+            messageBox->setWindowTitle(tr("Import Configuration"));
+            messageBox->setIcon(QMessageBox::Question);
 
-            auto yesButton = messageBox.addButton(tr("Append"), QMessageBox::YesRole);
-            auto noButton = messageBox.addButton(tr("Overwrite"), QMessageBox::NoRole);
-            auto cancelButton = messageBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
+            auto yesButton = messageBox->addButton(tr("Append"), QMessageBox::YesRole);
+            auto noButton = messageBox->addButton(tr("Overwrite"), QMessageBox::NoRole);
+            auto cancelButton = messageBox->addButton(tr("Cancel"), QMessageBox::RejectRole);
 
-            messageBox.exec();
+            messageBox->exec();
 
-            if (messageBox.clickedButton()==yesButton) {
+            if (messageBox->clickedButton()==yesButton) {
                 append = true;
-            } else if (messageBox.clickedButton()==noButton) {
+            } else if (messageBox->clickedButton()==noButton) {
                 append = false;
-            } else if (messageBox.clickedButton()==cancelButton) {
+            } else if (messageBox->clickedButton()==cancelButton) {
+                delete messageBox;
+
                 return;
             } else {
+                delete messageBox;
+
                 return;
             }
 
@@ -89,11 +93,13 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSe
             }
 
             ui->exportButton->setEnabled(hostMasker->m_maskList.count() ? true : false);
+
+            delete messageBox;
         };
     });
 
     connect(ui->exportButton, &QPushButton::clicked, [=](bool checked) {
-        auto filename = QFileDialog::getSaveFileName(Nedrysoft::Core::mainWindow(), "Export Configuration");
+        auto filename = QFileDialog::getSaveFileName(Nedrysoft::Core::mainWindow(), tr("Export Configuration"));
 
         if (!filename.isEmpty()) {
             hostMasker->saveToFile(filename);
@@ -569,6 +575,7 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::setMaskerIte
 
     item->setData(
             0,
-            Qt::UserRole, QVariant::fromValue<Nedrysoft::RegExHostMasker::RegExHostMaskerItem>(maskerItem) );
+            Qt::UserRole,
+            QVariant::fromValue<Nedrysoft::RegExHostMasker::RegExHostMaskerItem>(maskerItem) );
 }
 
