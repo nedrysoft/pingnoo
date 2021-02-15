@@ -57,6 +57,7 @@ The source can be obtained using Git.
 
 ```bash
 git clone https://github.com/nedrysoft/pingnoo.git
+git submodule update --init --recursive
 ```
 
 #### Fedora
