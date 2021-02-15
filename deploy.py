@@ -115,7 +115,7 @@ def which(appname):
 
     whichstatusresult, output = execute(f'{command} {appname}')
 
-    if whichstatusresult and output:
+    if whichstatusresult == 0 and output:
         return output.split()[0]
 
 
@@ -268,7 +268,7 @@ if platform.system() == "Darwin":
     parser.add_argument('--appleid', type=str, nargs='?', help='apple id to use for notarization')
     parser.add_argument('--password', type=str, nargs='?', help='password for apple id')
 
-parser.add_argument('--version', type=str, nargs='?', help='version string')
+parser.add_argument('--version', type=str, nargs='?', help='version string', required=True)
 
 args = parser.parse_args()
 
