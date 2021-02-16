@@ -57,6 +57,7 @@ The source can be obtained using Git.
 
 ```bash
 git clone https://github.com/nedrysoft/pingnoo.git
+cd pingnoo
 git submodule update --init --recursive
 ```
 
@@ -70,6 +71,7 @@ sudo yum install dbus-devel
 ```bash
 sudo apt-get install build-essential
 sudo apt-get install qt5-default
+sudo apt-get install qttools5-dev
 sudo apt-get install mesa-common-dev
 sudo apt-get install libdbus-1-dev
 sudo apt-get install qttools5-dev
@@ -138,6 +140,8 @@ This command will automatically apply the privileges to the executable after lin
 To stop sudo requesting a password for the `/usr/sbin/setcap` command create the following entry in `/etc/sudoers`(replacing <username> with the name of your user account):
 
 `<username> ALL = (root) NOPASSWD: /usr/sbin/setcap`
+
+Note that in some linux distributions `setcap` is located in `/sbin`.
 
 *Please be aware of any security issues by doing this.*
 
