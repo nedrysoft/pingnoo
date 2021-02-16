@@ -578,6 +578,11 @@ def _do_linux():
 
             deb_version = build_version.replace('/', '.')
 
+            version_parts = deb_version.split('-', 1)
+
+            if len(version_parts)==2:
+                deb_version = version_parts[0][2:]
+
             build_filename = f'deployment/pingnoo_{deb_version}_{deb_arch}.deb'
 
             if makedeb.debCreate(build_arch, build_type, deb_version, build_filename):
