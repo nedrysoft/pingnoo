@@ -27,9 +27,13 @@ Nedrysoft::Core::Core::Core() :
         m_mainWindow(new Nedrysoft::Core::MainWindow) {
 
     m_mainWindow->show();
+
+    Nedrysoft::ComponentSystem::addObject(m_mainWindow);
 }
 
 Nedrysoft::Core::Core::~Core() {
+    Nedrysoft::ComponentSystem::removeObject(m_mainWindow);
+
     delete m_mainWindow;
 }
 

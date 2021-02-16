@@ -31,6 +31,7 @@
 #include <QApplication>
 #include <QDir>
 #include <QDirIterator>
+#include <QGuiApplication>
 #include <QIcon>
 #include <QJsonDocument>
 #include <QMainWindow>
@@ -163,7 +164,7 @@ int main(int argc, char **argv) {
 
     int exitCode;
 
-    if (Nedrysoft::Core::mainWindow()) {
+    if (Nedrysoft::ComponentSystem::getObject<QMainWindow>()) {
         auto loggerInstances = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::ILogger>();
 
         for (auto logger : loggerInstances) {
@@ -183,6 +184,8 @@ int main(int argc, char **argv) {
 
         exitCode = QApplication::exec();
     } else {
+        qDebug() << QString(QObject::tr("The application does not have a main window, exiting. (please check Components are installed correctly)"));
+
         exitCode = 1;
     }
 
