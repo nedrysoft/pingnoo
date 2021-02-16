@@ -106,7 +106,6 @@ elseif(UNIX)
             \"--type=${PINGNOO_BUILD_TYPE}\"
             \"--version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}\"
             \"--cert=$ENV{PINGNOO_DEVELOPER_CERTIFICATE}\"
-            \"--deb\"
             \"--appimage\"
         )"
     )
