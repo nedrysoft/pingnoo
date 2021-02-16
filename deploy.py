@@ -578,11 +578,15 @@ def _do_linux():
 
             deb_version = build_version.replace('/', '.')
 
+            version_parts = deb_version.split('-', 1)
             build_filename = f'deployment/pingnoo_{deb_version}_{deb_arch}.deb'
 
+            if len(version_parts)==2:
+                deb_version = version_parts[0][2:]
             if makedeb.debCreate(build_arch, build_type, deb_version, build_filename):
                 raise MsgPrinterException("deb creation unknown error")
 
+            build_filename = f'deployment/pingnoo_{deb_version}_{deb_arch}.deb'
         deployed_message = deployed_message + f'\r\n' + Style.BRIGHT + Fore.CYAN + \
                           f'deb package at \"{build_filename}\" is ' + Fore.GREEN + 'ready' + Fore.CYAN + \
                           ' for distribution.'
