@@ -465,112 +465,120 @@ def _do_linux():
 
     deployed_message = ""
 
+    linux_deploy_qt = args.linuxdeployqt
+
+    # here we check if we need linuxdeploy qt for the deployment, if so we check if it's been supplied or whether
+    # we need to download it.  This if can be expanded to any other builds which require linuxdeployqt
+
     if args.appimage:
-        linux_deploy_qt = args.linuxdeployqt
+        if not linux_deploy_qt or not os.path.isfile(linux_deploy_qt):
+            with msg_printer('Downloading linuxdeployqt...'):
+                if os.path.exists('tools/linuxdeployqt'):
+                    rm_path(f'tools/linuxdeployqt')
+    
+                os.mkdir('tools/linuxdeployqt')
+    
+                execute('cd tools/linuxdeployqt; '
+                        'curl -LJO '
+                        'https://github.com/probonopd/linuxdeployqt/releases/download/6/'
+                        'linuxdeployqt-6-x86_64.AppImage',
+                        fail_msg='unable to download linuxdeployqt.')
+    
+                execute('chmod +x tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage',
+                        fail_msg='unable to set permissions on linuxdeployqt.')
+    
+            linux_deploy_qt = 'tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage'
 
-        if os.path.isfile(linux_deploy_qt):
-            _, result_output = execute(f'ldd --version')
+        if not os.path.isfile(linux_deploy_qt):
+            bad_msg("> No valid linuxdeployqt could be found.")
 
-            ldd_regex = re.compile(r"^ldd\s\(.*\)\s(?P<version>.*)$", re.MULTILINE)
+    if args.appimage:
+        _, result_output = execute(f'ldd --version')
 
-            match_result = ldd_regex.match(result_output)
+        ldd_regex = re.compile(r"^ldd\s\(.*\)\s(?P<version>.*)$", re.MULTILINE)
 
-            if not match_result:
-                bad_msg("> Skipping AppImage deployment, unable to get glibc version.")
-            else:
-                glibc_version = float(match_result.group("version"))
+        match_result = ldd_regex.match(result_output)
 
-                if glibc_version > 2.23:
-                    bad_msg("> Skipping AppImage deployment, glibc is too new..")
-                else:
-                    # FIXME: We require linux_deploy_qt as argument, and then download it?
-                    with msg_printer('Downloading linuxdeployqt...'):
-                        if os.path.exists('tools/linuxdeployqt'):
-                            rm_path(f'tools/linuxdeployqt')
-
-                        os.mkdir('tools/linuxdeployqt')
-
-                        execute('cd tools/linuxdeployqt; '
-                                'curl -LJO '
-                                'https://github.com/probonopd/linuxdeployqt/releases/download/6/'
-                                'linuxdeployqt-6-x86_64.AppImage',
-                                fail_msg='unable to download linuxdeployqt.')
-
-                        execute('chmod +x tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage',
-                                fail_msg='unable to set permissions on linuxdeployqt.')
-
-                    linux_deploy_qt = 'tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage'
-                    appimage_tool = args.appimagetool
-
-                    if not os.path.isfile(appimage_tool):
-                        with msg_printer('Downloading appimagetool...'):
-                            if not os.path.exists('tools/appimagetool'):
-                                rm_path(f'tools/appimagetool')
-
-                            os.mkdir('tools/appimagetool')
-
-                            execute('cd tools/appimagetool; '
-                                    'curl -LJO '
-                                    'https://github.com/AppImage/AppImageKit/releases/download/continuous/'
-                                    'appimagetool-x86_64.AppImage', fail_msg='unable to download appimagetool.')
-
-                            execute('chmod +x tools/appimagetool/appimagetool-x86_64.AppImage',
-                                    fail_msg='unable to set permissions on appimagetool.')
-                            appimage_tool = 'tools/appimagetool/appimagetool-x86_64.AppImage'
-
-                    # remove previous deployment files and copy current binaries
-                    with msg_printer('Setting up deployment directory...'):
-                        rm_path(f'bin/{build_arch}/Deploy/AppImage/')
-                        rm_path(f'deployment')
-
-                        os.makedirs(f'deployment')
-
-                        os.makedirs(f'bin/{build_arch}/Deploy/AppImage/usr/bin')
-                        os.makedirs(f'bin/{build_arch}/Deploy/AppImage/usr/lib')
-                        os.makedirs(f'bin/{build_arch}/Deploy/AppImage/usr/share/icons/hicolor/128x128/apps')
-                        os.makedirs(f'bin/{build_arch}/Deploy/AppImage/usr/share/applications')
-
-                        shutil.copy2(f'bin/{build_arch}/{build_type}/Pingnoo',
-                                     f'bin/{build_arch}/Deploy/AppImage/usr/bin')
-                        shutil.copy2(f'installer/Pingnoo.png',
-                                     f'bin/{build_arch}/Deploy/AppImage/usr/share/icons/hicolor/128x128/apps')
-                        shutil.copy2(f'installer/Pingnoo.desktop',
-                                     f'bin/{build_arch}/Deploy/AppImage/usr/share/applications')
-                        shutil.copy2(f'installer/AppRun', f'bin/{build_arch}/Deploy/AppImage/')
-                        shutil.copytree(f'bin/{build_arch}/{build_type}/Components',
-                                        f'bin/{build_arch}/Deploy/AppImage/Components', symlinks=True)
-
-                        for file in glob.glob(f'bin/{build_arch}/{build_type}/*.so'):
-                            shutil.copy2(file, f'bin/{build_arch}/Deploy/AppImage/usr/lib')
-
-                    # create the app dir
-
-                    with msg_printer('Running linuxdeployqt...'):
-                        execute(f'{linux_deploy_qt} '
-                                f'\'bin/{build_arch}/Deploy/AppImage/usr/share/applications/Pingnoo.desktop\' '
-                                f'-qmake=\'{qtdir}/bin/qmake\' '
-                                f'-bundle-non-qt-libs '
-                                f'-exclude-libs=\'libqsqlodbc,libqsqlpsql\'',
-                                fail_msg='there was a problem running linuxdeployqt.')
-
-                    # create the AppImage
-                    sign_parameters = ''
-
-                    if args.cert:
-                        sign_parameters = f'-s --sign-key={args.cert} '
-
-                    with msg_printer('Creating AppImage...'):
-                        build_filename = f'Pingnoo [{build_version}] (x86_64).AppImage'
-
-                        execute(f'{appimage_tool} -g {sign_parameters} '
-                                f'bin/{build_arch}/Deploy/AppImage \"deployment/{build_filename}\"',
-                                fail_msg='there was a problem creating the AppImage.')
-
-                    deployed_message = deployed_message + f'\r\n' + Style.BRIGHT + Fore.CYAN + \
-                                      f'AppImage at \"deployment/{build_filename}\" is ' + Fore.GREEN + 'ready' + \
-                                      Fore.CYAN + ' for distribution.'
+        if not match_result:
+            bad_msg("> Skipping AppImage deployment, unable to get glibc version.")
         else:
-            bad_msg("> Skipping AppImage deployment, linuxdeployqt not given or invalid.")
+            glibc_version = float(match_result.group("version"))
+
+            if glibc_version > 2.23:
+                bad_msg("> Skipping AppImage deployment, glibc is too new..")
+
+        appimage_tool = args.appimagetool
+
+        if not appimage_tool or not os.path.isfile(appimage_tool):
+            with msg_printer('Downloading appimagetool...'):
+                if not os.path.exists('tools/appimagetool'):
+                    rm_path(f'tools/appimagetool')
+
+                os.mkdir('tools/appimagetool')
+
+                execute('cd tools/appimagetool; '
+                        'curl -LJO '
+                        'https://github.com/AppImage/AppImageKit/releases/download/continuous/'
+                        'appimagetool-x86_64.AppImage', fail_msg='unable to download appimagetool.')
+
+                execute('chmod +x tools/appimagetool/appimagetool-x86_64.AppImage',
+                        fail_msg='unable to set permissions on appimagetool.')
+                appimage_tool = 'tools/appimagetool/appimagetool-x86_64.AppImage'
+
+        if not os.path.isfile(appimage_tool):
+            bad_msg("> No valid appimagetool could be found.")
+
+        # remove previous deployment files and copy current binaries
+        with msg_printer('Setting up deployment directory...'):
+            rm_path(f'bin/{build_arch}/Deploy/AppImage/')
+            rm_path(f'deployment')
+
+            os.makedirs(f'deployment')
+
+            os.makedirs(f'bin/{build_arch}/Deploy/AppImage/usr/bin')
+            os.makedirs(f'bin/{build_arch}/Deploy/AppImage/usr/lib')
+            os.makedirs(f'bin/{build_arch}/Deploy/AppImage/usr/share/icons/hicolor/128x128/apps')
+            os.makedirs(f'bin/{build_arch}/Deploy/AppImage/usr/share/applications')
+
+            shutil.copy2(f'bin/{build_arch}/{build_type}/Pingnoo',
+                         f'bin/{build_arch}/Deploy/AppImage/usr/bin')
+            shutil.copy2(f'installer/Pingnoo.png',
+                         f'bin/{build_arch}/Deploy/AppImage/usr/share/icons/hicolor/128x128/apps')
+            shutil.copy2(f'installer/Pingnoo.desktop',
+                         f'bin/{build_arch}/Deploy/AppImage/usr/share/applications')
+            shutil.copy2(f'installer/AppRun', f'bin/{build_arch}/Deploy/AppImage/')
+            shutil.copytree(f'bin/{build_arch}/{build_type}/Components',
+                            f'bin/{build_arch}/Deploy/AppImage/Components', symlinks=True)
+
+            for file in glob.glob(f'bin/{build_arch}/{build_type}/*.so'):
+                shutil.copy2(file, f'bin/{build_arch}/Deploy/AppImage/usr/lib')
+
+        # create the app dir
+
+        with msg_printer('Running linuxdeployqt...'):
+            execute(f'{linux_deploy_qt} '
+                    f'\'bin/{build_arch}/Deploy/AppImage/usr/share/applications/Pingnoo.desktop\' '
+                    f'-qmake=\'{qtdir}/bin/qmake\' '
+                    f'-bundle-non-qt-libs '
+                    f'-exclude-libs=\'libqsqlodbc,libqsqlpsql\'',
+                    fail_msg='there was a problem running linuxdeployqt.')
+
+        # create the AppImage
+        sign_parameters = ''
+
+        if args.cert:
+            sign_parameters = f'-s --sign-key={args.cert} '
+
+        with msg_printer('Creating AppImage...'):
+            build_filename = f'Pingnoo [{build_version}] (x86_64).AppImage'
+
+            execute(f'{appimage_tool} -g {sign_parameters} '
+                    f'bin/{build_arch}/Deploy/AppImage \"deployment/{build_filename}\"',
+                    fail_msg='there was a problem creating the AppImage.')
+
+            deployed_message = deployed_message + f'\r\n' + Style.BRIGHT + Fore.CYAN + \
+                              f'AppImage at \"deployment/{build_filename}\" is ' + Fore.GREEN + 'ready' + \
+                              Fore.CYAN + ' for distribution.'
 
     if args.deb:
         with msg_printer('Creating deb package...'):
@@ -764,3 +772,5 @@ print(Style.BRIGHT + f'\r\nTotal time taken to perform deployment was ' +
       timedelta(end_time - start_time) + '.', flush=True)
 
 sys.exit(0)
+
+
