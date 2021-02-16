@@ -583,6 +583,7 @@ def _do_linux():
 
             if len(version_parts)==2:
                 deb_version = version_parts[0][2:]
+
             if makedeb.debCreate(build_arch, build_type, deb_version, build_filename):
                 raise MsgPrinterException("deb creation unknown error")
 
