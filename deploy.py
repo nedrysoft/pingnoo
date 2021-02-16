@@ -480,13 +480,15 @@ def _do_linux():
             else:
                 glibc_version = float(match_result.group("version"))
 
-                if glibc_version > 2.20:
+                if glibc_version > 2.23:
                     bad_msg("> Skipping AppImage deployment, glibc is too new..")
                 else:
                     # FIXME: We require linux_deploy_qt as argument, and then download it?
                     with msg_printer('Downloading linuxdeployqt...'):
-                        if not os.path.exists('tools/linuxdeployqt'):
-                            os.mkdir('tools/linuxdeployqt')
+                        if os.path.exists('tools/linuxdeployqt'):
+                            rm_path(f'tools/linuxdeployqt')
+
+                        os.mkdir('tools/linuxdeployqt')
 
                         execute('cd tools/linuxdeployqt; '
                                 'curl -LJO '
@@ -503,7 +505,9 @@ def _do_linux():
                     if not os.path.isfile(appimage_tool):
                         with msg_printer('Downloading appimagetool...'):
                             if not os.path.exists('tools/appimagetool'):
-                                os.mkdir('tools/appimagetool')
+                                rm_path(f'tools/appimagetool')
+
+                            os.mkdir('tools/appimagetool')
 
                             execute('cd tools/appimagetool; '
                                     'curl -LJO '
@@ -604,7 +608,8 @@ def _do_linux():
         deployed_message = deployed_message + f'\r\n' + Style.BRIGHT + Fore.CYAN + \
                           f'rpm package at \"{build_filename}\" is ' + Fore.GREEN + 'ready' + Fore.CYAN + \
                           ' for distribution.'
-        print(f"{deployed_message}", flush=True)
+
+    print(f"{deployed_message}", flush=True)
 
 
 def _do_windows():
