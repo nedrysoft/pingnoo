@@ -36,6 +36,7 @@
 #include "ui_MainWindow.h"
 
 #include <QApplication>
+#include <QCloseEvent>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -222,6 +223,13 @@ auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
     commandManager->registerAction(settingsAction, Pingnoo::Constants::filePreferences);
 
     connect(settingsAction, &QAction::triggered, [this](bool) {
+        if (m_settingsDialog) {
+            m_settingsDialog->raise();
+            m_settingsDialog->activateWindow();
+
+            return;
+        }
+
         QList<Nedrysoft::SettingsDialog::ISettingsPage *> pages;
 
         pages = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::SettingsDialog::ISettingsPage>();
@@ -336,4 +344,18 @@ auto Nedrysoft::Core::MainWindow::addMenuCommand(QString commandId, QString menu
     }
 
     menu->appendCommand(command, groupId);
+}
+
+void Nedrysoft::Core::MainWindow::closeEvent(QCloseEvent *closeEvent) {
+    if (m_settingsDialog) {
+        if (!m_settingsDialog->close()) {
+            closeEvent->ignore();
+
+            return;
+        }
+
+        delete m_settingsDialog;
+
+        m_settingsDialog = nullptr;
+    }
 }

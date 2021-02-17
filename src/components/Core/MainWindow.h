@@ -74,6 +74,12 @@ namespace Nedrysoft::Core {
              */
             auto initialise() -> void;
 
+        protected:
+            /**
+             * @brief       Reimplements QMainWindow::closeEvent(QCloseEvent *event).
+             */
+            virtual void closeEvent(QCloseEvent *closeEvent);
+
         private:
             /**
              * @brief       Creates the placeholders for the default commands which other plugins
