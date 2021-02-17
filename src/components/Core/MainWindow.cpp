@@ -238,10 +238,13 @@ auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
 
         m_settingsDialog->setWindowTitle(tr("Pingnoo configuration"));
 
+#if !defined(Q_OS_MACOS)
+        m_settingsDialog->setWindowModality(Qt::ApplicationModal);
+#endif
         m_settingsDialog->show();
 
         connect(m_settingsDialog, &Nedrysoft::SettingsDialog::SettingsDialog::closed, [=]() {
-            delete m_settingsDialog;
+            m_settingsDialog->deleteLater();
 
             m_settingsDialog = nullptr;
         });
