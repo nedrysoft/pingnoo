@@ -439,7 +439,7 @@ def _do_darwin():
                 fail_msg='there was a problem stapling the ticket to dmg.')
 
     with msg_printer('Copying dmg to deployment directory...'):
-        build_filename = f'deployment/Pingnoo [{build_version}] ({build_arch}).dmg'
+        build_filename = f'deployment/Pingnoo.{build_version}.{build_arch}.dmg'
         shutil.copy2(f'bin/{build_arch}/Deploy/Pingnoo.dmg', build_filename)
 
     print(f'\r\n' + Style.BRIGHT + Fore.CYAN + f'Disk Image at \"deployment/{build_filename}\" is ' +
@@ -570,7 +570,7 @@ def _do_linux():
             sign_parameters = f'-s --sign-key={args.cert} '
 
         with msg_printer('Creating AppImage...'):
-            build_filename = f'Pingnoo [{build_version}] (x86_64).AppImage'
+            build_filename = f'Pingnoo.{build_version}.{build_arch}.AppImage'
 
             execute(f'{appimage_tool} -g {sign_parameters} '
                     f'bin/{build_arch}/Deploy/AppImage \"deployment/{build_filename}\"',
@@ -734,7 +734,7 @@ def _do_windows():
         else:
             win_build_version = build_parts[0][2:]
 
-        build_filename = f'Pingnoo Setup [{build_version}] ({build_arch}).exe'
+        build_filename = f'Pingnoo.{build_version}.{build_arch}.exe'
 
         execute(f'AdvancedInstaller.com /edit installer\\PingnooBuild.aip /SetVersion {win_build_version}',
                 fail_msg='there was a problem creating the installer.')
