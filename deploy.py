@@ -38,9 +38,8 @@ import makedeb
 import makerpm
 from msg_printer import msg_printer, MsgPrinterException
 
-if platform.python_version_tuple() < ('3', '6', '0'):
-    print('requires python >= 3.6', flush=True)
-    sys.exit(1)
+if sys.hexversion < 0x030600f0:
+    raise RuntimeError('requires python >= 3.6')
 
 try:
     from colorama import Fore, Style, init
