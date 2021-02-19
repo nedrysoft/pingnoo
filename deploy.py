@@ -468,32 +468,30 @@ def _do_linux():
 
     linux_deploy_qt = args.linuxdeployqt
 
-    # here we check if we need linuxdeploy qt for the deployment, if so we check if it's been supplied or whether
-    # we need to download it.  This if can be expanded to any other builds which require linuxdeployqt
-
     if args.appimage:
+        # here we check if we need linuxdeploy qt for the deployment, if so we check if it's been supplied or whether
+        # we need to download it.  This if can be expanded to any other builds which require linuxdeployqt
         if not linux_deploy_qt or not os.path.isfile(linux_deploy_qt):
             with msg_printer('Downloading linuxdeployqt...'):
                 if os.path.exists('tools/linuxdeployqt'):
                     rm_path(f'tools/linuxdeployqt')
-    
+
                 os.mkdir('tools/linuxdeployqt')
-    
+
                 execute('cd tools/linuxdeployqt; '
                         'curl -LJO '
                         'https://github.com/probonopd/linuxdeployqt/releases/download/6/'
                         'linuxdeployqt-6-x86_64.AppImage',
                         fail_msg='unable to download linuxdeployqt.')
-    
+
                 execute('chmod +x tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage',
                         fail_msg='unable to set permissions on linuxdeployqt.')
-    
+
             linux_deploy_qt = 'tools/linuxdeployqt/linuxdeployqt-6-x86_64.AppImage'
 
         if not os.path.isfile(linux_deploy_qt):
             bad_msg("> No valid linuxdeployqt could be found.")
 
-    if args.appimage:
         _, result_output = execute(f'ldd --version')
 
         ldd_regex = re.compile(r"^ldd\s\(.*\)\s(?P<version>.*)$", re.MULTILINE)
@@ -506,8 +504,10 @@ def _do_linux():
             glibc_version = float(match_result.group("version"))
 
             if glibc_version > 2.23:
+                args.appimage = False  # TODO: Set a flag and return errorlevel != 0?
                 bad_msg("> Skipping AppImage deployment, glibc is too new..")
 
+    if args.appimage:
         appimage_tool = args.appimagetool
 
         if not appimage_tool or not os.path.isfile(appimage_tool):
@@ -555,7 +555,6 @@ def _do_linux():
                 shutil.copy2(file, f'bin/{build_arch}/Deploy/AppImage/usr/lib')
 
         # create the app dir
-
         with msg_printer('Running linuxdeployqt...'):
             execute(f'{linux_deploy_qt} '
                     f'\'bin/{build_arch}/Deploy/AppImage/usr/share/applications/Pingnoo.desktop\' '
