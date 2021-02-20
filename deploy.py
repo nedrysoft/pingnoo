@@ -623,13 +623,13 @@ def _do_linux():
 def _do_windows():
     """ Windows version """
 
-    def win_sign_binary(signingtool, filetosign, _unused_cert, timeserver, pin=None):
+    def win_sign_binary(signingtool, filetosign, cert, timeserver, pin=None):
         # TODO: Move to new execute
         # FIXME: cert parameter was unused?
         if pin:
             pin = "-pin " + pin
 
-        return execute(f'{signingtool} {pin} sign /fd sha256 /t {timeserver} /a "{filetosign}"')
+        return execute(f'{signingtool} {pin} sign /fd sha256 /t {timeserver} /n "{cert}" "{filetosign}"')
 
     with msg_printer('Checking for curl...'):
         if args.curlbin and os.path.isfile(args.curlbin):
@@ -648,6 +648,22 @@ def _do_windows():
 
         if not windeployqt:
             raise MsgPrinterException('qt could not be found. (see --qtdir).')
+
+    pin_code = None
+
+    if args.pin:
+        pin_code = args.pin
+    else:
+        if os.environ.get('PINGNOO_CERTIFICATE_PIN'):
+            pin_code = os.environ.get('PINGNOO_CERTIFICATE_PIN')
+
+    cert = None
+
+    if args.cert:
+        cert = args.cert;
+    else:
+        if os.environ.get('PINGNOO_DEVELOPER_CERTIFICATE'):
+            cert = os.environ.get('PINGNOO_DEVELOPER_CERTIFICATE')
 
     tempdir = os.path.normpath(tempfile.mkdtemp())
     signtool = args.signtool
@@ -698,22 +714,6 @@ def _do_windows():
 
         if not files:
             raise MsgPrinterException('no files could be found to deploy.')
-
-    pin_code = None
-
-    if args.pin:
-        pin_code = args.pin
-    else:
-        if os.environ.get('PINGNOO_CERTIFICATE_PIN'):
-            pin_code = os.environ.get('PINGNOO_CERTIFICATE_PIN')
-
-    cert = None
-
-    if args.cert:
-        cert = args.cert;
-    else:
-        if os.environ.get('PINGNOO_DEVELOPER_CERTIFICATE'):
-            cert = os.environ.get('PINGNOO_DEVELOPER_CERTIFICATE')
 
     # sign the application binaries
     if cert:
