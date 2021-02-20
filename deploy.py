@@ -283,6 +283,7 @@ if platform.system() == "Darwin":
     parser.add_argument('--password', type=str, nargs='?', help='password for apple id')
 
 parser.add_argument('--version', type=str, nargs='?', help='version string', required=True)
+parser.add_argument('--debugoutput', type=str, nargs='?', help='debugoutput string', required=False)
 
 args = parser.parse_args()
 
@@ -629,7 +630,10 @@ def _do_windows():
         if pin:
             pin = "-pin " + pin
 
-        return execute(f'{signingtool} {pin} sign /fd sha256 /t {timeserver} /n "{cert}" "{filetosign}"')
+        if args.debugoutput:
+            print(f'sign command {signingtool} {pin} sign /fd sha256 /t {timeserver} /n {cert} {filetosign}')
+
+        return execute(f'{signingtool} {pin} sign /fd sha256 /t {timeserver} /n {cert} {filetosign}')
 
     with msg_printer('Checking for curl...'):
         if args.curlbin and os.path.isfile(args.curlbin):
@@ -668,7 +672,7 @@ def _do_windows():
     tempdir = os.path.normpath(tempfile.mkdtemp())
     signtool = args.signtool
 
-    if args.cert:
+    if cert:
         if not os.path.exists(signtool):
             with msg_printer('Downloading SmartCardTools...'):
                 execute(f'cd \"{tempdir}\" && \"{curl}\"'
