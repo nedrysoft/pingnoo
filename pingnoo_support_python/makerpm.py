@@ -67,7 +67,7 @@ def findPackage(library):
 	return None
 
 
-def rpmCreate(buildArch, buildType, version, release):
+def rpm_create(buildArch, buildType, version, release):
 	controlTemplate = ""
 
 	with open("rpm/pingnoo.spec.in", 'r') as controlFile:
@@ -207,8 +207,7 @@ def main():
 
 	args = parser.parse_args()
 
-	rpmCreate(args.arch, args.type, args.version, args.release)
+	rpm_create(args.arch, args.type, args.version, args.release)
 
 if __name__ == "__main__":
 	main()
-

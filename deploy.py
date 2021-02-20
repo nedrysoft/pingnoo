@@ -34,9 +34,9 @@ import sys
 import tempfile
 import time
 
-import makedeb
-import makerpm
-from msg_printer import msg_printer, MsgPrinterException
+from pingnoo_support_python.makedeb import debCreate
+from pingnoo_support_python.makerpm import rpm_create
+from pingnoo_support_python.msg_printer import msg_printer, MsgPrinterException
 
 if sys.hexversion < 0x030600f0:
     raise RuntimeError('requires python >= 3.6')
@@ -595,7 +595,7 @@ def _do_linux():
             if len(version_parts)==2:
                 deb_version = version_parts[0][2:]
 
-            if makedeb.debCreate(build_arch, build_type, deb_version, build_filename):
+            if debCreate(build_arch, build_type, deb_version, build_filename):
                 raise MsgPrinterException("deb creation unknown error")
 
             build_filename = f'deployment/pingnoo_{deb_version}_{deb_arch}.deb'
@@ -608,7 +608,7 @@ def _do_linux():
             rpm_version = build_version.replace('/', '.')
             rpm_release = 1  # TODO: CLI argument
 
-            if makerpm.rpmCreate(build_arch, build_type, rpm_version, rpm_release):
+            if rpm_create(build_arch, build_type, rpm_version, rpm_release):
                 raise MsgPrinterException("rpm creation unknown error")
 
         build_filename = f'bin/{build_arch}/Deploy/rpm/RPMS/{build_arch}/pingnoo-{rpm_version}-{rpm_release}.{build_arch}.rpm'
