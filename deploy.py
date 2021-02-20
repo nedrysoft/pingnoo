@@ -699,11 +699,27 @@ def _do_windows():
         if not files:
             raise MsgPrinterException('no files could be found to deploy.')
 
-    # sign the application binaries
+    pin_code = None
+
+    if args.pin:
+        pin_code = args.pin
+    else:
+        if os.environ.get('PINGNOO_CERTIFICATE_PIN'):
+            pin_code = os.environ.get('PINGNOO_CERTIFICATE_PIN')
+
+    cert = None
+
     if args.cert:
+        cert = args.cert;
+    else:
+        if os.environ.get('PINGNOO_DEVELOPER_CERTIFICATE'):
+            cert = os.environ.get('PINGNOO_DEVELOPER_CERTIFICATE')
+
+    # sign the application binaries
+    if cert:
         with msg_printer('Signing binaries...'):
             for file in sign_list:
-                result_code, result_output = win_sign_binary(signtool, file, args.cert, args.timeserver, args.pin)
+                result_code, result_output = win_sign_binary(signtool, file, cert, args.timeserver, pin_code)
 
                 if result_code:
                     raise MsgPrinterException(f'there was a problem signing a file ({file}).\r\n\r\n{result_output}\r\n')
@@ -722,7 +738,7 @@ def _do_windows():
         # use python templating to set the pin in the aip file as it can't lookup an environment variable directly
         with open("installer\\Pingnoo.aip", 'r') as installer_file:
             installer_template = string.Template(installer_file.read())
-        pin_code = os.environ.get('PINGNOO_CERTIFICATE_PIN')
+
         installer_file_content = installer_template.substitute(pinCode=f'{pin_code}')
         with open('installer\\PingnooBuild.aip', 'w') as out_installer_file:
             out_installer_file.write(installer_file_content)
