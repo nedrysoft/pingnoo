@@ -34,96 +34,13 @@ import sys
 import tempfile
 import time
 
+from pingnoo_support_python.common import *
 from pingnoo_support_python.makedeb import debCreate
 from pingnoo_support_python.makerpm import rpm_create
 from pingnoo_support_python.msg_printer import msg_printer, MsgPrinterException
 
 if sys.hexversion < 0x030600f0:
     raise RuntimeError('requires python >= 3.6')
-
-try:
-    from colorama import Fore, Style, init
-
-    init(autoreset=True)
-
-except ModuleNotFoundError:
-    # Make some blank wrappers
-    class Style:
-        BRIGHT = ''
-        RESET = ''
-
-
-    class Fore:
-        GREEN = ''
-        RED = ''
-        CYAN = ''
-        RESET = ''
-
-
-class ExecuteException(MsgPrinterException):
-    """ Custom class to separate msgprinter vs. this code """
-
-
-def timedelta(seconds):
-    """ Pretty print a time interval """
-    seconds = abs(int(seconds))
-
-    days, seconds = divmod(seconds, 86400)
-    hours, seconds = divmod(seconds, 3600)
-    minutes, seconds = divmod(seconds, 60)
-
-    if days:
-        return f'{days}d{hours}h{minutes}m{seconds}s'
-    if hours:
-        return f'{hours}h{minutes}m{seconds}s'
-    if minutes:
-        return f'{minutes}m{seconds}s'
-    return f'{seconds}s'
-
-
-def bad_msg(msg):
-    """ Bad message printer """
-    sys.stdout.write(Style.BRIGHT + Fore.RED + msg + Fore.RESET + '\r\n')
-
-
-def parent(path):
-    return os.path.normpath(os.path.join(path, os.pardir))
-
-
-def rm_file(path):
-    """ Will remove file if it exists; no warnings if not """
-    if os.path.isfile(path):
-        os.remove(path)
-
-
-def rm_path(path):
-    """ Will remove path if it exists; no warnings if not """
-    if os.path.exists(path):
-        shutil.rmtree(path)
-
-
-def execute(command, fail_msg=None):
-    """ Execute a command in subprocess and throw exceptions if given fail_msg """
-    output = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
-    output_text = output.stdout.decode('utf-8') + output.stderr.decode('utf-8')
-    if fail_msg and output.returncode:  # Non-zero is error  FIXME: Is this true on Windows?
-        raise ExecuteException(fail_msg + "\r\n\r\n" + output_text)
-    if fail_msg is None:  # Return backwards-compat results of return code + text
-        return output.returncode, output_text
-    return output_text
-
-
-def which(appname):
-    command = 'where' if platform.system() == "Windows" else 'which'
-    ret, output = execute(f'{command} {appname}')
-    if ret:
-        return None
-    return output.split()[0]
-
-
-def run(command):
-    stream = os.popen(command)
-    return stream.read()
 
 
 def notarize_file(filetonotarize, username, password):
