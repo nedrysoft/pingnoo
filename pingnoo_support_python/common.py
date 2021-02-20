@@ -72,6 +72,12 @@ def timedelta(seconds):
     return f'{seconds}s'
 
 
+__all__.append('write_msg')
+def write_msg(msg):
+    """ Neutral message printer """
+    sys.stdout.write(Style.BRIGHT + msg + Fore.RESET + '\r\n')
+
+
 __all__.append('bad_msg')
 def bad_msg(msg):
     """ Bad message printer """
