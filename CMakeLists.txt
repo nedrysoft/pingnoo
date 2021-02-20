@@ -88,10 +88,8 @@ elseif(WIN32)
             ${rootDir}\\\\deploy.py
             --curlbin=${curlBin}
             --qtdir=${qtPath}
-            --pin=$ENV{PINGNOO_CERTIFICATE_PIN}
             --type=${PINGNOO_BUILD_TYPE}
             --arch=${PINGNOO_PLATFORM_ARCH}
-            --cert=$ENV{PINGNOO_DEVELOPER_CERTIFICATE}
             --version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}
         )"
     )
