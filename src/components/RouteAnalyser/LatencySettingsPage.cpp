@@ -26,7 +26,9 @@
 
 #include "LatencySettingsPageWidget.h"
 
-Nedrysoft::RouteAnalyser::LatencySettingsPage::LatencySettingsPage(QWidget *parent) {
+Nedrysoft::RouteAnalyser::LatencySettingsPage::LatencySettingsPage(QWidget *parent) :
+        m_settingsPageWidget(nullptr) {
+
     Q_UNUSED(parent)
 }
 
@@ -52,13 +54,28 @@ auto Nedrysoft::RouteAnalyser::LatencySettingsPage::icon() -> QIcon {
 }
 
 auto Nedrysoft::RouteAnalyser::LatencySettingsPage::createWidget() -> QWidget * {
-    return new LatencySettingsPageWidget;
+    if (!m_settingsPageWidget) {
+        m_settingsPageWidget = new LatencySettingsPageWidget;
+
+        connect(m_settingsPageWidget, &QWidget::destroyed, [=](QObject *) {
+            m_settingsPageWidget = nullptr;
+        });
+    }
+
+    return m_settingsPageWidget;
 }
 
 auto Nedrysoft::RouteAnalyser::LatencySettingsPage::canAcceptSettings() -> bool {
+    if (m_settingsPageWidget) {
+        return m_settingsPageWidget->canAcceptSettings();
+    }
+
     return true;
 }
 
 auto Nedrysoft::RouteAnalyser::LatencySettingsPage::acceptSettings() -> void {
-
+    if (m_settingsPageWidget) {
+        m_settingsPageWidget->acceptSettings();
+    }
 }
+

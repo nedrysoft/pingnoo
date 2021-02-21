@@ -85,6 +85,15 @@ namespace Nedrysoft::RouteAnalyser {
              */
             auto updatePeriod(LatencyType type, Nedrysoft::Ribbon::RibbonLineEdit *lineEdit) -> void;
 
+            /**
+             * @brief       Returns the given latency value as a formatted string.
+             *
+             * @param[in]   type the latency value to return.
+             *
+             * @returns     the value as as formatted string.
+             */
+            auto getValueString(LatencyType type) -> QString;
+
         private:
             Ui::LatencyRibbonGroup *ui;
 

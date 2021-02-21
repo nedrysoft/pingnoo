@@ -30,6 +30,7 @@
 #include "Core/IRibbonBarManager.h"
 #include "Core/IRibbonPage.h"
 #include "LatencyRibbonGroup.h"
+#include "LatencySettings.h"
 #include "LatencySettingsPage.h"
 #include "NewTargetDialog.h"
 #include "NewTargetRibbonGroup.h"
@@ -73,6 +74,12 @@ auto RouteAnalyserComponent::finaliseEvent() -> void {
         Nedrysoft::ComponentSystem::removeObject(m_targetSettingsPage);
 
         delete m_targetSettingsPage;
+    }
+
+    if (m_latencySettings) {
+        Nedrysoft::ComponentSystem::removeObject(m_latencySettings);
+
+        delete m_latencySettings;
     }
 
     if (m_viewportGroupWidget) {
@@ -166,6 +173,12 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
             }
         });
 
+        m_latencySettings = new Nedrysoft::RouteAnalyser::LatencySettings;
+
+        Nedrysoft::ComponentSystem::addObject(m_latencySettings);
+
+        m_latencySettings->loadFromFile();
+
         auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
 
         if (ribbonBarManager) {
@@ -204,6 +217,8 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
         Nedrysoft::ComponentSystem::addObject(m_newTargetGroupWidget);
         Nedrysoft::ComponentSystem::addObject(m_viewportGroupWidget);
         Nedrysoft::ComponentSystem::addObject(m_latencyGroupWidget);
+
+
     }
 }
 

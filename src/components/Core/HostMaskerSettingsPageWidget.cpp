@@ -102,9 +102,6 @@ auto Nedrysoft::Core::HostMaskerSettingsPageWidget::initialise() -> void {
 }
 
 auto Nedrysoft::Core::HostMaskerSettingsPageWidget::canAcceptSettings() -> bool {
-#if defined(Q_OS_MACOS )
-    return true;
-#endif
     for(auto maskerPage : m_maskerSettingsPages) {
         if (!maskerPage->canAcceptSettings()) {
             return false;
@@ -115,9 +112,6 @@ auto Nedrysoft::Core::HostMaskerSettingsPageWidget::canAcceptSettings() -> bool 
 }
 
 auto Nedrysoft::Core::HostMaskerSettingsPageWidget::acceptSettings() -> void {
-#if defined(Q_OS_MACOS )
-    return;
-#endif
     auto maskers = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IHostMaskerSettingsPage>();
 
     for(auto maskerPage : maskers) {

@@ -30,6 +30,8 @@
 #include <SettingsDialog/ISettingsPage.h>
 
 namespace Nedrysoft::RouteAnalyser {
+    class LatencySettingsPageWidget;
+
     class LatencySettingsPage :
             public Nedrysoft::SettingsDialog::ISettingsPage {
 
@@ -90,6 +92,10 @@ namespace Nedrysoft::RouteAnalyser {
              * @brief       Applies the current settings.
              */
             auto acceptSettings() -> void override;
+
+        private:
+            LatencySettingsPageWidget *m_settingsPageWidget;
+
     };
 }
 

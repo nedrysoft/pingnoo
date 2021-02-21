@@ -20,22 +20,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-// You may need to build the project (run Qt uic code generator) to get "ui_LatencySettingsPage.h" resolved
 
 #include "LatencySettingsPageWidget.h"
 
 #include "ColourManager.h"
+#include "ComponentSystem/IComponentManager.h"
+#include "LatencySettings.h"
 #include "ui_LatencySettingsPageWidget.h"
+
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QRegularExpression>
+#include <QStandardPaths>
 
 Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(QWidget *parent) :
         QWidget(parent),
         ui(new Ui::LatencySettingsPageWidget) {
+
+    LatencySettings *latencySettings = Nedrysoft::ComponentSystem::getObject<LatencySettings>();
 
     ui->setupUi(this);
 
     ui->idealWidget->setText(tr("ideal"));
     ui->warningWidget->setText(tr("warning"));
     ui->criticalWidget->setText(tr("critical"));
+
+    ui->warningLineEdit->setText(latencySettings->toString(latencySettings->warningValue()));
+    ui->criticalLineEdit->setText(latencySettings->toString(latencySettings->criticalValue()));
 
     ui->idealWidget->setColour(ColourManager::getIdealColour());
     ui->warningWidget->setColour(ColourManager::getWarningColour());
@@ -44,4 +55,19 @@ Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(Q
 
 Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::~LatencySettingsPageWidget() {
     delete ui;
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::canAcceptSettings() -> bool {
+    return true;
+};
+
+auto Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::acceptSettings() -> void {
+    auto latencySettings = Nedrysoft::ComponentSystem::getObject<LatencySettings>();
+
+    assert(latencySettings!=nullptr);
+
+    latencySettings->setWarningValue(ui->warningLineEdit->text());
+    latencySettings->setCriticalValue(ui->criticalLineEdit->text());
+
+    latencySettings->saveToFile();
 }

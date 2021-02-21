@@ -26,14 +26,12 @@
 #include "ColourManager.h"
 #include "ComponentSystem/IComponentManager.h"
 #include "LineSyntaxHighlighter.h"
+#include "LatencySettings.h"
 #include "RouteAnalyserEditor.h"
 #include "Utils.h"
 #include "ui_LatencyRibbonGroup.h"
 
 #include <QMenu>
-
-auto constexpr warningDefaultValue = "200ms";
-auto constexpr criticalDefaultValue = "500ms";
 
 constexpr auto lineEditHeight = 21;
 
@@ -62,8 +60,8 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::LatencyRibbonGroup(QWidget *parent
     ui->warningWidget->setColour(ColourManager::getWarningColour());
     ui->criticalWidget->setColour(ColourManager::getCriticalColour());
 
-    ui->warningLineEdit->setPlaceholderText(warningDefaultValue);
-    ui->criticalLineEdit->setPlaceholderText(criticalDefaultValue);
+    ui->warningLineEdit->setPlaceholderText(getValueString(LatencyType::Warning));
+    ui->criticalLineEdit->setPlaceholderText(getValueString(LatencyType::Critical));
 
     ui->warningLineEdit->setMaximumHeight(lineEditHeight);
     ui->criticalLineEdit->setMaximumHeight(lineEditHeight);
@@ -130,4 +128,27 @@ auto Nedrysoft::RouteAnalyser::LatencyRibbonGroup::setValue(LatencyType type, do
             break;
         }
     }
+}
+
+auto Nedrysoft::RouteAnalyser::LatencyRibbonGroup::getValueString(LatencyType type) -> QString {
+    auto latencySettings = Nedrysoft::ComponentSystem::getObject<LatencySettings>();
+    double value = 0;
+
+    switch(type) {
+        case LatencyType::Warning: {
+            value = latencySettings->warningValue();
+            break;
+        }
+
+        case LatencyType::Critical: {
+            value = latencySettings->criticalValue();
+            break;
+        }
+
+        default: {
+            break;
+        }
+    }
+
+    return latencySettings->toString(value);
 }

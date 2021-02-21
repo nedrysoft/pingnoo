@@ -40,6 +40,8 @@ pingnoo_add_sources(
     LatencyRibbonGroup.cpp
     LatencyRibbonGroup.h
     LatencyRibbonGroup.ui
+    LatencySettings.cpp
+    LatencySettings.h
     LatencySettingsPage.cpp
     LatencySettingsPage.h
     LatencySettingsPageWidget.cpp
