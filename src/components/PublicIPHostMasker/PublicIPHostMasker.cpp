@@ -28,6 +28,7 @@
 #include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QRegularExpression>
 #include <QStandardPaths>
 
 constexpr auto configurationPath = "Components";

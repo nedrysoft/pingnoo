@@ -26,7 +26,7 @@
 #include <QDir>
 #include <QJsonArray>
 #include <QJsonDocument>
-#include <QMessageBox>
+#include <QRegularExpression>
 #include <QStandardPaths>
 
 constexpr auto configurationPath = "Components";
