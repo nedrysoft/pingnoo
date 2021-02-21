@@ -4,6 +4,8 @@
 
 ---
 
+<img src="https://img.shields.io/travis/com/nedrysoft/pingnoo"/>
+
 Pingnoo is an open-source combined traceroute and ping application for analysing network connections.  It runs under Windows, Mac OS and Linux.
 
 <img src="https://user-images.githubusercontent.com/55795671/103213760-96965c80-4906-11eb-98ee-34658db89b4c.gif"/>
