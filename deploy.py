@@ -29,7 +29,6 @@ import platform
 import re
 import shutil
 import string
-import subprocess
 import sys
 import tempfile
 import time
@@ -378,7 +377,9 @@ def _do_linux():
         if not curl:
             raise MsgPrinterException('curl could not be found. (see --curlbin).')
 
-    qtdir = find_qt()
+    if args.appimage or args.deb:
+        # RPM building has its own Qt macros
+        qtdir = find_qt()
 
     deployed_message = ""
 
@@ -509,7 +510,7 @@ def _do_linux():
             version_parts = deb_version.split('-', 1)
             build_filename = f'deployment/pingnoo_{deb_version}_{deb_arch}.deb'
 
-            if len(version_parts)==2:
+            if len(version_parts) == 2:
                 deb_version = version_parts[0][2:]
 
             if debCreate(build_arch, build_type, deb_version, build_filename):
@@ -529,7 +530,7 @@ def _do_linux():
         if rpm_create(build_arch, build_type, rpm_version, rpm_release):
             raise RuntimeError("rpm creation unknown error")
 
-        build_filename = f'bin/{build_arch}/Deploy/rpm/RPMS/{build_arch}/pingnoo-{rpm_version}-{rpm_release}.{build_arch}.rpm'
+        build_filename = f'bin/{build_arch}/Deploy/rpm/pingnoo-{rpm_version}-{rpm_release}.{build_arch}.rpm'
         deployed_message = deployed_message + f'\r\n' + Style.BRIGHT + Fore.CYAN + \
                           f'rpm package at \"{build_filename}\" is ' + Fore.GREEN + 'ready' + Fore.CYAN + \
                           ' for distribution.'
@@ -708,5 +709,3 @@ print(Style.BRIGHT + f'\r\nTotal time taken to perform deployment was ' +
       timedelta(end_time - start_time) + '.', flush=True)
 
 sys.exit(0)
-
-

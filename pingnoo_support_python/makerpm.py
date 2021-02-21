@@ -1,12 +1,8 @@
 #!/bin/env python3
 
-# Copyright (C) 2019 Adrian Carpenter
+# Copyright (C) 2019-21 Adrian Carpenter, et al
 #
 # This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
-#
-# An open-source cross-platform traceroute analyser.
-#
-# Created by Adrian Carpenter on 07/02/2021.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,193 +17,125 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+""" RPM package wrapper """
 
-import io
-import subprocess
-import glob
+import argparse
 import os
-import re
+import pathlib
 import shutil
 import string
-import argparse
+import sys
+import tarfile
+from functools import cached_property, lru_cache
 
-def execute(command):
-    output = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-    return(output.returncode, output.stdout.decode('utf-8')+output.stderr.decode('utf-8'))
-
-def findPackage(library):
-	result, output = execute(f'yum provides {library}')
-
-	#if not output:
-	#	return None
-
-	lines = output.splitlines()
-
-	if len(lines):
-		parts = lines[1].split(':')
-
-		file = parts[0].rstrip()
-
-		result, output = execute(f'yum info {file}')
-
-		#lines = output.splitlines()
-
-		nameRegex = re.compile(r"Name\s*:\s*(?P<name>.*)")
-
-		lines = output.splitlines()
-
-		for line in lines:
-			result = nameRegex.match(line.rstrip())
+from .common import *
+from .msg_printer import msg_printer, MsgPrinterException
 
 
-			if result:
-				return result.group('name')
+# A lot of this ended up unused but can be referenced
+class PackageManagerFinder:
+    """ Finds dnf or yum in path """
+    MGRS = ('dnf', 'yum')
 
-	return None
+    def __init__(self):
+        self._exe = None
+
+    @cached_property
+    def exe(self):
+        """ The RPM repository manager this system uses, e.g. dnf """
+        for exe in self.MGRS:
+            attempt = which(exe)
+            if attempt:
+                self._exe = attempt
+                return self._exe
+        raise RuntimeError("Could not find package manager! Tried: {}".format(", ".join(self.MGRS)))
 
 
-def rpm_create(buildArch, buildType, version, release):
-	controlTemplate = ""
+@lru_cache
+def find_provider(library):
+    with msg_printer(f"Finding what RPM provides '{library}'"):
+        return execute(f"rpm -q --queryformat '%{{NAME}}' --whatprovides {library}", fail_msg='Could not find RPM')
 
-	with open("rpm/pingnoo.spec.in", 'r') as controlFile:
-		controlTemplate = string.Template(controlFile.read())
 
-		controlFile.close()
+def _find_prereqs():
+    for app, rpm in [('rpmbuild', 'rpm-build'),
+                     ('rpmdev-setuptree', 'rpmdevtools')]:
+        with msg_printer(f"Checking for {app}"):
+            if which(app) is None:
+                raise MsgPrinterException(f"Could not find '{app}' executable; try installing the '{rpm}' package")
 
-	rpmFolder = f'pingnoo-{version}-{release}.{buildArch}'
 
-	buildRoot = f'bin/{buildArch}/Deploy/rpm//BUILDROOT/{rpmFolder}'
+def rpm_create(build_arch, build_type, version, release):
+    _find_prereqs()
+    if build_arch == "x86":
+        build_arch = "i686"  # Fedora/RPM terminology
+                             # FIXME: Never got 32-bit working because I didn't have Qt5 built for it
 
-	# remove previous dpkg build tree if it exists
+    with msg_printer("Removing existing rpmbuild subtree"):
+        execute("rm -rf rpmbuild", "Could not remove rpmbuild temporary area")
 
-	if os.path.exists(f'bin/{buildArch}/Deploy/rpm'):
-		shutil.rmtree(f'bin/{buildArch}/Deploy/rpm')
+    with msg_printer("Creating rpmbuild subtree"):
+        os.environ['HOME'] = os.getcwd()
+        execute("rpmdev-setuptree", "Could not create rpmbuild temporary area")
 
-	os.makedirs(f'bin/{buildArch}/Deploy/rpm/BUILD')
-	os.makedirs(f'bin/{buildArch}/Deploy/rpm/BUILDROOT')
-	os.makedirs(f'bin/{buildArch}/Deploy/rpm/RPMS')
-	os.makedirs(f'bin/{buildArch}/Deploy/rpm/SOURCES')
-	os.makedirs(f'bin/{buildArch}/Deploy/rpm/SPECS')
-	os.makedirs(f'bin/{buildArch}/Deploy/rpm/SRPMS')
+    with msg_printer("Creating specfile"):
+        with open("rpm/pingnoo.spec.in") as in_file:
+            out_data = string.Template(in_file.read()).substitute(version=version,
+                                                                  release=release,
+                                                                  build_arch=build_arch,
+                                                                  cmake_build_type=build_type)
+            with open("rpmbuild/SPECS/pingnoo.spec", 'w') as out_file:
+                out_file.write(out_data)
 
-	os.makedirs(f'{buildRoot}/usr/local/bin/pingnoo')
-	os.makedirs(f'{buildRoot}/usr/share/icons/hicolor/512x512/apps')
-	os.makedirs(f'{buildRoot}/usr/share/applications')
-	os.makedirs(f'{buildRoot}/usr/share/doc/pingnoo')
-	os.makedirs(f'{buildRoot}/etc/ld.so.conf.d')
+    with msg_printer("Creating tarball"):
+        # Can't easily exclude... shutil.make_archive(f"pingnoo-{version}", 'tar')
+        tarball = tarfile.open(f"pingnoo-{version}.tar", 'w', )
 
-	# copy data + binaries into the deb tree
+        def tar_filter(tar_info):
+            if tar_info.name == f"pingnoo-{version}":  # Top-level
+                return tar_info
+            for good_str in ('/.git', '/cmake', '/dpkg', '/src', 'CMake'):
+                if good_str in tar_info.name:
+                    return tar_info
+            return None
 
-	shutil.copy2(f'bin/{buildArch}/{buildType}/Pingnoo', f'{buildRoot}/usr/local/bin/pingnoo')
-	shutil.copy2(f'src/app/images/appicon-512x512-.png', f'{buildRoot}/usr/share/icons/hicolor/512x512/apps/pingnoo.png')
+        tarball.add('.', arcname=f"pingnoo-{version}", filter=tar_filter)
+        shutil.move(f"pingnoo-{version}.tar", "rpmbuild/SOURCES")
 
-	shutil.copytree(f'bin/{buildArch}/{buildType}/Components', f'{buildRoot}/usr/local/bin/pingnoo/Components', symlinks=True)
+    with msg_printer("Calling rpmbuild (logged to rpmbuild.log)"):
+        execute(f"rpmbuild -bb --target {build_arch} rpmbuild/SPECS/pingnoo.spec",
+                fail_msg="rpmbuild failed",
+                out_log="rpmbuild.log")
 
-	for file in glob.glob(f'bin/{buildArch}/{buildType}/*.so'):
-		shutil.copy2(file, f'{buildRoot}/usr/local/bin/pingnoo')
+    pathlib.Path(f'bin/{build_arch}/Deploy/rpm/').mkdir(parents=True, exist_ok=True)
+    shutil.copy2(f'rpmbuild/RPMS/{build_arch}/pingnoo-{version}-{release}.{build_arch}.rpm',
+                 f'bin/{build_arch}/Deploy/rpm/')
 
-	shutil.copy2(f'dpkg/pingnoo.conf', f'{buildRoot}/etc/ld.so.conf.d')
-	shutil.copy2(f'dpkg/copyright', f'{buildRoot}/usr/share/doc/pingnoo')
-	shutil.copy2(f'dpkg/Pingnoo.desktop', f'{buildRoot}/usr/share/applications')
+    return False  # 0 is good for POSIX below and expected in deploy.py
 
-	# discover the dependencies
-
-	dependencies = set()
-	packagesMap = dict()
-	packages = set()
-	ignore = set()
-
-	# create list of all shared libraries that the application uses (and at the same time create hashes)
-
-	for filepath in glob.iglob(f'{buildRoot}/usr/local/bin/pingnoo/**/*', recursive=True):
-		if os.path.isdir(filepath):
-			continue
-
-		ignore.add(os.path.basename(filepath))
-
-		soRegex = re.compile(r"\s*(?P<soname>.*)\s=>")
-
-		resultCode, resultOutput = execute(f'ldd {filepath}')
-
-		for line in io.StringIO(resultOutput):
-			if not line:
-				continue
-
-			result = soRegex.match(line.rstrip())
-
-			if not result:
-				continue
-
-			dependencies.add(result.group("soname"))
-
-	# find which package provides the libraries
-
-	for dep in dependencies:
-		if not dep in  packagesMap:
-			if dep in ignore:
-				continue
-
-			package = findPackage(dep)
-
-			if package:
-				packagesMap[dep] = package
-
-				packages.add(package)
-
-	# generate a string of the dependencies
-
-	dependencyList = ''
-
-	for package in packages:
-		if not dependencyList:
-			dependencyList = package
-		else:
-			dependencyList = dependencyList+", "+package			
-
-	# create the spec file from the tempalte
-
-	controlFileContent = controlTemplate.substitute(version=version, release=release, dependencies=dependencyList)
-
-	with open(f'bin/x86_64/Deploy/rpm/SPECS/pingnoo.spec', 'w') as controlFile:
-		controlFile.write(controlFileContent)
-
-		controlFile.close()
-
-	head_tail = os.path.split(__file__)
-
-	buildCommand = f'rpmbuild --define "_topdir {head_tail[0]}/bin/x86_64/Deploy/rpm" -v -bb bin/x86_64/Deploy/rpm/SPECS/pingnoo.spec'
-
-	resultCode, resultOutput = execute(buildCommand)
-
-	if resultCode==0:
-		return(0)
-
-	return(1)
 
 def main():
-	parser = argparse.ArgumentParser(description='rpm build script')
+    """ Executable wrapper """
+    parser = argparse.ArgumentParser(description='rpm build script')
+    parser.add_argument('--arch',
+                        choices=['x86_64'],
+                        type=str,
+                        default='x86_64',
+                        nargs='?',
+                        help='architecture type to deploy')
+    parser.add_argument('--type',
+                        choices=['Release', 'Debug'],
+                        type=str,
+                        default='Release',
+                        nargs='?',
+                        help='architecture type to deploy')
+    parser.add_argument('--version', type=str, nargs='?', help='version')
+    parser.add_argument('--release', type=str, nargs='?', help='release')
 
-	parser.add_argument('--arch',
-						choices=['x86_64'],
-						type=str,
-						default='x86_64',
-						nargs='?',
-						help='architecture type to deploy')
+    args = parser.parse_args()
 
-	parser.add_argument('--type',
-						choices=['Release', 'Debug'],
-						type=str,
-						default='Release',
-						nargs='?',
-						help='architecture type to deploy')
+    sys.exit(rpm_create(args.arch, args.type, args.version, args.release))
 
-	parser.add_argument('--version', type=str, nargs='?', help='version')
-	parser.add_argument('--release', type=str, nargs='?', help='release')
-
-	args = parser.parse_args()
-
-	rpm_create(args.arch, args.type, args.version, args.release)
 
 if __name__ == "__main__":
-	main()
+    main()

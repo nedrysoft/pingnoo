@@ -109,3 +109,4 @@ __pycache__/
 *.deb
 
 installer/PingnooBuild*.aip
+rpmbuild
