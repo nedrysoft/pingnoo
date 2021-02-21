@@ -105,7 +105,7 @@ def rm_path(path):
 
 
 __all__.append('execute')
-def execute(command, fail_msg=None):
+def execute(command, fail_msg=None, out_log=None):
     """ Execute a command in subprocess and throw exceptions if given fail_msg """
     output = subprocess.run(command,
                             shell=True,
@@ -113,6 +113,9 @@ def execute(command, fail_msg=None):
                             stderr=subprocess.PIPE,
                             check=False)
     output_text = output.stdout.decode('utf-8') + output.stderr.decode('utf-8')
+    if out_log:
+        with open(out_log, 'w') as out_log_file:
+            out_log_file.write(output_text)
     if fail_msg and output.returncode:  # Non-zero is error  FIXME: Is this true on Windows?
         raise ExecuteException(fail_msg + "\r\n\r\n" + output_text)
     if fail_msg is None:  # Return backwards-compat results of return code + text
