@@ -25,7 +25,7 @@ Summary:        A network traceroute analyser
 License:        GPLv3+
 URL:            https://www.pingnoo.com
 Source:         pingnoo-%{version}.tar
-BuildRequires:  cmake cmake-rpm-macros dbus-devel make g++ qt5-devel python-qt5-rpm-macros
+BuildRequires:  cmake cmake-rpm-macros dbus-devel make g++ qt5-devel python-qt5-rpm-macros rpmlib(FileCaps)
 
 %prep
 %setup -q
@@ -38,16 +38,16 @@ cd build
 %cmake_build
 
 %install
-for dir in %{_bindir} /etc/ld.so.conf.d/ /usr/share/applications/ /usr/share/icons/hicolor/512x512/apps/ %{_libexecdir}/%{name} %{_docdir}; do
+for dir in %{_bindir} /etc/ld.so.conf.d/ /usr/share/applications/ /usr/share/icons/hicolor/512x512/apps/ %{_lib}/%{name} %{_docdir}; do
   mkdir -p %{buildroot}/$${dir}
 done
 
-ln -sf %{_libexecdir}/%{name}/Pingnoo %{buildroot}/%{_bindir}/pingnoo
-echo %{_libexecdir}/%{name}/ > %{buildroot}/etc/ld.so.conf.d/pingnoo.conf
-echo %{_libexecdir}/%{name}/Components >> %{buildroot}/etc/ld.so.conf.d/pingnoo.conf
+ln -sf /%{_lib}/%{name}/Pingnoo %{buildroot}/%{_bindir}/pingnoo
+echo /%{_lib}/%{name}/ > %{buildroot}/etc/ld.so.conf.d/pingnoo.conf
+echo /%{_lib}/%{name}/Components >> %{buildroot}/etc/ld.so.conf.d/pingnoo.conf
 mv dpkg/Pingnoo.desktop %{buildroot}/usr/share/applications/
 mv src/app/images/appicon-512x512-.png %{buildroot}/usr/share/icons/hicolor/512x512/apps/pingnoo.png
-mv bin/${build_arch}/${cmake_build_type}/* %{buildroot}/%{_libexecdir}/%{name}/
+mv bin/${build_arch}/${cmake_build_type}/* %{buildroot}/%{_lib}/%{name}/
 mv dpkg/copyright %{buildroot}/%{_docdir}/
 
 # As of 2/2021, there are no self-tests
@@ -58,17 +58,15 @@ mv dpkg/copyright %{buildroot}/%{_docdir}/
 A network traceroute analyser
 
 %files
-%{_bindir}/pingnoo
+/%{_bindir}/pingnoo
 /etc/ld.so.conf.d/pingnoo.conf
 /usr/share/applications/Pingnoo.desktop
 /usr/share/icons/hicolor/512x512/apps/pingnoo.png
-%dir %{_libexecdir}/%{name}
-%{_libexecdir}/%{name}
+%dir /%{_lib}/%{name}
+/%{_lib}/%{name}
+%caps(cap_net_raw=+ep) /%{_lib}/%{name}/Pingnoo
 %license %{_docdir}/copyright
 
-%post
-set -e
-setcap cap_net_raw=+ep %{_libexecdir}/%{name}/Pingnoo
-/sbin/ldconfig
+%post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
