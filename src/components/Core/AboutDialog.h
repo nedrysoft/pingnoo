@@ -40,10 +40,7 @@ namespace Nedrysoft::Core {
         private:
             Q_OBJECT
 
-            Q_DISABLE_COPY_MOVE(AboutDialog)
-
         public:
-
             /**
              * @brief       Constructs a new AboutDialog instance which is a child of the parent.
              *
