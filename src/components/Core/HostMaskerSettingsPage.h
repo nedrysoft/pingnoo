@@ -104,6 +104,9 @@ namespace Nedrysoft::Core {
              * @brief       Applies the current settings.
              */
             auto acceptSettings() -> void override;
+
+        private:
+            HostMaskerSettingsPageWidget *m_settingsWidget;
     };
 }
 

@@ -55,6 +55,16 @@ namespace Nedrysoft::Core {
              * @returns     the displayed name of the host masker.
              */
             virtual auto displayName() -> QString = 0;
+
+            /**
+             * @brief       Returns whether the settings can be accepted.
+             */
+            virtual auto canAcceptSettings() -> bool = 0;
+
+            /**
+             * @brief       Accepts the current settings.
+             */
+            virtual auto acceptSettings() -> void = 0;
     };
 }
 

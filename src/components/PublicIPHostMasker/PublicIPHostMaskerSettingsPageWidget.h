@@ -63,9 +63,16 @@ namespace Nedrysoft::PublicIPHostMasker {
             auto updateSettings() -> void;
 
             /**
-             * @brief       Saves the current configuration.
+             * @brief       Returns whether the current settings can be accepted.
+             *
+             * @return      true if settings are valid; otherwise false.
              */
-            auto saveSettings() -> void;
+            auto canAcceptSettings() -> bool;
+
+            /**
+             * @brief       Accepts the current configuration.
+             */
+            auto acceptSettings() -> void;
 
         private:
             Ui::PublicIPHostMaskerSettingsPageWidget *ui;

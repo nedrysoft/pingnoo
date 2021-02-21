@@ -23,15 +23,15 @@
 
 #include "PublicIPHostMasker.h"
 
+#include <QDir>
 #include <QEventLoop>
-#include <QFile>
 #include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <QRegularExpression>
 #include <QStandardPaths>
 
-constexpr auto configurationFilename = "/Nedrysoft/pingnoo/Components/PublicIPHostMasker.json";
+constexpr auto configurationPath = "Components";
+constexpr auto configurationFilename = "PublicIPHostMasker.json";
 
 Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::PublicIPHostMasker() :
         m_eventLoop(nullptr),
@@ -56,7 +56,7 @@ auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::loadFromFile() -> bool {
     if (configPaths.count()) {
         QFile configurationFile;
 
-        configurationFile.setFileName(configPaths.at(0) + configurationFilename);
+        configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(configurationPath).arg(QString(configurationFilename))));
 
         if (configurationFile.open(QFile::ReadOnly)) {
             auto jsonDocument = QJsonDocument::fromJson(configurationFile.readAll());
@@ -78,7 +78,7 @@ auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::saveToFile() -> void {
     if (configPaths.count()) {
         QFile configurationFile;
 
-        configurationFile.setFileName(configPaths.at(0) + configurationFilename);
+        configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(configurationPath).arg(QString(configurationFilename))));
 
         if (configurationFile.open(QFile::WriteOnly)) {
             QJsonObject configuration = saveConfiguration();

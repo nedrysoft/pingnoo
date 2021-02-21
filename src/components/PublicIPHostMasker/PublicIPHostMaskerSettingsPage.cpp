@@ -25,10 +25,38 @@
 
 #include "PublicIPHostMaskerSettingsPageWidget.h"
 
+Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPage::PublicIPHostMaskerSettingsPage() :
+        m_settingsPageWidget(nullptr) {
+
+}
+
 auto Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPage::createWidget() -> QWidget * {
-    return new Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPageWidget;
+    if (!m_settingsPageWidget) {
+        m_settingsPageWidget = new Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPageWidget;
+
+        connect(m_settingsPageWidget, &QWidget::destroyed, [=](QObject *object) {
+            m_settingsPageWidget = nullptr;
+        });
+    }
+
+    return m_settingsPageWidget;
 }
 
 auto Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPage::displayName() -> QString {
     return tr("Public IP");
+}
+
+auto Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPage::canAcceptSettings() -> bool {
+    if (m_settingsPageWidget) {
+        return m_settingsPageWidget->canAcceptSettings();
+    }
+
+    return true;
+}
+
+
+auto Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPage::acceptSettings() -> void {
+    if (m_settingsPageWidget) {
+        m_settingsPageWidget->acceptSettings();
+    }
 }

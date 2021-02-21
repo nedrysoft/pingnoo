@@ -25,7 +25,9 @@
 
 #include "HostMaskerSettingsPageWidget.h"
 
-Nedrysoft::Core::HostMaskerSettingsPage::HostMaskerSettingsPage(QWidget *parent) {
+Nedrysoft::Core::HostMaskerSettingsPage::HostMaskerSettingsPage(QWidget *parent) :
+        m_settingsWidget(nullptr) {
+
     Q_UNUSED(parent)
 }
 
@@ -53,17 +55,28 @@ auto Nedrysoft::Core::HostMaskerSettingsPage::icon() -> QIcon {
 }
 
 auto Nedrysoft::Core::HostMaskerSettingsPage::createWidget() -> QWidget * {
-    auto pageWidget = new HostMaskerSettingsPageWidget;
+    if (!m_settingsWidget) {
+        m_settingsWidget = new HostMaskerSettingsPageWidget;
 
-    pageWidget->initialise();
+        connect(m_settingsWidget, &QWidget::destroyed, [=](QObject *object) {
+           m_settingsWidget = nullptr;
+        });
+    }
 
-    return pageWidget;
+    m_settingsWidget->initialise();
+
+    return m_settingsWidget;
 }
 
 auto Nedrysoft::Core::HostMaskerSettingsPage::canAcceptSettings() -> bool {
+    if (m_settingsWidget) {
+        return m_settingsWidget->canAcceptSettings();
+    }
     return true;
 }
 
 auto Nedrysoft::Core::HostMaskerSettingsPage::acceptSettings() -> void {
-
+    if (m_settingsWidget) {
+        m_settingsWidget->acceptSettings();
+    }
 }

@@ -63,14 +63,18 @@ auto Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPageWidget::update
     return;
 #endif
     if (!m_loadingConfiguration) {
-        saveSettings();
+        acceptSettings();
     }
 }
 
-auto Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPageWidget::saveSettings() -> void {
+auto Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPageWidget::acceptSettings() -> void {
     auto hostMasker = Nedrysoft::ComponentSystem::getObject<PublicIPHostMasker>();
 
     assert(hostMasker!=nullptr);
 
     hostMasker->saveToFile();
+}
+
+auto Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPageWidget::canAcceptSettings() -> bool {
+    return true;
 }

@@ -4,7 +4,7 @@
 
 ---
 
-<img src="https://img.shields.io/travis/com/nedrysoft/pingnoo"/>
+<img src="https://img.shields.io/travis/com/nedrysoft/pingnoo?color=green&style=for-the-badge"/>
 
 Pingnoo is an open-source combined traceroute and ping application for analysing network connections.  It runs under Windows, Mac OS and Linux.
 
@@ -76,7 +76,6 @@ sudo apt-get install qt5-default
 sudo apt-get install qttools5-dev
 sudo apt-get install mesa-common-dev
 sudo apt-get install libdbus-1-dev
-sudo apt-get install qttools5-dev
 ```
 
 #### Building

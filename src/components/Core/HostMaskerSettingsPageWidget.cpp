@@ -44,6 +44,8 @@ Nedrysoft::Core::HostMaskerSettingsPageWidget::~HostMaskerSettingsPageWidget() {
 auto Nedrysoft::Core::HostMaskerSettingsPageWidget::initialise() -> void {
     auto maskers = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IHostMaskerSettingsPage>();
 
+    m_maskerSettingsPages.clear();
+
     ui->maskersTreeWidget->clear();
 
     ui->maskersTreeWidget->setHeaderLabels(QStringList() << tr("Masker Type"));
@@ -97,4 +99,28 @@ auto Nedrysoft::Core::HostMaskerSettingsPageWidget::initialise() -> void {
             ui->maskersStackedWidget->setCurrentWidget(widget);
         }
     });
+}
+
+auto Nedrysoft::Core::HostMaskerSettingsPageWidget::canAcceptSettings() -> bool {
+    #if defined(Q_OS_MACOS )
+    return rrue;
+#endif
+    for(auto maskerPage : m_maskerSettingsPages) {
+        if (!maskerPage->canAcceptSettings()) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+auto Nedrysoft::Core::HostMaskerSettingsPageWidget::acceptSettings() -> void {
+#if defined(Q_OS_MACOS )
+    return;
+#endif
+    auto maskers = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IHostMaskerSettingsPage>();
+
+    for(auto maskerPage : maskers) {
+        maskerPage->acceptSettings();
+    }
 }

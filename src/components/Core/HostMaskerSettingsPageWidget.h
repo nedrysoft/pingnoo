@@ -31,6 +31,8 @@ namespace Nedrysoft::Core {
         class HostMaskerSettingsPageWidget;
     }
 
+    class IHostMaskerSettingsPage;
+
     /**
      * @brief       The HostMaskerSettingsPageWidget class provides the widget for host maskers.
      *
@@ -54,6 +56,18 @@ namespace Nedrysoft::Core {
              */
             ~HostMaskerSettingsPageWidget() override;
 
+            /**
+             * @brief       Returns whether the current settings can be accepted..
+             *
+             * @returns     true if settings are valid; otherwise false.
+             */
+             auto canAcceptSettings() -> bool;
+
+            /**
+            * @brief       Accepts the settings.
+            */
+            auto acceptSettings() -> void;
+
         public:
             /**
              * @brief       Initialises the host masker widget, searches for HostMasker settings pages and updates
@@ -63,6 +77,8 @@ namespace Nedrysoft::Core {
 
         private:
             Ui::HostMaskerSettingsPageWidget *ui;
+
+            QList<IHostMaskerSettingsPage *> m_maskerSettingsPages;
     };
 }
 

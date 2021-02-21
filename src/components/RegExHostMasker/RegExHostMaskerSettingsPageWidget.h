@@ -59,6 +59,18 @@ namespace Nedrysoft::RegExHostMasker {
              */
             ~RegExHostMaskerSettingsPageWidget() override;
 
+            /**
+             * @brief       Returns whether the current settings can be accepted.
+             *
+             * @return      true if settings are valid; otherwise false.
+             */
+            auto canAcceptSettings() -> bool;
+
+            /**
+             * @brief       Accepts the current configuration.
+             */
+            auto acceptSettings() -> void;
+
         private:
             /**
              * @brief       Updates the widgets for the selected item.
@@ -81,11 +93,6 @@ namespace Nedrysoft::RegExHostMasker {
              * @param[in]   item the item to add.
              */
             auto addExpression(Nedrysoft::RegExHostMasker::RegExHostMaskerItem masker) -> void;
-
-            /**
-             * @brief       Saves the current configuration.
-             */
-            auto saveSettings() -> void;
 
             /**
              * @brief       Adds a checkbox cell to a treeview.

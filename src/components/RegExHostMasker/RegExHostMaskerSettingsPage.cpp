@@ -25,10 +25,38 @@
 
 #include "RegExHostMaskerSettingsPageWidget.h"
 
+Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPage::RegExHostMaskerSettingsPage() :
+        m_settingsPageWidget(nullptr) {
+
+}
+
 auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPage::createWidget() -> QWidget * {
-    return new Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget;
+    if (!m_settingsPageWidget) {
+        m_settingsPageWidget = new Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget;
+
+        connect(m_settingsPageWidget, &QWidget::destroyed, [=](QObject *object) {
+            m_settingsPageWidget = nullptr;
+        });
+    }
+
+    return m_settingsPageWidget;
 }
 
 auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPage::displayName() -> QString {
     return tr("Regular Expressions");
+}
+
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPage::canAcceptSettings() -> bool {
+    if (m_settingsPageWidget) {
+        return m_settingsPageWidget->canAcceptSettings();
+    }
+
+    return true;
+}
+
+
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPage::acceptSettings() -> void {
+    if (m_settingsPageWidget) {
+        m_settingsPageWidget->acceptSettings();
+    }
 }

@@ -27,6 +27,8 @@
 #include "Core/IHostMaskerSettingsPage.h"
 
 namespace Nedrysoft::PublicIPHostMasker {
+    class PublicIPHostMaskerSettingsPageWidget;
+
     /**
      * @brief       The PublicIPHostMaskerSettingsPage provides the configuration page for the regular expression host
      *              masker.
@@ -39,6 +41,11 @@ namespace Nedrysoft::PublicIPHostMasker {
                 Q_INTERFACES(Nedrysoft::Core::IHostMaskerSettingsPage)
 
             public:
+                /**
+                 * @brief       Constructs a new PublicIPHostMaskerSettingsPage.
+                 */
+                PublicIPHostMaskerSettingsPage();
+
                 /**
                  * @brief       Destroys the PublicIPHostMaskerSettingsPage.
                  */
@@ -57,6 +64,19 @@ namespace Nedrysoft::PublicIPHostMasker {
                  * @returns     the displayed name of the settings page.
                  */
                 auto displayName() -> QString override;
+
+                /**
+                 * @brief       Reimplements IHostMaskerSettingsPage::canAcceptSettings()
+                 */
+                virtual auto canAcceptSettings() -> bool;
+
+                /**
+                 * @brief       Reimplements IHostMaskerSettingsPage::acceptSettings()
+                 */
+                virtual auto acceptSettings() -> void ;
+
+        public:
+            PublicIPHostMaskerSettingsPageWidget *m_settingsPageWidget;
     };
 }
 

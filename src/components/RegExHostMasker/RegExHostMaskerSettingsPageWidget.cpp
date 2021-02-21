@@ -387,11 +387,19 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::updateSettin
     return;
 #endif
     if (!m_loadingConfiguration) {
-        saveSettings();
+        acceptSettings();
     }
 }
 
-auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::saveSettings() -> void {
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::canAcceptSettings() -> bool {
+#if defined(Q_OS_MACOS)
+    return true;
+#endif
+    //TODO: this needs to check the settings configured in the dialog to ensure they are valid
+    return true;
+}
+
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::acceptSettings() -> void {
     auto hostMasker = Nedrysoft::ComponentSystem::getObject<RegExHostMasker>();
 
     assert(hostMasker!=nullptr);
