@@ -31,6 +31,7 @@
 #include "Core/IEditorManager.h"
 #include "Core/IPingEngineFactory.h"
 #include "RouteAnalyserEditor.h"
+#include "TargetSettings.h"
 #include "Utils.h"
 
 #include <QAbstractItemView>
@@ -47,6 +48,10 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         ui(new Ui::NewTargetRibbonGroup) {
 
     ui->setupUi(this);
+
+    auto targetSettings = Nedrysoft::ComponentSystem::getObject<Nedrysoft::RouteAnalyser::TargetSettings>();
+
+    assert(targetSettings!=nullptr);
 
     connect(ui->favouriteDropButton, &Nedrysoft::Ribbon::RibbonDropButton::clicked, [=](bool clicked) {
         QMenu menu;
@@ -74,8 +79,14 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         return Nedrysoft::Utils::checkHostValid(text);
     });
 
-    ui->intervalLineEdit->setPlaceholderText(defaultInterval);
-    ui->targetLineEdit->setPlaceholderText(defaultTarget);
+    ui->intervalLineEdit->setPlaceholderText(Nedrysoft::Utils::intervalToString(targetSettings->defaultPingInterval()));
+    ui->targetLineEdit->setPlaceholderText(targetSettings->defaultHost());
+
+    if (targetSettings->defaultIPVersion()==Nedrysoft::Core::IPVersion::V4) {
+        ui->ipV4RadioButton->setChecked(true);
+    } else {
+        ui->ipV6RadioButton->setChecked(true);
+    }
 
     auto pingEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IPingEngineFactory>();
 
@@ -96,6 +107,7 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
             auto model = dynamic_cast<QStandardItemModel *>(ui->engineComboBox->model());
 
             model->item(model->rowCount()-1, 0)->setEnabled(pingEngine->available());
+            model->item(model->rowCount()-1, 0)->setData(pingEngine->metaObject()->className(), Qt::UserRole+1);
 
             QFontMetrics fontMetrics(ui->engineComboBox->font());
 
@@ -103,9 +115,10 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         }
 
         ui->engineComboBox->view()->setMinimumWidth(minimumWidth);
-#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
-        ui->engineComboBox->setPlaceholderText(pingEngines[0]->description());
-#endif
+
+        auto selectionIndex = ui->engineComboBox->findData(targetSettings->defaultPingEngine(), Qt::UserRole+1);
+
+        ui->engineComboBox->setCurrentIndex(selectionIndex);
     }
 
     connect(ui->startButton, &Nedrysoft::Ribbon::RibbonButton::clicked, [=](bool checked) {

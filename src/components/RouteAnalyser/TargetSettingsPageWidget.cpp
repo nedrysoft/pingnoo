@@ -22,15 +22,66 @@
  */
 
 #include "TargetSettingsPageWidget.h"
+
+#include "ComponentSystem/IComponentManager.h"
+#include "Core/IPingEngineFactory.h"
+#include "TargetSettings.h"
+#include "Utils.h"
+
 #include "ui_TargetSettingsPageWidget.h"
 
 Nedrysoft::RouteAnalyser::TargetSettingsPageWidget::TargetSettingsPageWidget(QWidget *parent) :
         QWidget(parent),
         ui(new Ui::TargetSettingsPageWidget) {
 
+    auto targetSettings = Nedrysoft::ComponentSystem::getObject<TargetSettings>();
+
     ui->setupUi(this);
+
+    auto engineFactories = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IPingEngineFactory>();
+
+    for (auto factory : engineFactories) {
+        ui->defaultEngineComboBox->addItem(factory->description(), factory->metaObject()->className());
+    }
+
+    if (targetSettings) {
+        ui->defaultTargetLineEdit->setText(targetSettings->defaultHost());
+        ui->defaultIntervalLineEdit->setText(Nedrysoft::Utils::intervalToString(targetSettings->defaultPingInterval()));
+
+        if (targetSettings->defaultIPVersion()==Nedrysoft::Core::IPVersion::V6) {
+            ui->ipV6RadioButton->setChecked(true);
+        } else {
+            ui->ipV4RadioButton->setChecked(true);
+        }
+
+        auto selectionIndex = ui->defaultEngineComboBox->findData(targetSettings->defaultPingEngine());
+
+        ui->defaultEngineComboBox->setCurrentIndex(selectionIndex);
+    }
 }
 
 Nedrysoft::RouteAnalyser::TargetSettingsPageWidget::~TargetSettingsPageWidget() {
     delete ui;
+}
+
+auto Nedrysoft::RouteAnalyser::TargetSettingsPageWidget::canAcceptSettings() -> bool {
+    return true;
+};
+
+auto Nedrysoft::RouteAnalyser::TargetSettingsPageWidget::acceptSettings() -> void {
+    auto targetSettings = Nedrysoft::ComponentSystem::getObject<TargetSettings>();
+
+    assert(targetSettings!=nullptr);
+
+    double pingInterval = targetSettings->defaultPingInterval();
+
+    Nedrysoft::Utils::parseIntervalString (ui->defaultIntervalLineEdit->text(), pingInterval);
+
+    targetSettings->setDefaultHost(ui->defaultTargetLineEdit->text());
+    targetSettings->setDefaultPingInterval(pingInterval);
+    targetSettings->setDefaultPingEngine(ui->defaultEngineComboBox->currentData().toString());
+    targetSettings->setDefaultIPVersion(
+            ui->ipV4RadioButton->isChecked() ? Nedrysoft::Core::IPVersion::V4 : Nedrysoft::Core::IPVersion::V6);
+
+    targetSettings->saveToFile();
 }

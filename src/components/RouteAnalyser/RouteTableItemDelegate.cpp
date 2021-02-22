@@ -24,6 +24,7 @@
 #include "RouteTableItemDelegate.h"
 
 #include "ColourManager.h"
+#include "LatencySettings.h"
 #include "PingData.h"
 #include "ThemeSupport.h"
 
@@ -288,7 +289,11 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintLocation(
         const QStyleOptionViewItem &option,
         const QModelIndex &index) const -> void {
 
-    auto pen = QPen(QBrush(Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()), option.rect.height() - InvalidEntryLineWidth);
+    auto latencySettings = Nedrysoft::RouteAnalyser::LatencySettings::getInstance();
+
+    assert(latencySettings!=nullptr);
+
+    auto pen = QPen(QBrush(latencySettings->criticalColour()), option.rect.height() - InvalidEntryLineWidth);
 
     pen.setCapStyle(Qt::RoundCap);
 
@@ -321,9 +326,13 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(
         const QStyleOptionViewItem &option,
         const QModelIndex &index) const -> void {
 
+    auto latencySettings = Nedrysoft::RouteAnalyser::LatencySettings::getInstance();
+
+    assert(latencySettings!=nullptr);
+
     auto tableView = qobject_cast<const QTableView *>(option.widget);
     auto pen = QPen(
-            QBrush(Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()),
+            QBrush(latencySettings->criticalColour()),
             option.rect.height() - InvalidEntryLineWidth );
 
     auto visualIndex = tableView->horizontalHeader()->visualIndex(index.column());
@@ -341,7 +350,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(
     auto rc = option.rect;
 
     if (static_cast<PingData::Fields>(index.column()) == PingData::Fields::Hop) {
-        paintBubble(pingData, painter, option, index, Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour());
+        paintBubble(pingData, painter, option, index, latencySettings->criticalColour());
     }
 
     rc = option.rect;
@@ -424,20 +433,24 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintHop(
 
     constexpr auto interpolationTime = 1000.0;
 
-    auto pen = QPen(QBrush(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()), option.rect.height() - InvalidEntryLineWidth);
+    auto latencySettings = Nedrysoft::RouteAnalyser::LatencySettings::getInstance();
+
+    assert(latencySettings!=nullptr);
+
+    auto pen = QPen(QBrush(latencySettings->idealColour()), option.rect.height() - InvalidEntryLineWidth);
     auto bubbleColour = QColor(Qt::white);
 
     QMap<double, QRgb> gradientMap;
 
-    gradientMap[0] = Nedrysoft::RouteAnalyser::ColourManager::getIdealColour();
+    gradientMap[0] = latencySettings->idealColour();
 
     gradientMap[std::chrono::duration<double, std::milli>(m_warningLatency).count() /
-                interpolationTime] = Nedrysoft::RouteAnalyser::ColourManager::getWarningColour();
+                interpolationTime] = latencySettings->warningColour();
 
     gradientMap[std::chrono::duration<double, std::milli>(m_criticalLatency).count() /
-                interpolationTime] = Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour();
+                interpolationTime] = latencySettings->criticalColour();
 
-    gradientMap[1] = Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour();
+    gradientMap[1] = latencySettings->criticalColour();
 
     pen.setCapStyle(Qt::RoundCap);
 
@@ -558,61 +571,63 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
 
     auto rect = thisRect;
 
+    auto latencySettings = Nedrysoft::RouteAnalyser::LatencySettings::getInstance();
+
     QLinearGradient graphGradient = QLinearGradient(QPoint(rect.left(), rect.y()), QPoint(rect.right(), rect.y()));
 
     if (idealStop > 1) {
         graphGradient.setColorAt(
                 0,
-                QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()).darker(colourFactor) );
+                QColor(latencySettings->idealColour()).darker(colourFactor) );
 
         graphGradient.setColorAt(
                 1,
-                QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()).darker(colourFactor) );
+                QColor(latencySettings->idealColour()).darker(colourFactor) );
     } else {
         if (warningStop > 1) {
             if (idealStop < 1) {
                 graphGradient.setColorAt(
                         0,
-                        QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()).darker(colourFactor) );
+                        QColor(latencySettings->idealColour()).darker(colourFactor) );
 
                 graphGradient.setColorAt(
                         1,
-                        QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()).darker(colourFactor) );
+                        QColor(latencySettings->warningColour()).darker(colourFactor) );
 
                 if (!m_useGradient) {
                     graphGradient.setColorAt(
                             idealStop,
-                            QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()).darker(colourFactor) );
+                            QColor(latencySettings->warningColour()).darker(colourFactor) );
                     graphGradient.setColorAt(
                             idealStop-tinyNumber,
-                            QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()).darker(colourFactor) );
+                            QColor(latencySettings->idealColour()).darker(colourFactor) );
                 }
             }
         } else {
             graphGradient.setColorAt(
                     0,
-                    QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()).darker(colourFactor) );
+                    QColor(latencySettings->idealColour()).darker(colourFactor) );
 
             graphGradient.setColorAt(
                     idealStop,
-                    QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()).darker(colourFactor) );
+                    QColor(latencySettings->warningColour()).darker(colourFactor) );
 
             graphGradient.setColorAt(
                     warningStop,
-                    QColor(Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()).darker(colourFactor) );
+                    QColor(latencySettings->criticalColour()).darker(colourFactor) );
 
             graphGradient.setColorAt(
                     1,
-                    QColor(Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()).darker(colourFactor) );
+                    QColor(latencySettings->criticalColour()).darker(colourFactor) );
 
             if (!m_useGradient) {
                 graphGradient.setColorAt(
                         idealStop-tinyNumber,
-                        QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()).darker(colourFactor) );
+                        QColor(latencySettings->idealColour()).darker(colourFactor) );
 
                 graphGradient.setColorAt(
                         warningStop-tinyNumber,
-                        QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()).darker(colourFactor) );
+                        QColor(latencySettings->warningColour()).darker(colourFactor) );
             }
         }
     }

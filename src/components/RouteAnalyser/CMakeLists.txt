@@ -70,6 +70,8 @@ pingnoo_add_sources(
     RouteAnalyserWidget.h
     RouteTableItemDelegate.cpp
     RouteTableItemDelegate.h
+    TargetSettings.cpp
+    TargetSettings.h
     TargetSettingsPage.cpp
     TargetSettingsPage.h
     TargetSettingsPageWidget.cpp

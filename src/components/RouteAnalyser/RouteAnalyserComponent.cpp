@@ -36,6 +36,7 @@
 #include "NewTargetRibbonGroup.h"
 #include "Pingnoo.h"
 #include "RouteAnalyser.h"
+#include "TargetSettings.h"
 #include "TargetSettingsPage.h"
 #include "ViewportRibbonGroup.h"
 
@@ -80,6 +81,12 @@ auto RouteAnalyserComponent::finaliseEvent() -> void {
         Nedrysoft::ComponentSystem::removeObject(m_latencySettings);
 
         delete m_latencySettings;
+    }
+
+    if (m_targetSettings) {
+        Nedrysoft::ComponentSystem::removeObject(m_targetSettings);
+
+        delete m_targetSettings;
     }
 
     if (m_viewportGroupWidget) {
@@ -173,6 +180,12 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
             }
         });
 
+        m_targetSettings = new Nedrysoft::RouteAnalyser::TargetSettings;
+
+        Nedrysoft::ComponentSystem::addObject(m_targetSettings);
+
+        m_targetSettings->loadFromFile();
+
         m_latencySettings = new Nedrysoft::RouteAnalyser::LatencySettings;
 
         Nedrysoft::ComponentSystem::addObject(m_latencySettings);
@@ -217,8 +230,6 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
         Nedrysoft::ComponentSystem::addObject(m_newTargetGroupWidget);
         Nedrysoft::ComponentSystem::addObject(m_viewportGroupWidget);
         Nedrysoft::ComponentSystem::addObject(m_latencyGroupWidget);
-
-
     }
 }
 

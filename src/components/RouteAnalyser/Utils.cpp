@@ -23,6 +23,7 @@
 
 #include "Utils.h"
 
+#include <QObject>
 #include <QRegularExpression>
 
 constexpr auto millisecondsInSecond = 1000.0;
@@ -99,3 +100,10 @@ auto Nedrysoft::Utils::checkHostValid(const QString &host) -> bool {
     return true;
 }
 
+auto Nedrysoft::Utils::intervalToString(double value) -> QString {
+    if (value>=1) {
+        return QString(QObject::tr("%1 s")).arg(value, 0, 'g', 4, '0');
+    } else {
+        return QString(QObject::tr("%1 ms")).arg(value*millisecondsInSecond, 1, 'f', 0, '0');
+    }
+}

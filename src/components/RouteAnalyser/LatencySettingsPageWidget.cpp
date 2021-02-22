@@ -26,6 +26,7 @@
 #include "ColourManager.h"
 #include "ComponentSystem/IComponentManager.h"
 #include "LatencySettings.h"
+#include "Utils.h"
 #include "ui_LatencySettingsPageWidget.h"
 
 #include <QJsonArray>
@@ -57,8 +58,28 @@ Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(Q
         ui->criticalWidget->setColour(colour);
     });
 
-    ui->warningLineEdit->setText(latencySettings->toString(latencySettings->warningValue()));
-    ui->criticalLineEdit->setText(latencySettings->toString(latencySettings->criticalValue()));
+    connect(latencySettings, &LatencySettings::coloursChanged, [=]() {
+        ui->idealWidget->setColour(latencySettings->idealColour());
+        ui->warningWidget->setColour(latencySettings->warningColour());
+        ui->criticalWidget->setColour(latencySettings->criticalColour());
+    });
+
+    connect(ui->resetPushButton, &QPushButton::clicked, [=](bool) {
+        // TODO: create a generic MessageBox which uses the native macOS message box or QMessageBox on other
+        //       platforms.  Example can be found in libs/SettingsDialog/src/MacHalper.mm
+
+        latencySettings->resetColours();
+        latencySettings->resetThresholds();
+
+        ui->idealWidget->setColour(latencySettings->idealColour());
+        ui->warningWidget->setColour(latencySettings->warningColour());
+        ui->criticalWidget->setColour(latencySettings->criticalColour());
+
+        update();
+    });
+
+    ui->warningLineEdit->setText(Nedrysoft::Utils::intervalToString(latencySettings->warningValue()));
+    ui->criticalLineEdit->setText(Nedrysoft::Utils::intervalToString(latencySettings->criticalValue()));
 
     ui->idealWidget->setColour(latencySettings->idealColour());
     ui->warningWidget->setColour(latencySettings->warningColour());

@@ -32,17 +32,15 @@
 #include <QJsonObject>
 #include <QStandardPaths>
 
-auto constexpr warningDefaultValue = 0.2;
-auto constexpr criticalDefaultValue = 0.5;
+auto constexpr WarningDefaultValue = 0.2;
+auto constexpr CriticalDefaultValue = 0.5;
 
-constexpr auto millsecondsInSecond = 1000.0;
-
-constexpr auto configurationPath = "Components/RouteAnalyser";
-constexpr auto configurationFilename = "LatencySettings.json";
+constexpr auto ConfigurationPath = "Components/RouteAnalyser";
+constexpr auto ConfigurationFilename = "LatencySettings.json";
 
 Nedrysoft::RouteAnalyser::LatencySettings::LatencySettings() :
-        m_warningThreshold(warningDefaultValue),
-        m_criticalThreshold(criticalDefaultValue),
+        m_warningThreshold(WarningDefaultValue),
+        m_criticalThreshold(CriticalDefaultValue),
         m_idealColour(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()),
         m_warningColour(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()),
         m_criticalColour(Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()) {
@@ -121,14 +119,6 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::criticalValue() -> double {
     return m_criticalThreshold;
 }
 
-auto Nedrysoft::RouteAnalyser::LatencySettings::toString(double value) -> QString {
-    if (value>=1) {
-        return QString(tr("%1 s")).arg(value, 0, 'g', 4, '0');
-    } else {
-        return QString(tr("%1 ms")).arg(value*millsecondsInSecond, 1, 'f', 0, '0');
-    }
-}
-
 auto Nedrysoft::RouteAnalyser::LatencySettings::loadFromFile(QString filename, bool append) -> bool {
     QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
 
@@ -136,7 +126,12 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::loadFromFile(QString filename, b
         QFile configurationFile;
 
         if (filename.isNull()) {
-            configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(configurationPath).arg(QString(configurationFilename))));
+            auto filePath = QString("%1/%2/%3")
+                    .arg(configPaths.at(0))
+                    .arg(ConfigurationPath)
+                    .arg(QString(ConfigurationFilename));
+
+            configurationFile.setFileName(QDir::cleanPath(filePath));
         } else {
             configurationFile.setFileName(filename);
         }
@@ -162,15 +157,20 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::saveToFile(QString filename) -> 
         QFile configurationFile;
 
         if (filename.isNull()) {
-            configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(configurationPath).arg(QString(configurationFilename))));
+            auto filePath = QString("%1/%2/%3")
+                    .arg(configPaths.at(0))
+                    .arg(ConfigurationPath)
+                    .arg(QString(ConfigurationFilename));
+
+            configurationFile.setFileName(QDir::cleanPath(filePath));
         } else {
             configurationFile.setFileName(filename);
         }
 
         QDir dir(configPaths.at(0));
 
-        if (!dir.exists(configurationPath)) {
-            dir.mkpath(configurationPath);
+        if (!dir.exists(ConfigurationPath)) {
+            dir.mkpath(ConfigurationPath);
         }
 
         if (configurationFile.open(QFile::WriteOnly)) {
@@ -211,12 +211,31 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::criticalColour() -> QRgb {
 
 auto Nedrysoft::RouteAnalyser::LatencySettings::setIdealColour(QRgb colour) -> void {
     m_idealColour = colour;
+
+    Q_EMIT coloursChanged();
 }
 
 auto Nedrysoft::RouteAnalyser::LatencySettings::setWarningColour(QRgb colour) -> void {
     m_warningColour = colour;
+
+    Q_EMIT coloursChanged();
 }
 
 auto Nedrysoft::RouteAnalyser::LatencySettings::setCriticalColour(QRgb colour) -> void {
     m_criticalColour = colour;
+
+    Q_EMIT coloursChanged();
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::resetColours() -> void {
+    m_idealColour = ColourManager::getIdealColour();
+    m_warningColour = ColourManager::getWarningColour();
+    m_criticalColour = ColourManager::getCriticalColour();
+
+    Q_EMIT coloursChanged();
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::resetThresholds() -> void {
+    m_warningThreshold = WarningDefaultValue;
+    m_criticalThreshold = CriticalDefaultValue;
 }

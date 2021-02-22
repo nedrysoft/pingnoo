@@ -41,6 +41,10 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::LatencyRibbonGroup(QWidget *parent
 
     ui->setupUi(this);
 
+    auto latencySettings = Nedrysoft::RouteAnalyser::LatencySettings::getInstance();
+
+    assert(latencySettings!=nullptr);
+
     ui->idealWidget->setText(tr("Ideal"));
     ui->warningWidget->setText(tr("Warning"));
     ui->criticalWidget->setText(tr("Critical"));
@@ -56,9 +60,9 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::LatencyRibbonGroup(QWidget *parent
         return Nedrysoft::Utils::parseIntervalString(text);
     });
 
-    ui->idealWidget->setColour(ColourManager::getIdealColour());
-    ui->warningWidget->setColour(ColourManager::getWarningColour());
-    ui->criticalWidget->setColour(ColourManager::getCriticalColour());
+    ui->idealWidget->setColour(latencySettings->idealColour());
+    ui->warningWidget->setColour(latencySettings->warningColour());
+    ui->criticalWidget->setColour(latencySettings->criticalColour());
 
     ui->warningLineEdit->setPlaceholderText(getValueString(LatencyType::Warning));
     ui->criticalLineEdit->setPlaceholderText(getValueString(LatencyType::Critical));
@@ -78,16 +82,22 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::LatencyRibbonGroup(QWidget *parent
         m_criticalHighlighter->updateSyntax();
     });
 
+    connect(latencySettings, &LatencySettings::coloursChanged, [=]() {
+        ui->idealWidget->setColour(latencySettings->idealColour());
+        ui->warningWidget->setColour(latencySettings->warningColour());
+        ui->criticalWidget->setColour(latencySettings->criticalColour());
+    });
+
     connect(ui->idealWidget, &LatencyWidget::colourChanged, [=](QColor colour) {
-        // TODO: use the changed colour!
+        latencySettings->setIdealColour(colour.rgb());
     });
 
     connect(ui->warningWidget, &LatencyWidget::colourChanged, [=](QColor colour) {
-        // TODO: use the changed colour!
+        latencySettings->setWarningColour(colour.rgb());
     });
 
     connect(ui->criticalWidget, &LatencyWidget::colourChanged, [=](QColor colour) {
-        // TODO: use the changed colour!
+        latencySettings->setCriticalColour(colour.rgb());
     });
 }
 
@@ -150,5 +160,5 @@ auto Nedrysoft::RouteAnalyser::LatencyRibbonGroup::getValueString(LatencyType ty
         }
     }
 
-    return latencySettings->toString(value);
+    return Nedrysoft::Utils::intervalToString(value);
 }

@@ -25,6 +25,7 @@
 #pragma warning(disable : 4996)
 
 #include "GraphLatencyLayer.h"
+#include "LatencySettings.h"
 
 #pragma warning(pop)
 
@@ -80,6 +81,10 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
     auto idealStop = m_warningLatency.count()/graphMaxLatency;
     auto warningStop = m_criticalLatency.count()/graphMaxLatency;
 
+    auto latencySettings = Nedrysoft::RouteAnalyser::LatencySettings::getInstance();
+
+    assert(latencySettings!=nullptr);
+
     QString bufferName = QString("%1_%2_%3_%4_%5").arg(rect.size().width()).arg(rect.size().height()).arg(idealStop).arg(warningStop).arg(m_useGradient);
 
     if (!m_buffers.contains(bufferName)) {
@@ -100,28 +105,28 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
         QLinearGradient graphGradient = QLinearGradient(QPoint(rect.x(), rect.bottom()), QPoint(rect.x(), rect.top()));
 
         if (idealStop > 1) {
-            graphGradient.setColorAt(0, QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()));
-            graphGradient.setColorAt(1, QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()));
+            graphGradient.setColorAt(0, QColor(latencySettings->idealColour()));
+            graphGradient.setColorAt(1, QColor(latencySettings->idealColour()));
         } else {
             if (warningStop > 1) {
                 if (idealStop < 1) {
-                    graphGradient.setColorAt(0, QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()));
-                    graphGradient.setColorAt(1, QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()));
+                    graphGradient.setColorAt(0, QColor(latencySettings->idealColour()));
+                    graphGradient.setColorAt(1, QColor(latencySettings->warningColour()));
 
                     if (!m_useGradient) {
-                        graphGradient.setColorAt(idealStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()));
-                        graphGradient.setColorAt(idealStop-tinyNumber, QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()));
+                        graphGradient.setColorAt(idealStop, QColor(latencySettings->warningColour()));
+                        graphGradient.setColorAt(idealStop-tinyNumber, QColor(latencySettings->idealColour()));
                     }
                 }
             } else {
-                graphGradient.setColorAt(0, QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()));
-                graphGradient.setColorAt(idealStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()));
-                graphGradient.setColorAt(warningStop, QColor(Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()));
-                graphGradient.setColorAt(1, QColor(Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()));
+                graphGradient.setColorAt(0, QColor(latencySettings->idealColour()));
+                graphGradient.setColorAt(idealStop, QColor(latencySettings->warningColour()));
+                graphGradient.setColorAt(warningStop, QColor(latencySettings->criticalColour()));
+                graphGradient.setColorAt(1, QColor(latencySettings->criticalColour()));
 
                 if (!m_useGradient) {
-                    graphGradient.setColorAt(idealStop-tinyNumber, QColor(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()));
-                    graphGradient.setColorAt(warningStop-tinyNumber, QColor(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()));
+                    graphGradient.setColorAt(idealStop-tinyNumber, QColor(latencySettings->idealColour()));
+                    graphGradient.setColorAt(warningStop-tinyNumber, QColor(latencySettings->warningColour()));
                 }
             }
         }

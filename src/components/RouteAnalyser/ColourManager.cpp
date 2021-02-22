@@ -25,9 +25,9 @@
 
 #include "ThemeSupport.h"
 
-constexpr auto LightIdealColour = qRgb(229, 240, 220);
-constexpr auto LightWarningColour = qRgb(252, 239, 215);
-constexpr auto LightCriticalColour = qRgb(249, 216, 211);
+constexpr auto LightIdealColour = qRgb(0xdc, 0xe5, 0xf4);
+constexpr auto LightWarningColour = qRgb(0xfc, 0xef, 0xd7);
+constexpr auto LightCriticalColour = qRgb(0xf9, 0xd8, 0xd3);
 
 constexpr auto DarkIdealColour = qRgb(0x92, 0xC8, 0x9F);
 constexpr auto DarkWarningColour = qRgb(0xe9, 0xc4, 0x6a);
