@@ -697,10 +697,12 @@ def _do_windows():
         binary_dir = f'bin\\{build_arch}\\{build_type}'
         extensions = ['.exe', '.dll']
 
+        rm_path('deployment')
         rm_path(deploy_dir)
 
         sign_list = []
         os.makedirs(deploy_dir)
+        os.makedirs('deployment')
 
         # TODO: Refactor with os.walk
         for file in glob.glob(f'{binary_dir}\\**\\*', recursive=True):
