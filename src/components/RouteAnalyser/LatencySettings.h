@@ -24,6 +24,7 @@
 #define NEDRYSOFT_LATENCYSETTINGS_H
 
 #include "Core/IConfiguration.h"
+#include <QColor>
 #include <QObject>
 
 namespace Nedrysoft::RouteAnalyser {
@@ -103,6 +104,48 @@ namespace Nedrysoft::RouteAnalyser {
              */
             auto setCriticalValue(QString value) -> void;
 
+            /**
+             * @brief       Returns the colour used for ideal latency values.
+             *
+             * @returns     the colour.
+             */
+            auto idealColour() -> QRgb;
+
+            /**
+             * @brief       Returns the colour used for warning latency values.
+             *
+             * @returns     the colour.
+             */
+            auto warningColour() -> QRgb;
+
+            /**
+             * @brief       Returns the colour used for critical latency values.
+             *
+             * @returns     the colour.
+             */
+            auto criticalColour() -> QRgb;
+
+            /**
+             * @brief       Sets the ideal colour for latency values.
+             *
+             * @param[in]   colour the colour.
+             */
+            auto setIdealColour(QRgb colour) -> void;
+
+            /**
+             * @brief       Sets the warning colour for latency values.
+             *
+             * @param[in]   colour the colour.
+             */
+            auto setWarningColour(QRgb colour) -> void;
+
+            /**
+             * @brief       Sets the critical colour for latency values.
+             *
+             * @param[in]   colour the colour.
+             */
+            auto setCriticalColour(QRgb colour) -> void;
+
         public:
             /**
               * @brief       Saves the configuration to a JSON object.
@@ -123,6 +166,10 @@ namespace Nedrysoft::RouteAnalyser {
         private:
             double m_warningThreshold;
             double m_criticalThreshold;
+
+            QRgb m_idealColour;
+            QRgb m_warningColour;
+            QRgb m_criticalColour;
     };
 }
 

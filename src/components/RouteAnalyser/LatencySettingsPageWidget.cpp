@@ -45,12 +45,24 @@ Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(Q
     ui->warningWidget->setText(tr("warning"));
     ui->criticalWidget->setText(tr("critical"));
 
+    connect(ui->idealWidget, &LatencyWidget::colourChanged, [=](QColor colour) {
+        ui->idealWidget->setColour(colour);
+    });
+
+    connect(ui->warningWidget, &LatencyWidget::colourChanged, [=](QColor colour) {
+        ui->warningWidget->setColour(colour);
+    });
+
+    connect(ui->criticalWidget, &LatencyWidget::colourChanged, [=](QColor colour) {
+        ui->criticalWidget->setColour(colour);
+    });
+
     ui->warningLineEdit->setText(latencySettings->toString(latencySettings->warningValue()));
     ui->criticalLineEdit->setText(latencySettings->toString(latencySettings->criticalValue()));
 
-    ui->idealWidget->setColour(ColourManager::getIdealColour());
-    ui->warningWidget->setColour(ColourManager::getWarningColour());
-    ui->criticalWidget->setColour(ColourManager::getCriticalColour());
+    ui->idealWidget->setColour(latencySettings->idealColour());
+    ui->warningWidget->setColour(latencySettings->warningColour());
+    ui->criticalWidget->setColour(latencySettings->criticalColour());
 }
 
 Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::~LatencySettingsPageWidget() {
@@ -68,6 +80,10 @@ auto Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::acceptSettings() -> vo
 
     latencySettings->setWarningValue(ui->warningLineEdit->text());
     latencySettings->setCriticalValue(ui->criticalLineEdit->text());
+
+    latencySettings->setIdealColour(ui->idealWidget->colour().rgb());
+    latencySettings->setWarningColour(ui->warningWidget->colour().rgb());
+    latencySettings->setCriticalColour(ui->criticalWidget->colour().rgb());
 
     latencySettings->saveToFile();
 }

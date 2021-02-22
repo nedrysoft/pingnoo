@@ -23,6 +23,7 @@
 
 #include "LatencySettings.h"
 
+#include "ColourManager.h"
 #include "Utils.h"
 
 #include <QDir>
@@ -41,7 +42,10 @@ constexpr auto configurationFilename = "LatencySettings.json";
 
 Nedrysoft::RouteAnalyser::LatencySettings::LatencySettings() :
         m_warningThreshold(warningDefaultValue),
-        m_criticalThreshold(criticalDefaultValue) {
+        m_criticalThreshold(criticalDefaultValue),
+        m_idealColour(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()),
+        m_warningColour(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()),
+        m_criticalColour(Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()) {
 
 }
 
@@ -62,6 +66,14 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::saveConfiguration() -> QJsonObje
 
     rootObject.insert("thresholds", thresholdsObject);
 
+    QJsonObject coloursObject;
+
+    coloursObject.insert("ideal", QColor(m_idealColour).name());
+    coloursObject.insert("warning", QColor(m_warningColour).name());
+    coloursObject.insert("critical", QColor(m_criticalColour).name());
+
+    rootObject.insert("colours", coloursObject);
+
     return rootObject;
 }
 
@@ -79,6 +91,22 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::loadConfiguration(QJsonObject co
 
         if (thresholdsObject.contains("critical")) {
             m_criticalThreshold = thresholdsObject["critical"].toDouble();
+        }
+    }
+
+    if (configuration.contains("colours")) {
+        auto coloursObject = configuration["colours"].toObject();
+
+        if (coloursObject.contains("ideal")) {
+            m_idealColour = QColor(coloursObject["ideal"].toString()).rgb();
+        }
+
+        if (coloursObject.contains("warning")) {
+            m_warningColour = QColor(coloursObject["warning"].toString()).rgb();
+        }
+
+        if (coloursObject.contains("critical")) {
+            m_criticalColour = QColor(coloursObject["critical"].toString()).rgb();
         }
     }
 
@@ -167,4 +195,28 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::setCriticalValue(QString value) 
     if (!Nedrysoft::Utils::parseIntervalString(value, m_criticalThreshold)) {
         return;
     }
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::idealColour() -> QRgb {
+    return m_idealColour;
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::warningColour() -> QRgb {
+    return m_warningColour;
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::criticalColour() -> QRgb {
+    return m_criticalColour;
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::setIdealColour(QRgb colour) -> void {
+    m_idealColour = colour;
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::setWarningColour(QRgb colour) -> void {
+    m_warningColour = colour;
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::setCriticalColour(QRgb colour) -> void {
+    m_criticalColour = colour;
 }
