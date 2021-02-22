@@ -278,6 +278,12 @@ if platform.system() == "Windows":
                         default='',
                         help='pin when using scsigntool')
 
+    parser.add_qrgument('--portable'
+                        type=str,
+                        nargs='?',
+                        default='',
+                        help='create portable zip')
+
 if platform.system() == "Darwin":
     parser.add_argument('--appleid', type=str, nargs='?', help='apple id to use for notarization')
     parser.add_argument('--password', type=str, nargs='?', help='password for apple id')
@@ -729,6 +735,11 @@ def _do_windows():
                     raise MsgPrinterException(f'there was a problem signing a file ({file}).\r\n\r\n{result_output}\r\n')
 
     files_string = ' '.join(files)
+
+    # use powershell to create a portable zip
+    if args.portable:
+        execute(f'powershell Compress-Archive "bin\\{build_arch}\\Deploy\\*" ".\\deployment\\Pingnoo.Portable.{build_version}.{build_arch}.zip" -Force',
+                fail_msg='there was a problem creating the portable archive.')
 
     # run windeplotqt
     with msg_printer('Running windeployqt...'):
