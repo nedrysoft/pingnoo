@@ -91,6 +91,7 @@ elseif(WIN32)
             --type=${PINGNOO_BUILD_TYPE}
             --arch=${PINGNOO_PLATFORM_ARCH}
             --version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}
+            --portable
         )"
     )
 elseif(UNIX)
