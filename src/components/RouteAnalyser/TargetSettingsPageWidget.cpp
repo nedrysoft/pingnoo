@@ -40,8 +40,12 @@ Nedrysoft::RouteAnalyser::TargetSettingsPageWidget::TargetSettingsPageWidget(QWi
 
     auto engineFactories = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IPingEngineFactory>();
 
+    QMultiMap<double, Nedrysoft::Core::IPingEngineFactory *> sortedPingEngines;
+
     for (auto factory : engineFactories) {
         ui->defaultEngineComboBox->addItem(factory->description(), factory->metaObject()->className());
+
+        sortedPingEngines.insert(1-factory->priority(), factory);
     }
 
     if (targetSettings) {
@@ -55,6 +59,14 @@ Nedrysoft::RouteAnalyser::TargetSettingsPageWidget::TargetSettingsPageWidget(QWi
         }
 
         auto selectionIndex = ui->defaultEngineComboBox->findData(targetSettings->defaultPingEngine());
+
+        if (selectionIndex==-1) {
+            if (sortedPingEngines.count()) {
+                selectionIndex = ui->defaultEngineComboBox->findData(
+                        sortedPingEngines.first()->metaObject()->className(),
+                        Qt::UserRole + 1 );
+            }
+        }
 
         ui->defaultEngineComboBox->setCurrentIndex(selectionIndex);
     }

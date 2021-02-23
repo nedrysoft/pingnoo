@@ -76,6 +76,14 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
 
     auto selectionIndex = ui->engineComboBox->findData(targetSettings->defaultPingEngine(), Qt::UserRole+1);
 
+    if (selectionIndex==-1) {
+        if (sortedPingEngines.count()) {
+            selectionIndex = ui->engineComboBox->findData(
+                    sortedPingEngines.first()->metaObject()->className(),
+                    Qt::UserRole + 1 );
+        }
+    }
+
     ui->engineComboBox->setCurrentIndex(selectionIndex);
 
     m_intervalHighlighter = new LineSyntaxHighlighter(ui->intervalLineEdit->document(), [=](const QString &text) {
