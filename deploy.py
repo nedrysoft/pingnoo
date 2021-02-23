@@ -738,7 +738,7 @@ def _do_windows():
 
     # run windeplotqt
     with msg_printer('Running windeployqt...'):
-        execute(f'{windeployqt} --dir {deploy_dir} {files_string} --{args.type}',
+        execute(f'{windeployqt} --dir {deploy_dir} {files_string} -sql --{args.type}',
                 fail_msg='there was a problem running windeployqt.')
 
     # use powershell to create a portable zip

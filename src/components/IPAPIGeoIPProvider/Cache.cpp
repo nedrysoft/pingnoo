@@ -68,7 +68,7 @@ Nedrysoft::IPAPIGeoIPProvider::Cache::Cache() {
 
     auto query = QSqlQuery(database);
 
-    auto result = query.exec(R"(CREATE TABLE ip (
+    auto result = query.exec(R"(CREATE TABLE IF NOT EXISTS ip (
                                   id INTEGER PRIMARY KEY,
                                   name TEXT,
                                   creationTime INTEGER,
