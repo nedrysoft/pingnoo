@@ -109,3 +109,5 @@ __pycache__/
 *.deb
 
 installer/PingnooBuild*.aip
+
+installer/Pingnoo.back*.aip

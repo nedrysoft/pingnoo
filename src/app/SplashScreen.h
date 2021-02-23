@@ -46,11 +46,6 @@ namespace Nedrysoft {
             SplashScreen();
 
             /**
-             * @brief       Destroys the SplashScreen.
-             */
-            ~SplashScreen() override;
-
-            /**
              * @brief       Delete the copy constructor.
              */
             SplashScreen(const SplashScreen &) = delete;
@@ -61,6 +56,11 @@ namespace Nedrysoft {
             SplashScreen &operator=(const SplashScreen &) = delete;
 
         public:
+            /**
+             * @brief       Destroys the SplashScreen.
+             */
+            ~SplashScreen() override;
+
             /**
              * @brief           Returns the instance of the SplashScreen class.
              *

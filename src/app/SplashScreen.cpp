@@ -64,7 +64,7 @@ Nedrysoft::SplashScreen::SplashScreen() :
 }
 
 Nedrysoft::SplashScreen::~SplashScreen() {
-    delete getInstance();
+
 }
 
 auto Nedrysoft::SplashScreen::getInstance() -> Nedrysoft::SplashScreen * {

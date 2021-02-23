@@ -54,6 +54,8 @@ auto RegExHostMaskerComponent::initialisationFinishedEvent() -> void {
 auto RegExHostMaskerComponent::finaliseEvent() -> void {
     if (m_settingsPage) {
         Nedrysoft::ComponentSystem::removeObject(m_settingsPage);
+
+        delete m_settingsPage;
     }
 
     if (m_hostMasker) {
