@@ -212,6 +212,14 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             break;
         }
     }
+
+    // draw the invalid marker for the graph column
+
+    if (!pingData->hopValid() && ( static_cast<PingData::Fields>(index.column()) == PingData::Fields::Graph )) {
+        paintInvalidHop(pingData, painter, option, index);
+
+        return;
+    }
 }
 
 auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintText(
