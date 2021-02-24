@@ -30,6 +30,7 @@
 #include "Core/ICommandManager.h"
 #include "Core/IEditorManager.h"
 #include "Core/IPingEngineFactory.h"
+#include "FavouritesManagerDialog.h"
 #include "RouteAnalyserEditor.h"
 #include "TargetSettings.h"
 #include "Utils.h"
@@ -57,18 +58,43 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         QMenu menu;
         QPoint menuPosition = ui->favouriteDropButton->rect().bottomLeft();
 
-        menu.addAction(tr("Recent Targets"))->setDisabled(true);
+        auto recents = menu.addAction(tr("Recent Targets"));
         menu.addSeparator();
-        menu.addAction(tr("Favourites"))->setDisabled(true);
+        auto favourites = menu.addAction(tr("Favourites"));
         menu.addSeparator();
-        menu.addAction(tr("Load Favourite..."));
-        menu.addAction(tr("New Favourite..."));
-        menu.addAction(tr("Edit Favourite..."));
-        menu.addAction(tr("Save Favourite..."));
+        auto openFavourite = menu.addAction(tr("Open Favourite..."));
+        auto saveFavourite = menu.addAction(tr("Save Favourite..."));
+        menu.addSeparator();
+        auto newFavourite = menu.addAction(tr("New Favourite..."));
+        auto editFavourites = menu.addAction(tr("Edit Favourites..."));
+        menu.addSeparator();
+        auto importFavourites = menu.addAction(tr("Import Favourites..."));
+        auto exportFavourites = menu.addAction(tr("Export Favourites..."));
 
         menuPosition = mapToGlobal(menuPosition);
 
-        menu.exec(menuPosition);
+        recents->setDisabled(true);
+        favourites->setDisabled(true);
+        saveFavourite->setDisabled(true);
+        exportFavourites->setDisabled(true);
+
+        auto selectedAction = menu.exec(menuPosition);
+
+        if (selectedAction==openFavourite) {
+
+        } else if (selectedAction==saveFavourite) {
+
+        } else if (selectedAction==newFavourite) {
+
+        } else if (selectedAction==editFavourites) {
+            FavouritesManagerDialog favouritesDialog;
+
+            favouritesDialog.exec();
+        } else if (selectedAction==importFavourites) {
+
+        } else if (selectedAction==exportFavourites) {
+
+        }
     });
 
     m_intervalHighlighter = new LineSyntaxHighlighter(ui->intervalLineEdit->document(), [=](const QString &text) {
@@ -117,6 +143,14 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         ui->engineComboBox->view()->setMinimumWidth(minimumWidth);
 
         auto selectionIndex = ui->engineComboBox->findData(targetSettings->defaultPingEngine(), Qt::UserRole+1);
+
+        if (selectionIndex==-1) {
+            if (sortedPingEngines.count()) {
+                selectionIndex = ui->engineComboBox->findData(
+                        sortedPingEngines.first()->metaObject()->className(),
+                        Qt::UserRole + 1 );
+            }
+        }
 
         ui->engineComboBox->setCurrentIndex(selectionIndex);
     }

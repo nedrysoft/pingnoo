@@ -35,6 +35,9 @@ pingnoo_add_sources(
     ColourDialog.h
     ColourManager.cpp
     ColourManager.h
+    FavouritesManagerDialog.cpp
+    FavouritesManagerDialog.h
+    FavouritesManagerDialog.ui
     GraphLatencyLayer.cpp
     GraphLatencyLayer.h
     LatencyRibbonGroup.cpp
