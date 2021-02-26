@@ -23,6 +23,7 @@
 
 #include "LatencySettings.h"
 
+#include "ColourManager.h"
 #include "Utils.h"
 
 #include <QDir>
@@ -31,17 +32,18 @@
 #include <QJsonObject>
 #include <QStandardPaths>
 
-auto constexpr warningDefaultValue = 0.2;
-auto constexpr criticalDefaultValue = 0.5;
+auto constexpr WarningDefaultValue = 0.2;
+auto constexpr CriticalDefaultValue = 0.5;
 
-constexpr auto millsecondsInSecond = 1000.0;
-
-constexpr auto configurationPath = "Components/RouteAnalyser";
-constexpr auto configurationFilename = "LatencySettings.json";
+constexpr auto ConfigurationPath = "Components/RouteAnalyser";
+constexpr auto ConfigurationFilename = "LatencySettings.json";
 
 Nedrysoft::RouteAnalyser::LatencySettings::LatencySettings() :
-        m_warningThreshold(warningDefaultValue),
-        m_criticalThreshold(criticalDefaultValue) {
+        m_warningThreshold(WarningDefaultValue),
+        m_criticalThreshold(CriticalDefaultValue),
+        m_idealColour(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()),
+        m_warningColour(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()),
+        m_criticalColour(Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()) {
 
 }
 
@@ -61,6 +63,14 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::saveConfiguration() -> QJsonObje
     thresholdsObject.insert("warning", static_cast<double>(m_warningThreshold));
 
     rootObject.insert("thresholds", thresholdsObject);
+
+    QJsonObject coloursObject;
+
+    coloursObject.insert("ideal", QColor(m_idealColour).name());
+    coloursObject.insert("warning", QColor(m_warningColour).name());
+    coloursObject.insert("critical", QColor(m_criticalColour).name());
+
+    rootObject.insert("colours", coloursObject);
 
     return rootObject;
 }
@@ -82,6 +92,22 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::loadConfiguration(QJsonObject co
         }
     }
 
+    if (configuration.contains("colours")) {
+        auto coloursObject = configuration["colours"].toObject();
+
+        if (coloursObject.contains("ideal")) {
+            m_idealColour = QColor(coloursObject["ideal"].toString()).rgb();
+        }
+
+        if (coloursObject.contains("warning")) {
+            m_warningColour = QColor(coloursObject["warning"].toString()).rgb();
+        }
+
+        if (coloursObject.contains("critical")) {
+            m_criticalColour = QColor(coloursObject["critical"].toString()).rgb();
+        }
+    }
+
     return true;
 }
 
@@ -93,14 +119,6 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::criticalValue() -> double {
     return m_criticalThreshold;
 }
 
-auto Nedrysoft::RouteAnalyser::LatencySettings::toString(double value) -> QString {
-    if (value>=1) {
-        return QString(tr("%1 s")).arg(value, 0, 'g', 4, '0');
-    } else {
-        return QString(tr("%1 ms")).arg(value*millsecondsInSecond, 1, 'f', 0, '0');
-    }
-}
-
 auto Nedrysoft::RouteAnalyser::LatencySettings::loadFromFile(QString filename, bool append) -> bool {
     QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
 
@@ -108,7 +126,12 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::loadFromFile(QString filename, b
         QFile configurationFile;
 
         if (filename.isNull()) {
-            configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(configurationPath).arg(QString(configurationFilename))));
+            auto filePath = QString("%1/%2/%3")
+                    .arg(configPaths.at(0))
+                    .arg(ConfigurationPath)
+                    .arg(QString(ConfigurationFilename));
+
+            configurationFile.setFileName(QDir::cleanPath(filePath));
         } else {
             configurationFile.setFileName(filename);
         }
@@ -134,15 +157,20 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::saveToFile(QString filename) -> 
         QFile configurationFile;
 
         if (filename.isNull()) {
-            configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(configurationPath).arg(QString(configurationFilename))));
+            auto filePath = QString("%1/%2/%3")
+                    .arg(configPaths.at(0))
+                    .arg(ConfigurationPath)
+                    .arg(QString(ConfigurationFilename));
+
+            configurationFile.setFileName(QDir::cleanPath(filePath));
         } else {
             configurationFile.setFileName(filename);
         }
 
         QDir dir(configPaths.at(0));
 
-        if (!dir.exists(configurationPath)) {
-            dir.mkpath(configurationPath);
+        if (!dir.exists(ConfigurationPath)) {
+            dir.mkpath(ConfigurationPath);
         }
 
         if (configurationFile.open(QFile::WriteOnly)) {
@@ -167,4 +195,47 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::setCriticalValue(QString value) 
     if (!Nedrysoft::Utils::parseIntervalString(value, m_criticalThreshold)) {
         return;
     }
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::idealColour() -> QRgb {
+    return m_idealColour;
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::warningColour() -> QRgb {
+    return m_warningColour;
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::criticalColour() -> QRgb {
+    return m_criticalColour;
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::setIdealColour(QRgb colour) -> void {
+    m_idealColour = colour;
+
+    Q_EMIT coloursChanged();
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::setWarningColour(QRgb colour) -> void {
+    m_warningColour = colour;
+
+    Q_EMIT coloursChanged();
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::setCriticalColour(QRgb colour) -> void {
+    m_criticalColour = colour;
+
+    Q_EMIT coloursChanged();
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::resetColours() -> void {
+    m_idealColour = ColourManager::getIdealColour();
+    m_warningColour = ColourManager::getWarningColour();
+    m_criticalColour = ColourManager::getCriticalColour();
+
+    Q_EMIT coloursChanged();
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::resetThresholds() -> void {
+    m_warningThreshold = WarningDefaultValue;
+    m_criticalThreshold = CriticalDefaultValue;
 }

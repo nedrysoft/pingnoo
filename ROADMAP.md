@@ -8,3 +8,4 @@ This document outlines the development plan for the application.
 * Related the the remote ping engine, a helper application service for linux should be provided along with a ping engine to communicate with it.  The service can be installed and run either as root or with setcap raw socket permissions, this would alleviate the need for the application to run as root.
 * Add jitter graphs for each hop.
 * Outputs, PDF/PNG etc.
+* Favourites, the title of a favourite may contains "/", if it does, then it is used to generate a hierarchical favourite.

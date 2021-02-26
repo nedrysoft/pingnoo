@@ -193,6 +193,10 @@ if platform.system() == "Windows":
                         default='',
                         help='pin when using scsigntool')
 
+    parser.add_argument('--portable',
+                        action='store_true',
+                        help='create portable zip')
+
 if platform.system() == "Darwin":
     parser.add_argument('--appleid', type=str, nargs='?', help='apple id to use for notarization')
     parser.add_argument('--password', type=str, nargs='?', help='password for apple id')
@@ -610,10 +614,12 @@ def _do_windows():
         binary_dir = f'bin\\{build_arch}\\{build_type}'
         extensions = ['.exe', '.dll']
 
+        rm_path('deployment')
         rm_path(deploy_dir)
 
         sign_list = []
         os.makedirs(deploy_dir)
+        os.makedirs('deployment')
 
         # TODO: Refactor with os.walk
         for file in glob.glob(f'{binary_dir}\\**\\*', recursive=True):
@@ -649,8 +655,14 @@ def _do_windows():
 
     # run windeplotqt
     with msg_printer('Running windeployqt...'):
-        execute(f'{windeployqt} --dir {deploy_dir} {files_string} --{args.type}',
+        execute(f'{windeployqt} --dir {deploy_dir} {files_string} -sql --{args.type}',
                 fail_msg='there was a problem running windeployqt.')
+
+    # use powershell to create a portable zip
+    if args.portable:
+        with msg_printer('Creating portable edition...'):
+            execute(f'powershell Compress-Archive "bin\\{build_arch}\\Deploy\\*" ".\\deployment\\Pingnoo.Portable.{build_version}.{build_arch}.zip" -Force',
+                    fail_msg='there was a problem creating the portable archive.')
 
     # run advanced installer
     with msg_printer('Creating installer...'):

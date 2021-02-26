@@ -1,0 +1,70 @@
+#!/usr/bin/env sh
+
+#
+# Copyright (C) 2020 Adrian Carpenter
+#
+# This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
+#
+# An open-source cross-platform traceroute analyser.
+#
+# Created by Adrian Carpenter on 25/02/2021.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# this script installs the required packages to build pingnoo on a fedora container.
+# it is intended for internal use only when setting up build containers for CI
+
+# http://download.proxmox.com/images/system/ contains all available containers, the proxmox GUI doesn't show a lot
+# of these so you can manually download and install.
+
+# prerequisites for building
+
+dnf -y group install "C Development Tools and Libraries"
+dnf -y install cmake
+dnf -y install git
+dnf -y install qt5-qtbase-devel
+dnf -y install qt5-qtquickcontrols2-devel
+dnf -y install dbus-devel
+dnf -y install vim
+
+# get the teamcity build agent
+
+dnf -y install wget
+dnf -y install unzip
+dnf -y install java-11-openjdk
+
+cd ~
+wget https://$1/update/buildAgentFull.zip
+mkdir BuildAgent
+cd BuildAgent
+unzip ../buildAgentFull.zip
+
+# if the second parameter is test then checkout the code and attempt to build
+
+if [ $2 -eq "test" ]; then
+    # clone the code
+    cd ~
+
+    git clone https://github.com/nedrysoft/pingnoo.git
+    cd pingnoo
+    git submodule update --init --recursive
+
+    # run a test build to check that all the required tools & libraries are installed
+
+    mkdir build
+    cd build
+    cmake ..
+    make
+fi

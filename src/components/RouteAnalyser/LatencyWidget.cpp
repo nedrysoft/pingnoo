@@ -77,6 +77,8 @@ auto Nedrysoft::RouteAnalyser::LatencyWidget::text() -> QString {
 
 auto Nedrysoft::RouteAnalyser::LatencyWidget::setColour(QColor colour) -> void {
     m_colour = colour;
+
+    update();
 }
 
 auto Nedrysoft::RouteAnalyser::LatencyWidget::colour() -> QColor {

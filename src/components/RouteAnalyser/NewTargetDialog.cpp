@@ -23,7 +23,9 @@
 #include "NewTargetDialog.h"
 
 #include "LineSyntaxHighlighter.h"
+#include "TargetSettings.h"
 #include "Utils.h"
+
 #include "ui_NewTargetDialog.h"
 
 #include <QLineEdit>
@@ -40,6 +42,10 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
         m_intervalHighlighter(nullptr) {
 
     static int minimumLineHeight = 0;
+
+    auto targetSettings = Nedrysoft::ComponentSystem::getObject<Nedrysoft::RouteAnalyser::TargetSettings>();
+
+    assert(targetSettings!=nullptr);
 
     if (!minimumLineHeight) {
         QLineEdit lineEdit;
@@ -65,7 +71,20 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
         auto model = dynamic_cast<QStandardItemModel *>(ui->engineComboBox->model());
 
         model->item(model->rowCount()-1, 0)->setEnabled(pingEngine->available());
+        model->item(model->rowCount()-1, 0)->setData(pingEngine->metaObject()->className(), Qt::UserRole+1);
     }
+
+    auto selectionIndex = ui->engineComboBox->findData(targetSettings->defaultPingEngine(), Qt::UserRole+1);
+
+    if (selectionIndex==-1) {
+        if (sortedPingEngines.count()) {
+            selectionIndex = ui->engineComboBox->findData(
+                    sortedPingEngines.first()->metaObject()->className(),
+                    Qt::UserRole + 1 );
+        }
+    }
+
+    ui->engineComboBox->setCurrentIndex(selectionIndex);
 
     m_intervalHighlighter = new LineSyntaxHighlighter(ui->intervalLineEdit->document(), [=](const QString &text) {
         return Nedrysoft::Utils::parseIntervalString(text);
@@ -85,6 +104,8 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
 
     ui->targetLineEdit->installEventFilter(this);
 
+    ui->targetLineEdit->setPlaceholderText(targetSettings->defaultHost());
+
     connect(ui->targetLineEdit, &QTextEdit::textChanged, [=]() {
         validateFields();
     });
@@ -99,9 +120,18 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
 
     ui->intervalLineEdit->installEventFilter(this);
 
+    ui->intervalLineEdit->setPlaceholderText(Nedrysoft::Utils::intervalToString(targetSettings->defaultPingInterval()));
+
     connect(ui->intervalLineEdit, &QTextEdit::textChanged, [=]() {
         validateFields();
     });
+
+    if (targetSettings->defaultIPVersion()==Nedrysoft::Core::IPVersion::V4) {
+        ui->ipv4RadioButton->setChecked(true);
+    }
+    else {
+        ui->ipV6RadioButton->setChecked(true);
+    }
 
     validateFields();
 }

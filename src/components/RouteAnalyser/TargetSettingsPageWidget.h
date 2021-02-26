@@ -55,6 +55,18 @@ namespace Nedrysoft::RouteAnalyser {
              */
             ~TargetSettingsPageWidget() override;
 
+            /**
+             * @brief       Checks if the settings can be applied.
+             *
+             * @returns     true if the settings can be applied (i.e valid); otherwise false.
+             */
+            auto canAcceptSettings() -> bool;
+
+            /**
+             * @brief       Applies the current settings.
+             */
+            auto acceptSettings() -> void;
+
         private:
             Ui::TargetSettingsPageWidget *ui;
     };

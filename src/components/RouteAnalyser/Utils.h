@@ -76,6 +76,15 @@ namespace Nedrysoft::Utils {
      * @returns     true if valid; otherwise false.
      */
     auto checkHostValid(const QString &host) -> bool;
+
+    /**
+     * @brief       Converts seconds to a interval string with units.
+     *
+     * @param[in]   value the value in seconds.
+     *
+     * @returns     the interval as a string
+     */
+    auto intervalToString(double value) -> QString;
 }
 
 #endif // NEDRYSOFT_UTILS_H

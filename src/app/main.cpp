@@ -176,11 +176,10 @@ int main(int argc, char **argv) {
 #else
         qApp->setWindowIcon(QIcon(":/app/images/appicon-512x512@2x.png"));
 #endif
-        if (splashScreen) {
-            QTimer::singleShot(splashscreenTimeout, [=]() {
-                splashScreen->hide();
-            });
-        }
+
+        QTimer::singleShot(splashscreenTimeout, [=]() {
+            splashScreen->deleteLater();
+        });
 
         exitCode = QApplication::exec();
     } else {

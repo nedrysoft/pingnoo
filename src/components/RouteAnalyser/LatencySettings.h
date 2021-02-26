@@ -20,13 +20,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #ifndef NEDRYSOFT_LATENCYSETTINGS_H
 #define NEDRYSOFT_LATENCYSETTINGS_H
 
 #include "Core/IConfiguration.h"
+
+#include "ComponentSystem/IComponentManager.h"
+
+#include <QColor>
 #include <QObject>
 
 namespace Nedrysoft::RouteAnalyser {
+    /**
+     * @brief       The LatencySettings class is used as the central location for latency settings, this includes
+     *              parameters such as the default values for the latency thresholds and the default colour which
+     *              is used for the various boundaries.
+     */
     class LatencySettings : public
             QObject,
             Nedrysoft::Core::IConfiguration {
@@ -60,13 +70,6 @@ namespace Nedrysoft::RouteAnalyser {
              * @returns     the critical value.
              */
             auto criticalValue() -> double;
-
-            /**
-             * @brief       Returns the value as a formatted string.
-             *
-             * @returns     the value as a formatted string.
-             */
-            auto toString(double value) -> QString;
 
             /**
              * @brief       Loads the configuration from disk.
@@ -103,6 +106,67 @@ namespace Nedrysoft::RouteAnalyser {
              */
             auto setCriticalValue(QString value) -> void;
 
+            /**
+             * @brief       Returns the colour used for ideal latency values.
+             *
+             * @returns     the colour.
+             */
+            auto idealColour() -> QRgb;
+
+            /**
+             * @brief       Returns the colour used for warning latency values.
+             *
+             * @returns     the colour.
+             */
+            auto warningColour() -> QRgb;
+
+            /**
+             * @brief       Returns the colour used for critical latency values.
+             *
+             * @returns     the colour.
+             */
+            auto criticalColour() -> QRgb;
+
+            /**
+             * @brief       Sets the ideal colour for latency values.
+             *
+             * @param[in]   colour the colour.
+             */
+            auto setIdealColour(QRgb colour) -> void;
+
+            /**
+             * @brief       Sets the warning colour for latency values.
+             *
+             * @param[in]   colour the colour.
+             */
+            auto setWarningColour(QRgb colour) -> void;
+
+            /**
+             * @brief       Sets the critical colour for latency values.
+             *
+             * @param[in]   colour the colour.
+             */
+            auto setCriticalColour(QRgb colour) -> void;
+
+            /**
+             * @brief       Resets the colours back to default..
+             *
+             * @note        Under macOS if the theme is dark mode, then this function will reset to the dark mode
+             *              palette, under light mode it resets to the light mode palette.
+             * @return
+             */
+            auto resetColours() -> void;
+
+            /**
+             * @brief       Resets the threashold values back to default.
+             */
+            auto resetThresholds() -> void;
+
+            /**
+             * @brief       This signal is emitted when the user changes the default colours.
+             */
+            Q_SIGNAL void coloursChanged();
+
         public:
             /**
               * @brief       Saves the configuration to a JSON object.
@@ -120,9 +184,23 @@ namespace Nedrysoft::RouteAnalyser {
              */
             virtual auto loadConfiguration(QJsonObject configuration) -> bool;
 
+        public:
+            /**
+             * @brief       Returns the global instnace of the latency settings object.
+             *
+             * @returns     the global instance.
+             */
+            static auto getInstance() -> LatencySettings * {
+                return Nedrysoft::ComponentSystem::getObject<Nedrysoft::RouteAnalyser::LatencySettings>();
+            }
+
         private:
             double m_warningThreshold;
             double m_criticalThreshold;
+
+            QRgb m_idealColour;
+            QRgb m_warningColour;
+            QRgb m_criticalColour;
     };
 }
 
