@@ -90,7 +90,7 @@ namespace Nedrysoft::ICMPPingEngine {
 
         public:
             /**
-             * @brief       This signal is emitted when a  transmission result is available.
+             * @brief       This signal is emitted when a transmission result is available.
              *
              * @param[in]   result the result.
              */

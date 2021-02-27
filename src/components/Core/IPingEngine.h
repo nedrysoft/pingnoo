@@ -47,7 +47,7 @@ namespace Nedrysoft::Core {
             public Nedrysoft::Core::IConfiguration {
 
         private:
-            Q_OBJECT
+        Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
             Q_INTERFACES(Nedrysoft::Core::IConfiguration)
@@ -138,6 +138,13 @@ namespace Nedrysoft::Core {
              * @param[in]   result the result of a ping request.
              */
             Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
+
+            /**
+             * @brief       Returns the list of ping targets for the engine.
+             *
+             * @returns     a QList containing the list of targets.
+             */
+            virtual auto targets() -> QList<Nedrysoft::Core::IPingTarget *> = 0;
     };
 }
 

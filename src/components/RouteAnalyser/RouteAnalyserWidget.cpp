@@ -110,7 +110,7 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
                 this,
                 &RouteAnalyserWidget::onRouteResult);
 
-        routeEngine->findRoute(targetHost, ipVersion);
+        routeEngine->findRoute(pingEngineFactory, targetHost, ipVersion);
     }
 
     m_routeGraphDelegate = new RouteTableItemDelegate;
@@ -305,7 +305,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
         const QHostAddress &routeHostAddress,
-        const Nedrysoft::Core::RouteList &route ) -> void {
+        const Nedrysoft::Core::RouteList route ) -> void {
 
     Nedrysoft::Core::IRouteEngine *routeEngine = qobject_cast<Nedrysoft::Core::IRouteEngine *>(this->sender());
     auto hop = 1;
@@ -632,33 +632,8 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
     });
 
     m_scrollArea->widget()->setLayout(verticalLayout);
-/*
-    for (auto sourcePlot : m_plotList) {
-        connect(sourcePlot->xAxis, qOverload<const QCPRange &>(&QCPAxis::rangeChanged),
-                [this, sourcePlot](const QCPRange &range) {
 
-            auto newRange = range;
-            auto epoch = std::chrono::duration<double>(m_pingEngine->epoch().time_since_epoch());
-
-            if (newRange.lower < epoch.count()) {
-                newRange = QCPRange(epoch.count(), epoch.count() + m_viewportSize);
-
-                sourcePlot->xAxis->setRange(newRange);
-            }
-
-            for (auto targetPlot : m_plotList) {
-                if (sourcePlot == targetPlot) {
-                    continue;
-                }
-
-                targetPlot->xAxis->setRange(newRange);
-
-                if (!targetPlot->visibleRegion().isNull()) {
-                    targetPlot->replot();
-                }
-            }
-        });
-    }*/
+    m_pingEngine->start();
 }
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::eventFilter(QObject *watched, QEvent *event) -> bool {

@@ -29,10 +29,11 @@
 #include "Core/IPingEngineFactory.h"
 
 #include <memory>
+#include <chrono>
 
 namespace Nedrysoft::ICMPPingEngine {
     class ICMPPingEngineData;
-
+    class ICMPPingTransitter;
     class ICMPPingItem;
 
     /**
@@ -66,7 +67,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     returns true on success; otherwise false.
              */
-            virtual auto setInterval(std::chrono::milliseconds interval) -> bool;
+            virtual auto setInterval(std::chrono::milliseconds interval) -> bool override;
 
             /**
              * @brief       Returns the interval set on the engine.
@@ -75,7 +76,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     the interval.
              */
-            virtual auto interval() -> std::chrono::milliseconds;
+            auto interval() -> std::chrono::milliseconds override;
 
             /**
              * @brief       Sets the reply timeout for this engine instance.
@@ -86,7 +87,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual auto setTimeout(std::chrono::milliseconds timeout) -> bool;
+            auto setTimeout(std::chrono::milliseconds timeout) -> bool override;
 
             /**
              * @brief       Starts ping operations for this engine instance.
@@ -95,7 +96,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual auto start() -> bool;
+            auto start() -> bool override;
 
             /**
              * @brief       Stops ping operations for this engine instance.
@@ -104,7 +105,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual auto stop() -> bool;
+            auto stop() -> bool override;
 
             /**
              * @brief       Adds a ping target to this engine instance.
@@ -115,7 +116,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     returns a pointer to the created ping target.
              */
-            virtual auto addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget *;
+            auto addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget * override;
 
             /**
              * @brief       Adds a ping target to this engine instance.
@@ -127,7 +128,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     returns a pointer to the created ping target.
              */
-            virtual auto addTarget(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::IPingTarget *;
+            auto addTarget(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::IPingTarget * override;
 
             /**
              * @brief       Removes a ping target from this engine instance.
@@ -138,7 +139,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual auto removeTarget(Nedrysoft::Core::IPingTarget *target) -> bool;
+            auto removeTarget(Nedrysoft::Core::IPingTarget *target) -> bool override;
 
             /**
              * @brief       Gets the epoch for this engine instance.
@@ -147,7 +148,14 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     the time epoch.
              */
-            virtual auto epoch() -> std::chrono::system_clock::time_point;
+            auto epoch() -> std::chrono::system_clock::time_point override;
+
+            /**
+             * @brief       Returns the list of ping targets for the engine.
+             *
+             * @returns     a QList containing the list of targets.
+             */
+            auto targets() -> QList<Nedrysoft::Core::IPingTarget *> override;
 
         public:
             /**
@@ -157,7 +165,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     the JSON configuration.
              */
-            virtual auto saveConfiguration() -> QJsonObject;
+            auto saveConfiguration() -> QJsonObject override;
 
             /**
              * @brief       Loads the configuration.
@@ -168,7 +176,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
+            auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         private:
             /**
@@ -243,9 +251,19 @@ namespace Nedrysoft::ICMPPingEngine {
              */
             auto version() -> Nedrysoft::Core::IPVersion;
 
+            /**
+             * @brief       Stops all ping transmissions for this instance.
+             *
+             * @note        This controls the actual logic for stopping transmissions, it is called by the
+             *              destructor and the stop() virtual function.  Virtual function should not be called
+             *              by a destructor, so this acts as a shim.
+             *
+             * @returns     true if transmissions could be stopped; otherwise false.
+             */
+            auto doStop() -> bool;
+
             friend class ICMPPingTransmitter;
             friend class ICMPPingTimeout;
-
 
         protected:
             std::shared_ptr<ICMPPingEngineData> d;
