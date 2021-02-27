@@ -166,7 +166,7 @@ auto Nedrysoft::RouteEngine::RouteEngine::findRoute(
         Q_EMIT result(m_targetAddresses[0], route);
 
         m_pingEngine->stop();
-        
+
         // TODO: can't delete as it will cause a crash, so need to add a deleteEngine() functio
         // to the factory to remove the engine from its internal list and delete it.
     });
