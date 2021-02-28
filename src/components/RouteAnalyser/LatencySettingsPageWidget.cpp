@@ -84,6 +84,8 @@ Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(Q
     ui->idealWidget->setColour(latencySettings->idealColour());
     ui->warningWidget->setColour(latencySettings->warningColour());
     ui->criticalWidget->setColour(latencySettings->criticalColour());
+
+    ui->gradientFillcheckBox->setChecked(latencySettings->gradientFill() ? Qt::Checked : Qt::Unchecked);
 }
 
 Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::~LatencySettingsPageWidget() {

@@ -31,6 +31,7 @@
 #include "Core/IPingEngineFactory.h"
 #include "Core/IPingTarget.h"
 #include "Core/IRouteEngineFactory.h"
+#include "LatencySettings.h"
 #include "GraphLatencyLayer.h"
 #include "PlotScrollArea.h"
 #include "RouteTableItemDelegate.h"
@@ -49,7 +50,6 @@ constexpr std::chrono::duration<double> DefaultMaxLatency = 0.01s;
 constexpr auto DefaultTimeWindow = 60.0*10;
 constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
-constexpr auto useSmoothGradient = true;
 constexpr auto NoReplyColour = qRgb(255,0,0);
 
 QMap< Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::headerMap() {
@@ -86,8 +86,9 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
         m_startPoint(-1),
         m_endPoint(0) {
 
-    // TODO: Refactor route engine to use the selected ping engine rather than creating multiple route engines
-    // which only differ by the ping implementation.
+    auto latencySettings = Nedrysoft::RouteAnalyser::LatencySettings::getInstance();
+
+    assert(latencySettings!=nullptr);
 
     auto routeEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IRouteEngineFactory>();
 
@@ -115,7 +116,7 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
 
     m_routeGraphDelegate = new RouteTableItemDelegate;
 
-    m_routeGraphDelegate->setGradientEnabled(useSmoothGradient);
+    m_routeGraphDelegate->setGradientEnabled(latencySettings->gradientFill());
 
     connect(this, &QObject::destroyed, m_routeGraphDelegate, [this](QObject *) {
         delete m_routeGraphDelegate;
@@ -313,6 +314,10 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
     SPDLOG_TRACE("Got route result");
 
+    auto latencySettings = Nedrysoft::RouteAnalyser::LatencySettings::getInstance();
+
+    assert(latencySettings!=nullptr);
+
     if (routeEngine) {
         disconnect(
                 routeEngine,
@@ -364,7 +369,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             m_backgroundLayers.append(latencyLayer);
 
-            latencyLayer->setGradientEnabled(useSmoothGradient);
+            latencyLayer->setGradientEnabled(latencySettings->gradientFill());
 
             customPlot->setCurrentLayer("main");
 

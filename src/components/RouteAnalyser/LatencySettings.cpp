@@ -43,7 +43,8 @@ Nedrysoft::RouteAnalyser::LatencySettings::LatencySettings() :
         m_criticalThreshold(CriticalDefaultValue),
         m_idealColour(Nedrysoft::RouteAnalyser::ColourManager::getIdealColour()),
         m_warningColour(Nedrysoft::RouteAnalyser::ColourManager::getWarningColour()),
-        m_criticalColour(Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()) {
+        m_criticalColour(Nedrysoft::RouteAnalyser::ColourManager::getCriticalColour()),
+        m_useGradientFill(true) {
 
 }
 
@@ -69,6 +70,7 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::saveConfiguration() -> QJsonObje
     coloursObject.insert("ideal", QColor(m_idealColour).name());
     coloursObject.insert("warning", QColor(m_warningColour).name());
     coloursObject.insert("critical", QColor(m_criticalColour).name());
+    coloursObject.insert("useGradient", m_useGradientFill);
 
     rootObject.insert("colours", coloursObject);
 
@@ -106,6 +108,11 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::loadConfiguration(QJsonObject co
         if (coloursObject.contains("critical")) {
             m_criticalColour = QColor(coloursObject["critical"].toString()).rgb();
         }
+
+        if (coloursObject.contains("useGradient")) {
+            qDebug() << coloursObject.value("useGradient").toBool();
+            m_useGradientFill = false;//coloursObject.value("useGradient").toBool();
+        }
     }
 
     return true;
@@ -120,6 +127,8 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::criticalValue() -> double {
 }
 
 auto Nedrysoft::RouteAnalyser::LatencySettings::loadFromFile(QString filename, bool append) -> bool {
+    Q_UNUSED(append)
+
     QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
 
     if (configPaths.count()) {
@@ -238,4 +247,12 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::resetColours() -> void {
 auto Nedrysoft::RouteAnalyser::LatencySettings::resetThresholds() -> void {
     m_warningThreshold = WarningDefaultValue;
     m_criticalThreshold = CriticalDefaultValue;
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::setGradientFill(bool useGradient) -> void {
+    m_useGradientFill = useGradient;
+}
+
+auto Nedrysoft::RouteAnalyser::LatencySettings::gradientFill() -> bool {
+    return m_useGradientFill;
 }

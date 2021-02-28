@@ -96,7 +96,8 @@ namespace Nedrysoft::Core {
               *
               * @returns    true if the engine was deleted; otherwise false.
               */
-             virtual auto deleteEngine(Nedrysoft::Core::IPingEngine *) -> bool = 0;
+             virtual auto deleteEngine(Nedrysoft::Core::IPingEngine *engine) -> bool = 0;
+
     };
 }
 

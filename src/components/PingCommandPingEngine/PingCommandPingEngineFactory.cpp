@@ -69,3 +69,9 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngineFactory::available()
 #endif
     return false;
 }
+
+auto Nedrysoft::PingCommandPingEngineFactory::PingCommandPingEngineFactory::deleteEngine(
+        Nedrysoft::Core::IPingEngine *engine) -> bool {
+
+    return true;
+}

@@ -154,17 +154,6 @@ namespace Nedrysoft::PingCommandPingEngine {
              */
             auto targets() -> QList<Nedrysoft::Core::IPingTarget *> override;
 
-            /**
-             * @brief      Deletes a ping engine that was created by this instance.
-             *
-             * @note       If the ping engine is still running, this function will stop it.
-             *
-             * @param[in]  pingEngine the ping engine to be removed.
-             *
-             * @returns    true if the engine was deleted; otherwise false.
-             */
-            auto deleteEngine(Nedrysoft::Core::IPingEngine *) -> bool override;
-
         public:
             /**
              * @brief       Saves the configuration to a JSON object.
