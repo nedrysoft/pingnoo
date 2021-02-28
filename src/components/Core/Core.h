@@ -78,7 +78,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     returns a pointer to the QMainWindow.
              */
-            virtual auto mainWindow() -> QMainWindow *;
+            auto mainWindow() -> QMainWindow * override;
 
             /**
              * @brief       Opens the core.

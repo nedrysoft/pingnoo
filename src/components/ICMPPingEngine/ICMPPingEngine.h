@@ -67,7 +67,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @returns     returns true on success; otherwise false.
              */
-            virtual auto setInterval(std::chrono::milliseconds interval) -> bool override;
+            auto setInterval(std::chrono::milliseconds interval) -> bool override;
 
             /**
              * @brief       Returns the interval set on the engine.

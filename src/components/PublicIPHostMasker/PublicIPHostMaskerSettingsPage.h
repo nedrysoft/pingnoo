@@ -68,12 +68,12 @@ namespace Nedrysoft::PublicIPHostMasker {
                 /**
                  * @brief       Reimplements IHostMaskerSettingsPage::canAcceptSettings()
                  */
-                virtual auto canAcceptSettings() -> bool override;
+                auto canAcceptSettings() -> bool override;
 
                 /**
                  * @brief       Reimplements IHostMaskerSettingsPage::acceptSettings()
                  */
-                virtual auto acceptSettings() -> void override;
+                auto acceptSettings() -> void override;
 
         public:
             PublicIPHostMaskerSettingsPageWidget *m_settingsPageWidget;

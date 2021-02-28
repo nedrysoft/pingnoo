@@ -65,7 +65,7 @@ namespace Nedrysoft::RouteEngine {
              *
              * @returns     the route engine instance.
              */
-            virtual auto createEngine() -> Nedrysoft::Core::IRouteEngine *;
+            auto createEngine() -> Nedrysoft::Core::IRouteEngine * override;
 
             /**
              * @brief       Returns the descriptive name of the route engine.
@@ -75,7 +75,7 @@ namespace Nedrysoft::RouteEngine {
              *
              * @returns     the descriptive name of the route engine.
              */
-            virtual auto description() -> QString;
+            auto description() -> QString override;
 
         /**
              * @brief       Priority of the route engine.  The priority is 0=lowest, 1=highest.  This allows
@@ -83,7 +83,7 @@ namespace Nedrysoft::RouteEngine {
              *
              * @returns     the priority.
              */
-            virtual auto priority() -> double;
+            auto priority() -> double override;
 
         private:
             /**
@@ -91,7 +91,7 @@ namespace Nedrysoft::RouteEngine {
              *
              * @returns     the JSON configuration.
              */
-            virtual auto saveConfiguration() -> QJsonObject;
+            auto saveConfiguration() -> QJsonObject override;
 
             /**
              * @brief       Loads the configuration.
@@ -100,7 +100,7 @@ namespace Nedrysoft::RouteEngine {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
+            auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         protected:
             std::shared_ptr<RouteEngineFactoryData> d;

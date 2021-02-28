@@ -70,10 +70,10 @@ namespace Nedrysoft::RouteEngine {
              * @param[in]   host the target host name or address.
              * @param[in]   ipVersion the IP version to be used for discovery.
              */
-            virtual auto findRoute(
+            auto findRoute(
                     Nedrysoft::Core::IPingEngineFactory *engineFactory,
                     QString host,
-                    Nedrysoft::Core::IPVersion ipVersion = Nedrysoft::Core::IPVersion::V4 ) -> void;
+                    Nedrysoft::Core::IPVersion ipVersion = Nedrysoft::Core::IPVersion::V4 ) -> void override;
 
         private:
             Nedrysoft::Core::IPVersion m_ipVersion;                    //! The IP version to use for the route finder instance.

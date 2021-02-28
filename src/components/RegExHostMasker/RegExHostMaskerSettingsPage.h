@@ -63,17 +63,17 @@ namespace Nedrysoft::RegExHostMasker {
                  *
                  * @returns     the displayed name of the settings page.
                  */
-                virtual auto displayName() -> QString override;
+                auto displayName() -> QString override;
 
                 /**
                  * @brief       Reimplements IHostMaskerSettingsPage::canAcceptSettings()
                  */
-                virtual auto canAcceptSettings() -> bool override;
+                auto canAcceptSettings() -> bool override;
 
                 /**
                  * @brief       Reimplements IHostMaskerSettingsPage::acceptSettings()
                  */
-                virtual auto acceptSettings() -> void override;
+                auto acceptSettings() -> void override;
 
             private:
                 RegExHostMaskerSettingsPageWidget *m_settingsPageWidget;

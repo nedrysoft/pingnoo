@@ -60,14 +60,14 @@ class NEDRYSOFT_ROUTEENGINE_DLLSPEC RouteEngineComponent :
          *
          * @details     Called by the component loader after all components have been loaded, called in load order.
          */
-        virtual auto initialiseEvent() -> void;
+        auto initialiseEvent() -> void override;
 
         /**
          * @brief       The finaliseEvent function is called by the component system during shutdown.
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::finaliseEvent
          */
-        virtual auto finaliseEvent() -> void;
+        auto finaliseEvent() -> void override;
 
     private:
         Nedrysoft::RouteEngine::RouteEngineFactory *m_routeEngineFactory;

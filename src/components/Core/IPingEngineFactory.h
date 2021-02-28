@@ -86,6 +86,17 @@ namespace Nedrysoft::Core {
               * @returns    true if available; otherwise false.
               */
              virtual auto available() -> bool = 0;
+
+             /**
+              * @brief      Deletes a ping engine that was created by this instance.
+              *
+              * @note       If the ping engine is still running, this function will stop it.
+              *
+              * @param[in]  pingEngine the ping engine to be removed.
+              *
+              * @returns    true if the engine was deleted; otherwise false.
+              */
+             virtual auto deleteEngine(Nedrysoft::Core::IPingEngine *) -> bool = 0;
     };
 }
 

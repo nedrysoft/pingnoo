@@ -73,7 +73,7 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
-        virtual auto initialiseEvent() -> void;
+        auto initialiseEvent() -> void override;
 
         /**
          * @brief       initialisationFinishedEvent
@@ -83,7 +83,7 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::initialisationFinishedEvent
          */
-        virtual auto initialisationFinishedEvent() -> void;
+        auto initialisationFinishedEvent() -> void override;
 
         /**
          * @brief       finaliseEvent
@@ -92,7 +92,7 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::finaliseEvent
          */
-        virtual auto finaliseEvent() -> void;
+        auto finaliseEvent() -> void override;
 
     private:
         Nedrysoft::Core::Core *m_core;

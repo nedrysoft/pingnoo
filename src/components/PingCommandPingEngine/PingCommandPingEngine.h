@@ -64,7 +64,7 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns     returns true on success; otherwise false.
              */
-            virtual auto setInterval(std::chrono::milliseconds interval) -> bool;
+            auto setInterval(std::chrono::milliseconds interval) -> bool override;
 
             /**
              * @brief       Returns the measurement interval.
@@ -73,7 +73,7 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns     returns the measurement interval.
              */
-            virtual auto interval() -> std::chrono::milliseconds;
+            auto interval() -> std::chrono::milliseconds override;
 
             /**
              * @brief       Sets the reply timeout for this engine instance.
@@ -84,7 +84,7 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual auto setTimeout(std::chrono::milliseconds timeout) -> bool;
+            auto setTimeout(std::chrono::milliseconds timeout) -> bool override;
 
             /**
              * @brief       Starts ping operations for this engine instance.
@@ -93,7 +93,7 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual auto start() -> bool;
+            auto start() -> bool override;
 
             /**
              * @brief       Stops ping operations for this engine instance.
@@ -102,7 +102,7 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual auto stop() -> bool;
+            auto stop() -> bool override;
 
             /**
              * @brief       Adds a ping target to this engine instance.
@@ -113,7 +113,7 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns     returns a pointer to the created ping target.
              */
-            virtual auto addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget *;
+            auto addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget * override;
 
             /**
              * @brief       Adds a ping target to this engine instance.
@@ -125,7 +125,7 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns     returns a pointer to the created ping target.
              */
-            virtual auto addTarget(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::IPingTarget *;
+            auto addTarget(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::IPingTarget * override;
 
             /**
              * @brief       Removes a ping target from this engine instance.
@@ -136,7 +136,7 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual auto removeTarget(Nedrysoft::Core::IPingTarget *target) -> bool;
+            auto removeTarget(Nedrysoft::Core::IPingTarget *target) -> bool override;
 
             /**
              * @brief       Gets the epoch for this engine instance.
@@ -145,7 +145,25 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns     the time epoch.
              */
-            virtual auto epoch() -> std::chrono::system_clock::time_point;
+            auto epoch() -> std::chrono::system_clock::time_point override;
+
+            /**
+             * @brief       Returns the list of ping targets for the engine.
+             *
+             * @returns     a QList containing the list of targets.
+             */
+            auto targets() -> QList<Nedrysoft::Core::IPingTarget *> override;
+
+            /**
+             * @brief      Deletes a ping engine that was created by this instance.
+             *
+             * @note       If the ping engine is still running, this function will stop it.
+             *
+             * @param[in]  pingEngine the ping engine to be removed.
+             *
+             * @returns    true if the engine was deleted; otherwise false.
+             */
+            auto deleteEngine(Nedrysoft::Core::IPingEngine *) -> bool override;
 
         public:
             /**
@@ -155,7 +173,7 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns     the JSON configuration.
              */
-            virtual auto saveConfiguration() -> QJsonObject;
+            auto saveConfiguration() -> QJsonObject override;
 
             /**
              * @brief       Loads the configuration.
@@ -166,7 +184,7 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
+            auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         private:
             auto emitResult(Nedrysoft::Core::PingResult pingResult) -> void;

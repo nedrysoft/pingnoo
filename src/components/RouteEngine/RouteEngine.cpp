@@ -35,7 +35,7 @@
 
 using namespace std::chrono_literals;
 
-constexpr auto DefaultTerminateThreadTimeout = 5s;
+constexpr auto DefaultDiscoveryTimeout = 3s;
 constexpr auto MaxRouteHops = 64;
 
 Nedrysoft::RouteEngine::RouteEngine::RouteEngine() :
@@ -72,7 +72,7 @@ auto Nedrysoft::RouteEngine::RouteEngine::findRoute(
 
     m_timeoutTimer = new QTimer();
 
-    m_timeoutTimer->setInterval(DefaultTerminateThreadTimeout);
+    m_timeoutTimer->setInterval(DefaultDiscoveryTimeout);
     m_timeoutTimer->setSingleShot(true);
 
     m_timeoutTimer->start();

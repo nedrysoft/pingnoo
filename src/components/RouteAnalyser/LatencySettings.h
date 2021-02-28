@@ -173,7 +173,7 @@ namespace Nedrysoft::RouteAnalyser {
               *
               * @returns     the JSON configuration.
               */
-            virtual auto saveConfiguration() -> QJsonObject;
+            auto saveConfiguration() -> QJsonObject override;
 
             /**
              * @brief       Loads the configuration.
@@ -182,7 +182,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
+            auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         public:
             /**

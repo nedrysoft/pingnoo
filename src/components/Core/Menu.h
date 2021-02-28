@@ -112,7 +112,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     The Nedrysoft::Core::MenuTypes type of the menu.
              */
-            virtual auto type() -> Nedrysoft::Core::MenuTypes;
+            auto type() -> Nedrysoft::Core::MenuTypes override;
 
             /**
              * @brief       Returns the QMenu if this is a menu.
@@ -121,7 +121,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the menu instance.
              */
-            virtual auto menu() -> QMenu *;
+            auto menu() -> QMenu * override;
 
             /**
              * @brief       Returns the QMenuBar if this is a menu bar.
@@ -130,7 +130,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     the menubar instance.
              */
-            virtual auto menuBar() -> QMenuBar *;
+            auto menuBar() -> QMenuBar * override;
 
             /**
              * @brief       Inserts a new group into the start of the menu.
@@ -142,7 +142,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   groupIdentifier the identifier of the group.
              */
-            virtual auto insertGroup(QString groupIdentifier) -> void;
+            auto insertGroup(QString groupIdentifier) -> void override;
 
             /**
              * @brief       Appends a new group to the end of the menu.
@@ -154,7 +154,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   groupIdentifier the identifier of the group.
              */
-            virtual auto appendGroup(QString groupIdentifier) -> void;
+            auto appendGroup(QString groupIdentifier) -> void override;
 
             /**
              * @brief       Adds a new group before the given identifier.
@@ -169,7 +169,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     true if added; otherwise false.
              */
-            virtual auto addGroupBefore(QString beforeIdentifier, QString groupIdentifier) -> bool;
+            auto addGroupBefore(QString beforeIdentifier, QString groupIdentifier) -> bool override;
 
             /**
              * @brief       Adds a new group after the given identifier.
@@ -184,7 +184,7 @@ namespace Nedrysoft::Core {
              *
              * @returns     true if added; otherwise false.
              */
-            virtual auto addGroupAfter(QString afterIdentifier, QString groupIdentifier) -> bool;
+            auto addGroupAfter(QString afterIdentifier, QString groupIdentifier) -> bool override;
 
             /**
              * @brief       Appends a command to the end of a group.
@@ -196,7 +196,7 @@ namespace Nedrysoft::Core {
              * @param[in]   command the command to add.
              * @param[in]   groupIdentifier the identifier of the group.
              */
-            virtual auto appendCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString()) -> void;
+            auto appendCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString()) -> void override;
 
             /**
              * @brief       Inserts a command to the start of a group.
@@ -208,7 +208,7 @@ namespace Nedrysoft::Core {
              * @param[in]   command the command to add.
              * @param[in]   groupIdentifier the identifier of the group.
              */
-            virtual auto insertCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString()) -> void;
+            auto insertCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString()) -> void override;
 
         private:
             /**

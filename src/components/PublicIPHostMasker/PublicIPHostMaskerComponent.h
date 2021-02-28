@@ -65,14 +65,14 @@ class NEDRYSOFT_PUBLICIPHOSTMASKER_DLLSPEC PublicIPHostMaskerComponent :
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
-        virtual auto initialiseEvent() -> void;
+        auto initialiseEvent() -> void override;
 
         /**
          * @brief       The finaliseEvent function is called by the component system during shutdown.
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::finaliseEvent
          */
-        virtual auto finaliseEvent() -> void;
+        auto finaliseEvent() -> void override;
 
     private:
 
