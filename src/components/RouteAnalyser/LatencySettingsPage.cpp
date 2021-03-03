@@ -50,7 +50,11 @@ auto Nedrysoft::RouteAnalyser::LatencySettingsPage::description() -> QString {
 }
 
 auto Nedrysoft::RouteAnalyser::LatencySettingsPage::icon() -> QIcon {
-    return QIcon(":/RouteAnalyser/icons/analyser.png");
+#if !defined(Q_OS_MACOS)
+    return QIcon(":/RouteAnalyser/icons/1x/twotone_alt_route_black_24dp.png");
+#else
+    return QIcon(":/RouteAnalyser/icons/1x/twotone_alt_route_white_24dp.png");
+#endif
 }
 
 auto Nedrysoft::RouteAnalyser::LatencySettingsPage::createWidget() -> QWidget * {

@@ -38,7 +38,7 @@
       <widget class="Nedrysoft::Ribbon::RibbonDropButton" name="favouriteDropButton">
        <property name="icon">
         <iconset resource="icons.qrc">
-         <normaloff>:/RouteAnalyser/icons/favourite.png</normaloff>:/RouteAnalyser/icons/favourite.png</iconset>
+         <normaloff>:/RouteAnalyser/icons/2x/twotone_bookmarks_white_24dp.png</normaloff>:/RouteAnalyser/icons/2x/twotone_bookmarks_white_24dp.png</iconset>
        </property>
       </widget>
      </item>

@@ -48,9 +48,9 @@ auto Nedrysoft::Core::HostMaskerSettingsPage::description() -> QString {
 
 auto Nedrysoft::Core::HostMaskerSettingsPage::icon() -> QIcon {
 #if !defined(Q_OS_MACOS)
-    return QIcon(":/Core/Icons/mask-inverted.png");
+    return QIcon(":/Core/icons/1x/twotone_security_black_24dp.png");
 #else
-    return QIcon(":/Core/Icons/mask.png");
+    return QIcon(":/Core/icons/1x/twotone_security_white_24dp.png");
 #endif
 }
 
