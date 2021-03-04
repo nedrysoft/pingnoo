@@ -27,24 +27,28 @@
 #import <AppKit/NSAppearance.h>
 
 auto Nedrysoft::Utils::ThemeSupport::isDarkMode() -> bool {
-    NSAppearance *appearance = nil;
+    if (@available(macOS 10.14, *)) {
+        NSAppearance *appearance = nil;
 
-    if (@available(macOS 11.0, *)) {
-        appearance = NSAppearance.currentDrawingAppearance;
-    } else if (@available(macOS 10.9, *)) {
+        if (@available(macOS 11.0, *)) {
+            appearance = NSAppearance.currentDrawingAppearance;
+        } else if (@available(macOS 10.9, *)) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        appearance = NSAppearance.currentAppearance;
+            appearance = NSAppearance.currentAppearance;
 #pragma clang diagnostic pop
-    } else {
-        return false;
+        } else {
+            return false;
+        }
+
+        NSAppearanceName basicAppearance = [appearance bestMatchFromAppearancesWithNames:@[
+                NSAppearanceNameAqua,
+                NSAppearanceNameDarkAqua
+        ]];
+
+        return [basicAppearance isEqualToString:NSAppearanceNameDarkAqua] == YES;
     }
 
-    NSAppearanceName basicAppearance = [appearance bestMatchFromAppearancesWithNames:@[
-            NSAppearanceNameAqua,
-            NSAppearanceNameDarkAqua
-    ]];
-
-    return [basicAppearance isEqualToString:NSAppearanceNameDarkAqua] == YES;
+    return false;
 }
 
