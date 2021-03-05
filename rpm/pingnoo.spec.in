@@ -1,47 +1,72 @@
-# Copyright (C) 2019 Adrian Carpenter
+# Copyright (C) 2019-21 Adrian Carpenter, et al
 #
 # This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
 #
 # An open-source cross-platform traceroute analyser.
 #
-# Created by Adrian Carpenter on 27/03/2020.
-#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
 Name:           pingnoo
-Version:        $version
-Release:        $release
+Version:        ${version}
+Release:        ${release}
 Summary:        A network traceroute analyser
 License:        GPLv3+
 URL:            https://www.pingnoo.com
-Requires:		$dependencies
+Source:         pingnoo-%{version}.tar
+BuildRequires:  cmake cmake-rpm-macros dbus-devel make g++ qt5-devel python-qt5-rpm-macros rpmlib(FileCaps)
 
-%description 
+%prep
+%setup -q
+mkdir build
+cd build
+%cmake -DCMAKE_BUILD_TYPE=${cmake_build_type} -DCMAKE_SKIP_RPATH=True ..
+
+%build
+cd build
+%cmake_build
+
+%install
+for dir in %{_bindir} /etc/ld.so.conf.d/ /usr/share/applications/ /usr/share/icons/hicolor/512x512/apps/ %{_lib}/%{name} %{_docdir}; do
+  mkdir -p %{buildroot}/$${dir}
+done
+
+ln -sf /%{_lib}/%{name}/Pingnoo %{buildroot}/%{_bindir}/pingnoo
+echo /%{_lib}/%{name}/ > %{buildroot}/etc/ld.so.conf.d/pingnoo.conf
+echo /%{_lib}/%{name}/Components >> %{buildroot}/etc/ld.so.conf.d/pingnoo.conf
+mv dpkg/Pingnoo.desktop %{buildroot}/usr/share/applications/
+mv src/app/images/appicon-512x512-.png %{buildroot}/usr/share/icons/hicolor/512x512/apps/pingnoo.png
+mv bin/${build_arch}/${cmake_build_type}/* %{buildroot}/%{_lib}/%{name}/
+mv dpkg/copyright %{buildroot}/%{_docdir}/
+
+# As of 2/2021, there are no self-tests
+# %%check
+# %%ctest
+
+%description
 A network traceroute analyser
 
 %files
-/usr/local/bin/pingnoo
+/%{_bindir}/pingnoo
 /etc/ld.so.conf.d/pingnoo.conf
 /usr/share/applications/Pingnoo.desktop
-/usr/share/doc/pingnoo/copyright
 /usr/share/icons/hicolor/512x512/apps/pingnoo.png
+%dir /%{_lib}/%{name}
+/%{_lib}/%{name}
+%caps(cap_net_raw=+ep) /%{_lib}/%{name}/Pingnoo
+%license %{_docdir}/copyright
 
-%post
-set -e
-setcap cap_net_raw=+ep /usr/local/bin/pingnoo/Pingnoo
-ldconfig
+%post -p /sbin/ldconfig
 
-%clean
-echo "no clean!"
+%postun -p /sbin/ldconfig
