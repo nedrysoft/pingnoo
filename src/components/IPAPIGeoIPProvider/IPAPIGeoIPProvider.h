@@ -69,7 +69,7 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
              *
              * @param[in]   host the host address to be looked up.
              */
-            virtual auto lookup(const QString host) -> void;
+             auto lookup(const QString host) -> void override;
 
             /**
              * @brief       Performs a host lookup using IP address or hostname.
@@ -82,7 +82,7 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
              * @param[in]   host the host address to be looked up.
              * @param[in]   function the function called when a result is available.
              */
-            virtual auto lookup(const QString host, Nedrysoft::Core::GeoFunction function) -> void;
+            auto lookup(const QString host, Nedrysoft::Core::GeoFunction function) -> void override;
 
 
         private:

@@ -23,27 +23,66 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# this script installs the required packages to build pingnoo on a fedora container.
+# this script installs the required packages to build pingnoo on an ubuntu 16.04 LTS container.
 # it is intended for internal use only when setting up build containers for CI
 
 # http://download.proxmox.com/images/system/ contains all available containers, the proxmox GUI doesn't show a lot
 # of these so you can manually download and install.
 
+# FUSE requires the following lines to be added to the containers configuration
+# in addition you need to enable FUSE on the container in the settings
+
+# /etc/pve/lxc/<$container_id>.conf
+# ----
+# lxc.autodev: 1
+# lxc.hook.autodev: sh -c "mknod -m 0666 ${LXC_ROOTFS_MOUNT}/dev/fuse c 10 229"
+# ----
+
 # prerequisites for building
 
-dnf -y group install "C Development Tools and Libraries"
-dnf -y install cmake
-dnf -y install git
-dnf -y install qt5-qtbase-devel
-dnf -y install qt5-qtquickcontrols2-devel
-dnf -y install dbus-devel
-dnf -y install vim
+apt update -y
+
+apt install software-properties-common -y
+
+add-apt-repository ppa:git-core/ppa -y
+add-apt-repository ppa:ubuntu-toolchain-r/test
+add-apt-repository ppa:deadsnakes/ppa
+
+apt update -y
+
+apt remove --auto-remove python3.5 -y
+apt install curl -y
+apt install gcc-6 -y
+apt install g++-6 -y
+apt install unzip -y
+apt install vim -y
+apt install apt-get -y
+apt install mesa-common-dev -y
+apt install libdbus-1-dev -y
+apt install libxcb-xinerama0-dev -y
+apt install git -y
+apt install python3.9 -y
+apt install python3.9-dev -y
+apt install python3.9-venv -y
+
+update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 2
+
+# download and install cmake
+
+cd ~
+wget https://github.com/Kitware/CMake/releases/download/v3.20.0-rc2/cmake-3.20.0-rc2-linux-x86_64.sh
+chmod +x cmake-3.20.0-rc2-linux-x86_64.sh
+./cmake-3.20.0-rc2-linux-x86_64.sh --skip-license --prefix=/usr/local
+
+wget http://172.29.13.4/linux/qt5.15.2.tar.gz
+cd ~
+mkdir Qt
+cd Qt
+tar -xf ../qt5.15.2.tar.gz 2>/dev/null
 
 # get the teamcity build agent
 
-dnf -y install wget
-dnf -y install unzip
-dnf -y install java-11-openjdk
+apt-get install openjdk-8-jdk -y
 
 cd /tmp
 wget https://$1/update/buildAgentFull.zip
@@ -91,6 +130,8 @@ if [ $2 -eq "test" ]; then
 
     mkdir build
     cd build
-    cmake ..
+    CC=gcc-6 CXX=g++-6 /usr/local/bin/cmake .. -DCMAKE_PREFIX_PATH=/root/Qt/5.15.2/gcc_64
     make
 fi
+
+

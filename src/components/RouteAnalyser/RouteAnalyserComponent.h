@@ -80,14 +80,14 @@ class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
          *
          * @details     Called by the component loader after all components have been loaded, called in load order.
          */
-        virtual auto initialiseEvent() -> void;
+        auto initialiseEvent() -> void override;
 
         /**
          * @brief       The finaliseEvent is called by the component loader to initialise the component.
          *
          * @details     Called by the component loader after all components have been loaded, called in load order.
          */
-        virtual auto finaliseEvent() -> void;
+        auto finaliseEvent() -> void override;
 
         /**
          * @brief       The initialisationFinishedEvent function is called by the component loader after all
@@ -96,7 +96,7 @@ class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
          * @details     Called by the component loader after all components have been
          *              initialised, called in reverse load order.
          */
-        virtual auto initialisationFinishedEvent() -> void;
+        auto initialisationFinishedEvent() -> void override;
 
         friend class Nedrysoft::RouteAnalyser::RouteAnalyserEditor;
 

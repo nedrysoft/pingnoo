@@ -66,14 +66,14 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns     the new PingCommandPingEngine instance.
              */
-            virtual auto createEngine(Nedrysoft::Core::IPVersion version) -> Nedrysoft::Core::IPingEngine *;
+            auto createEngine(Nedrysoft::Core::IPVersion version) -> Nedrysoft::Core::IPingEngine * override;
 
             /**
              * @brief       Returns the descriptive name of the factory.
              *
              * @returns     the descriptive name of the ping engine.
              */
-            virtual auto description() -> QString;
+            auto description() -> QString override;
 
             /**
              * @brief       Priority of the ping engine.  The priority is 0=lowest, 1=highest.  This allows
@@ -81,7 +81,7 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns     the priority.
              */
-            virtual auto priority() -> double;
+            auto priority() -> double override;
 
             /**
              * @brief      Returns whether the ping engine is available for use.
@@ -91,7 +91,18 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns    true if available; otherwise false.
              */
-            virtual auto available() -> bool;
+            auto available() -> bool override;
+
+            /**
+             * @brief      Deletes a ping engine that was created by this instance.
+             *
+             * @note       If the ping engine is still running, this function will stop it.
+             *
+             * @param[in]  pingEngine the ping engine to be removed.
+             *
+             * @returns    true if the engine was deleted; otherwise false.
+             */
+            auto deleteEngine(Nedrysoft::Core::IPingEngine *engine) -> bool override;
 
         public:
             /**
@@ -99,7 +110,7 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns     the JSON configuration.
              */
-            virtual auto saveConfiguration() -> QJsonObject;
+            auto saveConfiguration() -> QJsonObject override;
 
             /**
              * @brief       Loads the configuration.
@@ -110,7 +121,7 @@ namespace Nedrysoft::PingCommandPingEngine {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
+            auto loadConfiguration(QJsonObject configuration) -> bool override;
     };
 }
 

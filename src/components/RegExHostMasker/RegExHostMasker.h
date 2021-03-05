@@ -130,12 +130,12 @@ namespace Nedrysoft::RegExHostMasker {
              *
              * @returns     returns true on replacement; otherwise false.
              */
-            virtual auto mask(
+            auto mask(
                     int hop,
                     const QString &hostName,
                     const QString &hostAddress,
                     QString &maskedHostName,
-                    QString &maskedHostAddress ) -> bool;
+                    QString &maskedHostAddress ) -> bool override;
 
         public:
             /**
@@ -145,7 +145,7 @@ namespace Nedrysoft::RegExHostMasker {
              *
              * @returns     the JSON configuration.
              */
-            virtual auto saveConfiguration() -> QJsonObject;
+            auto saveConfiguration() -> QJsonObject override;
 
             /**
              * @brief       Loads the configuration.
@@ -156,7 +156,7 @@ namespace Nedrysoft::RegExHostMasker {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
+            auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         private:
             /**

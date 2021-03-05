@@ -101,7 +101,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     the widget.
              */
-            virtual auto widget() -> QWidget *;
+            auto widget() -> QWidget * override;
 
             /**
              * @brief       Returns the display name for the editor.
@@ -113,19 +113,19 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     the displayed name of the editor.
              */
-            virtual auto displayName() -> QString;
+            auto displayName() -> QString override;
 
             /**
              * @brief       The editor manager calls this method when an editor is activated. (i.e becomes the active
              *              editor)
              */
-            virtual auto activated() -> void;
+            auto activated() -> void override;
 
             /**
              * @brief       The editor manager calls this method when an editor is deactivated. (i.e focus is lost)
              *              editor)
              */
-            virtual auto deactivated() -> void;
+            auto deactivated() -> void override;
 
         public:
             /**
@@ -135,7 +135,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     the JSON configuration.
              */
-            virtual auto saveConfiguration() -> QJsonObject;
+            auto saveConfiguration() -> QJsonObject override;
 
             /**
              * @brief       Loads the configuration.
@@ -146,7 +146,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
+            auto loadConfiguration(QJsonObject configuration) -> bool override;
 
             friend class RouteAnalyserWidget;
 

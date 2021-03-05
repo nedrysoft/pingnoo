@@ -167,13 +167,27 @@ namespace Nedrysoft::RouteAnalyser {
              */
             Q_SIGNAL void coloursChanged();
 
+            /**
+             * @brief       Sets whether gradient or solid fills are used to draw latency.
+             *
+             * @param[in]   useGradient true if use gradient; otherwise false (solid).
+             */
+            auto setGradientFill(bool useGradient) -> void;
+
+            /**
+             * @brief       Returns whether gradient fills are used.
+             *
+             * @returns     true if gradient fill; otherwise false (solid).
+             */
+            auto gradientFill() -> bool;
+
         public:
             /**
               * @brief       Saves the configuration to a JSON object.
               *
               * @returns     the JSON configuration.
               */
-            virtual auto saveConfiguration() -> QJsonObject;
+            auto saveConfiguration() -> QJsonObject override;
 
             /**
              * @brief       Loads the configuration.
@@ -182,7 +196,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
+            auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         public:
             /**
@@ -201,6 +215,8 @@ namespace Nedrysoft::RouteAnalyser {
             QRgb m_idealColour;
             QRgb m_warningColour;
             QRgb m_criticalColour;
+
+            bool m_useGradientFill;
     };
 }
 

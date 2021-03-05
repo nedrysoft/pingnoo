@@ -55,9 +55,7 @@ int main(int argc, char **argv) {
     auto componentLoader = new Nedrysoft::ComponentSystem::ComponentLoader;
     auto applicationInstance = new QApplication(argc, argv);
 
-    Nedrysoft::SplashScreen *splashScreen = nullptr;
-
-    splashScreen = Nedrysoft::SplashScreen::getInstance();
+    Nedrysoft::SplashScreen *splashScreen = splashScreen = Nedrysoft::SplashScreen::getInstance();
 
     splashScreen->show();
 

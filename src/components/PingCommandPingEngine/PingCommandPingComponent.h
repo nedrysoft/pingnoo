@@ -65,7 +65,7 @@ class NEDRYSOFT_PINGCOMMANDPINGENGINE_DLLSPEC PingCommandPingComponent :
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
-        virtual auto initialiseEvent() -> void;
+        auto initialiseEvent() -> void override;
 
         /**
          *  @brief       The finaliseEvent is called by the component loader to de-initialise the component.
@@ -74,7 +74,7 @@ class NEDRYSOFT_PINGCOMMANDPINGENGINE_DLLSPEC PingCommandPingComponent :
          *
          *  @see         Nedrysoft::ComponentSystem::IComponent::finaliseEvent
          */
-        virtual auto finaliseEvent() -> void;
+        auto finaliseEvent() -> void override;
 
     private:
         Nedrysoft::PingCommandPingEngine::PingCommandPingEngineFactory *m_engineFactory;
