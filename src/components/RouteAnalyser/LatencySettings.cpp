@@ -250,6 +250,8 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::resetThresholds() -> void {
 
 auto Nedrysoft::RouteAnalyser::LatencySettings::setGradientFill(bool useGradient) -> void {
     m_useGradientFill = useGradient;
+
+    Q_EMIT gradientChanged(useGradient);
 }
 
 auto Nedrysoft::RouteAnalyser::LatencySettings::gradientFill() -> bool {

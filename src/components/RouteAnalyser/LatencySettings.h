@@ -181,6 +181,13 @@ namespace Nedrysoft::RouteAnalyser {
              */
             auto gradientFill() -> bool;
 
+            /**
+             * @brief       Called when the state of the gradient fill changes.
+             *
+             * @paramin]    useGradient true to use gradient fill; otherwise false.
+             */
+            Q_SIGNAL void gradientChanged(bool useGradient);
+
         public:
             /**
               * @brief       Saves the configuration to a JSON object.

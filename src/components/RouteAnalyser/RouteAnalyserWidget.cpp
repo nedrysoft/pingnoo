@@ -116,6 +116,10 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
 
     m_routeGraphDelegate = new RouteTableItemDelegate;
 
+    connect(latencySettings, &Nedrysoft::RouteAnalyser::LatencySettings::gradientChanged, [=](bool useGradient) {
+        m_routeGraphDelegate->setGradientEnabled(useGradient);
+    });
+
     m_routeGraphDelegate->setGradientEnabled(latencySettings->gradientFill());
 
     connect(this, &QObject::destroyed, m_routeGraphDelegate, [this](QObject *) {
@@ -370,6 +374,13 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
             m_backgroundLayers.append(latencyLayer);
 
             latencyLayer->setGradientEnabled(latencySettings->gradientFill());
+
+            connect(
+                    latencySettings,
+                    &Nedrysoft::RouteAnalyser::LatencySettings::gradientChanged, [=](bool useGradient) {
+
+                latencyLayer->setGradientEnabled(useGradient);
+            });
 
             customPlot->setCurrentLayer("main");
 

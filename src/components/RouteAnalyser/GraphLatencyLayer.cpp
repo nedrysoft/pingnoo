@@ -56,6 +56,11 @@ Nedrysoft::RouteAnalyser::GraphLatencyLayer::GraphLatencyLayer(QCustomPlot *cust
 
 }
 
+auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::invalidate() -> void {
+    m_buffers.clear();
+    m_age.clear();
+}
+
 auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::removeUnused() -> void {
     QMutableMapIterator<QString, uint64_t> mapIterator(m_age);
 
@@ -174,4 +179,5 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
 
 auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::setGradientEnabled(bool useGradient) -> void {
     m_useGradient = useGradient;
+    invalidate();
 }

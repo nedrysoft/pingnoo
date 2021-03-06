@@ -203,6 +203,7 @@ macro(pingnoo_end_component)
     add_logging_library()
 
     target_include_directories(${pingnooCurrentProjectName} PRIVATE ".")
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ${CMAKE_BINARY_DIR})    # <- allows ui_ files to be available to the editor
 
     pingnoo_sign(\"${PINGNOO_COMPONENTS_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${pingnooCurrentProjectName}${CMAKE_SHARED_LIBRARY_SUFFIX}\")
 endmacro(pingnoo_end_component)
