@@ -1,7 +1,13 @@
 <RCC>
     <qresource prefix="/RouteAnalyser">
-        <file>icons/favourite.png</file>
-        <file>icons/favourite@2x.png</file>
-        <file>icons/analyser.png</file>
+        <file>icons/1x/twotone_bookmarks_black_24dp.png</file>
+        <file>icons/2x/twotone_bookmarks_black_24dp.png</file>
+        <file>icons/1x/twotone_bookmarks_white_24dp.png</file>
+        <file>icons/2x/twotone_bookmarks_white_24dp.png</file>
+
+        <file>icons/1x/twotone_alt_route_white_24dp.png</file>
+        <file>icons/1x/twotone_alt_route_black_24dp.png</file>
+        <file>icons/2x/twotone_alt_route_white_24dp.png</file>
+        <file>icons/2x/twotone_alt_route_black_24dp.png</file>
     </qresource>
 </RCC>

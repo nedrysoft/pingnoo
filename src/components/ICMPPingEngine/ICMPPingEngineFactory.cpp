@@ -112,3 +112,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::available() -> bool {
     return true;
 }
 
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::deleteEngine(Nedrysoft::Core::IPingEngine *) -> bool {
+    return true;
+}
+

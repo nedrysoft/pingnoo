@@ -187,6 +187,15 @@ The gatekeeper requirements in Mac OS mean that the application needs to be sign
 
 # Credits
 
+This project was created and maintained by [Adrian Carpenter](https://github.com/fizzyade).
+
+I thank the following people for contributing to the project:
+
+- [Aaron D. Marasco](https://github.com/AaronDMarasco)
+- [Paul Varghese](https://github.com/Paulls20)
+- [Stepan Michalek](https://github.com/Ste-Mich)
+- [Nick Boultonn](https://github.com/boultonn)
+
 Pingnoo uses the following third-party libraries/assets/tools/services in the development of Pingnoo.
 
 - [Qt](https://www.qt.io/download) - cross platform framework, licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html).

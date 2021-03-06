@@ -44,7 +44,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @returns     the tick formatted as a string.
              */
-            virtual auto getTickLabel(double tick, const QLocale &locale, QChar formatChar, int precision) -> QString;
+            auto getTickLabel(double tick, const QLocale &locale, QChar formatChar, int precision) -> QString override;
     };
 }
 

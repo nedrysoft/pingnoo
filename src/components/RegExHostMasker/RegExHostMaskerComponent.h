@@ -64,14 +64,14 @@ class NEDRYSOFT_REGEXHOSTMASKER_DLLSPEC RegExHostMaskerComponent :
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
-        virtual auto initialiseEvent() -> void;
+        auto initialiseEvent() -> void override;
 
         /**
          * @brief       The finaliseEvent function is called by the component system during shutdown.
          *
          * @see         Nedrysoft::ComponentSystem::IComponent::finaliseEvent
          */
-        virtual auto finaliseEvent() -> void;
+        auto finaliseEvent() -> void override;
 
         /**
          * @brief       The initialisationFinishedEvent function is called by the component loader after all
@@ -80,7 +80,7 @@ class NEDRYSOFT_REGEXHOSTMASKER_DLLSPEC RegExHostMaskerComponent :
          * @details     Called by the component loader after all components have been
          *              initialised, called in reverse load order.
          */
-        virtual auto initialisationFinishedEvent() -> void;
+        auto initialisationFinishedEvent() -> void override;
 
     private:
         Nedrysoft::RegExHostMasker::RegExHostMasker *m_hostMasker;

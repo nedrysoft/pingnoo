@@ -55,6 +55,11 @@ namespace Nedrysoft::RouteAnalyser {
              */
             static auto removeUnused() -> void;
 
+            /**
+             * @brief       Clears all offscreen buffers
+             */
+            auto invalidate() -> void;
+
         protected:
             /**
              * @brief       Draws the layer to the given painter.

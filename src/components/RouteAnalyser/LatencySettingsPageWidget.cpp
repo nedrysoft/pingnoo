@@ -46,25 +46,25 @@ Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(Q
     ui->warningWidget->setText(tr("warning"));
     ui->criticalWidget->setText(tr("critical"));
 
-    connect(ui->idealWidget, &LatencyWidget::colourChanged, [=](QColor colour) {
+    m_connections.append(connect(ui->idealWidget, &LatencyWidget::colourChanged, [=](QColor colour) {
         ui->idealWidget->setColour(colour);
-    });
+    }));
 
-    connect(ui->warningWidget, &LatencyWidget::colourChanged, [=](QColor colour) {
+    m_connections.append(connect(ui->warningWidget, &LatencyWidget::colourChanged, [=](QColor colour) {
         ui->warningWidget->setColour(colour);
-    });
+    }));
 
-    connect(ui->criticalWidget, &LatencyWidget::colourChanged, [=](QColor colour) {
+    m_connections.append(connect(ui->criticalWidget, &LatencyWidget::colourChanged, [=](QColor colour) {
         ui->criticalWidget->setColour(colour);
-    });
+    }));
 
-    connect(latencySettings, &LatencySettings::coloursChanged, [=]() {
+    m_connections.append(connect(latencySettings, &LatencySettings::coloursChanged, [=]() {
         ui->idealWidget->setColour(latencySettings->idealColour());
         ui->warningWidget->setColour(latencySettings->warningColour());
         ui->criticalWidget->setColour(latencySettings->criticalColour());
-    });
+    }));
 
-    connect(ui->resetPushButton, &QPushButton::clicked, [=](bool) {
+    m_connections.append(connect(ui->resetPushButton, &QPushButton::clicked, [=](bool) {
         // TODO: create a generic MessageBox which uses the native macOS message box or QMessageBox on other
         //       platforms.  Example can be found in libs/SettingsDialog/src/MacHalper.mm
 
@@ -76,7 +76,7 @@ Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(Q
         ui->criticalWidget->setColour(latencySettings->criticalColour());
 
         update();
-    });
+    }));
 
     ui->warningLineEdit->setText(Nedrysoft::Utils::intervalToString(latencySettings->warningValue()));
     ui->criticalLineEdit->setText(Nedrysoft::Utils::intervalToString(latencySettings->criticalValue()));
@@ -84,9 +84,22 @@ Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(Q
     ui->idealWidget->setColour(latencySettings->idealColour());
     ui->warningWidget->setColour(latencySettings->warningColour());
     ui->criticalWidget->setColour(latencySettings->criticalColour());
+
+    ui->gradientFillcheckBox->setChecked(latencySettings->gradientFill() ? Qt::Checked : Qt::Unchecked);
 }
 
 Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::~LatencySettingsPageWidget() {
+    LatencySettings *latencySettings = Nedrysoft::ComponentSystem::getObject<LatencySettings>();
+
+    for(auto connection: m_connections) {
+        disconnect(connection);
+    }
+
+    ui->resetPushButton->disconnect(this);
+    ui->criticalWidget->disconnect(this);
+    ui->warningWidget->disconnect(this);
+    ui->idealWidget->disconnect(this);
+
     delete ui;
 }
 
@@ -99,12 +112,18 @@ auto Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::acceptSettings() -> vo
 
     assert(latencySettings!=nullptr);
 
+    //latencySettings->blockSignals(true);
+
     latencySettings->setWarningValue(ui->warningLineEdit->text());
     latencySettings->setCriticalValue(ui->criticalLineEdit->text());
 
     latencySettings->setIdealColour(ui->idealWidget->colour().rgb());
     latencySettings->setWarningColour(ui->warningWidget->colour().rgb());
     latencySettings->setCriticalColour(ui->criticalWidget->colour().rgb());
+
+    latencySettings->setGradientFill(ui->gradientFillcheckBox->isChecked());
+
+    //latencySettings->blockSignals(false);
 
     latencySettings->saveToFile();
 }

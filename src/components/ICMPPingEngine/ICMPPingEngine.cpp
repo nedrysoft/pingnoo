@@ -42,6 +42,7 @@ using namespace std::chrono_literals;
 
 constexpr auto DefaultReceiveTimeout = 3s;
 constexpr auto DefaultTerminateThreadTimeout = 5s;
+constexpr auto DefaultTransmitInterval = 2.5s;
 
 class Nedrysoft::ICMPPingEngine::ICMPPingEngineData {
 
@@ -77,6 +78,8 @@ class Nedrysoft::ICMPPingEngine::ICMPPingEngineData {
 
         std::chrono::milliseconds m_timeout = {};
 
+        std::chrono::milliseconds m_interval = 2500ms;
+
         std::chrono::system_clock::time_point m_epoch;
 
         Nedrysoft::Core::IPVersion m_version;
@@ -88,7 +91,38 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::ICMPPingEngine(Nedrysoft::Core::IPVer
         d(std::make_shared<Nedrysoft::ICMPPingEngine::ICMPPingEngineData>(this)) {
 
     d->m_version = version;
+}
 
+Nedrysoft::ICMPPingEngine::ICMPPingEngine::~ICMPPingEngine() {
+    doStop();
+}
+
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget * {
+    auto target = new Nedrysoft::ICMPPingEngine::ICMPPingTarget(this, hostAddress);
+
+    d->m_transmitterWorker->addTarget(target);
+
+    return target;
+}
+
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::addTarget(
+        QHostAddress hostAddress,
+        int ttl ) -> Nedrysoft::Core::IPingTarget * {
+
+    auto target = new Nedrysoft::ICMPPingEngine::ICMPPingTarget(this, hostAddress, ttl);
+
+    d->m_targetList.append(target);
+
+    return target;
+}
+
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::removeTarget(Nedrysoft::Core::IPingTarget *target) -> bool {
+    Q_UNUSED(target)
+
+    return true;
+}
+
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::start() -> bool {
     // timeout thread
 
     d->m_timeoutWorker = new Nedrysoft::ICMPPingEngine::ICMPPingTimeout(this);
@@ -122,6 +156,12 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::ICMPPingEngine(Nedrysoft::Core::IPVer
 
     d->m_transmitterWorker->moveToThread(d->m_transmitterThread);
 
+    d->m_transmitterWorker->setInterval(d->m_interval);
+
+    for (auto target : d->m_targetList) {
+        d->m_transmitterWorker->addTarget(target);
+    }
+
     connect(d->m_transmitterThread, &QThread::started, d->m_transmitterWorker,
             &Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork);
 
@@ -129,9 +169,11 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::ICMPPingEngine(Nedrysoft::Core::IPVer
             &Nedrysoft::ICMPPingEngine::ICMPPingEngine::result);
 
     d->m_transmitterThread->start();
+
+    return true;
 }
 
-Nedrysoft::ICMPPingEngine::ICMPPingEngine::~ICMPPingEngine() {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::doStop() -> bool {
     auto waitTime = std::chrono::duration_cast<std::chrono::milliseconds>(DefaultTerminateThreadTimeout);
 
     if (d->m_transmitterWorker) {
@@ -158,6 +200,8 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::~ICMPPingEngine() {
         }
 
         delete d->m_transmitterThread;
+
+        d->m_transmitterThread = nullptr;
     }
 
     if (d->m_timeoutThread) {
@@ -168,49 +212,27 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::~ICMPPingEngine() {
         }
 
         delete d->m_timeoutThread;
+
+        d->m_timeoutThread = nullptr;
     }
 
     delete d->m_transmitterWorker;
     delete d->m_timeoutWorker;
 
+    d->m_transmitterWorker = nullptr;
+    d->m_timeoutWorker = nullptr;
+
     for (auto request : d->m_pingRequests) {
         delete request;
     }
-}
 
-auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget * {
-    auto target = new Nedrysoft::ICMPPingEngine::ICMPPingTarget(this, hostAddress);
+    d->m_pingRequests.clear();
 
-    d->m_transmitterWorker->addTarget(target);
-
-    return target;
-}
-
-auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::addTarget(
-        QHostAddress hostAddress,
-        int ttl ) -> Nedrysoft::Core::IPingTarget * {
-
-    auto target = new Nedrysoft::ICMPPingEngine::ICMPPingTarget(this, hostAddress, ttl);
-
-    d->m_transmitterWorker->addTarget(target);
-
-    d->m_targetList.append(target);
-
-    return target;
-}
-
-auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::removeTarget(Nedrysoft::Core::IPingTarget *target) -> bool {
-    Q_UNUSED(target)
-
-    return true;
-}
-
-auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::start() -> bool {
     return true;
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::stop() -> bool {
-    return true;
+    return doStop();
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::addRequest(Nedrysoft::ICMPPingEngine::ICMPPingItem *pingItem) -> void {
@@ -246,7 +268,9 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::getRequest(uint32_t id) -> Nedry
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::setInterval(std::chrono::milliseconds interval) -> bool {
-    return d->m_transmitterWorker->setInterval(interval);
+    d->m_interval = std::chrono::duration_cast<std::chrono::milliseconds>(interval);
+
+    return true;
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::setTimeout(std::chrono::milliseconds timeout) -> bool {
@@ -338,7 +362,7 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
     }
 
     if (responsePacket.resultCode() == Nedrysoft::ICMPPacket::TimeExceeded) {
-        resultCode = Nedrysoft::Core::PingResult::ResultCode::Ok;
+        resultCode = Nedrysoft::Core::PingResult::ResultCode::TimeExceeded;
     }
 
     auto pingItem = this->getRequest(Nedrysoft::Utils::fzMake32(responsePacket.id(), responsePacket.sequence()));
@@ -370,4 +394,14 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::interval() -> std::chrono::milliseconds {
     return d->m_transmitterWorker->interval();
+}
+
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::targets() -> QList<Nedrysoft::Core::IPingTarget *> {
+    QList<Nedrysoft::Core::IPingTarget *> list;
+
+    for (auto target : d->m_targetList) {
+        list.append(target);
+    }
+
+    return list;
 }

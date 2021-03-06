@@ -23,6 +23,7 @@
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_OSX_DEPLOYMENT_TARGET 10.13)
 
 set(PINGNOO_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 
@@ -95,11 +96,13 @@ if(APPLE)
     set(PINGNOO_APPLICATION_BINARY "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/MacOS/${PROJECT_NAME}")
     set(PINGNOO_LIBRARIES_BINARY_DIR "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/Frameworks")
     set(PINGNOO_COMPONENTS_BINARY_DIR "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/PlugIns")
+    set(PINGNOO_RESOURCES_DIR "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/Resources")
 else()
     set(PINGNOO_BINARY_ROOT "${PINGNOO_BINARY_DIR}/${PINGNOO_PLATFORM_ARCH}/${CMAKE_BUILD_TYPE}")
     set(PINGNOO_APPLICATION_BINARY "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
     set(PINGNOO_LIBRARIES_BINARY_DIR "${PINGNOO_BINARY_ROOT}")
     set(PINGNOO_COMPONENTS_BINARY_DIR "${PINGNOO_BINARY_ROOT}/Components")
+    set(PINGNOO_RESOURCES_DIR "${PINGNOO_BINARY_ROOT}")
 endif()
 
 file(MAKE_DIRECTORY ${PINGNOO_LIBRARIES_BINARY_DIR})
@@ -202,6 +205,7 @@ macro(pingnoo_end_component)
     add_logging_library()
 
     target_include_directories(${pingnooCurrentProjectName} PRIVATE ".")
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ${CMAKE_BINARY_DIR})    # <- allows ui_ files to be available to the editor
 
     pingnoo_sign(\"${PINGNOO_COMPONENTS_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${pingnooCurrentProjectName}${CMAKE_SHARED_LIBRARY_SUFFIX}\")
 endmacro(pingnoo_end_component)
@@ -485,4 +489,18 @@ endmacro()
 
 macro(pingnoo_sign filename)
 
+endmacro()
+
+macro(pingnoo_add_translation sourceFile outputDir outputFiles)
+    get_filename_component(outputFile ${sourceFile} NAME_WE)
+    get_filename_component(sourceFilename ${sourceFile} NAME)
+
+    set(outputFile ${outputFile}.qm)
+
+    add_custom_command(OUTPUT ${outputDir}/${outputFile}
+        COMMENT "Compiling ${sourceFilename}"
+        COMMAND ${CMAKE_PREFIX_PATH}/bin/lrelease ${sourceFile} -silent -qm ${outputDir}/${outputFile}
+        DEPENDS ${sourceFile})
+
+    list(APPEND ${outputFiles} ${outputDir}/${outputFile})
 endmacro()

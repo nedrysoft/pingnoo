@@ -31,8 +31,6 @@ pingnoo_add_sources(
     RouteEngineComponent.cpp
     RouteEngineComponent.h
     RouteEngineSpec.h
-    RouteWorker.cpp
-    RouteWorker.h
     RouteEngineFactory.cpp
     RouteEngineFactory.h
 )

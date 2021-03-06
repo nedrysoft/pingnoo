@@ -66,7 +66,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     the new ICMPAPIPingEngine instance.
              */
-            virtual auto createEngine() -> Nedrysoft::Core::IPingEngine *;
+            auto createEngine() -> Nedrysoft::Core::IPingEngine * override;
 
         public:
             /**
@@ -74,7 +74,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     the JSON configuration.
              */
-            virtual auto saveConfiguration() -> QJsonObject;
+            auto saveConfiguration() -> QJsonObject override;
 
             /**
              * @brief       Loads the configuration.
@@ -85,7 +85,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
+            auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         protected:
             std::shared_ptr<ICMPAPIAPIPingEngineFactoryData> d;

@@ -33,6 +33,7 @@
 
 namespace Nedrysoft::Core {
     typedef QList<QHostAddress> RouteList;
+    class IPingEngineFactory;
 
     /**
      * @brief       The IRouteEngine interface describes the mechanism of finding the route to a host.
@@ -57,17 +58,18 @@ namespace Nedrysoft::Core {
              * @notes       Route discovery is a asynchronous operation, the result signal is emitted when the
              *              discovery is completed.
              *
+             * @param[in]   engineFactory the ping engine to be used for discoveru.
              * @param[in]   host the target host name or address.
              * @param[in]   ipVersion the IP version to be used for discovery.
              */
-            virtual auto findRoute(QString host, Nedrysoft::Core::IPVersion ipVersion) -> void = 0;
+            virtual auto findRoute(Nedrysoft::Core::IPingEngineFactory *engineFactory, QString host, Nedrysoft::Core::IPVersion ipVersion) -> void = 0;
 
             /**
              * @brief       Signal emitted when the route discovery is completed.
              *
              * @param[in]   result the discovered route.
              */
-            Q_SIGNAL void result(const QHostAddress &hostAddress, const Nedrysoft::Core::RouteList &result);
+            Q_SIGNAL void result(const QHostAddress &hostAddress, const Nedrysoft::Core::RouteList result);
     };
 }
 

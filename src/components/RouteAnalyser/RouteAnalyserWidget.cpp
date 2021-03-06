@@ -31,6 +31,7 @@
 #include "Core/IPingEngineFactory.h"
 #include "Core/IPingTarget.h"
 #include "Core/IRouteEngineFactory.h"
+#include "LatencySettings.h"
 #include "GraphLatencyLayer.h"
 #include "PlotScrollArea.h"
 #include "RouteTableItemDelegate.h"
@@ -49,7 +50,6 @@ constexpr std::chrono::duration<double> DefaultMaxLatency = 0.01s;
 constexpr auto DefaultTimeWindow = 60.0*10;
 constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
-constexpr auto useSmoothGradient = true;
 constexpr auto NoReplyColour = qRgb(255,0,0);
 
 QMap< Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::headerMap() {
@@ -86,8 +86,9 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
         m_startPoint(-1),
         m_endPoint(0) {
 
-    // TODO: Refactor route engine to use the selected ping engine rather than creating multiple route engines
-    // which only differ by the ping implementation.
+    auto latencySettings = Nedrysoft::RouteAnalyser::LatencySettings::getInstance();
+
+    assert(latencySettings!=nullptr);
 
     auto routeEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IRouteEngineFactory>();
 
@@ -110,12 +111,16 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
                 this,
                 &RouteAnalyserWidget::onRouteResult);
 
-        routeEngine->findRoute(targetHost, ipVersion);
+        routeEngine->findRoute(pingEngineFactory, targetHost, ipVersion);
     }
 
     m_routeGraphDelegate = new RouteTableItemDelegate;
 
-    m_routeGraphDelegate->setGradientEnabled(useSmoothGradient);
+    connect(latencySettings, &Nedrysoft::RouteAnalyser::LatencySettings::gradientChanged, [=](bool useGradient) {
+        m_routeGraphDelegate->setGradientEnabled(useGradient);
+    });
+
+    m_routeGraphDelegate->setGradientEnabled(latencySettings->gradientFill());
 
     connect(this, &QObject::destroyed, m_routeGraphDelegate, [this](QObject *) {
         delete m_routeGraphDelegate;
@@ -305,13 +310,17 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
         const QHostAddress &routeHostAddress,
-        const Nedrysoft::Core::RouteList &route ) -> void {
+        const Nedrysoft::Core::RouteList route ) -> void {
 
     Nedrysoft::Core::IRouteEngine *routeEngine = qobject_cast<Nedrysoft::Core::IRouteEngine *>(this->sender());
     auto hop = 1;
     auto geoIP = Nedrysoft::ComponentSystem::getObject<Nedrysoft::Core::IGeoIPProvider>();
 
     SPDLOG_TRACE("Got route result");
+
+    auto latencySettings = Nedrysoft::RouteAnalyser::LatencySettings::getInstance();
+
+    assert(latencySettings!=nullptr);
 
     if (routeEngine) {
         disconnect(
@@ -364,7 +373,14 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             m_backgroundLayers.append(latencyLayer);
 
-            latencyLayer->setGradientEnabled(useSmoothGradient);
+            latencyLayer->setGradientEnabled(latencySettings->gradientFill());
+
+            connect(
+                    latencySettings,
+                    &Nedrysoft::RouteAnalyser::LatencySettings::gradientChanged, [=](bool useGradient) {
+
+                latencyLayer->setGradientEnabled(useGradient);
+            });
 
             customPlot->setCurrentLayer("main");
 
@@ -632,33 +648,8 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
     });
 
     m_scrollArea->widget()->setLayout(verticalLayout);
-/*
-    for (auto sourcePlot : m_plotList) {
-        connect(sourcePlot->xAxis, qOverload<const QCPRange &>(&QCPAxis::rangeChanged),
-                [this, sourcePlot](const QCPRange &range) {
 
-            auto newRange = range;
-            auto epoch = std::chrono::duration<double>(m_pingEngine->epoch().time_since_epoch());
-
-            if (newRange.lower < epoch.count()) {
-                newRange = QCPRange(epoch.count(), epoch.count() + m_viewportSize);
-
-                sourcePlot->xAxis->setRange(newRange);
-            }
-
-            for (auto targetPlot : m_plotList) {
-                if (sourcePlot == targetPlot) {
-                    continue;
-                }
-
-                targetPlot->xAxis->setRange(newRange);
-
-                if (!targetPlot->visibleRegion().isNull()) {
-                    targetPlot->replot();
-                }
-            }
-        });
-    }*/
+    m_pingEngine->start();
 }
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::eventFilter(QObject *watched, QEvent *event) -> bool {

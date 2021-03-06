@@ -69,6 +69,8 @@ namespace Nedrysoft::RouteAnalyser {
 
         private:
             Ui::LatencySettingsPageWidget *ui;
+
+            QList<QMetaObject::Connection> m_connections;
     };
 }
 
