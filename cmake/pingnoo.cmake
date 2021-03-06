@@ -96,11 +96,13 @@ if(APPLE)
     set(PINGNOO_APPLICATION_BINARY "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/MacOS/${PROJECT_NAME}")
     set(PINGNOO_LIBRARIES_BINARY_DIR "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/Frameworks")
     set(PINGNOO_COMPONENTS_BINARY_DIR "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/PlugIns")
+    set(PINGNOO_RESOURCES_DIR "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/Resources")
 else()
     set(PINGNOO_BINARY_ROOT "${PINGNOO_BINARY_DIR}/${PINGNOO_PLATFORM_ARCH}/${CMAKE_BUILD_TYPE}")
     set(PINGNOO_APPLICATION_BINARY "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
     set(PINGNOO_LIBRARIES_BINARY_DIR "${PINGNOO_BINARY_ROOT}")
     set(PINGNOO_COMPONENTS_BINARY_DIR "${PINGNOO_BINARY_ROOT}/Components")
+    set(PINGNOO_RESOURCES_DIR "${PINGNOO_BINARY_ROOT}")
 endif()
 
 file(MAKE_DIRECTORY ${PINGNOO_LIBRARIES_BINARY_DIR})
@@ -487,4 +489,18 @@ endmacro()
 
 macro(pingnoo_sign filename)
 
+endmacro()
+
+macro(pingnoo_add_translation sourceFile outputDir outputFiles)
+    get_filename_component(outputFile ${sourceFile} NAME_WE)
+    get_filename_component(sourceFilename ${sourceFile} NAME)
+
+    set(outputFile ${outputFile}.qm)
+
+    add_custom_command(OUTPUT ${outputDir}/${outputFile}
+        COMMENT "Compiling ${sourceFilename}"
+        COMMAND ${CMAKE_PREFIX_PATH}/bin/lrelease ${sourceFile} -silent -qm ${outputDir}/${outputFile}
+        DEPENDS ${sourceFile})
+
+    list(APPEND ${outputFiles} ${outputDir}/${outputFile})
 endmacro()

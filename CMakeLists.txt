@@ -50,6 +50,25 @@ endif()
 
 string(TOLOWER ${CMAKE_BUILD_TYPE} PINGNOO_BUILD_TYPE)
 
+# create translations
+
+file(GLOB translations RELATIVE ${PINGNOO_ROOT_DIR}/translations ${PINGNOO_ROOT_DIR}/translations/*.ts)
+
+file(MAKE_DIRECTORY ${PINGNOO_RESOURCES_DIR}/translations)
+
+set(translatedFiles "")
+
+foreach (translation ${translations})
+    pingnoo_add_translation(${PINGNOO_ROOT_DIR}/translations/${translation} ${PINGNOO_RESOURCES_DIR}/translations translatedFiles)
+endforeach()
+
+add_custom_target(
+    Translations
+    ALL DEPENDS
+    ${translatedFiles}
+)
+message(${translatedFiles})
+
 if(APPLE)
     install(CODE
         "execute_process(
