@@ -50,7 +50,18 @@ auto constexpr splashscreenTimeout = 3000;
 
 int main(int argc, char **argv) {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
-    QTranslator translator;
+    QList<QTranslator *> translators;
+
+#ifdef Q_OS_MAC
+    CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+    CFStringRef macPath = CFURLCopyFileSystemPath(appUrlRef, kCFURLPOSIXPathStyle);
+    const char *pathPtr = CFStringGetCStringPtr(macPath, CFStringGetSystemEncoding());
+
+    QString applicationPath = QString(pathPtr);
+
+    CFRelease(appUrlRef);
+    CFRelease(macPath);
+#endif
 
     qApp->setApplicationName("Pingnoo");
     qApp->setOrganizationName("Nedrysoft");
@@ -58,9 +69,40 @@ int main(int argc, char **argv) {
     auto componentLoader = new Nedrysoft::ComponentSystem::ComponentLoader;
     auto applicationInstance = new QApplication(argc, argv);
 
-    translator.load(QString("pingnoo_"+ QLocale::system().name()));
+    auto applicationDir = QDir(qApp->applicationDirPath());
+    QString translationsPath;
 
-    qApp->installTranslator(&translator);
+#ifdef Q_OS_MAC
+    if (applicationPath.isNull()) {
+        QDir dir = applicationInstance->applicationDirPath();
+
+        dir.cdUp();
+
+        translationsPath = dir.absolutePath() + "/translations";
+    } else {
+        translationsPath = applicationPath + "/Contents/Resources/translations";
+    }
+#else
+    if (applicationDir.exists("translations")) {
+        translationsPath = applicationDir.exists("translations");
+    }
+#endif
+
+    QDir translationsDirectory(translationsPath);
+
+    QStringList translationFiles = translationsDirectory.entryList();
+
+    for(auto filename : translationFiles) {
+        if (filename.endsWith(".qm")) {
+            QTranslator *translator = new QTranslator;
+
+            if (translator->load(translationsPath+"/"+filename)) {
+                translators.append(translator);
+
+                qApp->installTranslator(translator);
+            }
+        }
+     }
 
     Nedrysoft::SplashScreen *splashScreen = Nedrysoft::SplashScreen::getInstance();
 
@@ -73,20 +115,16 @@ int main(int argc, char **argv) {
     SPDLOG_DEBUG("Application started.");
 
 #ifdef Q_OS_MAC
-    CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
-    CFStringRef macPath = CFURLCopyFileSystemPath(appUrlRef, kCFURLPOSIXPathStyle);
-    const char *pathPtr = CFStringGetCStringPtr(macPath, CFStringGetSystemEncoding());
-    QString componentPath = QString(pathPtr) + "/Contents/PlugIns";
+    QString componentPath;
 
-    CFRelease(appUrlRef);
-    CFRelease(macPath);
-
-    if (componentPath.isNull()) {
+    if (applicationPath.isNull()) {
         QDir dir = applicationInstance->applicationDirPath();
 
         dir.cdUp();
 
         componentPath = dir.absolutePath() + "/PlugIns";
+    } else {
+        componentPath = applicationPath + "/Contents/PlugIns";
     }
 
     componentLoader->addComponents(componentPath);
@@ -125,8 +163,6 @@ int main(int argc, char **argv) {
             componentLoader->addComponents(QProcessEnvironment::systemEnvironment().value(dirName) + "/Components");
         }
     }
-
-    auto applicationDir = QDir(qApp->applicationDirPath());
 
     if (applicationDir.exists("Components")) {
         auto componentsPath = applicationDir.absoluteFilePath("Components");
