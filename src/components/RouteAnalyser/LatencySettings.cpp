@@ -110,8 +110,7 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::loadConfiguration(QJsonObject co
         }
 
         if (coloursObject.contains("useGradient")) {
-            qDebug() << coloursObject.value("useGradient").toBool();
-            m_useGradientFill = false;//coloursObject.value("useGradient").toBool();
+            m_useGradientFill = coloursObject.value("useGradient").toBool();
         }
     }
 

@@ -89,6 +89,14 @@ Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(Q
 }
 
 Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::~LatencySettingsPageWidget() {
+    LatencySettings *latencySettings = Nedrysoft::ComponentSystem::getObject<LatencySettings>();
+
+    ui->resetPushButton->disconnect(this);
+    latencySettings->disconnect(this);
+    ui->criticalWidget->disconnect(this);
+    ui->warningWidget->disconnect(this);
+    ui->idealWidget->disconnect(this);
+
     delete ui;
 }
 
