@@ -32,6 +32,10 @@ namespace Nedrysoft::Ribbon {
     class RibbonLineEdit;
 }
 
+namespace Nedrysoft::Utils {
+    class ThemeSupport;
+}
+
 namespace Nedrysoft::RouteAnalyser {
     namespace Ui {
         class NewTargetRibbonGroup;
@@ -59,6 +63,13 @@ namespace Nedrysoft::RouteAnalyser {
              */
             ~NewTargetRibbonGroup() override;
 
+            /**
+             * @brief       Called when light/dark mode changes
+             *
+             * @param[in]   isDarkMode whether dark mode is active.
+             */
+            Q_SLOT void updateIcons(bool isDarkMode);
+
         private:
             /**
              * @brief       Validate the fields of the dialog.
@@ -79,6 +90,8 @@ namespace Nedrysoft::RouteAnalyser {
 
             LineSyntaxHighlighter *m_targetHighlighter;
             LineSyntaxHighlighter *m_intervalHighlighter;
+
+            Nedrysoft::Utils::ThemeSupport *m_themeSupport;
     };
 }
 

@@ -46,11 +46,15 @@ auto Nedrysoft::Core::HostMaskerSettingsPage::description() -> QString {
     return tr("The configuration options for the available host maskers.");
 }
 
-auto Nedrysoft::Core::HostMaskerSettingsPage::icon() -> QIcon {
+auto Nedrysoft::Core::HostMaskerSettingsPage::icon(bool isDarkMode) -> QIcon {
 #if !defined(Q_OS_MACOS)
-    return QIcon(":/Core/icons/1x/twotone_security_black_24dp.png");
+    return QIcon(":/Core/icons/2x/twotone_security_black_24dp.png");
 #else
-    return QIcon(":/Core/icons/1x/twotone_security_white_24dp.png");
+    if (isDarkMode) {
+        return QIcon(":/Core/icons/2x/twotone_security_white_24dp.png");
+    } else {
+        return QIcon(":/Core/icons/2x/twotone_security_black_24dp.png");
+    }
 #endif
 }
 

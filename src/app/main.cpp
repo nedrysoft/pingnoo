@@ -38,6 +38,8 @@
 #include <QProcessEnvironment>
 #include <QStandardPaths>
 #include <QTimer>
+#include <QTranslator>
+#include <QLocale>
 #include <spdlog/spdlog.h>
 
 #if defined(Q_OS_MAC)
@@ -48,6 +50,7 @@ auto constexpr splashscreenTimeout = 3000;
 
 int main(int argc, char **argv) {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
+    QTranslator translator;
 
     qApp->setApplicationName("Pingnoo");
     qApp->setOrganizationName("Nedrysoft");
@@ -55,7 +58,11 @@ int main(int argc, char **argv) {
     auto componentLoader = new Nedrysoft::ComponentSystem::ComponentLoader;
     auto applicationInstance = new QApplication(argc, argv);
 
-    Nedrysoft::SplashScreen *splashScreen = splashScreen = Nedrysoft::SplashScreen::getInstance();
+    translator.load(QString("pingnoo_"+ QLocale::system().name()));
+
+    qApp->installTranslator(&translator);
+
+    Nedrysoft::SplashScreen *splashScreen = Nedrysoft::SplashScreen::getInstance();
 
     splashScreen->show();
 

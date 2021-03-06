@@ -32,6 +32,7 @@
 #include "Core/IPingEngineFactory.h"
 #include "RouteAnalyserEditor.h"
 #include "TargetSettings.h"
+#include "ThemeSupport.h"
 #include "Utils.h"
 
 #include <QAbstractItemView>
@@ -48,6 +49,14 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         ui(new Ui::NewTargetRibbonGroup) {
 
     ui->setupUi(this);
+
+    m_themeSupport = new Nedrysoft::Utils::ThemeSupport;
+
+    updateIcons(m_themeSupport->isDarkMode());
+
+    connect(m_themeSupport, &Nedrysoft::Utils::ThemeSupport::themeChanged, [=](bool isDarkMode) {
+        updateIcons(isDarkMode);
+    });
 
     auto targetSettings = Nedrysoft::ComponentSystem::getObject<Nedrysoft::RouteAnalyser::TargetSettings>();
 
@@ -182,6 +191,18 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
 Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::~NewTargetRibbonGroup() {
     delete ui;
+}
+
+void Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::updateIcons(bool isDarkMode) {
+    QIcon icon;
+
+    if (isDarkMode) {
+        icon = QIcon(QString(":/RouteAnalyser/icons/2x/twotone_bookmarks_white_24dp.png"));
+    } else {
+        icon = QIcon(QString(":/RouteAnalyser/icons/2x/twotone_bookmarks_black_24dp.png"));
+    }
+
+    ui->favouriteDropButton->setIcon(icon);
 }
 
 auto Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::checkFieldsValid(QString &string) -> QWidget * {

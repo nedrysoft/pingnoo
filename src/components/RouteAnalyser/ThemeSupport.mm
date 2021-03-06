@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2020 Adrian Carpenter
  *
- * This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
+ * This file is part of the Nedrysoft Ribbon Bar. (https://github.com/nedrysoft/qt-ribbon)
  *
- * An open-source cross-platform traceroute analyser.
+ * A cross-platform ribbon bar for Qt applications.
  *
- * Created by Adrian Carpenter on 27/03/2020.
+ * Created by Adrian Carpenter on 02/12/2020.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,22 +23,31 @@
 
 #include "ThemeSupport.h"
 
-#import <Foundation/Foundation.h>
+#include <QApplication>
+#include <QStyle>
+
+#if defined(Q_OS_MACOS)
 #import <AppKit/NSAppearance.h>
+#import <AppKit/NSColor.h>
+#endif
 
-auto Nedrysoft::Utils::ThemeSupport::isDarkMode() -> bool {
+Nedrysoft::Utils::ThemeSupport::ThemeSupport() {
+    connect(qobject_cast<QApplication *>(QCoreApplication::instance()), &QApplication::paletteChanged, [=] (const QPalette &) {
+        Q_EMIT themeChanged(Nedrysoft::Utils::ThemeSupport::isDarkMode());
+    });
+}
+
+auto Nedrysoft::Utils::ThemeSupport::isDarkMode() -> bool{
     if (@available(macOS 10.14, *)) {
-        NSAppearance *appearance = nil;
+        NSAppearance *appearance = nullptr;
 
-        if (@available(macOS 11.0, *)) {
+        if (@available(macOS 11, *)) {
             appearance = NSAppearance.currentDrawingAppearance;
-        } else if (@available(macOS 10.9, *)) {
+        } else if (@available(macOS 10.14, *)) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             appearance = NSAppearance.currentAppearance;
 #pragma clang diagnostic pop
-        } else {
-            return false;
         }
 
         NSAppearanceName basicAppearance = [appearance bestMatchFromAppearancesWithNames:@[
@@ -46,9 +55,24 @@ auto Nedrysoft::Utils::ThemeSupport::isDarkMode() -> bool {
                 NSAppearanceNameDarkAqua
         ]];
 
-        return [basicAppearance isEqualToString:NSAppearanceNameDarkAqua] == YES;
+        return [basicAppearance isEqualToString:NSAppearanceNameDarkAqua]==YES;
     }
 
     return false;
 }
 
+auto Nedrysoft::Utils::ThemeSupport::getColor(const QRgb colourPair[]) -> QColor {
+    return QColor(colourPair[isDarkMode() ? 1 : 0]);
+}
+
+auto Nedrysoft::Utils::ThemeSupport::getHighlightedBackground() -> QColor {
+#if defined(Q_OS_MACOS)
+    CGColorRef a = [NSColor systemBlueColor].CGColor;
+
+    const CGFloat *color = CGColorGetComponents(a);
+
+    return QColor::fromRgbF(color[0], color[1], color[2]);
+#else
+    return qobject_cast<QApplication *>(QCoreApplication::instance())->style()->standardPalette().color(QPalette::Highlight);
+#endif
+}
