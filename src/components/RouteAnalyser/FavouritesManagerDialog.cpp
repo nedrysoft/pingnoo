@@ -23,6 +23,8 @@
 
 #include "FavouritesManagerDialog.h"
 
+#include "TargetManager.h"
+
 #include "ui_FavouritesManagerDialog.h"
 
 Nedrysoft::RouteAnalyser::FavouritesManagerDialog::FavouritesManagerDialog(QWidget *parent) :
@@ -39,9 +41,27 @@ Nedrysoft::RouteAnalyser::FavouritesManagerDialog::FavouritesManagerDialog(QWidg
         updateButtons();
     });
 
-    m_itemModel->setHorizontalHeaderLabels(QStringList() << tr("Description") << tr("Host") << tr("IP Version") << tr("Interval"));
+    m_itemModel->setHorizontalHeaderLabels(QStringList() << tr("Name") << tr("Description") << tr("Host") << tr("IP Version") << tr("Interval"));
 
     ui->treeView->setModel(m_itemModel);
+
+    auto favourites = Nedrysoft::RouteAnalyser::TargetManager::getInstance()->favourites();
+
+    m_itemModel->setRowCount(favourites.count());
+
+    auto currentRow = 0;
+
+    for (auto favourite : favourites) {
+        m_itemModel->setItem(currentRow, 0, new QStandardItem(favourite["Name"].toString()));
+        m_itemModel->setItem(currentRow, 1, new QStandardItem(favourite["Description"].toString()));
+        m_itemModel->setItem(currentRow, 2, new QStandardItem(favourite["Host"].toString()));
+        m_itemModel->setItem(currentRow, 3, new QStandardItem(favourite["IP Version"].toString()));
+        m_itemModel->setItem(currentRow, 4, new QStandardItem(favourite["Interval"].toString()));
+
+        currentRow++;
+    }
+
+    m_modelDirty = true;
 
     updateButtons();
 }

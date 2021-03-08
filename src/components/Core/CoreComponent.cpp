@@ -48,6 +48,7 @@ auto CoreComponent::initialiseEvent() -> void {
     qRegisterMetaType<Nedrysoft::Core::RouteList>("Nedrysoft::Core::RouteList");
     qRegisterMetaType<QHostAddress>("QHostAddress");
     qRegisterMetaType<Nedrysoft::Core::IPingEngineFactory *>("Nedrysoft::Core::IPingEngineFactory *");
+    qRegisterMetaType<Nedrysoft::Core::IPVersion>("Nedrysoft::Core::IPVersion");
 
     m_core = new Nedrysoft::Core::Core();
     m_contextManager = new Nedrysoft::Core::ContextManager();

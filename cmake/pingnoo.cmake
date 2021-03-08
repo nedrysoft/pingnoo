@@ -205,9 +205,11 @@ macro(pingnoo_end_component)
     add_logging_library()
 
     target_include_directories(${pingnooCurrentProjectName} PRIVATE ".")
-    target_include_directories(${pingnooCurrentProjectName} PRIVATE ${CMAKE_BINARY_DIR})    # <- allows ui_ files to be available to the editor
 
-    pingnoo_sign(\"${PINGNOO_COMPONENTS_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${pingnooCurrentProjectName}${CMAKE_SHARED_LIBRARY_SUFFIX}\")
+    # add binary folders to allow allows ui_ files to be found in the editor
+
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ${CMAKE_BINARY_DIR})
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 endmacro(pingnoo_end_component)
 
 macro(pingnoo_start_shared_library)
@@ -244,7 +246,11 @@ macro(pingnoo_end_shared_library)
 
     target_include_directories(${pingnooCurrentProjectName} PRIVATE ".")
 
-    pingnoo_sign(\"${PINGNOO_LIBRARIES_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${pingnooCurrentProjectName}${CMAKE_SHARED_LIBRARY_SUFFIX}\")
+    # add binary folders to allow allows ui_ files to be found in the editor
+
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ${CMAKE_BINARY_DIR})
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 endmacro(pingnoo_end_shared_library)
 
 macro(pingnoo_start_static_library)
@@ -313,7 +319,11 @@ macro(pingnoo_end_executable)
 
     target_include_directories(${pingnooCurrentProjectName} PRIVATE ".")
 
-    pingnoo_sign(${PINGNOO_APPLICATION_BINARY})
+    # add binary folders to allow allows ui_ files to be found in the editor
+
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ${CMAKE_BINARY_DIR})
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 endmacro(pingnoo_end_executable)
 
 macro(add_logging_library)
@@ -485,10 +495,6 @@ macro(pingnoo_add_optional_command systemName optionName optionDescription optio
             add_custom_command(TARGET ${pingnooCurrentProjectName} ${commandList})
         endif()
     endif()
-endmacro()
-
-macro(pingnoo_sign filename)
-
 endmacro()
 
 macro(pingnoo_add_translation sourceFile outputDir outputFiles)

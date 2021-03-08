@@ -35,6 +35,8 @@ pingnoo_add_sources(
     ColourDialog.h
     ColourManager.cpp
     ColourManager.h
+    TargetManager.cpp
+    TargetManager.h
     FavouritesManagerDialog.cpp
     FavouritesManagerDialog.h
     FavouritesManagerDialog.ui

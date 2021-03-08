@@ -30,6 +30,7 @@
 #include "Core/ICommandManager.h"
 #include "Core/IEditorManager.h"
 #include "Core/IPingEngineFactory.h"
+#include "TargetManager.h"
 #include "FavouritesManagerDialog.h"
 #include "RouteAnalyserEditor.h"
 #include "TargetSettings.h"
@@ -37,6 +38,7 @@
 #include "Utils.h"
 
 #include <QAbstractItemView>
+#include <QDebug>
 #include <QMenu>
 #include <QStandardItemModel>
 
@@ -63,7 +65,15 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
     assert(targetSettings!=nullptr);
 
-    connect(ui->favouriteDropButton, &Nedrysoft::Ribbon::RibbonDropButton::clicked, [=](bool clicked) {
+    connect(ui->favouriteDropButton, &Nedrysoft::Ribbon::RibbonDropButton::clicked, [=](bool dropdown) {
+        if (!dropdown) {
+            FavouritesManagerDialog editorManagerDialog(Nedrysoft::Core::mainWindow());
+
+            editorManagerDialog.exec();
+
+            return;
+        }
+
         QMenu menu;
         QPoint menuPosition = ui->favouriteDropButton->rect().bottomLeft();
 
@@ -82,26 +92,87 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
         menuPosition = mapToGlobal(menuPosition);
 
-        recents->setDisabled(true);
-        favourites->setDisabled(true);
+        auto recentTargets = Nedrysoft::RouteAnalyser::TargetManager::getInstance()->recents();
+
+        QMenu recentsMenu;
+
+        for (auto target : recentTargets) {
+            recentsMenu.addAction(target["host"].toString());
+        }
+
+        recents->setMenu(&recentsMenu);
+        recents->setDisabled(recentTargets.isEmpty());
+
+        // ****
+        // the favourites use / to allow structuring of them
+        // ****
+
+        auto favouritesList = Nedrysoft::RouteAnalyser::TargetManager::getInstance()->favourites();
+
+        QMap<QString, QMenu *> menuMap;
+
+        menuMap["/"] = new QMenu;
+
+        for (auto favourite : favouritesList) {
+            auto menuPath = favourite["name"].toString().split("/");
+            QString buildPath;
+
+            if (menuPath.length()) {
+                auto menuIndex = 0;
+
+                buildPath = "/";
+
+                while(menuIndex<menuPath.length()-1) {
+                    auto thisSegment = menuPath.at(menuIndex).trimmed();
+
+                    if (!thisSegment.isEmpty()) {
+                        auto nextBuildPath = buildPath+thisSegment+"/";
+
+                        if (!menuMap.contains(nextBuildPath)) {
+                            menuMap[nextBuildPath] = new QMenu;
+
+                            QAction *action = new QAction(menuPath.at(menuIndex));
+
+                            action->setMenu(menuMap[nextBuildPath]);
+
+                            menuMap[buildPath]->addAction(action);
+                        }
+
+                        buildPath += menuPath.at(menuIndex)+"/";
+                    }
+
+                    menuIndex++;
+                }
+
+                menuMap[buildPath]->addAction(new QAction(menuPath.at(menuIndex)));
+            } else {
+                menuMap["/"]->addAction(favourite["name"].toString());
+            }
+        }
+
+        favourites->setMenu(menuMap["/"]);
+
+        favourites->setDisabled(favouritesList.isEmpty());
         saveFavourite->setDisabled(true);
         exportFavourites->setDisabled(true);
 
         auto selectedAction = menu.exec(menuPosition);
 
-        if (selectedAction==openFavourite) {
+        qDeleteAll(menuMap);
 
-        } else if (selectedAction==saveFavourite) {
+        if (selectedAction == openFavourite) {
 
-        } else if (selectedAction==newFavourite) {
+        } else if (selectedAction == saveFavourite) {
 
-        } else if (selectedAction==editFavourites) {
+        } else if (selectedAction == newFavourite) {
+
+        } else if (selectedAction == editFavourites) {
             FavouritesManagerDialog favouritesDialog;
 
             favouritesDialog.exec();
-        } else if (selectedAction==importFavourites) {
+        } else if (selectedAction == importFavourites) {
 
-        } else if (selectedAction==exportFavourites) {
+        } else if (selectedAction == exportFavourites) {
 
         }
     });
@@ -193,15 +264,23 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
             editor->setPingEngine(pingEngineFactory);
             editor->setTarget(target);
 
+            Nedrysoft::Core::IPVersion ipVersion;
+
             if (ui->ipV4RadioButton->isChecked()) {
-                editor->setIPVersion(Nedrysoft::Core::IPVersion::V4);
+                ipVersion = Nedrysoft::Core::IPVersion::V4;
             } else {
-                editor->setIPVersion(Nedrysoft::Core::IPVersion::V6);
+                ipVersion = Nedrysoft::Core::IPVersion::V6;
             }
+
+            editor->setIPVersion(ipVersion);
 
             editor->setInterval(intervalTime);
 
             editorManager->openEditor(editor);
+
+            auto favouritesManager = Nedrysoft::RouteAnalyser::TargetManager::getInstance();
+
+            favouritesManager->addFavourite(target, target, target, ipVersion);
         }
     });
 

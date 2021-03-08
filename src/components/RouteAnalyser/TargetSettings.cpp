@@ -32,7 +32,7 @@
 #include <QJsonObject>
 #include <QStandardPaths>
 
-constexpr auto ConfigurationPath = "Components/RouteAnalyser";
+constexpr auto ConfigurationPath = "Nedrysoft/Pingnoo/Components/RouteAnalyser";
 constexpr auto ConfigurationFilename = "TargetSettings.json";
 
 constexpr auto DefaultHostTarget = "1.1.1.1";
