@@ -110,6 +110,10 @@ pingnoo_use_shared_library(ComponentSystem)
 pingnoo_use_shared_library(QCustomPlot)
 pingnoo_use_shared_library(AppNap)
 
+if(APPLE)
+    pingnoo_use_shared_library(MacHelper)
+endif()
+
 pingnoo_set_component_metadata("Views" "Provides the route visualiser system")
 
 pingnoo_end_component()

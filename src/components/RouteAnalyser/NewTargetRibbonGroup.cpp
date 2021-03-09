@@ -41,6 +41,7 @@
 #include <QDebug>
 #include <QMenu>
 #include <QStandardItemModel>
+#include <map>
 
 constexpr auto comboPadding = 12;
 constexpr auto defaultInterval = "2.5s";
@@ -49,7 +50,9 @@ constexpr auto lineEditHeight = 21;
 
 Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *parent) :
         QWidget(parent),
-        ui(new Ui::NewTargetRibbonGroup) {
+        ui(new Ui::NewTargetRibbonGroup),
+        m_recentTargetsAction(nullptr),
+        m_recentsMenu(nullptr) {
 
     ui->setupUi(this);
 
@@ -77,104 +80,40 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         QMenu menu;
         QPoint menuPosition = ui->favouriteDropButton->rect().bottomLeft();
 
-        auto recents = menu.addAction(tr("Recent Targets"));
+        m_recentTargetsAction = menu.addAction(tr("Recent Targets"));
         menu.addSeparator();
-        auto favourites = menu.addAction(tr("Favourites"));
+        m_favouritesAction = menu.addAction(tr("Favourites"));
         menu.addSeparator();
-        auto openFavourite = menu.addAction(tr("Open Favourite..."));
-        auto saveFavourite = menu.addAction(tr("Save Favourite..."));
+        m_openFavouriteAction = menu.addAction(tr("Open Favourite..."));
+        m_saveFavouriteAction = menu.addAction(tr("Save Favourite..."));
         menu.addSeparator();
-        auto newFavourite = menu.addAction(tr("New Favourite..."));
-        auto editFavourites = menu.addAction(tr("Edit Favourites..."));
+        m_newFavouriteAction = menu.addAction(tr("New Favourite..."));
+        m_editFavouritesAction = menu.addAction(tr("Edit Favourites..."));
         menu.addSeparator();
-        auto importFavourites = menu.addAction(tr("Import Favourites..."));
-        auto exportFavourites = menu.addAction(tr("Export Favourites..."));
+        m_importFavouritesAction = menu.addAction(tr("Import Favourites..."));
+        m_exportFavouritesAction = menu.addAction(tr("Export Favourites..."));
 
         menuPosition = mapToGlobal(menuPosition);
 
-        auto recentTargets = Nedrysoft::RouteAnalyser::TargetManager::getInstance()->recents();
+        connect(m_importFavouritesAction, &QAction::triggered, this, &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onImportFavourites);
+        connect(m_exportFavouritesAction, &QAction::triggered, this, &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onExportFavourites);
+        connect(m_editFavouritesAction, &QAction::triggered, this, &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onEditFavourites);
 
-        QMenu recentsMenu;
+        populateRecentsMenu();
 
-        for (auto target : recentTargets) {
-            recentsMenu.addAction(target["host"].toString());
-        }
-
-        recents->setMenu(&recentsMenu);
-        recents->setDisabled(recentTargets.isEmpty());
-
-        // ****
-        // the favourites use / to allow structuring of them
-        // ****
+        populateFavouritesMenu();
 
         auto favouritesList = Nedrysoft::RouteAnalyser::TargetManager::getInstance()->favourites();
 
-        QMap<QString, QMenu *> menuMap;
+        m_saveFavouriteAction->setDisabled(true);
 
-        menuMap["/"] = new QMenu;
-
-        for (auto favourite : favouritesList) {
-            auto menuPath = favourite["name"].toString().split("/");
-            QString buildPath;
-
-            if (menuPath.length()) {
-                auto menuIndex = 0;
-
-                buildPath = "/";
-
-                while(menuIndex<menuPath.length()-1) {
-                    auto thisSegment = menuPath.at(menuIndex).trimmed();
-
-                    if (!thisSegment.isEmpty()) {
-                        auto nextBuildPath = buildPath+thisSegment+"/";
-
-                        if (!menuMap.contains(nextBuildPath)) {
-                            menuMap[nextBuildPath] = new QMenu;
-
-                            QAction *action = new QAction(menuPath.at(menuIndex));
-
-                            action->setMenu(menuMap[nextBuildPath]);
-
-                            menuMap[buildPath]->addAction(action);
-                        }
-
-                        buildPath += menuPath.at(menuIndex)+"/";
-                    }
-
-                    menuIndex++;
-                }
-
-                menuMap[buildPath]->addAction(new QAction(menuPath.at(menuIndex)));
-            } else {
-                menuMap["/"]->addAction(favourite["name"].toString());
-            }
-        }
-
-        favourites->setMenu(menuMap["/"]);
-
-        favourites->setDisabled(favouritesList.isEmpty());
-        saveFavourite->setDisabled(true);
-        exportFavourites->setDisabled(true);
+        m_exportFavouritesAction->setDisabled(favouritesList.isEmpty());
 
         auto selectedAction = menu.exec(menuPosition);
 
-        qDeleteAll(menuMap);
+        qDeleteAll(m_favouritesMenuMap);
 
-        if (selectedAction == openFavourite) {
-
-        } else if (selectedAction == saveFavourite) {
-
-        } else if (selectedAction == newFavourite) {
-
-        } else if (selectedAction == editFavourites) {
-            FavouritesManagerDialog favouritesDialog;
-
-            favouritesDialog.exec();
-        } else if (selectedAction == importFavourites) {
-
-        } else if (selectedAction == exportFavourites) {
-
-        }
+        m_favouritesMenuMap.clear();
     });
 
     m_intervalHighlighter = new LineSyntaxHighlighter(ui->intervalLineEdit->document(), [=](const QString &text) {
@@ -236,52 +175,41 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
     }
 
     connect(ui->startButton, &Nedrysoft::Ribbon::RibbonButton::clicked, [=](bool checked) {
-        auto editorManager = Nedrysoft::Core::IEditorManager::getInstance();
+        QVariantMap map;
 
-        if (editorManager) {
-            auto pingEngineFactory = ui->engineComboBox->currentData().value<Nedrysoft::Core::IPingEngineFactory *>();
+        auto pingEngineFactory = ui->engineComboBox->currentData().value<Nedrysoft::Core::IPingEngineFactory *>();
 
-            auto target = ui->targetLineEdit->toPlainText().isEmpty() ?
-                    ui->targetLineEdit->placeholderText() :
-                    ui->targetLineEdit->toPlainText();
+        auto target = ui->targetLineEdit->toPlainText().isEmpty() ?
+                      ui->targetLineEdit->placeholderText() :
+                      ui->targetLineEdit->toPlainText();
 
-            auto interval = ui->intervalLineEdit->toPlainText().isEmpty() ?
-                    ui->intervalLineEdit->placeholderText() :
-                    ui->intervalLineEdit->toPlainText();
+        auto interval = ui->intervalLineEdit->toPlainText().isEmpty() ?
+                        ui->intervalLineEdit->placeholderText() :
+                        ui->intervalLineEdit->toPlainText();
 
-            if (!Nedrysoft::Utils::checkHostValid(target)) {
-                return;
-            }
-
-            double intervalTime;
-
-            if (!Nedrysoft::Utils::parseIntervalString(interval, intervalTime)) {
-                return;
-            }
-
-            RouteAnalyserEditor *editor = new RouteAnalyserEditor;
-
-            editor->setPingEngine(pingEngineFactory);
-            editor->setTarget(target);
-
-            Nedrysoft::Core::IPVersion ipVersion;
-
-            if (ui->ipV4RadioButton->isChecked()) {
-                ipVersion = Nedrysoft::Core::IPVersion::V4;
-            } else {
-                ipVersion = Nedrysoft::Core::IPVersion::V6;
-            }
-
-            editor->setIPVersion(ipVersion);
-
-            editor->setInterval(intervalTime);
-
-            editorManager->openEditor(editor);
-
-            auto favouritesManager = Nedrysoft::RouteAnalyser::TargetManager::getInstance();
-
-            favouritesManager->addFavourite(target, target, target, ipVersion);
+        if (!Nedrysoft::Utils::checkHostValid(target)) {
+            return;
         }
+
+        double intervalTime;
+
+        if (!Nedrysoft::Utils::parseIntervalString(interval, intervalTime)) {
+            return;
+        }
+
+        Nedrysoft::Core::IPVersion ipVersion;
+
+        if (ui->ipV4RadioButton->isChecked()) {
+            ipVersion = Nedrysoft::Core::IPVersion::V4;
+        } else {
+            ipVersion = Nedrysoft::Core::IPVersion::V6;
+        }
+
+        map["host"] = target;
+        map["interval"] = intervalTime;
+        map["ipversion"].setValue<Nedrysoft::Core::IPVersion>(ipVersion);
+
+        openTarget(map, pingEngineFactory);
     });
 
     connect(ui->intervalLineEdit, &Nedrysoft::Ribbon::RibbonLineEdit::textChanged, [this]() {
@@ -304,6 +232,10 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
 Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::~NewTargetRibbonGroup() {
     delete ui;
+
+    qDeleteAll(m_favouritesMenuMap);
+
+    m_favouritesMenuMap.clear();
 }
 
 void Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::updateIcons(bool isDarkMode) {
@@ -352,4 +284,169 @@ auto Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::validateFields() -> void {
     auto invalidWidget = checkFieldsValid(errorString);
 
     ui->startButton->setEnabled(invalidWidget==nullptr);
+}
+
+auto Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::findInsertAction(
+        QString buildPath,
+        QString itemText,
+        QMap<QString,
+        QMenu *> &menuMap) -> QAction * {
+
+    QAction *baseAction = nullptr;
+
+    for (auto action : menuMap[buildPath.toLower()]->actions()) {
+        if (action->text().compare(itemText, Qt::CaseInsensitive)<0) {
+            continue;
+        }
+
+        baseAction = action;
+
+        break;
+    }
+
+    return baseAction;
+}
+
+auto Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::addFavouriteAction(
+        QAction *action,
+        QString buildPath,
+        QString itemText,
+        QMap<QString,
+        QMenu *> &menuMap) -> void {
+
+    auto beforeAction = findInsertAction(buildPath, itemText.toLower(), menuMap);
+
+    if (beforeAction) {
+        menuMap[buildPath]->insertAction(beforeAction, action);
+    } else {
+        menuMap[buildPath]->addAction(action);
+    }
+}
+
+void Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onImportFavourites(bool checked) {
+    Q_UNUSED(checked)
+
+    auto targetManager = Nedrysoft::RouteAnalyser::TargetManager::getInstance();
+
+    targetManager->importFavourites(this);
+}
+
+void Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onExportFavourites(bool checked) {
+    Q_UNUSED(checked)
+
+    auto targetManager = Nedrysoft::RouteAnalyser::TargetManager::getInstance();
+
+    targetManager->exportFavourites(this);
+}
+
+void Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::openTarget(
+        QVariantMap parameters,
+        Nedrysoft::Core::IPingEngineFactory *pingEngineFactory ) {
+
+    auto editorManager = Nedrysoft::Core::IEditorManager::getInstance();
+
+    if (editorManager) {
+        auto target = parameters["host"].toString() ;
+        auto intervalTime = parameters["interval"].toDouble();
+        auto ipVersion = parameters["ipversion"].value<Nedrysoft::Core::IPVersion>();
+
+        RouteAnalyserEditor *editor = new RouteAnalyserEditor;
+
+        editor->setPingEngine(pingEngineFactory);
+        editor->setTarget(target);
+        editor->setIPVersion(ipVersion);
+        editor->setInterval(intervalTime);
+
+        editorManager->openEditor(editor);
+    }
+}
+
+auto Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::populateRecentsMenu() -> void {
+    auto recentTargets = Nedrysoft::RouteAnalyser::TargetManager::getInstance()->recents();
+
+    m_recentsMenu = new QMenu;
+
+    for (auto target : recentTargets) {
+        m_recentsMenu->addAction(target["host"].toString());
+    }
+
+    m_recentTargetsAction->setMenu(m_recentsMenu);
+    m_recentTargetsAction->setDisabled(recentTargets.isEmpty());
+}
+
+void Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onEditFavourites(bool checked) {
+    Q_UNUSED(checked)
+
+    FavouritesManagerDialog favouritesDialog;
+
+    favouritesDialog.exec();
+}
+
+auto Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::populateFavouritesMenu() -> void {
+    auto favouritesList = Nedrysoft::RouteAnalyser::TargetManager::getInstance()->favourites();
+
+    if (!m_favouritesMenuMap.isEmpty()) {
+        qDeleteAll(m_favouritesMenuMap);
+
+        m_favouritesMenuMap.clear();
+    }
+
+    m_favouritesMenuMap["/"] = new QMenu;
+
+    for (auto favourite : favouritesList) {
+        QString buildPath = "/";
+        QString entryName;
+        auto menuPath = favourite["name"].toString().split("/");
+
+        if (menuPath.length()) {
+            auto menuIndex = 0;
+
+            while(menuIndex<menuPath.length()-1) {
+                auto thisSegment = menuPath.at(menuIndex).trimmed();
+
+                if (!thisSegment.isEmpty()) {
+                    auto nextBuildPath = (buildPath+thisSegment+"/").toLower();
+
+                    if (!m_favouritesMenuMap.contains(nextBuildPath)) {
+                        m_favouritesMenuMap[nextBuildPath] = new QMenu;
+
+                        QAction *action = new QAction(menuPath.at(menuIndex));
+
+                        action->setMenu(m_favouritesMenuMap[nextBuildPath]);
+
+                        addFavouriteAction(action, buildPath, menuPath.at(menuIndex).toLower(), m_favouritesMenuMap);
+                    }
+
+                    buildPath += (menuPath.at(menuIndex)+"/").toLower();
+                }
+
+                menuIndex++;
+            }
+
+            entryName = menuPath.at(menuIndex);
+        } else {
+            entryName = favourite["name"].toString();
+        }
+
+        auto *newAction = new QAction(entryName);
+
+        connect(newAction, &QAction::triggered, [=](bool checked) {
+            auto pingEngineFactory = ui->engineComboBox->currentData().value<Nedrysoft::Core::IPingEngineFactory *>();
+
+            if (pingEngineFactory) {
+                QVariantMap map = newAction->data().toMap();
+
+                map["interval"] = map["interval"].toDouble()/1000.0;
+
+                openTarget(map, pingEngineFactory);
+            }
+        });
+
+        newAction->setData(favourite);
+
+        addFavouriteAction(newAction, buildPath, entryName.toLower(), m_favouritesMenuMap);
+    }
+
+    m_favouritesAction->setMenu(m_favouritesMenuMap["/"]);
+    m_favouritesAction->setDisabled(favouritesList.isEmpty());
 }

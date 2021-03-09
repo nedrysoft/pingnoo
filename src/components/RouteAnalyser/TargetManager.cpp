@@ -24,9 +24,11 @@
 #include "TargetManager.h"
 
 #include "Core/ICore.h"
+#include "MacHelper/MacHelper.h"
 
 #include <QDir>
 #include <QFile>
+#include <QFileDialog>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -56,7 +58,7 @@ auto Nedrysoft::RouteAnalyser::TargetManager::addFavourite(
     newFavourite["host"] = host;
     newFavourite["name"] = name;
     newFavourite["description"] = description;
-    newFavourite["ipVersion"].setValue<Nedrysoft::Core::IPVersion>(ipVersion);
+    newFavourite["ipversion"].setValue<Nedrysoft::Core::IPVersion>(ipVersion);
 
     for (auto favourite : m_favouriteList) {
         if (favourite["host"]==host) {
@@ -70,6 +72,21 @@ auto Nedrysoft::RouteAnalyser::TargetManager::addFavourite(
     Q_EMIT favouritesChanged();
 }
 
+auto Nedrysoft::RouteAnalyser::TargetManager::addRecent(QVariantMap parameters) -> void {
+    QVariantMap newRecent;
+
+    for (auto recent : m_recentsList) {
+        if (recent["host"].toString().compare(parameters["host"].toString(), Qt::CaseInsensitive)) {
+            m_recentsList.removeFirst();
+            break;
+        }
+    }
+
+    m_recentsList.insert(0, parameters);
+
+    Q_EMIT recentsChanged();
+}
+
 auto Nedrysoft::RouteAnalyser::TargetManager::addRecent(
         QString host,
         QString name,
@@ -81,18 +98,9 @@ auto Nedrysoft::RouteAnalyser::TargetManager::addRecent(
     newRecent["host"] = host;
     newRecent["name"] = name;
     newRecent["description"] = description;
-    newRecent["ipVersion"].setValue<Nedrysoft::Core::IPVersion>(ipVersion);
+    newRecent["ipversion"].setValue<Nedrysoft::Core::IPVersion>(ipVersion);
 
-    for (auto recent : m_recentsList) {
-        if (recent["host"]==host) {
-            m_recentsList.removeFirst();
-            break;
-        }
-    }
-
-    m_recentsList.insert(0, newRecent);
-
-    Q_EMIT recentsChanged();
+    addRecent(newRecent);
 }
 
 auto Nedrysoft::RouteAnalyser::TargetManager::favourites() -> QList<QVariantMap> {
@@ -116,8 +124,8 @@ auto Nedrysoft::RouteAnalyser::TargetManager::saveConfiguration() -> QJsonObject
         favouriteObject["host"] = favourite["host"].toJsonValue();
         favouriteObject["name"] = favourite["name"].toJsonValue();
         favouriteObject["description"] = favourite["description"].toJsonValue();
-        favouriteObject["interval"] = favourite["description"].toJsonValue();
-        favouriteObject["ipVersion"] = favourite["ipVersion"].toJsonValue();
+        favouriteObject["interval"] = favourite["interval"].toJsonValue();
+        favouriteObject["ipversion"] = favourite["ipversion"].toJsonValue();
 
         favouritesArray.append(favouriteObject);
     }
@@ -143,8 +151,8 @@ auto Nedrysoft::RouteAnalyser::TargetManager::loadConfiguration(QJsonObject conf
             favouriteMap["description"] = favouriteObject["description"].toString();
             favouriteMap["host"] = favouriteObject["host"].toString();
             favouriteMap["interval"] = favouriteObject["interval"].toInt();
-            favouriteMap["ipVersion"].setValue<Nedrysoft::Core::IPVersion>(
-                    favouriteObject["ipVersion"].toVariant().value<Nedrysoft::Core::IPVersion>());
+            favouriteMap["ipversion"].setValue<Nedrysoft::Core::IPVersion>(
+                    favouriteObject["ipversion"].toVariant().value<Nedrysoft::Core::IPVersion>());
 
             m_favouriteList.append(favouriteMap);
         }
@@ -186,4 +194,105 @@ auto Nedrysoft::RouteAnalyser::TargetManager::loadFavourites(QString filename, b
     }
 
     return false;
+}
+
+auto Nedrysoft::RouteAnalyser::TargetManager::saveFavourites(QString filename) -> bool {
+    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+
+    if (configPaths.count()) {
+        QFile configurationFile;
+
+        if (filename.isNull()) {
+            auto filePath = QString("%1/%2/%3")
+                    .arg(configPaths.at(0))
+                    .arg(ConfigurationPath)
+                    .arg(QString(ConfigurationFilename));
+
+            configurationFile.setFileName(QDir::cleanPath(filePath));
+        } else {
+            configurationFile.setFileName(filename);
+        }
+
+        if (configurationFile.open(QFile::WriteOnly)) {
+            QJsonDocument favouritesDocument;
+
+            favouritesDocument.setObject(saveConfiguration());
+
+            configurationFile.write(favouritesDocument.toJson());
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+auto Nedrysoft::RouteAnalyser::TargetManager::importFavourites(QWidget *parent) -> void {
+    auto filename = QFileDialog::getOpenFileName(parent);
+
+    if (!filename.isNull()) {
+#if defined(Q_OS_MACOS)
+        auto append = false;
+
+        Nedrysoft::MacHelper::nativeAlert(
+            parent,
+            tr("Import Favourites"),
+            tr("Would you like to append or overwrite the existing favourites?"),
+            QStringList() << "Overwrite" << "Append" << "Cancel",
+
+            [=](Nedrysoft::AlertButton::AlertButtonResult result) {
+                auto append = false;
+
+                switch (result) {
+                    case Nedrysoft::AlertButton::Button(1): {
+                        break;
+                    }
+
+                    case Nedrysoft::AlertButton::Button(2): {
+                        append = true;
+                        break;
+                    }
+
+                    default: {
+                        return;
+                    }
+                }
+
+                loadFavourites(filename, append);
+        });
+#else
+        auto append = false;
+
+        QMessageBox messageBox;
+
+        QAbstractButton *appendButton = messageBox.addButton(tr("Append"), QMessageBox::YesRole);
+        QAbstractButton *overwriteButton = messageBox.addButton(tr("Owerwrite"), QMessageBox::NoRole);
+        QAbstractButton *cancelButton = messageBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
+
+        messageBox.setIcon(QMessageBox::Question);
+        messageBox.setWindowTitle("Import Favourites");
+        messageBox.setText("Would you like to append or overwrite the existing favourites?");
+
+        messageBox.exec();
+
+        if (messageBox.clickedButton()) {
+            if (messageBox.clickedButton()==cancelButton) {
+                return;
+            }
+
+            if (messageBox.clickedButton()==appendButton) {
+                append = true;
+            }
+        }
+#endif
+        loadFavourites(filename, append);
+    }
+}
+
+auto Nedrysoft::RouteAnalyser::TargetManager::exportFavourites(QWidget *parent) -> void {
+    auto filename = QFileDialog::getSaveFileName(parent);
+
+    if (!filename.isNull()) {
+        saveFavourites(filename);
+    }
 }

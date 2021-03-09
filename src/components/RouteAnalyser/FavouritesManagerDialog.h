@@ -56,6 +56,16 @@ namespace Nedrysoft::RouteAnalyser {
 
         private:
             /**
+             * @brief       Creates the items for the favourite ready for adding to the list.
+             *
+             * @param[in]   favourite the favourite fields.
+             *
+             * @returns     the list of items to insert.
+             */
+            auto createFavourite(QVariantMap favourite) -> QList<QStandardItem *>;
+
+        private:
+            /**
              * @brief       Updates the buttons to reflect the current state of the editor.
              */
             auto updateButtons() -> void;

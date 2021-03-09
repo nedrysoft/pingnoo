@@ -133,6 +133,10 @@ endmacro(pingnoo_use_component)
 
 macro(pingnoo_use_shared_library libraryName)
     target_link_libraries(${PROJECT_NAME} ${libraryName})
+
+    if(EXISTS "${PINGNOO_LIBRARIES_SOURCE_DIR}/${libraryName}/includes")
+        target_include_directories(${PROJECT_NAME} PRIVATE "${PINGNOO_LIBRARIES_SOURCE_DIR}/${libraryName}/includes")
+    endif()
 endmacro(pingnoo_use_shared_library)
 
 macro(pingnoo_use_static_library libraryName)

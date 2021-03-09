@@ -26,8 +26,8 @@
 
 #include "Core/ICore.h"
 
-#include <QObject>
 #include <QJsonObject>
+#include <QObject>
 
 namespace Nedrysoft::RouteAnalyser {
     enum class FavouriteField {
@@ -93,6 +93,14 @@ namespace Nedrysoft::RouteAnalyser {
                     Nedrysoft::Core::IPVersion ipVersion ) -> void;
 
             /**
+             * @brief       Adds a target to recent list.
+             *
+             * @param[in]   parameters the key/value map of a target.
+             *
+             */
+            auto addRecent(QVariantMap parameters) -> void;
+
+            /**
              * @brief       Returns the list of favourites as a map
              *
              * @returns     the list of favourites.
@@ -143,6 +151,20 @@ namespace Nedrysoft::RouteAnalyser {
              * @return      returns true if loaded; otherwise false.
              */
             auto loadFavourites(QString filename = QString(), bool append = false) -> bool;
+
+            /**
+             * @brief       Imports the favourites prompting for a filename.
+             *
+             * @param[in]   parent the parent window of the dialog.
+             */
+            auto importFavourites(QWidget *parent=nullptr) -> void;
+
+            /**
+             * @brief       Exports the favourites prompting for a filename.
+             *
+             * @param[in]   parent the parent window of the dialog.
+             */
+            auto exportFavourites(QWidget *parent=nullptr) -> void;
 
             /**
              * @brief       This signal is emitted when the favourites "database" has changed.
