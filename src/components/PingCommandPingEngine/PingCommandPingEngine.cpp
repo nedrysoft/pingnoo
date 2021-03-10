@@ -113,7 +113,7 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::emitResult(Nedryso
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::targets() -> QList<Nedrysoft::Core::IPingTarget *> {
     QList<Nedrysoft::Core::IPingTarget *> list;
 
-    for (auto target : d->m_targetList) {
+    for (auto target : m_pingTargets) {
         list.append(target);
     }
 
