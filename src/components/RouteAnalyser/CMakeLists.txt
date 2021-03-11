@@ -37,6 +37,9 @@ pingnoo_add_sources(
     ColourManager.h
     TargetManager.cpp
     TargetManager.h
+    FavouriteEditorDialog.cpp
+    FavouriteEditorDialog.h
+    FavouriteEditorDialog.ui
     FavouritesManagerDialog.cpp
     FavouritesManagerDialog.h
     FavouritesManagerDialog.ui
@@ -62,6 +65,9 @@ pingnoo_add_sources(
     NewTargetRibbonGroup.cpp
     NewTargetRibbonGroup.h
     NewTargetRibbonGroup.ui
+    OpenFavouriteDialog.cpp
+    OpenFavouriteDialog.h
+    OpenFavouriteDialog.ui
     PingData.cpp
     PingData.h
     PlotScrollArea.cpp

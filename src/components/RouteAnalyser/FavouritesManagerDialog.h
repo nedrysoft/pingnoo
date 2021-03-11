@@ -41,6 +41,15 @@ namespace Nedrysoft::RouteAnalyser {
         private:
             Q_OBJECT
 
+        private:
+            enum TableFields {
+                Name,
+                Description,
+                Host,
+                IPVersion,
+                Interval
+            };
+
         public:
             /**
              * @brief       Constructs a new FavouritesManagerDialog that is a child of the parent.
@@ -69,6 +78,18 @@ namespace Nedrysoft::RouteAnalyser {
              * @brief       Updates the buttons to reflect the current state of the editor.
              */
             auto updateButtons() -> void;
+
+            /**
+             * @brief       Applies any changes and saves them.
+             */
+            auto applyChanges() -> void;
+
+            /**
+             * @brief       This slot is called when an item has been selected for editing.
+             *
+             * @param[in]   index the model index of the edited item.
+             */
+            Q_SLOT void onEditFavourite(const QModelIndex &index);
 
         private:
             Ui::FavouritesManagerDialog *ui;

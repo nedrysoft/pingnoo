@@ -21,8 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// You may need to build the project (run Qt uic code generator) to get "ui_RouteAnalyserRibbonGroup.h" resolved
-
 #include "NewTargetRibbonGroup.h"
 #include "ui_NewTargetRibbonGroup.h"
 
@@ -30,15 +28,16 @@
 #include "Core/ICommandManager.h"
 #include "Core/IEditorManager.h"
 #include "Core/IPingEngineFactory.h"
-#include "TargetManager.h"
+#include "FavouriteEditorDialog.h"
 #include "FavouritesManagerDialog.h"
+#include "OpenFavouriteDialog.h"
 #include "RouteAnalyserEditor.h"
+#include "TargetManager.h"
 #include "TargetSettings.h"
 #include "ThemeSupport.h"
 #include "Utils.h"
 
 #include <QAbstractItemView>
-#include <QDebug>
 #include <QMenu>
 #include <QStandardItemModel>
 #include <map>
@@ -98,6 +97,8 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         connect(m_importFavouritesAction, &QAction::triggered, this, &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onImportFavourites);
         connect(m_exportFavouritesAction, &QAction::triggered, this, &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onExportFavourites);
         connect(m_editFavouritesAction, &QAction::triggered, this, &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onEditFavourites);
+        connect(m_newFavouriteAction, &QAction::triggered, this, &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onNewFavourite);
+        connect(m_openFavouriteAction, &QAction::triggered, this, &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onOpenFavourite);
 
         populateRecentsMenu();
 
@@ -380,6 +381,30 @@ void Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onEditFavourites(bool check
     FavouritesManagerDialog favouritesDialog;
 
     favouritesDialog.exec();
+}
+
+void Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onNewFavourite(bool checked) {
+    Q_UNUSED(checked)
+    auto targetManager = Nedrysoft::RouteAnalyser::TargetManager::getInstance();
+    QVariantMap newItemMap;
+
+    FavouriteEditorDialog favouriteEditorDialog(tr("New Favourite"), newItemMap, this);
+
+    if (favouriteEditorDialog.exec()) {
+        auto favouritesList = targetManager->favourites();
+
+        favouritesList.append(favouriteEditorDialog.map());
+
+        targetManager->setFavourites(favouritesList);
+    }
+}
+
+QVariantMap Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onOpenFavourite(bool checked) {
+    OpenFavouriteDialog openFavouriteDialog(this);
+
+    openFavouriteDialog.exec();
+
+    return QVariantMap();
 }
 
 auto Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::populateFavouritesMenu() -> void {

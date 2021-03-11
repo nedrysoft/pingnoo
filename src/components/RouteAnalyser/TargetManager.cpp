@@ -121,11 +121,11 @@ auto Nedrysoft::RouteAnalyser::TargetManager::saveConfiguration() -> QJsonObject
     for (auto favourite : m_favouriteList) {
         QJsonObject favouriteObject;
 
-        favouriteObject["host"] = favourite["host"].toJsonValue();
-        favouriteObject["name"] = favourite["name"].toJsonValue();
-        favouriteObject["description"] = favourite["description"].toJsonValue();
-        favouriteObject["interval"] = favourite["interval"].toJsonValue();
-        favouriteObject["ipversion"] = favourite["ipversion"].toJsonValue();
+        favouriteObject["host"] = favourite["host"].toString();
+        favouriteObject["name"] = favourite["name"].toString();
+        favouriteObject["description"] = favourite["description"].toString();
+        favouriteObject["interval"] = favourite["interval"].toInt();
+        favouriteObject["ipversion"] = favourite["ipversion"].toInt();
 
         favouritesArray.append(favouriteObject);
     }
@@ -295,4 +295,10 @@ auto Nedrysoft::RouteAnalyser::TargetManager::exportFavourites(QWidget *parent) 
     if (!filename.isNull()) {
         saveFavourites(filename);
     }
+}
+
+auto Nedrysoft::RouteAnalyser::TargetManager::setFavourites(QList<QVariantMap> favourites) -> void {
+    m_favouriteList = favourites;
+
+    saveFavourites();
 }

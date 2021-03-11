@@ -24,6 +24,7 @@
 #include "FavouritesManagerDialog.h"
 
 #include "Core/ICore.h"
+#include "FavouriteEditorDialog.h"
 #include "MacHelper/MacHelper.h"
 #include "TargetManager.h"
 #include "Utils.h"
@@ -33,6 +34,10 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStandardItem>
+
+constexpr auto MillisecondsInSecond = 1000.0;
+constexpr auto DataRole = Qt::UserRole+1;
+constexpr auto DataColumn = 0;
 
 Nedrysoft::RouteAnalyser::FavouritesManagerDialog::FavouritesManagerDialog(QWidget *parent) :
         QDialog(parent),
@@ -62,14 +67,23 @@ Nedrysoft::RouteAnalyser::FavouritesManagerDialog::FavouritesManagerDialog(QWidg
         if (ui->treeView->currentIndex().isValid()) {
             auto index = ui->treeView->currentIndex();
 
-            index = m_itemModel->index(index.row(), 0);
+            index = m_itemModel->index(index.row(), DataColumn);
 
-            QVariant data = m_itemModel->data(index, Qt::UserRole+1);
+            QVariant data = m_itemModel->data(index, DataRole);
 
             auto items = createFavourite(data.toMap());
 
             m_itemModel->insertRow(ui->treeView->currentIndex().row(), items);
         }
+    });
+
+    connect(ui->applyPushButton, &QPushButton::clicked, [=](bool checked) {
+        applyChanges();
+    });
+
+    connect(ui->okPushButton, &QPushButton::clicked, [=](bool checked) {
+        applyChanges();
+        accept();
     });
 
     connect(ui->exportPushButton, &QPushButton::clicked, [=](bool checked) {
@@ -97,9 +111,28 @@ Nedrysoft::RouteAnalyser::FavouritesManagerDialog::FavouritesManagerDialog(QWidg
                 updateButtons();
     });
 
-    m_itemModel->setHorizontalHeaderLabels(QStringList() << tr("Name") << tr("Description") << tr("Host") << tr("IP Version") << tr("Interval"));
+    connect(ui->treeView, &QTreeView::doubleClicked, this, &FavouritesManagerDialog::onEditFavourite);
+    connect(ui->editPushButton, &QPushButton::clicked, [=](bool clicked) {
+        onEditFavourite(ui->treeView->currentIndex());
+    });
+
+    auto columnWidths = QList<double>() << 0.25 << 0.25 << 0.2 << 0.1 << 0.1;
+
+    m_itemModel->setHorizontalHeaderLabels(
+            QStringList() <<
+            tr("Name") <<
+            tr("Description") <<
+            tr("Host") <<
+            tr("IP Version") <<
+            tr("Interval"));
 
     ui->treeView->setCurrentIndex(m_itemModel->index(0, 0));
+
+    for (int columnIndex=0;columnIndex<columnWidths.size();columnIndex++) {
+        ui->treeView->setColumnWidth(
+                columnIndex,
+                columnWidths.at(columnIndex)*700.0 );
+    }
 
     auto favourites = Nedrysoft::RouteAnalyser::TargetManager::getInstance()->favourites();
 
@@ -129,7 +162,7 @@ auto Nedrysoft::RouteAnalyser::FavouritesManagerDialog::updateButtons() -> void 
 }
 
 auto Nedrysoft::RouteAnalyser::FavouritesManagerDialog::createFavourite(QVariantMap favourite) -> QList<QStandardItem *> {
-    QString versionString;
+    QString versionString = "4";
 
     switch(favourite["ipversion"].value<Nedrysoft::Core::IPVersion>()) {
         case Nedrysoft::Core::IPVersion::V4: {
@@ -146,7 +179,7 @@ auto Nedrysoft::RouteAnalyser::FavouritesManagerDialog::createFavourite(QVariant
             return QList<QStandardItem *>();
     }
 
-    auto intervalString = Nedrysoft::Utils::intervalToString(favourite["interval"].toDouble()/1000.0);
+    auto intervalString = Nedrysoft::Utils::intervalToString(favourite["interval"].toDouble()/MillisecondsInSecond);
 
     auto nameItem = new QStandardItem(favourite["name"].toString());
     auto descriptionItem = new QStandardItem(favourite["description"].toString());
@@ -159,4 +192,54 @@ auto Nedrysoft::RouteAnalyser::FavouritesManagerDialog::createFavourite(QVariant
     auto items = QList<QStandardItem *>() << nameItem << descriptionItem << hostItem << versionItem << intervalItem;
 
     return items;
+}
+
+void Nedrysoft::RouteAnalyser::FavouritesManagerDialog::onEditFavourite(const QModelIndex &index) {
+    auto selectedItem = m_itemModel->item(index.row());
+
+    if (selectedItem) {
+
+        auto map = selectedItem->data(DataRole).toMap();
+
+        Nedrysoft::RouteAnalyser::FavouriteEditorDialog dialog(tr("Edit Favourite"), map, this);
+
+        if (dialog.exec()) {
+            map = dialog.map();
+            QString versionString;
+
+            switch(map["ipversion"].value<Nedrysoft::Core::IPVersion>()) {
+                case Nedrysoft::Core::IPVersion::V4: {
+                    versionString = "4";
+                    break;
+                }
+
+                case Nedrysoft::Core::IPVersion::V6: {
+                    versionString = "6";
+                    break;
+                }
+            }
+
+            auto intervalString = Nedrysoft::Utils::intervalToString(map["interval"].toDouble()/MillisecondsInSecond);
+
+            m_itemModel->item(index.row(), Name)->setText(map["name"].toString());
+            m_itemModel->item(index.row(), Description)->setText(map["description"].toString());
+            m_itemModel->item(index.row(), Host)->setText(map["host"].toString());
+            m_itemModel->item(index.row(), IPVersion)->setText(versionString);
+            m_itemModel->item(index.row(), Interval)->setText(intervalString);
+
+            selectedItem->setData(map);
+        }
+    }
+}
+
+auto Nedrysoft::RouteAnalyser::FavouritesManagerDialog::applyChanges() -> void {
+    auto targetManager = Nedrysoft::RouteAnalyser::TargetManager::getInstance();
+
+    QList<QVariantMap> favouritesList;
+
+    for (int itemIndex=0;itemIndex<m_itemModel->rowCount();itemIndex++) {
+        favouritesList.append(m_itemModel->item(itemIndex, DataColumn)->data(DataRole).toMap());
+    }
+
+    targetManager->setFavourites(favouritesList);
 }

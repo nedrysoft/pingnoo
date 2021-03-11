@@ -108,6 +108,13 @@ namespace Nedrysoft::RouteAnalyser {
             auto favourites() -> QList<QVariantMap>;
 
             /**
+             * @brief       Sets the favourites to the given list and saves to storage.
+             *
+             * @param[in]   favourites the list of favourites.
+             */
+            auto setFavourites(QList<QVariantMap> favourites) ->void;
+
+            /**
              * @brief       Returns the list of recent targets
              *
              * @returns     the list of favourites.
@@ -138,7 +145,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @return      returns true if saved; otherwise false.
              */
-            auto saveFavourites(QString filename) -> bool;
+            auto saveFavourites(QString filename = QString()) -> bool;
 
             /**
              * @brief       Loads the current favourites configuration file.

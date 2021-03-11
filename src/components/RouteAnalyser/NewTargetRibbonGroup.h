@@ -151,11 +151,25 @@ namespace Nedrysoft::RouteAnalyser {
             auto populateFavouritesMenu() -> void;
 
             /**
-             * @brief       Opens the favourites editor.
+             * @brief       Opens the favourites manager.
              *
              * @param[in]   checked whether the action was checked.
              */
             Q_SLOT void onEditFavourites(bool checked);
+
+            /**
+             * @brief       Opens the favourite editor .
+             *
+             * @param[in]   checked whether the action was checked.
+             */
+            Q_SLOT void onNewFavourite(bool checked);
+
+            /**
+             * @brief       Opens the favourite selecton dialog.
+             *
+             * @returns     The favourite data map.
+             */
+            Q_SLOT QVariantMap onOpenFavourite(bool checked);
 
         private:
             Ui::NewTargetRibbonGroup *ui;
