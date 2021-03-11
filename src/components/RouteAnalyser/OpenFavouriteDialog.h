@@ -25,6 +25,8 @@
 #define NEDRYSOFT_OPENFAVOURITEDIALOG_H
 
 #include <QDialog>
+#include <QStandardItemModel>
+#include "FavouritesSortProxyFilterModel.h"
 
 namespace Nedrysoft::RouteAnalyser {
     namespace Ui {
@@ -54,8 +56,22 @@ namespace Nedrysoft::RouteAnalyser {
              */
             ~OpenFavouriteDialog() override;
 
+            /**
+             * @brief       Returns the favourite that was selected.
+             *
+             * @returns     a QVariantMap with the favourites details.
+             */
+            auto selectedItem() -> QVariantMap;
+
+        private:
+            auto createFavourite(QVariantMap favourite) -> QList<QStandardItem *>;
+
         private:
             Ui::OpenFavouriteDialog *ui;
+
+            QStandardItemModel m_itemModel;
+            FavouritesSortProxyFilterModel m_filterModel;
+            QVariantMap m_selectedItem;
     };
 }
 #endif //NEDRYSOFT_OPENFAVOURITEDIALOG_H

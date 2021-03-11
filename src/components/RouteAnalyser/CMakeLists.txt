@@ -43,6 +43,8 @@ pingnoo_add_sources(
     FavouritesManagerDialog.cpp
     FavouritesManagerDialog.h
     FavouritesManagerDialog.ui
+    FavouritesSortProxyFilterModel.cpp
+    FavouritesSortProxyFilterModel.h
     GraphLatencyLayer.cpp
     GraphLatencyLayer.h
     LatencyRibbonGroup.cpp
@@ -119,6 +121,10 @@ pingnoo_use_shared_library(AppNap)
 if(APPLE)
     pingnoo_use_shared_library(MacHelper)
 endif()
+
+pingnoo_add_sources()
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${PINGNOO_LIBRARIES_SOURCE_DIR}/3rdparty/rapidfuzz-cpp)
 
 pingnoo_set_component_metadata("Views" "Provides the route visualiser system")
 

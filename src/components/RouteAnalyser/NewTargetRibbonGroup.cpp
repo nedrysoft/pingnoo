@@ -110,7 +110,7 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
         m_exportFavouritesAction->setDisabled(favouritesList.isEmpty());
 
-        auto selectedAction = menu.exec(menuPosition);
+        menu.exec(menuPosition);
 
         qDeleteAll(m_favouritesMenuMap);
 
@@ -400,9 +400,23 @@ void Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onNewFavourite(bool checked
 }
 
 QVariantMap Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onOpenFavourite(bool checked) {
+    Q_UNUSED(checked)
+
     OpenFavouriteDialog openFavouriteDialog(this);
 
-    openFavouriteDialog.exec();
+    if (openFavouriteDialog.exec()) {
+        auto favouriteMap = openFavouriteDialog.selectedItem();
+
+        if (!favouriteMap.isEmpty()) {
+            auto pingEngineFactory = ui->engineComboBox->currentData().value<Nedrysoft::Core::IPingEngineFactory *>();
+
+            if (pingEngineFactory) {
+                favouriteMap["interval"] = favouriteMap["interval"].toDouble() / 1000.0;
+
+                openTarget(favouriteMap, pingEngineFactory);
+            }
+        }
+    }
 
     return QVariantMap();
 }

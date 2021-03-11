@@ -5,7 +5,7 @@
 #
 # An open-source cross-platform traceroute analyser.
 #
-# Created by Adrian Carpenter on 27/03/2020.
+# Created by Adrian Carpenter on 12/03/2021.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,17 +21,4 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-include(${CMAKE_CURRENT_LIST_DIR}/../../cmake/pingnoo.cmake)
-
-add_subdirectory(Core)
-add_subdirectory(HostIPGeoIPProvider)
-add_subdirectory(ICMPAPIPingEngine)
-add_subdirectory(ICMPPingEngine)
-add_subdirectory(PingCommandPingEngine)
-add_subdirectory(PublicIPHostMasker)
-add_subdirectory(RegExHostMasker)
-add_subdirectory(RouteAnalyser)
-add_subdirectory(RouteEngine)
-
-set(NEDRYSOFT_COMPONENTSYSTEM_COMPONENTVIEWER ON)
 

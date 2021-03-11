@@ -19,7 +19,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Search:</string>
+        <string>Filter:</string>
        </property>
       </widget>
      </item>
@@ -29,7 +29,26 @@
     </layout>
    </item>
    <item>
-    <widget class="QTreeView" name="favouritesTreeView"/>
+    <widget class="QTreeView" name="favouritesTreeView">
+     <property name="showDropIndicator" stdset="0">
+      <bool>false</bool>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="indentation">
+      <number>0</number>
+     </property>
+     <property name="rootIsDecorated">
+      <bool>false</bool>
+     </property>
+     <property name="uniformRowHeights">
+      <bool>true</bool>
+     </property>
+     <property name="itemsExpandable">
+      <bool>false</bool>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -47,7 +66,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="closePusgButton">
+      <widget class="QPushButton" name="closePushButton">
        <property name="text">
         <string>Close</string>
        </property>
