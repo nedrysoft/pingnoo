@@ -25,7 +25,9 @@
 
 #include "Core/ICore.h"
 #include "FavouriteEditorDialog.h"
+#if defined(Q_OS_MACOS)
 #include "MacHelper/MacHelper.h"
+#endif
 #include "TargetManager.h"
 #include "Utils.h"
 

@@ -24,8 +24,9 @@
 #include "TargetManager.h"
 
 #include "Core/ICore.h"
+#if defined(Q_OS_MACOS)
 #include "MacHelper/MacHelper.h"
-
+#endif
 #include <QDir>
 #include <QFile>
 #include <QFileDialog>
