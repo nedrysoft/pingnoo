@@ -28,12 +28,18 @@
 
 #include <QWidget>
 
+class QMenu;
+
 namespace Nedrysoft::Ribbon {
     class RibbonLineEdit;
 }
 
 namespace Nedrysoft::Utils {
     class ThemeSupport;
+}
+
+namespace Nedrysoft::Core {
+    class IPingEngineFactory;
 }
 
 namespace Nedrysoft::RouteAnalyser {
@@ -86,12 +92,103 @@ namespace Nedrysoft::RouteAnalyser {
             auto validateFields() -> void ;
 
         private:
+            /**
+             * @brief       Finds the build path in the map using case insensitivity.
+             *
+             * @param[in]   buildPath the menu path (i.e /gennaro/malcom/nedry)
+             * @param[in]   itemText is the name of the item we are looking to insert.
+             * @param[in]   menuMap the map of buildpath -> menus
+             *
+             * @returns     the action before our insertion or nullptr to append to end.
+             */
+            auto findInsertAction(QString buildPath, QString itemText, QMap<QString, QMenu *> &menuMap) -> QAction *;
+
+            /**
+             * @brief       Adds an action to the favourites menu ensuring it appears in order.
+             *
+             * @param[in]   action the action to insert.
+             * @param[in]   buildPath the menu path (i.e /gennaro/malcom/nedry)
+             * @param[in]   itemText is the name of the item we are looking to insert.
+             * @param[in]   menuMap the map of buildpath -> menus
+             */
+            auto addFavouriteAction(
+                    QAction *action,
+                    QString buildPath,
+                    QString itemText,
+                    QMap<QString,
+                    QMenu *> &menuMap) -> void;
+
+            /**
+             * @brief       Imports favourites prompting for a file and whether to append or overrwrite.
+             *
+             * @param[in]   checked if the button was checked.
+             */
+            Q_SLOT void onImportFavourites(bool checked);
+
+            /**
+             * @brief       Exports favourites prompting for a file.
+             *
+             * @param[in]   checked if the button was checked.
+             */
+            Q_SLOT void onExportFavourites(bool checked);
+
+            /**
+             * @brief       Opens and begins analysis to a host.
+             *
+             * @param[in]   parameters the ping target parameters
+             * @param[in]   pingEngine the ping engine factory to use.
+             */
+            Q_SLOT void openTarget(QVariantMap parameters, Nedrysoft::Core::IPingEngineFactory *pingEngine);
+
+            /**
+             * @brief       Populates the recents menu with the most recently used targets.
+             */
+            auto populateRecentsMenu() -> void;
+
+            /**
+             * @brief       Populates the favourites menu.
+             */
+            auto populateFavouritesMenu() -> void;
+
+            /**
+             * @brief       Opens the favourites manager.
+             *
+             * @param[in]   checked whether the action was checked.
+             */
+            Q_SLOT void onEditFavourites(bool checked);
+
+            /**
+             * @brief       Opens the favourite editor .
+             *
+             * @param[in]   checked whether the action was checked.
+             */
+            Q_SLOT void onNewFavourite(bool checked);
+
+            /**
+             * @brief       Opens the favourite selecton dialog.
+             *
+             * @returns     The favourite data map.
+             */
+            Q_SLOT QVariantMap onOpenFavourite(bool checked);
+
+        private:
             Ui::NewTargetRibbonGroup *ui;
 
             LineSyntaxHighlighter *m_targetHighlighter;
             LineSyntaxHighlighter *m_intervalHighlighter;
 
             Nedrysoft::Utils::ThemeSupport *m_themeSupport;
+            QMenu *m_recentsMenu;
+            QMap<QString, QMenu *> m_favouritesMenuMap;
+
+            QAction *m_recentTargetsAction;
+            QAction * m_favouritesAction;
+            QAction * m_openFavouriteAction;
+            QAction * m_saveFavouriteAction;
+            QAction * m_newFavouriteAction;
+            QAction * m_editFavouritesAction;
+            QAction * m_importFavouritesAction;
+            QAction * m_exportFavouritesAction;
     };
 }
 

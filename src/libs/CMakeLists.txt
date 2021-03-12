@@ -30,25 +30,30 @@ set(NEDRYSOFT_SETTINGSDIALOG_LIBRARY_DIR ${PINGNOO_LIBRARIES_BINARY_DIR})
 set(NEDRYSOFT_COMPONENTSYSTEM_LIBRARY_DIR ${PINGNOO_LIBRARIES_BINARY_DIR})
 set(NEDRYSOFT_RIBBON_LIBRARY_DIR ${PINGNOO_LIBRARIES_BINARY_DIR})
 set(NEDRYSOFT_FONTAWESOME_LIBRARY_DIR ${PINGNOO_LIBRARIES_BINARY_DIR})
+set(NEDRYSOFT_MACHELPER_LIBRARY_DIR ${PINGNOO_LIBRARIES_BINARY_DIR})
 set(NEDRYSOFT_RIBBON_BUILD_DESIGNER_PLUGIN ${APPLICATION_BINARY_FOLDER})
+
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_definitions("-DUSE_SPDLOG")
 
 # add spdlog to global includes, libraries will inherit this and can then make use of it
 
-include_directories(PUBLIC ${PINGNOO_LIBRARIES_SOURCE_DIR}/spdlog/include)
+include_directories(SYSTEM spdlog/include)
 
-# find libraries and add to build
+# libraries to build
 
-file(GLOB children RELATIVE ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_LIST_DIR}/*)
-
-foreach (child ${children})
-    if (IS_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/${child})
-        if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/${child}/CMakeLists.txt)
-            add_subdirectory(${child})
-        endif ()
-    endif ()
-endforeach ()
-
+add_subdirectory(AppNap)
+add_subdirectory(ComponentSystem)
+add_subdirectory(FontAwesome)
+add_subdirectory(ICMPPacket)
+add_subdirectory(ICMPSocket)
+add_subdirectory(MacHelper)
+add_subdirectory(MapWidget)
+add_subdirectory(Ribbon)
+add_subdirectory(SettingsDialog)
+add_subdirectory(Catch2)
+add_subdirectory(gsl)
+add_subdirectory(QCustomPlot)
+add_subdirectory(spdlog)
 

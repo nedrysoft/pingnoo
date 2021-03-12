@@ -35,7 +35,7 @@
 auto constexpr WarningDefaultValue = 0.2;
 auto constexpr CriticalDefaultValue = 0.5;
 
-constexpr auto ConfigurationPath = "Components/RouteAnalyser";
+constexpr auto ConfigurationPath = "Nedrysoft/Pingnoo/Components/RouteAnalyser";
 constexpr auto ConfigurationFilename = "LatencySettings.json";
 
 Nedrysoft::RouteAnalyser::LatencySettings::LatencySettings() :

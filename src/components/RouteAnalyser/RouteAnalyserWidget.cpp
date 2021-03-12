@@ -743,7 +743,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::updateRanges() -> void {
 
         if (plot->isVisible()) {
             if (!plot->visibleRegion().isEmpty()) {
-                plot->replot();
+                plot->replot(QCustomPlot::rpQueuedReplot);
             }
         }
     }

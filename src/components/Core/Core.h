@@ -33,14 +33,6 @@
 
 namespace Nedrysoft::Core {
     /**
-     * IP version enumeration
-     */
-    enum class IPVersion {
-        V4 = 4,
-        V6 = 6
-    };
-
-    /**
      * @brief       The Core class is the root component for the application.
      *
      * @details     Provides an implementation of ICore which provides the main window for the application and

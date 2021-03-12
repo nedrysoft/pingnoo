@@ -208,6 +208,7 @@ Pingnoo uses the following third-party libraries/assets/tools/services in the de
 - [linuxdeployqt](https://github.com/probonopd/linuxdeployqt) - creates deployable linux binaries, licensed under the [GPLv3 License](https://github.com/probonopd/linuxdeployqt/blob/master/LICENSE.GPLv3).
 - [create-dmg](https://github.com/andreyvit/create-dmg) - automates the creation of Mac OS DMG files, licensed under the [MIT License](https://github.com/andreyvit/create-dmg/blob/master/LICENSE).
 - [colorama](https://github.com/tartley/colorama) - python module for terminal colour, licensed under the [BSD License](https://github.com/tartley/colorama/blob/master/LICENSE.txt).
+- [rapidfuzz-cpp](https://github.com/maxbachmann/rapidfuzz-cpp) - an implemention for fuzzy string matching, licensed under the  [MIT Liecense](https://github.com/maxbachmann/rapidfuzz-cpp/blob/master/LICENSE).
 
 Also, Pingnoo was developed using the following commercially licensed tools/services.
 
