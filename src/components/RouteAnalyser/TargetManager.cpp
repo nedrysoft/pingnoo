@@ -26,6 +26,8 @@
 #include "Core/ICore.h"
 #if defined(Q_OS_MACOS)
 #include "MacHelper/MacHelper.h"
+#else
+#include <QMessageBox>
 #endif
 #include <QDir>
 #include <QFile>
