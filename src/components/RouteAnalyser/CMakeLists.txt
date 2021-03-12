@@ -122,10 +122,8 @@ if(APPLE)
     pingnoo_use_shared_library(MacHelper)
 endif()
 
-pingnoo_add_sources()
-
-target_include_directories(${PROJECT_NAME} PRIVATE ${PINGNOO_LIBRARIES_SOURCE_DIR}/3rdparty/rapidfuzz-cpp)
-
 pingnoo_set_component_metadata("Views" "Provides the route visualiser system")
+
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 
 pingnoo_end_component()

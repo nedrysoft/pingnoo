@@ -29,6 +29,7 @@
 #else
 #include <QMessageBox>
 #endif
+#include <QAbstractButton>
 #include <QDir>
 #include <QFile>
 #include <QFileDialog>
@@ -268,9 +269,12 @@ auto Nedrysoft::RouteAnalyser::TargetManager::importFavourites(QWidget *parent) 
 
         QMessageBox messageBox;
 
-        QAbstractButton *appendButton = messageBox.addButton(tr("Append"), QMessageBox::YesRole);
-        QAbstractButton *overwriteButton = messageBox.addButton(tr("Owerwrite"), QMessageBox::NoRole);
-        QAbstractButton *cancelButton = messageBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
+        auto appendButton =
+                reinterpret_cast<QAbstractButton *>(messageBox.addButton(tr("Append"), QMessageBox::YesRole));
+        auto overwriteButton =
+                reinterpret_cast<QAbstractButton *>(messageBox.addButton(tr("Owerwrite"), QMessageBox::NoRole));
+        auto cancelButton =
+                reinterpret_cast<QAbstractButton *>(messageBox.addButton(tr("Cancel"), QMessageBox::RejectRole));
 
         messageBox.setIcon(QMessageBox::Question);
         messageBox.setWindowTitle("Import Favourites");

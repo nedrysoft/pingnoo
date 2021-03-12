@@ -23,8 +23,6 @@
 
 #include "FavouritesSortProxyFilterModel.h"
 
-#include "rapidfuzz/fuzz.hpp"
-
 bool Nedrysoft::RouteAnalyser::FavouritesSortProxyFilterModel::filterAcceptsRow(
         int sourceRow,
         const QModelIndex &sourceParent) const {
@@ -37,14 +35,10 @@ bool Nedrysoft::RouteAnalyser::FavouritesSortProxyFilterModel::filterAcceptsRow(
 
     auto map = sourceModel()->data(index, Qt::UserRole+1).toMap();
 
-    auto filterText = m_filterText.toStdString();
-
     auto stringParts = map["name"].toString().toLower().split("/");
 
     for (auto string : stringParts) {
-        double score = rapidfuzz::fuzz::partial_ratio(filterText, string.toStdString());
-
-        if (score>90) {
+        if (string.contains(m_filterText.toLower())) {
             return true;
         }
     }
