@@ -283,11 +283,11 @@ auto Nedrysoft::RouteAnalyser::TargetManager::importFavourites(QWidget *parent) 
         messageBox.exec();
 
         if (messageBox.clickedButton()) {
-            if (messageBox.clickedButton()==cancelButton) {
+            if (messageBox.clickedButton()==reinterpret_cast<QAbstractButton *>(cancelButton)) {
                 return;
             }
 
-            if (messageBox.clickedButton()==appendButton) {
+            if (messageBox.clickedButton()==reinterpret_cast<QAbstractButton *>(appendButton)) {
                 append = true;
             }
         }
