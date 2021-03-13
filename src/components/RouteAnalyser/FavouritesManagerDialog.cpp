@@ -54,6 +54,7 @@ Nedrysoft::RouteAnalyser::FavouritesManagerDialog::FavouritesManagerDialog(QWidg
 
     connect(m_itemModel, &QStandardItemModel::itemChanged, [=](QStandardItem *) {
         m_modelDirty = true;
+
         updateButtons();
     });
 
@@ -63,6 +64,11 @@ Nedrysoft::RouteAnalyser::FavouritesManagerDialog::FavouritesManagerDialog(QWidg
 
     connect(ui->deletePushButton, &QPushButton::clicked, [=](bool checked) {
         m_itemModel->removeRow(ui->treeView->currentIndex().row());
+
+        m_modelDirty = true
+                ;
+
+        updateButtons();
     });
 
     connect(ui->duplicatePushButton, &QPushButton::clicked, [=](bool checked) {
@@ -76,15 +82,24 @@ Nedrysoft::RouteAnalyser::FavouritesManagerDialog::FavouritesManagerDialog(QWidg
             auto items = createFavourite(data.toMap());
 
             m_itemModel->insertRow(ui->treeView->currentIndex().row(), items);
+
+            m_modelDirty = true;
+
+            updateButtons();
         }
     });
 
     connect(ui->applyPushButton, &QPushButton::clicked, [=](bool checked) {
         applyChanges();
+
+        m_modelDirty = false;
+
+        updateButtons();
     });
 
     connect(ui->okPushButton, &QPushButton::clicked, [=](bool checked) {
         applyChanges();
+
         accept();
     });
 
@@ -102,6 +117,26 @@ Nedrysoft::RouteAnalyser::FavouritesManagerDialog::FavouritesManagerDialog(QWidg
         auto targetManager = Nedrysoft::RouteAnalyser::TargetManager::getInstance();
 
         targetManager->importFavourites(this);
+
+        m_modelDirty = true;
+
+        updateButtons();
+    });
+
+    connect(ui->newPushButton, &QPushButton::clicked, [=](bool checked) {
+        QVariantMap newItemMap;
+
+        FavouriteEditorDialog favouriteEditorDialog(tr("New Favourite"), newItemMap, this);
+
+        if (favouriteEditorDialog.exec()) {
+            auto items = createFavourite(favouriteEditorDialog.map());
+
+            m_itemModel->appendRow(items);
+
+            m_modelDirty = true;
+
+            updateButtons();
+        }
     });
 
     ui->treeView->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -144,7 +179,7 @@ Nedrysoft::RouteAnalyser::FavouritesManagerDialog::FavouritesManagerDialog(QWidg
         m_itemModel->appendRow(items);
     }
 
-    m_modelDirty = true;
+    m_modelDirty = false;
 
     updateButtons();
 }

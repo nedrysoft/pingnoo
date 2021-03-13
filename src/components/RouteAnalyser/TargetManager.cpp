@@ -217,6 +217,12 @@ auto Nedrysoft::RouteAnalyser::TargetManager::saveFavourites(QString filename) -
             configurationFile.setFileName(filename);
         }
 
+        QDir dir(QString("%1/%2").arg(configPaths.at(0)).arg(ConfigurationPath));
+
+        if (!dir.exists()) {
+            dir.mkpath(dir.path());
+        }
+
         if (configurationFile.open(QFile::WriteOnly)) {
             QJsonDocument favouritesDocument;
 
