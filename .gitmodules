@@ -13,3 +13,6 @@
 [submodule "src/libs/FontAwesome"]
 	path = src/libs/FontAwesome
 	url = https://github.com/nedrysoft/FontAwesomeForQt
+[submodule "src/libs/3rdparty/rapidfuzz-cpp"]
+	path = src/libs/3rdparty/rapidfuzz-cpp
+	url = https://github.com/maxbachmann/rapidfuzz-cpp.git
