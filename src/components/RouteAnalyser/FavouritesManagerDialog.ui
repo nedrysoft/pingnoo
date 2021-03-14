@@ -180,6 +180,18 @@ color:  gray;</string>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>treeView</tabstop>
+  <tabstop>importPushButton</tabstop>
+  <tabstop>exportPushButton</tabstop>
+  <tabstop>duplicatePushButton</tabstop>
+  <tabstop>newPushButton</tabstop>
+  <tabstop>editPushButton</tabstop>
+  <tabstop>deletePushButton</tabstop>
+  <tabstop>okPushButton</tabstop>
+  <tabstop>cancelPushButton</tabstop>
+  <tabstop>applyPushButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

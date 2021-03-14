@@ -153,8 +153,6 @@ Nedrysoft::RouteAnalyser::FavouritesManagerDialog::FavouritesManagerDialog(QWidg
         onEditFavourite(ui->treeView->currentIndex());
     });
 
-    auto columnWidths = QList<double>() << 0.25 << 0.25 << 0.2 << 0.1 << 0.1;
-
     m_itemModel->setHorizontalHeaderLabels(
             QStringList() <<
             tr("Name") <<
@@ -165,18 +163,16 @@ Nedrysoft::RouteAnalyser::FavouritesManagerDialog::FavouritesManagerDialog(QWidg
 
     ui->treeView->setCurrentIndex(m_itemModel->index(0, 0));
 
-    for (int columnIndex=0;columnIndex<columnWidths.size();columnIndex++) {
-        ui->treeView->setColumnWidth(
-                columnIndex,
-                columnWidths.at(columnIndex)*700.0 );
-    }
-
     auto favourites = Nedrysoft::RouteAnalyser::TargetManager::getInstance()->favourites();
 
     for (auto favourite : favourites) {
         auto items = createFavourite(favourite);
 
         m_itemModel->appendRow(items);
+    }
+
+    for (int columnIndex=0;columnIndex<ui->treeView->colorCount();columnIndex++) {
+        ui->treeView->resizeColumnToContents(columnIndex);
     }
 
     m_modelDirty = false;

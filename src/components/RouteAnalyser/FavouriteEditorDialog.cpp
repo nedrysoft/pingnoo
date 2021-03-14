@@ -26,6 +26,8 @@
 #include "Core/ICore.h"
 #include "Utils.h"
 
+#include <QTimer>
+
 #include "ui_FavouriteEditorDialog.h"
 
 Nedrysoft::RouteAnalyser::FavouriteEditorDialog::FavouriteEditorDialog(
@@ -97,7 +99,13 @@ Nedrysoft::RouteAnalyser::FavouriteEditorDialog::FavouriteEditorDialog(
         reject();
     });
 
-    this->setWindowTitle(title);
+    setWindowTitle(title);
+
+    // resize the dialog vertically to minimum size.
+
+    QTimer::singleShot(0, [=]() {
+        resize(width(), 0);
+    });
 }
 
 Nedrysoft::RouteAnalyser::FavouriteEditorDialog::~FavouriteEditorDialog() {

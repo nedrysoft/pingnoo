@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>681</width>
-    <height>445</height>
+    <height>456</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -259,6 +259,24 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>expressionsTreeWidget</tabstop>
+  <tabstop>newButton</tabstop>
+  <tabstop>deleteButton</tabstop>
+  <tabstop>importButton</tabstop>
+  <tabstop>exportButton</tabstop>
+  <tabstop>enabledCheckBox</tabstop>
+  <tabstop>descriptionLineEdit</tabstop>
+  <tabstop>regularExpressionLineEdit</tabstop>
+  <tabstop>substitutionLineEdit</tabstop>
+  <tabstop>addressSubstitutionLineEdit</tabstop>
+  <tabstop>hopsLineEdit</tabstop>
+  <tabstop>matchHopsCheckbox</tabstop>
+  <tabstop>matchAddressCheckbox</tabstop>
+  <tabstop>matchHostCheckbox</tabstop>
+  <tabstop>maskHostCheckbox</tabstop>
+  <tabstop>maskAddressCheckbox</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

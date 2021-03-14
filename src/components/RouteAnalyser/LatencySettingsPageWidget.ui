@@ -171,6 +171,12 @@
    <header>LatencyWidget.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>warningLineEdit</tabstop>
+  <tabstop>criticalLineEdit</tabstop>
+  <tabstop>gradientFillcheckBox</tabstop>
+  <tabstop>resetPushButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

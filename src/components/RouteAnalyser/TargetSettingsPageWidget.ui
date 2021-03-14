@@ -136,6 +136,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>defaultTargetLineEdit</tabstop>
+  <tabstop>defaultIntervalLineEdit</tabstop>
+  <tabstop>ipV4RadioButton</tabstop>
+  <tabstop>ipV6RadioButton</tabstop>
+  <tabstop>defaultEngineComboBox</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

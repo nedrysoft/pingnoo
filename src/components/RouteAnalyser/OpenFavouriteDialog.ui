@@ -76,6 +76,11 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>searchLineEdit</tabstop>
+  <tabstop>favouritesTreeView</tabstop>
+  <tabstop>closePushButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

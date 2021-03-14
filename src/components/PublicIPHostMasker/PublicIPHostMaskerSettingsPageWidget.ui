@@ -59,6 +59,10 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>detectedPublicIPLineEdit</tabstop>
+  <tabstop>enabledCheckBox</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
