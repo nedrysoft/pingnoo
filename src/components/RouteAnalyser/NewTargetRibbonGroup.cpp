@@ -46,6 +46,8 @@ constexpr auto comboPadding = 12;
 constexpr auto defaultInterval = "2.5s";
 constexpr auto defaultTarget = "1.1.1.1";
 constexpr auto lineEditHeight = 21;
+constexpr auto dataRole = Qt::UserRole + 1;
+constexpr auto MillisecondsPerSecond = 1000.0;
 
 Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *parent) :
         QWidget(parent),
@@ -94,11 +96,30 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
         menuPosition = mapToGlobal(menuPosition);
 
-        connect(m_importFavouritesAction, &QAction::triggered, this, &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onImportFavourites);
-        connect(m_exportFavouritesAction, &QAction::triggered, this, &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onExportFavourites);
-        connect(m_editFavouritesAction, &QAction::triggered, this, &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onEditFavourites);
-        connect(m_newFavouriteAction, &QAction::triggered, this, &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onNewFavourite);
-        connect(m_openFavouriteAction, &QAction::triggered, this, &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onOpenFavourite);
+        connect(m_importFavouritesAction,
+                &QAction::triggered,
+                this,
+                &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onImportFavourites);
+
+        connect(m_exportFavouritesAction,
+                &QAction::triggered,
+                this,
+                &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onExportFavourites);
+
+        connect(m_editFavouritesAction,
+                &QAction::triggered,
+                this,
+                &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onEditFavourites);
+
+        connect(m_newFavouriteAction,
+                &QAction::triggered,
+                this,
+                &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onNewFavourite);
+
+        connect(m_openFavouriteAction,
+                &QAction::triggered,
+                this,
+                &Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onOpenFavourite);
 
         populateRecentsMenu();
 
@@ -153,7 +174,7 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
             auto model = dynamic_cast<QStandardItemModel *>(ui->engineComboBox->model());
 
             model->item(model->rowCount()-1, 0)->setEnabled(pingEngine->available());
-            model->item(model->rowCount()-1, 0)->setData(pingEngine->metaObject()->className(), Qt::UserRole+1);
+            model->item(model->rowCount()-1, 0)->setData(pingEngine->metaObject()->className(), dataRole);
 
             QFontMetrics fontMetrics(ui->engineComboBox->font());
 
@@ -162,13 +183,13 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
         ui->engineComboBox->view()->setMinimumWidth(minimumWidth);
 
-        auto selectionIndex = ui->engineComboBox->findData(targetSettings->defaultPingEngine(), Qt::UserRole+1);
+        auto selectionIndex = ui->engineComboBox->findData(targetSettings->defaultPingEngine(), dataRole);
 
         if (selectionIndex==-1) {
             if (sortedPingEngines.count()) {
                 selectionIndex = ui->engineComboBox->findData(
                         sortedPingEngines.first()->metaObject()->className(),
-                        Qt::UserRole + 1 );
+                        dataRole );
             }
         }
 
@@ -402,7 +423,7 @@ void Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onNewFavourite(bool checked
 QVariantMap Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onOpenFavourite(bool checked) {
     Q_UNUSED(checked)
 
-    OpenFavouriteDialog openFavouriteDialog(this);
+    OpenFavouriteDialog openFavouriteDialog(Nedrysoft::Core::mainWindow());
 
     if (openFavouriteDialog.exec()) {
         auto favouriteMap = openFavouriteDialog.selectedItem();
@@ -411,7 +432,7 @@ QVariantMap Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onOpenFavourite(bool
             auto pingEngineFactory = ui->engineComboBox->currentData().value<Nedrysoft::Core::IPingEngineFactory *>();
 
             if (pingEngineFactory) {
-                favouriteMap["interval"] = favouriteMap["interval"].toDouble() / 1000.0;
+                favouriteMap["interval"] = favouriteMap["interval"].toDouble() / MillisecondsPerSecond;
 
                 openTarget(favouriteMap, pingEngineFactory);
             }
@@ -467,7 +488,7 @@ auto Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::populateFavouritesMenu() ->
             entryName = favourite["name"].toString();
         }
 
-        auto *newAction = new QAction(entryName);
+        auto newAction = new QAction(entryName);
 
         connect(newAction, &QAction::triggered, [=](bool checked) {
             auto pingEngineFactory = ui->engineComboBox->currentData().value<Nedrysoft::Core::IPingEngineFactory *>();
@@ -475,7 +496,7 @@ auto Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::populateFavouritesMenu() ->
             if (pingEngineFactory) {
                 QVariantMap map = newAction->data().toMap();
 
-                map["interval"] = map["interval"].toDouble()/1000.0;
+                map["interval"] = map["interval"].toDouble()/MillisecondsPerSecond;
 
                 openTarget(map, pingEngineFactory);
             }

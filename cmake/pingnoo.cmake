@@ -112,6 +112,7 @@ include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/ComponentSystem/src)
 include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/ComponentSystem/includes)
 include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/SettingsDialog/includes)
 include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR})
+include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/3rdparty)
 include_directories(${PINGNOO_COMPONENTS_SOURCE_DIR})
 include_directories(${PINGNOO_SOURCE_DIR}/common)
 

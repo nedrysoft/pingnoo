@@ -64,7 +64,28 @@ namespace Nedrysoft::RouteAnalyser {
             auto selectedItem() -> QVariantMap;
 
         private:
+            /**
+             * @brief       Creates the QStandardItem items for the tree view.
+             *
+             * @param[in]   favourite the favourite to be used for the items.
+             *
+             * @returns     a QList of the items.
+             */
             auto createFavourite(QVariantMap favourite) -> QList<QStandardItem *>;
+
+            /**
+             * @brief       This slot is called when the close button is clicked.
+             *
+             * @param[in]   checked true if the button was checked; otherwise false.
+             */
+            Q_SLOT void onCloseClicked(bool checked);
+
+            /**
+             * @brief       This slot is called when an item is double clicked in the tree view.
+             *
+             * @param[in]   index the item index that was double clicked.
+             */
+            Q_SLOT void onTreeviewDoubleClicked(const QModelIndex &index);
 
         private:
             Ui::OpenFavouriteDialog *ui;

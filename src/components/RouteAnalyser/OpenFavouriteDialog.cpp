@@ -36,35 +36,23 @@ Nedrysoft::RouteAnalyser::OpenFavouriteDialog::OpenFavouriteDialog(QWidget *pare
 
     ui->setupUi(this);
 
-    connect(ui->closePushButton, &QPushButton::clicked, [=](bool checked) {
-        reject();
-    });
-
-    auto columnWidths = QList<double>() << 0.25 << 0.25 << 0.2 << 0.1 << 0.1;
-
-    m_itemModel.setHorizontalHeaderLabels(
-            QStringList() <<
-                          tr("Name") <<
-                          tr("Description") <<
-                          tr("Host") <<
-                          tr("IP Version") <<
-                          tr("Interval"));
-
-    for (int columnIndex=0;columnIndex<columnWidths.size();columnIndex++) {
-        ui->favouritesTreeView->setColumnWidth(
-                columnIndex,
-                columnWidths.at(columnIndex)*700.0 );
-    }
+    connect(ui->closePushButton, &QPushButton::clicked, this, &Nedrysoft::RouteAnalyser::OpenFavouriteDialog::onCloseClicked);
 
     auto favourites = Nedrysoft::RouteAnalyser::TargetManager::getInstance()->favourites();
 
     for (auto favourite : favourites) {
-        auto items = createFavourite(favourite);
-
-        m_itemModel.appendRow(items);
+        m_itemModel.appendRow(createFavourite(favourite));
     }
 
     m_filterModel.setSourceModel(&m_itemModel);
+
+    m_itemModel.setHorizontalHeaderLabels(
+            QStringList() <<
+            tr("Name") <<
+            tr("Description") <<
+            tr("Host") <<
+            tr("IP Version") <<
+            tr("Interval") );
 
     ui->favouritesTreeView->setModel(&m_filterModel);
 
@@ -74,11 +62,14 @@ Nedrysoft::RouteAnalyser::OpenFavouriteDialog::OpenFavouriteDialog(QWidget *pare
         m_filterModel.setFilterText(text);
     });
 
-    connect(ui->favouritesTreeView, &QTreeView::doubleClicked, [=](const QModelIndex &index) {
-        m_selectedItem = m_filterModel.data(index, Qt::UserRole+1).toMap();
+    connect(ui->favouritesTreeView,
+            &QTreeView::doubleClicked,
+            this,
+            &Nedrysoft::RouteAnalyser::OpenFavouriteDialog::onTreeviewDoubleClicked);
 
-        accept();
-    });
+    for (int columnIndex=0;columnIndex<m_itemModel.columnCount();columnIndex++) {
+        ui->favouritesTreeView->resizeColumnToContents(columnIndex);
+    }
 }
 
 Nedrysoft::RouteAnalyser::OpenFavouriteDialog::~OpenFavouriteDialog() {
@@ -90,7 +81,7 @@ auto Nedrysoft::RouteAnalyser::OpenFavouriteDialog::selectedItem() -> QVariantMa
 }
 
 auto Nedrysoft::RouteAnalyser::OpenFavouriteDialog::createFavourite(QVariantMap favourite) -> QList<QStandardItem *> {
-    QString versionString = "4";
+    QString versionString;
 
     switch(favourite["ipversion"].value<Nedrysoft::Core::IPVersion>()) {
         case Nedrysoft::Core::IPVersion::V4: {
@@ -117,8 +108,17 @@ auto Nedrysoft::RouteAnalyser::OpenFavouriteDialog::createFavourite(QVariantMap 
 
     nameItem->setData(favourite);
 
-    auto items = QList<QStandardItem *>() << nameItem << descriptionItem << hostItem << versionItem << intervalItem;
-
-    return items;
+    return QList<QStandardItem *>() << nameItem << descriptionItem << hostItem << versionItem << intervalItem;
 }
 
+void Nedrysoft::RouteAnalyser::OpenFavouriteDialog::onCloseClicked(bool checked) {
+    Q_UNUSED(checked)
+
+    reject();
+}
+
+void Nedrysoft::RouteAnalyser::OpenFavouriteDialog::onTreeviewDoubleClicked(const QModelIndex &index) {
+    m_selectedItem = m_filterModel.data(index, Qt::UserRole+1).toMap();
+
+    accept();
+}

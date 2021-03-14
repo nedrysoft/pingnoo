@@ -39,9 +39,11 @@ add_definitions("-DUSE_SPDLOG")
 
 # add spdlog to global includes, libraries will inherit this and can then make use of it
 
-include_directories(SYSTEM spdlog/include)
+include_directories(SYSTEM 3rdparty/spdlog/include)
 
 # libraries to build
+
+add_subdirectory(3rdparty)
 
 add_subdirectory(AppNap)
 add_subdirectory(ComponentSystem)
@@ -52,8 +54,5 @@ add_subdirectory(MacHelper)
 add_subdirectory(MapWidget)
 add_subdirectory(Ribbon)
 add_subdirectory(SettingsDialog)
-add_subdirectory(Catch2)
-add_subdirectory(gsl)
-add_subdirectory(QCustomPlot)
-add_subdirectory(spdlog)
+
 

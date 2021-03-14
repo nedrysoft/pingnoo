@@ -58,15 +58,15 @@ Nedrysoft::RouteAnalyser::FavouritesManagerDialog::FavouritesManagerDialog(QWidg
         updateButtons();
     });
 
-    connect(ui->cancelPushButton, &QPushButton::clicked, [=](bool checked) {
-        reject();
-    });
+    connect(ui->cancelPushButton,
+            &QPushButton::clicked,
+            this,
+            &Nedrysoft::RouteAnalyser::FavouritesManagerDialog::onCancelClicked);
 
     connect(ui->deletePushButton, &QPushButton::clicked, [=](bool checked) {
         m_itemModel->removeRow(ui->treeView->currentIndex().row());
 
-        m_modelDirty = true
-                ;
+        m_modelDirty = true;
 
         updateButtons();
     });
@@ -97,11 +97,10 @@ Nedrysoft::RouteAnalyser::FavouritesManagerDialog::FavouritesManagerDialog(QWidg
         updateButtons();
     });
 
-    connect(ui->okPushButton, &QPushButton::clicked, [=](bool checked) {
-        applyChanges();
-
-        accept();
-    });
+    connect(ui->okPushButton,
+            &QPushButton::clicked,
+            this,
+            &Nedrysoft::RouteAnalyser::FavouritesManagerDialog::onOkClicked);
 
     connect(ui->exportPushButton, &QPushButton::clicked, [=](bool checked) {
         auto filename = QFileDialog::getSaveFileName(Nedrysoft::Core::mainWindow());
@@ -171,7 +170,7 @@ Nedrysoft::RouteAnalyser::FavouritesManagerDialog::FavouritesManagerDialog(QWidg
         m_itemModel->appendRow(items);
     }
 
-    for (int columnIndex=0;columnIndex<ui->treeView->colorCount();columnIndex++) {
+    for (int columnIndex=0;columnIndex<m_itemModel->columnCount();columnIndex++) {
         ui->treeView->resizeColumnToContents(columnIndex);
     }
 
@@ -195,7 +194,7 @@ auto Nedrysoft::RouteAnalyser::FavouritesManagerDialog::updateButtons() -> void 
 }
 
 auto Nedrysoft::RouteAnalyser::FavouritesManagerDialog::createFavourite(QVariantMap favourite) -> QList<QStandardItem *> {
-    QString versionString = "4";
+    QString versionString;
 
     switch(favourite["ipversion"].value<Nedrysoft::Core::IPVersion>()) {
         case Nedrysoft::Core::IPVersion::V4: {
@@ -275,4 +274,18 @@ auto Nedrysoft::RouteAnalyser::FavouritesManagerDialog::applyChanges() -> void {
     }
 
     targetManager->setFavourites(favouritesList);
+}
+
+void Nedrysoft::RouteAnalyser::FavouritesManagerDialog::onCancelClicked(bool checked) {
+    Q_UNUSED(checked)
+
+    reject();
+}
+
+void Nedrysoft::RouteAnalyser::FavouritesManagerDialog::onOkClicked(bool checked) {
+    Q_UNUSED(checked)
+
+    applyChanges();
+
+    accept();
 }

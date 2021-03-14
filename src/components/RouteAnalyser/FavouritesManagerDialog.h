@@ -91,6 +91,20 @@ namespace Nedrysoft::RouteAnalyser {
              */
             Q_SLOT void onEditFavourite(const QModelIndex &index);
 
+            /**
+             * @brief       This slot is called when the cancel button is clicked.
+             *
+             * @param[in]   checked true if the button is checked; otherwise false.
+             */
+            Q_SLOT void onCancelClicked(bool checked);
+
+            /**
+             * @brief       This slot is called when the ok button is clicked.
+             *
+             * @param[in]   checked true if the button is checked; otherwise false.
+             */
+            Q_SLOT void onOkClicked(bool checked);
+
         private:
             Ui::FavouritesManagerDialog *ui;
 

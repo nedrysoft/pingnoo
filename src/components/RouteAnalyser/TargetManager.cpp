@@ -26,9 +26,8 @@
 #include "Core/ICore.h"
 #if defined(Q_OS_MACOS)
 #include "MacHelper/MacHelper.h"
-#else
-#include <QMessageBox>
 #endif
+
 #include <QAbstractButton>
 #include <QDir>
 #include <QFile>
@@ -36,6 +35,9 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#if !defined(Q_OS_MACOS)
+#include <QMessageBox>
+#endif
 #include <QStandardPaths>
 
 constexpr auto ConfigurationPath = "Nedrysoft/Pingnoo/Components/RouteAnalyser";
@@ -88,6 +90,8 @@ auto Nedrysoft::RouteAnalyser::TargetManager::addRecent(QVariantMap parameters) 
 
     m_recentsList.insert(0, parameters);
 
+    saveFavourites();
+
     Q_EMIT recentsChanged();
 }
 
@@ -136,6 +140,22 @@ auto Nedrysoft::RouteAnalyser::TargetManager::saveConfiguration() -> QJsonObject
 
     rootObject.insert("favourites", favouritesArray);
 
+    auto recentsArray = QJsonArray();
+
+    for (auto recent : m_recentsList) {
+        QJsonObject recentObject;
+
+        recentObject["host"] = recent["host"].toString();
+        recentObject["name"] = recent["name"].toString();
+        recentObject["description"] = recent["description"].toString();
+        recentObject["interval"] = recent["interval"].toInt();
+        recentObject["ipversion"] = recent["ipversion"].toInt();
+
+        recentsArray.append(recentObject);
+    }
+
+    rootObject.insert("recents", recentsArray);
+
     return rootObject;
 }
 
@@ -159,6 +179,24 @@ auto Nedrysoft::RouteAnalyser::TargetManager::loadConfiguration(QJsonObject conf
                     favouriteObject["ipversion"].toVariant().value<Nedrysoft::Core::IPVersion>());
 
             m_favouriteList.append(favouriteMap);
+        }
+    }
+
+    if (configuration.contains("recents")) {
+        auto recents = configuration["recents"].toArray();
+
+        for (auto recent : recents) {
+            QVariantMap recentMap;
+            QJsonObject recentObject = recent.toObject();
+
+            recentMap["name"] = recentObject["name"].toString();
+            recentMap["description"] = recentObject["description"].toString();
+            recentMap["host"] = recentObject["host"].toString();
+            recentMap["interval"] = recentObject["interval"].toInt();
+            recentMap["ipversion"].setValue<Nedrysoft::Core::IPVersion>(
+                    recentObject["ipversion"].toVariant().value<Nedrysoft::Core::IPVersion>());
+
+             m_recentsList.append(recentMap);
         }
     }
 

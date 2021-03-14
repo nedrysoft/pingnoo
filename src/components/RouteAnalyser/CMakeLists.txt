@@ -110,7 +110,7 @@ endif()
 
 pingnoo_set_description("Route analyser component")
 
-pingnoo_use_qt_libraries(Core Widgets Network)
+pingnoo_use_qt_libraries(Core Widgets Network PrintSupport)
 
 pingnoo_use_component(Core)
 
