@@ -39,7 +39,7 @@ constexpr auto DefaultWarningLatency = 200ms;
 constexpr auto DefaultCriticalLatency = 500ms;
 
 constexpr auto roundedRectangleRadius = 10;
-constexpr auto tinyNumber = 1.0/1e10;                             //! used to adjust a unit number to just under 1
+constexpr auto tinyNumber = 0.0001;                             //! used to adjust a unit number to just under 1
 
 constexpr auto latencyStopLineColour = Qt::black;
 
