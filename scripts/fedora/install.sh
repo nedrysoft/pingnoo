@@ -35,6 +35,7 @@ dnf -y group install "C Development Tools and Libraries"
 dnf -y install cmake
 dnf -y install git
 dnf -y install qt5-qtbase-devel
+dnf -y install qt5-linguist
 dnf -y install qt5-qtquickcontrols2-devel
 dnf -y install dbus-devel
 dnf -y install vim
@@ -44,6 +45,8 @@ dnf -y install vim
 dnf -y install wget
 dnf -y install unzip
 dnf -y install java-11-openjdk
+
+ln -s /usr/lib64/qt5/bin/lrelease /usr/bin/lrelease
 
 cd /tmp
 wget https://$1/update/buildAgentFull.zip
