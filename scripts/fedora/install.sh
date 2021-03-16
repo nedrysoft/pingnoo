@@ -36,6 +36,8 @@ dnf -y install cmake
 dnf -y install git
 dnf -y install qt5-qtbase-devel
 dnf -y install qt5-linguist
+dnf -y install rpm-build
+dnf -y install rpmdevtools
 dnf -y install qt5-qtquickcontrols2-devel
 dnf -y install dbus-devel
 dnf -y install vim

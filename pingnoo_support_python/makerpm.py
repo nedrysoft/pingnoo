@@ -22,6 +22,7 @@
 import argparse
 import os
 import pathlib
+import re
 import shutil
 import string
 import sys
@@ -66,6 +67,7 @@ def _find_prereqs():
 
 
 def rpm_create(build_arch, build_type, version, release):
+    version = re.sub(r'-.*',"",version)
     _find_prereqs()
     if build_arch == "x86":
         build_arch = "i686"  # Fedora/RPM terminology
