@@ -70,9 +70,11 @@ namespace Nedrysoft::RouteAnalyser {
             /**
              * @brief       The icon for this settings page.
              *
+             * @param[in[   isDarkMode set to true to retries the dark mode icon; otherwise false.
+             *
              * @returns     a QIcon
              */
-            auto icon() -> QIcon override;
+            auto icon(bool isDarkMode) -> QIcon override;
 
             /**
              * @brief       Creates a new instance of the page widget.

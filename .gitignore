@@ -112,3 +112,7 @@ installer/PingnooBuild*.aip
 installer/Pingnoo.back*.aip
 
 rpmbuild
+
+src/libs/3rdparty/spdlog/
+
+src/libs/3rdparty/spdlog.o

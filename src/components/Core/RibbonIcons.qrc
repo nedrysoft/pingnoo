@@ -1,8 +1,8 @@
 <RCC>
     <qresource prefix="/RibbonIcons">
-        <file>Icons/close-button-dark.png</file>
-        <file>Icons/close-button-dark@2x.png</file>
-        <file>Icons/close-button-light.png</file>
-        <file>Icons/close-button-light@2x.png</file>
+        <file>icons/close-button-dark.png</file>
+        <file>icons/close-button-dark@2x.png</file>
+        <file>icons/close-button-light.png</file>
+        <file>icons/close-button-light@2x.png</file>
     </qresource>
 </RCC>

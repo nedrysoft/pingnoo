@@ -7,9 +7,12 @@
 [submodule "src/libs/SettingsDialog"]
 	path = src/libs/SettingsDialog
 	url = https://github.com/nedrysoft/SettingsDialog
-[submodule "src/libs/spdlog"]
-	path = src/libs/spdlog
-	url = https://github.com/gabime/spdlog.git
 [submodule "src/libs/FontAwesome"]
 	path = src/libs/FontAwesome
 	url = https://github.com/nedrysoft/FontAwesomeForQt
+[submodule "src/libs/3rdparty/rapidfuzz-cpp"]
+	path = src/libs/3rdparty/rapidfuzz-cpp
+	url = https://github.com/maxbachmann/rapidfuzz-cpp.git
+[submodule "src/libs/3rdparty/spdlog"]
+	path = src/libs/3rdparty/spdlog
+	url = https://github.com/gabime/spdlog.git

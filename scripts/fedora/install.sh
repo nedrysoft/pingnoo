@@ -34,7 +34,11 @@
 dnf -y group install "C Development Tools and Libraries"
 dnf -y install cmake
 dnf -y install git
+dnf -y install python-qt5-rpm-macros
 dnf -y install qt5-qtbase-devel
+dnf -y install qt5-linguist
+dnf -y install rpm-build
+dnf -y install rpmdevtools
 dnf -y install qt5-qtquickcontrols2-devel
 dnf -y install dbus-devel
 dnf -y install vim
@@ -45,11 +49,39 @@ dnf -y install wget
 dnf -y install unzip
 dnf -y install java-11-openjdk
 
-cd ~
+ln -s /usr/lib64/qt5/bin/lrelease /usr/bin/lrelease
+
+cd /tmp
 wget https://$1/update/buildAgentFull.zip
-mkdir BuildAgent
-cd BuildAgent
-unzip ../buildAgentFull.zip
+mkdir /opt/teamcity-agent
+cd /opt/teamcity-agent
+unzip /tmp/buildAgentFull.zip
+
+# /etc/systemd/system/teamcity-agent.service
+# ---
+
+#[Unit]
+#Description=TeamCity Agent
+#After=network.target
+#
+#[Install]
+#WantedBy=multi-user.target
+#
+#[Service]
+#ExecStart=/opt/teamcity-agent/bin/agent.sh start
+#Type=forking
+#RemainAfterExit=yes
+#SyslogIdentifier=teamcity_agent
+#PrivateTmp=yes
+#PIDFile=/opt/teamcity-agent/logs/buildAgent.pid
+#ExecStop=/opt/teamcity-agent/bin/agent.sh stop
+#RestartSec=5
+#Restart=on-failure
+
+#---
+
+systemctl enable teamcity-agent
+service teamcity-agent start
 
 # if the second parameter is test then checkout the code and attempt to build
 

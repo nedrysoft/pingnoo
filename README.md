@@ -187,6 +187,15 @@ The gatekeeper requirements in Mac OS mean that the application needs to be sign
 
 # Credits
 
+This project was created and maintained by [Adrian Carpenter](https://github.com/fizzyade).
+
+I thank the following people for contributing to the project:
+
+- [Aaron D. Marasco](https://github.com/AaronDMarasco)
+- [Paul Varghese](https://github.com/Paulls20)
+- [Stepan Michalek](https://github.com/Ste-Mich)
+- [Nick Boultonn](https://github.com/boultonn)
+
 Pingnoo uses the following third-party libraries/assets/tools/services in the development of Pingnoo.
 
 - [Qt](https://www.qt.io/download) - cross platform framework, licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html).
@@ -199,6 +208,7 @@ Pingnoo uses the following third-party libraries/assets/tools/services in the de
 - [linuxdeployqt](https://github.com/probonopd/linuxdeployqt) - creates deployable linux binaries, licensed under the [GPLv3 License](https://github.com/probonopd/linuxdeployqt/blob/master/LICENSE.GPLv3).
 - [create-dmg](https://github.com/andreyvit/create-dmg) - automates the creation of Mac OS DMG files, licensed under the [MIT License](https://github.com/andreyvit/create-dmg/blob/master/LICENSE).
 - [colorama](https://github.com/tartley/colorama) - python module for terminal colour, licensed under the [BSD License](https://github.com/tartley/colorama/blob/master/LICENSE.txt).
+- [rapidfuzz-cpp](https://github.com/maxbachmann/rapidfuzz-cpp) - an implemention for fuzzy string matching, licensed under the  [MIT Liecense](https://github.com/maxbachmann/rapidfuzz-cpp/blob/master/LICENSE).
 
 Also, Pingnoo was developed using the following commercially licensed tools/services.
 

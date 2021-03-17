@@ -35,6 +35,16 @@ pingnoo_add_sources(
     ColourDialog.h
     ColourManager.cpp
     ColourManager.h
+    TargetManager.cpp
+    TargetManager.h
+    FavouriteEditorDialog.cpp
+    FavouriteEditorDialog.h
+    FavouriteEditorDialog.ui
+    FavouritesManagerDialog.cpp
+    FavouritesManagerDialog.h
+    FavouritesManagerDialog.ui
+    FavouritesSortProxyFilterModel.cpp
+    FavouritesSortProxyFilterModel.h
     GraphLatencyLayer.cpp
     GraphLatencyLayer.h
     LatencyRibbonGroup.cpp
@@ -57,6 +67,9 @@ pingnoo_add_sources(
     NewTargetRibbonGroup.cpp
     NewTargetRibbonGroup.h
     NewTargetRibbonGroup.ui
+    OpenFavouriteDialog.cpp
+    OpenFavouriteDialog.h
+    OpenFavouriteDialog.ui
     PingData.cpp
     PingData.h
     PlotScrollArea.cpp
@@ -97,7 +110,7 @@ endif()
 
 pingnoo_set_description("Route analyser component")
 
-pingnoo_use_qt_libraries(Core Widgets Network)
+pingnoo_use_qt_libraries(Core Widgets Network PrintSupport)
 
 pingnoo_use_component(Core)
 
@@ -105,6 +118,12 @@ pingnoo_use_shared_library(ComponentSystem)
 pingnoo_use_shared_library(QCustomPlot)
 pingnoo_use_shared_library(AppNap)
 
+if(APPLE)
+    pingnoo_use_shared_library(MacHelper)
+endif()
+
 pingnoo_set_component_metadata("Views" "Provides the route visualiser system")
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${PINGNOO_LIBRARIES_SOURCE_DIR}/3rdparty/rapidfuzz-cpp)
 
 pingnoo_end_component()

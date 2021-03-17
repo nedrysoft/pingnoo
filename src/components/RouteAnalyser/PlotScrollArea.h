@@ -52,7 +52,7 @@ namespace Nedrysoft::RouteAnalyser {
              * @param[in]   dx the distance that the view was scrolled by in x.
              * @param[in]   dy the distance that the view was scrolled by in y.
              */
-            virtual auto scrollContentsBy(int dx, int dy) -> void;
+            auto scrollContentsBy(int dx, int dy) -> void override;
     };
 }
 

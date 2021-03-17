@@ -50,6 +50,24 @@ endif()
 
 string(TOLOWER ${CMAKE_BUILD_TYPE} PINGNOO_BUILD_TYPE)
 
+# create translations
+
+file(GLOB translations RELATIVE ${PINGNOO_ROOT_DIR}/translations ${PINGNOO_ROOT_DIR}/translations/*.ts)
+
+file(MAKE_DIRECTORY ${PINGNOO_RESOURCES_DIR}/translations)
+
+set(translatedFiles "")
+
+foreach (translation ${translations})
+    pingnoo_add_translation(${PINGNOO_ROOT_DIR}/translations/${translation} ${PINGNOO_RESOURCES_DIR}/translations translatedFiles)
+endforeach()
+
+add_custom_target(
+    Translations
+    ALL DEPENDS
+    ${translatedFiles}
+)
+
 if(APPLE)
     install(CODE
         "execute_process(
@@ -63,7 +81,7 @@ if(APPLE)
             \"--qtdir=${CMAKE_PREFIX_PATH}\"
             \"--version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}\"
         )"
-    )
+        )
 elseif(WIN32)
     file(TO_NATIVE_PATH "${PINGNOO_ROOT_DIR}" rootDir)
     file(TO_NATIVE_PATH "$ENV{PINGNOO_CURL_BINARY}" curlBin)
@@ -82,7 +100,7 @@ elseif(WIN32)
     string(REPLACE "\\" "\\\\" qtPath ${qtPath})
 
     install(CODE
-            "execute_process(
+        "execute_process(
             WORKING_DIRECTORY ${PINGNOO_ROOT_DIR}
             COMMAND ${pythonBin}
             ${rootDir}\\\\deploy.py
@@ -93,10 +111,10 @@ elseif(WIN32)
             --version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}
             --portable
         )"
-    )
+        )
 elseif(UNIX)
     install(CODE
-            "execute_process(
+        "execute_process(
             WORKING_DIRECTORY \"${PINGNOO_ROOT_DIR}\"
             COMMAND \"${PINGNOO_ROOT_DIR}/deploy.py\"
             \"--curlbin=/usr/bin/curl\"
@@ -105,7 +123,7 @@ elseif(UNIX)
             \"--type=${PINGNOO_BUILD_TYPE}\"
             \"--version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}\"
             \"--cert=$ENV{PINGNOO_DEVELOPER_CERTIFICATE}\"
-            \"--appimage\"
+            \"$ENV{PINGNOO_ASSET_TYPES}\"
         )"
-    )
+        )
 endif()

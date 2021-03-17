@@ -23,6 +23,7 @@
 
 #include "RouteAnalyserEditor.h"
 
+#include "TargetManager.h"
 #include "LatencyRibbonGroup.h"
 #include "RouteAnalyser.h"
 #include "RouteAnalyserWidget.h"
@@ -77,6 +78,10 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::widget() -> QWidget * {
         }
 
         m_editorWidget->setViewportSize(newViewportSize);
+
+        auto favouritesManager = Nedrysoft::RouteAnalyser::TargetManager::getInstance();
+
+        favouritesManager->addRecent(m_pingTarget, m_pingTarget, m_pingTarget, m_ipVersion);
     }
 
     return m_editorWidget;

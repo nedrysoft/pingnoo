@@ -58,7 +58,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     returns true on success; otherwise false.
              */
-            virtual auto setInterval(std::chrono::milliseconds interval) -> bool;
+            auto setInterval(std::chrono::milliseconds interval) -> bool override;
 
             /**
              * @brief       Sets the reply timeout for this engine instance.
@@ -69,7 +69,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual auto setTimeout(std::chrono::milliseconds timeout) -> bool;
+            auto setTimeout(std::chrono::milliseconds timeout) -> bool override;
 
             /**
              * @brief       Starts ping operations for this engine instance.
@@ -78,7 +78,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual auto start() -> bool;
+            auto start() -> bool override;
 
             /**
              * @brief       Stops ping operations for this engine instance.
@@ -87,7 +87,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual auto stop() -> bool;
+            auto stop() -> bool override;
 
             /**
              * @brief       Adds a ping target to this engine instance.
@@ -98,7 +98,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     returns a pointer to the created ping target.
              */
-            virtual auto addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget *;
+            auto addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget * override;
 
             /**
              * @brief       Adds a ping target to this engine instance
@@ -110,7 +110,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     returns a pointer to the created ping target
              */
-            virtual auto addTarget(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::IPingTarget *;
+            auto addTarget(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::IPingTarget * override;
 
             /**
              * @brief       Removes a ping target from this engine instance
@@ -121,7 +121,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     true on success; otherwise false.
              */
-            virtual auto removeTarget(Nedrysoft::Core::IPingTarget *target) -> bool;
+            auto removeTarget(Nedrysoft::Core::IPingTarget *target) -> bool override;
 
             /**
              * @brief       Gets the epoch for this engine instance.
@@ -130,8 +130,14 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     the time epoch
              */
-            virtual auto epoch() -> std::chrono::system_clock::time_point;
+            auto epoch() -> std::chrono::system_clock::time_poin overridet;
 
+            /**
+             * @brief       Returns the list of ping targets for the engine.
+             *
+             * @returns     a QList containing the list of targets.
+             */
+            auto targets() -> QList<Nedrysoft::Core::IPingTarget *> override;
         public:
             /**
              * @brief       Saves the configuration to a JSON object.
@@ -140,7 +146,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     the JSON configuration.
              */
-            virtual auto saveConfiguration() -> QJsonObject;
+            auto saveConfiguration() -> QJsonObject override;
 
             /**
              * @brief       Loads the configuration.
@@ -151,7 +157,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     true if loaded; otherwise false.
              */
-            virtual auto loadConfiguration(QJsonObject configuration) -> bool;
+            auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         protected:
             std::shared_ptr<ICMPAPIPingEngineData> d;

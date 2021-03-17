@@ -29,8 +29,8 @@
 #include <QRegularExpression>
 #include <QStandardPaths>
 
-constexpr auto configurationPath = "Components";
-constexpr auto configurationFilename = "RegExHostMasker.json";
+constexpr auto ConfigurationPath = "Components";
+constexpr auto ConfigurationFilename = "RegExHostMasker.json";
 
 Nedrysoft::RegExHostMasker::RegExHostMasker::RegExHostMasker() {
     loadFromFile();
@@ -43,7 +43,7 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::loadFromFile(QString filename,
         QFile configurationFile;
 
         if (filename.isNull()) {
-            configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(configurationPath).arg(QString(configurationFilename))));
+            configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(ConfigurationPath).arg(QString(ConfigurationFilename))));
         } else {
             configurationFile.setFileName(filename);
         }
@@ -73,15 +73,15 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::saveToFile(QString filename) -
         QFile configurationFile;
 
         if (filename.isNull()) {
-            configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(configurationPath).arg(QString(configurationFilename))));
+            configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(ConfigurationPath).arg(QString(ConfigurationFilename))));
         } else {
             configurationFile.setFileName(filename);
         }
 
         QDir dir(configPaths.at(0));
 
-        if (!dir.exists(configurationPath)) {
-             dir.mkpath(configurationPath);
+        if (!dir.exists(ConfigurationPath)) {
+             dir.mkpath(ConfigurationPath);
         }
 
         if (configurationFile.open(QFile::WriteOnly)) {

@@ -23,6 +23,7 @@
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_OSX_DEPLOYMENT_TARGET 10.13)
 
 set(PINGNOO_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 
@@ -95,11 +96,13 @@ if(APPLE)
     set(PINGNOO_APPLICATION_BINARY "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/MacOS/${PROJECT_NAME}")
     set(PINGNOO_LIBRARIES_BINARY_DIR "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/Frameworks")
     set(PINGNOO_COMPONENTS_BINARY_DIR "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/PlugIns")
+    set(PINGNOO_RESOURCES_DIR "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}.app/Contents/Resources")
 else()
     set(PINGNOO_BINARY_ROOT "${PINGNOO_BINARY_DIR}/${PINGNOO_PLATFORM_ARCH}/${CMAKE_BUILD_TYPE}")
     set(PINGNOO_APPLICATION_BINARY "${PINGNOO_BINARY_ROOT}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
     set(PINGNOO_LIBRARIES_BINARY_DIR "${PINGNOO_BINARY_ROOT}")
     set(PINGNOO_COMPONENTS_BINARY_DIR "${PINGNOO_BINARY_ROOT}/Components")
+    set(PINGNOO_RESOURCES_DIR "${PINGNOO_BINARY_ROOT}")
 endif()
 
 file(MAKE_DIRECTORY ${PINGNOO_LIBRARIES_BINARY_DIR})
@@ -109,6 +112,7 @@ include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/ComponentSystem/src)
 include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/ComponentSystem/includes)
 include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/SettingsDialog/includes)
 include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR})
+include_directories(${PINGNOO_LIBRARIES_SOURCE_DIR}/3rdparty)
 include_directories(${PINGNOO_COMPONENTS_SOURCE_DIR})
 include_directories(${PINGNOO_SOURCE_DIR}/common)
 
@@ -130,6 +134,10 @@ endmacro(pingnoo_use_component)
 
 macro(pingnoo_use_shared_library libraryName)
     target_link_libraries(${PROJECT_NAME} ${libraryName})
+
+    if(EXISTS "${PINGNOO_LIBRARIES_SOURCE_DIR}/${libraryName}/includes")
+        target_include_directories(${PROJECT_NAME} PRIVATE "${PINGNOO_LIBRARIES_SOURCE_DIR}/${libraryName}/includes")
+    endif()
 endmacro(pingnoo_use_shared_library)
 
 macro(pingnoo_use_static_library libraryName)
@@ -203,7 +211,10 @@ macro(pingnoo_end_component)
 
     target_include_directories(${pingnooCurrentProjectName} PRIVATE ".")
 
-    pingnoo_sign(\"${PINGNOO_COMPONENTS_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${pingnooCurrentProjectName}${CMAKE_SHARED_LIBRARY_SUFFIX}\")
+    # add binary folders to allow allows ui_ files to be found in the editor
+
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ${CMAKE_BINARY_DIR})
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 endmacro(pingnoo_end_component)
 
 macro(pingnoo_start_shared_library)
@@ -240,7 +251,11 @@ macro(pingnoo_end_shared_library)
 
     target_include_directories(${pingnooCurrentProjectName} PRIVATE ".")
 
-    pingnoo_sign(\"${PINGNOO_LIBRARIES_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${pingnooCurrentProjectName}${CMAKE_SHARED_LIBRARY_SUFFIX}\")
+    # add binary folders to allow allows ui_ files to be found in the editor
+
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ${CMAKE_BINARY_DIR})
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 endmacro(pingnoo_end_shared_library)
 
 macro(pingnoo_start_static_library)
@@ -309,7 +324,11 @@ macro(pingnoo_end_executable)
 
     target_include_directories(${pingnooCurrentProjectName} PRIVATE ".")
 
-    pingnoo_sign(${PINGNOO_APPLICATION_BINARY})
+    # add binary folders to allow allows ui_ files to be found in the editor
+
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ${CMAKE_BINARY_DIR})
+    target_include_directories(${pingnooCurrentProjectName} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 endmacro(pingnoo_end_executable)
 
 macro(add_logging_library)
@@ -483,6 +502,16 @@ macro(pingnoo_add_optional_command systemName optionName optionDescription optio
     endif()
 endmacro()
 
-macro(pingnoo_sign filename)
+macro(pingnoo_add_translation sourceFile outputDir outputFiles)
+    get_filename_component(outputFile ${sourceFile} NAME_WE)
+    get_filename_component(sourceFilename ${sourceFile} NAME)
 
+    set(outputFile ${outputFile}.qm)
+
+    add_custom_command(OUTPUT ${outputDir}/${outputFile}
+        COMMENT "Compiling ${sourceFilename}"
+        COMMAND ${CMAKE_PREFIX_PATH}/bin/lrelease ${sourceFile} -silent -qm ${outputDir}/${outputFile}
+        DEPENDS ${sourceFile})
+
+    list(APPEND ${outputFiles} ${outputDir}/${outputFile})
 endmacro()

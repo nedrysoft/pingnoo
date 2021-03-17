@@ -22,6 +22,7 @@
  */
 
 #include "PingCommandPingEngineFactory.h"
+
 #include "PingCommandPingEngine.h"
 
 Nedrysoft::PingCommandPingEngine::PingCommandPingEngineFactory::PingCommandPingEngineFactory() {
@@ -67,4 +68,10 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngineFactory::available()
     return true;
 #endif
     return false;
+}
+
+auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngineFactory::deleteEngine(
+        Nedrysoft::Core::IPingEngine *engine) -> bool {
+
+    return true;
 }

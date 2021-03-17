@@ -23,15 +23,15 @@
 
 include(${CMAKE_CURRENT_LIST_DIR}/../../cmake/pingnoo.cmake)
 
-file(GLOB children RELATIVE ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_LIST_DIR}/*)
-
-foreach(child ${children})
-	if(IS_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/${child})
-		if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/${child}/CMakeLists.txt)
-			add_subdirectory(${child})
-		endif()
-	endif()
-endforeach()
+add_subdirectory(Core)
+add_subdirectory(HostIPGeoIPProvider)
+add_subdirectory(ICMPAPIPingEngine)
+add_subdirectory(ICMPPingEngine)
+add_subdirectory(PingCommandPingEngine)
+add_subdirectory(PublicIPHostMasker)
+add_subdirectory(RegExHostMasker)
+add_subdirectory(RouteAnalyser)
+add_subdirectory(RouteEngine)
 
 set(NEDRYSOFT_COMPONENTSYSTEM_COMPONENTVIEWER ON)
 

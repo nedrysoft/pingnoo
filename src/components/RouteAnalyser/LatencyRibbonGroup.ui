@@ -210,6 +210,10 @@
    <header>LatencyWidget.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>warningLineEdit</tabstop>
+  <tabstop>criticalLineEdit</tabstop>
+ </tabstops>
  <resources>
   <include location="icons.qrc"/>
  </resources>

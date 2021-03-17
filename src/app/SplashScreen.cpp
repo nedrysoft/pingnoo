@@ -30,7 +30,7 @@
 constexpr auto splashScreenFilename = ":/app/images/splashscreen.png";
 constexpr auto fontFamily = "Poppins";
 #if defined(Q_OS_MAC)
-constexpr auto fontSize = 30;
+constexpr auto fontSize = 25;
 #else
 constexpr auto fontSize = 20;
 #endif

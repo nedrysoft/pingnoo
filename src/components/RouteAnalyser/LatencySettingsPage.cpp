@@ -49,8 +49,16 @@ auto Nedrysoft::RouteAnalyser::LatencySettingsPage::description() -> QString {
     return "";
 }
 
-auto Nedrysoft::RouteAnalyser::LatencySettingsPage::icon() -> QIcon {
-    return QIcon(":/RouteAnalyser/icons/analyser.png");
+auto Nedrysoft::RouteAnalyser::LatencySettingsPage::icon(bool isDarkMode) -> QIcon {
+#if !defined(Q_OS_MACOS)
+    return QIcon(":/RouteAnalyser/icons/2x/twotone_alt_route_black_24dp.png");
+#else
+    if (isDarkMode) {
+        return QIcon(":/RouteAnalyser/icons/2x/twotone_alt_route_white_24dp.png");
+    } else {
+        return QIcon(":/RouteAnalyser/icons/2x/twotone_alt_route_black_24dp.png");
+    }
+#endif
 }
 
 auto Nedrysoft::RouteAnalyser::LatencySettingsPage::createWidget() -> QWidget * {

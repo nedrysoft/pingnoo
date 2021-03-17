@@ -46,7 +46,7 @@ constexpr auto DefaultCriticalLatency = 500ms;
 
 constexpr auto roundedRectangleRadius = 10;
 constexpr auto alternateRowFactor = 12.5;
-constexpr auto tinyNumber = std::numeric_limits<float>::min();//0.00001;                             //! used to adjust a unit number to just under 1
+constexpr auto tinyNumber = 0.00001;                             //! used to adjust a unit number to just under 1
 
 constexpr auto NormalColourFactor = 100;
 constexpr auto ActiveSelectedColourFactor = 105;

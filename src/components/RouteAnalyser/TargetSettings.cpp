@@ -32,7 +32,7 @@
 #include <QJsonObject>
 #include <QStandardPaths>
 
-constexpr auto ConfigurationPath = "Components/RouteAnalyser";
+constexpr auto ConfigurationPath = "Nedrysoft/Pingnoo/Components/RouteAnalyser";
 constexpr auto ConfigurationFilename = "TargetSettings.json";
 
 constexpr auto DefaultHostTarget = "1.1.1.1";
@@ -192,7 +192,25 @@ auto Nedrysoft::RouteAnalyser::TargetSettings::setDefaultPingEngine(QString id) 
 }
 
 auto Nedrysoft::RouteAnalyser::TargetSettings::defaultPingEngine() -> QString {
-    return m_defaultPingEngine;
+    QString selectedPingEngine = m_defaultPingEngine;
+
+    if (selectedPingEngine.isEmpty()) {
+        auto pingEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IPingEngineFactory>();
+
+        if (pingEngines.count()) {
+            int priority = pingEngines.at(0)->priority();
+
+            for (auto pingEngine : pingEngines) {
+
+                if (pingEngine->priority() < priority) {
+                    priority = pingEngine->priority();
+                    selectedPingEngine = pingEngine->metaObject()->className();
+                }
+            }
+        }
+    }
+
+    return selectedPingEngine;
 }
 
 auto Nedrysoft::RouteAnalyser::TargetSettings::setDefaultPingInterval(double interval) -> void {

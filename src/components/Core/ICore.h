@@ -33,6 +33,16 @@
 
 namespace Nedrysoft::Core {
     /**
+     * IP version enumeration
+     */
+    enum class IPVersion {
+            V4 = 4,
+            V6 = 6
+    };
+}
+
+namespace Nedrysoft::Core {
+    /**
      * @brief       The ICore interface is the root component for the application.
      *
      * @details     ICore should provide the main window for the application and the general framework of the
@@ -89,5 +99,6 @@ namespace Nedrysoft::Core {
 }
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::ICore, "com.nedrysoft.core.ICore/1.0.0")
+Q_DECLARE_METATYPE(Nedrysoft::Core::IPVersion);
 
 #endif // NEDRYSOFT_CORE_ICORE_H

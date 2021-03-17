@@ -29,6 +29,7 @@
 #include "Core/IEditorManager.h"
 #include "Core/IRibbonBarManager.h"
 #include "Core/IRibbonPage.h"
+#include "TargetManager.h"
 #include "LatencyRibbonGroup.h"
 #include "LatencySettings.h"
 #include "LatencySettingsPage.h"
@@ -104,6 +105,8 @@ auto RouteAnalyserComponent::finaliseEvent() -> void {
     if (m_newTargetAction) {
         delete m_newTargetAction;
     }
+
+    delete Nedrysoft::RouteAnalyser::TargetManager::getInstance();
 }
 
 auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {

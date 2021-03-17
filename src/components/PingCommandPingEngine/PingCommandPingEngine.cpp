@@ -109,3 +109,13 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::loadConfiguration(
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::emitResult(Nedrysoft::Core::PingResult pingResult) -> void {
     Q_EMIT result(pingResult);
 }
+
+auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::targets() -> QList<Nedrysoft::Core::IPingTarget *> {
+    QList<Nedrysoft::Core::IPingTarget *> list;
+
+    for (auto target : m_pingTargets) {
+        list.append(target);
+    }
+
+    return list;
+}

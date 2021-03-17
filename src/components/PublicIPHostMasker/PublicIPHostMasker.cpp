@@ -31,8 +31,8 @@
 #include <QRegularExpression>
 #include <QStandardPaths>
 
-constexpr auto configurationPath = "Components";
-constexpr auto configurationFilename = "PublicIPHostMasker.json";
+constexpr auto ConfigurationPath = "Components";
+constexpr auto ConfigurationFilename = "PublicIPHostMasker.json";
 
 Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::PublicIPHostMasker() :
         m_eventLoop(nullptr),
@@ -57,7 +57,7 @@ auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::loadFromFile() -> bool {
     if (configPaths.count()) {
         QFile configurationFile;
 
-        configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(configurationPath).arg(QString(configurationFilename))));
+        configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(ConfigurationPath).arg(QString(ConfigurationFilename))));
 
         if (configurationFile.open(QFile::ReadOnly)) {
             auto jsonDocument = QJsonDocument::fromJson(configurationFile.readAll());
@@ -79,7 +79,13 @@ auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::saveToFile() -> void {
     if (configPaths.count()) {
         QFile configurationFile;
 
-        configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(configurationPath).arg(QString(configurationFilename))));
+        configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(ConfigurationPath).arg(QString(ConfigurationFilename))));
+
+        QDir dir(QString("%1/%2").arg(configPaths.at(0)).arg(ConfigurationPath));
+
+        if (!dir.exists()) {
+            dir.mkpath(dir.path());
+        }
 
         if (configurationFile.open(QFile::WriteOnly)) {
             QJsonObject configuration = saveConfiguration();
