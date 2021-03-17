@@ -36,6 +36,7 @@ dnf -y install cmake
 dnf -y install git
 dnf -y install qt5-qtbase-devel
 dnf -y install qt5-qtquickcontrols2-devel
+dnf -y install hostname
 dnf -y install dbus-devel
 dnf -y install vim
 

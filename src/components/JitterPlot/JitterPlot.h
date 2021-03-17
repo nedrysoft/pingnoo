@@ -29,6 +29,8 @@
 #include "QCustomPlot/qcustomplot.h"
 
 namespace Nedrysoft::JitterPlot {
+    class JitterBackgroundLayer;
+
     /**
      * @brief       Implementation of a jitter plot.
      */
@@ -44,7 +46,7 @@ namespace Nedrysoft::JitterPlot {
             /**
              * @brief       Constructs an JitterPlot.
              */
-            JitterPlot();
+            JitterPlot(const QMargins &margins);
 
             /**
              * @brief       Constructs the JitterPlot.
@@ -59,13 +61,36 @@ namespace Nedrysoft::JitterPlot {
              */
             auto widget() -> QWidget * override;
 
+            /**
+             * @brief       Updates the plot with a new result.
+             * @param[in]   time the unix timestamp for this result.
+             * @param[in]   value the round trip time.
+             */
             auto update(double time, double value) -> void override;
 
+            /**
+             * @brief       Update the visible area (viewport) of the graph.
+             * @param[in]   min the minimum displayed value.
+             * @param[in]   max the maximum dispkayed value.
+             */
             auto updateRange(double min, double max) -> void override;
+
+            /**
+             * @brief       Sets the jitter range.
+             *
+             * @notes       The target value is drawn as a dash on the jitter graph, the maximum displayed
+             *              value is set by max.
+             *
+             * @param[in]   target the target value in seconds.
+             * @param[in]   max the maximum value to show on the jitter graph.
+             */
+            auto setRange(double target, double max) -> void override;
 
         private:
             QCustomPlot *m_customPlot;
             double m_previousValue;
+            Nedrysoft::JitterPlot::JitterBackgroundLayer *m_backgroundLayer;
+            QMargins m_margins;
     };
 }
 

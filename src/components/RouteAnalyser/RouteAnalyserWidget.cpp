@@ -53,6 +53,7 @@ constexpr auto DefaultTimeWindow = 60.0*10;
 constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
 constexpr auto NoReplyColour = qRgb(255,0,0);
+constexpr auto PlotMargins = QMargins(80, 20, 40, 40);
 
 QMap< Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::headerMap() {
     static QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > map = QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> >
@@ -549,6 +550,12 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             auto plotTitleLabel = new QLabel(QString(tr("Hop %1")).arg(hop) + " " + maskedHostName + " (" + maskedHostAddress + ")");
 
+            QFont labelFont = plotTitleLabel->font();
+
+            labelFont.setPointSize(16);
+
+            plotTitleLabel->setFont(labelFont);
+
             plotTitleLabel->setAlignment(Qt::AlignHCenter);
 
             verticalLayout->addWidget(plotTitleLabel);
@@ -560,7 +567,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
             QList<Nedrysoft::RouteAnalyser::IPlot *> plots;
 
             for (auto plotFactory : plotFactories) {
-                auto plot = plotFactory->createPlot();
+                auto plot = plotFactory->createPlot(PlotMargins);
 
                 m_extraPlots.append(plot);
 
@@ -570,7 +577,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
             }
 
             customPlot->axisRect()->setAutoMargins(QCP::msNone);
-            customPlot->axisRect()->setMargins(QMargins(80, 20, 40, 40));
+            customPlot->axisRect()->setMargins(PlotMargins);
 
             // add the main plot
 

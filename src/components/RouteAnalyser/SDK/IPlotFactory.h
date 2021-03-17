@@ -21,17 +21,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_IPLOTFACTORY_H
-#define NEDRYSOFT_IPLOTFACTORY_H
+#ifndef NEDRYSOFT_ROUTEANALYSER_IPLOTFACTORY_H
+#define NEDRYSOFT_ROUTEANALYSER_IPLOTFACTORY_H
 
 #include "ComponentSystem/IInterface.h"
 #include "../RouteAnalyserSpec.h"
+
+#include <QMargins>
 
 namespace Nedrysoft::RouteAnalyser {
     class IPlot;
 
     /**
-     * @brief       The IPlotFactory interface is used to instantiate plots
+     * @brief       The IPlotFactory interface is used to instantiate extra plots which are displayed to the user.
      */
     class NEDRYSOFT_ROUTEANALYSER_DLLSPEC IPlotFactory :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -42,10 +44,15 @@ namespace Nedrysoft::RouteAnalyser {
             Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
 
         public:
-            virtual auto createPlot() -> Nedrysoft::RouteAnalyser::IPlot * = 0;
+            /**
+             * @brief       Create a plot.
+             *
+             * @returns     the plot.
+             */
+            virtual auto createPlot(const QMargins &margins) -> Nedrysoft::RouteAnalyser::IPlot * = 0;
     };
 };
 
 Q_DECLARE_INTERFACE(Nedrysoft::RouteAnalyser::IPlotFactory, "com.nedrysoft.routeanalyser.IPlotFactory/1.0.0")
 
-#endif //NEDRYSOFT_IPLOTFACTORY_H
+#endif //NEDRYSOFT_ROUTEANALYSER_IPLOTFACTORY_H

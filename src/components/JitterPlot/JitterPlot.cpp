@@ -25,12 +25,14 @@
 
 #include "CPAxisTickerMS.h"
 #include "Core/ICore.h"
+#include "JitterBackgroundLayer.h"
 
 #include <QLabel>
 
-Nedrysoft::JitterPlot::JitterPlot::JitterPlot() :
+Nedrysoft::JitterPlot::JitterPlot::JitterPlot(const QMargins &margins) :
         m_customPlot(0),
-        m_previousValue(-1) {
+        m_previousValue(-1),
+        m_margins(margins) {
 
 }
 
@@ -38,55 +40,48 @@ Nedrysoft::JitterPlot::JitterPlot::~JitterPlot() {
 
 }
 
-constexpr auto DefaultGraphHeight = 100;
+constexpr auto DefaultGraphHeight = 150;
 
 auto Nedrysoft::JitterPlot::JitterPlot::widget() -> QWidget * {
     auto customPlot = new QCustomPlot();
 
     customPlot->addLayer("newBackground", customPlot->layer("grid"), QCustomPlot::limBelow);
 
+    m_backgroundLayer = new JitterBackgroundLayer(customPlot);
+
     customPlot->setCurrentLayer("main");
 
     customPlot->setMinimumHeight(DefaultGraphHeight);
 
     customPlot->addGraph();
-    //customPlot->graph(0)->setLineStyle(QCPGraph::lsStepCenter);
 
     customPlot->axisRect()->setAutoMargins(QCP::msNone);
-    customPlot->axisRect()->setMargins(QMargins(80, 20, 40, 40));
+    customPlot->axisRect()->setMargins(m_margins);
 
     QSharedPointer<CPAxisTickerMS> msTicker(new CPAxisTickerMS);
 
     customPlot->yAxis->setTicker(msTicker);
     customPlot->yAxis->setLabel(tr("Jitter (ms)"));
-    customPlot->yAxis->setRange(0, 0.03);
+    customPlot->yAxis->setRange(0, 0.06);
 
     customPlot->yAxis->ticker()->setTickCount(1);
-
-    QSharedPointer<QCPAxisTickerDateTime> dateTicker(new QCPAxisTickerDateTime);
-
-    auto locale = QLocale::system();
-
-    dateTicker->setDateTimeFormat(
-            locale.timeFormat(QLocale::LongFormat).remove("t").trimmed() +
-            "\n" +
-            locale.dateFormat(QLocale::ShortFormat) );
 
     constexpr auto DefaultTimeWindow = 60.0;
 
     auto viewportSize = DefaultTimeWindow;
 
-    customPlot->xAxis->setTicker(dateTicker);
+    customPlot->xAxis->setVisible(false);
+
     customPlot->xAxis->setRange(
             static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch()),
             static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch() + viewportSize) );
 
     customPlot->graph(0)->setLineStyle(QCPGraph::lsStepCenter);
-    customPlot->graph(0)->setPen(QPen(Qt::white));
-
-    customPlot->setBackground(QColor(0x1e, 0x1e, 0x1e));
+    customPlot->graph(0)->setPen(QPen(Qt::black, 1));
 
     QPalette palette = Nedrysoft::Core::mainWindow()->palette();
+
+    customPlot->setBackground(palette.color(QPalette::Base));
 
     customPlot->xAxis->setLabelColor(palette.color(QPalette::Text));
     customPlot->yAxis->setLabelColor(palette.color(QPalette::Text));
@@ -138,5 +133,10 @@ auto Nedrysoft::JitterPlot::JitterPlot::update(double time, double value) -> voi
 
 auto Nedrysoft::JitterPlot::JitterPlot::updateRange(double min, double max) -> void {
     m_customPlot->xAxis->setRange(min, max);
+    m_customPlot->replot(QCustomPlot::rpQueuedReplot);
+}
+
+auto Nedrysoft::JitterPlot::JitterPlot::setRange(double targetJitter, double maximumJitter) -> void {
+    m_backgroundLayer->setRange(targetJitter, maximumJitter);
     m_customPlot->replot(QCustomPlot::rpQueuedReplot);
 }

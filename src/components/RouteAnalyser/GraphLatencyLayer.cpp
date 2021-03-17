@@ -99,14 +99,6 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
 
         QPainter bufferPainter(&bufferedImage);
 
-        // use a rounded rectangle as a clipping path, it looks better in dark mode
-
-        QPainterPath clippingPath;
-
-        clippingPath.addRoundedRect(rect, roundedRectangleRadius, roundedRectangleRadius);
-
-        bufferPainter.setClipPath(clippingPath);
-
         QLinearGradient graphGradient = QLinearGradient(QPoint(rect.x(), rect.bottom()), QPoint(rect.x(), rect.top()));
 
         if (idealStop > 1) {
@@ -173,6 +165,12 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
     }
 
     m_age[bufferName] = QDateTime::currentSecsSinceEpoch();
+
+    QPainterPath clippingPath;
+
+    clippingPath.addRoundedRect(parentPlot()->axisRect()->rect(), roundedRectangleRadius, roundedRectangleRadius);
+
+    painter->setClipPath(clippingPath);
 
     painter->drawPixmap(topLeft, m_buffers[bufferName]);
 }

@@ -26,6 +26,8 @@ pingnoo_start_component()
 pingnoo_add_sources(
     CPAxisTickerMS.cpp
     CPAxisTickerMS.h
+    JitterBackgroundLayer.cpp
+    JitterBackgroundLayer.h
     JitterPlot.cpp
     JitterPlot.h
     JitterPlotComponent.cpp

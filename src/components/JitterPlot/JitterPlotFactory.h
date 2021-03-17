@@ -51,7 +51,14 @@ namespace Nedrysoft::JitterPlot {
             ~JitterPlotFactory();
 
         public:
-            auto createPlot() -> Nedrysoft::RouteAnalyser::IPlot * override;
+            /**
+             * @brief       Creates a new jitter plot.
+             *
+             * @param[in]   margins the margins for rendering the plot.
+             *
+             * @returns     the plot.
+             */
+            auto createPlot(const QMargins &margins) -> Nedrysoft::RouteAnalyser::IPlot * override;
     };
 }
 

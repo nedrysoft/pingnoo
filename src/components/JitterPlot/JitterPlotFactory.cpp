@@ -35,6 +35,6 @@ Nedrysoft::JitterPlot::JitterPlotFactory::~JitterPlotFactory() {
 
 }
 
-auto Nedrysoft::JitterPlot::JitterPlotFactory::createPlot() -> Nedrysoft::RouteAnalyser::IPlot * {
-    return new Nedrysoft::JitterPlot::JitterPlot;
+auto Nedrysoft::JitterPlot::JitterPlotFactory::createPlot(const QMargins &margins) -> Nedrysoft::RouteAnalyser::IPlot * {
+    return new Nedrysoft::JitterPlot::JitterPlot(margins);
 }
