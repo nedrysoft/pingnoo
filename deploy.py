@@ -531,10 +531,9 @@ def _do_linux():
         rpm_version = build_version.replace('/', '.')
         rpm_release = 1  # TODO: CLI argument
 
-        if rpm_create(build_arch, build_type, rpm_version, rpm_release):
-            raise RuntimeError("rpm creation unknown error")
+        rpm_name = rpm_create(build_arch, build_type, rpm_version, rpm_release)
 
-        build_filename = f'bin/{build_arch}/Deploy/rpm/pingnoo-{rpm_version}-{rpm_release}.{build_arch}.rpm'
+        build_filename = f'bin/{build_arch}/Deploy/rpm/{rpm_name}'
         deployed_message = deployed_message + f'\r\n' + Style.BRIGHT + Fore.CYAN + \
                           f'rpm package at \"{build_filename}\" is ' + Fore.GREEN + 'ready' + Fore.CYAN + \
                           ' for distribution.'

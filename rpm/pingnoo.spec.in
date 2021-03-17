@@ -20,7 +20,7 @@
 
 Name:           pingnoo
 Version:        ${version}
-Release:        ${release}
+Release:        ${release}%{?dist}
 Summary:        A network traceroute analyser
 License:        GPLv3+
 URL:            https://www.pingnoo.com
