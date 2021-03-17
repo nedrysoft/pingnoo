@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_CORE_ACTIONPROXY_H
-#define NEDRYSOFT_CORE_ACTIONPROXY_H
+#ifndef PINGNOO_COMPONENTS_CORE_ACTIONPROXY_H
+#define PINGNOO_COMPONENTS_CORE_ACTIONPROXY_H
 
 #include <QAction>
 #include <QPointer>
@@ -69,4 +69,4 @@ namespace Nedrysoft::Core {
     };
 }
 
-#endif // NEDRYSOFT_CORE_ACTIONPROXY_H
+#endif // PINGNOO_COMPONENTS_CORE_ACTIONPROXY_H

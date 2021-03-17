@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_CORE_PINGRESULT_H
-#define NEDRYSOFT_CORE_PINGRESULT_H
+#ifndef PINGNOO_COMPONENTS_CORE_PINGRESULT_H
+#define PINGNOO_COMPONENTS_CORE_PINGRESULT_H
 
 #include "CoreSpec.h"
 
@@ -137,4 +137,4 @@ namespace Nedrysoft::Core {
     };
 }
 
-#endif // NEDRYSOFT_CORE_PINGRESULT_H
+#endif // PINGNOO_COMPONENTS_CORE_PINGRESULT_H

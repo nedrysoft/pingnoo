@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_IHOSTMASKERSETTINGSPAGE_H
-#define NEDRYSOFT_IHOSTMASKERSETTINGSPAGE_H
+#ifndef PINGNOO_COMPONENTS_CORE_IHOSTMASKERSETTINGSPAGE_H
+#define PINGNOO_COMPONENTS_CORE_IHOSTMASKERSETTINGSPAGE_H
 
 #include "ComponentSystem/IInterface.h"
 #include "CoreSpec.h"
@@ -70,4 +70,4 @@ namespace Nedrysoft::Core {
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IHostMaskerSettingsPage, "com.nedrysoft.core.IHostMaskerSettingsPage/1.0.0")
 
-#endif //NEDRYSOFT_IHOSTMASKERSETTINGSPAGE_H
+#endif //PINGNOO_COMPONENTS_CORE_IHOSTMASKERSETTINGSPAGE_H

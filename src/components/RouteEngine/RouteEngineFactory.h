@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_ROUTEENGINE_ROUTEENGINEFACTORY_H
-#define NEDRYSOFT_ROUTEENGINE_ROUTEENGINEFACTORY_H
+#ifndef PINGNOO_COMPONENTS_ROUTEENGINE_ROUTEENGINEFACTORY_H
+#define PINGNOO_COMPONENTS_ROUTEENGINE_ROUTEENGINEFACTORY_H
 
 #include "ComponentSystem/IInterface.h"
 #include "Core/IRouteEngineFactory.h"
@@ -108,4 +108,4 @@ namespace Nedrysoft::RouteEngine {
 }
 
 
-#endif // NEDRYSOFT_ROUTEENGINE_ROUTEENGINEFACTORY_H
+#endif // PINGNOO_COMPONENTS_ROUTEENGINE_ROUTEENGINEFACTORY_H

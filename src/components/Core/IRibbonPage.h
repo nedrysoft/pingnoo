@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_IRIBBONPAGE_H
-#define NEDRYSOFT_IRIBBONPAGE_H
+#ifndef PINGNOO_COMPONENTS_CORE_IRIBBONPAGE_H
+#define PINGNOO_COMPONENTS_CORE_IRIBBONPAGE_H
 
 #include "ComponentSystem/IInterface.h"
 #include "CoreSpec.h"
@@ -61,4 +61,4 @@ namespace Nedrysoft::Core {
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IRibbonPage, "com.nedrysoft.core.IRibbonPage/1.0.0")
 
-#endif //NEDRYSOFT_IRIBBONPAGE_H
+#endif // PINGNOO_COMPONENTS_CORE_IRIBBONPAGE_H

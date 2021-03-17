@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_ICMPPINGENGINE_ICMPPINGITEM_H
-#define NEDRYSOFT_ICMPPINGENGINE_ICMPPINGITEM_H
+#ifndef PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGITEM_H
+#define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGITEM_H
 
 #include <QMutex>
 #include <QObject>
@@ -179,4 +179,4 @@ namespace Nedrysoft::ICMPPingEngine {
     };
 }
 
-#endif // NEDRYSOFT_ICMPPINGENGINE_ICMPPINGITEM_H
+#endif // PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGITEM_H

@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_SPLASHSCREEN_H
-#define NEDRYSOFT_SPLASHSCREEN_H
+#ifndef PINGNOO_APP_SPLASHSCREEN_H
+#define PINGNOO_APP_SPLASHSCREEN_H
 
 #include <QSplashScreen>
 
@@ -84,4 +84,4 @@ namespace Nedrysoft {
     };
 }
 
-#endif // NEDRYSOFT_SPLASHSCREEN_H
+#endif // PINGNOO_APP_SPLASHSCREEN_H

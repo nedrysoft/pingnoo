@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_CORE_ICORE_H
-#define NEDRYSOFT_CORE_ICORE_H
+#ifndef PINGNOO_COMPONENTS_CORE_ICORE_H
+#define PINGNOO_COMPONENTS_CORE_ICORE_H
 
 #include "ComponentSystem/IComponentManager.h"
 #include "ComponentSystem/IInterface.h"
@@ -101,4 +101,4 @@ namespace Nedrysoft::Core {
 Q_DECLARE_INTERFACE(Nedrysoft::Core::ICore, "com.nedrysoft.core.ICore/1.0.0")
 Q_DECLARE_METATYPE(Nedrysoft::Core::IPVersion);
 
-#endif // NEDRYSOFT_CORE_ICORE_H
+#endif // PINGNOO_COMPONENTS_CORE_ICORE_H

@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_CORE_STATUSBARMANAGER_H
-#define NEDRYSOFT_CORE_STATUSBARMANAGER_H
+#ifndef PINGNOO_COMPONENTS_CORE_STATUSBARMANAGER_H
+#define PINGNOO_COMPONENTS_CORE_STATUSBARMANAGER_H
 
 #include "IStatusBarManager.h"
 
@@ -41,4 +41,4 @@ namespace Nedrysoft::Core {
     };
 }
 
-#endif // NEDRYSOFT_CORE_STATUSBARMANAGER_H
+#endif // PINGNOO_COMPONENTS_CORE_STATUSBARMANAGER_H

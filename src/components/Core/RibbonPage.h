@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_RIBBONPAGE_H
-#define NEDRYSOFT_RIBBONPAGE_H
+#ifndef PINGNOO_COMPONENTS_CORE_RIBBONPAGE_H
+#define PINGNOO_COMPONENTS_CORE_RIBBONPAGE_H
 
 #include "IRibbonPage.h"
 #include "IRibbonGroup.h"
@@ -92,4 +92,4 @@ namespace Nedrysoft::Core {
     };
 }
 
-#endif //NEDRYSOFT_RIBBONPAGE_H
+#endif // PINGNOO_COMPONENTS_CORE_RIBBONPAGE_H

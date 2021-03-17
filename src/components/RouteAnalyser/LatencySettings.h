@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_LATENCYSETTINGS_H
-#define NEDRYSOFT_LATENCYSETTINGS_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYSETTINGS_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYSETTINGS_H
 
 #include "Core/IConfiguration.h"
 
@@ -227,4 +227,4 @@ namespace Nedrysoft::RouteAnalyser {
     };
 }
 
-#endif //NEDRYSOFT_LATENCYSETTINGS_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYSETTINGS_H

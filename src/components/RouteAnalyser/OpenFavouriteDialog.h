@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_OPENFAVOURITEDIALOG_H
-#define NEDRYSOFT_OPENFAVOURITEDIALOG_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_OPENFAVOURITEDIALOG_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_OPENFAVOURITEDIALOG_H
 
 #include <QDialog>
 #include <QStandardItemModel>
@@ -95,4 +95,4 @@ namespace Nedrysoft::RouteAnalyser {
             QVariantMap m_selectedItem;
     };
 }
-#endif //NEDRYSOFT_OPENFAVOURITEDIALOG_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_OPENFAVOURITEDIALOG_H

@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_NEWTARGETRIBBONGROUP_H
-#define NEDRYSOFT_NEWTARGETRIBBONGROUP_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_NEWTARGETRIBBONGROUP_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_NEWTARGETRIBBONGROUP_H
 
 #include "LineSyntaxHighlighter.h"
 
@@ -192,4 +192,4 @@ namespace Nedrysoft::RouteAnalyser {
     };
 }
 
-#endif //NEDRYSOFT_NEWTARGETRIBBONGROUP_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_NEWTARGETRIBBONGROUP_H

@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_CORE_IEDITORMANAGER_H
-#define NEDRYSOFT_CORE_IEDITORMANAGER_H
+#ifndef PINGNOO_COMPONENTS_CORE_IEDITORMANAGER_H
+#define PINGNOO_COMPONENTS_CORE_IEDITORMANAGER_H
 
 #include "ComponentSystem/IComponentManager.h"
 #include "ComponentSystem/IInterface.h"
@@ -65,4 +65,4 @@ namespace Nedrysoft::Core {
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IEditorManager, "com.nedrysoft.core.IEditorManager/1.0.0")
 
-#endif // NEDRYSOFT_CORE_IEDITORMANAGER_H
+#endif // PINGNOO_COMPONENTS_CORE_IEDITORMANAGER_H

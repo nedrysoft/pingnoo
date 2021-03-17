@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_THEMESUPPORT_H
-#define NEDRYSOFT_THEMESUPPORT_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_THEMESUPPORT_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_THEMESUPPORT_H
 
 #include <QColor>
 #include <QObject>
@@ -107,4 +107,4 @@ namespace Nedrysoft::Utils {
     };
 }
 
-#endif // NEDRYSOFT_THEMESUPPORT_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_THEMESUPPORT_H

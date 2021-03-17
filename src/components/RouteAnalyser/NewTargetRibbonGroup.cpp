@@ -34,7 +34,7 @@
 #include "RouteAnalyserEditor.h"
 #include "TargetManager.h"
 #include "TargetSettings.h"
-#include "ThemeSupport.h"
+#include "ThemeSupport.h"                   // what to do about this?  Separate library I guess...
 #include "Utils.h"
 
 #include <QAbstractItemView>
