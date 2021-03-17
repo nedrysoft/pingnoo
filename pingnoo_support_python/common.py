@@ -126,7 +126,10 @@ def execute(command, fail_msg=None, out_log=None):
 __all__.append('which')
 def which(appname):
     """ Find executable in path """
-    command = 'where' if platform.system() == "Windows" else 'which'
+    command = 'where'
+    if platform.system() != "Windows":
+        command = 'which'  # TODO: 'type' is POSIX; 'which' is not
+        execute("which which", fail_msg="Could not find 'which' command!")
     ret, output = execute(f'{command} {appname}')
     if ret:
         return None
