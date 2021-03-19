@@ -110,10 +110,13 @@ def rpm_create(build_arch, build_type, version, release):
                 out_log="rpmbuild.log")
 
     pathlib.Path(f'bin/{build_arch}/Deploy/rpm/').mkdir(parents=True, exist_ok=True)
-    shutil.copy2(f'rpmbuild/RPMS/{build_arch}/pingnoo-{version}-{release}.{build_arch}.rpm',
+    # Find release info, if any
+    rpm_dist = execute("rpm --eval %{?dist}")[1].strip()
+    final_name = f'pingnoo-{version}-{release}{rpm_dist}.{build_arch}.rpm'
+    shutil.copy2(f'rpmbuild/RPMS/{build_arch}/{final_name}',
                  f'bin/{build_arch}/Deploy/rpm/')
 
-    return False  # 0 is good for POSIX below and expected in deploy.py
+    return final_name
 
 
 def main():
@@ -136,7 +139,8 @@ def main():
 
     args = parser.parse_args()
 
-    sys.exit(rpm_create(args.arch, args.type, args.version, args.release))
+    rpm_create(args.arch, args.type, args.version, args.release)
+    sys.exit(0)
 
 
 if __name__ == "__main__":

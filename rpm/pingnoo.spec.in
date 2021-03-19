@@ -20,12 +20,17 @@
 
 Name:           pingnoo
 Version:        ${version}
-Release:        ${release}
+Release:        ${release}%{?dist}
 Summary:        A network traceroute analyser
 License:        GPLv3+
 URL:            https://www.pingnoo.com
 Source:         pingnoo-%{version}.tar
-BuildRequires:  cmake cmake-rpm-macros dbus-devel make g++ qt5-qtbase-devel python-qt5-rpm-macros rpmlib(FileCaps)
+BuildRequires:  cmake cmake-rpm-macros dbus-devel make g++ python-qt5-rpm-macros rpmlib(FileCaps)
+%if (0%{?fedora} >= 33)
+BuildRequires: qt5-qtbase-devel qt5-qtdeclarative-devel
+%else
+BuildRequires: qt5-devel
+%endif
 
 %prep
 %setup -q
