@@ -31,6 +31,8 @@ import shutil
 import string
 import argparse
 
+from .msg_printer import msg_printer
+
 def execute(command):
     output = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
@@ -138,6 +140,11 @@ def debCreate(buildArch, buildType, version, outputFile):
 
 	packageRoot = f'bin/{buildArch}/Deploy/dpkg/'
 
+	# remove any previous deployment artifacts
+
+	with msg_printer("Removing existing deployment artifacts"):
+		execute("rm -rf deployment", "Could not remove deployment folder")
+	
 	# create the deb file
 
 	resultCode, resultOutput = execute(f'dpkg-deb --build {packageRoot} \"{outputFile}\"')
