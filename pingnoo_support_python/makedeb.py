@@ -147,6 +147,13 @@ def debCreate(buildArch, buildType, version, outputFile):
 	if not resultCode==0:
 		return(resultCode)
 
+	# remove any previous deployment artifacts
+
+	resultCode, resultOutput = execute("mkdir deployment")
+
+	if not resultCode==0:
+		return(resultCode)
+
 	# create the deb file
 
 	resultCode, resultOutput = execute(f'dpkg-deb --build {packageRoot} \"{outputFile}\"')
