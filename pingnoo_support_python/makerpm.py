@@ -103,6 +103,7 @@ def rpm_create(build_arch, build_type, version, release):
 
         tarball.add('.', arcname=f"pingnoo-{version}", filter=tar_filter)
         shutil.move(f"pingnoo-{version}.tar", "rpmbuild/SOURCES")
+        tarball.close()
 
     with msg_printer("Calling rpmbuild (logged to rpmbuild.log)"):
         execute(f"rpmbuild -bb --target {build_arch} rpmbuild/SPECS/pingnoo.spec",
