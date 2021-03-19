@@ -142,9 +142,11 @@ def debCreate(buildArch, buildType, version, outputFile):
 
 	# remove any previous deployment artifacts
 
-	with msg_printer("Removing existing deployment artifacts"):
-		execute("rm -rf deployment", "Could not remove deployment folder")
-	
+	resultCode, resultOutput = execute("rm -rf deployment")
+
+	if not resultCode==0:
+		return(resultCode)
+
 	# create the deb file
 
 	resultCode, resultOutput = execute(f'dpkg-deb --build {packageRoot} \"{outputFile}\"')
