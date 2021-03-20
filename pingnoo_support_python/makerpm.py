@@ -59,7 +59,8 @@ def find_provider(library):
 
 
 def _find_prereqs():
-    for app, rpm in [('rpmbuild', 'rpm-build'),
+    for app, rpm in [('git', 'git'),
+                     ('rpmbuild', 'rpm-build'),
                      ('rpmdev-setuptree', 'rpmdevtools')]:
         with msg_printer(f"Checking for {app}"):
             if which(app) is None:
