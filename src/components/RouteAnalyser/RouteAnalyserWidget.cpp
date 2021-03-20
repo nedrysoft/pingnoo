@@ -35,6 +35,8 @@
 #include "GraphLatencyLayer.h"
 #include "PlotScrollArea.h"
 #include "RouteTableItemDelegate.h"
+#include "SDK/IPlotFactory.h"
+#include "SDK/IPlot.h"
 
 #include <QDateTime>
 #include <QHostAddress>
@@ -51,6 +53,7 @@ constexpr auto DefaultTimeWindow = 60.0*10;
 constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
 constexpr auto NoReplyColour = qRgb(255,0,0);
+constexpr auto PlotMargins = QMargins(80, 20, 40, 40);
 
 QMap< Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &Nedrysoft::RouteAnalyser::RouteAnalyserWidget::headerMap() {
     static QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > map = QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> >
@@ -432,15 +435,6 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
             customPlot->xAxis->setTickLabelColor(this->palette().color(QPalette::Text));
             customPlot->yAxis->setTickLabelColor(this->palette().color(QPalette::Text));
 
-            auto graphTitle = new QCPTextElement(
-                    customPlot,
-                    QString(tr("Hop %1")).arg(hop) + " " + maskedHostName + " (" + maskedHostAddress + ")" );
-
-            graphTitle->setTextColor(this->palette().color(QPalette::Text));
-
-            customPlot->plotLayout()->insertRow(0);
-            customPlot->plotLayout()->addElement(0, 0, graphTitle);
-
             customPlot->replot();
 
             /**
@@ -552,6 +546,41 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             m_plotList.append(customPlot);
 
+            // add plot title.
+
+            auto plotTitleLabel = new QLabel(QString(tr("Hop %1")).arg(hop) + " " + maskedHostName + " (" + maskedHostAddress + ")");
+
+            QFont labelFont = plotTitleLabel->font();
+
+            labelFont.setPointSize(16);
+
+            plotTitleLabel->setFont(labelFont);
+
+            plotTitleLabel->setAlignment(Qt::AlignHCenter);
+
+            verticalLayout->addWidget(plotTitleLabel);
+
+            // add any pre-plots.
+
+            auto plotFactories = ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::IPlotFactory>();
+
+            QList<Nedrysoft::RouteAnalyser::IPlot *> plots;
+
+            for (auto plotFactory : plotFactories) {
+                auto plot = plotFactory->createPlot(PlotMargins);
+
+                m_extraPlots.append(plot);
+
+                plots.append(plot);
+
+                verticalLayout->addWidget(plot->widget());
+            }
+
+            customPlot->axisRect()->setAutoMargins(QCP::msNone);
+            customPlot->axisRect()->setMargins(PlotMargins);
+
+            // add the main plot
+
             verticalLayout->addWidget(customPlot);
 
             auto pingTarget = m_pingEngine->addTarget(routeHostAddress, hop);
@@ -570,6 +599,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
                 delete pingData;
             });
 
+            pingData->setPlots(plots);
             pingData->setCustomPlot(customPlot);
             pingData->setHostAddress(maskedHostAddress);
             pingData->setHostName(maskedHostName);
@@ -732,6 +762,10 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::updateRanges() -> void {
         if (valueRange.upper>maxVisibleLatency) {
             maxVisibleLatency = valueRange.upper;
         }
+    }
+
+    for (auto plot : m_extraPlots) {
+        plot->updateRange(min, max);
     }
 
     // TODO: go through the bar charts and set to maximum as well.

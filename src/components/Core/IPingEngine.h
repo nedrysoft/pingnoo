@@ -47,7 +47,7 @@ namespace Nedrysoft::Core {
             public Nedrysoft::Core::IConfiguration {
 
         private:
-        Q_OBJECT
+            Q_OBJECT
 
             Q_INTERFACES(Nedrysoft::ComponentSystem::IInterface)
             Q_INTERFACES(Nedrysoft::Core::IConfiguration)

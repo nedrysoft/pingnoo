@@ -213,6 +213,9 @@ namespace Nedrysoft::RouteAnalyser {
             Nedrysoft::RouteAnalyser::RouteTableItemDelegate *m_routeGraphDelegate;
             ScaleMode m_graphScaleMode;
             QTimer *m_layerCleanupTimer;
+
+            QList<Nedrysoft::RouteAnalyser::IPlot *> m_extraPlots;
+
             double m_viewportSize;                                  //! size of the viewport in seconds
             double m_viewportPosition;                              //! unit value specifying the position of the viewport
             double m_startPoint;                                    //! the unix timestamp of the first ping result
