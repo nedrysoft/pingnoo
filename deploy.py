@@ -21,6 +21,7 @@
 #
 
 import argparse
+import codecs
 import datetime
 import glob
 import logging
@@ -40,6 +41,10 @@ from pingnoo_support_python.msg_printer import msg_printer, MsgPrinterException
 
 if sys.hexversion < 0x030600f0:
     raise RuntimeError('requires python >= 3.6')
+
+if sys.hexversion < 0x030800f0:
+    # Older python versions not liking our checkboxes and color
+    sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 
 def notarize_file(filetonotarize, username, password):

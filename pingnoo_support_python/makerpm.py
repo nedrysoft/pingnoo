@@ -27,32 +27,13 @@ import shutil
 import string
 import sys
 import tarfile
-from functools import cached_property, lru_cache
+from functools import lru_cache
 
 from .common import *
 from .msg_printer import msg_printer, MsgPrinterException
 
-
-# A lot of this ended up unused but can be referenced
-class PackageManagerFinder:
-    """ Finds dnf or yum in path """
-    MGRS = ('dnf', 'yum')
-
-    def __init__(self):
-        self._exe = None
-
-    @cached_property
-    def exe(self):
-        """ The RPM repository manager this system uses, e.g. dnf """
-        for exe in self.MGRS:
-            attempt = which(exe)
-            if attempt:
-                self._exe = attempt
-                return self._exe
-        raise RuntimeError("Could not find package manager! Tried: {}".format(", ".join(self.MGRS)))
-
-
-@lru_cache
+# Currently unused?
+@lru_cache()
 def find_provider(library):
     with msg_printer(f"Finding what RPM provides '{library}'"):
         return execute(f"rpm -q --queryformat '%{{NAME}}' --whatprovides {library}", fail_msg='Could not find RPM')
