@@ -91,7 +91,6 @@ def rpm_create(build_arch, build_type, version, release):
 
     with msg_printer("Creating tarball"):
         # Can't easily exclude... shutil.make_archive(f"pingnoo-{version}", 'tar')
-        tarball = tarfile.open(f"pingnoo-{version}.tar", 'w', )
 
         def tar_filter(tar_info):
             if tar_info.name == f"pingnoo-{version}":  # Top-level
@@ -101,8 +100,8 @@ def rpm_create(build_arch, build_type, version, release):
                     return tar_info
             return None
 
-        tarball.add('.', arcname=f"pingnoo-{version}", filter=tar_filter)
-        tarball.close()
+        with tarfile.open(f"pingnoo-{version}.tar", 'w') as tarball:
+            tarball.add('.', arcname=f"pingnoo-{version}", filter=tar_filter)
         shutil.move(f"pingnoo-{version}.tar", "rpmbuild/SOURCES")
 
 
