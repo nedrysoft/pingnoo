@@ -31,6 +31,8 @@ import shutil
 import string
 import argparse
 
+from .msg_printer import msg_printer
+
 def execute(command):
     output = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
@@ -137,6 +139,20 @@ def debCreate(buildArch, buildType, version, outputFile):
 		md5sumsFile.close()
 
 	packageRoot = f'bin/{buildArch}/Deploy/dpkg/'
+
+	# remove any previous deployment artifacts
+
+	resultCode, resultOutput = execute("rm -rf deployment")
+
+	if not resultCode==0:
+		return(resultCode)
+
+	# remove any previous deployment artifacts
+
+	resultCode, resultOutput = execute("mkdir deployment")
+
+	if not resultCode==0:
+		return(resultCode)
 
 	# create the deb file
 

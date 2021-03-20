@@ -35,7 +35,8 @@ dnf -y group install "C Development Tools and Libraries"
 dnf -y install cmake
 dnf -y install git
 dnf -y install python-qt5-rpm-macros
-dnf -y install qt5-qtbase-devel
+dnf -y install qt5-qtbase-devel     # fc 33
+dnf -y install qt5-devel            # fc 32
 dnf -y install qt5-linguist
 dnf -y install rpm-build
 dnf -y install rpmdevtools
