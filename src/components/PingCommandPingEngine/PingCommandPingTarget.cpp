@@ -68,9 +68,9 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
 
         while(!m_quitThread) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-            QThread *pingThread = QThread::create([sampleNumber, pingArguments, engine, this]() {
+            QThread *pingThread = QThread::create([sampleNumber, pingArguments, engine, pingThread, this]() {
 #else
-            std::thread *pingThread = new std::thread([=]() {
+            std::thread *pingThread = new std::thread([sampleNumber, pingArguments, engine, pingThread, this]() {
 #endif
                 QProcess pingProcess;
                 qint64 started, finished;
