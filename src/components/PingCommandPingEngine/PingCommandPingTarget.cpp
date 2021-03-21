@@ -32,8 +32,8 @@
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
 #include <QThread>
 #else
+#include <QTimer>
 #include <thread>
-
 #endif
 #include <cassert>
 
@@ -68,9 +68,9 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
 
         while(!m_quitThread) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-            auto pingThread = QThread::create([sampleNumber, pingArguments, engine, this]() {
+            QThread *pingThread = QThread::create([sampleNumber, pingArguments, engine, this]() {
 #else
-            auto pingThread = new std::thread([=]() {
+            std::thread *pingThread = new std::thread([=]() {
 #endif
                 QProcess pingProcess;
                 qint64 started, finished;
@@ -139,6 +139,10 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
                 }
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
                 pingThread->deleteLater();
+#else
+                QTimer::singleShot(0, [=]() {
+                    delete pingThread;
+                });
 #endif
             });
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
@@ -149,7 +153,6 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
             QThread::msleep(engine->interval().count());
 #else
             std::this_thread::sleep_for(engine->interval());
-
 #endif
             sampleNumber++;
         }
