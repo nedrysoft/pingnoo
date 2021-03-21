@@ -28,6 +28,7 @@
 #include "TargetSettings.h"
 #include "Utils.h"
 
+#include <cassert>
 #include "ui_TargetSettingsPageWidget.h"
 
 Nedrysoft::RouteAnalyser::TargetSettingsPageWidget::TargetSettingsPageWidget(QWidget *parent) :

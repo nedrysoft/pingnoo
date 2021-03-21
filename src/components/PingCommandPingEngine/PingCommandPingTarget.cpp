@@ -137,8 +137,9 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
                         // some other error
                     }
                 }
-
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
                 pingThread->deleteLater();
+#endif
             });
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
             QObject::connect(pingThread, &QThread::finished, pingThread, &QThread::deleteLater);
