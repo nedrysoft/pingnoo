@@ -28,6 +28,7 @@
 #include "JitterBackgroundLayer.h"
 
 #include <QLabel>
+#include <cmath>
 
 Nedrysoft::JitterPlot::JitterPlot::JitterPlot(const QMargins &margins) :
         m_customPlot(0),
@@ -118,7 +119,7 @@ auto Nedrysoft::JitterPlot::JitterPlot::widget() -> QWidget * {
 auto Nedrysoft::JitterPlot::JitterPlot::update(double time, double value) -> void {
     if (m_customPlot) {
         if (m_previousValue!=-1) {
-            m_customPlot->graph(0)->addData(time, abs(value - m_previousValue));
+            m_customPlot->graph(0)->addData(time, std::abs(value - m_previousValue));
         }
 
         m_previousValue = value;

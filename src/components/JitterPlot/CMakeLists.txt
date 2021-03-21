@@ -37,6 +37,8 @@ pingnoo_add_sources(
     JitterPlotSpec.h
 )
 
+pingnoo_add_defines(QCUSTOMPLOT_USE_LIBRARY)
+
 pingnoo_set_description("jitter graph plotter.")
 
 pingnoo_use_qt_libraries(Core Network Widgets)

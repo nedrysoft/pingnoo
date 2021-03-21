@@ -57,7 +57,7 @@ auto Nedrysoft::JitterPlot::JitterBackgroundLayer::draw(QCPPainter *painter) -> 
 
         bufferPainter.setPen(QPen(QColor(GraphLineColour), JitterTargetLineWidth, Qt::DashLine));
 
-        auto targetY = ( static_cast<double>(parentPlot()->axisRect()->rect().height()) *
+        auto targetY = static_cast<int>( static_cast<double>(parentPlot()->axisRect()->rect().height()) *
                          ( m_targetJitter / m_maximumJitter ));
 
         bufferPainter.drawLine(QPoint(rect.left(), targetY), QPoint(rect.right(), targetY));
