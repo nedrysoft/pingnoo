@@ -16,7 +16,13 @@ Pingnoo is an open-source combined traceroute and ping application for analysing
 
 - **Windows**
   
-  The application is supplied as an installer executable, download and run the installer to install the application; this will create a shortcut which will launch the software.
+  ***Installer***
+  
+  Download the installer executable and run to install the application.  This will create a shortcut which is used launch the software.
+
+  ***Portable Edition***
+
+  The portable edition is supplied as a zip file which can be unzipped onto a memory stick, the application can be launched directly from the memory stick without the need to install the software.
 
 - **Mac OS**  
   
@@ -71,7 +77,6 @@ Documentation can be found on https://pingnoo.readthedocs.io/en/latest/
 - CMake for building the application
 - Qt Creator (Optional development environment)
 - Linux has unique requirements; please read the Linux Notes section.
-- Installers are provided per platform and contain all dependencies.
 
 ## Development
 
@@ -98,22 +103,11 @@ cd pingnoo
 git submodule update --init --recursive
 ```
 
-#### Fedora
+#### Build dependencies
 
-```bash
-sudo yum install dbus-devel
-```
-#### Ubunbu
+The [build documentation](docs/build/README.md) contains information about packages that are required to build the software from source.
 
-```bash
-sudo apt-get install build-essential
-sudo apt-get install qt5-default
-sudo apt-get install qttools5-dev
-sudo apt-get install mesa-common-dev
-sudo apt-get install libdbus-1-dev
-```
-
-#### Building
+#### Building the application
 
 Change to the folder that contains the source code, and then execute the following commands.
 
@@ -154,6 +148,16 @@ The script provides the following parameters:
 - `--timeserver="<name>"` - windows only, the name of the time server to be used during signing
 - `--appleid="<email>"` - *Mac OS only*, the Apple ID of the developer account used to sign the binary
 - `--password="<password>"` - *Mac OS only*, the password of the Apple ID.  The password can be stored in the keychain and accessed using `"@keychain:<identifier>"` instead of passing the actual password to the script.
+- `--appimage` - *Linux only*, will generate an AppImage.
+- `--rpm` - *Linux only*, will generate an rpm package.
+- `--deb` - *Linux only*, will generate a deb package.
+- `--appiamagetool="<path to appimage tool"` - *Linux only*, the path to the appimagetool binary.
+- `--linuxdeployqy="<path to linuxdeployqt tool"` - *Linux only*, the path to the linuxdeployqt binary.
+- `--signtool="<path to sign tool>"` - *Windows only*, the path to the signing tool.
+- `--pin=<pin>` - *Windows only*, if using scsigntool, the pin to use.
+- `--portable` - *Windows only*, will generate a portable zip file for windows.
+- `--version` - the version of the deployment tool.
+- `--debugoutput` - produce debug output.
 
 The script will use the curl binary to obtain any tools required for the deployment process.
 
