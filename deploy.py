@@ -513,13 +513,24 @@ def _do_linux():
 
             issue_parts = open('/etc/issue').readline().lower().strip().split(' ')
 
-            release_parts = issue_parts[1].split('.')
-
             distro = issue_parts[0]
-            major = release_parts[0]
-            minor = release_parts[1]
 
-            deb_distro = f'{distro}{major}.{minor}'
+            if distro == "ubuntu":
+                release_parts = issue_parts[1].split('.')
+
+                major = release_parts[0]
+                minor = release_parts[1]
+
+                deb_distro = f'{distro}{major}.{minor}'
+            elif distro == "debian":
+                release = issue_parts[2]
+
+                deb_distro = f'{distro}{release}'
+            else:
+                deb_distro = 'unknown'
+
+
+                deb_distro = f'{distro}{major}.{minor}'
 
             version_parts = deb_version.split('-', 1)
             build_filename = f'deployment/pingnoo_{deb_version}-{deb_distro}_{deb_arch}.deb'
