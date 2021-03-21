@@ -32,6 +32,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStandardPaths>
+#include <cassert>
 
 constexpr auto defaultWidgetWidth = 650;
 constexpr auto defaultWidgetHeight = 0;

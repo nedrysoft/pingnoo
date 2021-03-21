@@ -34,6 +34,7 @@
 #include <QPropertyAnimation>
 #include <QStandardItemModel>
 #include <QTableView>
+#include <cassert>
 
 using namespace std::chrono_literals;
 
@@ -81,13 +82,13 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
         return;
     }
 
-    if (!index.siblingAtColumn(0).isValid()) {
+    if (!index.sibling(index.row(), 0).isValid()) {
         QStyledItemDelegate::paint(painter, option, index);
 
         return;
     }
 
-    auto pingData = index.siblingAtColumn(0).data(Qt::UserRole + 1).value<Nedrysoft::RouteAnalyser::PingData *>();
+    auto pingData = index.sibling(index.row(), 0).data(Qt::UserRole + 1).value<Nedrysoft::RouteAnalyser::PingData *>();
 
     if (!pingData->hopValid() && ( static_cast<PingData::Fields>(index.column()) != PingData::Fields::Graph )) {
         paintInvalidHop(pingData, painter, option, index);
@@ -892,13 +893,13 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getSibling(
         int adjustment) const -> QModelIndex {
 
     while (true) {
-        modelIndex = modelIndex.siblingAtRow(modelIndex.row() + adjustment);
+        modelIndex = modelIndex.sibling(modelIndex.row() + adjustment, modelIndex.column());
 
         if (!modelIndex.isValid()) {
             break;
         }
 
-        auto pingData = modelIndex.siblingAtColumn(0).data(Qt::UserRole + 1).value<PingData *>();
+        auto pingData = modelIndex.sibling(modelIndex.row(), 0).data(Qt::UserRole + 1).value<PingData *>();
 
         if (pingData->hopValid()) {
             break;
@@ -919,7 +920,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getSiblingData(
     if (nextModelIndex.isValid()) {
         rect = tableView->visualRect(nextModelIndex);
 
-        return nextModelIndex.siblingAtColumn(0).data(Qt::UserRole + 1).value<Nedrysoft::RouteAnalyser::PingData *>();
+        return nextModelIndex.sibling(nextModelIndex.row(), 0).data(Qt::UserRole + 1).value<Nedrysoft::RouteAnalyser::PingData *>();
     }
 
     return nullptr;

@@ -26,7 +26,11 @@
 
 #include "Core/IPingTarget.h"
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
 #include <QThread>
+#else
+#include <thread>
+#endif
 
 namespace Nedrysoft::PingCommandPingEngine {
     class PingCommandPingEngine;
@@ -134,7 +138,11 @@ namespace Nedrysoft::PingCommandPingEngine {
             auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         private:
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
             QThread *m_workerThread;
+#else
+            std::thread *m_workerThread;
+#endif
             void *m_userdata;
             bool m_quitThread;
             PingCommandPingEngine *m_engine;

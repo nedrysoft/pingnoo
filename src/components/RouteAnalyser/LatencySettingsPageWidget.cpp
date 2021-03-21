@@ -33,6 +33,7 @@
 #include <QJsonDocument>
 #include <QRegularExpression>
 #include <QStandardPaths>
+#include <cassert>
 
 Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(QWidget *parent) :
         QWidget(parent),
