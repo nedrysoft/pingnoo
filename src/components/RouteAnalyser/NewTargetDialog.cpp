@@ -31,6 +31,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QStandardItemModel>
+#include <cassert>
 #include <cmath>
 
 constexpr auto lineEditHeightAdjustment = 2;

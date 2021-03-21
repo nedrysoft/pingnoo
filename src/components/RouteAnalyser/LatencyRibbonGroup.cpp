@@ -32,6 +32,7 @@
 #include "ui_LatencyRibbonGroup.h"
 
 #include <QMenu>
+#include <cassert>
 
 constexpr auto lineEditHeight = 21;
 

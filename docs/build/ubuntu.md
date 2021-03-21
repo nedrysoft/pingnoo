@@ -3,42 +3,41 @@
 ## Install Prerequisites
 
 ```
-apt update -y
-apt install software-properties-common -y
-add-apt-repository ppa:git-core/ppa -y
-apt update -y
-apt install curl -y
-apt install build-essential -y
-apt install unzip -y
-apt install wget -y
-apt install vim -y
-apt install mesa-common-dev -y
-apt install libdbus-1-dev -y
-apt install libxcb-xinerama0-dev -y
-apt install git -y
-apt install python3.9 -y
-apt install python3.9-dev -y
-apt install python3.9-venv -y
-apt install qttools5-dev-tools -y
-apt install qtdeclarative5-dev -y
-apt install qml-module-qtquick-controls -y
-apt install qt5-default -y
-apt install qttools5-dev -y
-apt install openjdk-8-jdk -y
-
+apt update -y &&
+apt install software-properties-common -y &&
+add-apt-repository ppa:git-core/ppa -y &&
+apt update -y &&
+apt install curl -y &&
+apt install build-essential -y &&
+apt install unzip -y &&
+apt install wget -y &&
+apt install vim -y &&
+apt install mesa-common-dev -y &&
+apt install libdbus-1-dev -y &&
+apt install libxcb-xinerama0-dev -y &&
+apt install git -y &&
+- **20.04 or later** apt install python3.9 -y &&
+- **20.04 or later** apt install python3.9-dev -y &&
+- **20.04 or later** apt install python3.9-venv -y &&
+apt install qttools5-dev-tools -y &&
+apt install qtdeclarative5-dev -y &&
+apt install qml-module-qtquick-controls -y &&
+apt install qt5-default -y &&
+apt install qttools5-dev -y &&
+apt install openjdk-8-jdk -y &&
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 2
 
-cd ~
-wget https://github.com/Kitware/CMake/releases/download/v3.20.0-rc2/cmake-3.20.0-rc2-linux-x86_64.sh;
-chmod +x cmake-3.20.0-rc2-linux-x86_64.sh
+cd /tmp  &&
+wget https://github.com/Kitware/CMake/releases/download/v3.20.0-rc2/cmake-3.20.0-rc2-linux-x86_64.sh &&
+chmod +x cmake-3.20.0-rc2-linux-x86_64.sh &&
 ./cmake-3.20.0-rc2-linux-x86_64.sh --skip-license --prefix=/usr/local
 
-cd /tmp
-wget http://<teamcity server ip>:8111/update/buildAgentFull.zip
-mkdir /opt/teamcity-agent
-cd /opt/teamcity-agent
-unzip /tmp/buildAgentFull.zip
-ln /usr/lib/qt5/bin/lrelease /bin/lrelease
+cd /tmp &&
+wget http://172.29.13.9:8111/update/buildAgentFull.zip &&
+mkdir /opt/teamcity-agent &&
+cd /opt/teamcity-agent &&
+unzip /tmp/buildAgentFull.zip &&
+ln /usr/lib/x86_64-linux-gnu/qt5/bin/lrelease /bin/lrelease
 ```
 
 ## Create the /etc/systemd/system/teamcity-agent.service file.
@@ -71,7 +70,7 @@ vi /opt/teamcity-agent/conf/buildAgent.properties
 ```
 then set the following configuration values.
 ```
-serverURL=http://<server ip>:8111
+serverURL=http://http://172.29.13.9:8111
 
 system.linuxDistribution=ubuntu xx.yy
 ```

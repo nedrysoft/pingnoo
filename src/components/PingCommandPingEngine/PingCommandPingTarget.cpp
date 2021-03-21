@@ -29,7 +29,13 @@
 #include <QHostAddress>
 #include <QProcess>
 #include <QRegularExpression>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
 #include <QThread>
+#else
+#include <thread>
+
+#endif
+#include <cassert>
 
 constexpr auto replyTimeout = 3;
 constexpr auto nanosecondsInMillisecond = 1.0e6;
@@ -46,7 +52,11 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
             m_ttl(ttl),
             m_hostAddress(hostAddress) {
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     m_workerThread = QThread::create([=]() {
+#else
+    m_workerThread = new std::thread([=]() {
+#endif
         auto pingArguments = QStringList() <<
                 "-W" << QString("%1").arg(replyTimeout) <<
                 "-D" <<
@@ -57,7 +67,11 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
         int sampleNumber = 0;
 
         while(!m_quitThread) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
             auto pingThread = QThread::create([sampleNumber, pingArguments, engine, this]() {
+#else
+            auto pingThread = new std::thread([=]() {
+#endif
                 QProcess pingProcess;
                 qint64 started, finished;
                 QElapsedTimer timer;
@@ -123,19 +137,27 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
                         // some other error
                     }
                 }
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+                pingThread->deleteLater();
+#endif
             });
-
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
             QObject::connect(pingThread, &QThread::finished, pingThread, &QThread::deleteLater);
 
             pingThread->start();
 
             QThread::msleep(engine->interval().count());
+#else
+            std::this_thread::sleep_for(engine->interval());
 
+#endif
             sampleNumber++;
         }
     });
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     m_workerThread->start();
+#endif
 }
 
 Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::~PingCommandPingTarget() {

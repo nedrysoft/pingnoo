@@ -42,6 +42,7 @@
 #include <QHostAddress>
 #include <QHostInfo>
 #include <QTimer>
+#include <cassert>
 #include <chrono>
 #include <spdlog/spdlog.h>
 
@@ -178,9 +179,15 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
 
         headerItem->setText(pair.first);
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 11, 0)
+        auto maxWidth = qMax(
+                m_tableView->fontMetrics().boundingRect(pair.first).width(),
+                m_tableView->fontMetrics().boundingRect(pair.second).width() );
+#else
         auto maxWidth = qMax(
                 m_tableView->fontMetrics().horizontalAdvance(pair.first),
                 m_tableView->fontMetrics().horizontalAdvance(pair.second) );
+#endif
 
         m_tableModel->setHorizontalHeaderItem(static_cast<int>(headerIterator.key()), headerItem);
 

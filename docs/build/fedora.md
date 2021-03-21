@@ -3,29 +3,29 @@
 ## Install Prerequisites
 
 ```
-dnf -y group install "C Development Tools and Libraries"
-dnf -y install cmake
-dnf -y install git
-dnf -y install python-qt5-rpm-macros
-dnf -y install qt5-linguist
-dnf -y install rpm-build
-dnf -y install rpmdevtools
-dnf -y install qt5-qtquickcontrols2-devel
-dnf -y install dbus-devel
-dnf -y install vim
-dnf -y install wget
-dnf -y install unzip
-dnf -y install java-11-openjdk
+dnf -y group install "C Development Tools and Libraries"  &&
+dnf -y install cmake &&
+dnf -y install git &&
+dnf -y install python-qt5-rpm-macros &&
+dnf -y install qt5-linguist &&
+dnf -y install rpm-build &&
+dnf -y install rpmdevtools &&
+dnf -y install qt5-qtquickcontrols2-devel &&
+dnf -y install dbus-devel &&
+dnf -y install vim &&
+dnf -y install wget &&
+dnf -y install unzip &&
+dnf -y install java-11-openjdk &&
 
 - **for fedora 33 or later** dnf -y install qt5-qtbase-devel
 - **for fedora 32 or earlier** dnf -y install qt5-devel
 
 ln -s /usr/lib64/qt5/bin/lrelease /bin/lrelease
 
-cd /tmp
-wget http://<teamcity server ip>:8111/update/buildAgentFull.zip
-mkdir /opt/teamcity-agent
-cd /opt/teamcity-agent
+cd /tmp &&
+wget http://172.29.13.9:8111/update/buildAgentFull.zip &&
+mkdir /opt/teamcity-agent &&
+cd /opt/teamcity-agent &&
 unzip /tmp/buildAgentFull.zip
 ```
 ## Create the /etc/systemd/system/teamcity-agent.service file.
@@ -58,7 +58,7 @@ vi /opt/teamcity-agent/conf/buildAgent.properties
 ```
 then set the following configuration values.
 ```
-serverURL=http://<teamcity server ip>:8111
+serverURL=http://http://172.29.13.9:8111
 
 system.linuxDistribution=fedora rXX
 ```

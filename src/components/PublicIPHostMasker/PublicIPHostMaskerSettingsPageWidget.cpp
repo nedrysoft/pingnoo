@@ -26,6 +26,8 @@
 #include "ComponentSystem/IComponentManager.h"
 #include "PublicIPHostMasker.h"
 
+#include <cassert>
+
 #include "ui_PublicIPHostMaskerSettingsPageWidget.h"
 
 Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPageWidget::PublicIPHostMaskerSettingsPageWidget(QWidget *parent) :

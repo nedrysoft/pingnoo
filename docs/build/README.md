@@ -6,3 +6,4 @@ This information is in reality mainly notes for myself so that I can easily repl
 
 [Fedora Setup Guide](fedora.md)
 [Ubuntu Setup Guide](ubuntu.md)
+[Debian Setup Guide](debian.md)

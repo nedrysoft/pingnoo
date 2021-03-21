@@ -31,6 +31,7 @@
 
 #include "ColourManager.h"
 
+#include <cassert>
 #include <chrono>
 
 using namespace std::chrono_literals;
