@@ -16,16 +16,30 @@ apt install mesa-common-dev -y &&
 apt install libdbus-1-dev -y &&
 apt install libxcb-xinerama0-dev -y &&
 apt install git -y &&
-- **20.04 or later** apt install python3.9 -y &&
-- **20.04 or later** apt install python3.9-dev -y &&
-- **20.04 or later** apt install python3.9-venv -y &&
 apt install qttools5-dev-tools -y &&
 apt install qtdeclarative5-dev -y &&
 apt install qml-module-qtquick-controls -y &&
 apt install qt5-default -y &&
 apt install qttools5-dev -y &&
 apt install openjdk-8-jdk -y &&
-update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 2
+
+- **20.04 or later** System Python is new enough
+
+    apt install python3.9 -y &&
+    apt install python3.9-dev -y &&
+    apt install python3.9-venv -y &&
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 2
+
+- **18.04 or earlier** Build python 3.9 from source
+
+    cd /tmp &&
+    apt install  zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev -y &&
+    wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz &&
+    tar -xf Python-3.9.1.tgz &&
+    cd Python-3.9.1 &&
+    ./configure --enable-optimizations &&
+    make -j 4 &&
+    make install
 
 cd /tmp  &&
 wget https://github.com/Kitware/CMake/releases/download/v3.20.0-rc2/cmake-3.20.0-rc2-linux-x86_64.sh &&
@@ -65,7 +79,7 @@ Restart=on-failure
 ## Configure the teamcity build agent
 
 ```
-cp /opt/teamcity-agent/conf/buildAgent.dist.properties /opt/teamcity-agent/conf/buildAgent.properties
+cp /opt/teamcity-agent/conf/buildAgent.dist.properties /opt/teamcity-agent/conf/buildAgent.properties &&
 vi /opt/teamcity-agent/conf/buildAgent.properties
 ```
 then set the following configuration values.
@@ -77,6 +91,6 @@ system.linuxDistribution=ubuntu xx.yy
 
 ## Enable and start the teamcity build agent
 ```
-systemctl enable teamcity-agent
+systemctl enable teamcity-agent &&
 service teamcity-agent start
 ```

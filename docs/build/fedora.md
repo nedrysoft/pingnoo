@@ -15,10 +15,15 @@ dnf -y install dbus-devel &&
 dnf -y install vim &&
 dnf -y install wget &&
 dnf -y install unzip &&
-dnf -y install java-11-openjdk &&
+dnf -y install java-11-openjdk
 
-- **for fedora 33 or later** dnf -y install qt5-qtbase-devel
-- **for fedora 32 or earlier** dnf -y install qt5-devel
+- **r33 or later** 
+
+  dnf -y install qt5-qtbase-devel
+  
+- **r32 or earlier** 
+
+  dnf -y install qt5-devel
 
 ln -s /usr/lib64/qt5/bin/lrelease /bin/lrelease
 
@@ -53,7 +58,7 @@ Restart=on-failure
 ## Configure the teamcity build agent
 
 ```
-cp /opt/teamcity-agent/conf/buildAgent.dist.properties /opt/teamcity-agent/conf/buildAgent.properties
+cp /opt/teamcity-agent/conf/buildAgent.dist.properties /opt/teamcity-agent/conf/buildAgent.properties &
 vi /opt/teamcity-agent/conf/buildAgent.properties
 ```
 then set the following configuration values.
@@ -65,6 +70,6 @@ system.linuxDistribution=fedora rXX
 
 ## Enable and start the teamcity build agent
 ```
-systemctl enable teamcity-agent
+systemctl enable teamcity-agent &
 service teamcity-agent start
 ```

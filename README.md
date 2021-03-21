@@ -14,17 +14,52 @@ Pingnoo is an open-source combined traceroute and ping application for analysing
 
 [The binaries are available under the releases page.](https://github.com/nedrysoft/pingnoo/releases)
 
-- **Windows**.  The application is supplied as an installer executable, download and run the installer to install the application; this will create a shortcut which will launch the software.
+- **Windows**
+  
+  The application is supplied as an installer executable, download and run the installer to install the application; this will create a shortcut which will launch the software.
 
-- **Mac OS**.  The application is a dmg disk image.  Download and open the disk image and drag the Pingnoo icon into the Applications folder, the application can then be launched by double-clicking on the Pingnoo icon in Applications.
+- **Mac OS**  
+  
+  The application is a dmg disk image.  Download and open the disk image and drag the Pingnoo icon into the Applications folder, the application can then be launched by double-clicking on the Pingnoo icon in Applications.
 
-- **Linux**.  The application is an AppImage.  Download the application and then from the terminal run the command:
+- **Linux**
+  
+  ***AppImage***
+  
+  The application is provided as an AppImage, an AppImage bundles all dependencies and therefore will run on any modern Linux distribution.
+
+  After downloading the AppImage, you then need to do the following:
 
   `chmod +x <downloaded filename>`
 
-  The application requires RAW socket access; therefore, you will either need to follow the instructions outlined in the Linux Notes section regarding setuid; this will allow you to run the application directly.  Alternatively, you can launch from the terminal by using:
+  The application requires RAW socket access, and this means some limitations affect the operation of the application.  You will need to follow the instructions outlined in the Linux Notes section regarding setuid; this will allow you to run the application directly.  Alternatively, you can launch from the terminal by using:
 
   `sudo ./<downloaded filename>`
+
+  ***Native Packages***
+
+  Native packages for popular Linux distributions are available, and these install with the correct permissions, which allow the application to run without root permissions.
+
+    - Fedora 32 & 33
+    - Ubuntu 18.04, 20.04, 20.10
+    - Debian 10
+
+  **Installing on Debian/Ubuntu**
+    
+  To install on Ubuntu or Debian, you should download the appropriate deb package for your OS, and then you can install it with the following commands:
+
+  ```
+  dpkg -i <downloaded file>.deb
+  apt -f install
+  ```
+
+  **Installing on Fedora**
+  
+  To install on Fedora, you should download the appropriate rpm package for your OS, and then you can install it with the following commands:
+
+  ```
+  dnf install <downloaded file>.rpm
+  ```
 
 ## Documentation
 
