@@ -34,9 +34,9 @@ class Nedrysoft::ICMPPingEngine::ICMPPingTargetData {
         ICMPPingTargetData(Nedrysoft::ICMPPingEngine::ICMPPingTarget *parent) :
                 m_pingTarget(parent),
                 m_engine(nullptr),
+                m_socket(nullptr),
                 m_userData(nullptr),
-                m_ttl(0),
-                m_socket(nullptr) {
+                m_ttl(0) {
 
             std::random_device randomDevice;
             std::mt19937 mt(randomDevice());

@@ -80,16 +80,16 @@ constexpr auto  ICMP6_ECHO_REPLY = 129;
 
 Nedrysoft::ICMPPacket::ICMPPacket::ICMPPacket() :
         m_resultCode(Invalid),
-        m_sequence(0),
         m_id(0),
+        m_sequence(0),
         m_ipVersion(Unknown) {
 
 }
 
 Nedrysoft::ICMPPacket::ICMPPacket::ICMPPacket(uint16_t id, uint16_t sequence, ResultCode resultCode, IPVersion ipVersion) :
         m_resultCode(resultCode),
-        m_sequence(sequence),
         m_id(id),
+        m_sequence(sequence),
         m_ipVersion(ipVersion) {
 
 }

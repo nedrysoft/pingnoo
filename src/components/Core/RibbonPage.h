@@ -85,10 +85,10 @@ namespace Nedrysoft::Core {
             auto addGroup(QString title, QString id, QWidget *widget) -> Nedrysoft::Core::IRibbonGroup * override;
 
         private:
+            RibbonBarManager *m_manager;
             QWidget *m_pageWidget;
             QHBoxLayout *m_pageLayout;
             QSpacerItem *m_spacerItem;
-            RibbonBarManager *m_manager;
     };
 }
 

@@ -90,8 +90,6 @@ Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(Q
 }
 
 Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::~LatencySettingsPageWidget() {
-    LatencySettings *latencySettings = Nedrysoft::ComponentSystem::getObject<LatencySettings>();
-
     for(auto connection: m_connections) {
         disconnect(connection);
     }

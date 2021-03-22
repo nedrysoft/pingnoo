@@ -319,7 +319,7 @@ auto Nedrysoft::RouteAnalyser::TargetManager::importFavourites(QWidget *parent) 
 
         auto appendButton =
                 reinterpret_cast<QAbstractButton *>(messageBox.addButton(tr("Append"), QMessageBox::YesRole));
-        auto overwriteButton =
+//         auto overwriteButton =
                 reinterpret_cast<QAbstractButton *>(messageBox.addButton(tr("Owerwrite"), QMessageBox::NoRole));
         auto cancelButton =
                 reinterpret_cast<QAbstractButton *>(messageBox.addButton(tr("Cancel"), QMessageBox::RejectRole));

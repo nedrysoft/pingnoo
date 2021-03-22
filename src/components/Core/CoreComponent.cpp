@@ -63,7 +63,7 @@ auto CoreComponent::initialiseEvent() -> void {
     auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
 
     if (ribbonBarManager) {
-        auto page = ribbonBarManager->addPage(tr("Host Masking"), Pingnoo::Constants::ribbonHostMaskingPage);
+        /*auto page =*/ ribbonBarManager->addPage(tr("Host Masking"), Pingnoo::Constants::ribbonHostMaskingPage);
 
         //page->addGroup("My Group", "com.c", new QWidget());
     }
