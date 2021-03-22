@@ -541,7 +541,6 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
     auto startPoint = QPointF();
     auto endPoint = QPointF();
     auto colourFactor = NormalColourFactor;
-    auto tableViewWidget = qobject_cast<const QTableView *>(option.widget);
 
     auto graphMaxLatency = pingData->tableModel()->property("graphMaxLatency").toDouble();
 
