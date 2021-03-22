@@ -55,11 +55,19 @@ def rpm_create(build_arch, build_type, version, release):
         build_arch = "i686"  # Fedora/RPM terminology
                              # FIXME: Never got 32-bit working because I didn't have Qt5 built for it
 
+    # Find release info, if any
+    rpm_dist = execute("rpm --eval %{?dist}")[1].strip()
+
+    if False:  # TODO: Eventually would like parallel build paths enabled... rpm_dist:
+        os.environ['HOME'] = os.path.join(os.getcwd(), f"rpmbuild-{rpm_dist[1:]}-{build_arch}")
+        os.chdir(os.environ['HOME'])
+    else:
+        os.environ['HOME'] = os.getcwd()
+
     with msg_printer("Removing existing rpmbuild subtree"):
         execute("rm -rf rpmbuild", "Could not remove rpmbuild temporary area")
 
     with msg_printer("Creating rpmbuild subtree"):
-        os.environ['HOME'] = os.getcwd()
         execute("rpmdev-setuptree", "Could not create rpmbuild temporary area")
 
     with msg_printer("Creating specfile"):
@@ -86,15 +94,12 @@ def rpm_create(build_arch, build_type, version, release):
             tarball.add('.', arcname=f"pingnoo-{version}", filter=tar_filter)
         shutil.move(f"pingnoo-{version}.tar", "rpmbuild/SOURCES")
 
-
-    with msg_printer("Calling rpmbuild (logged to rpmbuild.log)"):
+    with msg_printer(f"Calling rpmbuild (logged to rpmbuild-{rpm_dist[1:]}-{build_arch}.log)"):
         execute(f"rpmbuild -bb --target {build_arch} rpmbuild/SPECS/pingnoo.spec",
                 fail_msg="rpmbuild failed",
-                out_log="rpmbuild.log")
+                out_log=f"rpmbuild-{rpm_dist[1:]}-{build_arch}.log")
 
     pathlib.Path(f'bin/{build_arch}/Deploy/rpm/').mkdir(parents=True, exist_ok=True)
-    # Find release info, if any
-    rpm_dist = execute("rpm --eval %{?dist}")[1].strip()
     final_name = f'pingnoo-{version}-{release}{rpm_dist}.{build_arch}.rpm'
     shutil.copy2(f'rpmbuild/RPMS/{build_arch}/{final_name}',
                  f'bin/{build_arch}/Deploy/rpm/')
