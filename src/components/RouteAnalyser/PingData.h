@@ -39,6 +39,7 @@ class QStandardItemModel;
 
 namespace Nedrysoft::RouteAnalyser {
     class RouteItemTableDelegate;
+    class IPlot;
 
     typedef std::chrono::duration<double, std::ratio<1, 1000>> milliseconds_double;
     typedef std::chrono::duration<double, std::ratio<1, 1>> seconds_double;
@@ -183,25 +184,11 @@ namespace Nedrysoft::RouteAnalyser {
             auto setCustomPlot(QCustomPlot *customPlot) -> void;
 
             /**
-             * @brief       Sets the jitter graph associated with this route item.
-             *
-             * @param[in]   jitterPlot the plot.
-             */
-            auto setJitterPlot(QCustomPlot *jitterPlot) -> void;
-
-            /**
              * @brief       Returns the graph associated with this route item.
              *
              * @returns     the plot.
              */
             auto customPlot() -> QCustomPlot *;
-
-            /**
-             * @brief       Returns the jitter graph associated with this route item.
-             *
-             * @returns     the plot.
-             */
-            auto jitterPlot() -> QCustomPlot *;
 
             /**
              * @brief       Returns whether this hop is valid.
@@ -232,6 +219,13 @@ namespace Nedrysoft::RouteAnalyser {
              * @returns     the packet loss.
              */
             auto packetLoss() -> double;
+
+            /**
+             * @brief       Sets the plots associated with this.
+             *
+             * @param[in]   plots the plots.
+             */
+            auto setPlots(QList<Nedrysoft::RouteAnalyser::IPlot *> plots) -> void;
 
         protected:
             /**
@@ -290,6 +284,8 @@ namespace Nedrysoft::RouteAnalyser {
             seconds_double m_minimumLatency = {};               //! The minimum latency value (in seconds)
             seconds_double m_averageLatency = {};               //! The average latency value (in seconds)
             seconds_double m_historicalLatency = {};            //! The historical latency
+
+            QList<Nedrysoft::RouteAnalyser::IPlot *> m_plots;   //! The additional plots
     };
 }
 

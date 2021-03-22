@@ -40,6 +40,7 @@
 #include <QAbstractItemView>
 #include <QMenu>
 #include <QStandardItemModel>
+#include <cassert>
 #include <map>
 
 constexpr auto comboPadding = 12;

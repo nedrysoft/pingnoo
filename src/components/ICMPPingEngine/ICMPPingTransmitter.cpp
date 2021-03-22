@@ -29,11 +29,11 @@
 #include "ICMPPingTarget.h"
 #include "ICMPSocket/ICMPSocket.h"
 
-#include <QRandomGenerator>
 #include <QThread>
 #include <QtEndian>
 #include <chrono>
 #include <cstdint>
+#include <random>
 #include <spdlog/spdlog.h>
 #include <thread>
 
@@ -61,7 +61,11 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
 
     QThread::currentThread()->setPriority(QThread::HighPriority);
 
-    auto currentSequenceId = static_cast<uint16_t>(QRandomGenerator::global()->generate());
+    std::random_device randomDevice;
+    std::mt19937 mt(randomDevice());
+    std::uniform_int_distribution<uint16_t> dist(0, UINT16_MAX);
+
+    auto currentSequenceId = dist(mt);
 
     while (m_isRunning) {
         if (!m_targets.isEmpty()) {

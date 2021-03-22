@@ -83,6 +83,8 @@ pingnoo_add_sources(
     RouteAnalyserWidget.h
     RouteTableItemDelegate.cpp
     RouteTableItemDelegate.h
+    SDK/IPlot.h
+    SDK/IPlotFactory.h
     TargetSettings.cpp
     TargetSettings.h
     TargetSettingsPage.cpp

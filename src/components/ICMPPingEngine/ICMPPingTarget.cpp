@@ -28,17 +28,23 @@
 #include <QHostAddress>
 #include <QRandomGenerator>
 #include <cassert>
+#include <random>
 
 class Nedrysoft::ICMPPingEngine::ICMPPingTargetData {
     public:
         ICMPPingTargetData(Nedrysoft::ICMPPingEngine::ICMPPingTarget *parent) :
                 m_pingTarget(parent),
                 m_engine(nullptr),
-                m_socket(nullptr),
                 m_id(( QRandomGenerator::global()->generate() % ( UINT16_MAX - 1 )) + 1),
                 m_userData(nullptr),
-                m_ttl(0) {
+                m_ttl(0),
+                m_socket(nullptr) {
 
+            std::random_device randomDevice;
+            std::mt19937 mt(randomDevice());
+            std::uniform_int_distribution<uint16_t> dist(1.0, UINT16_MAX-1);
+
+            m_id = dist(mt);
         }
 
         friend class ICMPPingTarget;

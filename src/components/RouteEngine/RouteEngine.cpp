@@ -31,6 +31,7 @@
 #include <QThread>
 #include <QTimer>
 
+#include <cassert>
 #include <spdlog/spdlog.h>
 
 using namespace std::chrono_literals;
