@@ -26,7 +26,6 @@
 #include "ICMPSocket/ICMPSocket.h"
 
 #include <QHostAddress>
-#include <QRandomGenerator>
 #include <cassert>
 #include <random>
 
@@ -36,7 +35,6 @@ class Nedrysoft::ICMPPingEngine::ICMPPingTargetData {
                 m_pingTarget(parent),
                 m_engine(nullptr),
                 m_socket(nullptr),
-                m_id(( QRandomGenerator::global()->generate() % ( UINT16_MAX - 1 )) + 1),
                 m_userData(nullptr),
                 m_ttl(0) {
 
