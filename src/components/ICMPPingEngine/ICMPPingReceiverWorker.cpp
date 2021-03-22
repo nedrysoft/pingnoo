@@ -40,11 +40,11 @@ using namespace std::chrono_literals;
 constexpr auto DefaultReplyTimeout = 1s;
 
 Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::ICMPPingReceiverWorker() :
-        m_isRunning(false),
         m_engine(nullptr),
         m_receiveWorker(nullptr),
         m_receiverThread(nullptr),
-        m_socket(nullptr) {
+        m_socket(nullptr),
+        m_isRunning(false) {
 
 }
 

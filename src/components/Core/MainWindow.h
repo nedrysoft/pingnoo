@@ -135,11 +135,11 @@ namespace Nedrysoft::Core {
         private:
             Ui::MainWindow *ui;
 
-            Nedrysoft::SettingsDialog::SettingsDialog *m_settingsDialog;
-
             Nedrysoft::Core::RibbonBarManager *m_ribbonBarManager;
 
             Nedrysoft::Core::EditorManager *m_editorManager;
+
+            Nedrysoft::SettingsDialog::SettingsDialog *m_settingsDialog;
 
             /*
             QLabel *m_pointInfoLabel;

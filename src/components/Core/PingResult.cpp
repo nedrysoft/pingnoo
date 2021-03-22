@@ -46,8 +46,8 @@ Nedrysoft::Core::PingResult::PingResult(
             m_sampleNumber(sampleNumber),
             m_code(code),
             m_hostAddress(hostAddress),
-            m_requestTime(requestTime),
             m_roundTripTime(roundTripTime),
+            m_requestTime(requestTime),
             m_target(target) {
 
 }

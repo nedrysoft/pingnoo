@@ -97,8 +97,8 @@ namespace Nedrysoft::ICMPPingEngine {
         private:
             Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_engine;
             Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker *m_receiveWorker;
-            Nedrysoft::ICMPSocket::ICMPSocket *m_socket;
             QThread *m_receiverThread;
+            Nedrysoft::ICMPSocket::ICMPSocket *m_socket;
 
             bool m_isRunning;
     };

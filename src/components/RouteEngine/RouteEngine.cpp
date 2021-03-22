@@ -39,10 +39,10 @@ constexpr auto DefaultDiscoveryTimeout = 3s;
 constexpr auto MaxRouteHops = 64;
 
 Nedrysoft::RouteEngine::RouteEngine::RouteEngine() :
+        m_ipVersion(Nedrysoft::Core::IPVersion::V4),
         m_pingEngineFactory(nullptr),
         m_pingEngine(nullptr),
-        m_timeoutTimer(nullptr),
-        m_ipVersion(Nedrysoft::Core::IPVersion::V4) {
+        m_timeoutTimer(nullptr) {
 
 }
 

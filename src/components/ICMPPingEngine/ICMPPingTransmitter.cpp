@@ -42,8 +42,8 @@ using namespace std::chrono_literals;
 constexpr auto DefaultTransmitInterval = 10s;
 
 Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::ICMPPingTransmitter(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine) :
-        m_engine(engine),
         m_interval(DefaultTransmitInterval),
+        m_engine(engine),
         m_isRunning(false) {
 
 }
