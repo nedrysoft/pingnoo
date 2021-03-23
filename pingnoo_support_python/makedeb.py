@@ -164,8 +164,7 @@ def debCreate(buildArch, buildType, version, outputFile, key):
 	# sign the deb file
 
 	if key:
-		with msg_printer(f"Signing {outputFile}"):
-			resultCode, resultOutput = execute(f'dpkg-sig -k {key} -s origin {packageRoot} \"{outputFile}\"')
+		resultCode, resultOutput = execute(f'dpkg-sig -k {key} -s origin \"{outputFile}\"')
 
 	if resultCode==0:
 		return(0)

@@ -105,8 +105,7 @@ def rpm_create(build_arch, build_type, version, release, key):
                  f'bin/{build_arch}/Deploy/rpm/')
 
     if key:
-        with msg_printer(f"Signing bin/{build_arch}/Deploy/rpm/{final_name}"):
-            execute(f"rpm --define \"_gpg_name {key}\" --addsign 'bin/{build_arch}/Deploy/rpm/{final_name}'")
+        execute(f"rpm --define \"_gpg_name {key}\" --addsign 'bin/{build_arch}/Deploy/rpm/{final_name}'")
 
     return final_name
 
