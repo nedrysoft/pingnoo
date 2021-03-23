@@ -8,6 +8,11 @@ Ensure you are running the latest version to benefit from all available security
 | Version | Supported          |
 | ------- | ------------------ |
 | 2021.01.10   | :white_check_mark: |
+| 2021.02.17   | :white_check_mark: |
+| 2021.03.04   | :white_check_mark: |
+| 2021.03.05   | :white_check_mark: |
+| 2021.03.13   | :white_check_mark: |
+| 2021.03.21   | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
