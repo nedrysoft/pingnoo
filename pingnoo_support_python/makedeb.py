@@ -38,7 +38,7 @@ def execute(command):
 
     return(output.returncode, output.stdout.decode('utf-8')+output.stderr.decode('utf-8'))
 
-def debCreate(buildArch, buildType, version, outputFile):
+def debCreate(buildArch, buildType, version, outputFile, key):
 	controlTemplate = ""
 
 	with open("dpkg/control.in", 'r') as controlFile:
@@ -158,6 +158,14 @@ def debCreate(buildArch, buildType, version, outputFile):
 
 	resultCode, resultOutput = execute(f'dpkg-deb --build {packageRoot} \"{outputFile}\"')
 
+	if not resultCode==0:
+		return(1)
+
+	# sign the deb file
+
+	if key:
+		resultCode, resultOutput = execute(f'dpkg-sig -k {key} -s origin {packageRoot} \"{outputFile}')
+
 	if resultCode==0:
 		return(0)
 
@@ -186,11 +194,17 @@ def main():
 						nargs='?',
 						help='the output deb file')
 
+	parser.add_argument('--key',
+						type=str,
+						default=None,
+						nargs='?',
+						help='sign with the gpg key that matches this id')
+
 	parser.add_argument('--version', type=str, nargs='?', help='version')
 
 	args = parser.parse_args()
 
-	debCreate(args.arch, args.type, args.version, args.output)
+	debCreate(args.arch, args.type, args.version, args.output, args.key)
 
 if __name__ == "__main__":
 	main()
