@@ -240,17 +240,18 @@ I thank the following people for contributing to the project:
 
 Pingnoo uses the following third-party libraries/assets/tools/services in the development of Pingnoo.
 
-- [Qt](https://www.qt.io/download) - cross platform framework, licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html).
-- [cmake](www.cmake.org) - cross platform project build system, licensed under [BSD license](https://gitlab.kitware.com/cmake/cmake/raw/master/Copyright.txt).
-- [Catch2](https://github.com/catchorg/Catch2) - unit testing framework, licensed under the [BSL-1.0 license](https://github.com/catchorg/Catch2/blob/master/LICENSE.txt).
-- [GSL](https://github.com/Microsoft/GSL) - guidelines support library for C++, licensed under the [MIT license](https://github.com/microsoft/GSL/blob/master/LICENSE).
-- [Font Awesome](https://fontawesome.com) - glyph based icon font, licensed under the [SIL OFL 1.1 License](https://scripts.sil.org/OFL).
-- [QCustomPlot](https://www.qcustomplot.com/) - charting library for Qt, licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html).
-- [macdeployqtfix](https://github.com/arl/macdeployqtfix) - finishes the job that macdeployqt starts, licensed under the [MIT License](https://github.com/arl/macdeployqtfix/blob/master/LICENSE).
-- [linuxdeployqt](https://github.com/probonopd/linuxdeployqt) - creates deployable linux binaries, licensed under the [GPLv3 License](https://github.com/probonopd/linuxdeployqt/blob/master/LICENSE.GPLv3).
-- [create-dmg](https://github.com/andreyvit/create-dmg) - automates the creation of Mac OS DMG files, licensed under the [MIT License](https://github.com/andreyvit/create-dmg/blob/master/LICENSE).
-- [colorama](https://github.com/tartley/colorama) - python module for terminal colour, licensed under the [BSD License](https://github.com/tartley/colorama/blob/master/LICENSE.txt).
-- [rapidfuzz-cpp](https://github.com/maxbachmann/rapidfuzz-cpp) - an implemention for fuzzy string matching, licensed under the  [MIT Liecense](https://github.com/maxbachmann/rapidfuzz-cpp/blob/master/LICENSE).
+- [Qt](https://www.qt.io/download) - cross platform framework, licensed under the [GPLv3 licence](https://www.gnu.org/licenses/gpl-3.0.en.html).
+- [cmake](www.cmake.org) - cross platform project build system, licensed under [BSD licence](https://gitlab.kitware.com/cmake/cmake/raw/master/Copyright.txt).
+- [Catch2](https://github.com/catchorg/Catch2) - unit testing framework, licensed under the [BSL-1.0 licence](https://github.com/catchorg/Catch2/blob/master/LICENSE.txt).
+- [GSL](https://github.com/Microsoft/GSL) - guidelines support library for C++, licensed under the [MIT licence](https://github.com/microsoft/GSL/blob/master/LICENSE).
+- [Font Awesome](https://fontawesome.com) - glyph based icon font, licensed under the [SIL OFL 1.1 licence](https://scripts.sil.org/OFL).
+- [QCustomPlot](https://www.qcustomplot.com/) - charting library for Qt, licensed under the [GPLv3 licence](https://www.gnu.org/licenses/gpl-3.0.en.html).
+- [macdeployqtfix](https://github.com/arl/macdeployqtfix) - finishes the job that macdeployqt starts, licensed under the [MIT licence](https://github.com/arl/macdeployqtfix/blob/master/LICENSE).
+- [linuxdeployqt](https://github.com/probonopd/linuxdeployqt) - creates deployable linux binaries, licensed under the [GPLv3 licence](https://github.com/probonopd/linuxdeployqt/blob/master/LICENSE.GPLv3).
+- [create-dmg](https://github.com/andreyvit/create-dmg) - automates the creation of Mac OS DMG files, licensed under the [MIT licence](https://github.com/andreyvit/create-dmg/blob/master/LICENSE).
+- [colorama](https://github.com/tartley/colorama) - python module for terminal colour, licensed under the [BSD licence](https://github.com/tartley/colorama/blob/master/LICENSE.txt).
+- [rapidfuzz-cpp](https://github.com/maxbachmann/rapidfuzz-cpp) - an implementation for fuzzy string matching, licensed under the [MIT licence](https://github.com/maxbachmann/rapidfuzz-cpp/blob/master/LICENSE).
+- [gren](https://github-tools.github.io/github-release-notes/) - a tool for automating release notes, licensed under the [GPLv3 licence](https://github.com/github-tools/github-release-notes/blob/master/LICENSE).
 
 Also, Pingnoo was developed using the following commercially licensed tools/services.
 
