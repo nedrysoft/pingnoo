@@ -105,7 +105,11 @@ def rpm_create(build_arch, build_type, version, release, key):
                  f'bin/{build_arch}/Deploy/rpm/')
 
     if key:
-        execute(f"rpm --define \"_gpg_name {key}\" --addsign 'bin/{build_arch}/Deploy/rpm/{final_name}'")
+        execute(f'rpm --define \"_gpg_name {key}\" '\
+                '--define \"_signature gpg\" '\
+                '--define \"%_gpg_path /root/.gnupg\" '\
+                '--define \"%_gpgbin /usr/bin/gpg\" '\
+                '--addsign \"bin/{build_arch}/Deploy/rpm/{final_name}\"')
 
     return final_name
 
