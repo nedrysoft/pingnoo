@@ -31,6 +31,7 @@
 
 #include "ColourManager.h"
 
+#include <cassert>
 #include <chrono>
 
 using namespace std::chrono_literals;
@@ -39,7 +40,7 @@ constexpr auto DefaultWarningLatency = 200ms;
 constexpr auto DefaultCriticalLatency = 500ms;
 
 constexpr auto roundedRectangleRadius = 10;
-constexpr auto tinyNumber = 1.0/1e10;                             //! used to adjust a unit number to just under 1
+constexpr auto tinyNumber = 0.0001;                             //! used to adjust a unit number to just under 1
 
 constexpr auto latencyStopLineColour = Qt::black;
 
@@ -98,14 +99,6 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
         QPixmap bufferedImage(rect.size());
 
         QPainter bufferPainter(&bufferedImage);
-
-        // use a rounded rectangle as a clipping path, it looks better in dark mode
-
-        QPainterPath clippingPath;
-
-        clippingPath.addRoundedRect(rect, roundedRectangleRadius, roundedRectangleRadius);
-
-        bufferPainter.setClipPath(clippingPath);
 
         QLinearGradient graphGradient = QLinearGradient(QPoint(rect.x(), rect.bottom()), QPoint(rect.x(), rect.top()));
 
@@ -173,6 +166,12 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
     }
 
     m_age[bufferName] = QDateTime::currentSecsSinceEpoch();
+
+    QPainterPath clippingPath;
+
+    clippingPath.addRoundedRect(parentPlot()->axisRect()->rect(), roundedRectangleRadius, roundedRectangleRadius);
+
+    painter->setClipPath(clippingPath);
 
     painter->drawPixmap(topLeft, m_buffers[bufferName]);
 }

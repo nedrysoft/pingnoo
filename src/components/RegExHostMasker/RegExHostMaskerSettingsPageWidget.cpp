@@ -32,6 +32,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStandardPaths>
+#include <cassert>
 
 constexpr auto defaultWidgetWidth = 650;
 constexpr auto defaultWidgetHeight = 0;
@@ -558,7 +559,7 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::updateCheckB
     }
 }
 
-auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::getMaskerItem(QTreeWidgetItem *item) ->
+auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::getMaskerItem(QTreeWidgetItem * /*item*/) ->
         Nedrysoft::RegExHostMasker::RegExHostMaskerItem {
 
     if (!ui->expressionsTreeWidget->currentItem()) {

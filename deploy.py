@@ -21,6 +21,7 @@
 #
 
 import argparse
+import codecs
 import datetime
 import glob
 import logging
@@ -40,6 +41,10 @@ from pingnoo_support_python.msg_printer import msg_printer, MsgPrinterException
 
 if sys.hexversion < 0x030600f0:
     raise RuntimeError('requires python >= 3.6')
+
+if sys.hexversion < 0x030800f0:
+    # Older python versions not liking our checkboxes and color
+    sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 
 def notarize_file(filetonotarize, username, password):
@@ -511,8 +516,29 @@ def _do_linux():
 
             deb_version = build_version.replace('/', '.')
 
+            issue_parts = open('/etc/issue').readline().lower().strip().split(' ')
+
+            distro = issue_parts[0]
+
+            if distro == "ubuntu":
+                release_parts = issue_parts[1].split('.')
+
+                major = release_parts[0]
+                minor = release_parts[1]
+
+                deb_distro = f'{distro}{major}.{minor}'
+            elif distro == "debian":
+                release = issue_parts[2]
+
+                deb_distro = f'{distro}{release}'
+            else:
+                deb_distro = 'unknown'
+
+
+                deb_distro = f'{distro}{major}.{minor}'
+
             version_parts = deb_version.split('-', 1)
-            build_filename = f'deployment/pingnoo_{deb_version}_{deb_arch}.deb'
+            build_filename = f'deployment/pingnoo_{deb_version}-{deb_distro}_{deb_arch}.deb'
 
             if len(version_parts) == 2:
                 deb_version = version_parts[0][2:]
@@ -520,7 +546,6 @@ def _do_linux():
             if debCreate(build_arch, build_type, deb_version, build_filename):
                 raise MsgPrinterException("deb creation unknown error")
 
-            build_filename = f'deployment/pingnoo_{deb_version}_{deb_arch}.deb'
         deployed_message = deployed_message + f'\r\n' + Style.BRIGHT + Fore.CYAN + \
                           f'deb package at \"{build_filename}\" is ' + Fore.GREEN + 'ready' + Fore.CYAN + \
                           ' for distribution.'

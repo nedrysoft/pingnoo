@@ -33,6 +33,7 @@
 #include <QJsonDocument>
 #include <QRegularExpression>
 #include <QStandardPaths>
+#include <cassert>
 
 Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(QWidget *parent) :
         QWidget(parent),
@@ -89,8 +90,6 @@ Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(Q
 }
 
 Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::~LatencySettingsPageWidget() {
-    LatencySettings *latencySettings = Nedrysoft::ComponentSystem::getObject<LatencySettings>();
-
     for(auto connection: m_connections) {
         disconnect(connection);
     }

@@ -169,11 +169,11 @@ namespace Nedrysoft::ICMPPingEngine {
             uint16_t m_id;
             uint16_t m_sequenceId;
 
-            unsigned long m_sampleNumber;
-
             bool m_serviced;
 
             Nedrysoft::ICMPPingEngine::ICMPPingTarget *m_target;
+
+            unsigned long m_sampleNumber;
 
             QMutex m_mutex;
     };

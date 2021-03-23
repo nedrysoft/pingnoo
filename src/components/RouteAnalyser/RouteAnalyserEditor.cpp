@@ -112,7 +112,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setInterval(double interval)
 auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::activated() -> void {
     auto viewportWidget = ComponentSystem::getObject<ViewportRibbonGroup>();
     auto latencyWidget = ComponentSystem::getObject<LatencyRibbonGroup>();
-    static auto hasBeenInitialised = false;
+    // unused static auto hasBeenInitialised = false;
 
     // TODO: the viewport widget needs to be properly sized when switching editors, currently it reverts to the initial
     // size and when the next data result comes it then changes to the correct size and position.

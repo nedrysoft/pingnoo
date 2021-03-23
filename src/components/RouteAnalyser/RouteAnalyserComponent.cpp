@@ -42,11 +42,11 @@
 #include "ViewportRibbonGroup.h"
 
 RouteAnalyserComponent::RouteAnalyserComponent() :
-        m_latencySettingsPage(nullptr),
-        m_targetSettingsPage(nullptr),
         m_newTargetGroupWidget(nullptr),
         m_latencyGroupWidget(nullptr),
         m_viewportGroupWidget(nullptr),
+        m_latencySettingsPage(nullptr),
+        m_targetSettingsPage(nullptr),
         m_newTargetAction(nullptr) {
 
 }

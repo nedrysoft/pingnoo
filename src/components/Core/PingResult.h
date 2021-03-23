@@ -132,8 +132,8 @@ namespace Nedrysoft::Core {
             PingResult::ResultCode m_code;
             QHostAddress m_hostAddress;
             std::chrono::duration<double> m_roundTripTime = {};
-            Nedrysoft::Core::IPingTarget *m_target;
             std::chrono::system_clock::time_point m_requestTime = {};
+            Nedrysoft::Core::IPingTarget *m_target;
     };
 }
 

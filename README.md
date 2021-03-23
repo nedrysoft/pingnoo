@@ -14,17 +14,58 @@ Pingnoo is an open-source combined traceroute and ping application for analysing
 
 [The binaries are available under the releases page.](https://github.com/nedrysoft/pingnoo/releases)
 
-- **Windows**.  The application is supplied as an installer executable, download and run the installer to install the application; this will create a shortcut which will launch the software.
+- **Windows**
+  
+  ***Installer***
+  
+  Download the installer executable and run to install the application.  This will create a shortcut which is used launch the software.
 
-- **Mac OS**.  The application is a dmg disk image.  Download and open the disk image and drag the Pingnoo icon into the Applications folder, the application can then be launched by double-clicking on the Pingnoo icon in Applications.
+  ***Portable Edition***
 
-- **Linux**.  The application is an AppImage.  Download the application and then from the terminal run the command:
+  The portable edition is supplied as a zip file which can be unzipped onto a memory stick, the application can be launched directly from the memory stick without the need to install the software.
+
+- **Mac OS**  
+  
+  The application is a dmg disk image.  Download and open the disk image and drag the Pingnoo icon into the Applications folder, the application can then be launched by double-clicking on the Pingnoo icon in Applications.
+
+- **Linux**
+  
+  ***AppImage***
+  
+  The application is provided as an AppImage, an AppImage bundles all dependencies and therefore will run on any modern Linux distribution.
+
+  After downloading the AppImage, you then need to do the following:
 
   `chmod +x <downloaded filename>`
 
-  The application requires RAW socket access; therefore, you will either need to follow the instructions outlined in the Linux Notes section regarding setuid; this will allow you to run the application directly.  Alternatively, you can launch from the terminal by using:
+  The application requires RAW socket access, and this means some limitations affect the operation of the application.  You will need to follow the instructions outlined in the Linux Notes section regarding setuid; this will allow you to run the application directly.  Alternatively, you can launch from the terminal by using:
 
   `sudo ./<downloaded filename>`
+
+  ***Native Packages***
+
+  Native packages for popular Linux distributions are available, and these install with the correct permissions, which allow the application to run without root permissions.
+
+    - Fedora 32 & 33
+    - Ubuntu 18.04, 20.04, 20.10
+    - Debian 10
+
+  **Installing on Debian/Ubuntu**
+    
+  To install on Ubuntu or Debian, you should download the appropriate deb package for your OS, and then you can install it with the following commands:
+
+  ```
+  dpkg -i <downloaded file>.deb
+  apt -f install
+  ```
+
+  **Installing on Fedora**
+  
+  To install on Fedora, you should download the appropriate rpm package for your OS, and then you can install it with the following commands:
+
+  ```
+  dnf install <downloaded file>.rpm
+  ```
 
 ## Documentation
 
@@ -36,7 +77,6 @@ Documentation can be found on https://pingnoo.readthedocs.io/en/latest/
 - CMake for building the application
 - Qt Creator (Optional development environment)
 - Linux has unique requirements; please read the Linux Notes section.
-- Installers are provided per platform and contain all dependencies.
 
 ## Development
 
@@ -63,22 +103,11 @@ cd pingnoo
 git submodule update --init --recursive
 ```
 
-#### Fedora
+#### Build dependencies
 
-```bash
-sudo yum install dbus-devel
-```
-#### Ubunbu
+The [build documentation](docs/build/README.md) contains information about packages that are required to build the software from source.
 
-```bash
-sudo apt-get install build-essential
-sudo apt-get install qt5-default
-sudo apt-get install qttools5-dev
-sudo apt-get install mesa-common-dev
-sudo apt-get install libdbus-1-dev
-```
-
-#### Building
+#### Building the application
 
 Change to the folder that contains the source code, and then execute the following commands.
 
@@ -119,6 +148,16 @@ The script provides the following parameters:
 - `--timeserver="<name>"` - windows only, the name of the time server to be used during signing
 - `--appleid="<email>"` - *Mac OS only*, the Apple ID of the developer account used to sign the binary
 - `--password="<password>"` - *Mac OS only*, the password of the Apple ID.  The password can be stored in the keychain and accessed using `"@keychain:<identifier>"` instead of passing the actual password to the script.
+- `--appimage` - *Linux only*, will generate an AppImage.
+- `--rpm` - *Linux only*, will generate an rpm package.
+- `--deb` - *Linux only*, will generate a deb package.
+- `--appiamagetool="<path to appimage tool"` - *Linux only*, the path to the appimagetool binary.
+- `--linuxdeployqy="<path to linuxdeployqt tool"` - *Linux only*, the path to the linuxdeployqt binary.
+- `--signtool="<path to sign tool>"` - *Windows only*, the path to the signing tool.
+- `--pin=<pin>` - *Windows only*, if using scsigntool, the pin to use.
+- `--portable` - *Windows only*, will generate a portable zip file for windows.
+- `--version` - the version of the deployment tool.
+- `--debugoutput` - produce debug output.
 
 The script will use the curl binary to obtain any tools required for the deployment process.
 

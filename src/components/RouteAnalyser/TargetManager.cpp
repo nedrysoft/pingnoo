@@ -80,12 +80,16 @@ auto Nedrysoft::RouteAnalyser::TargetManager::addFavourite(
 
 auto Nedrysoft::RouteAnalyser::TargetManager::addRecent(QVariantMap parameters) -> void {
     QVariantMap newRecent;
+    QList<int> indices;
 
-    for (auto recent : m_recentsList) {
-        if (recent["host"].toString().compare(parameters["host"].toString(), Qt::CaseInsensitive)) {
-            m_recentsList.removeFirst();
-            break;
+    for (auto recentIndex=0; recentIndex<m_recentsList.size(); recentIndex++) {
+        if (m_recentsList.at(recentIndex)["host"].toString().compare(parameters["host"].toString(), Qt::CaseInsensitive)==0) {
+            indices.push_front(recentIndex);
         }
+    }
+
+    for (auto index : indices) {
+        m_recentsList.removeAt(index);
     }
 
     m_recentsList.insert(0, parameters);
@@ -315,7 +319,7 @@ auto Nedrysoft::RouteAnalyser::TargetManager::importFavourites(QWidget *parent) 
 
         auto appendButton =
                 reinterpret_cast<QAbstractButton *>(messageBox.addButton(tr("Append"), QMessageBox::YesRole));
-        auto overwriteButton =
+//         auto overwriteButton =
                 reinterpret_cast<QAbstractButton *>(messageBox.addButton(tr("Owerwrite"), QMessageBox::NoRole));
         auto cancelButton =
                 reinterpret_cast<QAbstractButton *>(messageBox.addButton(tr("Cancel"), QMessageBox::RejectRole));

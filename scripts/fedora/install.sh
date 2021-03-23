@@ -41,6 +41,7 @@ dnf -y install qt5-linguist
 dnf -y install rpm-build
 dnf -y install rpmdevtools
 dnf -y install qt5-qtquickcontrols2-devel
+dnf -y install hostname
 dnf -y install dbus-devel
 dnf -y install vim
 

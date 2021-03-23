@@ -40,6 +40,7 @@
 #include <QAbstractItemView>
 #include <QMenu>
 #include <QStandardItemModel>
+#include <cassert>
 #include <map>
 
 constexpr auto comboPadding = 12;
@@ -52,8 +53,8 @@ constexpr auto MillisecondsPerSecond = 1000.0;
 Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *parent) :
         QWidget(parent),
         ui(new Ui::NewTargetRibbonGroup),
-        m_recentTargetsAction(nullptr),
-        m_recentsMenu(nullptr) {
+        m_recentsMenu(nullptr),
+        m_recentTargetsAction(nullptr) {
 
     ui->setupUi(this);
 

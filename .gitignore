@@ -86,8 +86,6 @@ tools/makeuniversal
 tools/create-dmg
 tools/macdeployqtfix
 
-build/
-
 installer/Pingnoo.back.aip
 
 installer/PingnooBuild.aip
@@ -117,3 +115,5 @@ rpmbuild
 src/libs/3rdparty/spdlog/
 
 src/libs/3rdparty/spdlog.o
+
+build/

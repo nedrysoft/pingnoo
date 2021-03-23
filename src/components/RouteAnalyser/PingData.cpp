@@ -24,6 +24,7 @@
 #include "PingData.h"
 
 #include "RouteTableItemDelegate.h"
+#include "SDK/IPlot.h"
 
 #include <QHeaderView>
 #include <QStandardItemModel>
@@ -31,19 +32,19 @@
 #include <chrono>
 
 Nedrysoft::RouteAnalyser::PingData::PingData(QStandardItemModel *tableModel, int hop, bool hopValid) :
+        m_tableModel(tableModel),
+        m_customPlot(nullptr),
         m_jitterPlot(nullptr),
+        m_replyPacketCount(0),
+        m_timeoutPacketCount(0),
         m_hop(hop),
         m_hopValid(hopValid),
-        m_tableModel(tableModel),
         m_count(0),
         m_currentLatency(seconds_double(-1)),
         m_maximumLatency(seconds_double(-1)),
         m_minimumLatency(seconds_double(-1)),
         m_averageLatency(seconds_double(-1)),
-        m_historicalLatency(seconds_double(-1)),
-        m_customPlot(nullptr),
-        m_replyPacketCount(0),
-        m_timeoutPacketCount(0) {
+        m_historicalLatency(seconds_double(-1)) {
 
 }
 
@@ -166,6 +167,12 @@ auto Nedrysoft::RouteAnalyser::PingData::updateItem(Nedrysoft::Core::PingResult 
     /*auto packetLoss = (static_cast<double>(m_timeoutPacketCount)/
                 static_cast<double>(m_replyPacketCount+m_timeoutPacketCount))*100.0;*/
 
+    for (auto plot : m_plots) {
+        auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
+
+        plot->update(requestTime.count(), result.roundTripTime().count());
+    }
+
     if (m_tableModel) {
         updateModel();
     }
@@ -177,14 +184,6 @@ auto Nedrysoft::RouteAnalyser::PingData::setCustomPlot(QCustomPlot *customPlot) 
 
 auto Nedrysoft::RouteAnalyser::PingData::customPlot() -> QCustomPlot * {
     return m_customPlot;
-}
-
-auto Nedrysoft::RouteAnalyser::PingData::setJitterPlot(QCustomPlot *jitterPlot) -> void  {
-    m_jitterPlot = jitterPlot;
-}
-
-auto Nedrysoft::RouteAnalyser::PingData::jitterPlot() -> QCustomPlot * {
-    return m_jitterPlot;
 }
 
 auto Nedrysoft::RouteAnalyser::PingData::location() -> QString {
@@ -255,4 +254,8 @@ auto Nedrysoft::RouteAnalyser::PingData::tableModel() -> QStandardItemModel * {
 
 auto Nedrysoft::RouteAnalyser::PingData::count() -> unsigned long  {
     return m_count;
+}
+
+auto Nedrysoft::RouteAnalyser::PingData::setPlots(QList<Nedrysoft::RouteAnalyser::IPlot *> plots) -> void {
+    m_plots = plots;
 }
