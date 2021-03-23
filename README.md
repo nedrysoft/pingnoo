@@ -4,8 +4,11 @@
 
 ---
 
-<img src="https://img.shields.io/travis/com/nedrysoft/pingnoo?color=green&style=for-the-badge"/>
 
+<a href="https://www.travis-ci.com/github/nedrysoft/pingnoo"><img src="https://img.shields.io/travis/com/nedrysoft/pingnoo"/></a>
+<a href="https://packagecloud.io/nedrysoft/pingnoo"><img src="https://img.shields.io/badge/deb-packagecloud.io-844fec.svg"/></a>
+<a href="https://packagecloud.io/nedrysoft/pingnoo"><img src="https://img.shields.io/badge/rpm-packagecloud.io-844fec.svg"/></a>
+<br/>
 Pingnoo is an open-source combined traceroute and ping application for analysing network connections.  It runs under Windows, Mac OS and Linux.
 
 <img src="https://user-images.githubusercontent.com/55795671/103213760-96965c80-4906-11eb-98ee-34658db89b4c.gif"/>
@@ -259,6 +262,7 @@ Also, Pingnoo was developed using the following commercially licensed tools/serv
 - [CLion](https://www.jetbrains.com/clion/) - The C++ IDE Pingnoo is developed in, the license was kindly provided for free for the project.
 - [Deleaker](https://deleaker.com) - A memory leak detector for Windows, the license was kindly provided for free for the project. 
 - [Icofx](https://icofx.ro) - A tool for producing icon & icns files from source images.
+- [packagecloud](https://packagecloud.io) - packagecloud kindly host the package repositories for debian, ubuntu and fedora that make installing on those operating systems very easy.
 
 ## Thanks
 
