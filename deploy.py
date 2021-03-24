@@ -400,7 +400,7 @@ def _do_linux():
         if not linux_deploy_qt or not os.path.isfile(linux_deploy_qt):
             with msg_printer('Downloading linuxdeployqt...'):
                 if os.path.exists('tools/linuxdeployqt'):
-                    rm_path(f'tools/linuxdeployqt')
+                    rm_path('tools/linuxdeployqt')
 
                 os.mkdir('tools/linuxdeployqt')
 
@@ -418,7 +418,7 @@ def _do_linux():
         if not os.path.isfile(linux_deploy_qt):
             bad_msg("> No valid linuxdeployqt could be found.")
 
-        _, result_output = execute(f'ldd --version')
+        _, result_output = execute('ldd --version')
 
         ldd_regex = re.compile(r"^ldd\s\(.*\)\s(?P<version>.*)$", re.MULTILINE)
 
@@ -439,7 +439,7 @@ def _do_linux():
         if not appimage_tool or not os.path.isfile(appimage_tool):
             with msg_printer('Downloading appimagetool...'):
                 if not os.path.exists('tools/appimagetool'):
-                    rm_path(f'tools/appimagetool')
+                    rm_path('tools/appimagetool')
 
                 os.mkdir('tools/appimagetool')
 
@@ -458,9 +458,9 @@ def _do_linux():
         # remove previous deployment files and copy current binaries
         with msg_printer('Setting up deployment directory...'):
             rm_path(f'bin/{build_arch}/Deploy/AppImage/')
-            rm_path(f'deployment')
+            rm_path('deployment')
 
-            os.makedirs(f'deployment')
+            os.makedirs('deployment')
 
             os.makedirs(f'bin/{build_arch}/Deploy/AppImage/usr/bin')
             os.makedirs(f'bin/{build_arch}/Deploy/AppImage/usr/lib')
@@ -469,11 +469,11 @@ def _do_linux():
 
             shutil.copy2(f'bin/{build_arch}/{build_type}/Pingnoo',
                          f'bin/{build_arch}/Deploy/AppImage/usr/bin')
-            shutil.copy2(f'installer/Pingnoo.png',
+            shutil.copy2('installer/Pingnoo.png',
                          f'bin/{build_arch}/Deploy/AppImage/usr/share/icons/hicolor/128x128/apps')
-            shutil.copy2(f'installer/Pingnoo.desktop',
+            shutil.copy2('installer/Pingnoo.desktop',
                          f'bin/{build_arch}/Deploy/AppImage/usr/share/applications')
-            shutil.copy2(f'installer/AppRun', f'bin/{build_arch}/Deploy/AppImage/')
+            shutil.copy2('installer/AppRun', f'bin/{build_arch}/Deploy/AppImage/')
             shutil.copytree(f'bin/{build_arch}/{build_type}/Components',
                             f'bin/{build_arch}/Deploy/AppImage/Components', symlinks=True)
 
@@ -502,7 +502,7 @@ def _do_linux():
                     f'bin/{build_arch}/Deploy/AppImage \"deployment/{build_filename}\"',
                     fail_msg='there was a problem creating the AppImage.')
 
-            deployed_message = deployed_message + f'\r\n' + Style.BRIGHT + Fore.CYAN + \
+            deployed_message += '\r\n' + Style.BRIGHT + Fore.CYAN + \
                               f'AppImage at \"deployment/{build_filename}\" is ' + Fore.GREEN + 'ready' + \
                               Fore.CYAN + ' for distribution.'
 
@@ -559,11 +559,11 @@ def _do_linux():
         rpm_name = rpm_create(build_arch, build_type, rpm_version, rpm_release, args.cert)
 
         build_filename = f'bin/{build_arch}/Deploy/rpm/{rpm_name}'
-        deployed_message = deployed_message + f'\r\n' + Style.BRIGHT + Fore.CYAN + \
+        deployed_message += '\r\n' + Style.BRIGHT + Fore.CYAN + \
                           f'rpm package at \"{build_filename}\" is ' + Fore.GREEN + 'ready' + Fore.CYAN + \
                           ' for distribution.'
 
-    print(f"{deployed_message}", flush=True)
+    print(deployed_message, flush=True)
 
 
 def _do_windows():
