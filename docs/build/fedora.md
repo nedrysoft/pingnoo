@@ -15,7 +15,10 @@ dnf -y install dbus-devel &&
 dnf -y install vim &&
 dnf -y install wget &&
 dnf -y install unzip &&
-dnf -y install java-11-openjdk
+dnf -y install java-11-openjdk &&
+dnf -y install rpm-sign && 
+dnf -y install ruby &&
+dnf -y install ruby-devel
 
 - **r33 or later** 
 
@@ -26,6 +29,9 @@ dnf -y install java-11-openjdk
   dnf -y install qt5-devel
 
 ln -s /usr/lib64/qt5/bin/lrelease /bin/lrelease
+
+gem install rake &&
+gem install package_cloud
 
 cd /tmp &&
 wget http://172.29.13.9:8111/update/buildAgentFull.zip &&

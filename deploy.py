@@ -543,7 +543,7 @@ def _do_linux():
             if len(version_parts) == 2:
                 deb_version = version_parts[0][2:]
 
-            if debCreate(build_arch, build_type, deb_version, build_filename):
+            if debCreate(build_arch, build_type, deb_version, build_filename, args.cert):
                 raise MsgPrinterException("deb creation unknown error")
 
         deployed_message = deployed_message + f'\r\n' + Style.BRIGHT + Fore.CYAN + \
@@ -556,7 +556,7 @@ def _do_linux():
         rpm_version = build_version.replace('/', '.')
         rpm_release = 1  # TODO: CLI argument
 
-        rpm_name = rpm_create(build_arch, build_type, rpm_version, rpm_release)
+        rpm_name = rpm_create(build_arch, build_type, rpm_version, rpm_release, args.cert)
 
         build_filename = f'bin/{build_arch}/Deploy/rpm/{rpm_name}'
         deployed_message = deployed_message + f'\r\n' + Style.BRIGHT + Fore.CYAN + \

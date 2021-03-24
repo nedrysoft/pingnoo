@@ -22,24 +22,24 @@ apt install qml-module-qtquick-controls -y &&
 apt install qt5-default -y &&
 apt install qttools5-dev -y &&
 apt install openjdk-8-jdk -y &&
+apt install dpkg-sig -y &&
+apt install ruby -y &&
+apt install ruby-dev -y
 
-- **20.04 or later** System Python is new enough
 
-    apt install python3.9 -y &&
-    apt install python3.9-dev -y &&
-    apt install python3.9-venv -y &&
-    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 2
+cd /tmp &&
+apt install  zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev -y &&
+wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz &&
+tar -xf Python-3.9.1.tgz &&
+cd Python-3.9.1 &&
+./configure --enable-optimizations &&
+make -j 4 &&
+make install
 
-- **18.04 or earlier** Build python 3.9 from source
+gem install rake &&
+gem install package_cloud
 
-    cd /tmp &&
-    apt install  zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev -y &&
-    wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz &&
-    tar -xf Python-3.9.1.tgz &&
-    cd Python-3.9.1 &&
-    ./configure --enable-optimizations &&
-    make -j 4 &&
-    make install
+update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 2
 
 cd /tmp  &&
 wget https://github.com/Kitware/CMake/releases/download/v3.20.0-rc2/cmake-3.20.0-rc2-linux-x86_64.sh &&

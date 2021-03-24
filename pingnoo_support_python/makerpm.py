@@ -48,7 +48,7 @@ def _find_prereqs():
                 raise MsgPrinterException(f"Could not find '{app}' executable; try installing the '{rpm}' package")
 
 
-def rpm_create(build_arch, build_type, version, release):
+def rpm_create(build_arch, build_type, version, release, key):
     version = re.sub(r'-.*',"",version)
     _find_prereqs()
     if build_arch == "x86":
@@ -104,6 +104,13 @@ def rpm_create(build_arch, build_type, version, release):
     shutil.copy2(f'rpmbuild/RPMS/{build_arch}/{final_name}',
                  f'bin/{build_arch}/Deploy/rpm/')
 
+    if key:
+        execute(f'rpm --define \"_gpg_name {key}\" '\
+                '--define \"_signature gpg\" '\
+                '--define \"%_gpg_path /root/.gnupg\" '\
+                '--define \"%_gpgbin /usr/bin/gpg\" '\
+                '--addsign \"bin/{build_arch}/Deploy/rpm/{final_name}\"')
+
     return final_name
 
 
@@ -122,12 +129,17 @@ def main():
                         default='Release',
                         nargs='?',
                         help='architecture type to deploy')
+    parser.add_argument('--key',
+                        type=str,
+                        default=None,
+                        nargs='?',
+                        help='sign with the gpg key that matches this id')
     parser.add_argument('--version', type=str, nargs='?', help='version')
     parser.add_argument('--release', type=str, nargs='?', help='release')
 
     args = parser.parse_args()
 
-    rpm_create(args.arch, args.type, args.version, args.release)
+    rpm_create(args.arch, args.type, args.version, args.release, args.key)
     sys.exit(0)
 
 
