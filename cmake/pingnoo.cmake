@@ -502,6 +502,16 @@ macro(pingnoo_add_optional_command systemName optionName optionDescription optio
     endif()
 endmacro()
 
+# This executable can be in various places on different distros:
+# TODO: Lightly tested
+find_program(lrelease
+             lrelease-qt5 lrelease
+             HINTS ${CMAKE_PREFIX_PATH}/bin
+                   ${CMAKE_PREFIX_PATH}/usr/bin
+                   ${CMAKE_PREFIX_PATH}/usr/lib/x86_64-linux-gnu/qt5/bin/
+             REQUIRED
+             )
+
 macro(pingnoo_add_translation sourceFile outputDir outputFiles)
     get_filename_component(outputFile ${sourceFile} NAME_WE)
     get_filename_component(sourceFilename ${sourceFile} NAME)
@@ -510,7 +520,7 @@ macro(pingnoo_add_translation sourceFile outputDir outputFiles)
 
     add_custom_command(OUTPUT ${outputDir}/${outputFile}
         COMMENT "Compiling ${sourceFilename}"
-        COMMAND ${CMAKE_PREFIX_PATH}/bin/lrelease ${sourceFile} -silent -qm ${outputDir}/${outputFile}
+        COMMAND ${lrelease} ${sourceFile} -silent -qm ${outputDir}/${outputFile}
         DEPENDS ${sourceFile})
 
     list(APPEND ${outputFiles} ${outputDir}/${outputFile})
