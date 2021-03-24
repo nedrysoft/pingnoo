@@ -67,8 +67,8 @@ def debCreate(buildArch, buildType, version, outputFile, key):
         shutil.copy2('dpkg/Pingnoo.desktop', f'bin/{buildArch}/Deploy/dpkg/usr/share/applications')
 
     dependencies = set()
-    libraries = set()
     hashes = dict()
+    libraries = set()
     packages = set()
     so_regex = re.compile(r"\s*(?P<soname>.*)\s=>")
 
@@ -79,7 +79,6 @@ def debCreate(buildArch, buildType, version, outputFile, key):
         with msg_printer(f"Determining dependencies of {os.path.basename(filepath)}"):
             # Get MD5 checksum
             hashes[filepath] = hashlib.md5(open(filepath, 'rb').read()).hexdigest()
-            # hashes.append(hashlib.md5(open(filepath, 'rb').read()).hexdigest())
 
             # Find .so dependencies
             deps = execute(f'ldd {filepath}', "Failed to run ldd")
@@ -117,7 +116,7 @@ def debCreate(buildArch, buildType, version, outputFile, key):
 
         # add the hashes to the deb hash file
         with open(f'bin/{buildArch}/Deploy/dpkg/DEBIAN/md5sums', 'w') as md5sums_file:
-            #md5sums_file.writelines('\n'.join(hashes))
+            # Need to strip off the staging area
             leading_path = f'bin/{buildArch}/Deploy/dpkg'
             for file_name, file_hash in hashes.items():
                 md5sums_file.write(f'{file_hash}  {file_name[len(leading_path):]}\n')
