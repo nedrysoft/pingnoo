@@ -52,7 +52,7 @@ BAD_SYMBOL = 'N' if platform.system() == "Windows" else '✘'
 
 @contextmanager
 def msg_printer(start_msg=None):
-    """ Context to use to print messages. Will exit if receives MsgPrinterException """
+    """ Context to use to print messages. Will exit if receives MsgPrinterException or re-raise any other """
     try:
         if start_msg:
             sys.stdout.write(Style.BRIGHT + f'> {start_msg} ')
@@ -62,8 +62,10 @@ def msg_printer(start_msg=None):
             sys.stdout.flush()
         else:
             yield None
-    except MsgPrinterException as err:
+    except Exception as err:
         if start_msg:
             sys.stdout.write(Style.BRIGHT + '[' + Fore.RED + BAD_SYMBOL + Fore.RESET + ']\r\n')
-        print('\r\n' + Fore.RED + 'ERROR: ' + Fore.RESET + str(err), flush=True)
-        sys.exit(1)
+        if isinstance(err, MsgPrinterException):
+            print('\r\n' + Fore.RED + 'ERROR: ' + Fore.RESET + str(err), flush=True)
+            sys.exit(1)
+        raise

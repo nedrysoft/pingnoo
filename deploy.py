@@ -507,48 +507,47 @@ def _do_linux():
                               Fore.CYAN + ' for distribution.'
 
     if args.deb:
-        with msg_printer('Creating deb package...'):
+        write_msg('> Creating deb package...')
+        deb_arch = "all"
 
-            deb_arch = "all"
+        if args.arch == 'x86_64':
+            deb_arch = "amd64"
 
-            if args.arch == 'x86_64':
-                deb_arch = "amd64"
+        deb_version = build_version.replace('/', '.')
 
-            deb_version = build_version.replace('/', '.')
+        issue_parts = open('/etc/issue').readline().lower().strip().split(' ')
 
-            issue_parts = open('/etc/issue').readline().lower().strip().split(' ')
+        distro = issue_parts[0]
 
-            distro = issue_parts[0]
+        if distro == "ubuntu":
+            release_parts = issue_parts[1].split('.')
 
-            if distro == "ubuntu":
-                release_parts = issue_parts[1].split('.')
+            major = release_parts[0]
+            minor = release_parts[1]
 
-                major = release_parts[0]
-                minor = release_parts[1]
+            deb_distro = f'{distro}{major}.{minor}'
+        elif distro == "debian":
+            release = issue_parts[2]
 
-                deb_distro = f'{distro}{major}.{minor}'
-            elif distro == "debian":
-                release = issue_parts[2]
+            deb_distro = f'{distro}{release}'
+        else:
+            deb_distro = 'unknown'
 
-                deb_distro = f'{distro}{release}'
-            else:
-                deb_distro = 'unknown'
+        version_parts = deb_version.split('-', 1)
+        build_filename = f'deployment/pingnoo_{deb_version}-{deb_distro}_{deb_arch}.deb'
 
+        if len(version_parts) == 2:
+            deb_version = version_parts[0][2:]
 
-                deb_distro = f'{distro}{major}.{minor}'
-
-            version_parts = deb_version.split('-', 1)
-            build_filename = f'deployment/pingnoo_{deb_version}-{deb_distro}_{deb_arch}.deb'
-
-            if len(version_parts) == 2:
-                deb_version = version_parts[0][2:]
-
+        try:
             if debCreate(build_arch, build_type, deb_version, build_filename, args.cert):
-                raise MsgPrinterException("deb creation unknown error")
+                raise RuntimeError("deb creation unknown error")
 
-        deployed_message = deployed_message + f'\r\n' + Style.BRIGHT + Fore.CYAN + \
-                          f'deb package at \"{build_filename}\" is ' + Fore.GREEN + 'ready' + Fore.CYAN + \
-                          ' for distribution.'
+            deployed_message += '\r\n' + Style.BRIGHT + Fore.CYAN + \
+                            f'deb package at \"{build_filename}\" is ' + Fore.GREEN + 'ready' + Fore.CYAN + \
+                            ' for distribution.'
+        except Exception as err:
+            print(f"Failed building deb: {type(err).__name__}: {err}")
 
     if args.rpm:
         write_msg('> Creating rpm package...')
