@@ -81,6 +81,17 @@ namespace Nedrysoft::Core {
              *              initialised.
              */
             Q_SIGNAL void coreOpened(void);
+
+            /**
+             * @brief       Provides a random number between the minumum and maximum values.
+             *
+             * @param[in]   minimumValue the lower bound of the random number.
+             * @param[in]   maximumValue the upper bound of the random number.
+             *
+             * @returns     a random number between the bounds.
+             */
+
+            virtual auto random(int minimumValue, int maximumValue) -> int = 0;
     };
 
     /**

@@ -30,6 +30,7 @@
 #include <QObject>
 #include <QPointer>
 #include <QString>
+#include <random>
 
 namespace Nedrysoft::Core {
     /**
@@ -82,8 +83,23 @@ namespace Nedrysoft::Core {
              */
             auto open() -> void;
 
+            /**
+             * @brief       Provides a random number between the minumum and maximum values.
+             *
+             * @param[in]   minimumValue the lower bound of the random number.
+             * @param[in]   maximumValue the upper bound of the random number.
+             *
+             * @returns     a random number between the bounds.
+             */
+
+            auto random(int minimumValue, int maximumValue) -> int override;
+
         private:
             QPointer<MainWindow> m_mainWindow;                      //! The QMainWindow smart pointer
+
+            std::random_device m_randomDevice;
+
+            std::mt19937 *m_randomGenerator;
     };
 }
 

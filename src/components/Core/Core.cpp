@@ -31,6 +31,8 @@ Nedrysoft::Core::Core::Core() :
     m_mainWindow->activateWindow();
 
     Nedrysoft::ComponentSystem::addObject(m_mainWindow);
+
+    m_randomGenerator = new std::mt19937(m_randomDevice());
 }
 
 Nedrysoft::Core::Core::~Core() {
@@ -48,3 +50,10 @@ auto Nedrysoft::Core::Core::open() -> void {
 auto Nedrysoft::Core::Core::mainWindow() -> QMainWindow * {
     return m_mainWindow;
 }
+
+auto Nedrysoft::Core::Core::random(int minimumValue, int maximumValue) -> int {
+    std::uniform_int_distribution<uint16_t> dist(minimumValue, maximumValue);
+
+    return dist(*m_randomGenerator);
+}
+

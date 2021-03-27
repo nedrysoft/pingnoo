@@ -27,7 +27,8 @@
 
 #include <QHostAddress>
 #include <cassert>
-#include <random>
+
+int id = 0;
 
 class Nedrysoft::ICMPPingEngine::ICMPPingTargetData {
     public:
@@ -36,13 +37,9 @@ class Nedrysoft::ICMPPingEngine::ICMPPingTargetData {
                 m_engine(nullptr),
                 m_socket(nullptr),
                 m_userData(nullptr),
-                m_ttl(0) {
+                m_ttl(0),
+                m_id(Nedrysoft::Core::ICore::getInstance()->random(1.0, UINT16_MAX-1)) {
 
-            std::random_device randomDevice;
-            std::mt19937 mt(randomDevice());
-            std::uniform_int_distribution<uint16_t> dist(1.0, UINT16_MAX-1);
-
-            m_id = dist(mt);
         }
 
         friend class ICMPPingTarget;
