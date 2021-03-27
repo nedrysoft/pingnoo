@@ -94,7 +94,7 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::ICMPPingEngine(Nedrysoft::Core::IPVer
 }
 
 Nedrysoft::ICMPPingEngine::ICMPPingEngine::~ICMPPingEngine() {
-    doStop();
+    //doStop();
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget * {
@@ -253,7 +253,8 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::removeRequest(
     if (d->m_pingRequests.contains(id)) {
         d->m_pingRequests.remove(id);
 
-        pingItem->deleteLater();
+        delete pingItem;
+        //pingItem->deleteLater();
     }
 }
 
@@ -293,28 +294,29 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::timeoutRequests() -> void {
         std::chrono::duration<double> diff = startTime - pingItem->transmitTime();
 
         if (diff > d->m_timeout) {
-            pingItem->lock();
-            if (!pingItem->serviced()) {
-                QHostAddress hostAddress;
+            if (pingItem->lock()) {
+                if (!pingItem->serviced()) {
+                    QHostAddress hostAddress;
 
-                pingItem->setServiced(true);
-                pingItem->unlock();
+                    pingItem->setServiced(true);
+                    pingItem->unlock();
 
-                Nedrysoft::Core::PingResult pingResult(
-                        pingItem->sampleNumber(),
-                        Nedrysoft::Core::PingResult::ResultCode::NoReply,
-                        hostAddress,
-                        pingItem->transmitEpoch(),
-                        diff,
-                        pingItem->target() );
+                    Nedrysoft::Core::PingResult pingResult(
+                            pingItem->sampleNumber(),
+                            Nedrysoft::Core::PingResult::ResultCode::NoReply,
+                            hostAddress,
+                            pingItem->transmitEpoch(),
+                            diff,
+                            pingItem->target());
 
-                Q_EMIT result(pingResult);
+                    Q_EMIT result(pingResult);
 
-                i.remove();
+                    i.remove();
 
-                delete pingItem;
-            } else {
-                pingItem->unlock();
+                    //this->removeRequest(pingItem);
+                } else {
+                    pingItem->unlock();
+                }
             }
         }
     }
@@ -371,9 +373,6 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
         pingItem->lock();
 
         if (!pingItem->serviced()) {
-            pingItem->setServiced(true);
-            pingItem->unlock();
-
             std::chrono::duration<double> diff = receiveTime - pingItem->transmitTime();
 
             auto pingResult = Nedrysoft::Core::PingResult(pingItem->sampleNumber(),
@@ -382,13 +381,14 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
                                                           pingItem->transmitEpoch(), diff, pingItem->target() );
 
             Q_EMIT Nedrysoft::ICMPPingEngine::ICMPPingEngine::result(pingResult);
+
+            pingItem->setServiced(true);
+            pingItem->unlock();
+
+            //this->removeRequest(pingItem);
         } else {
             pingItem->unlock();
         }
-
-        this->removeRequest(pingItem);
-
-        delete pingItem;
     }
 }
 
@@ -404,4 +404,40 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::targets() -> QList<Nedrysoft::Co
     }
 
     return list;
+}
+
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::transmit(QHostAddress hostAddress, int ttl) -> void {
+    Nedrysoft::ICMPSocket::ICMPSocket *socket;
+
+    if (hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
+        socket = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(ttl, Nedrysoft::ICMPSocket::V4);
+    } else if (hostAddress.protocol() == QAbstractSocket::IPv6Protocol) {
+        socket = Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(ttl, Nedrysoft::ICMPSocket::V6);
+    }
+
+    new std::thread([=]() {
+        auto pingItem = new Nedrysoft::ICMPPingEngine::ICMPPingItem;
+
+        pingItem->setTarget(nullptr);
+        pingItem->setId(6666);
+        pingItem->setSequenceId(5555 + ttl);
+        pingItem->setSampleNumber(ttl);
+
+        addRequest(pingItem);
+
+        qDebug() << "transmitting: " << pingItem->id() << pingItem->sequenceId();
+
+        pingItem->setTransmitTime(std::chrono::high_resolution_clock::now(), std::chrono::system_clock::now());
+
+        auto buffer = Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(
+                pingItem->id(),
+                pingItem->sequenceId(),
+                52,
+                hostAddress,
+                static_cast<Nedrysoft::ICMPPacket::IPVersion>(version()));
+
+        socket->sendto(buffer, hostAddress);
+
+        delete socket;
+    });
 }

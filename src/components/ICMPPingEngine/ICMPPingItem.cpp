@@ -35,7 +35,9 @@ Nedrysoft::ICMPPingEngine::ICMPPingItem::ICMPPingItem() :
 
 }
 
-Nedrysoft::ICMPPingEngine::ICMPPingItem::~ICMPPingItem() = default;
+Nedrysoft::ICMPPingEngine::ICMPPingItem::~ICMPPingItem() {
+    //m_mutex.unlock();
+};
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingItem::setId(uint16_t id) -> void {
     m_id = id;
@@ -93,8 +95,8 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingItem::sampleNumber() -> unsigned long {
     return m_sampleNumber;
 }
 
-auto Nedrysoft::ICMPPingEngine::ICMPPingItem::lock() -> void {
-    m_mutex.lock();
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::lock() -> bool {
+    return m_mutex.try_lock();
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingItem::unlock() -> void {

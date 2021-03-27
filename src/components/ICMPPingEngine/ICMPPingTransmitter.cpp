@@ -61,8 +61,6 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
 
     m_engine->setEpoch(std::chrono::system_clock::now());
 
-    QThread::currentThread()->setPriority(QThread::HighPriority);
-
     while (m_isRunning) {
         if (!m_targets.isEmpty()) {
             SPDLOG_TRACE("Preparing ping set to " + m_targets.last()->hostAddress().toString().toStdString());

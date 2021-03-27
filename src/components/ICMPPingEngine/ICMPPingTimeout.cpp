@@ -46,4 +46,6 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTimeout::doWork() {
 
         std::this_thread::sleep_for(DefaultSleepTime);
     }
+
+    qDebug() << "timeout thread finished.";
 }

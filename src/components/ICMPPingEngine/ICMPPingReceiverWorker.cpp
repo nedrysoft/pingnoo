@@ -102,8 +102,6 @@ void Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::doWork() {
 
     QHostAddress receiveAddress;
 
-    QThread::currentThread()->setPriority(QThread::HighPriority);
-
     m_isRunning = true;
 
     while (QThread::currentThread()->isRunning() && (m_isRunning)) {

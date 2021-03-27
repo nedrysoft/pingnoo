@@ -234,13 +234,12 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::~RouteAnalyserWidget() {
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core::PingResult result) -> void {
     auto pingData = static_cast<PingData *>(result.target()->userData());
-    QCustomPlot *customPlot;
 
     if (!pingData) {
         return;
     }
 
-    customPlot = pingData->customPlot();
+    auto customPlot = pingData->customPlot();
 
     if (!customPlot) {
         return;

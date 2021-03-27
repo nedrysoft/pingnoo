@@ -82,27 +82,53 @@ auto Nedrysoft::RouteEngine::RouteEngine::findRoute(
 
     m_pingEngine->setInterval(1s);
 
-    for (int hop=1; hop<MaxRouteHops; hop++) {
+    /*for (int hop=1; hop<MaxRouteHops; hop++) {
         m_pingEngine->addTarget(m_targetAddresses.at(0), hop);
 
         m_replyMap[hop] = Nedrysoft::Core::PingResult();
-    }
+    }*/
+
+    m_pingEngine->start();
+
+    m_pingEngine->transmit(m_targetAddresses.at(0), 1);
 
     m_replyHop = MaxRouteHops;
 
-    connect(m_pingEngine, &Nedrysoft::Core::IPingEngine::result, [=](Nedrysoft::Core::PingResult result) {
-        if (!m_timeoutTimer->isActive()) {
+    connect(m_pingEngine, &Nedrysoft::Core::IPingEngine::result, [=](Nedrysoft::Core::PingResult pingResult) {
+        qDebug() << "res" << (int) pingResult.code();
+
+        if (pingResult.code()==Nedrysoft::Core::PingResult::ResultCode::Ok) {
+            m_replyMap.insert(pingResult.sampleNumber(), pingResult);
+
+            auto route = Nedrysoft::Core::RouteList();
+
+            for (auto hopIndex=1; hopIndex<=pingResult.sampleNumber(); hopIndex++) {
+                if (m_replyMap[hopIndex].code()==Nedrysoft::Core::PingResult::ResultCode::Ok) {
+                    route.append(m_replyMap[hopIndex].hostAddress());
+
+                    break;
+                } else  if (m_replyMap[hopIndex].code()==Nedrysoft::Core::PingResult::ResultCode::TimeExceeded) {
+                    route.append(m_replyMap[hopIndex].hostAddress());
+                } else  if (m_replyMap[hopIndex].code()==Nedrysoft::Core::PingResult::ResultCode::NoReply) {
+                    route.append(QHostAddress());
+                }
+            }
+
+            SPDLOG_TRACE(QString("Route to %1 (%2) completed, total of %3 hops.")
+                                 .arg(m_host)
+                                 .arg(m_targetAddresses[0].toString())
+                                 .arg(route.length())
+                                 .toStdString() );
+
+            Q_EMIT result(m_targetAddresses[0], route);
+
+            //  TODO: BROKEN.
+            //m_pingEngine->stop();
+
             return;
-        }
 
-        if ((result.target()->ttl()>m_replyHop)) {
-            return;
-        }
 
-        auto existingEntry = m_replyMap.value(result.target()->ttl());
-
-        if (result.code()==Nedrysoft::Core::PingResult::ResultCode::Ok) {
-            if (m_replyMap.contains(result.target()->ttl())) {
+            /*if (m_replyMap.contains(result.target()->ttl())) {
                 if (existingEntry.code()==result.code()) {
                     return;
                 } else if (result.code()==existingEntry.code()) {
@@ -114,9 +140,10 @@ auto Nedrysoft::RouteEngine::RouteEngine::findRoute(
 
             m_replyMap.insert(result.target()->ttl(), result);
 
-            m_replyHop = result.target()->ttl();
-        } else  if (result.code()==Nedrysoft::Core::PingResult::ResultCode::TimeExceeded) {
-            if (m_replyMap.contains(result.target()->ttl())) {
+            m_replyHop = result.target()->ttl();*/
+        } else  if (pingResult.code()==Nedrysoft::Core::PingResult::ResultCode::TimeExceeded) {
+            m_replyMap.insert(pingResult.sampleNumber(), pingResult);
+            /*if (m_replyMap.contains(result.target()->ttl())) {
                 if (existingEntry.code()==result.code()) {
                     return;
                 } else if (existingEntry.code()==Nedrysoft::Core::PingResult::ResultCode::Ok) {
@@ -126,10 +153,10 @@ auto Nedrysoft::RouteEngine::RouteEngine::findRoute(
                 m_replyMap[result.target()->ttl()] = result;
             }
 
-            m_replyMap.insert(result.target()->ttl(), result);
-
-        } else  if (result.code()==Nedrysoft::Core::PingResult::ResultCode::NoReply) {
-            if (m_replyMap.contains(result.target()->ttl())) {
+            m_replyMap.insert(result.target()->ttl(), result); */
+        } else  if (pingResult.code()==Nedrysoft::Core::PingResult::ResultCode::NoReply) {
+            m_replyMap.insert(pingResult.sampleNumber(), pingResult);
+            /*if (m_replyMap.contains(result.target()->ttl())) {
                 if (existingEntry.code()==result.code()) {
                     return;
                 } else if (existingEntry.code()==Nedrysoft::Core::PingResult::ResultCode::NoReply) {
@@ -139,11 +166,15 @@ auto Nedrysoft::RouteEngine::RouteEngine::findRoute(
                 m_replyMap[result.target()->ttl()] = result;
             }
 
-            m_replyMap.insert(result.target()->ttl(), result);
+            m_replyMap.insert(result.target()->ttl(), result);*/
         }
+
+        qDebug() << "transmit" << m_targetAddresses.at(0).toString() << pingResult.sampleNumber()+1;
+
+        m_pingEngine->transmit(m_targetAddresses.at(0), pingResult.sampleNumber()+1);
     });
 
-    connect(m_timeoutTimer, &QTimer::timeout, [&]() {
+    /*connect(m_timeoutTimer, &QTimer::timeout, [&]() {
         auto route = Nedrysoft::Core::RouteList();
 
         for (auto hop=1; hop<=m_replyHop; hop++) {
@@ -170,7 +201,7 @@ auto Nedrysoft::RouteEngine::RouteEngine::findRoute(
 
         // TODO: can't delete as it will cause a crash, so need to add a deleteEngine() functio
         // to the factory to remove the engine from its internal list and delete it.
-    });
+    });*/
 
-    m_pingEngine->start();
+    //m_pingEngine->start();
 }

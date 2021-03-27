@@ -131,6 +131,16 @@ namespace Nedrysoft::ICMPPingEngine {
             auto addTarget(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::IPingTarget * override;
 
             /**
+             * @brief       Transmits a single ping.
+             *
+             * @see         Nedrysoft::Core::IPingEngine::transmit
+             *
+             * @param[in]   hostAddress the target host address.
+             * @param[in]   ttl time to live for this packet.
+             */
+            auto transmit(QHostAddress hostAddress, int ttl) -> void override;
+
+            /**
              * @brief       Removes a ping target from this engine instance.
              *
              * @see         Nedrysoft::Core::IPingEngine::addTarget
