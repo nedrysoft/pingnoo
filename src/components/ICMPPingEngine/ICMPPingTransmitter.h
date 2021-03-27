@@ -107,6 +107,9 @@ namespace Nedrysoft::ICMPPingEngine {
 
             std::chrono::high_resolution_clock::time_point m_epoch;           //! Transmission epoch
 
+            static QMutex m_sequenceMutex;
+            static uint16_t m_sequenceId;
+
         protected:
             bool m_isRunning;                                                 //! Thread is running
     };

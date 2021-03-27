@@ -69,7 +69,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   result the discovered route.
              */
-            Q_SIGNAL void result(const QHostAddress &hostAddress, const Nedrysoft::Core::RouteList result);
+            Q_SIGNAL void result(const QHostAddress hostAddress, const Nedrysoft::Core::RouteList result);
     };
 }
 

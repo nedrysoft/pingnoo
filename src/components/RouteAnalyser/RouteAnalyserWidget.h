@@ -107,7 +107,7 @@ namespace Nedrysoft::RouteAnalyser {
              * @param[in]   routeHostAddress the intended target of the route analysis.
              * @param[in]   route the route that was discovered.
              */
-            Q_SLOT void onRouteResult(const QHostAddress &routeHostAddress, const Nedrysoft::Core::RouteList route);
+            Q_SLOT void onRouteResult(const QHostAddress routeHostAddress, const Nedrysoft::Core::RouteList route);
 
             /**
              * @brief       This signal is emitted when a watched event on a child fires.

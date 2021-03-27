@@ -33,13 +33,15 @@
 #include <QtEndian>
 #include <chrono>
 #include <cstdint>
-#include <random>
 #include <spdlog/spdlog.h>
 #include <thread>
 
 using namespace std::chrono_literals;
 
 constexpr auto DefaultTransmitInterval = 10s;
+
+uint16_t Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::m_sequenceId = 1;
+QMutex Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::m_sequenceMutex;
 
 Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::ICMPPingTransmitter(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine) :
         m_interval(DefaultTransmitInterval),
@@ -61,12 +63,6 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
 
     QThread::currentThread()->setPriority(QThread::HighPriority);
 
-    std::random_device randomDevice;
-    std::mt19937 mt(randomDevice());
-    std::uniform_int_distribution<uint16_t> dist(0, UINT16_MAX);
-
-    auto currentSequenceId = dist(mt);
-
     while (m_isRunning) {
         if (!m_targets.isEmpty()) {
             SPDLOG_TRACE("Preparing ping set to " + m_targets.last()->hostAddress().toString().toStdString());
@@ -80,6 +76,10 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
             auto socket = target->socket();
 
             auto pingItem = new Nedrysoft::ICMPPingEngine::ICMPPingItem();
+
+            m_sequenceMutex.lock();
+            uint16_t currentSequenceId = m_sequenceId++;
+            m_sequenceMutex.unlock();
 
             pingItem->setTarget(target);
             pingItem->setId(target->id());
@@ -118,7 +118,6 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
             std::this_thread::sleep_for(m_interval - diff);
         }
 
-        currentSequenceId++;
         sampleNumber++;
     }
 }

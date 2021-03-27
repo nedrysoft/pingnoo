@@ -319,7 +319,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
 }
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
-        const QHostAddress &routeHostAddress,
+        const QHostAddress routeHostAddress,
         const Nedrysoft::Core::RouteList route ) -> void {
 
     Nedrysoft::Core::IRouteEngine *routeEngine = qobject_cast<Nedrysoft::Core::IRouteEngine *>(this->sender());
