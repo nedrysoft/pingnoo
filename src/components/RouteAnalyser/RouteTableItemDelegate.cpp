@@ -244,7 +244,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintText(
     painter->save();
 
     if (flags & OverrideSelectedColour) {
-        if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
+        if (Nedrysoft::RouteAnalyser::ThemeSupport::isDarkMode()) {
             textColour = option.palette.color(QPalette::Base);
         } else {
             textColour = option.palette.color(QPalette::Inactive, QPalette::Text);
@@ -684,7 +684,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
 
     auto pen = QPen(Qt::DashLine);
 
-    if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
+    if (Nedrysoft::RouteAnalyser::ThemeSupport::isDarkMode()) {
         pen.setColor(Qt::black);
     } else {
         pen.setColor(Qt::lightGray);

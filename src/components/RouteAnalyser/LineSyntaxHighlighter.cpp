@@ -46,7 +46,7 @@ auto Nedrysoft::RouteAnalyser::LineSyntaxHighlighter::highlightBlock(const QStri
     auto colour = Qt::red;
 
     if (!m_syntaxFunction(text)) {
-        if (Nedrysoft::Utils::ThemeSupport::isDarkMode()) {
+        if (Nedrysoft::RouteAnalyser::ThemeSupport::isDarkMode()) {
             colour = Qt::yellow;
         }
 
