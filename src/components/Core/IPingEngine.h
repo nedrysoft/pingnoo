@@ -117,6 +117,22 @@ namespace Nedrysoft::Core {
             virtual auto addTarget(QHostAddress hostAddress, int ttl) -> IPingTarget * = 0;
 
             /**
+             * @brief       Transmits a single ping.
+             *
+             * @notes       This is a blocking function.
+             *
+             * @param[in]   hostAddress the target host address.
+             * @param[in]   ttl time to live for this packet.
+             * @param[in]   timeout time in seconds to wait for response.
+             *
+             * @returns     the result of the ping.
+             */
+            virtual auto singleShot(
+                    QHostAddress hostAddress,
+                    int ttl,
+                    double timeout ) -> Nedrysoft::Core::PingResult = 0;
+
+            /**
              * @brief       Removes a ping target from this engine instance.
              *
              * @param[in]   target the ping target to remove.

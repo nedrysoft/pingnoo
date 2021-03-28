@@ -154,8 +154,10 @@ namespace Nedrysoft::ICMPPingEngine {
 
             /**
              * @brief       Locks the item for exclusive access.
+             *
+             * @returns     returns true if the item was locked; otherwise false.
              */
-            auto lock(void) -> void;
+            auto lock(void) -> bool;
 
             /**
              * @brief       Unlocks the item that was previous locked.

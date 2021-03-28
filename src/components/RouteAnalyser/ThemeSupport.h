@@ -29,7 +29,7 @@
 #include <QRgb>
 #include <QtGlobal>
 
-namespace Nedrysoft::Utils {
+namespace Nedrysoft::RouteAnalyser {
     /**
      * @brief       The ThemeSupport class provides helpers for handling dark/light themes.
      *

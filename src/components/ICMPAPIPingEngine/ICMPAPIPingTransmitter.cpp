@@ -62,7 +62,7 @@ auto Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::doWork() -> void {
 
     m_isRunning = true;
 
-    QThread::currentThread()->setPriority(QThread::HighPriority);
+    //QThread::currentThread()->setPriority(QThread::HighPriority);
 
     currentSequenceId = static_cast<uint16_t>(QRandomGenerator::global()->generate());
 

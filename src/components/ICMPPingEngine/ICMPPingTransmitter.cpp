@@ -51,7 +51,7 @@ Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::ICMPPingTransmitter(Nedrysoft::I
 }
 
 Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::~ICMPPingTransmitter() {
-    //qDeleteAll(m_targets);
+    qDeleteAll(m_targets);
 }
 
 void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
@@ -60,8 +60,6 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
     m_isRunning = true;
 
     m_engine->setEpoch(std::chrono::system_clock::now());
-
-    QThread::currentThread()->setPriority(QThread::HighPriority);
 
     while (m_isRunning) {
         if (!m_targets.isEmpty()) {

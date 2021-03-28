@@ -58,11 +58,11 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
     ui->setupUi(this);
 
-    m_themeSupport = new Nedrysoft::Utils::ThemeSupport;
+    m_themeSupport = new Nedrysoft::RouteAnalyser::ThemeSupport;
 
     updateIcons(m_themeSupport->isDarkMode());
 
-    connect(m_themeSupport, &Nedrysoft::Utils::ThemeSupport::themeChanged, [=](bool isDarkMode) {
+    connect(m_themeSupport, &Nedrysoft::RouteAnalyser::ThemeSupport::themeChanged, [=](bool isDarkMode) {
         updateIcons(isDarkMode);
     });
 
@@ -255,6 +255,8 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
 Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::~NewTargetRibbonGroup() {
     delete ui;
+
+    delete m_themeSupport;
 
     qDeleteAll(m_favouritesMenuMap);
 

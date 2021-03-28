@@ -38,6 +38,8 @@ Nedrysoft::Core::Core::Core() :
 Nedrysoft::Core::Core::~Core() {
     Nedrysoft::ComponentSystem::removeObject(m_mainWindow);
 
+    delete m_randomGenerator;
+
     delete m_mainWindow;
 }
 

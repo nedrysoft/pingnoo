@@ -25,15 +25,22 @@
 
 #include "PingCommandPingTarget.h"
 
+#include <QElapsedTimer>
 #include <QMutex>
+#include <QProcess>
+#include <QRegularExpression>
 #include <QThread>
 #include <chrono>
 
 using namespace std::chrono_literals;
 
-constexpr auto DefaultReceiveTimeout = 3s;
+constexpr auto DefaultReceiveTimeout = 1s;
 constexpr auto DefaultTerminateThreadTimeout = 5s;
 constexpr auto DefaultTTL = 64;
+
+constexpr auto nanosecondsInMillisecond = 1.0e6;
+constexpr auto packetLostRegularExpression = R"(100% packet loss)";
+constexpr auto ttlExceededRegularExpression = R"(From\ (?<ip>[\d\.]*)\ .*exceeded)";
 
 Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::PingCommandPingEngine(Nedrysoft::Core::IPVersion version) {
     Q_UNUSED(version)
@@ -118,4 +125,80 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::targets() -> QList
     }
 
     return list;
+}
+
+auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::singleShot(
+        QHostAddress hostAddress,
+        int ttl,
+        double timeout) -> Nedrysoft::Core::PingResult {
+
+    QProcess pingProcess;
+    qint64 started, finished;
+    QElapsedTimer timer;
+
+    std::chrono::system_clock::time_point epoch;
+
+    auto pingArguments = QStringList() <<
+                                       "-W" << QString("%1").arg(timeout) <<
+                                       "-D" <<
+                                       "-c" << "1" <<
+                                       "-t" << QString("%1").arg(ttl) <<
+                                       hostAddress.toString();
+
+    pingProcess.start("ping", pingArguments);
+
+    pingProcess.waitForStarted();
+
+    started = timer.nsecsElapsed();
+
+    epoch = std::chrono::system_clock::now();
+
+    pingProcess.waitForFinished();
+
+    finished = timer.nsecsElapsed();
+
+    auto roundTripTime = static_cast<double>(finished - started) / nanosecondsInMillisecond;
+
+    auto commandOutput = pingProcess.readAll();
+
+    QRegularExpression ttlExceededRegEx(ttlExceededRegularExpression);
+    QRegularExpression packetLostRegEx(packetLostRegularExpression);
+
+    Nedrysoft::Core::PingResult pingResult;
+
+    if (pingProcess.exitCode() == 0) {
+        pingResult = Nedrysoft::Core::PingResult(
+                0,
+                Nedrysoft::Core::PingResult::ResultCode::Ok,
+                hostAddress,
+                epoch,
+                std::chrono::duration<double, std::milli>(roundTripTime),
+                nullptr);
+
+    } else {
+        auto ttlExceededMatch = ttlExceededRegEx.match(commandOutput);
+        auto packetLostMatch = packetLostRegEx.match(commandOutput);
+
+        if (ttlExceededMatch.hasMatch()) {
+            pingResult = Nedrysoft::Core::PingResult(
+                    0,
+                    Nedrysoft::Core::PingResult::ResultCode::TimeExceeded,
+                    QHostAddress(ttlExceededMatch.captured("ip")),
+                    epoch,
+                    std::chrono::duration<double, std::milli>(roundTripTime),
+                    nullptr);
+        } else if (packetLostMatch.hasMatch()) {
+            pingResult = Nedrysoft::Core::PingResult(
+                    0,
+                    Nedrysoft::Core::PingResult::ResultCode::NoReply,
+                    QHostAddress(packetLostMatch.captured("ip")),
+                    epoch,
+                    std::chrono::duration<double, std::milli>(roundTripTime),
+                    nullptr);
+        } else {
+            // some other error
+        }
+    }
+
+    return pingResult;
 }

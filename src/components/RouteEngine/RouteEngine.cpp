@@ -26,24 +26,18 @@
 #include "Core/IPingEngine.h"
 #include "Core/IPingEngineFactory.h"
 #include "Core/IPingTarget.h"
+#include "RouteEngineWorker.h"
 
-#include <QHostInfo>
 #include <QThread>
 #include <QTimer>
 
 #include <cassert>
-#include <spdlog/spdlog.h>
 
 using namespace std::chrono_literals;
 
-constexpr auto DefaultDiscoveryTimeout = 3s;
-constexpr auto MaxRouteHops = 64;
-
 Nedrysoft::RouteEngine::RouteEngine::RouteEngine() :
-        m_ipVersion(Nedrysoft::Core::IPVersion::V4),
-        m_pingEngineFactory(nullptr),
-        m_pingEngine(nullptr),
-        m_timeoutTimer(nullptr) {
+        m_routeWorkerThread(nullptr),
+        m_routeWorker(nullptr) {
 
 }
 
@@ -52,125 +46,27 @@ auto Nedrysoft::RouteEngine::RouteEngine::findRoute(
         QString host,
         Nedrysoft::Core::IPVersion ipVersion) -> void {
 
-    m_host = host;
-    m_ipVersion = ipVersion;
+    m_routeWorker = new Nedrysoft::RouteEngine::RouteEngineWorker(host, engineFactory, ipVersion);
 
-    m_pingEngineFactory = engineFactory;
+    m_routeWorkerThread = new QThread();
 
-    m_targetAddresses = QHostInfo::fromName(m_host).addresses();
+    m_routeWorker->moveToThread(m_routeWorkerThread);
 
-    auto hopAddress = QHostAddress();
+    connect(m_routeWorkerThread,
+            &QThread::started,
+            m_routeWorker,
+            &Nedrysoft::RouteEngine::RouteEngineWorker::doWork );
 
-    assert(m_pingEngineFactory!=nullptr);
-
-    if (!m_targetAddresses.count()) {
-        Q_EMIT result(QHostAddress(), Nedrysoft::Core::RouteList());
-
-        SPDLOG_ERROR(QString("Failed to find address for %1.").arg(m_host).toStdString());
-
-        return;
-    }
-
-    m_timeoutTimer = new QTimer();
-
-    m_timeoutTimer->setInterval(DefaultDiscoveryTimeout);
-    m_timeoutTimer->setSingleShot(true);
-
-    m_timeoutTimer->start();
-
-    m_pingEngine = m_pingEngineFactory->createEngine(m_ipVersion);
-
-    m_pingEngine->setInterval(1s);
-
-    for (int hop=1; hop<MaxRouteHops; hop++) {
-        m_pingEngine->addTarget(m_targetAddresses.at(0), hop);
-
-        m_replyMap[hop] = Nedrysoft::Core::PingResult();
-    }
-
-    m_replyHop = MaxRouteHops;
-
-    connect(m_pingEngine, &Nedrysoft::Core::IPingEngine::result, [=](Nedrysoft::Core::PingResult result) {
-        if (!m_timeoutTimer->isActive()) {
-            return;
-        }
-
-        if ((result.target()->ttl()>m_replyHop)) {
-            return;
-        }
-
-        auto existingEntry = m_replyMap.value(result.target()->ttl());
-
-        if (result.code()==Nedrysoft::Core::PingResult::ResultCode::Ok) {
-            if (m_replyMap.contains(result.target()->ttl())) {
-                if (existingEntry.code()==result.code()) {
-                    return;
-                } else if (result.code()==existingEntry.code()) {
-                    return;
-                }
-
-                m_replyMap[result.target()->ttl()] = result;
-            }
-
-            m_replyMap.insert(result.target()->ttl(), result);
-
-            m_replyHop = result.target()->ttl();
-        } else  if (result.code()==Nedrysoft::Core::PingResult::ResultCode::TimeExceeded) {
-            if (m_replyMap.contains(result.target()->ttl())) {
-                if (existingEntry.code()==result.code()) {
-                    return;
-                } else if (existingEntry.code()==Nedrysoft::Core::PingResult::ResultCode::Ok) {
-                    return;
-                }
-
-                m_replyMap[result.target()->ttl()] = result;
-            }
-
-            m_replyMap.insert(result.target()->ttl(), result);
-
-        } else  if (result.code()==Nedrysoft::Core::PingResult::ResultCode::NoReply) {
-            if (m_replyMap.contains(result.target()->ttl())) {
-                if (existingEntry.code()==result.code()) {
-                    return;
-                } else if (existingEntry.code()==Nedrysoft::Core::PingResult::ResultCode::NoReply) {
-                    return;
-                }
-
-                m_replyMap[result.target()->ttl()] = result;
-            }
-
-            m_replyMap.insert(result.target()->ttl(), result);
-        }
+    connect(m_routeWorkerThread,
+            &QThread::finished,
+            [=]() {
+                m_routeWorkerThread->deleteLater();
     });
 
-    connect(m_timeoutTimer, &QTimer::timeout, [&]() {
-        auto route = Nedrysoft::Core::RouteList();
+    connect(m_routeWorker,
+            &Nedrysoft::RouteEngine::RouteEngineWorker::result,
+            this,
+            &Nedrysoft::RouteEngine::RouteEngine::result );
 
-        for (auto hop=1; hop<=m_replyHop; hop++) {
-            if (m_replyMap[hop].code()==Nedrysoft::Core::PingResult::ResultCode::Ok) {
-                route.append(m_replyMap[hop].hostAddress());
-
-                break;
-            } else  if (m_replyMap[hop].code()==Nedrysoft::Core::PingResult::ResultCode::TimeExceeded) {
-                route.append(m_replyMap[hop].hostAddress());
-            } else  if (m_replyMap[hop].code()==Nedrysoft::Core::PingResult::ResultCode::NoReply) {
-                route.append(QHostAddress());
-            }
-        }
-
-        SPDLOG_TRACE(QString("Route to %1 (%2) completed, total of %3 hops.")
-                             .arg(m_host)
-                             .arg(m_targetAddresses[0].toString())
-                             .arg(route.length())
-                             .toStdString() );
-
-        Q_EMIT result(m_targetAddresses[0], route);
-
-        m_pingEngine->stop();
-
-        // TODO: can't delete as it will cause a crash, so need to add a deleteEngine() functio
-        // to the factory to remove the engine from its internal list and delete it.
-    });
-
-    m_pingEngine->start();
+    m_routeWorkerThread->start();
 }

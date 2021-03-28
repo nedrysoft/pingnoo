@@ -31,13 +31,13 @@
 #import <AppKit/NSColor.h>
 #endif
 
-Nedrysoft::Utils::ThemeSupport::ThemeSupport() {
+Nedrysoft::RouteAnalyser::ThemeSupport::ThemeSupport() {
     connect(qobject_cast<QApplication *>(QCoreApplication::instance()), &QApplication::paletteChanged, [=] (const QPalette &) {
-        Q_EMIT themeChanged(Nedrysoft::Utils::ThemeSupport::isDarkMode());
+        Q_EMIT themeChanged(Nedrysoft::RouteAnalyser::ThemeSupport::isDarkMode());
     });
 }
 
-auto Nedrysoft::Utils::ThemeSupport::isDarkMode() -> bool{
+auto Nedrysoft::RouteAnalyser::ThemeSupport::isDarkMode() -> bool{
     if (@available(macOS 10.14, *)) {
         NSAppearance *appearance = nullptr;
 
@@ -61,11 +61,11 @@ auto Nedrysoft::Utils::ThemeSupport::isDarkMode() -> bool{
     return false;
 }
 
-auto Nedrysoft::Utils::ThemeSupport::getColor(const QRgb colourPair[]) -> QColor {
+auto Nedrysoft::RouteAnalyser::ThemeSupport::getColor(const QRgb colourPair[]) -> QColor {
     return QColor(colourPair[isDarkMode() ? 1 : 0]);
 }
 
-auto Nedrysoft::Utils::ThemeSupport::getHighlightedBackground() -> QColor {
+auto Nedrysoft::RouteAnalyser::ThemeSupport::getHighlightedBackground() -> QColor {
 #if defined(Q_OS_MACOS)
     CGColorRef a = [NSColor systemBlueColor].CGColor;
 
