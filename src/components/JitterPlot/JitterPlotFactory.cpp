@@ -32,9 +32,13 @@ Nedrysoft::JitterPlot::JitterPlotFactory::JitterPlotFactory() {
 }
 
 Nedrysoft::JitterPlot::JitterPlotFactory::~JitterPlotFactory() {
-
+    qDeleteAll(m_plots);
 }
 
 auto Nedrysoft::JitterPlot::JitterPlotFactory::createPlot(const QMargins &margins) -> Nedrysoft::RouteAnalyser::IPlot * {
-    return new Nedrysoft::JitterPlot::JitterPlot(margins);
+    auto newPlot = new Nedrysoft::JitterPlot::JitterPlot(margins);
+
+    m_plots.append(newPlot);
+
+    return newPlot;
 }

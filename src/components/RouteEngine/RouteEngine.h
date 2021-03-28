@@ -40,6 +40,8 @@ namespace Nedrysoft::Core {
 };
 
 namespace Nedrysoft::RouteEngine {
+    class RouteEngineWorker;
+
     /**
      * @brief       The RouteEngine provides an implementation of IRouteEngine.
      *
@@ -76,14 +78,8 @@ namespace Nedrysoft::RouteEngine {
                     Nedrysoft::Core::IPVersion ipVersion = Nedrysoft::Core::IPVersion::V4 ) -> void override;
 
         private:
-            Nedrysoft::Core::IPVersion m_ipVersion;                    //! The IP version to use for the route finder instance.
-            Nedrysoft::Core::IPingEngineFactory *m_pingEngineFactory;
-            Nedrysoft::Core::IPingEngine *m_pingEngine;
-            QMap<int, Nedrysoft::Core::PingResult> m_replyMap;
-            QTimer *m_timeoutTimer;
-            QString m_host;                                            //! this is the intended target.
-            int m_replyHop;                                            //! the hops to the target.
-            QList<QHostAddress> m_targetAddresses;                     //! this is the resolved target addresses.
+            Nedrysoft::RouteEngine::RouteEngineWorker *m_routeWorker;
+            QThread *m_routeWorkerThread;
     };
 }
 

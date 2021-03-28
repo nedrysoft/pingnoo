@@ -51,7 +51,7 @@ Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::ICMPPingTransmitter(Nedrysoft::I
 }
 
 Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::~ICMPPingTransmitter() {
-    //qDeleteAll(m_targets);
+    qDeleteAll(m_targets);
 }
 
 void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {

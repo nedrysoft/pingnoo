@@ -95,6 +95,8 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::ICMPPingEngine(Nedrysoft::Core::IPVer
 
 Nedrysoft::ICMPPingEngine::ICMPPingEngine::~ICMPPingEngine() {
     doStop();
+
+    d.reset();
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget * {

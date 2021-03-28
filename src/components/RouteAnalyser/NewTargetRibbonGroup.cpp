@@ -256,6 +256,8 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::~NewTargetRibbonGroup() {
     delete ui;
 
+    delete m_themeSupport;
+
     qDeleteAll(m_favouritesMenuMap);
 
     m_favouritesMenuMap.clear();

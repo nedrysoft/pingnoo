@@ -118,6 +118,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::deleteEngine(Nedrysoft::C
     if (d->m_engineList.contains(pingEngine)) {
         engine->stop();
         d->m_engineList.removeAll(pingEngine);
+        pingEngine->deleteLater();
     }
 
     return true;

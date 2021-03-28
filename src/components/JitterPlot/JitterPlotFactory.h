@@ -27,6 +27,8 @@
 #include "RouteAnalyser/SDK/IPlotFactory.h"
 #include "RouteAnalyser/SDK/IPlot.h"
 
+#include <QList>
+
 namespace Nedrysoft::JitterPlot {
     /**
      * @brief       Factory class for jitter plots
@@ -59,6 +61,9 @@ namespace Nedrysoft::JitterPlot {
              * @returns     the plot.
              */
             auto createPlot(const QMargins &margins) -> Nedrysoft::RouteAnalyser::IPlot * override;
+
+        private:
+            QList<Nedrysoft::RouteAnalyser::IPlot *> m_plots;
     };
 }
 
