@@ -40,7 +40,7 @@
 
 using namespace std::chrono_literals;
 
-constexpr auto DefaultReceiveTimeout = 3s;
+constexpr auto DefaultReceiveTimeout = 1s;//3s;
 constexpr auto DefaultTerminateThreadTimeout = 5s;
 constexpr auto DefaultTransmitInterval = 2.5s;
 
