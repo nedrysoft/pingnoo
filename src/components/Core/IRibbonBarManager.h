@@ -85,6 +85,9 @@ namespace Nedrysoft::Core {
              * @returns     true if page was switched; otherwise false.
              */
             virtual auto selectPage(QString id) -> bool = 0;
+
+            // Classes with virtual functions should not have a public non-virtual destructor:
+            virtual ~IRibbonBarManager() = default;
     };
 }
 

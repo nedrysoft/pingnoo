@@ -67,7 +67,7 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Destroys the MainWindow.
              */
-            ~MainWindow();
+            virtual ~MainWindow();
 
             /**
              * @brief       The initialise class sets up various subsystems for the main application.
