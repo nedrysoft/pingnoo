@@ -5,7 +5,7 @@
 ---
 
 
-<a href="https://www.travis-ci.com/github/nedrysoft/pingnoo"><img src="https://img.shields.io/travis/com/nedrysoft/pingnoo"/></a>
+<a href="https://www.travis-ci.com/github/nedrysoft/pingnoo"><img src="https://www.travis-ci.com/nedrysoft/pingnoo.svg?branch=develop"/></a>
 <a href="https://packagecloud.io/nedrysoft/pingnoo"><img src="https://img.shields.io/badge/deb-packagecloud.io-844fec.svg"/></a>
 <a href="https://packagecloud.io/nedrysoft/pingnoo"><img src="https://img.shields.io/badge/rpm-packagecloud.io-844fec.svg"/></a>
 <br/>
