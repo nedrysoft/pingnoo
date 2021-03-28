@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_EDITORMANAGERTABWIDGET_H
-#define NEDRYSOFT_EDITORMANAGERTABWIDGET_H
+#ifndef PINGNOO_COMPONENTS_CORE_EDITORMANAGERTABWIDGET_H
+#define PINGNOO_COMPONENTS_CORE_EDITORMANAGERTABWIDGET_H
 
 #include <QTabWidget>
 
@@ -63,4 +63,4 @@ namespace Nedrysoft::Core {
     };
 }
 
-#endif //NEDRYSOFT_EDITORMANAGERTABWIDGET_H
+#endif //PINGNOO_COMPONENTS_CORE_EDITORMANAGERTABWIDGET_H

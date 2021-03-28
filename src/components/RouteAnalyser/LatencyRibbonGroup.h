@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_LATENCYRIBBONGROUP_H
-#define NEDRYSOFT_LATENCYRIBBONGROUP_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYRIBBONGROUP_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYRIBBONGROUP_H
 
 #include <QWidget>
 
@@ -102,4 +102,4 @@ namespace Nedrysoft::RouteAnalyser {
     };
 }
 
-#endif //NEDRYSOFT_LATENCYRIBBONGROUP_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYRIBBONGROUP_H

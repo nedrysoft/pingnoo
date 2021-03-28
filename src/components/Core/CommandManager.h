@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_CORE_COMMANDMANAGER_H
-#define NEDRYSOFT_CORE_COMMANDMANAGER_H
+#ifndef PINGNOO_COMPONENTS_CORE_COMMANDMANAGER_H
+#define PINGNOO_COMPONENTS_CORE_COMMANDMANAGER_H
 
 #include "ICommandManager.h"
 #include "Menu.h"
@@ -158,4 +158,4 @@ namespace Nedrysoft::Core {
     };
 }
 
-#endif // NEDRYSOFT_CORE_CONTEXTMANAGER_H
+#endif // PINGNOO_COMPONENTS_CORE_COMMANDMANAGER_H

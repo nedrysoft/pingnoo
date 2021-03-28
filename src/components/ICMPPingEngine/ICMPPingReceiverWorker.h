@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_ICMPPINGRECEIVERWORKER_H
-#define NEDRYSOFT_ICMPPINGRECEIVERWORKER_H
+#ifndef PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGRECEIVERWORKER_H
+#define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGRECEIVERWORKER_H
 
 #include <QObject>
 #include <chrono>
@@ -106,4 +106,4 @@ namespace Nedrysoft::ICMPPingEngine {
 
 Q_DECLARE_METATYPE(std::chrono::time_point<std::chrono::high_resolution_clock>)
 
-#endif //NEDRYSOFT_ICMPPINGRECEIVERWORKER_H
+#endif // PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGRECEIVERWORKER_H

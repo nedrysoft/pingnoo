@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_ROUTEANALYSER_BARCHART_H
-#define NEDRYSOFT_ROUTEANALYSER_BARCHART_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_BARCHART_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_BARCHART_H
 
 #pragma warning(push)
 #pragma warning(disable : 4996)
@@ -59,4 +59,4 @@ namespace Nedrysoft::RouteAnalyser {
     };
 }
 
-#endif //NEDRYSOFT_ROUTEANALYSER_BARCHART_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_BARCHART_H

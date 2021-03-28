@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_CORE_CORE_H
-#define NEDRYSOFT_CORE_CORE_H
+#ifndef PINGNOO_COMPONENTS_CORE_CORE_H
+#define PINGNOO_COMPONENTS_CORE_CORE_H
 
 #include "ICore.h"
 #include "MainWindow.h"
@@ -103,4 +103,4 @@ namespace Nedrysoft::Core {
     };
 }
 
-#endif // NEDRYSOFT_CORE_CORE_H
+#endif // PINGNOO_COMPONENTS_CORE_CORE_H

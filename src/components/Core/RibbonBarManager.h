@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_RIBBONBARMANAGER_H
-#define NEDRYSOFT_RIBBONBARMANAGER_H
+#ifndef PINGNOO_COMPONENTS_CORE_RIBBONBARMANAGER_H
+#define PINGNOO_COMPONENTS_CORE_RIBBONBARMANAGER_H
 
 #include "IRibbonBarManager.h"
 #include "Ribbon/RibbonWidget.h"
@@ -113,4 +113,4 @@ namespace Nedrysoft::Core {
     };
 }
 
-#endif //NEDRYSOFT_RIBBONBARMANAGER_H
+#endif // PINGNOO_COMPONENTS_CORE_RIBBONBARMANAGER_H

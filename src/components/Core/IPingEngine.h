@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_CORE_IPINGENGINE_H
-#define NEDRYSOFT_CORE_IPINGENGINE_H
+#ifndef PINGNOO_COMPONENTS_CORE_IPINGENGINE_H
+#define PINGNOO_COMPONENTS_CORE_IPINGENGINE_H
 
 #include "ComponentSystem/IInterface.h"
 #include "CoreSpec.h"
@@ -150,4 +150,4 @@ namespace Nedrysoft::Core {
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingEngine, "com.nedrysoft.core.IPingEngine/1.0.0")
 
-#endif // NEDRYSOFT_CORE_IPINGENGINE_H
+#endif // PINGNOO_COMPONENTS_CORE_IPINGENGINE_H

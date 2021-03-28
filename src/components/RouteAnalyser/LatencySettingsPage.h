@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_LATENCYSETTINGSPAGE_H
-#define NEDRYSOFT_LATENCYSETTINGSPAGE_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYSETTINGSPAGE_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYSETTINGSPAGE_H
 
 #include <QIcon>
 #include <QString>
@@ -101,4 +101,4 @@ namespace Nedrysoft::RouteAnalyser {
     };
 }
 
-#endif //NEDRYSOFT_LATENCYSETTINGSPAGE_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYSETTINGSPAGE_H

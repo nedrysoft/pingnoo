@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_ROUTEANALYSER_TRIMMERWIDGET_H
-#define NEDRYSOFT_ROUTEANALYSER_TRIMMERWIDGET_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_TRIMMERWIDGET_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_TRIMMERWIDGET_H
 
 #include <QWidget>
 #include <QFlags>
@@ -164,4 +164,4 @@ namespace Nedrysoft::RouteAnalyser {
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Nedrysoft::RouteAnalyser::TrimmerWidget::TrimmerFlags)
 
-#endif //NEDRYSOFT_ROUTEANALYSER_TRIMMERWIDGET_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_TRIMMERWIDGET_H

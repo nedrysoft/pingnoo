@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_ROUTEANALYSER_GRAPHLATENCYLAYER_H
-#define NEDRYSOFT_ROUTEANALYSER_GRAPHLATENCYLAYER_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_GRAPHLATENCYLAYER_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_GRAPHLATENCYLAYER_H
 
 #include "QCustomPlot/qcustomplot.h"
 #include "chrono"
@@ -79,4 +79,4 @@ namespace Nedrysoft::RouteAnalyser {
     };
 }
 
-#endif // NEDRYSOFT_ROUTEANALYSER_GRAPHLATENCYLAYER_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_GRAPHLATENCYLAYER_H

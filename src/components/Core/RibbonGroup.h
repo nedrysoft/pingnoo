@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_RIBBONGROUP_H
-#define NEDRYSOFT_RIBBONGROUP_H
+#ifndef PINGNOO_COMPONENTS_CORE_RIBBONGROUP_H
+#define PINGNOO_COMPONENTS_CORE_RIBBONGROUP_H
 
 #include "IRibbonGroup.h"
 
@@ -46,4 +46,4 @@ namespace Nedrysoft::Core {
     };
 }
 
-#endif //NEDRYSOFT_RIBBONGROUP_H
+#endif // PINGNOO_COMPONENTS_CORE_RIBBONGROUP_H

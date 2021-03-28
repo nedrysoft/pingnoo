@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_REGEXHOSTMASKER_REGEXHOSTMASKER_H
-#define NEDRYSOFT_REGEXHOSTMASKER_REGEXHOSTMASKER_H
+#ifndef PINGNOO_COMPONENTS_REGEXHOSTMASKER_REGEXHOSTMASKER_H
+#define PINGNOO_COMPONENTS_REGEXHOSTMASKER_REGEXHOSTMASKER_H
 
 #include "ComponentSystem/IInterface.h"
 #include "Core/IHostMasker.h"
@@ -187,4 +187,4 @@ namespace Nedrysoft::RegExHostMasker {
 
 Q_DECLARE_METATYPE(Nedrysoft::RegExHostMasker::RegExHostMaskerItem)
 
-#endif // NEDRYSOFT_REGEXHOSTMASKER_REGEXHOSTMASKER_H
+#endif // PINGNOO_COMPONENTS_REGEXHOSTMASKER_REGEXHOSTMASKER_H

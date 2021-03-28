@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_UTILS_H
-#define NEDRYSOFT_UTILS_H
+#ifndef PINGNOO_COMPONENTS_ICMPPINGENGINE_UTILS_H
+#define PINGNOO_COMPONENTS_ICMPPINGENGINE_UTILS_H
 
 #include <limits.h>
 #include <stdint.h>
@@ -44,4 +44,4 @@ namespace Nedrysoft::Utils {
     }
 }
 
-#endif // NEDRYSOFT_UTILS_H
+#endif // PINGNOO_COMPONENTS_ICMPPINGENGINE_UTILS_H

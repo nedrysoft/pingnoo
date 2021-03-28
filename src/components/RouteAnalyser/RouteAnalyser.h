@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_ROUTEANALYSER_H
-#define NEDRYSOFT_ROUTEANALYSER_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTEANALYSER_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTEANALYSER_H
 
 namespace Pingnoo::Constants {
     constexpr auto routeAnalyserContext = "RouteAnalyserComponent::RouteAnalyserEditor";
@@ -32,4 +32,4 @@ namespace Pingnoo::Constants {
     constexpr auto ribbonRouteAnalyserViewportGroup = "Ribbon.Group.RouteAnalyser.Viewport";
 }
 
-#endif //NEDRYSOFT_ROUTEANALYSER_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTEANALYSER_H

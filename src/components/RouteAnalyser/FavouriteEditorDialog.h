@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_FAVOURITEEDITORDIALOG_H
-#define NEDRYSOFT_FAVOURITEEDITORDIALOG_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_FAVOURITEEDITORDIALOG_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_FAVOURITEEDITORDIALOG_H
 
 #include <QDialog>
 #include <QVariantMap>
@@ -71,4 +71,4 @@ namespace Nedrysoft::RouteAnalyser {
     };
 }
 
-#endif //NEDRYSOFT_FAVOURITEEDITORDIALOG_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_FAVOURITEEDITORDIALOG_H

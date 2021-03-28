@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_HOSTIPGEOIPPROVIDER_CACHE_H
-#define NEDRYSOFT_HOSTIPGEOIPPROVIDER_CACHE_H
+#ifndef PINGNOO_COMPONENTS_HOSTIPGEOIPPROVIDER_CACHE_H
+#define PINGNOO_COMPONENTS_HOSTIPGEOIPPROVIDER_CACHE_H
 
 #include <QJsonObject>
 #include <QSqlDatabase>
@@ -62,4 +62,4 @@ namespace Nedrysoft::HostIPGeoIPProvider {
     };
 }
 
-#endif // NEDRYSOFT_HOSTIPGEOIPPROVIDER_CACHE_H
+#endif // PINGNOO_COMPONENTS_HOSTIPGEOIPPROVIDER_CACHE_H

@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_COLOURMANAGER_H
-#define NEDRYSOFT_COLOURMANAGER_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_COLOURMANAGER_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_COLOURMANAGER_H
 
 #include <QRgb>
 
@@ -56,4 +56,4 @@ namespace Nedrysoft::RouteAnalyser {
     };
 }
 
-#endif //NEDRYSOFT_COLOURMANAGER_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_COLOURMANAGER_H

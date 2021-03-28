@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_ROUTEANALYSER_CPAXISTICKERMS_H
-#define NEDRYSOFT_ROUTEANALYSER_CPAXISTICKERMS_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_CPAXISTICKERMS_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_CPAXISTICKERMS_H
 
 #include "QCustomPlot/qcustomplot.h"
 
@@ -48,4 +48,4 @@ namespace Nedrysoft::RouteAnalyser {
     };
 }
 
-#endif // NEDRYSOFT_ROUTEANALYSER_CPAXISTICKERMS_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_CPAXISTICKERMS_H

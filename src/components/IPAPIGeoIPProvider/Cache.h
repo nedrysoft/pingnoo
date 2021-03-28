@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_IPAPIGEOIPPROVIDER_CACHE_H
-#define NEDRYSOFT_IPAPIGEOIPPROVIDER_CACHE_H
+#ifndef PINGNOO_COMPONENTS_IPAPIGEOIPPROVIDER_CACHE_H
+#define PINGNOO_COMPONENTS_IPAPIGEOIPPROVIDER_CACHE_H
 
 #include <QJsonObject>
 
@@ -61,4 +61,4 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
     };
 }
 
-#endif // NEDRYSOFT_IPAPIGEOIPPROVIDER_CACHE_H
+#endif // PINGNOO_COMPONENTS_IPAPIGEOIPPROVIDER_CACHE_H
