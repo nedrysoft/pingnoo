@@ -33,18 +33,6 @@ Pingnoo is an open-source combined traceroute and ping application for analysing
 
 - **Linux**
   
-  ***AppImage***
-  
-  The application is provided as an AppImage, an AppImage bundles all dependencies and therefore will run on any modern Linux distribution.
-
-  After downloading the AppImage, you then need to do the following:
-
-  `chmod +x <downloaded filename>`
-
-  The application requires RAW socket access, and this means some limitations affect the operation of the application.  You will need to follow the instructions outlined in the Linux Notes section regarding setuid; this will allow you to run the application directly.  Alternatively, you can launch from the terminal by using:
-
-  `sudo ./<downloaded filename>`
-
   ***Native Packages***
 
   Native packages for popular Linux distributions are available, and these install with the correct permissions, which allow the application to run without root permissions.
@@ -54,21 +42,69 @@ Pingnoo is an open-source combined traceroute and ping application for analysing
     - Debian 10
 
   **Installing on Debian/Ubuntu**
-    
-  To install on Ubuntu or Debian, you should download the appropriate deb package for your OS, and then you can install it with the following commands:
+  
+  pingnoo can be installed via apt, in order to do this you will need to add the apt repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
 
+  ```
+  curl -s https://packagecloud.io/install/repositories/nedrysoft/pingnoo/script.deb.sh | sudo bash
+  ```
+  
+  Once the repository is added, you can then install pingnoo with the following command:
+
+  ```
+  sudo apt install pingnoo
+  ```
+
+  By using the apt repository, you will be able to update pingnoo easily with:
+
+  ```
+  sudo apt update
+  ```
+
+  Alternatively, you can download the appropriate deb file and install manually:
+  
   ```
   dpkg -i <downloaded file>.deb
   apt -f install
   ```
 
   **Installing on Fedora**
-  
-  To install on Fedora, you should download the appropriate rpm package for your OS, and then you can install it with the following commands:
+
+  pingnoo can be installed via yum, in order to do this you will need to add the rpm repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
 
   ```
-  dnf install <downloaded file>.rpm
+  curl -s https://packagecloud.io/install/repositories/nedrysoft/pingnoo/script.rpm.sh | sudo bash
   ```
+
+  Once the repository is added, you can then install pingnoo with the following command:
+
+  ```
+  sudo yum install pingnoo
+  ```
+
+  By using the yum repository, you will be able to update pingnoo easily with:
+
+  ```
+  sudo yum update
+  ```
+
+  Alternatively, you can download the appropriate rpm file and install manually:
+
+  ```
+  yum localinstall <downloaded file>.rpm
+  ```
+
+  ***AppImage***
+
+  The application is also provided as an AppImage, an AppImage bundles all dependencies and therefore will run on any modern Linux distribution.
+
+  After downloading the AppImage, you then need to do the following:
+
+  `chmod +x <downloaded filename>`
+
+  The application requires RAW socket access, and this means some limitations created by the AppImage process affect the operation of the application.  You will need to follow the instructions outlined in the Linux Notes section regarding setuid; this will allow you to run the application directly.  Alternatively, you can launch from the terminal by using:
+
+  `sudo ./<downloaded filename>`
 
 ## Documentation
 
