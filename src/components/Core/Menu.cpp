@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ICommand.h"
 #include "Menu.h"
+#include "ICommand.h"
 #include "Pingnoo.h"
 
 Nedrysoft::Core::Menu::Menu() :

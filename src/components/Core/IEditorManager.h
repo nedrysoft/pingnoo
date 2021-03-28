@@ -60,6 +60,9 @@ namespace Nedrysoft::Core {
              * @returns     zero if no error occurred; otherwise non-zero.
              */
             virtual auto openEditor(IEditor *editor) -> int = 0;
+
+            // Classes with virtual functions should not have a public non-virtual destructor:
+            virtual ~IEditorManager() = default;
     };
 }
 

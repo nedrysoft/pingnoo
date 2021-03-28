@@ -52,7 +52,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @param[in]   engine the owner engine.
              */
-            ICMPAPIPingTransmitter(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine);
+            explicit ICMPAPIPingTransmitter(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine);
 
             /**
              * @brief       Sets the interval between a set of pings.

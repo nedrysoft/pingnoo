@@ -51,7 +51,7 @@ namespace Nedrysoft::ICMPPingEngine {
             /**
              * @brief       Constructs an ICMPPingEngine for the given IP version.
              */
-            ICMPPingEngine(Nedrysoft::Core::IPVersion version);
+            explicit ICMPPingEngine(Nedrysoft::Core::IPVersion version);
 
             /**
              * @brief       Destroys the ICMPPingEngine.

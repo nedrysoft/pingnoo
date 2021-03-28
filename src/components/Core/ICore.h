@@ -92,6 +92,9 @@ namespace Nedrysoft::Core {
              */
 
             virtual auto random(int minimumValue, int maximumValue) -> int = 0;
+
+            // Classes with virtual functions should not have a public non-virtual destructor:
+            virtual ~ICore() = default;
     };
 
     /**

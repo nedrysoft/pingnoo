@@ -48,7 +48,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @param[in]   engine the owner engine.
              */
-            ICMPPingTimeout(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine);
+            explicit ICMPPingTimeout(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine);
 
             /**
              * @brief       The timeout thread worker.

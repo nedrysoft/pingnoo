@@ -62,12 +62,12 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   parent the owner widget.
              */
-            MainWindow(QWidget *parent = nullptr);
+            explicit MainWindow(QWidget *parent = nullptr);
 
             /**
              * @brief       Destroys the MainWindow.
              */
-            ~MainWindow();
+            virtual ~MainWindow();
 
             /**
              * @brief       The initialise class sets up various subsystems for the main application.

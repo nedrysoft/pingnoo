@@ -108,6 +108,9 @@ namespace Nedrysoft::Core {
              * @param[in]   previousContext the previous selected context.
              */
             Q_SIGNAL void contextChanged(int newContext, int previousContext);
+
+            // Classes with virtual functions should not have a public non-virtual destructor:
+            virtual ~IContextManager() = default;
     };
 }
 
