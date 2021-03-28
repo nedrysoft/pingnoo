@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_TARGETMANAGER_H
-#define NEDRYSOFT_TARGETMANAGER_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETMANAGER_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETMANAGER_H
 
 #include "Core/ICore.h"
 
@@ -189,4 +189,4 @@ namespace Nedrysoft::RouteAnalyser {
     };
 }
 
-#endif //NEDRYSOFT_TARGETMANAGER_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETMANAGER_H

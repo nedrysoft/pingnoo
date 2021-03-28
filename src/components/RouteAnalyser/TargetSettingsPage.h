@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_TARGETSETTINGSPAGE_H
-#define NEDRYSOFT_TARGETSETTINGSPAGE_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETSETTINGSPAGE_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETSETTINGSPAGE_H
 
 #include <QIcon>
 #include <QString>
@@ -100,4 +100,4 @@ namespace Nedrysoft::RouteAnalyser {
     };
 }
 
-#endif //NEDRYSOFT_TARGETSETTINGSPAGE_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETSETTINGSPAGE_H

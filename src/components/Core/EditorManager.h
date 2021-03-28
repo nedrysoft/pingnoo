@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_CORE_EDITORMANAGER_H
-#define NEDRYSOFT_CORE_EDITORMANAGER_H
+#ifndef PINGNOO_COMPONENTS_CORE_EDITORMANAGER_H
+#define PINGNOO_COMPONENTS_CORE_EDITORMANAGER_H
 
 #include "EditorManagerTabWidget.h"
 #include "IEditorManager.h"
@@ -71,4 +71,4 @@ namespace Nedrysoft::Core {
     };
 }
 
-#endif // NEDRYSOFT_CORE_EDITORMANAGER_H
+#endif // PINGNOO_COMPONENTS_CORE_EDITORMANAGER_H

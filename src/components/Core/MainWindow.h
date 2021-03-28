@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef PINGNOO_COMPONENTS_CORE_MAINWINDOW_H
+#define PINGNOO_COMPONENTS_CORE_MAINWINDOW_H
 
 #include "Command.h"
 
@@ -150,4 +150,4 @@ namespace Nedrysoft::Core {
     };
 }
 
-#endif // MAINWINDOW_H
+#endif // PINGNOO_COMPONENTS_CORE_MAINWINDOW_H

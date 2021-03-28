@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_CORE_CORECOMPONENT_H
-#define NEDRYSOFT_CORE_CORECOMPONENT_H
+#ifndef PINGNOO_COMPONENTS_CORE_CORECOMPONENT_H
+#define PINGNOO_COMPONENTS_CORE_CORECOMPONENT_H
 
 #include "ComponentSystem/IComponent.h"
 #include "CoreSpec.h"
@@ -102,4 +102,4 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
         Nedrysoft::Core::HostMaskerSettingsPage *m_hostMaskerSettingsPage;
 };
 
-#endif // NEDRYSOFT_CORE_CORECOMPONENT_H
+#endif // PINGNOO_COMPONENTS_CORE_CORECOMPONENT_H

@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_ROUTEANALYSER_PINGDATA_H
-#define NEDRYSOFT_ROUTEANALYSER_PINGDATA_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_PINGDATA_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_PINGDATA_H
 
 #include "Core/PingResult.h"
 
@@ -292,4 +292,4 @@ namespace Nedrysoft::RouteAnalyser {
 Q_DECLARE_METATYPE(Nedrysoft::RouteAnalyser::PingData)
 Q_DECLARE_METATYPE(Nedrysoft::RouteAnalyser::PingData *)
 
-#endif // NEDRYSOFT_ROUTEANALYSER_PINGDATA_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_PINGDATA_H

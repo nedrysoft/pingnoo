@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_CORE_ISTATUSBARMANAGER_H
-#define NEDRYSOFT_CORE_ISTATUSBARMANAGER_H
+#ifndef PINGNOO_COMPONENTS_CORE_ISTATUSBARMANAGER_H
+#define PINGNOO_COMPONENTS_CORE_ISTATUSBARMANAGER_H
 
 #include "ComponentSystem/IInterface.h"
 #include "Core/IContextManager.h"
@@ -58,4 +58,4 @@ namespace Nedrysoft::Core {
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IStatusBarManager, "com.nedrysoft.core.IStatusBarManager/1.0.0")
 
-#endif // NEDRYSOFT_CORE_ISTATUSBARMANAGER_H
+#endif // PINGNOO_COMPONENTS_CORE_ISTATUSBARMANAGER_H

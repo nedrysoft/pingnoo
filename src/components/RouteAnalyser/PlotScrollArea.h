@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_PLOTSCROLLAREA_H
-#define NEDRYSOFT_PLOTSCROLLAREA_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_PLOTSCROLLAREA_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_PLOTSCROLLAREA_H
 
 #include <QScrollArea>
 
@@ -56,4 +56,4 @@ namespace Nedrysoft::RouteAnalyser {
     };
 }
 
-#endif //NEDRYSOFT_PLOTSCROLLAREA_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_PLOTSCROLLAREA_H

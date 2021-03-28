@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_COLOURDIALOG_H
-#define NEDRYSOFT_COLOURDIALOG_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_COLOURDIALOG_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_COLOURDIALOG_H
 
 #include <QApplication>
 #include <QColor>
@@ -93,4 +93,4 @@ namespace Nedrysoft::RouteAnalyser {
     };
 }
 
-#endif //NEDRYSOFT_COLOURDIALOG_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_COLOURDIALOG_H

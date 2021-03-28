@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_LINESYNTAXHIGHLIGHTER_H
-#define NEDRYSOFT_LINESYNTAXHIGHLIGHTER_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_LINESYNTAXHIGHLIGHTER_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_LINESYNTAXHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
 #include <QTextDocument>
@@ -63,4 +63,4 @@ namespace Nedrysoft::RouteAnalyser {
 
 }
 
-#endif //NEDRYSOFT_LINESYNTAXHIGHLIGHTER_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_LINESYNTAXHIGHLIGHTER_H
