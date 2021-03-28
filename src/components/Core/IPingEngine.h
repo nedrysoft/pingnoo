@@ -119,10 +119,14 @@ namespace Nedrysoft::Core {
             /**
              * @brief       Transmits a single ping.
              *
+             * @notes       This is a blocking function.
+             *
              * @param[in]   hostAddress the target host address.
              * @param[in]   ttl time to live for this packet.
+             *
+             * @returns     the result of the ping.
              */
-            virtual auto transmit(QHostAddress hostAddress, int ttl) -> void = 0;
+            virtual auto singleShot(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::PingResult = 0;
 
             /**
              * @brief       Removes a ping target from this engine instance.

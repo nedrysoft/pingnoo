@@ -112,7 +112,14 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::available() -> bool {
     return true;
 }
 
-auto Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::deleteEngine(Nedrysoft::Core::IPingEngine *) -> bool {
+auto Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory::deleteEngine(Nedrysoft::Core::IPingEngine *engine) -> bool {
+    auto pingEngine = qobject_cast<Nedrysoft::ICMPPingEngine::ICMPPingEngine *>(engine);
+
+    if (d->m_engineList.contains(pingEngine)) {
+        engine->stop();
+        d->m_engineList.removeAll(pingEngine);
+    }
+
     return true;
 }
 

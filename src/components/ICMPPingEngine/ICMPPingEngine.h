@@ -133,12 +133,16 @@ namespace Nedrysoft::ICMPPingEngine {
             /**
              * @brief       Transmits a single ping.
              *
-             * @see         Nedrysoft::Core::IPingEngine::transmit
+             * @notes       This is a blocking function.
+             *
+             * @see         Nedrysoft::Core::IPingEngine::singleShot
              *
              * @param[in]   hostAddress the target host address.
              * @param[in]   ttl time to live for this packet.
+             *
+             * @returns     the ping result.
              */
-            auto transmit(QHostAddress hostAddress, int ttl) -> void override;
+            auto singleShot(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::PingResult override;
 
             /**
              * @brief       Removes a ping target from this engine instance.
