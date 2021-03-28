@@ -44,7 +44,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   parent the owner object.
              */
-            ActionProxy(QObject *parent = nullptr);
+            explicit ActionProxy(QObject *parent = nullptr);
 
             /**
              * @brief       Sets the currently active QAction.

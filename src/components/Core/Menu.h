@@ -61,7 +61,7 @@ namespace Nedrysoft::Core {
                      *
                      * @param[in]   id is the identifier of the group.
                      */
-                    GroupItem(QString id) {
+                    explicit GroupItem(QString id) {
                         m_id = id;
                     }
 
@@ -86,7 +86,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   menuBar is the menu bar that is to be attached to this instance.
              */
-            Menu(QMenuBar *menuBar);
+            explicit Menu(QMenuBar *menuBar);
 
             /**
              * @brief       Constructs a menu for a main or sub menu.
@@ -97,7 +97,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   menu is the menu that is controlled by this instance.
              */
-            Menu(QMenu *menu);
+            explicit Menu(QMenu *menu);
 
         public:
             /**

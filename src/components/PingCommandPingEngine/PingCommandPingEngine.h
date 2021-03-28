@@ -48,7 +48,7 @@ namespace Nedrysoft::PingCommandPingEngine {
             /**
              * @brief       Constructs an PingCommandPingEngine for the given IP version.
              */
-            PingCommandPingEngine(Nedrysoft::Core::IPVersion version);
+            explicit PingCommandPingEngine(Nedrysoft::Core::IPVersion version);
 
             /**
              * @brief       Destroys the PingCommandPingEngine.

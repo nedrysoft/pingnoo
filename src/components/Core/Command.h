@@ -56,7 +56,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   id the identifier for this command.
              */
-            Command(QString id);
+            explicit Command(QString id);
 
             /**
              * @brief       Destroys the Command.

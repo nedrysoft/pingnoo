@@ -122,7 +122,7 @@ namespace Nedrysoft::ICMPPacket {
              *
              * @returns     a formatted string showing the packet information.
              */
-            operator std::string();
+            explicit operator std::string();
 
         private:
             /**

@@ -62,7 +62,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   parent the owner widget.
              */
-            MainWindow(QWidget *parent = nullptr);
+            explicit MainWindow(QWidget *parent = nullptr);
 
             /**
              * @brief       Destroys the MainWindow.

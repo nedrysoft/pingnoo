@@ -49,7 +49,7 @@ namespace Nedrysoft::RouteAnalyser {
              *
              * @param[in]   parent the owner widget.
              */
-            LatencyWidget(QWidget *parent=nullptr);
+            explicit LatencyWidget(QWidget *parent=nullptr);
 
             /**
              * @brief       Destroys the LatencyWidget
