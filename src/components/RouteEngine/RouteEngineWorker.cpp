@@ -29,6 +29,9 @@
 
 #include <QHostInfo>
 
+constexpr auto DefaultDiscoveryTimeout = 1.0;
+constexpr auto MaxRouteHops = 64;
+
 Nedrysoft::RouteEngine::RouteEngineWorker::RouteEngineWorker(
         QString host,
         Nedrysoft::Core::IPingEngineFactory *pingEngineFactory,
@@ -67,14 +70,14 @@ auto Nedrysoft::RouteEngine::RouteEngineWorker::doWork() -> void {
 
     auto route = Nedrysoft::Core::RouteList();
 
-    for (int hop=1;hop<64;hop++) {
+    for (int hop=1;hop<MaxRouteHops;hop++) {
         if (!m_isRunning) {
             m_pingEngineFactory->deleteEngine(pingEngine);
 
             return;
         }
 
-        auto result = pingEngine->singleShot(targetAddresses.at(0), hop);
+        auto result = pingEngine->singleShot(targetAddresses.at(0), hop, DefaultDiscoveryTimeout);
 
         if (result.code()==Nedrysoft::Core::PingResult::ResultCode::Ok) {
             route.append(result.hostAddress());

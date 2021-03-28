@@ -34,11 +34,10 @@
 
 using namespace std::chrono_literals;
 
-constexpr auto DefaultReceiveTimeout = 3s;
+constexpr auto DefaultReceiveTimeout = 1s;
 constexpr auto DefaultTerminateThreadTimeout = 5s;
 constexpr auto DefaultTTL = 64;
 
-constexpr auto ReplyTimeout = 1;
 constexpr auto nanosecondsInMillisecond = 1.0e6;
 constexpr auto packetLostRegularExpression = R"(100% packet loss)";
 constexpr auto ttlExceededRegularExpression = R"(From\ (?<ip>[\d\.]*)\ .*exceeded)";
@@ -130,7 +129,8 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::targets() -> QList
 
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::singleShot(
         QHostAddress hostAddress,
-        int ttl) -> Nedrysoft::Core::PingResult {
+        int ttl,
+        double timeout) -> Nedrysoft::Core::PingResult {
 
     QProcess pingProcess;
     qint64 started, finished;
@@ -139,7 +139,7 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::singleShot(
     std::chrono::system_clock::time_point epoch;
 
     auto pingArguments = QStringList() <<
-                                       "-W" << QString("%1").arg(ReplyTimeout) <<
+                                       "-W" << QString("%1").arg(timeout) <<
                                        "-D" <<
                                        "-c" << "1" <<
                                        "-t" << QString("%1").arg(ttl) <<

@@ -135,14 +135,16 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @notes       This is a blocking function.
              *
-             * @see         Nedrysoft::Core::IPingEngine::singleShot
-             *
              * @param[in]   hostAddress the target host address.
              * @param[in]   ttl time to live for this packet.
+             * @param[in]   timeout time in seconds to wait for response.
              *
-             * @returns     the ping result.
+             * @returns     the result of the ping.
              */
-            auto singleShot(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::PingResult override;
+            auto singleShot(
+                    QHostAddress hostAddress,
+                    int ttl,
+                    double timeout ) -> Nedrysoft::Core::PingResult override;
 
             /**
              * @brief       Removes a ping target from this engine instance.

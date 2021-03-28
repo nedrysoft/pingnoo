@@ -45,6 +45,10 @@ constexpr auto DefaultReceiveTimeout = 1s;
 constexpr auto DefaultTerminateThreadTimeout = 5s;
 constexpr auto DefaultTransmitInterval = 2.5s;
 
+constexpr auto secondsToMs(double seconds) {
+    return seconds*1000;
+}
+
 class Nedrysoft::ICMPPingEngine::ICMPPingEngineData {
 
     public:
@@ -110,7 +114,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::addTarget(QHostAddress hostAddre
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::addTarget(
         QHostAddress hostAddress,
-        int ttl ) -> Nedrysoft::Core::IPingTarget * {
+        int ttl) -> Nedrysoft::Core::IPingTarget * {
 
     auto target = new Nedrysoft::ICMPPingEngine::ICMPPingTarget(this, hostAddress, ttl);
 
@@ -412,7 +416,8 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::targets() -> QList<Nedrysoft::Co
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::singleShot(
         QHostAddress hostAddress,
-        int ttl) -> Nedrysoft::Core::PingResult {
+        int ttl,
+        double timeout ) -> Nedrysoft::Core::PingResult {
 
     Nedrysoft::ICMPSocket::ICMPSocket *writeSocket;
     Nedrysoft::ICMPSocket::ICMPSocket *readSocket;
@@ -453,7 +458,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::singleShot(
 
     timeoutTimer.start();
 
-    while(std::chrono::milliseconds(timeoutTimer.elapsed())<DefaultReceiveTimeout) {
+    while(timeoutTimer.elapsed()<(secondsToMs(timeout))) {
         auto remaining = DefaultReceiveTimeout-std::chrono::milliseconds(timeoutTimer.elapsed());
 
         if (remaining.count()<=0) {

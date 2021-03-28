@@ -28,17 +28,12 @@
 #include "Core/IPingTarget.h"
 #include "RouteEngineWorker.h"
 
-#include <QHostInfo>
 #include <QThread>
 #include <QTimer>
 
 #include <cassert>
-#include <spdlog/spdlog.h>
 
 using namespace std::chrono_literals;
-
-constexpr auto DefaultDiscoveryTimeout = 1s;
-constexpr auto MaxRouteHops = 64;
 
 Nedrysoft::RouteEngine::RouteEngine::RouteEngine() :
         m_routeWorkerThread(nullptr),
