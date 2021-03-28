@@ -41,7 +41,7 @@ namespace Nedrysoft::JitterPlot {
             /**
              * @brief       Constructs a new GraphLatencyLayer.
              */
-            JitterBackgroundLayer(QCustomPlot *customPlot);
+            explicit JitterBackgroundLayer(QCustomPlot *customPlot);
 
             /**
              * @brief       Sets the range for the jitter graph.

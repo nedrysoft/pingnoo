@@ -50,6 +50,9 @@ namespace Nedrysoft::RouteAnalyser {
              * @returns     the plot.
              */
             virtual auto createPlot(const QMargins &margins) -> Nedrysoft::RouteAnalyser::IPlot * = 0;
+
+            // Classes with virtual functions should not have a public non-virtual destructor:
+            virtual ~IPlotFactory() = default;
     };
 };
 

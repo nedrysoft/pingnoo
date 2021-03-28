@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Connection Error (%s)\n", err.message);
         dbus_error_free(&err);
     }
-    if (NULL == conn) {
+    if (nullptr == conn) {
         return 1;
     }
 

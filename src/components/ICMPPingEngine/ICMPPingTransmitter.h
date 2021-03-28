@@ -52,7 +52,7 @@ namespace Nedrysoft::ICMPPingEngine {
              *
              * @param[in]   engine the owner engine.
              */
-            ICMPPingTransmitter(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine);
+            explicit ICMPPingTransmitter(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine);
 
             /**
              * @brief       Destroys the ICMPPingTransmitter.

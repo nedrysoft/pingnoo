@@ -183,7 +183,8 @@ namespace Nedrysoft::Core {
              */
             virtual auto findCommand(const QString &identifier) -> Nedrysoft::Core::ICommand * = 0;
 
-        public:
+            // Classes with virtual functions should not have a public non-virtual destructor:
+            virtual ~ICommandManager() = default;
 
     };
 }

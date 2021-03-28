@@ -57,7 +57,7 @@ namespace Nedrysoft::RouteAnalyser {
             /**
              * @brief       Constructs a new TrimmerWidget.
              */
-            TrimmerWidget(QWidget *parent=nullptr);
+            explicit TrimmerWidget(QWidget *parent=nullptr);
 
             /**
              * @brief       Destroys the TrimmerWidget.

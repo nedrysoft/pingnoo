@@ -46,6 +46,9 @@ namespace Nedrysoft::Core {
              * @returns     the logger
              */
             virtual auto logger() -> std::shared_ptr<spdlog::logger> = 0;
+
+            // Classes with virtual functions should not have a public non-virtual destructor:
+            virtual ~ILogger() = default;
     };
 }
 

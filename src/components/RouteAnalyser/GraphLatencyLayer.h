@@ -41,7 +41,7 @@ namespace Nedrysoft::RouteAnalyser {
             /**
              * @brief       Constructs a new GraphLatencyLayer.
              */
-            GraphLatencyLayer(QCustomPlot *customPlot);
+            explicit GraphLatencyLayer(QCustomPlot *customPlot);
 
             /**
              * @brief       Set whether to draw the background as a smooth gradient or steps.

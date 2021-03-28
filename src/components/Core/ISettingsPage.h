@@ -55,6 +55,9 @@ namespace Nedrysoft::Core {
              * @returns     the displayed name of the settings page.
              */
             virtual auto displayName() -> QString = 0;
+
+            // Classes with virtual functions should not have a public non-virtual destructor:
+            virtual ~ISettingsPage() = default;
     };
 }
 

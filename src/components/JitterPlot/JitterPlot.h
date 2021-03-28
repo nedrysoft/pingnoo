@@ -46,7 +46,7 @@ namespace Nedrysoft::JitterPlot {
             /**
              * @brief       Constructs an JitterPlot.
              */
-            JitterPlot(const QMargins &margins);
+            explicit JitterPlot(const QMargins &margins);
 
             /**
              * @brief       Constructs the JitterPlot.

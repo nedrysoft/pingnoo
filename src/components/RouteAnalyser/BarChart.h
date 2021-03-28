@@ -46,6 +46,9 @@ namespace Nedrysoft::RouteAnalyser {
              */
             BarChart(QCPAxis *keyAxis, QCPAxis *valueAxis);
 
+            // Classes with virtual functions should not have a public non-virtual destructor:
+            virtual ~BarChart() = default;
+
         protected:
             /**
              * @brief       Draws the bar chart to the given painter.

@@ -40,7 +40,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   parent the parent widget.
              */
-            EditorManagerTabWidget(QWidget *parent=nullptr);
+            explicit EditorManagerTabWidget(QWidget *parent=nullptr);
 
             /**
              * @brief       Sets the text to draw on the background.

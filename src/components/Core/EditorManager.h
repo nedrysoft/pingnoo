@@ -53,7 +53,7 @@ namespace Nedrysoft::Core {
              *
              * @param[in]   tabWidget the QTabWidget that is used to contain the editors.
              */
-            EditorManager(EditorManagerTabWidget *tabWidget);
+            explicit EditorManager(EditorManagerTabWidget *tabWidget);
 
             /**
              * @brief       Open an editor window.

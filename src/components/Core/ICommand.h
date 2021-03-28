@@ -68,7 +68,6 @@ namespace Nedrysoft::Core {
              */
             virtual auto active() -> bool = 0;
 
-        public:
             /**
              * @brief       Attaches a command to an abstract push button
              *
@@ -86,6 +85,9 @@ namespace Nedrysoft::Core {
                     widget->setEnabled(this->active());
                 });
             }
+
+            // Classes with virtual functions should not have a public non-virtual destructor:
+            virtual ~ICommand() = default;
     };
 }
 
