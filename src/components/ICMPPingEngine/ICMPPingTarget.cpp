@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ICMPPingEngine.h"
 #include "ICMPPingTarget.h"
+#include "ICMPPingEngine.h"
 #include "ICMPSocket/ICMPSocket.h"
 
 #include <QHostAddress>
