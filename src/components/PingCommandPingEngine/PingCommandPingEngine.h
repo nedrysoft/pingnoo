@@ -154,6 +154,18 @@ namespace Nedrysoft::PingCommandPingEngine {
              */
             auto targets() -> QList<Nedrysoft::Core::IPingTarget *> override;
 
+            /**
+             * @brief       Transmits a single ping.
+             *
+             * @notes       This is a blocking function.
+             *
+             * @param[in]   hostAddress the target host address.
+             * @param[in]   ttl time to live for this packet.
+             *
+             * @returns     the result of the ping.
+             */
+            auto singleShot(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::PingResult override;
+
         public:
             /**
              * @brief       Saves the configuration to a JSON object.

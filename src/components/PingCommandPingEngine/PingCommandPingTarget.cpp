@@ -137,9 +137,7 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
                         // some other error
                     }
                 }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-                pingThread->deleteLater();
-#else
+#if QT_VERSION < QT_VERSION_CHECK(5, 10, 0)
                 QTimer::singleShot(0, [=]() {
                     delete pingThread;
                 });

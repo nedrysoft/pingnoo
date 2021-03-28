@@ -45,7 +45,6 @@ Nedrysoft::RouteEngine::RouteEngineWorker::~RouteEngineWorker() {
         m_isRunning = false;
 
         thread()->quit();
-        thread()->wait();
     }
 }
 

@@ -32,6 +32,7 @@
 #include "ICMPPacket/ICMPPacket.h"
 #include "Utils.h"
 
+#include <QElapsedTimer>
 #include <QMap>
 #include <QMutex>
 #include <QThread>
