@@ -104,16 +104,17 @@ docs/sphinx/api/
 
 __pycache__/
 
-*.deb
+.deb
 
 installer/PingnooBuild*.aip
 installer/Pingnoo.back*.aip
 
 rpmbuild
 .rpmmacros
-
+/build
 src/libs/3rdparty/spdlog/
 
 src/libs/3rdparty/spdlog.o
 
-build/
+build/generated
+
