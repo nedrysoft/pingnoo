@@ -318,10 +318,6 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::timeoutRequests() -> void {
                     Q_EMIT result(pingResult);
 
                     i.remove();
-
-                    //this->removeRequest(pingItem);
-
-                    //delete pingItem;
                 } else {
                     pingItem->unlock();
                 }
@@ -392,8 +388,6 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
 
             pingItem->setServiced(true);
             pingItem->unlock();
-
-            //this->removeRequest(pingItem);
         } else {
             pingItem->unlock();
         }
