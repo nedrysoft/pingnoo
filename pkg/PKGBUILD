@@ -1,5 +1,6 @@
 # Maintainer: Your Name <youremail@domain.com>
 pkgname=pingnoo
+pkgver=0
 pkgver() {
     cd "$pkgname"
     git log -1 --format=%cd --date=short | sed 's/-/./g'
@@ -34,7 +35,7 @@ prepare() {
 
 build() {
     cmake -B build -S ${pkgname} -DCMAKE_SKIP_RPATH=True
-    make -C build -j
+    make -C build -j 4
 }
 
 package() {
