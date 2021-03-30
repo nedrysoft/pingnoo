@@ -44,7 +44,7 @@ update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 2
 
 ### Download and install CMake.
 ```
-cd /tmp  &&
+cd /tmp &&
 wget https://github.com/Kitware/CMake/releases/download/v3.20.0-rc2/cmake-3.20.0-rc2-linux-x86_64.sh &&
 chmod +x cmake-3.20.0-rc2-linux-x86_64.sh &&
 ./cmake-3.20.0-rc2-linux-x86_64.sh --skip-license --prefix=/usr/local

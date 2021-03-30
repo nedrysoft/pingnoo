@@ -25,7 +25,7 @@ Restart=on-failure
 ## Configure the teamcity build agent.
 
 ```
-cp /opt/teamcity-agent/conf/buildAgent.dist.properties /opt/teamcity-agent/conf/buildAgent.properties &
+cp /opt/teamcity-agent/conf/buildAgent.dist.properties /opt/teamcity-agent/conf/buildAgent.properties &&
 vi /opt/teamcity-agent/conf/buildAgent.properties
 ```
 then set the following configuration values.
@@ -45,6 +45,6 @@ The linux operating system + version should be one of the following:
 
 ## Enable and start the teamcity build agent.
 ```
-systemctl enable teamcity-agent &
+systemctl enable teamcity-agent &&
 service teamcity-agent start
 ```
