@@ -24,6 +24,8 @@ apt install openjdk-8-jdk -y &&
 apt install dpkg-sig -y &&
 apt install ruby -y &&
 apt install ruby-dev -y
+
+ln /usr/lib/x86_64-linux-gnu/qt5/bin/lrelease /bin/lrelease
 ```
 
 ### Build python 3.9 from source
@@ -46,6 +48,4 @@ cd /tmp  &&
 wget https://github.com/Kitware/CMake/releases/download/v3.20.0-rc2/cmake-3.20.0-rc2-linux-x86_64.sh &&
 chmod +x cmake-3.20.0-rc2-linux-x86_64.sh &&
 ./cmake-3.20.0-rc2-linux-x86_64.sh --skip-license --prefix=/usr/local
-
-ln /usr/lib/x86_64-linux-gnu/qt5/bin/lrelease /bin/lrelease
 ```
