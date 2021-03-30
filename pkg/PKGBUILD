@@ -1,0 +1,44 @@
+# Maintainer: Your Name <youremail@domain.com>
+pkgname=pingnoo
+pkgver() {
+    cd "$pkgname"
+    git log -1 --format=%cd --date=short | sed 's/-/./g'
+}
+pkgrel=1
+epoch=
+pkgdesc="An open-source cross-platform tool for ping/traceroute analysis."
+arch=('x86_64')
+url=""
+license=('GPL3')
+groups=()
+depends=('qt5-base' 'qt5-quickcontrols' 'dbus')
+makedepends=('cmake' 'qt5-base' 'qt5-tools' 'qt5-quickcontrols' 'dbus')
+checkdepends=()
+optdepends=()
+provides=("${pkgname}")
+conflicts=()
+replaces=()
+backup=()
+options=()
+install="${pkgname}.install"
+changelog=
+source=("${pkgname}::git+http://github.com/nedrysoft/pingnoo.git")
+noextract=()
+md5sums=('SKIP')
+validpgpkeys=()
+
+prepare() {
+    cd ${pkgname}
+    git submodule update --init --recursive
+}
+
+build() {
+    cmake -B build -S ${pkgname} -DCMAKE_SKIP_RPATH=True
+    make -C build -j
+}
+
+package() {
+    mkdir -p ${pkgdir}/usr/bin/pingnoo
+    cp -r pingnoo/bin/x86_64/Release/* ${pkgdir}/usr/bin/pingnoo
+    cp pingnoo/src/pkg/pingnoo.conf ${pkgdir}/etc/ld.so.conf.d/pingnoo.conf
+}
