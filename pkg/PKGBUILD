@@ -41,5 +41,5 @@ build() {
 package() {
     mkdir -p ${pkgdir}/usr/bin/pingnoo
     cp -r pingnoo/bin/x86_64/Release/* ${pkgdir}/usr/bin/pingnoo
-    cp pingnoo/src/pkg/pingnoo.conf ${pkgdir}/etc/ld.so.conf.d/pingnoo.conf
+    cp pingnoo/pkg/pingnoo.conf ${pkgdir}/etc/ld.so.conf.d/pingnoo.conf
 }
