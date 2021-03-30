@@ -39,7 +39,8 @@ build() {
 }
 
 package() {
-    mkdir -p ${pkgdir}/usr/bin/pingnoo
-    cp -r pingnoo/bin/x86_64/Release/* ${pkgdir}/usr/bin/pingnoo
+    mkdir -p ${pkgdir}/usr/local/bin/pingnoo
+    mkdir -p ${pkgdir}/etc/ld.so.conf.d
+    cp -r pingnoo/bin/x86_64/Release/* ${pkgdir}/usr/local/bin/pingnoo
     cp pingnoo/pkg/pingnoo.conf ${pkgdir}/etc/ld.so.conf.d/pingnoo.conf
 }
