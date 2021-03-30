@@ -1,6 +1,6 @@
 # Setting up Fedora for building pingnoo.
 
-## Install Prerequisites
+## Install Prerequisites.
 
 ```
 dnf -y group install "C Development Tools and Libraries"  &&
@@ -23,12 +23,12 @@ dnf -y install ruby-devel
 ln -s /usr/lib64/qt5/bin/lrelease /bin/lrelease
 ```
 
-### r33 or later
+### r33 or later.
 ```
   dnf -y install qt5-qtbase-devel
 ```
 
-### r32 or earlier
+### r32 or earlier.
 ```
   dnf -y install qt5-devel
 ```

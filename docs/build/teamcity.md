@@ -1,4 +1,4 @@
-# Instructions for TeamCity build agent on a linux systems.
+# Instructions for TeamCity build agent on a linux system.
 
 ## Create the /etc/systemd/system/teamcity-agent.service file.
 
@@ -22,7 +22,7 @@ RestartSec=5
 Restart=on-failure
 ```
 
-## Configure the teamcity build agent
+## Configure the teamcity build agent.
 
 ```
 cp /opt/teamcity-agent/conf/buildAgent.dist.properties /opt/teamcity-agent/conf/buildAgent.properties &
@@ -30,7 +30,7 @@ vi /opt/teamcity-agent/conf/buildAgent.properties
 ```
 then set the following configuration values.
 ```
-serverURL=http://http://172.29.13.9:8111
+serverURL=http://<teamcity server ip>>:8111
 
 system.linuxDistribution=<linux operating system + version>
 ```
@@ -43,7 +43,7 @@ The linux operating system + version should be one of the following:
 
 ***(where X is the major os release and Y is the minor)***
 
-## Enable and start the teamcity build agent
+## Enable and start the teamcity build agent.
 ```
 systemctl enable teamcity-agent &
 service teamcity-agent start

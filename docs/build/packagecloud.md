@@ -1,11 +1,11 @@
-# Installing packagecloud for pushing binaries
+# Installing packagecloud for pushing binaries.
 
 ```
 gem install rake &&
 gem install package_cloud
 ```
 
-# Uploading build artificats to packagecloud
+# Uploading build artificats to packagecloud.
 
 ```
 package_cloud push nedrysoft/pingnoo/ubuntu/bionic *ubuntu18.04*.deb

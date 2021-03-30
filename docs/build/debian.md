@@ -1,6 +1,6 @@
 # Setting up Debian for building pingnoo.
 
-## Install Prerequisites
+## Install Prerequisites.
 ```
 apt update -y &&
 apt install software-properties-common -y &&
@@ -24,7 +24,7 @@ apt install ruby -y &&
 apt install ruby-dev -y
 ```
 
-### Build git from source as debian version is too old
+### Build git from source as debian version is too old.
 ```
 apt install dh-autoreconf libcurl4-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev asciidoc xmlto docbook2x install-info -y &&
 cd /tmp &&
@@ -37,7 +37,7 @@ make -j 4 all doc info &&
 make install install-doc install-html install-info
 ```
 
-### Build python 3.9 from source as debian has 3.7
+### Build python 3.9 from source as debian has 3.7.
 ```
 cd /tmp &&
 apt install  zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev -y &&
@@ -49,7 +49,7 @@ make -j 4 &&
 make install
 ```
 
-### Download and install CMake
+### Download and install CMake.
 ```
 cd /tmp &&
 wget https://github.com/Kitware/CMake/releases/download/v3.20.0-rc2/cmake-3.20.0-rc2-linux-x86_64.sh &&

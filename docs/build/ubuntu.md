@@ -1,6 +1,6 @@
 # Setting up Ubuntu for building pingnoo.
 
-## Install Prerequisites
+## Install Prerequisites.
 ```
 apt update -y &&
 apt install software-properties-common -y &&
@@ -28,7 +28,7 @@ apt install ruby-dev -y
 ln /usr/lib/x86_64-linux-gnu/qt5/bin/lrelease /bin/lrelease
 ```
 
-### Build python 3.9 from source
+### Build python 3.9 from source.
 ```
 cd /tmp &&
 apt install  zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev -y &&
@@ -42,7 +42,7 @@ make install
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 2
 ```
 
-### Download and install CMake
+### Download and install CMake.
 ```
 cd /tmp  &&
 wget https://github.com/Kitware/CMake/releases/download/v3.20.0-rc2/cmake-3.20.0-rc2-linux-x86_64.sh &&
