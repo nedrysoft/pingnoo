@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Pingnoo
+Version=1.0
+Exec=/usr/local/bin/pingnoo/Pingnoo
+Icon=/usr/share/icons/hicolor/512x512/apps/pingnoo.png
+Type=Application
+Terminal=false
+StartupNotify=true
+Encoding=UTF-8
