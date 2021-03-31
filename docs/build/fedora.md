@@ -1,6 +1,6 @@
-# Fedora Build Container Setup Guide
+# Setting up Fedora for building pingnoo.
 
-## Install Prerequisites
+## Install Prerequisites.
 
 ```
 dnf -y group install "C Development Tools and Libraries"  &&
@@ -20,62 +20,15 @@ dnf -y install rpm-sign &&
 dnf -y install ruby &&
 dnf -y install ruby-devel
 
-- **r33 or later** 
-
-  dnf -y install qt5-qtbase-devel
-  
-- **r32 or earlier** 
-
-  dnf -y install qt5-devel
-
 ln -s /usr/lib64/qt5/bin/lrelease /bin/lrelease
-
-gem install rake &&
-gem install package_cloud
-
-cd /tmp &&
-wget http://172.29.13.9:8111/update/buildAgentFull.zip &&
-mkdir /opt/teamcity-agent &&
-cd /opt/teamcity-agent &&
-unzip /tmp/buildAgentFull.zip
-```
-## Create the /etc/systemd/system/teamcity-agent.service file.
-
-```
-[Unit]
-Description=TeamCity Agent
-After=network.target
-
-[Install]
-WantedBy=multi-user.target
-
-[Service]
-ExecStart=/opt/teamcity-agent/bin/agent.sh start
-Type=forking
-RemainAfterExit=yes
-SyslogIdentifier=teamcity_agent
-PrivateTmp=yes
-PIDFile=/opt/teamcity-agent/logs/buildAgent.pid
-ExecStop=/opt/teamcity-agent/bin/agent.sh stop
-RestartSec=5
-Restart=on-failure
 ```
 
-## Configure the teamcity build agent
-
+### r33 or later.
 ```
-cp /opt/teamcity-agent/conf/buildAgent.dist.properties /opt/teamcity-agent/conf/buildAgent.properties &
-vi /opt/teamcity-agent/conf/buildAgent.properties
-```
-then set the following configuration values.
-```
-serverURL=http://http://172.29.13.9:8111
-
-system.linuxDistribution=fedora rXX
+  dnf -y install qt5-qtbase-devel
 ```
 
-## Enable and start the teamcity build agent
+### r32 or earlier.
 ```
-systemctl enable teamcity-agent &
-service teamcity-agent start
+  dnf -y install qt5-devel
 ```

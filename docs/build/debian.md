@@ -1,15 +1,13 @@
-# Setting up Ubuntu for building pingnoo.
+# Setting up Debian for building pingnoo.
 
 ## Install Prerequisites.
 ```
 apt update -y &&
 apt install software-properties-common -y &&
-add-apt-repository ppa:git-core/ppa -y &&
 apt update -y &&
 apt install curl -y &&
 apt install build-essential -y &&
 apt install unzip -y &&
-apt install wget -y &&
 apt install vim -y &&
 apt install mesa-common-dev -y &&
 apt install libdbus-1-dev -y &&
@@ -20,15 +18,26 @@ apt install qtdeclarative5-dev -y &&
 apt install qml-module-qtquick-controls -y &&
 apt install qt5-default -y &&
 apt install qttools5-dev -y &&
-apt install openjdk-8-jdk -y &&
+apt install default-jdk -y &&
 apt install dpkg-sig -y &&
 apt install ruby -y &&
 apt install ruby-dev -y
-
-ln /usr/lib/x86_64-linux-gnu/qt5/bin/lrelease /bin/lrelease
 ```
 
-### Build python 3.9 from source.
+### Build git from source as debian version is too old.
+```
+apt install dh-autoreconf libcurl4-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev asciidoc xmlto docbook2x install-info -y &&
+cd /tmp &&
+wget https://github.com/git/git/archive/refs/tags/v2.31.0.tar.gz &&
+tar -zxf v2.31.0.tar.gz &&
+cd git-2.31.0 &&
+make configure &&
+./configure --prefix=/usr &&
+make -j 4 all doc info &&
+make install install-doc install-html install-info
+```
+
+### Build python 3.9 from source as debian has 3.7.
 ```
 cd /tmp &&
 apt install  zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev -y &&
@@ -38,8 +47,6 @@ cd Python-3.9.1 &&
 ./configure --enable-optimizations &&
 make -j 4 &&
 make install
-
-update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 2
 ```
 
 ### Download and install CMake.
