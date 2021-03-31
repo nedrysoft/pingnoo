@@ -28,12 +28,6 @@
 #include <QString>
 #include <QStyle>
 
-Nedrysoft::ThemeSupport::ThemeSupport::ThemeSupport() {
-    connect(qobject_cast<QApplication *>(QCoreApplication::instance()), &QApplication::paletteChanged, [=] (const QPalette &) {
-        Q_EMIT themeChanged(Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode());
-    });
-}
-
 auto Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode() -> bool{
     typedef void *(_gtk_settings_get_default)();
     typedef void *(_g_object_get)(void *, const char *, ...);
