@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2020 Adrian Carpenter
+ * Copyright (C) 2021 Adrian Carpenter
  *
- * This file is part of the Nedrysoft Ribbon Bar. (https://github.com/nedrysoft/qt-ribbon)
+ * This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
  *
- * A cross-platform ribbon bar for Qt applications.
+ * An open-source cross-platform traceroute analyser.
  *
  * Created by Adrian Carpenter on 31/03/2021.
  *
@@ -23,14 +23,15 @@
 
 #include "includes/ThemeSupport.h"
 
-#include <QLibrary>
-#include <QStyle>
+#include <QApplication>
 
-auto Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode() -> bool{
-    return false;
+Nedrysoft::ThemeSupport::ThemeSupport::ThemeSupport() {
+    connect(qobject_cast<QApplication *>(QCoreApplication::instance()), &QApplication::paletteChanged, [=] (const QPalette &) {
+        Q_EMIT themeChanged(Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode());
+    });
 }
 
-auto Nedrysoft::ThemeSupport::ThemeSupport::getHighlightedBackground() -> QColor {
-    return qobject_cast<QApplication *>(QCoreApplication::instance())->style()->standardPalette().color(QPalette::Highlight);
+auto Nedrysoft::ThemeSupport::ThemeSupport::getColor(const QRgb colourPair[]) -> QColor {
+    return QColor(colourPair[isDarkMode() ? 1 : 0]);
 }
 

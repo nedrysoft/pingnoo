@@ -23,19 +23,10 @@
 
 #include "includes/ThemeSupport.h"
 
-#include <QApplication>
 #include <QStyle>
 
-#if defined(Q_OS_MACOS)
 #import <AppKit/NSAppearance.h>
 #import <AppKit/NSColor.h>
-#endif
-
-Nedrysoft::ThemeSupport::ThemeSupport::ThemeSupport() {
-    connect(qobject_cast<QApplication *>(QCoreApplication::instance()), &QApplication::paletteChanged, [=] (const QPalette &) {
-        Q_EMIT themeChanged(Nedrysoft::Utils::ThemeSupport::isDarkMode());
-    });
-}
 
 auto Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode() -> bool{
     if (@available(macOS 10.14, *)) {
@@ -59,10 +50,6 @@ auto Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode() -> bool{
     }
 
     return false;
-}
-
-auto Nedrysoft::ThemeSupport::ThemeSupport::getColor(const QRgb colourPair[]) -> QColor {
-    return QColor(colourPair[isDarkMode() ? 1 : 0]);
 }
 
 auto Nedrysoft::ThemeSupport::ThemeSupport::getHighlightedBackground() -> QColor {

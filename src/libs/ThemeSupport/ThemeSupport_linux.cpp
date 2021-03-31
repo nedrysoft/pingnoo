@@ -82,10 +82,6 @@ auto Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode() -> bool{
     return false;
 }
 
-auto Nedrysoft::ThemeSupport::ThemeSupport::getColor(const QRgb colourPair[]) -> QColor {
-    return QColor(colourPair[isDarkMode() ? 1 : 0]);
-}
-
 auto Nedrysoft::ThemeSupport::ThemeSupport::getHighlightedBackground() -> QColor {
     return qobject_cast<QApplication *>(QCoreApplication::instance())->style()->standardPalette().color(QPalette::Highlight);
 }

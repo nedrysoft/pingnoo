@@ -24,6 +24,7 @@
 pingnoo_start_shared_library()
 
 pingnoo_add_sources(
+    ThemeSupport.cpp
     includes/ThemeSupport.h
 )
 
@@ -43,3 +44,4 @@ pingnoo_use_frameworks("Foundation" "Cocoa")
 pingnoo_use_system_libraries(APPLE stdc++ objc)
 
 pingnoo_end_shared_library()
+
