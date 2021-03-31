@@ -23,10 +23,10 @@
 
 #include "includes/ThemeSupport.h"
 
-#include <QLibrary>
+#include <QApplication>
 #include <QStyle>
 
-auto Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode() -> bool{
+auto Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode() -> bool {
     return false;
 }
 
