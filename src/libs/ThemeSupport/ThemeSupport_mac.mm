@@ -5,7 +5,7 @@
  *
  * A cross-platform ribbon bar for Qt applications.
  *
- * Created by Adrian Carpenter on 02/12/2020.
+ * Created by Adrian Carpenter on 31/03/2021.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ThemeSupport.h"
+#include "includes/ThemeSupport.h"
 
 #include <QApplication>
 #include <QStyle>
@@ -31,13 +31,13 @@
 #import <AppKit/NSColor.h>
 #endif
 
-Nedrysoft::RouteAnalyser::ThemeSupport::ThemeSupport() {
+Nedrysoft::ThemeSupport::ThemeSupport::ThemeSupport() {
     connect(qobject_cast<QApplication *>(QCoreApplication::instance()), &QApplication::paletteChanged, [=] (const QPalette &) {
-        Q_EMIT themeChanged(Nedrysoft::RouteAnalyser::ThemeSupport::isDarkMode());
+        Q_EMIT themeChanged(Nedrysoft::Utils::ThemeSupport::isDarkMode());
     });
 }
 
-auto Nedrysoft::RouteAnalyser::ThemeSupport::isDarkMode() -> bool{
+auto Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode() -> bool{
     if (@available(macOS 10.14, *)) {
         NSAppearance *appearance = nullptr;
 
@@ -61,18 +61,14 @@ auto Nedrysoft::RouteAnalyser::ThemeSupport::isDarkMode() -> bool{
     return false;
 }
 
-auto Nedrysoft::RouteAnalyser::ThemeSupport::getColor(const QRgb colourPair[]) -> QColor {
+auto Nedrysoft::ThemeSupport::ThemeSupport::getColor(const QRgb colourPair[]) -> QColor {
     return QColor(colourPair[isDarkMode() ? 1 : 0]);
 }
 
-auto Nedrysoft::RouteAnalyser::ThemeSupport::getHighlightedBackground() -> QColor {
-#if defined(Q_OS_MACOS)
+auto Nedrysoft::ThemeSupport::ThemeSupport::getHighlightedBackground() -> QColor {
     CGColorRef a = [NSColor systemBlueColor].CGColor;
 
     const CGFloat *color = CGColorGetComponents(a);
 
     return QColor::fromRgbF(color[0], color[1], color[2]);
-#else
-    return qobject_cast<QApplication *>(QCoreApplication::instance())->style()->standardPalette().color(QPalette::Highlight);
-#endif
 }

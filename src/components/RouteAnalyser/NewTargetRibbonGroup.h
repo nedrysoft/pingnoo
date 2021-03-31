@@ -34,7 +34,7 @@ namespace Nedrysoft::Ribbon {
     class RibbonLineEdit;
 }
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft::ThemeSupport {
     class ThemeSupport;
 }
 
@@ -177,7 +177,7 @@ namespace Nedrysoft::RouteAnalyser {
             LineSyntaxHighlighter *m_targetHighlighter;
             LineSyntaxHighlighter *m_intervalHighlighter;
 
-            Nedrysoft::RouteAnalyser::ThemeSupport *m_themeSupport;
+            Nedrysoft::ThemeSupport::ThemeSupport *m_themeSupport;
             QMenu *m_recentsMenu;
             QMap<QString, QMenu *> m_favouritesMenuMap;
 

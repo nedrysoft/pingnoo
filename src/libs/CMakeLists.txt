@@ -46,6 +46,7 @@ include_directories(SYSTEM 3rdparty/spdlog/include)
 add_subdirectory(3rdparty)
 
 add_subdirectory(AppNap)
+add_subdirectory(ThemeSupport)
 add_subdirectory(ComponentSystem)
 add_subdirectory(FontAwesome)
 add_subdirectory(ICMPPacket)
