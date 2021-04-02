@@ -36,6 +36,12 @@
 #endif
 
 namespace Nedrysoft::ThemeSupport {
+    enum class ThemeMode {
+        System,
+        Light,
+        Dark
+    };
+
     /**
      * @brief       The ThemeSupport class provides information about the operating system theme.
      */
@@ -50,6 +56,13 @@ namespace Nedrysoft::ThemeSupport {
              * @brief       Constructs a new ThemeSupport instance.
              */
             explicit ThemeSupport();
+
+            /**
+             * @brief       Sets the application theme mode.
+             *
+             * @param[in]   mode the mode to set.
+             */
+             auto setMode(ThemeMode mode) -> void;
 
             /**
              * @brief       Returns the current OS theme mode.
@@ -83,6 +96,9 @@ namespace Nedrysoft::ThemeSupport {
              * @returns     the colour
              */
             static auto getHighlightedBackground() -> QColor;
+
+        private:
+            static ThemeMode m_themeMode;
     };
 }
 

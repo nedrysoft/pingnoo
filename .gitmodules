@@ -16,3 +16,6 @@
 [submodule "src/libs/3rdparty/spdlog"]
 	path = src/libs/3rdparty/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "src/libs/3rdparty/QDarkStyleSheet"]
+	path = src/libs/3rdparty/QDarkStyleSheet
+	url = https://github.com/ColinDuquesnoy/QDarkStyleSheet

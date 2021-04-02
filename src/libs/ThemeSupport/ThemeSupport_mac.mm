@@ -28,28 +28,32 @@
 #import <AppKit/NSAppearance.h>
 #import <AppKit/NSColor.h>
 
-auto Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode() -> bool{
-    if (@available(macOS 10.14, *)) {
-        NSAppearance *appearance = nullptr;
+auto Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode() -> bool {
+    if (m_themeMode==Nedrysoft::ThemeSupport::ThemeMode::System) {
+        if (@available(macOS 10.14, *)) {
+            NSAppearance *appearance = nullptr;
 
-        if (@available(macOS 11, *)) {
-            appearance = NSAppearance.currentDrawingAppearance;
-        } else if (@available(macOS 10.14, *)) {
+            if (@available(macOS 11, *)) {
+                appearance = NSAppearance.currentDrawingAppearance;
+            } else if (@available(macOS 10.14, *)) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            appearance = NSAppearance.currentAppearance;
+                appearance = NSAppearance.currentAppearance;
 #pragma clang diagnostic pop
+            }
+
+            NSAppearanceName basicAppearance = [appearance bestMatchFromAppearancesWithNames:@[
+                    NSAppearanceNameAqua,
+                    NSAppearanceNameDarkAqua
+            ]];
+
+            return [basicAppearance isEqualToString:NSAppearanceNameDarkAqua] == YES;
         }
 
-        NSAppearanceName basicAppearance = [appearance bestMatchFromAppearancesWithNames:@[
-                NSAppearanceNameAqua,
-                NSAppearanceNameDarkAqua
-        ]];
-
-        return [basicAppearance isEqualToString:NSAppearanceNameDarkAqua]==YES;
+        return false;
     }
 
-    return false;
+    return m_themeMode==Nedrysoft::ThemeSupport::ThemeMode::Dark;
 }
 
 auto Nedrysoft::ThemeSupport::ThemeSupport::getHighlightedBackground() -> QColor {

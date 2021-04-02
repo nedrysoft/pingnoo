@@ -27,7 +27,7 @@
 #include <QStyle>
 
 auto Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode() -> bool {
-    return false;
+    return m_themeMode==Nedrysoft::ThemeSupport::ThemeMode::Dark;
 }
 
 auto Nedrysoft::ThemeSupport::ThemeSupport::getHighlightedBackground() -> QColor {

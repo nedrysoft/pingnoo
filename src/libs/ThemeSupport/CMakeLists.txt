@@ -26,6 +26,8 @@ pingnoo_start_shared_library()
 pingnoo_add_sources(
     ThemeSupport.cpp
     includes/ThemeSupport.h
+    ../3rdparty/QDarkStyleSheet/qdarkstyle/light/style.qrc
+    ../3rdparty/QDarkStyleSheet/qdarkstyle/dark/style.qrc
 )
 
 if(APPLE)
