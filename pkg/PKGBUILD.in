@@ -12,36 +12,30 @@ depends=($dependencies)
 makedepends=('cmake' 'qt5-base' 'qt5-tools' 'qt5-quickcontrols' 'dbus')
 checkdepends=()
 optdepends=()
-provides=("${pkgname}")
+provides=("$${pkgname}")
 conflicts=()
 replaces=()
 backup=()
 options=()
-install="${pkgname}.install"
+install="$${pkgname}.install"
 changelog=
-source=("${pkgname}::git+http://github.com/nedrysoft/pingnoo.git")
+source=("$${pkgname}::git+http://github.com/nedrysoft/pingnoo.git#branch=feat/arch")
 noextract=()
 md5sums=('SKIP')
 validpgpkeys=()
 
 prepare() {
-    cd ${pkgname}
-    git submodule update --init --recursive
+	cd $${pkgname}
+	git submodule update --init --recursive
 }
 
 build() {
-    cmake -B build -S ${pkgname} -DCMAKE_SKIP_RPATH=True
-    make -C build -j 4
+	cmake -B build -S $${pkgname} -DCMAKE_SKIP_RPATH=True
+	make -C build -j 4
 }
 
 package() {
-    mkdir -p ${pkgdir}/usr/local/bin/pingnoo
-    mkdir -p ${pkgdir}/etc/ld.so.conf.d
-    mkdir -p ${pkgdir}/usr/share/icons/hicolor/512x512/apps
-    mkdir -p ${pkgdir}/usr/share/applications
+	(cd pingnoo/bin/x86_64/Deploy/pkg && tar cf - .) | (cd $${pkgdir} && tar xvf -)
 
-    cp -r pingnoo/bin/x86_64/Release/* ${pkgdir}/usr/local/bin/pingnoo
-    cp pingnoo/pkg/pingnoo.conf ${pkgdir}/etc/ld.so.conf.d/pingnoo.conf
-    cp pingnoo/src/app/images/appicon-512x512-.png ${pkgdir}/usr/share/icons/hicolor/512x512/apps/pingnoo.png
-    cp pingnoo/pkg/Pingnoo.desktop ${pkgdir}/usr/share/applications
+	rm $${pkgdir}/PKGBUILD
 }

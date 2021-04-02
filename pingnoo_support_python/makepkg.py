@@ -32,14 +32,14 @@ from .common import *
 from .msg_printer import msg_printer, MsgPrinterException
 
 def pkgCreate(buildArch, buildType, version, outputFile, key):
-    # remove previous dpkg build tree if it exists
+    # remove previous pkg build tree if it exists
     with msg_printer("Creating directory structure"):
         rm_path(f'bin/{buildArch}/Deploy/pkg')
         for dir_name in ('usr/local/bin/pingnoo', 'usr/share/icons/hicolor/512x512/apps',
                          'usr/share/applications', 'usr/share/doc/pingnoo', 'etc/ld.so.conf.d'):
             os.makedirs(os.path.join(f'bin/{buildArch}/Deploy/pkg/', dir_name))
 
-        # copy data + binaries into the deb tree
+        # copy data + binaries into the pkg tree
         shutil.copy2(f'bin/{buildArch}/{buildType}/Pingnoo', f'bin/{buildArch}/Deploy/pkg/usr/local/bin/pingnoo')
         shutil.copy2('src/app/images/appicon-512x512-.png',
                      f'bin/{buildArch}/Deploy/pkg/usr/share/icons/hicolor/512x512/apps/pingnoo.png')
@@ -50,6 +50,7 @@ def pkgCreate(buildArch, buildType, version, outputFile, key):
         for file in glob.glob(f'bin/{buildArch}/{buildType}/*.so'):
             shutil.copy2(file, f'bin/{buildArch}/Deploy/pkg/usr/local/bin/pingnoo')
 
+        shutil.copy2('pkg/pingnoo.install', f'bin/{buildArch}/Deploy/pkg')
         shutil.copy2('pkg/pingnoo.conf', f'bin/{buildArch}/Deploy/pkg/etc/ld.so.conf.d')
         shutil.copy2('pkg/Pingnoo.desktop', f'bin/{buildArch}/Deploy/pkg/usr/share/applications')
 
@@ -58,7 +59,7 @@ def pkgCreate(buildArch, buildType, version, outputFile, key):
     libraries = set()
     packages = set()
     so_regex = re.compile(r"\s*(?P<soname>.*)\s=>")
-
+    """
     # create list of all shared libraries that the application uses (and at the same time create hashes)
     for filepath in glob.iglob(f'bin/{buildArch}/Deploy/pkg/usr/local/bin/pingnoo/**/*', recursive=True):
         if os.path.isdir(filepath):
@@ -75,18 +76,20 @@ def pkgCreate(buildArch, buildType, version, outputFile, key):
                     continue
                 dependencies.add(result.group("soname"))
             libraries.add(os.path.basename(filepath))
-
+    """
     # Remove our own libraries
     dependencies = dependencies-libraries
 
     # Using the shared library list, find the package that provides the shared library and add to
     # the list of dependencies
-    pkg_regex = re.compile(r"(?P<pkg>.*)\:(?P<arch>.*)\:\s(?P<lib>.*)")
+    pkg_regex = re.compile(r".*\/(?P<pkg>\S*)\s.*\[installed\]")
     for dependency in dependencies:
+        dependency = os.path.basename(dependency)
         with msg_printer(f"Determining package providing for {dependency}"):
             pkg = execute(f'pacman -F {dependency}', f"Failed to determine package that provides {dependency}")
             result = pkg_regex.match(pkg)
             if result:
+                print(result.group("pkg"))
                 packages.add(result.group("pkg"))
             else:
                 raise ValueError(f"Could not provider for {dependency}: regex failed parsing:\n{pkg}")
@@ -96,7 +99,7 @@ def pkgCreate(buildArch, buildType, version, outputFile, key):
             control_template = string.Template(control_file.read())
 
         # use control.in template to create the deb control file
-        control_file_content = control_template.substitute(version=version, dependencies=" ".join(packages))
+        control_file_content = control_template.substitute(version=version, dependencies="\'{0}\'".format("\' \'".join(packages)))
 
         with open(f'bin/{buildArch}/Deploy/pkg/PKGBUILD', 'w') as control_file:
             control_file.write(control_file_content)
@@ -107,9 +110,11 @@ def pkgCreate(buildArch, buildType, version, outputFile, key):
     rm_path('deployment')
     os.makedirs('deployment')
 
-    # create the deb file
-    #with msg_printer("Bundling package"):
-    #    execute(f'dpkg-deb --build {package_root} "{outputFile}"', "Failed to build!")
+    # create the pkg file
+    with msg_printer("Bundling package"):
+        os.chdir(package_root)
+        execute(f'makepkg', "Failed to build!")
+
 
     #if key:
     #    with msg_printer("Signing package"):
