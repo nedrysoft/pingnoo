@@ -45,10 +45,16 @@ def pkgCreate(buildArch, buildType, version, outputFile, key):
     packages = set()
     so_regex = re.compile(r"\s*(?P<soname>.*)\s=>")
 
-    # create list of all shared libraries that the application uses (and at the same time create hashes)
-    for filepath in glob.iglob(f'bin/{buildArch}/Release/**/*', recursive=True):
+    search_files = {f'bin/{buildArch}/Release/Pingnoo'}
+
+    # create list of all shared libraries that the application uses
+    for filepath in glob.iglob(f'bin/{buildArch}/Release/**/*.so', recursive=True):
         if os.path.isdir(filepath):
             continue
+
+        search_files.add(filepath)
+
+    for filepath in search_files:
         with msg_printer(f"Determining dependencies of {os.path.basename(filepath)}"):
             # Get MD5 checksum
             hashes[filepath] = hashlib.md5(open(filepath, 'rb').read()).hexdigest()
