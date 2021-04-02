@@ -32,36 +32,21 @@ from .common import *
 from .msg_printer import msg_printer, MsgPrinterException
 
 def pkgCreate(buildArch, buildType, version, outputFile, key):
-    # remove previous pkg build tree if it exists
-    with msg_printer("Creating directory structure"):
-        rm_path(f'bin/{buildArch}/Deploy/pkg')
-        for dir_name in ('usr/local/bin/pingnoo', 'usr/share/icons/hicolor/512x512/apps',
-                         'usr/share/applications', 'usr/share/doc/pingnoo', 'etc/ld.so.conf.d'):
-            os.makedirs(os.path.join(f'bin/{buildArch}/Deploy/pkg/', dir_name))
 
-        # copy data + binaries into the pkg tree
-        shutil.copy2(f'bin/{buildArch}/{buildType}/Pingnoo', f'bin/{buildArch}/Deploy/pkg/usr/local/bin/pingnoo')
-        shutil.copy2('src/app/images/appicon-512x512-.png',
-                     f'bin/{buildArch}/Deploy/pkg/usr/share/icons/hicolor/512x512/apps/pingnoo.png')
+    with msg_printer("Preparing deploy directory"):
+        rm_path(f'bin/{buildArch}/Deploy')
+        os.makedirs(f'bin/{buildArch}/Deploy')
 
-        shutil.copytree(f'bin/{buildArch}/{buildType}/Components',
-                        f'bin/{buildArch}/Deploy/pkg/usr/local/bin/pingnoo/Components', symlinks=True)
-
-        for file in glob.glob(f'bin/{buildArch}/{buildType}/*.so'):
-            shutil.copy2(file, f'bin/{buildArch}/Deploy/pkg/usr/local/bin/pingnoo')
-
-        shutil.copy2('pkg/pingnoo.install', f'bin/{buildArch}/Deploy/pkg')
-        shutil.copy2('pkg/pingnoo.conf', f'bin/{buildArch}/Deploy/pkg/etc/ld.so.conf.d')
-        shutil.copy2('pkg/Pingnoo.desktop', f'bin/{buildArch}/Deploy/pkg/usr/share/applications')
+        shutil.copy2('pkg/pingnoo.install', f'bin/{buildArch}/Deploy')
 
     dependencies = set()
     hashes = dict()
     libraries = set()
     packages = set()
     so_regex = re.compile(r"\s*(?P<soname>.*)\s=>")
-    """
+
     # create list of all shared libraries that the application uses (and at the same time create hashes)
-    for filepath in glob.iglob(f'bin/{buildArch}/Deploy/pkg/usr/local/bin/pingnoo/**/*', recursive=True):
+    for filepath in glob.iglob(f'bin/{buildArch}/Release/**/*', recursive=True):
         if os.path.isdir(filepath):
             continue
         with msg_printer(f"Determining dependencies of {os.path.basename(filepath)}"):
@@ -76,7 +61,7 @@ def pkgCreate(buildArch, buildType, version, outputFile, key):
                     continue
                 dependencies.add(result.group("soname"))
             libraries.add(os.path.basename(filepath))
-    """
+
     # Remove our own libraries
     dependencies = dependencies-libraries
 
@@ -89,30 +74,23 @@ def pkgCreate(buildArch, buildType, version, outputFile, key):
             pkg = execute(f'pacman -F {dependency}', f"Failed to determine package that provides {dependency}")
             result = pkg_regex.match(pkg)
             if result:
-                print(result.group("pkg"))
                 packages.add(result.group("pkg"))
             else:
                 raise ValueError(f"Could not provider for {dependency}: regex failed parsing:\n{pkg}")
 
-    with msg_printer("Creating control files"):
-        with open("pkg/PKGBUILD.in", 'r') as control_file:
-            control_template = string.Template(control_file.read())
+    with msg_printer("Creating PKGBUILD file"):
+        with open("pkg/PKGBUILD.in", 'r') as pkgbuild_file:
+            pkgbuild_template = string.Template(pkgbuild_file.read())
 
-        # use control.in template to create the deb control file
-        control_file_content = control_template.substitute(version=version, dependencies="\'{0}\'".format("\' \'".join(packages)))
+        # use PKGBUILD.in template to create PKGBUILD file
+        pkgbuild_file_content = pkgbuild_template.substitute(version=version, dependencies="\'{0}\'".format("\' \'".join(packages)))
 
-        with open(f'bin/{buildArch}/Deploy/pkg/PKGBUILD', 'w') as control_file:
-            control_file.write(control_file_content)
-
-    package_root = f'bin/{buildArch}/Deploy/pkg/'
-
-    # remove any previous deployment artifacts
-    rm_path('deployment')
-    os.makedirs('deployment')
+        with open(f'bin/{buildArch}/Deploy/PKGBUILD', 'w') as pkgbuild_file:
+            pkgbuild_file.write(pkgbuild_file_content)
 
     # create the pkg file
     with msg_printer("Bundling package"):
-        os.chdir(package_root)
+        os.chdir(f'bin/{buildArch}/Deploy')
         execute(f'makepkg', "Failed to build!")
 
 
