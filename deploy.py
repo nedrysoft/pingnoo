@@ -35,7 +35,8 @@ import tempfile
 import time
 
 from pingnoo_support_python.common import *
-from pingnoo_support_python.makedeb import debCreate
+from pingnoo_support_python.makedeb import deb_create
+from pingnoo_support_python.makepkg import pkg_create
 from pingnoo_support_python.makerpm import rpm_create
 from pingnoo_support_python.msg_printer import msg_printer, MsgPrinterException
 
@@ -174,6 +175,10 @@ if platform.system() == "Linux":
     parser.add_argument('--rpm',
                         action='store_true',
                         help='generate rpm package')
+
+    parser.add_argument('--pkg',
+                        action='store_true',
+                        help='generate arch package')
 
     parser.add_argument('--appimage',
                         action='store_true',
@@ -540,7 +545,7 @@ def _do_linux():
             deb_version = version_parts[0][2:]
 
         try:
-            if debCreate(build_arch, build_type, deb_version, build_filename, args.cert):
+            if deb_create(build_arch, build_type, deb_version, build_filename, args.cert):
                 raise RuntimeError("deb creation unknown error")
 
             deployed_message += '\r\n' + Style.BRIGHT + Fore.CYAN + \
@@ -561,6 +566,18 @@ def _do_linux():
         deployed_message += '\r\n' + Style.BRIGHT + Fore.CYAN + \
                           f'rpm package at \"{build_filename}\" is ' + Fore.GREEN + 'ready' + Fore.CYAN + \
                           ' for distribution.'
+
+    if args.pkg:
+        write_msg('> Creating pkg package...')
+
+        pkg_version = build_version.replace('/', '.')
+
+        pkg_create(build_arch, build_type, pkg_version, rpm_release, args.cert)
+
+        build_filename = f'deployment/Pingnoo-{pkg_version}-1.{build_arch}.pkg.tar.zst'
+        deployed_message += '\r\n' + Style.BRIGHT + Fore.CYAN + \
+                            f'pkg package at \"{build_filename}\" is ' + Fore.GREEN + 'ready' + Fore.CYAN + \
+                            ' for distribution.'
 
     print(deployed_message, flush=True)
 

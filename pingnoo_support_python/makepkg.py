@@ -31,7 +31,7 @@ import string
 from .common import *
 from .msg_printer import msg_printer, MsgPrinterException
 
-def pkgCreate(buildArch, buildType, version, outputFile, key):
+def pkg_create(buildArch, buildType, version, key):
 
     with msg_printer("Preparing deploy directory"):
         rm_path(f'bin/{buildArch}/Deploy')
@@ -136,7 +136,7 @@ def main():
 
     args = parser.parse_args()
 
-    pkgCreate(args.arch, args.type, args.version, args.output, args.key)
+    pkg_create(args.arch, args.type, args.version, args.key)
 
 if __name__ == "__main__":
     main()
