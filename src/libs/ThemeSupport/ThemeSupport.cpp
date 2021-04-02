@@ -28,7 +28,7 @@
 #include <QTextStream>
 
 Nedrysoft::ThemeSupport::ThemeMode Nedrysoft::ThemeSupport::ThemeSupport::m_themeMode =
-        Nedrysoft::ThemeSupport::ThemeMode::Light;//System;
+        Nedrysoft::ThemeSupport::ThemeMode::System;
 
 Nedrysoft::ThemeSupport::ThemeSupport::ThemeSupport() {
     connect(qobject_cast<QApplication *>(QCoreApplication::instance()), &QApplication::paletteChanged, [=] (const QPalette &) {
@@ -43,49 +43,23 @@ auto Nedrysoft::ThemeSupport::ThemeSupport::getColor(const QRgb colourPair[]) ->
 }
 
 auto Nedrysoft::ThemeSupport::ThemeSupport::setMode(Nedrysoft::ThemeSupport::ThemeMode mode) -> void {
-    if (mode!=m_themeMode) {
-        switch(mode) {
-            case Nedrysoft::ThemeSupport::ThemeMode::System: {
-                break;
-            }
-
-            case Nedrysoft::ThemeSupport::ThemeMode::Light: {
-                QFile styleFile(":qdarkstyle/light/style.qss");
-
-                if (!styleFile.exists()) {
-                    m_themeMode = Nedrysoft::ThemeSupport::ThemeMode::System;
-                    return;
-                } else {
-                    styleFile.open(QFile::ReadOnly | QFile::Text);
-
-                    QTextStream styleSheet(&styleFile);
-
-                    qApp->setStyleSheet(styleSheet.readAll());
-                }
-
-                break;
-            }
-
-            case Nedrysoft::ThemeSupport::ThemeMode::Dark: {
-                QFile styleFile(":qdarkstyle/dark/style.qss");
-
-                if (!styleFile.exists()) {
-                    m_themeMode = Nedrysoft::ThemeSupport::ThemeMode::System;
-                    return;
-                } else {
-                    styleFile.open(QFile::ReadOnly | QFile::Text);
-
-                    QTextStream styleSheet(&styleFile);
-
-                    qApp->setStyleSheet(styleSheet.readAll());
-                }
-            }
+    switch(mode) {
+        case Nedrysoft::ThemeSupport::ThemeMode::System: {
+            break;
         }
 
-        m_themeMode = mode;
+        case Nedrysoft::ThemeSupport::ThemeMode::Light: {
+            break;
+        }
 
-        Q_EMIT themeChanged(Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode());
+        case Nedrysoft::ThemeSupport::ThemeMode::Dark: {
+            break;
+        }
     }
+
+    m_themeMode = mode;
+
+    Q_EMIT themeChanged(Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode());
 }
 
 
