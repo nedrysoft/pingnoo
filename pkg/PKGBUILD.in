@@ -1,11 +1,11 @@
-# Maintainer: Your Name <youremail@domain.com>
+# Maintainer: Your Name <hello@nedrysoft.com>
 pkgname=pingnoo
 pkgver="$version"
 pkgrel=1
 epoch=
 pkgdesc="An open-source cross-platform tool for ping/traceroute analysis."
-arch=('x86_64')
-url=""
+arch=('$arch')
+url="https://github.com/nedrysoft/pingnoo"
 license=('GPL3')
 groups=()
 depends=($dependencies)
@@ -19,7 +19,7 @@ backup=()
 options=()
 install="$${pkgname}.install"
 changelog=
-source=("$${pkgname}::git+http://github.com/nedrysoft/pingnoo.git#branch=feat/arch")
+source=("$${pkgname}::git+http://github.com/nedrysoft/pingnoo.git")
 noextract=()
 md5sums=('SKIP')
 validpgpkeys=()

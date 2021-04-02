@@ -44,11 +44,12 @@ def pkg_create(buildArch, buildType, version, key):
     libraries = set()
     packages = set()
     so_regex = re.compile(r"\s*(?P<soname>.*)\s=>")
+    build_type = buildType.capitalize()
 
-    search_files = {f'bin/{buildArch}/Release/Pingnoo'}
+    search_files = {f'bin/{buildArch}/{build_type}/Pingnoo'}
 
     # create list of all shared libraries that the application uses
-    for filepath in glob.iglob(f'bin/{buildArch}/Release/**/*.so', recursive=True):
+    for filepath in glob.iglob(f'bin/{buildArch}/{build_type}/**/*.so', recursive=True):
         if os.path.isdir(filepath):
             continue
 
@@ -89,7 +90,7 @@ def pkg_create(buildArch, buildType, version, key):
             pkgbuild_template = string.Template(pkgbuild_file.read())
 
         # use PKGBUILD.in template to create PKGBUILD file
-        pkgbuild_file_content = pkgbuild_template.substitute(version=version, dependencies="\'{0}\'".format("\' \'".join(packages)))
+        pkgbuild_file_content = pkgbuild_template.substitute(arch=buildArch, version=version, dependencies="\'{0}\'".format("\' \'".join(packages)))
 
         with open(f'bin/{buildArch}/Deploy/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(pkgbuild_file_content)
