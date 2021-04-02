@@ -378,8 +378,8 @@ def _do_darwin():
 
 def _do_linux():
     """ Linux version """
-    if not any([args.appimage, args.deb, args.rpm]):
-        print('You must select at least one type of output: appimage, rpm, deb')
+    if not any([args.appimage, args.deb, args.rpm, args.pkg]):
+        print('You must select at least one type of output: appimage, rpm, deb, pkg')
         sys.exit(1)
 
     with msg_printer('Checking for curl...'):
@@ -572,9 +572,9 @@ def _do_linux():
 
         pkg_version = build_version.replace('/', '.')
 
-        pkg_create(build_arch, build_type, pkg_version, rpm_release, args.cert)
+        pkg_create(build_arch, build_type, pkg_version, args.cert)
 
-        build_filename = f'deployment/Pingnoo-{pkg_version}-1.{build_arch}.pkg.tar.zst'
+        build_filename = f'deployment/pingnoo-{pkg_version}-1-{build_arch}.pkg.tar.zst'
         deployed_message += '\r\n' + Style.BRIGHT + Fore.CYAN + \
                             f'pkg package at \"{build_filename}\" is ' + Fore.GREEN + 'ready' + Fore.CYAN + \
                             ' for distribution.'
