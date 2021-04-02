@@ -190,6 +190,7 @@ The script provides the following parameters:
 - `--appimage` - *Linux only*, will generate an AppImage.
 - `--rpm` - *Linux only*, will generate an rpm package.
 - `--deb` - *Linux only*, will generate a deb package.
+- '--pkg' - *Linux only*, will generate an arch package.
 - `--appiamagetool="<path to appimage tool"` - *Linux only*, the path to the appimagetool binary.
 - `--linuxdeployqy="<path to linuxdeployqt tool"` - *Linux only*, the path to the linuxdeployqt binary.
 - `--signtool="<path to sign tool>"` - *Windows only*, the path to the signing tool.

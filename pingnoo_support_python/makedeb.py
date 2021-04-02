@@ -40,7 +40,7 @@ def _find_prereqs():
                 raise MsgPrinterException(f"Could not find '{app}' executable!")
 
 
-def debCreate(buildArch, buildType, version, outputFile, key):
+def deb_create(buildArch, buildType, version, outputFile, key):
     _find_prereqs()
 
     # remove previous dpkg build tree if it exists
@@ -169,7 +169,7 @@ def main():
 
     args = parser.parse_args()
 
-    debCreate(args.arch, args.type, args.version, args.output, args.key)
+    deb_create(args.arch, args.type, args.version, args.output, args.key)
 
 if __name__ == "__main__":
     main()
