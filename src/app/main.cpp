@@ -46,6 +46,14 @@
 auto constexpr splashscreenTimeout = 3000;
 
 int main(int argc, char **argv) {
+#if defined(Q_OS_LINUX)
+    auto platformTheme = qgetenv("QT_QPA_PLATFORMTHEME");
+
+    if (platformTheme.isEmpty()) {
+        qputenv("QT_QPA_PLATFORMTHEME", "gtk2");
+    }
+#endif
+
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
     QList<QTranslator *> translators;
 

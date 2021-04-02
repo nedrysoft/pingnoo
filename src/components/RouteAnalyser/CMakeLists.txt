@@ -92,8 +92,6 @@ pingnoo_add_sources(
     TargetSettingsPageWidget.cpp
     TargetSettingsPageWidget.h
     TargetSettingsPageWidget.ui
-    ThemeSupport.h
-    ThemeSupport.mm
     TrimmerWidget.cpp
     TrimmerWidget.h
     Utils.cpp
@@ -119,6 +117,7 @@ pingnoo_use_component(Core)
 pingnoo_use_shared_library(ComponentSystem)
 pingnoo_use_shared_library(QCustomPlot)
 pingnoo_use_shared_library(AppNap)
+pingnoo_use_shared_library(ThemeSupport)
 
 if(APPLE)
     pingnoo_use_shared_library(MacHelper)

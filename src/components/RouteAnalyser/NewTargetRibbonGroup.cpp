@@ -58,11 +58,11 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
     ui->setupUi(this);
 
-    m_themeSupport = new Nedrysoft::RouteAnalyser::ThemeSupport;
+    m_themeSupport = new Nedrysoft::ThemeSupport::ThemeSupport;
 
     updateIcons(m_themeSupport->isDarkMode());
 
-    connect(m_themeSupport, &Nedrysoft::RouteAnalyser::ThemeSupport::themeChanged, [=](bool isDarkMode) {
+    connect(m_themeSupport, &Nedrysoft::ThemeSupport::ThemeSupport::themeChanged, [=](bool isDarkMode) {
         updateIcons(isDarkMode);
     });
 
