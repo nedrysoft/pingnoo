@@ -94,10 +94,16 @@ def pkgCreate(buildArch, buildType, version, outputFile, key):
         with open(f'bin/{buildArch}/Deploy/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(pkgbuild_file_content)
 
+    # remove any previous deployment artifacts
+    rm_path('deployment')
+    os.makedirs('deployment')
+
+    deployment_dir = os.getcwd()+"/deployment"
+
     # create the pkg file
-    with msg_printer("Bundling package"):
-        os.chdir(f'bin/{buildArch}/Deploy')
-        execute(f'makepkg', "Failed to build!")
+    with msg_printer("Building package"):
+        os.chdir(f'')
+        execute(f'PKGDEST=${deployment_dir}; (cd bin/{buildArch}/Deploy && makepkg)', "Failed to build!")
 
 
     #if key:
