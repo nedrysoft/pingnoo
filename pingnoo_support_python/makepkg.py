@@ -100,16 +100,14 @@ def pkgCreate(buildArch, buildType, version, outputFile, key):
 
     deployment_dir = os.getcwd()+"/deployment"
 
+    key_param = ""
+
+    if key:
+        key_param = f'--sign --key {key}'
+
     # create the pkg file
     with msg_printer("Building package"):
-        os.chdir(f'')
-        execute(f'PKGDEST=${deployment_dir}; (cd bin/{buildArch}/Deploy && makepkg)', "Failed to build!")
-
-
-    #if key:
-    #    with msg_printer("Signing package"):
-    #        execute(f'dpkg-sig -k {key} -s origin \"{outputFile}\"', "Signing failed")
-
+        execute(f'PKGDEST={deployment_dir} bash -c "cd bin/{buildArch}/Deploy && makepkg ${key_param}"', "Failed to build!")
 
 def main():
     parser = argparse.ArgumentParser(description='pkg build script')
@@ -127,12 +125,6 @@ def main():
                         default='Release',
                         nargs='?',
                         help='architecture type to deploy')
-
-    parser.add_argument('--output',
-                        type=str,
-                        default='./deployment/pingnoo.deb',
-                        nargs='?',
-                        help='the output pkg file')
 
     parser.add_argument('--key',
                         type=str,
