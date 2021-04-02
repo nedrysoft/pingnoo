@@ -89,8 +89,10 @@ def pkg_create(buildArch, buildType, version, key):
         with open("pkg/PKGBUILD.in", 'r') as pkgbuild_file:
             pkgbuild_template = string.Template(pkgbuild_file.read())
 
+        build_version = version.split('-')
+
         # use PKGBUILD.in template to create PKGBUILD file
-        pkgbuild_file_content = pkgbuild_template.substitute(arch=buildArch, version=version, dependencies="\'{0}\'".format("\' \'".join(packages)))
+        pkgbuild_file_content = pkgbuild_template.substitute(arch=buildArch, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
 
         with open(f'bin/{buildArch}/Deploy/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(pkgbuild_file_content)
