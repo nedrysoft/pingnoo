@@ -110,7 +110,7 @@ def pkg_create(buildArch, buildType, version, key):
 
     # create the pkg file
     with msg_printer("Building package"):
-        execute(f'PKGDEST={deployment_dir} bash -c "cd bin/{buildArch}/Deploy && makepkg ${key_param}"', "Failed to build!")
+        execute(f'PKGDEST={deployment_dir} bash -c "cd bin/{buildArch}/Deploy && makepkg {key_param}"', "Failed to build!")
 
 def main():
     parser = argparse.ArgumentParser(description='pkg build script')
