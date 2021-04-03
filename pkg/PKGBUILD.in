@@ -1,11 +1,11 @@
-# Maintainer: Your Name <hello@nedrysoft.com>
+# Maintainer: Adrian Carpenter <hello@nedrysoft.com>
 pkgname=pingnoo
 pkgver="$version"
 pkgrel=1
 epoch=
 pkgdesc="An open-source cross-platform tool for ping/traceroute analysis."
 arch=('$arch')
-url="https://github.com/nedrysoft/pingnoo"
+url="https://www.pingnoo.com"
 license=('GPL3')
 groups=()
 depends=($dependencies)
