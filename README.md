@@ -8,6 +8,8 @@
 <a href="https://www.travis-ci.com/github/nedrysoft/pingnoo"><img src="https://www.travis-ci.com/nedrysoft/pingnoo.svg?branch=develop"/></a>
 <a href="https://packagecloud.io/nedrysoft/pingnoo"><img src="https://img.shields.io/badge/deb-packagecloud.io-844fec.svg"/></a>
 <a href="https://packagecloud.io/nedrysoft/pingnoo"><img src="https://img.shields.io/badge/rpm-packagecloud.io-844fec.svg"/></a>
+<a href="https://aur.archlinux.org/packages/pingnoo/"><img src="https://img.shields.io/aur/maintainer/pingnoo"/></a>
+
 <br/>
 Pingnoo is an open-source combined traceroute and ping application for analysing network connections.  It runs under Windows, Mac OS and Linux.
 
@@ -94,6 +96,25 @@ Pingnoo is an open-source combined traceroute and ping application for analysing
   yum localinstall <downloaded file>.rpm
   ```
 
+  **Installing on Arch**
+
+  Pingnoo is available in the AUR.  
+
+  You can also clone the project from the AUR and build and install manually.
+  
+  ```
+  git clone https://aur.archlinux.org/pingnoo.git
+  cd pingnoo
+  makepkg
+  sudo pacman -U <filename>.zst
+  ```
+
+  Alternativelt, You man also use a tool such as yay to install.
+
+  ```
+  yay -S pingnoo
+  ```
+  
   ***AppImage***
 
   The application is also provided as an AppImage, an AppImage bundles all dependencies and therefore will run on any modern Linux distribution.
@@ -190,7 +211,7 @@ The script provides the following parameters:
 - `--appimage` - *Linux only*, will generate an AppImage.
 - `--rpm` - *Linux only*, will generate an rpm package.
 - `--deb` - *Linux only*, will generate a deb package.
-- '--pkg' - *Linux only*, will generate an arch package.
+- `--pkg` - *Linux only*, will generate an arch package.
 - `--appiamagetool="<path to appimage tool"` - *Linux only*, the path to the appimagetool binary.
 - `--linuxdeployqy="<path to linuxdeployqt tool"` - *Linux only*, the path to the linuxdeployqt binary.
 - `--signtool="<path to sign tool>"` - *Windows only*, the path to the signing tool.

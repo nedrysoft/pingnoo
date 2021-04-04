@@ -22,7 +22,6 @@
 
 import argparse
 import glob
-import hashlib
 import os
 import re
 import shutil
@@ -39,8 +38,11 @@ def pkg_create(buildArch, buildType, version, key):
 
         shutil.copy2('pkg/pingnoo.install', f'bin/{buildArch}/Deploy')
 
+    with msg_printer("Getting source hash"):
+        execute('git-archive-all /tmp/pingnoo.tar.gz', "Failed to create source archive")
+        hash = execute(f'md5 /tmp/pingnoo.tar.gz', "Failed to get hash of source archive").split(' ')[0]
+
     dependencies = set()
-    hashes = dict()
     libraries = set()
     packages = set()
     so_regex = re.compile(r"\s*(?P<soname>.*)\s=>")
@@ -57,9 +59,6 @@ def pkg_create(buildArch, buildType, version, key):
 
     for filepath in search_files:
         with msg_printer(f"Determining dependencies of {os.path.basename(filepath)}"):
-            # Get MD5 checksum
-            hashes[filepath] = hashlib.md5(open(filepath, 'rb').read()).hexdigest()
-
             # Find .so dependencies
             deps = execute(f'ldd {filepath}', "Failed to run ldd")
             for line in deps.split('\n'):
@@ -92,7 +91,7 @@ def pkg_create(buildArch, buildType, version, key):
         build_version = version.split('-')
 
         # use PKGBUILD.in template to create PKGBUILD file
-        pkgbuild_file_content = pkgbuild_template.substitute(arch=buildArch, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
+        pkgbuild_file_content = pkgbuild_template.substitute(arch=buildArch, md5sum=hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
 
         with open(f'bin/{buildArch}/Deploy/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(pkgbuild_file_content)
