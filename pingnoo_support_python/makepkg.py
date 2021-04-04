@@ -42,6 +42,13 @@ def pkg_create(buildArch, buildType, version, key):
         execute('git-archive-all /tmp/pingnoo.tar.gz', "Failed to create source archive")
         hash = execute(f'md5 /tmp/pingnoo.tar.gz', "Failed to get hash of source archive").split(' ')[0]
 
+    git_year = execute("git log -1 --format=%cd --date=format:%Y")
+    git_month = execute("git log -1 --format=%cd --date=format:%m")
+    git_day = execute("git log -1 --format=%cd --date=format:%d")
+    git_hash = execute("git log -1 --format=%h")
+    git_branch = execute("git branch --show-current")
+    git_uncommitted = execute("git diff --quiet HEAD")
+
     dependencies = set()
     libraries = set()
     packages = set()
@@ -91,7 +98,7 @@ def pkg_create(buildArch, buildType, version, key):
         build_version = version.split('-')
 
         # use PKGBUILD.in template to create PKGBUILD file
-        pkgbuild_file_content = pkgbuild_template.substitute(arch=buildArch, md5sum=hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
+        pkgbuild_file_content = pkgbuild_template.substitute(GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch, GIT_UNCOMMITTED=git_uncommitted, arch=buildArch, md5sum=hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
 
         with open(f'bin/{buildArch}/Deploy/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(pkgbuild_file_content)

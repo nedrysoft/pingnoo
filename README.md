@@ -9,6 +9,7 @@
 <a href="https://packagecloud.io/nedrysoft/pingnoo"><img src="https://img.shields.io/badge/deb-packagecloud.io-844fec.svg"/></a>
 <a href="https://packagecloud.io/nedrysoft/pingnoo"><img src="https://img.shields.io/badge/rpm-packagecloud.io-844fec.svg"/></a>
 <a href="https://aur.archlinux.org/packages/pingnoo/"><img src="https://img.shields.io/aur/maintainer/pingnoo"/></a>
+<a href="https://github.com/issues"><img src="https://www.codetriage.com/nedrysoft/pingnoo/badges/users.svg"/></a>
 
 <br/>
 Pingnoo is an open-source combined traceroute and ping application for analysing network connections.  It runs under Windows, Mac OS and Linux.
