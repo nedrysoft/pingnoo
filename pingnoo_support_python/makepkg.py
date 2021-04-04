@@ -40,7 +40,7 @@ def pkg_create(buildArch, buildType, version, key):
 
     with msg_printer("Getting source hash"):
         execute('git-archive-all /tmp/pingnoo.tar.gz', "Failed to create source archive")
-        hash = execute(f'md5 /tmp/pingnoo.tar.gz', "Failed to get hash of source archive").split(' ')[0]
+        hash = execute(f'md5sum /tmp/pingnoo.tar.gz', "Failed to get hash of source archive").split(' ')[0]
 
     with msg_printer("Getting git info"):
         git_year = execute("git log -1 --format=%cd --date=format:%Y")[1]
