@@ -42,12 +42,13 @@ def pkg_create(buildArch, buildType, version, key):
         execute('git-archive-all /tmp/pingnoo.tar.gz', "Failed to create source archive")
         hash = execute(f'md5 /tmp/pingnoo.tar.gz', "Failed to get hash of source archive").split(' ')[0]
 
-    git_year = execute("git log -1 --format=%cd --date=format:%Y")
-    git_month = execute("git log -1 --format=%cd --date=format:%m")
-    git_day = execute("git log -1 --format=%cd --date=format:%d")
-    git_hash = execute("git log -1 --format=%h")
-    git_branch = execute("git branch --show-current")
-    git_uncommitted = execute("git diff --quiet HEAD")
+    with msg_printer("Getting git info"):
+        git_year = execute("git log -1 --format=%cd --date=format:%Y")[1]
+        git_month = execute("git log -1 --format=%cd --date=format:%m")[1]
+        git_day = execute("git log -1 --format=%cd --date=format:%d")[1]
+        git_hash = execute("git log -1 --format=%h")[1]
+        git_branch = execute("git branch --show-current")[1]
+        git_uncommitted = 0
 
     dependencies = set()
     libraries = set()
