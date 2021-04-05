@@ -39,24 +39,24 @@ def pkg_create(buildArch, buildType, version, key):
         shutil.copy2('pkg/pingnoo.install', f'bin/{buildArch}/Deploy')
 
     with msg_printer("Getting git info"):
-        git_year = execute("git log -1 --format=%cd --date=format:%Y")[1]
-        git_month = execute("git log -1 --format=%cd --date=format:%m")[1]
-        git_day = execute("git log -1 --format=%cd --date=format:%d")[1]
-        git_hash = execute("git log -1 --format=%h")[1]
-        git_branch = execute("git branch --show-current")[1]
+        git_year = re.sub(r'\W', '', execute("git log -1 --format=%cd --date=format:%Y")[1])
+        git_month = re.sub(r'\W', '', execute("git log -1 --format=%cd --date=format:%m")[1])
+        git_day = re.sub(r'\W', '', execute("git log -1 --format=%cd --date=format:%d")[1])
+        git_hash = re.sub(r'\W', '', execute("git log -1 --format=%h")[1])
+        git_branch = re.sub(r'\W', '', execute("git branch --show-current")[1])
         git_uncommitted = 0
 
     # normal file location: https://www.nedryspft.com/downloads/${pkgname}/source/${pkgname}-${pkgver}.tar.gz
 
-    source_filename = f'pingnoo-{git_year}.{git_month}.{git_day}.tar.gz'
+    source_filename = f'pingnoo.tar.gz'
 
-    source_location = f'/tmp/${source_filename}'
+    source_location = f'/tmp/{source_filename}'
 
     with msg_printer("Creating source tarball"):
-        execute(f'git-archive-all ${source_filename}', "Failed to create source archive")
+        execute(f'git-archive-all {source_location}', "Failed to create source archive")
 
     with msg_printer("Generating tarball hash"):
-        hash = execute(f'md5sum ${source_filename}', "Failed to get hash of source archive").split(' ')[0]
+        hash = execute(f'md5sum {source_location}', "Failed to get hash of source archive").split(' ')[0]
 
     dependencies = set()
     libraries = set()
@@ -107,7 +107,7 @@ def pkg_create(buildArch, buildType, version, key):
         build_version = version.split('-')
 
         # use PKGBUILD.in template to create PKGBUILD file
-        pkgbuild_file_content = pkgbuild_template.substitute(GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch, GIT_UNCOMMITTED=git_uncommitted, source_location=source_location, arch=buildArch, md5sum=hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
+        pkgbuild_file_content = pkgbuild_template.substitute(GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch, GIT_UNCOMMITTED=git_uncommitted, sourcelocation=f'file://{source_location}', arch=buildArch, md5sum=hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
 
         with open(f'bin/{buildArch}/Deploy/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(pkgbuild_file_content)
