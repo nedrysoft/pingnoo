@@ -46,7 +46,7 @@ def pkg_create(buildArch, buildType, version, key):
         git_branch = re.sub(r'\W', '', execute("git branch --show-current")[1])
         git_uncommitted = 0
 
-    # normal file location: https://www.nedryspft.com/downloads/${pkgname}/source/${pkgname}-${pkgver}.tar.gz
+    aur_source_location = 'https://www.nedryspft.com/downloads/${pkgname}/source/${pkgname}-${pkgver}.tar.gz'
 
     source_filename = f'pingnoo.tar.gz'
 
@@ -109,6 +109,8 @@ def pkg_create(buildArch, buildType, version, key):
         # use PKGBUILD.in template to create PKGBUILD file
         pkgbuild_file_content = pkgbuild_template.substitute(GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch, GIT_UNCOMMITTED=git_uncommitted, sourcelocation=f'file://{source_location}', arch=buildArch, md5sum=hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
 
+        aur_pkgbuild_file_content = pkgbuild_template.substitute(GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch, GIT_UNCOMMITTED=git_uncommitted, sourcelocation=aur_source_location, arch=buildArch, md5sum=hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
+
         with open(f'bin/{buildArch}/Deploy/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(pkgbuild_file_content)
 
@@ -126,6 +128,16 @@ def pkg_create(buildArch, buildType, version, key):
     # create the pkg file
     with msg_printer("Building package"):
         execute(f'PKGDEST={deployment_dir} bash -c "cd bin/{buildArch}/Deploy && makepkg {key_param}"', "Failed to build!")
+
+    with msg_printer("Creating AUR deployment"):
+        os.makedirs(f'{deployment_dir}/aur')
+        shutil.copy2(source_location, f'{deployment_dir}/aur/pingnoo-{git_year}.{git_month}.{git_day}.tar.gz')
+        shutil.copy2('pkg/pingnoo.install', f'{deployment_dir}/aur/')
+
+        with open(f'{deployment_dir}/aur/PKGBUILD', 'w') as pkgbuild_file:
+            pkgbuild_file.write(aur_pkgbuild_file_content)
+
+        execute(f'cd {deployment_dir}/aur && makepkg --printsrcinfo > .SRCINFO', "Failed to create .SRCINFO!")
 
 def main():
     parser = argparse.ArgumentParser(description='pkg build script')
