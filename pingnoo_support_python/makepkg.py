@@ -89,7 +89,7 @@ def pkg_create(buildArch, buildType, version, key):
 
     # Using the shared library list, find the package that provides the shared library and add to
     # the list of dependencies
-    pkg_regex = re.compile(r".*\/(?P<pkg>\S*)\s.*\[installed\]")
+    pkg_regex = re.compile(r".*\/(?P<pkg>\S*)\s.*\[installed(:.*)?\]")
     for dependency in dependencies:
         dependency = os.path.basename(dependency)
         with msg_printer(f"Determining package providing for {dependency}"):
