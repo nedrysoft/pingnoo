@@ -72,6 +72,7 @@ if(APPLE)
     install(CODE
         "execute_process(
             WORKING_DIRECTORY \"${PINGNOO_ROOT_DIR}\"
+            RESULT_VARIABLE installResult
             COMMAND \"${PINGNOO_ROOT_DIR}/deploy.py\"
             \"--appleid=$ENV{PINGNOO_DEVELOPER_EMAIL}\"
             \"--password=$ENV{PINGNOO_DEVELOPER_PASSWORD}\"
@@ -102,6 +103,7 @@ elseif(WIN32)
     install(CODE
         "execute_process(
             WORKING_DIRECTORY ${PINGNOO_ROOT_DIR}
+            RESULT_VARIABLE installResult
             COMMAND ${pythonBin}
             ${rootDir}\\\\deploy.py
             --curlbin=${curlBin}
@@ -116,6 +118,7 @@ elseif(UNIX)
     install(CODE
         "execute_process(
             WORKING_DIRECTORY \"${PINGNOO_ROOT_DIR}\"
+            RESULT_VARIABLE installResult
             COMMAND \"${PINGNOO_ROOT_DIR}/deploy.py\"
             \"--curlbin=/usr/bin/curl\"
             \"--arch=${PINGNOO_PLATFORM_ARCH}\"
@@ -124,13 +127,12 @@ elseif(UNIX)
             \"--version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}\"
             \"--cert=$ENV{PINGNOO_DEVELOPER_CERTIFICATE}\"
             \"$ENV{PINGNOO_ASSET_TYPES}\"
-            RESULT_VARIABLE _res
         )"
     )
 endif()
 
 install(CODE
-        "If (NOT \${_res} EQUAL \"0\")
-            message(FATAL_ERROR \"deployment failed: \${_res}\")
-        endif() "
+        "if (NOT \${installResult} EQUAL \"0\")
+            message(FATAL_ERROR \"deployment failed: \${installResult}\")
+        endif()"
 )
