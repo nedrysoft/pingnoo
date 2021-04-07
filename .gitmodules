@@ -19,3 +19,6 @@
 [submodule "src/libs/3rdparty/QDarkStyleSheet"]
 	path = src/libs/3rdparty/QDarkStyleSheet
 	url = https://github.com/ColinDuquesnoy/QDarkStyleSheet
+[submodule "src/libs/ThemeSupport"]
+	path = src/libs/ThemeSupport
+	url = https://github.com/nedrysoft/ThemeSupport
