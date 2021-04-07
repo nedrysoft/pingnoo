@@ -81,7 +81,7 @@ if(APPLE)
             \"--qtdir=${CMAKE_PREFIX_PATH}\"
             \"--version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}\"
         )"
-        )
+    )
 elseif(WIN32)
     file(TO_NATIVE_PATH "${PINGNOO_ROOT_DIR}" rootDir)
     file(TO_NATIVE_PATH "$ENV{PINGNOO_CURL_BINARY}" curlBin)
@@ -111,7 +111,7 @@ elseif(WIN32)
             --version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}
             --portable
         )"
-        )
+    )
 elseif(UNIX)
     install(CODE
         "execute_process(
@@ -124,6 +124,13 @@ elseif(UNIX)
             \"--version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}\"
             \"--cert=$ENV{PINGNOO_DEVELOPER_CERTIFICATE}\"
             \"$ENV{PINGNOO_ASSET_TYPES}\"
+            RESULT_VARIABLE _res
         )"
-        )
+    )
 endif()
+
+install(CODE
+        "If (NOT \${_res} EQUAL \"0\")
+            message(FATAL_ERROR \"deployment failed: \${_res}\")
+        endif() "
+)
