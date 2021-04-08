@@ -30,13 +30,13 @@ import string
 from .common import *
 from .msg_printer import msg_printer, MsgPrinterException
 
-def pkg_create(buildArch, buildType, version, key):
+def pkg_create(build_arch, build_type, version, key):
 
     with msg_printer("Preparing deploy directory"):
-        rm_path(f'bin/{buildArch}/Deploy')
-        os.makedirs(f'bin/{buildArch}/Deploy')
+        rm_path(f'bin/{build_arch}/Deploy')
+        os.makedirs(f'bin/{build_arch}/Deploy')
 
-        shutil.copy2('pkg/pingnoo.install', f'bin/{buildArch}/Deploy')
+        shutil.copy2('pkg/pingnoo.install', f'bin/{build_arch}/Deploy')
 
     with msg_printer("Getting git info"):
         git_year = re.sub(r'\W', '', execute("git log -1 --format=%cd --date=format:%Y")[1])
@@ -62,12 +62,12 @@ def pkg_create(buildArch, buildType, version, key):
     libraries = set()
     packages = set()
     so_regex = re.compile(r"\s*(?P<soname>.*)\s=>")
-    build_type = buildType.capitalize()
+    build_type = build_type.capitalize()
 
-    search_files = {f'bin/{buildArch}/{build_type}/Pingnoo'}
+    search_files = {f'bin/{build_arch}/{build_type}/Pingnoo'}
 
     # create list of all shared libraries that the application uses
-    for filepath in glob.iglob(f'bin/{buildArch}/{build_type}/**/*.so', recursive=True):
+    for filepath in glob.iglob(f'bin/{build_arch}/{build_type}/**/*.so', recursive=True):
         if os.path.isdir(filepath):
             continue
 
@@ -107,11 +107,11 @@ def pkg_create(buildArch, buildType, version, key):
         build_version = version.split('-')
 
         # use PKGBUILD.in template to create PKGBUILD file
-        pkgbuild_file_content = pkgbuild_template.substitute(GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch, GIT_UNCOMMITTED=git_uncommitted, sourcelocation=f'file://{source_location}', arch=buildArch, md5sum=hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
+        pkgbuild_file_content = pkgbuild_template.substitute(GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch, GIT_UNCOMMITTED=git_uncommitted, sourcelocation=f'file://{source_location}', arch=build_arch, md5sum=hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
 
-        aur_pkgbuild_file_content = pkgbuild_template.substitute(GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch, GIT_UNCOMMITTED=git_uncommitted, sourcelocation=aur_source_location, arch=buildArch, md5sum=hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
+        aur_pkgbuild_file_content = pkgbuild_template.substitute(GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch, GIT_UNCOMMITTED=git_uncommitted, sourcelocation=aur_source_location, arch=build_arch, md5sum=hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
 
-        with open(f'bin/{buildArch}/Deploy/PKGBUILD', 'w') as pkgbuild_file:
+        with open(f'bin/{build_arch}/Deploy/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(pkgbuild_file_content)
 
     # remove any previous deployment artifacts
@@ -127,7 +127,7 @@ def pkg_create(buildArch, buildType, version, key):
 
     # create the pkg file
     with msg_printer("Building package"):
-        execute(f'PKGDEST={deployment_dir} bash -c "cd bin/{buildArch}/Deploy && makepkg {key_param}"', "Failed to build!")
+        execute(f'PKGDEST={deployment_dir} bash -c "cd bin/{build_arch}/Deploy && makepkg {key_param}"', "Failed to build!")
 
     with msg_printer("Creating AUR deployment"):
         os.makedirs(f'{deployment_dir}/aur')
