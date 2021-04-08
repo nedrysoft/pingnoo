@@ -40,31 +40,31 @@ def _find_prereqs():
                 raise MsgPrinterException(f"Could not find '{app}' executable!")
 
 
-def deb_create(buildArch, buildType, version, outputFile, key):
+def deb_create(build_arch, build_type, version, output_file, key):
     _find_prereqs()
 
     # remove previous dpkg build tree if it exists
     with msg_printer("Creating directory structure"):
-        rm_path(f'bin/{buildArch}/Deploy/dpkg')
+        rm_path(f'bin/{build_arch}/Deploy/dpkg')
         for dir_name in ('usr/local/bin/pingnoo', 'DEBIAN', 'usr/share/icons/hicolor/512x512/apps',
                          'usr/share/applications', 'usr/share/doc/pingnoo', 'etc/ld.so.conf.d'):
-            os.makedirs(os.path.join(f'bin/{buildArch}/Deploy/dpkg/', dir_name))
+            os.makedirs(os.path.join(f'bin/{build_arch}/Deploy/dpkg/', dir_name))
 
         # copy data + binaries into the deb tree
-        shutil.copy2(f'bin/{buildArch}/{buildType}/Pingnoo', f'bin/{buildArch}/Deploy/dpkg/usr/local/bin/pingnoo')
+        shutil.copy2(f'bin/{build_arch}/{build_type}/Pingnoo', f'bin/{build_arch}/Deploy/dpkg/usr/local/bin/pingnoo')
         shutil.copy2('src/app/images/appicon-512x512-.png',
-                     f'bin/{buildArch}/Deploy/dpkg/usr/share/icons/hicolor/512x512/apps/pingnoo.png')
+                     f'bin/{build_arch}/Deploy/dpkg/usr/share/icons/hicolor/512x512/apps/pingnoo.png')
 
-        shutil.copytree(f'bin/{buildArch}/{buildType}/Components',
-                        f'bin/{buildArch}/Deploy/dpkg/usr/local/bin/pingnoo/Components', symlinks=True)
+        shutil.copytree(f'bin/{build_arch}/{build_type}/Components',
+                        f'bin/{build_arch}/Deploy/dpkg/usr/local/bin/pingnoo/Components', symlinks=True)
 
-        for file in glob.glob(f'bin/{buildArch}/{buildType}/*.so'):
-            shutil.copy2(file, f'bin/{buildArch}/Deploy/dpkg/usr/local/bin/pingnoo')
+        for file in glob.glob(f'bin/{build_arch}/{build_type}/*.so'):
+            shutil.copy2(file, f'bin/{build_arch}/Deploy/dpkg/usr/local/bin/pingnoo')
 
-        shutil.copy2('dpkg/postinst', f'bin/{buildArch}/Deploy/dpkg/DEBIAN')
-        shutil.copy2('dpkg/pingnoo.conf', f'bin/{buildArch}/Deploy/dpkg/etc/ld.so.conf.d')
-        shutil.copy2('dpkg/copyright', f'bin/{buildArch}/Deploy/dpkg/usr/share/doc/pingnoo')
-        shutil.copy2('dpkg/Pingnoo.desktop', f'bin/{buildArch}/Deploy/dpkg/usr/share/applications')
+        shutil.copy2('dpkg/postinst', f'bin/{build_arch}/Deploy/dpkg/DEBIAN')
+        shutil.copy2('dpkg/pingnoo.conf', f'bin/{build_arch}/Deploy/dpkg/etc/ld.so.conf.d')
+        shutil.copy2('dpkg/copyright', f'bin/{build_arch}/Deploy/dpkg/usr/share/doc/pingnoo')
+        shutil.copy2('dpkg/Pingnoo.desktop', f'bin/{build_arch}/Deploy/dpkg/usr/share/applications')
 
     dependencies = set()
     hashes = dict()
@@ -73,7 +73,7 @@ def deb_create(buildArch, buildType, version, outputFile, key):
     so_regex = re.compile(r"\s*(?P<soname>.*)\s=>")
 
     # create list of all shared libraries that the application uses (and at the same time create hashes)
-    for filepath in glob.iglob(f'bin/{buildArch}/Deploy/dpkg/usr/local/bin/pingnoo/**/*', recursive=True):
+    for filepath in glob.iglob(f'bin/{build_arch}/Deploy/dpkg/usr/local/bin/pingnoo/**/*', recursive=True):
         if os.path.isdir(filepath):
             continue
         with msg_printer(f"Determining dependencies of {os.path.basename(filepath)}"):
@@ -111,17 +111,17 @@ def deb_create(buildArch, buildType, version, outputFile, key):
         # use control.in template to create the deb control file
         control_file_content = control_template.substitute(version=version, dependencies=",".join(packages))
 
-        with open(f'bin/{buildArch}/Deploy/dpkg/DEBIAN/control', 'w') as control_file:
+        with open(f'bin/{build_arch}/Deploy/dpkg/DEBIAN/control', 'w') as control_file:
             control_file.write(control_file_content)
 
         # add the hashes to the deb hash file
-        with open(f'bin/{buildArch}/Deploy/dpkg/DEBIAN/md5sums', 'w') as md5sums_file:
+        with open(f'bin/{build_arch}/Deploy/dpkg/DEBIAN/md5sums', 'w') as md5sums_file:
             # Need to strip off the staging area
-            leading_path = f'bin/{buildArch}/Deploy/dpkg'
+            leading_path = f'bin/{build_arch}/Deploy/dpkg'
             for file_name, file_hash in hashes.items():
                 md5sums_file.write(f'{file_hash}  {file_name[len(leading_path):]}\n')
 
-    package_root = f'bin/{buildArch}/Deploy/dpkg/'
+    package_root = f'bin/{build_arch}/Deploy/dpkg/'
 
     # remove any previous deployment artifacts
     rm_path('deployment')
@@ -129,11 +129,11 @@ def deb_create(buildArch, buildType, version, outputFile, key):
 
     # create the deb file
     with msg_printer("Bundling package"):
-        execute(f'dpkg-deb --build {package_root} "{outputFile}"', "Failed to build!")
+        execute(f'dpkg-deb --build {package_root} "{output_file}"', "Failed to build!")
 
     if key:
         with msg_printer("Signing package"):
-            execute(f'dpkg-sig -k {key} -s origin \"{outputFile}\"', "Signing failed")
+            execute(f'dpkg-sig -k {key} -s origin \"{output_file}\"', "Signing failed")
 
 
 def main():
