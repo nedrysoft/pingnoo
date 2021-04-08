@@ -71,7 +71,7 @@ else()
     if(CMAKE_SIZEOF_VOID_P EQUAL 8)
         set(PINGNOO_PLATFORM_ARCH "x86_64")
     else()
-        set(PINGNOO_PLATFORM_ARCH "x86_32")
+        set(PINGNOO_PLATFORM_ARCH "x86")
     endif()
 endif()
 
