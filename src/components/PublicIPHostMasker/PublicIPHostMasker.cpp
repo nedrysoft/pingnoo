@@ -23,13 +23,14 @@
 
 #include "PublicIPHostMasker.h"
 
+#include "Core/ICore.h"
+
 #include <QDir>
 #include <QEventLoop>
 #include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QRegularExpression>
-#include <QStandardPaths>
 
 constexpr auto ConfigurationPath = "Components";
 constexpr auto ConfigurationFilename = "PublicIPHostMasker.json";
@@ -52,21 +53,19 @@ Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::~PublicIPHostMasker() {
 }
 
 auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::loadFromFile() -> bool {
-    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+    auto storageLocation = Nedrysoft::Core::ICore::getInstance()->storageFolder();
 
-    if (configPaths.count()) {
-        QFile configurationFile;
+    QFile configurationFile;
 
-        configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(ConfigurationPath).arg(QString(ConfigurationFilename))));
+    configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(storageLocation).arg(ConfigurationPath).arg(QString(ConfigurationFilename))));
 
-        if (configurationFile.open(QFile::ReadOnly)) {
-            auto jsonDocument = QJsonDocument::fromJson(configurationFile.readAll());
+    if (configurationFile.open(QFile::ReadOnly)) {
+        auto jsonDocument = QJsonDocument::fromJson(configurationFile.readAll());
 
-            if (jsonDocument.isObject()) {
-                loadConfiguration(jsonDocument.object());
+        if (jsonDocument.isObject()) {
+            loadConfiguration(jsonDocument.object());
 
-                return true;
-            }
+            return true;
         }
     }
 
@@ -74,27 +73,25 @@ auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::loadFromFile() -> bool {
 }
 
 auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::saveToFile() -> void {
-    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+    auto storageLocation = Nedrysoft::Core::ICore::getInstance()->storageFolder();
 
-    if (configPaths.count()) {
-        QFile configurationFile;
+    QFile configurationFile;
 
-        configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(ConfigurationPath).arg(QString(ConfigurationFilename))));
+    configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(storageLocation).arg(ConfigurationPath).arg(QString(ConfigurationFilename))));
 
-        QDir dir(QString("%1/%2").arg(configPaths.at(0)).arg(ConfigurationPath));
+    QDir dir(QString("%1/%2").arg(storageLocation).arg(ConfigurationPath));
 
-        if (!dir.exists()) {
-            dir.mkpath(dir.path());
-        }
+    if (!dir.exists()) {
+        dir.mkpath(dir.path());
+    }
 
-        if (configurationFile.open(QFile::WriteOnly)) {
-            QJsonObject configuration = saveConfiguration();
+    if (configurationFile.open(QFile::WriteOnly)) {
+        QJsonObject configuration = saveConfiguration();
 
-            auto jsonDocument = QJsonDocument(configuration);
+        auto jsonDocument = QJsonDocument(configuration);
 
-            if (jsonDocument.isObject()) {
-                configurationFile.write(jsonDocument.toJson());
-            }
+        if (jsonDocument.isObject()) {
+            configurationFile.write(jsonDocument.toJson());
         }
     }
 }

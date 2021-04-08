@@ -30,7 +30,6 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QStandardPaths>
 
 constexpr auto ConfigurationPath = "Nedrysoft/Pingnoo/Components/RouteAnalyser";
 constexpr auto ConfigurationFilename = "TargetSettings.json";
@@ -98,30 +97,28 @@ auto Nedrysoft::RouteAnalyser::TargetSettings::loadConfiguration(QJsonObject con
 }
 
 auto Nedrysoft::RouteAnalyser::TargetSettings::loadFromFile(QString filename, bool append) -> bool {
-    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+    auto storageLocation = Nedrysoft::Core::ICore::getInstance()->storageFolder();
 
-    if (configPaths.count()) {
-        QFile configurationFile;
+    QFile configurationFile;
 
-        if (filename.isNull()) {
-            auto filePath = QString("%1/%2/%3")
-                    .arg(configPaths.at(0))
-                    .arg(ConfigurationPath)
-                    .arg(QString(ConfigurationFilename));
+    if (filename.isNull()) {
+        auto filePath = QString("%1/%2/%3")
+                .arg(storageLocation)
+                .arg(ConfigurationPath)
+                .arg(QString(ConfigurationFilename));
 
-            configurationFile.setFileName(QDir::cleanPath(filePath));
-        } else {
-            configurationFile.setFileName(filename);
-        }
+        configurationFile.setFileName(QDir::cleanPath(filePath));
+    } else {
+        configurationFile.setFileName(filename);
+    }
 
-        if (configurationFile.open(QFile::ReadOnly)) {
-            auto jsonDocument = QJsonDocument::fromJson(configurationFile.readAll());
+    if (configurationFile.open(QFile::ReadOnly)) {
+        auto jsonDocument = QJsonDocument::fromJson(configurationFile.readAll());
 
-            if (jsonDocument.isObject()) {
-                loadConfiguration(jsonDocument.object());
+        if (jsonDocument.isObject()) {
+            loadConfiguration(jsonDocument.object());
 
-                return true;
-            }
+            return true;
         }
     }
 
@@ -129,36 +126,34 @@ auto Nedrysoft::RouteAnalyser::TargetSettings::loadFromFile(QString filename, bo
 }
 
 auto Nedrysoft::RouteAnalyser::TargetSettings::saveToFile(QString filename) -> void {
-    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+    auto storageLocation = Nedrysoft::Core::ICore::getInstance()->storageFolder();
 
-    if (configPaths.count()) {
-        QFile configurationFile;
+    QFile configurationFile;
 
-        if (filename.isNull()) {
-            auto filePath = QString("%1/%2/%3")
-                    .arg(configPaths.at(0))
-                    .arg(ConfigurationPath)
-                    .arg(QString(ConfigurationFilename));
+    if (filename.isNull()) {
+        auto filePath = QString("%1/%2/%3")
+                .arg(storageLocation)
+                .arg(ConfigurationPath)
+                .arg(QString(ConfigurationFilename));
 
-            configurationFile.setFileName(QDir::cleanPath(filePath));
-        } else {
-            configurationFile.setFileName(filename);
-        }
+        configurationFile.setFileName(QDir::cleanPath(filePath));
+    } else {
+        configurationFile.setFileName(filename);
+    }
 
-        QDir dir(configPaths.at(0));
+    QDir dir(storageLocation);
 
-        if (!dir.exists(ConfigurationPath)) {
-            dir.mkpath(ConfigurationPath);
-        }
+    if (!dir.exists(ConfigurationPath)) {
+        dir.mkpath(ConfigurationPath);
+    }
 
-        if (configurationFile.open(QFile::WriteOnly)) {
-            QJsonObject configuration = saveConfiguration();
+    if (configurationFile.open(QFile::WriteOnly)) {
+        QJsonObject configuration = saveConfiguration();
 
-            auto jsonDocument = QJsonDocument(configuration);
+        auto jsonDocument = QJsonDocument(configuration);
 
-            if (jsonDocument.isObject()) {
-                configurationFile.write(jsonDocument.toJson());
-            }
+        if (jsonDocument.isObject()) {
+            configurationFile.write(jsonDocument.toJson());
         }
     }
 }

@@ -23,6 +23,9 @@
 
 #include "Core.h"
 
+#include <QDir>
+#include <QStandardPaths>
+
 Nedrysoft::Core::Core::Core() :
         m_mainWindow(new Nedrysoft::Core::MainWindow) {
 
@@ -59,3 +62,12 @@ auto Nedrysoft::Core::Core::random(int minimumValue, int maximumValue) -> int {
     return dist(*m_randomGenerator);
 }
 
+auto Nedrysoft::Core::Core::storageFolder() -> QString {
+    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+
+    if (configPaths.count()) {
+        return QDir::cleanPath(configPaths.at(0));
+    }
+
+    return QString();
+}

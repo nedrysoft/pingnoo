@@ -27,6 +27,7 @@
 #include "ComponentSystem/Component.h"
 #include "ComponentSystem/ComponentViewerDialog.h"
 #include "Core/ICommandManager.h"
+#include "Core/ICore.h"
 #include "Core/IEditor.h"
 #include "EditorManager.h"
 #include "Pingnoo.h"
@@ -40,7 +41,6 @@
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
-#include <QStandardPaths>
 #include <spdlog/spdlog.h>
 
 Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
@@ -192,9 +192,11 @@ auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
                 Nedrysoft::ComponentSystem::getObject<QMainWindow>() );
 
         if (componentViewerDialog.exec()) {
+            QString storageFolder = Nedrysoft::Core::ICore::getInstance()->storageFolder();
             QString appSettingsFilename =
-                    QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).at(0) + "/" +
-                    qApp->organizationName() + "/" + qApp->applicationName() + "/appSettings.json";
+                    storageFolder + "/" +
+                    qApp->organizationName() + "/" +
+                    qApp->applicationName() + "/appSettings.json";
 
             QFile settingsFile(appSettingsFilename);
             QVariantList disabledPlugins;

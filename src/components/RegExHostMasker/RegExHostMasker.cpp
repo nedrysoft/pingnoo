@@ -23,11 +23,12 @@
 
 #include "RegExHostMasker.h"
 
+#include "Core/ICore.h"
+
 #include <QDir>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QRegularExpression>
-#include <QStandardPaths>
 
 constexpr auto ConfigurationPath = "Components";
 constexpr auto ConfigurationFilename = "RegExHostMasker.json";
@@ -37,29 +38,30 @@ Nedrysoft::RegExHostMasker::RegExHostMasker::RegExHostMasker() {
 }
 
 auto Nedrysoft::RegExHostMasker::RegExHostMasker::loadFromFile(QString filename, bool append) -> bool {
-    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+    QString storageFolder = Nedrysoft::Core::ICore::getInstance()->storageFolder();
+    QFile configurationFile;
 
-    if (configPaths.count()) {
-        QFile configurationFile;
+    if (filename.isNull()) {
+        configurationFile.setFileName(QDir::cleanPath(
+                QString("%1/%2/%3")
+                        .arg(storageFolder)
+                        .arg(ConfigurationPath)
+                        .arg(QString(ConfigurationFilename))) );
+    } else {
+        configurationFile.setFileName(filename);
+    }
 
-        if (filename.isNull()) {
-            configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(ConfigurationPath).arg(QString(ConfigurationFilename))));
-        } else {
-            configurationFile.setFileName(filename);
-        }
+    if (configurationFile.open(QFile::ReadOnly)) {
+        auto jsonDocument = QJsonDocument::fromJson(configurationFile.readAll());
 
-        if (configurationFile.open(QFile::ReadOnly)) {
-            auto jsonDocument = QJsonDocument::fromJson(configurationFile.readAll());
-
-            if (jsonDocument.isObject()) {
-                if (!append) {
-                    m_maskList.clear();
-                }
-
-                loadConfiguration(jsonDocument.object());
-
-                return true;
+        if (jsonDocument.isObject()) {
+            if (!append) {
+                m_maskList.clear();
             }
+
+            loadConfiguration(jsonDocument.object());
+
+            return true;
         }
     }
 
@@ -67,31 +69,33 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::loadFromFile(QString filename,
 }
 
 auto Nedrysoft::RegExHostMasker::RegExHostMasker::saveToFile(QString filename) -> void {
-    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+    QString storageFolder = Nedrysoft::Core::ICore::getInstance()->storageFolder();
 
-    if (configPaths.count()) {
-        QFile configurationFile;
+    QFile configurationFile;
 
-        if (filename.isNull()) {
-            configurationFile.setFileName(QDir::cleanPath(QString("%1/%2/%3").arg(configPaths.at(0)).arg(ConfigurationPath).arg(QString(ConfigurationFilename))));
-        } else {
-            configurationFile.setFileName(filename);
-        }
+    if (filename.isNull()) {
+        configurationFile.setFileName(QDir::cleanPath(
+                QString("%1/%2/%3")
+                        .arg(storageFolder)
+                        .arg(ConfigurationPath)
+                        .arg(QString(ConfigurationFilename))) );
+    } else {
+        configurationFile.setFileName(filename);
+    }
 
-        QDir dir(configPaths.at(0));
+    QDir dir(storageFolder);
 
-        if (!dir.exists(ConfigurationPath)) {
-             dir.mkpath(ConfigurationPath);
-        }
+    if (!dir.exists(ConfigurationPath)) {
+         dir.mkpath(ConfigurationPath);
+    }
 
-        if (configurationFile.open(QFile::WriteOnly)) {
-            QJsonObject configuration = saveConfiguration();
+    if (configurationFile.open(QFile::WriteOnly)) {
+        QJsonObject configuration = saveConfiguration();
 
-            auto jsonDocument = QJsonDocument(configuration);
+        auto jsonDocument = QJsonDocument(configuration);
 
-            if (jsonDocument.isObject()) {
-                configurationFile.write(jsonDocument.toJson());
-            }
+        if (jsonDocument.isObject()) {
+            configurationFile.write(jsonDocument.toJson());
         }
     }
 }

@@ -93,6 +93,17 @@ namespace Nedrysoft::Core {
 
             virtual auto random(int minimumValue, int maximumValue) -> int = 0;
 
+            /**
+             * @brief       Returns the storage location.
+             *
+             * @notes       This is the folder where persistent data should be stored, this is usually
+             *              provided by the operating system, however, for a portable version of the
+             *              application it may be another folder
+             *
+             * @returns     the folder where data should be saved.
+             */
+             virtual auto storageFolder() -> QString = 0;
+
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~ICore() = default;
     };
