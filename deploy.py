@@ -33,6 +33,7 @@ import string
 import sys
 import tempfile
 import time
+import zipfile
 
 from pingnoo_support_python.common import *
 from pingnoo_support_python.makedeb import deb_create
@@ -581,6 +582,23 @@ def _do_linux():
 
     print(deployed_message, flush=True)
 
+def file_matched(file, expressions):
+    for expression in expressions:
+        if re.match(expression, file):
+            return True
+
+    return False
+
+def add_files_to_zip(zip_file, root_path, exclusions=[]):
+    for root, dirs, files in os.walk(root_path):
+        for file in files:
+            if file_matched(file, exclusions):
+                continue
+
+            file_path = os.path.join(root, file);
+            rel_path = os.path.relpath(file_path, root_path)
+
+            zip_file.write(os.path.join(root, file), arcname=rel_path)
 
 def _do_windows():
     """ Windows version """
@@ -621,6 +639,11 @@ def _do_windows():
     else:
         if os.environ.get('PINGNOO_CERTIFICATE_PIN'):
             pin_code = os.environ.get('PINGNOO_CERTIFICATE_PIN')
+
+    if build_arch=="x86_64":
+        windows_arch = "x64"
+    else:
+        windows_arch = "x86"
 
     cert = None
 
@@ -698,13 +721,34 @@ def _do_windows():
         execute(f'{windeployqt} --dir {deploy_dir} {files_string} -sql --{args.type}',
                 fail_msg='there was a problem running windeployqt.')
 
-    # use powershell to create a portable zip
     if args.portable:
         with msg_printer('Creating portable edition...'):
-            os.makedirs(f'bin\\{build_arch}\\Deploy\\data')
-            execute(f'powershell Compress-Archive "bin\\{build_arch}\\Deploy\\*" ".\\deployment\\Pingnoo.Portable.{build_version}.{build_arch}.zip" -Force',
-                    fail_msg='there was a problem creating the portable archive.')
-            shutil.rmtree(f'bin\\{build_arch}\\Deploy\\data')
+            zip_file = zipfile.ZipFile(f'.\\deployment\\Pingnoo.Portable.{build_version}.{build_arch}.zip', "w")
+
+            # portable edition is detected by pingnoo if a folder named data exists in the same folder as the exe
+
+            zip_file_info = zipfile.ZipInfo("data/")
+
+            zip_file.writestr(zip_file_info, '')
+
+            # copy the deployed folder to the zip file
+
+            add_files_to_zip(zip_file, f'bin\\{build_arch}\\Deploy\\', ['vc_redist.*'])
+
+            # copy the visual studio redistributable to the zip
+
+            redist_dir = os.getenv('VCToolsRedistDir')
+
+            add_files_to_zip(zip_file, f'{redist_dir}\\{windows_arch}\\Microsoft.VC142.CRT')
+
+            # copy the universal crt files (doesn't appear to be needed - by for completeness)
+
+            sdk_dir = os.getenv('WindowsSdkDir')
+            sdk_version = os.getenv('WindowsSDKLibVersion')
+
+            add_files_to_zip(zip_file, f'{sdk_dir}\\Redist\\{sdk_version}\\ucrt\\DLLs\\{windows_arch}')
+
+            zip_file.close()
 
     # run advanced installer
     with msg_printer('Creating installer...'):
