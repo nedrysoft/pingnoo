@@ -723,7 +723,7 @@ def _do_windows():
 
     if args.portable:
         with msg_printer('Creating portable edition...'):
-            zip_file = zipfile.ZipFile(f'.\\deployment\\Pingnoo.Portable.{build_version}.{build_arch}.zip', "w")
+            zip_file = zipfile.ZipFile(f'.\\deployment\\Pingnoo.{build_version}.windows-portable.{build_arch}.zip', "w")
 
             # portable edition is detected by pingnoo if a folder named data exists in the same folder as the exe
 
