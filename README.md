@@ -11,7 +11,7 @@
 <a href="https://packagecloud.io/nedrysoft/pingnoo"><img src="https://img.shields.io/badge/rpm-packagecloud.io-844fec.svg"/></a>
 <a href="https://aur.archlinux.org/packages/pingnoo/"><img src="https://img.shields.io/aur/version/pingnoo"/></a>
 <a href="https://github.com/nedrysoft/pingnoo/graphs/contributors"><img src="https://img.shields.io/github/contributors/nedrysoft/pingnoo"/></a>
-
+<a href="https://github.com/nedrysoft/pingnoo/releases/latest"><img src="https://img.shields.io/badge/%F0%9F%A4%96-release%20notes-00B2EE.svg"/></a>
 <br/>
 Pingnoo is an open-source combined traceroute and ping application for analysing network connections.  It runs under Windows, Mac OS and Linux.
 
@@ -41,6 +41,7 @@ Pingnoo is an open-source combined traceroute and ping application for analysing
 
   Native packages for popular Linux distributions are available, and these install with the correct permissions, which allow the application to run without root permissions.
 
+    - Arch
     - Fedora 32 & 33
     - Ubuntu 18.04, 20.04, 20.10
     - Debian 10
@@ -111,7 +112,7 @@ Pingnoo is an open-source combined traceroute and ping application for analysing
   sudo pacman -U <filename>.zst
   ```
 
-  Alternativelt, You man also use a tool such as yay to install.
+  Alternatively, You man also use a tool such as yay to install.
 
   ```
   yay -S pingnoo
@@ -135,10 +136,8 @@ Documentation can be found on https://pingnoo.readthedocs.io/en/latest/
 
 ## Requirements (Development)
 
-- Qt 5 libraries (Requirement for development)
+- Qt 5 libraries
 - CMake for building the application
-- Qt Creator (Optional development environment)
-- Linux has unique requirements; please read the Linux Notes section.
 
 ## Development
 
@@ -146,7 +145,7 @@ Pingnoo uses a modular design architecture based on components (aka plugins); th
 
 ### General Information
 
-The following compiler configurations are known to work for development.
+The following compiler configurations are known to work for development.  (We do not supply binaries for 32-bit systems)
 
 - ***Linux*** - 32 & 64-bit using GNU g++
 - ***Windows*** - 32 & 64-bit using MSVC 2019 Community Edition
@@ -190,9 +189,9 @@ Change to that folder and execute ./Pingnoo to run the application.
 
 The deploy.py python script creates runnable/installable binaries for the given operating system.
 
-- ***Linux*** - Generates a stand-alone AppImage for easy use.
-- ***Windows*** - Generates an installer for easy deployment.
-- ***Mac OS*** - Generates a DMG file for easy deployment.
+- ***Linux*** - Generates a stand-alone AppImage and distribution specific packages.
+- ***Windows*** - Generates an installer and a portable zip file which can run from a USB stick.
+- ***Mac OS*** - Generates a DMG file.
 
 The script requires Python 3.6 or later, curl and the [colorama](https://github.com/tartley/colorama) python module to enhance the console output. You can install the Colorama module with the following command.
 
