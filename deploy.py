@@ -701,8 +701,10 @@ def _do_windows():
     # use powershell to create a portable zip
     if args.portable:
         with msg_printer('Creating portable edition...'):
+            os.makedirs(f'bin\\{build_arch}\\Deploy\\data')
             execute(f'powershell Compress-Archive "bin\\{build_arch}\\Deploy\\*" ".\\deployment\\Pingnoo.Portable.{build_version}.{build_arch}.zip" -Force',
                     fail_msg='there was a problem creating the portable archive.')
+            shutil.rmtree(f'bin\\{build_arch}\\Deploy\\data')
 
     # run advanced installer
     with msg_printer('Creating installer...'):

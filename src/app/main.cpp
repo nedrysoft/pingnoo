@@ -175,9 +175,16 @@ int main(int argc, char **argv) {
         componentLoader->addComponents(componentsPath);
     }
 #endif
-    QString appSettingsFilename = QStandardPaths::standardLocations(
-            QStandardPaths::GenericDataLocation).at(0) + "/" +
-            qApp->organizationName() + "/" + qApp->applicationName() + "/appSettings.json";
+    QString settingsPath;
+
+    if (QDir(applicationDir).exists("data")) {
+        settingsPath = QDir::cleanPath(applicationDir.absolutePath()+"/data");
+    } else {
+        settingsPath = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).at(0)
+                + "/" + qApp->organizationName() + "/" + qApp->applicationName();
+    }
+
+    QString appSettingsFilename = settingsPath + "/appSettings.json";
 
     QFile settingsFile(appSettingsFilename);
     QVariantList disabledComponents;
