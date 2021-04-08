@@ -23,6 +23,10 @@
 
 #include "Core.h"
 
+#include <QApplication>
+#include <QDir>
+#include <QStandardPaths>
+
 Nedrysoft::Core::Core::Core() :
         m_mainWindow(new Nedrysoft::Core::MainWindow) {
 
@@ -59,3 +63,13 @@ auto Nedrysoft::Core::Core::random(int minimumValue, int maximumValue) -> int {
     return dist(*m_randomGenerator);
 }
 
+auto Nedrysoft::Core::Core::storageFolder() -> QString {
+    auto applicationDir = QDir(qApp->applicationDirPath());
+
+    if (QDir(applicationDir).exists("data")) {
+        return QDir::cleanPath(applicationDir.absolutePath()+"/data");
+    }
+
+    return QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).at(0)
+                   + "/" + qApp->organizationName() + "/" + qApp->applicationName();
+}

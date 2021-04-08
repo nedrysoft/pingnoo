@@ -23,6 +23,8 @@
 
 #include "Cache.h"
 
+#include "Core/ICore.h"
+
 #include <QDateTime>
 #include <QDir>
 #include <QJsonArray>
@@ -30,21 +32,14 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlResult>
-#include <QStandardPaths>
 #include <spdlog/spdlog.h>
 
 constexpr auto cacheDatabase = "Nedrysoft::HostIPGeoIPProvider::Cache";
 
 Nedrysoft::HostIPGeoIPProvider::Cache::Cache() {
-    auto dataLocations = QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation);
+    auto storageLocation = Nedrysoft::Core::ICore::getInstance()->storageFolder();
 
-    if (dataLocations.isEmpty()) {
-        SPDLOG_ERROR(QString("error opening database. (Unable to get AppLocalDataLocation)").toStdString());
-
-        return;
-    }
-
-    auto dbFileInfo = QFileInfo(dataLocations.at(0), "host-ip-cache.db");
+    auto dbFileInfo = QFileInfo(storageLocation, "host-ip-cache.db");
 
     auto database = QSqlDatabase::addDatabase("QSQLITE", cacheDatabase);
 

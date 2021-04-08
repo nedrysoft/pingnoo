@@ -38,7 +38,6 @@
 #if !defined(Q_OS_MACOS)
 #include <QMessageBox>
 #endif
-#include <QStandardPaths>
 
 constexpr auto ConfigurationPath = "Nedrysoft/Pingnoo/Components/RouteAnalyser";
 constexpr auto ConfigurationFilename = "Favourites.json";
@@ -208,34 +207,32 @@ auto Nedrysoft::RouteAnalyser::TargetManager::loadConfiguration(QJsonObject conf
 }
 
 auto Nedrysoft::RouteAnalyser::TargetManager::loadFavourites(QString filename, bool append) -> bool {
-    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+    auto storageLocation = Nedrysoft::Core::ICore::getInstance()->storageFolder();
 
-    if (configPaths.count()) {
-        QFile configurationFile;
+    QFile configurationFile;
 
-        if (filename.isNull()) {
-            auto filePath = QString("%1/%2/%3")
-                    .arg(configPaths.at(0))
-                    .arg(ConfigurationPath)
-                    .arg(QString(ConfigurationFilename));
+    if (filename.isNull()) {
+        auto filePath = QString("%1/%2/%3")
+                .arg(storageLocation)
+                .arg(ConfigurationPath)
+                .arg(QString(ConfigurationFilename));
 
-            configurationFile.setFileName(QDir::cleanPath(filePath));
-        } else {
-            configurationFile.setFileName(filename);
-        }
+        configurationFile.setFileName(QDir::cleanPath(filePath));
+    } else {
+        configurationFile.setFileName(filename);
+    }
 
-        if (configurationFile.open(QFile::ReadOnly)) {
-            auto jsonDocument = QJsonDocument::fromJson(configurationFile.readAll());
+    if (configurationFile.open(QFile::ReadOnly)) {
+        auto jsonDocument = QJsonDocument::fromJson(configurationFile.readAll());
 
-            if (jsonDocument.isObject()) {
-                if (!append) {
-                    m_favouriteList.clear();
-                }
-
-                loadConfiguration(jsonDocument.object());
-
-                return true;
+        if (jsonDocument.isObject()) {
+            if (!append) {
+                m_favouriteList.clear();
             }
+
+            loadConfiguration(jsonDocument.object());
+
+            return true;
         }
     }
 
@@ -243,37 +240,35 @@ auto Nedrysoft::RouteAnalyser::TargetManager::loadFavourites(QString filename, b
 }
 
 auto Nedrysoft::RouteAnalyser::TargetManager::saveFavourites(QString filename) -> bool {
-    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+    auto storageLocation = Nedrysoft::Core::ICore::getInstance()->storageFolder();
 
-    if (configPaths.count()) {
-        QFile configurationFile;
+    QFile configurationFile;
 
-        if (filename.isNull()) {
-            auto filePath = QString("%1/%2/%3")
-                    .arg(configPaths.at(0))
-                    .arg(ConfigurationPath)
-                    .arg(QString(ConfigurationFilename));
+    if (filename.isNull()) {
+        auto filePath = QString("%1/%2/%3")
+                .arg(storageLocation)
+                .arg(ConfigurationPath)
+                .arg(QString(ConfigurationFilename));
 
-            configurationFile.setFileName(QDir::cleanPath(filePath));
-        } else {
-            configurationFile.setFileName(filename);
-        }
+        configurationFile.setFileName(QDir::cleanPath(filePath));
+    } else {
+        configurationFile.setFileName(filename);
+    }
 
-        QDir dir(QString("%1/%2").arg(configPaths.at(0)).arg(ConfigurationPath));
+    QDir dir(QString("%1/%2").arg(storageLocation).arg(ConfigurationPath));
 
-        if (!dir.exists()) {
-            dir.mkpath(dir.path());
-        }
+    if (!dir.exists()) {
+        dir.mkpath(dir.path());
+    }
 
-        if (configurationFile.open(QFile::WriteOnly)) {
-            QJsonDocument favouritesDocument;
+    if (configurationFile.open(QFile::WriteOnly)) {
+        QJsonDocument favouritesDocument;
 
-            favouritesDocument.setObject(saveConfiguration());
+        favouritesDocument.setObject(saveConfiguration());
 
-            configurationFile.write(favouritesDocument.toJson());
+        configurationFile.write(favouritesDocument.toJson());
 
-            return true;
-        }
+        return true;
     }
 
     return false;

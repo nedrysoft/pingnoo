@@ -24,13 +24,13 @@
 #include "LatencySettings.h"
 
 #include "ColourManager.h"
+#include "Core/ICore.h"
 #include "Utils.h"
 
 #include <QDir>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QStandardPaths>
 
 auto constexpr WarningDefaultValue = 0.2;
 auto constexpr CriticalDefaultValue = 0.5;
@@ -128,30 +128,28 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::criticalValue() -> double {
 auto Nedrysoft::RouteAnalyser::LatencySettings::loadFromFile(QString filename, bool append) -> bool {
     Q_UNUSED(append)
 
-    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+    auto storageFolder = Nedrysoft::Core::ICore::getInstance()->storageFolder();
 
-    if (configPaths.count()) {
-        QFile configurationFile;
+    QFile configurationFile;
 
-        if (filename.isNull()) {
-            auto filePath = QString("%1/%2/%3")
-                    .arg(configPaths.at(0))
-                    .arg(ConfigurationPath)
-                    .arg(QString(ConfigurationFilename));
+    if (filename.isNull()) {
+        auto filePath = QString("%1/%2/%3")
+                .arg(storageFolder)
+                .arg(ConfigurationPath)
+                .arg(QString(ConfigurationFilename));
 
-            configurationFile.setFileName(QDir::cleanPath(filePath));
-        } else {
-            configurationFile.setFileName(filename);
-        }
+        configurationFile.setFileName(QDir::cleanPath(filePath));
+    } else {
+        configurationFile.setFileName(filename);
+    }
 
-        if (configurationFile.open(QFile::ReadOnly)) {
-            auto jsonDocument = QJsonDocument::fromJson(configurationFile.readAll());
+    if (configurationFile.open(QFile::ReadOnly)) {
+        auto jsonDocument = QJsonDocument::fromJson(configurationFile.readAll());
 
-            if (jsonDocument.isObject()) {
-                loadConfiguration(jsonDocument.object());
+        if (jsonDocument.isObject()) {
+            loadConfiguration(jsonDocument.object());
 
-                return true;
-            }
+            return true;
         }
     }
 
@@ -159,36 +157,34 @@ auto Nedrysoft::RouteAnalyser::LatencySettings::loadFromFile(QString filename, b
 }
 
 auto Nedrysoft::RouteAnalyser::LatencySettings::saveToFile(QString filename) -> void {
-    QStringList configPaths = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+    auto storageFolder = Nedrysoft::Core::ICore::getInstance()->storageFolder();
 
-    if (configPaths.count()) {
-        QFile configurationFile;
+    QFile configurationFile;
 
-        if (filename.isNull()) {
-            auto filePath = QString("%1/%2/%3")
-                    .arg(configPaths.at(0))
-                    .arg(ConfigurationPath)
-                    .arg(QString(ConfigurationFilename));
+    if (filename.isNull()) {
+        auto filePath = QString("%1/%2/%3")
+                .arg(storageFolder)
+                .arg(ConfigurationPath)
+                .arg(QString(ConfigurationFilename));
 
-            configurationFile.setFileName(QDir::cleanPath(filePath));
-        } else {
-            configurationFile.setFileName(filename);
-        }
+        configurationFile.setFileName(QDir::cleanPath(filePath));
+    } else {
+        configurationFile.setFileName(filename);
+    }
 
-        QDir dir(configPaths.at(0));
+    QDir dir(storageFolder);
 
-        if (!dir.exists(ConfigurationPath)) {
-            dir.mkpath(ConfigurationPath);
-        }
+    if (!dir.exists(ConfigurationPath)) {
+        dir.mkpath(ConfigurationPath);
+    }
 
-        if (configurationFile.open(QFile::WriteOnly)) {
-            QJsonObject configuration = saveConfiguration();
+    if (configurationFile.open(QFile::WriteOnly)) {
+        QJsonObject configuration = saveConfiguration();
 
-            auto jsonDocument = QJsonDocument(configuration);
+        auto jsonDocument = QJsonDocument(configuration);
 
-            if (jsonDocument.isObject()) {
-                configurationFile.write(jsonDocument.toJson());
-            }
+        if (jsonDocument.isObject()) {
+            configurationFile.write(jsonDocument.toJson());
         }
     }
 }
