@@ -669,7 +669,11 @@ def _do_windows():
                 execute(f'\"{tempdir}\\unzip\" \"{tempdir}'
                         f'\\smartcardtools.zip\" -d tools\\smartcardtools',
                         fail_msg='unable to unzip SmartCardTools.')
-                signtool = 'tools\\smartcardtools\\x64\\ScSignTool.exe'
+
+                if build_arch=="x86_64":
+                    signtool = 'tools\\smartcardtools\\x64\\ScSignTool.exe'
+                else:
+                    signtool = 'tools\\smartcardtools\\x86\\ScSignTool.exe'
 
     # remove previous deployment files and copy current binaries
     with msg_printer('Setting up deployment directory...'):
