@@ -118,3 +118,5 @@ src/libs/3rdparty/spdlog.o
 
 build/generated
 
+
+installer/Prerequisites/Visual C\+\+ Redistributable for Visual Studio 2015-2019/VC_redist.x86.exe
