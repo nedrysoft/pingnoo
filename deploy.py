@@ -660,7 +660,7 @@ def _do_windows():
                 #if build_arch=="x86_64":
                 #    signtool = 'tools\\smartcardtools\\x64\\ScSignTool.exe'
                 #else:
-                signtool = 'tools\\smartcardtools\\x86\\ScSignTool.exe'
+                signtool = 'tools\\smartcardtools\\x64\\ScSignTool.exe'
 
     # if universal, then we run the deployment stages once for each arch, otherwise just once.
 
