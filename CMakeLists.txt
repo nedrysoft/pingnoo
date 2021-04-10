@@ -101,14 +101,19 @@ elseif(WIN32)
     string(REPLACE "\\" "\\\\" qtPath ${qtPath})
 
     install(CODE
+        string(REPLACE \"\\\" \"\\\\\" qtPath $ENV{PINGNOO_BUILD_QTDIR_X86})
+        string(REPLACE \"\\\" \"\\\\\" qtPath64 $ENV{PINGNOO_BUILD_QTDIR_X86_64})
+    )
+
+    install(CODE
         "execute_process(
             WORKING_DIRECTORY ${PINGNOO_ROOT_DIR}
             RESULT_VARIABLE installResult
             COMMAND ${pythonBin}
             ${rootDir}\\\\deploy.py
             --curlbin=${curlBin}
-            --qtdir=$ENV{PINGNOO_BUILD_QTDIR_X86}
-            --qtdir64=$ENV{PINGNOO_BUILD_QTDIR_X86_64}
+            --qtdir=${qtPath}
+            --qtdir64=${qtPath64}
             --type=$ENV{PINGNOO_BUILD_DEPLOY_TYPE}
             --arch=$ENV{PINGNOO_BUILD_ARCH}
             --version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}
