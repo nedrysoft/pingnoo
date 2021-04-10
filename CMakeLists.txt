@@ -99,11 +99,15 @@ elseif(WIN32)
     string(REPLACE "\\" "\\\\" curlBin ${curlBin})
     string(REPLACE "\\" "\\\\" rootDir ${rootDir})
     string(REPLACE "\\" "\\\\" qtPath ${qtPath})
+    set(qtPath64 ${qtPath})
 
-    install(CODE
+    if(DEFINED ENV{PINGNOO_BUILD_QTDIR_X86})
         string(REPLACE \"\\\" \"\\\\\" qtPath $ENV{PINGNOO_BUILD_QTDIR_X86})
+    endif()
+
+    if(DEFINED ENV{PINGNOO_BUILD_QTDIR_X86})
         string(REPLACE \"\\\" \"\\\\\" qtPath64 $ENV{PINGNOO_BUILD_QTDIR_X86_64})
-    )
+    endif()
 
     install(CODE
         "execute_process(
