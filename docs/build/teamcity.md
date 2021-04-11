@@ -1,5 +1,7 @@
 # Instructions for TeamCity build agent on a linux system.
 
+Download the agent from https://<teamcity server ip>/update/buildAgentFull.zip
+
 ## Create the /etc/systemd/system/teamcity-agent.service file.
 
 ```
@@ -26,7 +28,7 @@ Restart=on-failure
 
 ```
 cp /opt/teamcity-agent/conf/buildAgent.dist.properties /opt/teamcity-agent/conf/buildAgent.properties &&
-vi /opt/teamcity-agent/conf/buildAgent.properties
+vim /opt/teamcity-agent/conf/buildAgent.properties
 ```
 then set the following configuration values.
 ```
