@@ -16,7 +16,7 @@
 
 Pingnoo is an open-source combined traceroute and ping application for analysing network connections.  It runs under Windows, Mac OS and Linux.
 
-<img src="https://user-images.githubusercontent.com/55795671/103213760-96965c80-4906-11eb-98ee-34658db89b4c.gif"/>
+<img alt="the pingnoo user interface" src="https://user-images.githubusercontent.com/55795671/103213760-96965c80-4906-11eb-98ee-34658db89b4c.gif"/>
 
 ## Installation
 
@@ -40,16 +40,16 @@ Pingnoo is an open-source combined traceroute and ping application for analysing
 - **Linux** (***Native Packages***)
 
   Native packages for popular Linux distributions are available, and these install with the correct permissions, which allow the application to run without root permissions.
-  <br/>
-    - Arch
-    - Fedora 32 & 33
-    - Ubuntu 18.04, 20.04, 20.10
-    - Debian 10
-    - Raspbian 10
-  <br/>
+
   - **Installing on Debian/Ubuntu/Raspbian**
+
+    Pingnoo is available pre-built for the following versions.
+
+    - Debian 10
+    - Ubuntu 18.04, 20.04, 20.10
+    - Raspbian 10
   
-    pingnoo can be installed via apt, in order to do this you will need to add the apt repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
+    pingnoo can be installed on a supported operating system version via apt, in order to do this you will need to add the apt repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
 
     ```
     curl -s https://packagecloud.io/install/repositories/nedrysoft/pingnoo/script.deb.sh | sudo bash
@@ -75,8 +75,13 @@ Pingnoo is an open-source combined traceroute and ping application for analysing
     ```
 
   - **Installing on Fedora**
-    
-    pingnoo can be installed via yum, in order to do this you will need to add the rpm repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
+
+    Pingnoo is available pre-built for the following versions.
+
+    - Fedora r32
+    - Fedora r33
+
+    pingnoo can be installed on a supported operating system version via yum, in order to do this you will need to add the rpm repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
     
     ```
     curl -s https://packagecloud.io/install/repositories/nedrysoft/pingnoo/script.rpm.sh | sudo bash
@@ -204,8 +209,8 @@ The script provides the following parameters:
 
 - `--qtdir="<path to qt>"` - the path to the version of qt used.
 - `--curlbin="<path to curl binary>"` - the path to the curl binary, i.e `"/usr/bin/curl"`.
-- `--arch="<x64|x86>"` - the architecture to deploy
-- `--type=<release|debug|universal>` - the build type to deploy. (universal is available on macOS and Windows)
+- `--arch="<x64|x86|universal>"` - the architecture to deploy. (universal is available on macOS and Windows)
+- `--type=<release|debug>` - the build type to deploy.
 - `--cert="<cert>"` - the value of this is dependent on the platform, for Windows and Mac OS it is the name of the certificate to be used, for Linux it is the gpg2 key identifier.
 - `--timeserver="<name>"` - windows only, the name of the time server to be used during signing
 - `--appleid="<email>"` - *Mac OS only*, the Apple ID of the developer account used to sign the binary
@@ -273,7 +278,7 @@ The primary mechanism of finding memory leaks is done with the Deleaker tool, it
 
 The user interface is simple and allows viewing the stack trace of the leak which is invaluable when figuring out which level of code is responsible for the leak.
 
-During development of modules, leaks often occur as code changes can be fluet, a tool like deleaker is essential for tracking these and it's a time saver not to worry about leaks during the intial coding phase knowing that you can easily and quickly fix them after development of the feature is complete.
+During development of modules, leaks often occur as code changes can be fluent, a tool like deleaker is essential for tracking these and it's a time saver not to worry about leaks during the initial coding phase knowing that you can easily and quickly fix them after development of the feature is complete.
 
 #### Unit Tests
 
@@ -301,7 +306,7 @@ I thank the following people for contributing to the project:
 Pingnoo uses the following third-party libraries/assets/tools/services in the development of Pingnoo.
 
 - [Qt](https://www.qt.io/download) - cross platform framework, licensed under the [GPLv3 licence](https://www.gnu.org/licenses/gpl-3.0.en.html).
-- [cmake](www.cmake.org) - cross platform project build system, licensed under [BSD licence](https://gitlab.kitware.com/cmake/cmake/raw/master/Copyright.txt).
+- [cmake](https://www.cmake.org) - cross platform project build system, licensed under [BSD licence](https://gitlab.kitware.com/cmake/cmake/raw/master/Copyright.txt).
 - [Catch2](https://github.com/catchorg/Catch2) - unit testing framework, licensed under the [BSL-1.0 licence](https://github.com/catchorg/Catch2/blob/master/LICENSE.txt).
 - [GSL](https://github.com/Microsoft/GSL) - guidelines support library for C++, licensed under the [MIT licence](https://github.com/microsoft/GSL/blob/master/LICENSE).
 - [Font Awesome](https://fontawesome.com) - glyph based icon font, licensed under the [SIL OFL 1.1 licence](https://scripts.sil.org/OFL).
