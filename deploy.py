@@ -538,6 +538,10 @@ def _do_linux():
             release = issue_parts[2]
 
             deb_distro = f'{distro}{release}'
+        elif distro == "raspbian":
+            release = issue_parts[2]
+
+            deb_distro = f'{distro}{release}'
         else:
             deb_distro = 'unknown'
 
