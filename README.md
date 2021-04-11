@@ -13,6 +13,7 @@
 <a href="https://github.com/nedrysoft/pingnoo/graphs/contributors"><img src="https://img.shields.io/github/contributors/nedrysoft/pingnoo"/></a>
 <a href="https://github.com/nedrysoft/pingnoo/releases/latest"><img src="https://img.shields.io/badge/%F0%9F%A4%96-release%20notes-00B2EE.svg"/></a>
 <br/>
+
 Pingnoo is an open-source combined traceroute and ping application for analysing network connections.  It runs under Windows, Mac OS and Linux.
 
 <img src="https://user-images.githubusercontent.com/55795671/103213760-96965c80-4906-11eb-98ee-34658db89b4c.gif"/>
@@ -21,114 +22,114 @@ Pingnoo is an open-source combined traceroute and ping application for analysing
 
 [The binaries are available under the releases page.](https://github.com/nedrysoft/pingnoo/releases)
 
-- **Windows**
-  
-  ***Installer***
+- **Windows** (***Installer***)
   
   Download the installer executable and run to install the application.  This will create a shortcut which is used launch the software.
 
-  ***Portable Edition***
+
+- **Windows** (***Portable Edition***)
 
   The portable edition is supplied as a zip file which can be unzipped onto a memory stick, the application can be launched directly from the memory stick without the need to install the software.
+
 
 - **Mac OS**  
   
   The application is a dmg disk image.  Download and open the disk image and drag the Pingnoo icon into the Applications folder, the application can then be launched by double-clicking on the Pingnoo icon in Applications.
 
-- **Linux**
-  
-  ***Native Packages***
+
+- **Linux** (***Native Packages***)
 
   Native packages for popular Linux distributions are available, and these install with the correct permissions, which allow the application to run without root permissions.
-
+  <br/>
     - Arch
     - Fedora 32 & 33
     - Ubuntu 18.04, 20.04, 20.10
     - Debian 10
-
-  **Installing on Debian/Ubuntu**
+    - Raspbian 10
+  <br/>
+  - **Installing on Debian/Ubuntu/Raspbian**
   
-  pingnoo can be installed via apt, in order to do this you will need to add the apt repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
+    pingnoo can be installed via apt, in order to do this you will need to add the apt repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
 
-  ```
-  curl -s https://packagecloud.io/install/repositories/nedrysoft/pingnoo/script.deb.sh | sudo bash
-  ```
+    ```
+    curl -s https://packagecloud.io/install/repositories/nedrysoft/pingnoo/script.deb.sh | sudo bash
+    ```
   
-  Once the repository is added, you can then install pingnoo with the following command:
+    Once the repository is added, you can then install pingnoo with the following command:
+    
+    ```
+    sudo apt install pingnoo
+    ```
+    
+    By using the apt repository, you will be able to update pingnoo easily with:
+    
+    ```
+    sudo apt update
+    ```
+    
+    Alternatively, you can download the appropriate deb file and install manually:
+    
+    ```
+    dpkg -i <downloaded file>.deb
+    apt -f install
+    ```
 
-  ```
-  sudo apt install pingnoo
-  ```
-
-  By using the apt repository, you will be able to update pingnoo easily with:
-
-  ```
-  sudo apt update
-  ```
-
-  Alternatively, you can download the appropriate deb file and install manually:
-  
-  ```
-  dpkg -i <downloaded file>.deb
-  apt -f install
-  ```
-
-  **Installing on Fedora**
-
-  pingnoo can be installed via yum, in order to do this you will need to add the rpm repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
-
-  ```
-  curl -s https://packagecloud.io/install/repositories/nedrysoft/pingnoo/script.rpm.sh | sudo bash
-  ```
-
-  Once the repository is added, you can then install pingnoo with the following command:
-
-  ```
-  sudo yum install pingnoo
-  ```
-
-  By using the yum repository, you will be able to update pingnoo easily with:
-
-  ```
-  sudo yum update
-  ```
-
-  Alternatively, you can download the appropriate rpm file and install manually:
-
-  ```
-  yum localinstall <downloaded file>.rpm
-  ```
-
-  **Installing on Arch**
-
-  Pingnoo is available in the AUR.  
-
-  You can also clone the project from the AUR and build and install manually.
-  
-  ```
-  git clone https://aur.archlinux.org/pingnoo.git
-  cd pingnoo
-  makepkg
-  sudo pacman -U <filename>.zst
-  ```
-
-  Alternatively, You man also use a tool such as yay to install.
-
-  ```
-  yay -S pingnoo
-  ```
-  
-  ***AppImage***
-
-  The application is also provided as an AppImage, an AppImage bundles all dependencies and therefore will run on any modern Linux distribution.
-
-  After downloading the AppImage, you then need to do the following:
-
-  `chmod +x <downloaded filename>`
-
-  The application requires RAW socket access, and this means some limitations created by the AppImage process affect the operation of the application.  You will need to follow the instructions outlined in the Linux Notes section regarding setuid; this will allow you to run the application directly.  Alternatively, you can launch from the terminal by using:
-
-  `sudo ./<downloaded filename>`
+  - **Installing on Fedora**
+    
+    pingnoo can be installed via yum, in order to do this you will need to add the rpm repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
+    
+    ```
+    curl -s https://packagecloud.io/install/repositories/nedrysoft/pingnoo/script.rpm.sh | sudo bash
+    ```
+    
+    Once the repository is added, you can then install pingnoo with the following command:
+    
+    ```
+    sudo yum install pingnoo
+    ```
+    
+    By using the yum repository, you will be able to update pingnoo easily with:
+    
+    ```
+    sudo yum update
+    ```
+    
+    Alternatively, you can download the appropriate rpm file and install manually:
+    
+    ```
+    yum localinstall <downloaded file>.rpm
+    ```
+    
+  - **Installing on Arch**
+    
+    Pingnoo is available in the AUR.  
+    
+    You can also clone the project from the AUR and build and install manually.
+    
+    ```
+    git clone https://aur.archlinux.org/pingnoo.git
+    cd pingnoo
+    makepkg
+    sudo pacman -U <filename>.zst
+    ```
+    
+    Alternatively, You man also use a tool such as yay to install.
+    
+    ```
+    yay -S pingnoo
+    ```
+    
+  - **AppImage**
+    
+    The application is also provided as an AppImage, an AppImage bundles all dependencies and therefore will run on any modern Linux distribution.
+    
+    After downloading the AppImage, you then need to do the following:
+    
+    `chmod +x <downloaded filename>`
+    
+    The application requires RAW socket access, and this means some limitations created by the AppImage process affect the operation of the application.  You will need to follow the instructions outlined in the Linux Notes section regarding setuid; this will allow you to run the application directly.  Alternatively, you can launch from the terminal by using:
+    
+    `sudo ./<downloaded filename>`
 
 ## Documentation
 
@@ -175,7 +176,7 @@ Change to the folder that contains the source code, and then execute the followi
 ```bash
 mkdir build
 cd build
-cmake ../
+cmake ..
 make
 ```
 
@@ -204,7 +205,7 @@ The script provides the following parameters:
 - `--qtdir="<path to qt>"` - the path to the version of qt used.
 - `--curlbin="<path to curl binary>"` - the path to the curl binary, i.e `"/usr/bin/curl"`.
 - `--arch="<x64|x86>"` - the architecture to deploy
-- `--type=<release|debug>` - the build type to deploy
+- `--type=<release|debug|universal>` - the build type to deploy. (universal is available on macOS and Windows)
 - `--cert="<cert>"` - the value of this is dependent on the platform, for Windows and Mac OS it is the name of the certificate to be used, for Linux it is the gpg2 key identifier.
 - `--timeserver="<name>"` - windows only, the name of the time server to be used during signing
 - `--appleid="<email>"` - *Mac OS only*, the Apple ID of the developer account used to sign the binary
