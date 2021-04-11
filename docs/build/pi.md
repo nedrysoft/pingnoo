@@ -43,3 +43,11 @@ make install install-doc install-html install-info
 sudo snap install core &&
 sudo snap install cmake --classic
 ```
+
+### Fix /etc/ld.so.conf
+
+Raspbian attempts to support older architecture pi boards, for us we are only interested in Pi 3 or 4.
+
+```
+sudo echo /usr/lib/arm-linux-gnueabihf/libarmmem-v7l.so > /etc/ld.so.preload
+```
