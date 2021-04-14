@@ -3,8 +3,6 @@
 /pɪŋ ɡəˈnuː/
 
 ---
-
-
 <a href="https://github.com/nedrysoft/pingnoo/blob/develop/LICENSE"><img src="https://img.shields.io/github/license/nedrysoft/pingnoo"/></a>
 <a href="https://www.travis-ci.com/github/nedrysoft/pingnoo"><img src="https://www.travis-ci.com/nedrysoft/pingnoo.svg?branch=develop"/></a>
 <a href="https://packagecloud.io/nedrysoft/pingnoo"><img src="https://img.shields.io/badge/deb-packagecloud.io-844fec.svg"/></a>
@@ -12,140 +10,154 @@
 <a href="https://aur.archlinux.org/packages/pingnoo/"><img src="https://img.shields.io/aur/version/pingnoo"/></a>
 <a href="https://github.com/nedrysoft/pingnoo/graphs/contributors"><img src="https://img.shields.io/github/contributors/nedrysoft/pingnoo"/></a>
 <a href="https://github.com/nedrysoft/pingnoo/releases/latest"><img src="https://img.shields.io/badge/%F0%9F%A4%96-release%20notes-00B2EE.svg"/></a>
+<a href="https://www.codacy.com/gh/nedrysoft/pingnoo/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nedrysoft/pingnoo&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/7a90ccfa21324fceb5f27a92b8edbac6"></a>
 <br/>
 
 Pingnoo is an open-source combined traceroute and ping application for analysing network connections.  It runs under Windows, Mac OS and Linux.
 
 <img alt="the pingnoo user interface" src="https://user-images.githubusercontent.com/55795671/103213760-96965c80-4906-11eb-98ee-34658db89b4c.gif"/>
 
+---
+
 ## Installation
 
 [The binaries are available under the releases page.](https://github.com/nedrysoft/pingnoo/releases)
 
-- **Windows** (***Installer***)
+---
+
+### Windows Installer
+
+Download the installer executable and run to install the application.  This will create a shortcut which is used launch the software.
+
+---
+
+### Windows Portable Edition
+
+The portable edition is supplied as a zip file which can be unzipped onto a memory stick, the application can be launched directly from the memory stick without the need to install the software.
+
+---
+
+### MacOS
   
-  Download the installer executable and run to install the application.  This will create a shortcut which is used launch the software.
+The application is a dmg disk image.  Download and open the disk image and drag the Pingnoo icon into the Applications folder, the application can then be launched by double-clicking on the Pingnoo icon in Applications.
 
+---
 
-- **Windows** (***Portable Edition***)
+## Linux Native Packages
 
-  The portable edition is supplied as a zip file which can be unzipped onto a memory stick, the application can be launched directly from the memory stick without the need to install the software.
+Native packages for popular Linux distributions are available, and these install with the correct permissions, which allow the application to run without root permissions.
 
+#### Debian/Ubuntu/Raspbian
 
-- **Mac OS**  
-  
-  The application is a dmg disk image.  Download and open the disk image and drag the Pingnoo icon into the Applications folder, the application can then be launched by double-clicking on the Pingnoo icon in Applications.
+Pingnoo is available pre-built for the following versions.
 
+- Debian 10
+- Ubuntu 18.04, 20.04, 20.10
+- Raspbian 10
 
-- **Linux** (***Native Packages***)
+pingnoo can be installed on a supported operating system version via apt, in order to do this you will need to add the apt repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
 
-  Native packages for popular Linux distributions are available, and these install with the correct permissions, which allow the application to run without root permissions.
+```
+curl -s https://packagecloud.io/install/repositories/nedrysoft/pingnoo/script.deb.sh | sudo bash
+```
 
-  - **Installing on Debian/Ubuntu/Raspbian**
+Once the repository is added, you can then install pingnoo with the following command:
 
-    Pingnoo is available pre-built for the following versions.
+```
+sudo apt install pingnoo
+```
 
-    - Debian 10
-    - Ubuntu 18.04, 20.04, 20.10
-    - Raspbian 10
-  
-    pingnoo can be installed on a supported operating system version via apt, in order to do this you will need to add the apt repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
+By using the apt repository, you will be able to update pingnoo easily with:
 
-    ```
-    curl -s https://packagecloud.io/install/repositories/nedrysoft/pingnoo/script.deb.sh | sudo bash
-    ```
-  
-    Once the repository is added, you can then install pingnoo with the following command:
-    
-    ```
-    sudo apt install pingnoo
-    ```
-    
-    By using the apt repository, you will be able to update pingnoo easily with:
-    
-    ```
-    sudo apt update
-    ```
-    
-    Alternatively, you can download the appropriate deb file and install manually:
-    
-    ```
-    dpkg -i <downloaded file>.deb
-    apt -f install
-    ```
+```
+sudo apt update
+```
 
-  - **Installing on Fedora**
+Alternatively, you can download the appropriate deb file and install manually:
 
-    Pingnoo is available pre-built for the following versions.
+```
+dpkg -i <downloaded file>.deb
+apt -f install
+```
 
-    - Fedora r32
-    - Fedora r33
+#### Fedora
 
-    pingnoo can be installed on a supported operating system version via yum, in order to do this you will need to add the rpm repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
+Pingnoo is available pre-built for the following versions.
+
+- Fedora r32
+- Fedora r33
+
+pingnoo can be installed on a supported operating system version via yum, in order to do this you will need to add the rpm repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
+
+```
+curl -s https://packagecloud.io/install/repositories/nedrysoft/pingnoo/script.rpm.sh | sudo bash
+```
+
+Once the repository is added, you can then install pingnoo with the following command:
+
+```
+sudo yum install pingnoo
+```
+
+By using the yum repository, you will be able to update pingnoo easily with:
+
+```
+sudo yum update
+```
+
+Alternatively, you can download the appropriate rpm file and install manually:
+
+```
+yum localinstall <downloaded file>.rpm
+```
     
-    ```
-    curl -s https://packagecloud.io/install/repositories/nedrysoft/pingnoo/script.rpm.sh | sudo bash
-    ```
+#### Arch
     
-    Once the repository is added, you can then install pingnoo with the following command:
-    
-    ```
-    sudo yum install pingnoo
-    ```
-    
-    By using the yum repository, you will be able to update pingnoo easily with:
-    
-    ```
-    sudo yum update
-    ```
-    
-    Alternatively, you can download the appropriate rpm file and install manually:
-    
-    ```
-    yum localinstall <downloaded file>.rpm
-    ```
-    
-  - **Installing on Arch**
-    
-    Pingnoo is available in the AUR.  
-    
-    You can also clone the project from the AUR and build and install manually.
-    
-    ```
-    git clone https://aur.archlinux.org/pingnoo.git
-    cd pingnoo
-    makepkg
-    sudo pacman -U <filename>.zst
-    ```
-    
-    Alternatively, You man also use a tool such as yay to install.
-    
-    ```
-    yay -S pingnoo
-    ```
-    
-  - **AppImage**
-    
-    The application is also provided as an AppImage, an AppImage bundles all dependencies and therefore will run on any modern Linux distribution.
-    
-    After downloading the AppImage, you then need to do the following:
-    
-    `chmod +x <downloaded filename>`
-    
-    The application requires RAW socket access, and this means some limitations created by the AppImage process affect the operation of the application.  You will need to follow the instructions outlined in the Linux Notes section regarding setuid; this will allow you to run the application directly.  Alternatively, you can launch from the terminal by using:
-    
-    `sudo ./<downloaded filename>`
+Pingnoo is available in the AUR.  
+
+You can also clone the project from the AUR and build and install manually.
+
+```
+git clone https://aur.archlinux.org/pingnoo.git
+cd pingnoo
+makepkg
+sudo pacman -U <filename>.zst
+```
+
+Alternatively, You man also use a tool such as yay to install.
+
+```
+yay -S pingnoo
+```
+
+#### AppImage
+
+The application is also provided as an AppImage, an AppImage bundles all dependencies and therefore will run on any modern Linux distribution.
+
+After downloading the AppImage, you then need to do the following:
+
+`chmod +x <downloaded filename>`
+
+The application requires RAW socket access, and this means some limitations created by the AppImage process affect the operation of the application.  You will need to follow the instructions outlined in the Linux Notes section regarding setuid; this will allow you to run the application directly.  Alternatively, you can launch from the terminal by using:
+
+`sudo ./<downloaded filename>`
+
+--- 
 
 ## Documentation
 
 Documentation can be found on https://pingnoo.readthedocs.io/en/latest/
 
-## Requirements (Development)
+---
+
+## Development
+
+To build pingnoo from source, the following requirements must be satisfied
 
 - Qt 5 libraries
 - CMake for building the application
 
-## Development
+### Architecture
 
 Pingnoo uses a modular design architecture based on components (aka plugins); the software can be extended easily by third parties by creating new components or modifying existing ones.
 
@@ -158,7 +170,7 @@ The following compiler configurations are known to work for development.  (We do
 - ***Windows*** - 32 & 64-bit using mingw-g++
 - ***Mac OS*** - 64-bit using clang from the xcode command line tools
 
-### Building
+### Building from source
 
 Building the project will require certain libraries and toolchairs to be installed, the instructions below should be used as a guide for setting up a build environment.
 
@@ -201,7 +213,7 @@ The deploy.py python script creates runnable/installable binaries for the given 
 
 The script requires Python 3.6 or later, curl and the [colorama](https://github.com/tartley/colorama) python module to enhance the console output. You can install the Colorama module with the following command.
 
-*The CMake script provides an install target which uses the deploy script and will generate the appropriate deployable image for the platform being used.*
+(The CMake script provides an install target which uses the deploy script and will generate the appropriate deployable image for the platform being used.)
 
 `pip3 install colorama`
 
@@ -291,6 +303,8 @@ The user interface uses a Ribbon style toolbar (as seen in applications such as 
 #### Mac OS
 
 The gatekeeper requirements in Mac OS mean that the application needs to be signed and notarised to run without user interaction for allowing the application to run.  You will require a full developer account to obtain a code signing certificate that is valid for gatekeeper authentication.
+
+---
 
 # Credits
 

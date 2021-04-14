@@ -12,7 +12,6 @@ apt install vim -y &&
 apt install mesa-common-dev -y &&
 apt install libdbus-1-dev -y &&
 apt install libxcb-xinerama0-dev -y &&
-apt install git -y &&
 apt install qttools5-dev-tools -y &&
 apt install qtdeclarative5-dev -y &&
 apt install qml-module-qtquick-controls -y &&
@@ -21,6 +20,7 @@ apt install qttools5-dev -y &&
 apt install default-jdk -y &&
 apt install dpkg-sig -y &&
 apt install ruby -y &&
+apt install autoconf -y &&
 apt install ruby-dev -y
 ```
 
