@@ -33,7 +33,7 @@ tar -zxf v2.31.0.tar.gz &&
 cd git-2.31.0 &&
 make configure &&
 ./configure --prefix=/usr &&
-make -j 4 all doc info &&
+make all doc info &&
 make install install-doc install-html install-info
 ```
 

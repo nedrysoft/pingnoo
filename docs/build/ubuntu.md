@@ -4,8 +4,6 @@
 ```
 apt update -y &&
 apt install software-properties-common -y &&
-add-apt-repository ppa:git-core/ppa -y &&
-apt update -y &&
 apt install curl -y &&
 apt install build-essential -y &&
 apt install unzip -y &&
@@ -31,7 +29,7 @@ ln /usr/lib/x86_64-linux-gnu/qt5/bin/lrelease /bin/lrelease
 ### Build python 3.9 from source.
 ```
 cd /tmp &&
-apt install  zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev -y &&
+apt install zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev -y &&
 wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz &&
 tar -xf Python-3.9.1.tgz &&
 cd Python-3.9.1 &&

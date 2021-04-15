@@ -1,8 +1,9 @@
 [Desktop Entry]
 Type=Application
 Name=Pingnoo
-Exec=Pingnoo
-Icon=Pingnoo
+Version=$version
+Exec=$executable
+Icon=$icon
 Comment=Pingnoo, an open source network ping analyser
 Terminal=false
 Categories=Network;
