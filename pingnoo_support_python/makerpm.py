@@ -70,12 +70,28 @@ def rpm_create(build_arch, build_type, version, release, key):
     with msg_printer("Creating rpmbuild subtree"):
         execute("rpmdev-setuptree", "Could not create rpmbuild temporary area")
 
+    with msg_printer("Generating desktop file"):
+        with open("installer/Pingnoo.desktop.in", 'r') as desktop_file:
+            desktop_template = string.Template(desktop_file.read())
+
+            # use control.in template to create the deb control file
+        desktop_file_content = desktop_template.substitute(
+            executable="/usr/local/bin/pingnoo/Pingnoo",
+            icon="/usr/share/icons/hicolor/512x512/apps/pingnoo.png",
+            version=version)
+
+        desktop_file = f'bin/{build_arch}/Deploy/Pingnoo.desktop'
+
+        with open(desktop_file, 'w') as desktop_file:
+            desktop_file.write(desktop_file_content)
+
     with msg_printer("Creating specfile"):
         with open("rpm/pingnoo.spec.in") as in_file:
             out_data = string.Template(in_file.read()).substitute(version=version,
                                                                   release=release,
                                                                   build_arch=build_arch,
-                                                                  cmake_build_type=build_type)
+                                                                  cmake_build_type=build_type,
+                                                                  desktop_file=desktop_file)
             with open("rpmbuild/SPECS/pingnoo.spec", 'w') as out_file:
                 out_file.write(out_data)
 

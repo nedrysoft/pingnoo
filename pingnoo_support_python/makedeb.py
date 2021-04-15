@@ -65,6 +65,7 @@ def deb_create(build_arch, build_type, version, output_file, key):
         shutil.copy2('dpkg/pingnoo.conf', f'bin/{build_arch}/Deploy/dpkg/etc/ld.so.conf.d')
         shutil.copy2('dpkg/copyright', f'bin/{build_arch}/Deploy/dpkg/usr/share/doc/pingnoo')
 
+    with msg_printer("Generating desktop file"):
         build_parts = version.split('-', 1)
 
         if len(build_parts) != 2:
