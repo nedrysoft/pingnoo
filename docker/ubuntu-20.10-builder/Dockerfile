@@ -24,6 +24,7 @@
 # docker build -f Dockerfile -t nedrysoft/ubuntu-20.10-builder .
 # docker save nedrysoft/ubuntu-20.10-builder | gzip > ubuntu-20.10-builder.tar.gz
 # docker import ubuntu-20.10-builder.tar.gz
+# docker push nedrysoft/ubuntu-20.10-builder
 
 FROM nedrysoft/ubuntu-20.10-base
 ENV DEBIAN_FRONTEND noninteractive

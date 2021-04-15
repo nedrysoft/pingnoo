@@ -485,6 +485,25 @@ def _do_linux():
             shutil.copytree(f'bin/{build_arch}/{build_type}/Components',
                             f'bin/{build_arch}/Deploy/AppImage/Components', symlinks=True)
 
+            build_parts = args.version.split('-', 1)
+
+            if len(build_parts) != 2:
+                linux_build_version = "0.0.0"
+            else:
+                linux_build_version = build_parts[0][2:]
+
+            with open("installer/Pingnoo.desktop.in", 'r') as desktop_file:
+                desktop_template = string.Template(desktop_file.read())
+
+                # use control.in template to create the deb control file
+            desktop_file_content = desktop_template.substitute(
+                executable="Pingnoo",
+                icon="Pingnoo",
+                version=linux_build_version)
+
+            with open(f'bin/{build_arch}/Deploy/AppImage/usr/share/applications/Pingnoo.desktop', 'w') as desktop_file:
+                desktop_file.write(desktop_file_content)
+
             for file in glob.glob(f'bin/{build_arch}/{build_type}/*.so'):
                 shutil.copy2(file, f'bin/{build_arch}/Deploy/AppImage/usr/lib')
 

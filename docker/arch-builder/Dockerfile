@@ -5,7 +5,7 @@
 #
 # An open-source cross-platform traceroute analyser.
 #
-# Created by Adrian Carpenter on 12/04/2021.
+# Created by Adrian Carpenter on 14/04/2021.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,13 +21,24 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# docker build -f Dockerfile -t nedrysoft/debian-buster-builder .
-# docker save nedrysoft/debian-buster-builder | gzip > debian-buster-builder.tar.gz
-# docker import debian-buster-builder.tar.gz
-# docker push nedrysoft/debian-buster-builder
+# docker build -f Dockerfile -t nedrysoft/arch-builder .
+# docker save nedrysoft/arch-builder | gzip > arch-builder.tar.gz
+# docker import arch-builder.tar.gz
+# docker push nedrysoft/arch-builder
 
-FROM nedrysoft/debian-buster-base
-ENV DEBIAN_FRONTEND noninteractive
-COPY setup.sh /tmp
-RUN /tmp/setup.sh
+FROM archlinux
+RUN useradd -ms /bin/bash teamcity
+RUN pacman --noconfirm -Syu
+RUN pacman --noconfirm -Fy
+RUN pacman --noconfirm -S cmake \
+    wget \
+    git \
+    base-devel \
+    qt5-base \
+    qt5-tools \
+    qt5-quickcontrols \
+    dbus \
+    python3 \
+    python-pip
+RUN pip install git-archive-all
 

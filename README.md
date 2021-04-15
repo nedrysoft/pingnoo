@@ -199,9 +199,17 @@ make
 
 The software will be configured and the resulting binaries can be found in ../bin/<arch>/<build type>
 
-For example, an x86_64 Release build would be located at ,,/bin/x86_64/Release
+For example, an x86_64 Release build would be located at ../bin/x86_64/Release
 
 Change to that folder and execute ./Pingnoo to run the application.
+
+### Docker
+
+Docker images for linux distributions are available on DockerHub.  These images contain all the required dependencies and build tools pre-installed.
+
+https://hub.docker.com/u/nedrysoft
+
+These are the images that are used to build the binaries using TeamCity.
 
 ### Deployment
 

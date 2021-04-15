@@ -24,11 +24,13 @@
 # docker build -f Dockerfile -t nedrysoft/ubuntu-18.04-base .
 # docker save nedrysoft/ubuntu-18.04-base | gzip > ubuntu-18.04-base.tar.gz
 # docker import ubuntu-18.04-base.tar.gz
+# docker push nedrysoft/ubuntu-18.04-base
 
 FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && apt-get install -y && \
-    apt-get install -y software-properties-common \
+RUN apt-get update
+RUN apt-get install -y \
+    software-properties-common \
     curl \
     build-essential \
     wget \
@@ -63,10 +65,10 @@ RUN apt-get update && apt-get install -y && \
     libffi-dev curl \
     libbz2-dev \
     ruby \
-    ruby-dev && \
-    echo "gem: --no-ri --no-rdoc" >/etc/gemrc && \
-    gem install fpm -v 1.4.0 && \
-    gem install fpm-cookery -v 0.29.0 && \
-    gem install buildtasks -v 0.0.1 && \
-    gem install bundler -v 1.10.0
+    ruby-dev
+RUN echo "gem: --no-ri --no-rdoc" >/etc/gemrc
+RUN gem install fpm -v 1.4.0
+RUN gem install fpm-cookery -v 0.29.0
+RUN gem install buildtasks -v 0.0.1
+RUN gem install bundler -v 1.10.0
 

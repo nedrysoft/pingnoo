@@ -24,6 +24,7 @@
 # docker build -f Dockerfile -t nedrysoft/ubuntu-18.04-builder .
 # docker save nedrysoft/ubuntu-18.04-builder | gzip > ubuntu-18.04-builder.tar.gz
 # docker import ubuntu-18.04-builder.tar.gz
+# docker push nedrysoft/ubuntu-18.04-builder
 
 FROM nedrysoft/ubuntu-18.04-base
 ENV DEBIAN_FRONTEND noninteractive

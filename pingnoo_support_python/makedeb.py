@@ -64,7 +64,25 @@ def deb_create(build_arch, build_type, version, output_file, key):
         shutil.copy2('dpkg/postinst', f'bin/{build_arch}/Deploy/dpkg/DEBIAN')
         shutil.copy2('dpkg/pingnoo.conf', f'bin/{build_arch}/Deploy/dpkg/etc/ld.so.conf.d')
         shutil.copy2('dpkg/copyright', f'bin/{build_arch}/Deploy/dpkg/usr/share/doc/pingnoo')
-        shutil.copy2('dpkg/Pingnoo.desktop', f'bin/{build_arch}/Deploy/dpkg/usr/share/applications')
+
+        build_parts = version.split('-', 1)
+
+        if len(build_parts) != 2:
+            linux_build_version = "1.0.0"
+        else:
+            linux_build_version = build_parts[0][2:]
+
+        with open("installer/Pingnoo.desktop.in", 'r') as desktop_file:
+            desktop_template = string.Template(desktop_file.read())
+
+            # use control.in template to create the deb control file
+        desktop_file_content = desktop_template.substitute(
+            executable="/usr/local/bin/pingnoo/Pingnoo",
+            icon="/usr/share/icons/hicolor/512x512/apps/pingnoo.png",
+            version=linux_build_version)
+
+        with open( f'bin/{build_arch}/Deploy/dpkg/usr/share/applications/Pingnoo.desktop', 'w') as desktop_file:
+            desktop_file.write(desktop_file_content)
 
     dependencies = set()
     hashes = dict()

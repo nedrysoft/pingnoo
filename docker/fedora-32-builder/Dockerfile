@@ -24,10 +24,12 @@
 # docker build -f Dockerfile -t nedrysoft/fedora-32-builder .
 # docker save nedrysoft/fedora-32-builder | gzip > fedora-32-builder.tar.gz
 # docker import fedora-32-builder.tar.gz
+# docker push nedrysoft/fedora-32-builder
 
 FROM fedora:32
-RUN dnf -y group install "C Development Tools and Libraries"  && \
-    dnf -y install cmake \
+RUN dnf -y group install "C Development Tools and Libraries"
+RUN dnf -y install \
+    cmake \
     git \
     python-qt5-rpm-macros \
     qt5-linguist \
@@ -38,11 +40,10 @@ RUN dnf -y group install "C Development Tools and Libraries"  && \
     vim \
     wget \
     unzip \
-    java-11-openjdk \
     rpm-sign \
     ruby \
     ruby-devel \
-    qt5-devel && \
-    ln -s /usr/lib64/qt5/bin/lrelease /bin/lrelease
+    qt5-devel
+RUN ln -s /usr/lib64/qt5/bin/lrelease /bin/lrelease
 
 
