@@ -57,25 +57,25 @@ Pingnoo is available pre-built for the following versions.
 
 pingnoo can be installed on a supported operating system version via apt, in order to do this you will need to add the apt repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
 
-```
+```bash
 curl -s https://packagecloud.io/install/repositories/nedrysoft/pingnoo/script.deb.sh | sudo bash
 ```
 
 Once the repository is added, you can then install pingnoo with the following command:
 
-```
+```bash
 sudo apt install pingnoo
 ```
 
 By using the apt repository, you will be able to update pingnoo easily with:
 
-```
+```bash
 sudo apt update
 ```
 
 Alternatively, you can download the appropriate deb file and install manually:
 
-```
+```bash
 dpkg -i <downloaded file>.deb
 apt -f install
 ```
@@ -89,25 +89,25 @@ Pingnoo is available pre-built for the following versions.
 
 pingnoo can be installed on a supported operating system version via yum, in order to do this you will need to add the rpm repository and gpg key, the follow command can be used to add the pingnoo repository to your installation.
 
-```
+```bash
 curl -s https://packagecloud.io/install/repositories/nedrysoft/pingnoo/script.rpm.sh | sudo bash
 ```
 
 Once the repository is added, you can then install pingnoo with the following command:
 
-```
+```bash
 sudo yum install pingnoo
 ```
 
 By using the yum repository, you will be able to update pingnoo easily with:
 
-```
+```bash
 sudo yum update
 ```
 
 Alternatively, you can download the appropriate rpm file and install manually:
 
-```
+```bash
 yum localinstall <downloaded file>.rpm
 ```
     
@@ -117,7 +117,7 @@ Pingnoo is available in the AUR.
 
 You can also clone the project from the AUR and build and install manually.
 
-```
+```bash
 git clone https://aur.archlinux.org/pingnoo.git
 cd pingnoo
 makepkg
@@ -126,7 +126,7 @@ sudo pacman -U <filename>.zst
 
 Alternatively, You man also use a tool such as yay to install.
 
-```
+```bash
 yay -S pingnoo
 ```
 
@@ -136,11 +136,15 @@ The application is also provided as an AppImage, an AppImage bundles all depende
 
 After downloading the AppImage, you then need to do the following:
 
-`chmod +x <downloaded filename>`
+```bash
+chmod +x <downloaded filename>
+```
 
 The application requires RAW socket access, and this means some limitations created by the AppImage process affect the operation of the application.  You will need to follow the instructions outlined in the Linux Notes section regarding setuid; this will allow you to run the application directly.  Alternatively, you can launch from the terminal by using:
 
-`sudo ./<downloaded filename>`
+```bash
+sudo ./<downloaded filename>`
+```
 
 ---
 
@@ -223,7 +227,9 @@ The script requires Python 3.6 or later, curl and the [colorama](https://github.
 
 (The CMake script provides an install target which uses the deploy script and will generate the appropriate deployable image for the platform being used.)
 
-`pip3 install colorama`
+```bash
+pip3 install colorama
+```
 
 The script provides the following parameters:
 
@@ -261,7 +267,9 @@ The setcap comamnd will not work on the AppImage linux release as the privileges
 
 The CMake configuration for Linux has the following post link command, this command is optional, and you can control this with the option `Pingnoo_SetRawCapabilities`.
 
-`sudo -n /usr/sbin/setcap cap_net_raw,cap_net_admin=eip $${APPLICATION_BINARY_FOLDER}/$${TARGET}`
+```bash
+sudo -n /usr/sbin/setcap cap_net_raw,cap_net_admin=eip $${APPLICATION_BINARY_FOLDER}/$${TARGET}
+```
 
 This command will automatically apply the privileges to the executable after linking by running setcap via sudo, the flag `-n` is required to stop sudo prompting for a password if necessary if a password is needed then sudo will fail.
 
@@ -271,12 +279,14 @@ To stop sudo requesting a password for the `/usr/sbin/setcap` command create the
 
 Note that in some linux distributions `setcap` is located in `/sbin`.
 
-*Please be aware of any security issues by doing this.*
+(*Please be aware of any security issues by doing this.*)
 
 Also, it's not possible to debug the application due to the requirement of RAW sockets, one way of solving this is to create a script in `/usr/bin/gdb-sudo` with the following content:
 
-`#!/bin/sh`
-`sudo -n /usr/bin/gdb $@`
+```bash
+#!/bin/sh
+sudo -n /usr/bin/gdb $@
+```
 
 Create an entry in `/etc/sudoers` to allow gdb to run as root without a password:
 
@@ -290,7 +300,9 @@ The final step is to configure Qt Creator to use this proxy script.   Create a n
 
 Debugging memory leaks can be done with Valgrind, but as above the application requires raw socket privileges and Valgrind cannot run the executable without being run as root.  The following command can be executed from the application binary folder to run Valgrind and produce an XML debug log.  In QtCreator you can load this log for viewing. (For convenience a `valgrind.sh` script has been provided)
 
-`sudo /usr/bin/valgrind --child-silent-after-fork=yes --xml=yes --smc-check=all-non-file --tool=memcheck --gen-suppressions=all --track-origins=yes --leak-check=summary --num-callers=25 --xml-file=./debug.xml ./Pingnoo_debug`
+```bash
+sudo /usr/bin/valgrind --child-silent-after-fork=yes --xml=yes --smc-check=all-non-file --tool=memcheck --gen-suppressions=all --track-origins=yes --leak-check=summary --num-callers=25 --xml-file=./debug.xml ./Pingnoo_debug
+```
 
 #### Deleaker
 
