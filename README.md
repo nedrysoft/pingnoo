@@ -142,7 +142,7 @@ The application requires RAW socket access, and this means some limitations crea
 
 `sudo ./<downloaded filename>`
 
---- 
+---
 
 ## Documentation
 
@@ -284,7 +284,7 @@ Create an entry in `/etc/sudoers` to allow gdb to run as root without a password
 
 The final step is to configure Qt Creator to use this proxy script.   Create a new debugger configuration in Qt Creator selecting `/usr/bin/gdb-sudo` as the gdb binary.  You can choose this script as the active debugger in any Qt kit that you wish to use for debugging.
 
-*Please be aware of any security issues by doing this.*
+(*Please be aware of any security issues by doing this.*)
 
 #### Valgrind
 
@@ -314,7 +314,7 @@ The gatekeeper requirements in Mac OS mean that the application needs to be sign
 
 ---
 
-# Credits
+## Credits
 
 This project was created and maintained by [Adrian Carpenter](https://github.com/fizzyade).
 
@@ -356,9 +356,8 @@ Also, Pingnoo was developed using the following commercially licensed tools/serv
 
 This project is a grateful recipient of a micro-grant from [icculus](https://icculus.org/microgrant/2020/) who provide micro-grants each year to open-source projects.
 
-# License
+## License
 
 Pingnoo is open source and released under the GPLv3 License
 
 Distributed as-is; no warranty is given or implied.
-
