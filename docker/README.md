@@ -2,7 +2,9 @@
 
 This folder contains the docker image definitions used by my CI/CD system (TeamCity) for building native packages.
 
-Each platform is split into 2 separate images.
+Each platform may be split into 2 separate images, this is for convenience when test building the images.  By having the system packages installed in a "base" image, we do not have to rebuild everything should compilation fail on Git or Python.
+
+Base only ever contains packages that can be installed via a package manager (rpm, apt, gem, pip and so on).
 
 - -base is the base OS image with the required apt packages installed for building & deployment
 - -builder contains extra tools (if needed) that are built from source (or available as a binary) (git, python, cmake).  This image is used to build the distributable packages.
