@@ -78,6 +78,8 @@ auto Nedrysoft::Core::RibbonBarManager::addPage(QString title, QString id, float
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
     m_ribbonWidget->setTabVisible(tabIndex, false);
+#else
+    tabIndex; // stops a codacity warning
 #endif
 
     m_pages[id] = ribbonPage;

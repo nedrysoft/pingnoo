@@ -37,7 +37,8 @@
 CoreComponent::CoreComponent() :
         m_core(nullptr),
         m_contextManager(nullptr),
-        m_commandManager(nullptr) {
+        m_commandManager(nullptr),
+        m_ribbonBarManager(nullptr) {
 
 }
 CoreComponent::~CoreComponent() {

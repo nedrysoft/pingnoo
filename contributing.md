@@ -80,9 +80,9 @@ The format of an include guard should be as follows:
 
 All code must exist in an appropriate namespace to prevent clashes with third party code, when using an item from a namespace then the fully qualified name should be used, and "using <namespace>" should not be used, using the full decorated namespace makes it much easier to locate the items origin.
 
-* Use C++17 nested namespaces.
-* Braces should be on the same line as the namespace definition.
-* Items inside a namespace indent 1 level
+*   Use C++17 nested namespaces.
+*   Braces should be on the same line as the namespace definition.
+*   Items inside a namespace indent 1 level
 
 *Good*
 
@@ -215,10 +215,10 @@ Comments use the JavaDoc style for consistency.
 bool eventFilter(QObject *watched, QEvent *event) override;
 ```
 
-* The comment must come directly before the method and there should be no gap between the comment and the function declaration.
-* A new line must exist between each section of the comment; group parameters without newlines.
-* The ```@returns``` tag should be used instead of ```@return```.
-* Parameters should include the direction of data.
+*   The comment must come directly before the method and there should be no gap between the comment and the function declaration.
+*   A new line must exist between each section of the comment; group parameters without newlines.
+*   The ```@returns``` tag should be used instead of ```@return```.
+*   Parameters should include the direction of data.
 
 ### Class declarations
 
@@ -376,10 +376,10 @@ Each function definition must conform to the following code standard.
 1.  Member variables should use initialiser lists instead of being assigned.
 2.  The colon for the initialiser list must appear on the same line as the function definition.
 3.  Each initialiser is indented by two levels.
-3.  One initialiser per line.
-4.  The final initialiser contains the opening brace for the function.
-5.  A blank line should always follow the opening brace for constructors that have initialisers regardless of whether or not any statements follow.  For constructors, without initialisers, the blank line should be omitted.
-6.  Splitting parameters onto separate lines to increase readability is allowed.  A newline follows the opening brace, and there should be one line per parameter.  The parameters are indented two levels, and the closing brace and curly brace follows the final parameter, a blank line should also follow.
+4.  One initialiser per line.
+5.  The final initialiser contains the opening brace for the function.
+6.  A blank line should always follow the opening brace for constructors that have initialisers regardless of whether or not any statements follow.  For constructors, without initialisers, the blank line should be omitted.
+7.  Splitting parameters onto separate lines to increase readability is allowed.  A newline follows the opening brace, and there should be one line per parameter.  The parameters are indented two levels, and the closing brace and curly brace follows the final parameter, a blank line should also follow.
 
 *Good*
 
@@ -752,7 +752,7 @@ for (int i=0;i<j;i++) {
 }
 ```
 
-# Commit Messages
+## Commit Messages
 
 All commits to the repository must follow the conventional commit style.
 
@@ -766,4 +766,3 @@ The following tags are in use:
 *   "feat:" work on a specific feature.
 
 Open a GitHub issue for suggestions of other tag types. 
-
