@@ -29,7 +29,7 @@
 FROM debian:buster
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
-RUN apt-get install -y \
+RUN apt-get install -y --no-install-recommends \
     software-properties-common  \
     curl \
     build-essential \
@@ -66,7 +66,9 @@ RUN apt-get install -y \
     libffi-dev \
     libbz2-dev \
     ruby \
-    ruby-dev
+    ruby-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 RUN echo "gem: --no-ri --no-rdoc" >/etc/gemrc
 RUN gem install fpm -v 1.4.0
 RUN gem install fpm-cookery -v 0.29.0

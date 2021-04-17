@@ -43,7 +43,7 @@ wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz
 tar -xf Python-3.9.1.tgz
 cd Python-3.9.1
 ./configure --enable-optimizations
-make -j`nproc`
+make -j $(nproc)
 make install
 
 # install cmake
