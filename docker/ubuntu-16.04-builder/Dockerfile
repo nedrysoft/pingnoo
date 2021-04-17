@@ -21,12 +21,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# docker build -f Dockerfile -t registry.fizzyade.com/ubuntu-18.04-builder .
-# docker save registry.fizzyade.com/ubuntu-18.04-builder | gzip > ubuntu-18.04-builder.tar.gz
-# docker import ubuntu-18.04-builder.tar.gz
-# docker push registry.fizzyade.com/ubuntu-18.04-builder
+# docker build -f Dockerfile -t registry.fizzyade.com/ubuntu-16.04-builder .
+# docker save registry.fizzyade.com/ubuntu-16.04-builder | gzip > ubuntu-16.04-builder.tar.gz
+# docker import ubuntu-16.04-builder.tar.gz
+# docker push registry.fizzyade.com/ubuntu-16.04-builder
 
-FROM registry.fizzyade.com/ubuntu-18.04-base
+FROM registry.fizzyade.com/ubuntu-16.04-base
 ENV DEBIAN_FRONTEND noninteractive
 COPY setup.sh /tmp
 RUN /tmp/setup.sh

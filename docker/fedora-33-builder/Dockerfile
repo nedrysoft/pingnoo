@@ -21,10 +21,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# docker build -f Dockerfile -t nedrysoft/fedora-33-builder .
-# docker save nedrysoft/fedora-33-builder | gzip > fedora-33-builder.tar.gz
+# docker build -f Dockerfile -t registry.fizzyade.com/fedora-33-builder .
+# docker save registry.fizzyade.com/fedora-33-builder | gzip > fedora-33-builder.tar.gz
 # docker import fedora-33-builder.tar.gz
-# docker push nedrysoft/fedora-33-builder
+# docker push registry.fizzyade.com/fedora-33-builder
 
 FROM fedora:33
 RUN dnf -y group install "C Development Tools and Libraries"
