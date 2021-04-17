@@ -39,7 +39,7 @@ Nedrysoft::RouteEngine::RouteEngineWorker::RouteEngineWorker(
             m_host(host),
             m_ipVersion(ipVersion),
             m_pingEngineFactory(pingEngineFactory),
-            m_isRunning{false)
+            m_isRunning(false) {
 
 }
 
