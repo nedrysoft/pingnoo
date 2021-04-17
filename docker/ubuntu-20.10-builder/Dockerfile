@@ -21,12 +21,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# docker build -f Dockerfile -t nedrysoft/ubuntu-20.10-builder .
-# docker save nedrysoft/ubuntu-20.10-builder | gzip > ubuntu-20.10-builder.tar.gz
+# docker build -f Dockerfile -t registry.fizzyade.com/ubuntu-20.10-builder .
+# docker save registry.fizzyade.com/ubuntu-20.10-builder | gzip > ubuntu-20.10-builder.tar.gz
 # docker import ubuntu-20.10-builder.tar.gz
-# docker push nedrysoft/ubuntu-20.10-builder
+# docker push registry.fizzyade.com/ubuntu-20.10-builder
 
-FROM nedrysoft/ubuntu-20.10-base
+FROM registry.fizzyade.com/ubuntu-20.10-base
 ENV DEBIAN_FRONTEND noninteractive
 COPY setup.sh /tmp
 RUN /tmp/setup.sh
