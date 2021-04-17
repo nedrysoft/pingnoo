@@ -56,7 +56,7 @@ def pkg_create(build_arch, build_type, version, key):
         execute(f'git-archive-all {source_location}', "Failed to create source archive")
 
     with msg_printer("Generating tarball hash"):
-        hash = execute(f'md5sum {source_location}', "Failed to get hash of source archive").split(' ')[0]
+        source_hash = execute(f'md5sum {source_location}', "Failed to get hash of source archive").split(' ')[0]
 
     dependencies = set()
     libraries = set()
@@ -107,9 +107,9 @@ def pkg_create(build_arch, build_type, version, key):
         build_version = version.split('-')
 
         # use PKGBUILD.in template to create PKGBUILD file
-        pkgbuild_file_content = pkgbuild_template.substitute(GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch, GIT_UNCOMMITTED=git_uncommitted, sourcelocation=f'file://{source_location}', arch=build_arch, md5sum=hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
+        pkgbuild_file_content = pkgbuild_template.substitute(GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch, GIT_UNCOMMITTED=git_uncommitted, sourcelocation=f'file://{source_location}', arch=build_arch, md5sum=source_hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
 
-        aur_pkgbuild_file_content = pkgbuild_template.substitute(GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch, GIT_UNCOMMITTED=git_uncommitted, sourcelocation=aur_source_location, arch=build_arch, md5sum=hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
+        aur_pkgbuild_file_content = pkgbuild_template.substitute(GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch, GIT_UNCOMMITTED=git_uncommitted, sourcelocation=aur_source_location, arch=build_arch, md5sum=source_hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
 
         with open(f'bin/{build_arch}/Deploy/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(pkgbuild_file_content)

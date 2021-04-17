@@ -41,6 +41,7 @@ CoreComponent::CoreComponent() :
         m_ribbonBarManager(nullptr) {
 
 }
+
 CoreComponent::~CoreComponent() {
 }
 
