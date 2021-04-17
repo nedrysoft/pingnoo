@@ -6,8 +6,8 @@ Each platform may be split into 2 separate images, this is for convenience when 
 
 Base only ever contains packages that can be installed via a package manager (rpm, apt, gem, pip and so on).
 
-- -base is the base OS image with the required apt packages installed for building & deployment
-- -builder contains extra tools (if needed) that are built from source (or available as a binary) (git, python, cmake).  This image is used to build the distributable packages.
+-   -base is the base OS image with the required apt packages installed for building & deployment
+-   -builder contains extra tools (if needed) that are built from source (or available as a binary) (git, python, cmake).  This image is used to build the distributable packages.
 
 I self host my own docker registry so that I am not limited by transfer quota restrictions on DockerHub.
 
@@ -27,7 +27,7 @@ wget -c https://download.jetbrains.com/teamcity/TeamCity-2020.2.4.tar.gz -O - | 
 
 Edit the files:
 
-```
+```text
 context/run-agent.sh
 context/generated/linux/MinimalAgent/Ubuntu/20.04/Dockerfile
 ```
