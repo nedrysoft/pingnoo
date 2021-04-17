@@ -21,10 +21,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# docker build -f Dockerfile -t nedrysoft/arch-builder .
-# docker save nedrysoft/arch-builder | gzip > arch-builder.tar.gz
+# docker build -f Dockerfile -t registry.fizzyade.com/arch-builder .
+# docker save registry.fizzyade.com/arch-builder | gzip > arch-builder.tar.gz
 # docker import arch-builder.tar.gz
-# docker push nedrysoft/arch-builder
+# docker push registry.fizzyade.com/arch-builder
 
 FROM archlinux
 RUN useradd -ms /bin/bash teamcity

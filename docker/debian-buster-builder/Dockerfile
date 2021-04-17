@@ -21,12 +21,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# docker build -f Dockerfile -t nedrysoft/debian-buster-builder .
-# docker save nedrysoft/debian-buster-builder | gzip > debian-buster-builder.tar.gz
+# docker build -f Dockerfile -t registry.fizzyade.com/debian-buster-builder .
+# docker save registry.fizzyade.com/debian-buster-builder | gzip > debian-buster-builder.tar.gz
 # docker import debian-buster-builder.tar.gz
-# docker push nedrysoft/debian-buster-builder
+# docker push registry.fizzyade.com/debian-buster-builder
 
-FROM nedrysoft/debian-buster-base
+FROM registry.fizzyade.com/debian-buster-base
 ENV DEBIAN_FRONTEND noninteractive
 COPY setup.sh /tmp
 RUN /tmp/setup.sh

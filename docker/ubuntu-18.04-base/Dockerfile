@@ -21,10 +21,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# docker build -f Dockerfile -t nedrysoft/ubuntu-18.04-base .
-# docker save nedrysoft/ubuntu-18.04-base | gzip > ubuntu-18.04-base.tar.gz
+# docker build -f Dockerfile -t registry.fizzyade.com/ubuntu-18.04-base .
+# docker save registry.fizzyade.com/ubuntu-18.04-base | gzip > ubuntu-18.04-base.tar.gz
 # docker import ubuntu-18.04-base.tar.gz
-# docker push nedrysoft/ubuntu-18.04-base
+# docker push registry.fizzyade.com/ubuntu-18.04-base
 
 FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND noninteractive
@@ -49,7 +49,8 @@ RUN apt-get install -y \
     dh-autoreconf \
     libcurl4-gnutls-dev \
     libexpat1-dev \
-    gettext libz-dev \
+    gettext  \
+    libz-dev \
     libssl-dev \
     asciidoc \
     xmlto \
@@ -62,7 +63,7 @@ RUN apt-get install -y \
     libssl-dev \
     libsqlite3-dev \
     libreadline-dev \
-    libffi-dev curl \
+    libffi-dev \
     libbz2-dev \
     ruby \
     ruby-dev
