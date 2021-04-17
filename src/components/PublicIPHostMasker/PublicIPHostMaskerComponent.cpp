@@ -28,7 +28,8 @@
 #include "ComponentSystem/IComponentManager.h"
 
 PublicIPHostMaskerComponent::PublicIPHostMaskerComponent() :
-        m_hostMasker(nullptr) {
+        m_hostMasker(nullptr),
+        m_settingsPage(nullptr) {
 
 }
 

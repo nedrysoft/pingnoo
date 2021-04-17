@@ -52,7 +52,6 @@ Nedrysoft::RouteAnalyser::TargetSettings::~TargetSettings() {
 
 auto Nedrysoft::RouteAnalyser::TargetSettings::saveConfiguration() -> QJsonObject {
     auto rootObject = QJsonObject();
-    auto itemArray = QJsonArray();
 
     rootObject.insert("id", this->metaObject()->className());
 

@@ -28,7 +28,7 @@
 
 class Nedrysoft::Pingnoo::ICMPAPIPingItemData {
     public:
-        ICMPAPIPingItemData(Nedrysoft::Pingnoo::ICMPAPIPingItem *parent) :
+        explicit ICMPAPIPingItemData(Nedrysoft::Pingnoo::ICMPAPIPingItem *parent) :
                 m_pingItem(parent),
                 m_id(0),
                 m_sequenceId(0),

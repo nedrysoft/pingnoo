@@ -47,7 +47,8 @@ RouteAnalyserComponent::RouteAnalyserComponent() :
         m_viewportGroupWidget(nullptr),
         m_latencySettingsPage(nullptr),
         m_targetSettingsPage(nullptr),
-        m_newTargetAction(nullptr) {
+        m_newTargetAction(nullptr),
+        m_latencySettings(nullptr) {
 
 }
 

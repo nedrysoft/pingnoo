@@ -1,10 +1,10 @@
 FROM ubuntu:16.04
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y && \
-    apt-get install -y software-properties-common && \
+    apt-get install -y software-properties-common --no-install-recommends && \
     add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
     apt-get update && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
     curl \
     python3 \
     p7zip \
@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y && \
     curl https://bootstrap.pypa.io/pip/3.5/get-pip.py -o get-pip.py && \
     python3 get-pip.py && \
     python3 -m pip install aqtinstall && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
     gcc-6 \
     g++-6 \
     curl \
@@ -50,5 +50,7 @@ RUN apt-get update && apt-get install -y && \
     libffi-dev \
     libbz2-dev \
     ruby \
-    ruby-dev
+    ruby-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 

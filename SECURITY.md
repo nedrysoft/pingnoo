@@ -17,9 +17,9 @@ Ensure you are running the latest version to benefit from all available security
 ## Reporting a Vulnerability
 
 This project encourages the responsible disclosure of vulnerabilities in line with industry best practices which include:
-1. Notifying the project owner
-2. Provide sufficient information to recreate the purported vulnerability.
-3. Allowing 90 days for remedial action to be taken before publishing details of security vulnerabilities
+1.  Notifying the project owner
+2.  Provide sufficient information to recreate the purported vulnerability.
+3.  Allowing 90 days for remedial action to be taken before publishing details of security vulnerabilities
 
 As this is a public project, we encourage you to commit improvements or use the issue tracker to report non critical security issues.
 

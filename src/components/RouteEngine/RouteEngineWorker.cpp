@@ -35,12 +35,12 @@ constexpr auto MaxRouteHops = 64;
 Nedrysoft::RouteEngine::RouteEngineWorker::RouteEngineWorker(
         QString host,
         Nedrysoft::Core::IPingEngineFactory *pingEngineFactory,
-        Nedrysoft::Core::IPVersion ipVersion ) {
+        Nedrysoft::Core::IPVersion ipVersion ) :
+            m_host(host),
+            m_ipVersion(ipVersion),
+            m_pingEngineFactory(pingEngineFactory),
+            m_isRunning(false) {
 
-    m_host = host;
-    m_pingEngineFactory = pingEngineFactory;
-    m_ipVersion = ipVersion;
-    m_isRunning = false;
 }
 
 Nedrysoft::RouteEngine::RouteEngineWorker::~RouteEngineWorker() {

@@ -1,4 +1,3 @@
-
 # Contributing to the project
 
 The following document contains a set of guidelines for contributing to the project.  Any pull-requests should be compliant with this guide.  Code style is often fluent, open a GitHub issue for suggestions or improvements.
@@ -40,27 +39,27 @@ Include files are logically grouped according to their scope and sorted alphabet
 
 ### Source file
 
-1. The first header should be the corresponding header to the source file.
-2. *Empty Line*
-3. Local includes (sorted alphabetically)
-4. *Empty Line*
-5. System includes (sorted alphabetically)
+1.  The first header should be the corresponding header to the source file.
+2.  *Empty Line*
+3.  Local includes (sorted alphabetically)
+4.  *Empty Line*
+5.  System includes (sorted alphabetically)
 
 ### Header file
 
-1. Local includes (sorted alphabetically)
-2. *Empty Line*
-3. System includes (sorted alphabetically)
-4. *Empty Line*
-5. Objective C++ imports (sorted alphabetically)
+1.  Local includes (sorted alphabetically)
+2.  *Empty Line*
+3.  System includes (sorted alphabetically)
+4.  *Empty Line*
+5.  Objective C++ imports (sorted alphabetically)
 
 ### Exceptions
 
 If a file requires including at a specific location (i.e. either the first or last), then it should be accompanied a comment explaining why the file is out of sequence.
 
-# C++
+## C++
 
-## Include Guards
+###Include Guards
 
 All include files should have an include guard to prevent the file from being included more than once.
 
@@ -77,13 +76,13 @@ The format of an include guard should be as follows:
 [ORGANISATION]_[FILENAME]_H
 ```
 
-## Namespaces
+##$ Namespaces
 
 All code must exist in an appropriate namespace to prevent clashes with third party code, when using an item from a namespace then the fully qualified name should be used, and "using <namespace>" should not be used, using the full decorated namespace makes it much easier to locate the items origin.
 
-* Use C++17 nested namespaces.
-* Braces should be on the same line as the namespace definition.
-* Items inside a namespace indent 1 level
+*   Use C++17 nested namespaces.
+*   Braces should be on the same line as the namespace definition.
+*   Items inside a namespace indent 1 level
 
 *Good*
 
@@ -216,10 +215,10 @@ Comments use the JavaDoc style for consistency.
 bool eventFilter(QObject *watched, QEvent *event) override;
 ```
 
-* The comment must come directly before the method and there should be no gap between the comment and the function declaration.
-* A new line must exist between each section of the comment; group parameters without newlines.
-* The ```@returns``` tag should be used instead of ```@return```.
-* Parameters should include the direction of data.
+*   The comment must come directly before the method and there should be no gap between the comment and the function declaration.
+*   A new line must exist between each section of the comment; group parameters without newlines.
+*   The ```@returns``` tag should be used instead of ```@return```.
+*   Parameters should include the direction of data.
 
 ### Class declarations
 
@@ -314,12 +313,12 @@ class RibbonTabBar :
 }
 ```
 
-1. This section should implicitly set the scope to private and should ***only*** include Qt macros.  Group macros logically with a new line separating each group.
-2. This section (there may be more than one depending on scope) should define any ```enums``` or ```constexpr```.
-3. This section includes constructors, destructors, and any public methods that the class exposes.
-4. This section contains any overridden superclass functions.
-5. This section (there may be more than one depending on scope) contains internal functions.
-6. This section contains any member variables.
+1.  This section should implicitly set the scope to private and should ***only*** include Qt macros.  Group macros logically with a new line separating each group.
+2.  This section (there may be more than one depending on scope) should define any ```enums``` or ```constexpr```.
+3.  This section includes constructors, destructors, and any public methods that the class exposes.
+4.  This section contains any overridden superclass functions.
+5.  This section (there may be more than one depending on scope) contains internal functions.
+6.  This section contains any member variables.
 
 ### Case
 
@@ -374,13 +373,13 @@ Function names should be descriptive and whenever possible, and not truncated.  
 
 Each function definition must conform to the following code standard.
 
-1. Member variables should use initialiser lists instead of being assigned.
-2. The colon for the initialiser list must appear on the same line as the function definition.
-3. Each initialiser is indented by two levels.
-3. One initialiser per line.
-4. The final initialiser contains the opening brace for the function.
-5. A blank line should always follow the opening brace for constructors that have initialisers regardless of whether or not any statements follow.  For constructors, without initialisers, the blank line should be omitted.
-6. Splitting parameters onto separate lines to increase readability is allowed.  A newline follows the opening brace, and there should be one line per parameter.  The parameters are indented two levels, and the closing brace and curly brace follows the final parameter, a blank line should also follow.
+1.  Member variables should use initialiser lists instead of being assigned.
+2.  The colon for the initialiser list must appear on the same line as the function definition.
+3.  Each initialiser is indented by two levels.
+4.  One initialiser per line.
+5.  The final initialiser contains the opening brace for the function.
+6.  A blank line should always follow the opening brace for constructors that have initialisers regardless of whether or not any statements follow.  For constructors, without initialisers, the blank line should be omitted.
+7.  Splitting parameters onto separate lines to increase readability is allowed.  A newline follows the opening brace, and there should be one line per parameter.  The parameters are indented two levels, and the closing brace and curly brace follows the final parameter, a blank line should also follow.
 
 *Good*
 
@@ -518,10 +517,10 @@ The program flow style is an extension of the rules described above.
 
 #### if conditional
 
-* Braces should always be used, even in the case of a single-line statement.
-* Braces appear on the same line as the terminating conditional statement
-* Multiple conditions may be split across multiple lines if it improves clarity.
-* Each conditional must be surrounded by braces to avoid ambiguity.
+*   Braces should always be used, even in the case of a single-line statement.
+*   Braces appear on the same line as the terminating conditional statement
+*   Multiple conditions may be split across multiple lines if it improves clarity.
+*   Each conditional must be surrounded by braces to avoid ambiguity.
 
 *Good*
 
@@ -572,8 +571,8 @@ else
 
 #### for loops
 
-* Wherever possible use range-based loops or iterators.
-* Use descriptive names for indices or iterators
+*   Wherever possible use range-based loops or iterators.
+*   Use descriptive names for indices or iterators
 
 *Good*
 
@@ -590,7 +589,7 @@ for (auto currentIndex=0; currentIndex<totalValues; currentIndex++) {
 
 #### while/do loops
 
-* Braces appear on the same line as the loop.
+*   Braces appear on the same line as the loop.
 
 *Good*
 
@@ -622,10 +621,10 @@ do
 
 #### Switch statements
 
-* Cases are indented by one level.
-* Multiple cases may be combined.
-* Braces must always be used.
-* The opening case brace is on the same line as the final case statement.
+*   Cases are indented by one level.
+*   Multiple cases may be combined.
+*   Braces must always be used.
+*   The opening case brace is on the same line as the final case statement.
 
 *Good*
 
@@ -674,8 +673,8 @@ switch(m_currentMode) {
 
 #### Lambda functions
 
-* Use of lambda expressions where possible, this is particularly true when dealing with asynchronous operations where using a lambda expression will result in cleaner and more readable code.
-* std::function should be used as it allows both lambda and callback style operations.
+*   Use of lambda expressions where possible, this is particularly true when dealing with asynchronous operations where using a lambda expression will result in cleaner and more readable code.
+*   std::function should be used as it allows both lambda and callback style operations.
 
 ```c++
 void MyClass::downloadFile(DownloadInfo downloadInfo, std::function<void(DownloadStatus status)> statusFunction) {
@@ -687,8 +686,8 @@ void MyClass::downloadFile(DownloadInfo downloadInfo, std::function<void(Downloa
 
 #### Singletons
 
-* Singletons may be used where appropriate, for example, the MainWindow of the application may be accessed through a singleton instance which provides access to the object across the project.
-* Singletons must use the C++11 pattern shown below as this inherently thread-safe.
+*   Singletons may be used where appropriate, for example, the MainWindow of the application may be accessed through a singleton instance which provides access to the object across the project.
+*   Singletons must use the C++11 pattern shown below as this inherently thread-safe.
 
 ```c++
 MyClass::getInstance() {
@@ -697,7 +696,6 @@ MyClass::getInstance() {
     return instance;
 }
 ```
-
 
 ### Typing
 
@@ -717,8 +715,8 @@ QSettingsDialog settingsDialog;
 
 ### Qt Specific
 
-* Qt keyword definitions should be disabled as they may conflict with third party code.  
-* Use ```Q_EMIT Q_SIGNAL Q_SLOT``` macros.
+*   Qt keyword definitions should be disabled as they may conflict with third party code.  
+*   Use ```Q_EMIT Q_SIGNAL Q_SLOT``` macros.
 
 ```c++
 class MyObject : 
@@ -754,18 +752,17 @@ for (int i=0;i<j;i++) {
 }
 ```
 
-# Commit Messages
+## Commit Messages
 
 All commits to the repository must follow the conventional commit style.
 
 The following tags are in use:
 
-* "repo:" a change to the repo, includes operations such as editing README.md or restructuring.
-* "wip:" a work in progress message.
-* "refactor:" refactoring of the code.
-* "chore:" general housekeeping task such as removing dead files from the repo.
-* "fix:" a fix of a specific issue should typically be link reference a GitHub issue.
-* "feat:" work on a specific feature.
+*   "repo:" a change to the repo, includes operations such as editing README.md or restructuring.
+*   "wip:" a work in progress message.
+*   "refactor:" refactoring of the code.
+*   "chore:" general housekeeping task such as removing dead files from the repo.
+*   "fix:" a fix of a specific issue should typically be link reference a GitHub issue.
+*   "feat:" work on a specific feature.
 
 Open a GitHub issue for suggestions of other tag types. 
-
