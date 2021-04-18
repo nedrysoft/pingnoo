@@ -25,8 +25,14 @@
 
 #include "ICMPAPIPingTransmitter.h"
 #include "ICMPAPIPingTarget.h"
+#include "Core/PingResult.h"
 
-//#include <IPExport.h>
+#include <WS2tcpip.h>
+#include <WinSock2.h>
+#include <iphlpapi.h>
+
+#include <IcmpAPI.h>
+#include <IPExport.h>
 //#include <IcmpAPI.h>
 #include <QMap>
 #include <QMutex>
@@ -37,7 +43,9 @@
 
 using namespace std::chrono_literals;
 
+constexpr auto DefaultTransmitTimeout = 1s;
 constexpr auto DefaultReplyTimeout = 3s;
+constexpr auto PingPayloadLength = 64;
 
 class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData {
 
@@ -213,6 +221,68 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
         QHostAddress hostAddress,
         int ttl,
         double timeout ) -> Nedrysoft::Core::PingResult {
+
+        QByteArray dataBuffer = QString("Hello World").toLatin1();
+
+    QByteArray tempBuffer(PingPayloadLength, 0);
+    struct sockaddr_in toAddress = {};
+    HANDLE icmpHandle;
+    Nedrysoft::Core::PingResult pingResult;
+
+#if defined(_WIN64)
+    IP_OPTION_INFORMATION32 pingOptions;
+
+    pingOptions.Ttl = ttl;
+    pingOptions.Flags = 0;
+    pingOptions.OptionsData = nullptr;
+    pingOptions.OptionsSize = 0;
+    pingOptions.Tos = 0;
+
+    PIP_OPTION_INFORMATION pipOptions = reinterpret_cast<PIP_OPTION_INFORMATION>(&pingOptions);
+#else
+    PIP_OPTION_INFORMATION pipOptions;
+#endif
+
+    icmpHandle = IcmpCreateFile();
+
+    //auto remoteHost = gethostbyname(m_hostAddress.data());
+
+    inet_pton(AF_INET, "172.29.13.1", &toAddress.sin_addr.S_un.S_addr);
+
+    QByteArray replyBuffer(4096, 0);
+
+    auto returnValue = IcmpSendEcho(icmpHandle, toAddress.sin_addr.S_un.S_addr,
+                                dataBuffer.data(), static_cast<WORD>(dataBuffer.length()), pipOptions,
+                                replyBuffer.data(), static_cast<DWORD>(replyBuffer.length()),
+                                std::chrono::duration<DWORD, std::milli>(
+                                        DefaultTransmitTimeout).count()); // NOLINT(cppcoreguidelines-pro-type-union-access)
+    if (returnValue) {
+        PICMP_ECHO_REPLY pEchoReply = (PICMP_ECHO_REPLY) replyBuffer.data();
+
+        struct in_addr ReplyAddr;
+
+        ReplyAddr.S_un.S_addr = pEchoReply->Address;
+
+        //pEchoReply->RoundTripTime;
+        //pEchoReply->Address;
+        //pEchoReply->Status; //IP_REQ_TIMED_OUT IP_TTL_EXPIRED_TRANSIT IP_SUCCESS
+
+        char *hostAddress = 0;
+        auto epoch = std::chrono::system_clock::now();
+
+        auto replyHost = QHostAddress(pEchoReply->Address);
+
+        //Nedrysoft::Core::PingResult pingResult;
+
+        return Nedrysoft::Core::PingResult(
+                    0,
+                    Nedrysoft::Core::PingResult::ResultCode::Ok,
+                    replyHost,
+                    epoch,
+                    std::chrono::duration<double, std::milli>(pEchoReply->RoundTripTime),
+                    nullptr);
+
+    }
 
     return Nedrysoft::Core::PingResult();
 }

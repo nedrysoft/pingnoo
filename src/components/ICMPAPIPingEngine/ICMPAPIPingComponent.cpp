@@ -26,13 +26,10 @@
 #include "ComponentSystem/IComponentManager.h"
 #include "ICMPAPIPingEngineFactory.h"
 
-#define _WINSOCKAPI_    // stops windows.h including winsock.h
+#define _WINSOCKAPI_
 
 #include <winsock2.h>
 #include <windows.h>
-//#include <IPExport.h>
-//#include <WS2tcpip.h>
-
 #include <ws2tcpip.h>
 #include <spdlog/spdlog.h>
 
