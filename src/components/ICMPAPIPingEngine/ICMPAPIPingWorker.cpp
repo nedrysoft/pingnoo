@@ -1,77 +1,121 @@
-//
-// Created by adriancarpenter on 18/04/2021.
-//
+/*
+ * Copyright (C) 2020 Adrian Carpenter
+ *
+ * This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
+ *
+ * An open-source cross-platform traceroute analyser.
+ *
+ * Created by Adrian Carpenter on 18/04/2021.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "ICMPAPIPingWorker.h"
 
-#include "Core/PingResult.h"
+#include "ICMPAPIPingTarget.h"
 
+#include <QHostAddress>
 #include <QMutexLocker>
-#include <QRandomGenerator>
 #include <QThread>
 #include <WS2tcpip.h>
 #include <WinSock2.h>
-#include <array>
-#include <cerrno>
 #include <chrono>
-#include <cstdint>
-#include <fcntl.h>
-#include <iphlpapi.h>
-#include <string>
 
+#include <iphlpapi.h>
 #include <IcmpAPI.h>
 
 using namespace std::chrono_literals;
 
 constexpr unsigned long PingPayloadLength = 1024;
 constexpr auto DefaultTransmitTimeout = 3s;
+constexpr auto nanosecondsInMillisecond = 1.0e6;
 
-Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker::ICMPAPIPingWorker() {
+Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker::ICMPAPIPingWorker(
+        int sampleNumber,
+        Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *target) {
 
+    m_target = target;
+    m_sampleNumber = sampleNumber;
 }
 
 void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker::doWork() {
-    QByteArray dataBuffer = QString("Hello World").toLatin1();
-    QByteArray tempBuffer(PingPayloadLength, 0);
-    struct sockaddr_in toAddress = {};
+    QByteArray dataBuffer = QString("pingnoo ping ").arg(m_sampleNumber).toLatin1();
+    QByteArray replyBuffer(sizeof(ICMP_ECHO_REPLY) + dataBuffer.length(), 0);
     HANDLE icmpHandle;
-    Nedrysoft::Core::PingResult pingResult;
+    QHostAddress replyHost;
+    Nedrysoft::Core::PingResult result;
+    QElapsedTimer timer;
+    qint64 started, finished;
+
+#if defined(_WIN64)
+    IP_OPTION_INFORMATION32 pingOptions;
+
+    pingOptions.Ttl = m_target->ttl();
+    pingOptions.Flags = 0;
+    pingOptions.OptionsData = nullptr;
+    pingOptions.OptionsSize = 0;
+    pingOptions.Tos = 0;
+
+    PIP_OPTION_INFORMATION pipOptions = reinterpret_cast<PIP_OPTION_INFORMATION>(&pingOptions);
+#else
+    PIP_OPTION_INFORMATION pipOptions;
+#endif
+    //TODO: ipV6
 
     icmpHandle = IcmpCreateFile();
 
-    //auto remoteHost = gethostbyname(m_hostAddress.data());
+    started = timer.nsecsElapsed();
 
-    inet_pton(AF_INET, "172.29.13.1", &toAddress.sin_addr.S_un.S_addr);
+    auto returnValue = IcmpSendEcho(icmpHandle, m_target->hostAddress().toIPv4Address(),
+                                    dataBuffer.data(), static_cast<WORD>(dataBuffer.length()), pipOptions,
+                                    replyBuffer.data(), static_cast<DWORD>(replyBuffer.length()),
+                                    std::chrono::duration<DWORD, std::milli>(
+                                            DefaultTransmitTimeout).count()); // NOLINT(cppcoreguidelines-pro-type-union-access)
 
-    QByteArray replyBuffer(4096, 0);
+    finished = timer.nsecsElapsed();
 
-    auto returnValue = IcmpSendEcho(icmpHandle, toAddress.sin_addr.S_un.S_addr,
-                                dataBuffer.data(), static_cast<WORD>(dataBuffer.length()), nullptr,
-                                replyBuffer.data(), static_cast<DWORD>(replyBuffer.length()),
-                                std::chrono::duration<DWORD, std::milli>(
-                                        DefaultTransmitTimeout).count()); // NOLINT(cppcoreguidelines-pro-type-union-access)
+    auto roundTripTime = static_cast<double>(finished - started) / nanosecondsInMillisecond;
+    auto epoch = std::chrono::system_clock::now();
+
+    Nedrysoft::Core::PingResult::ResultCode resultCode = Nedrysoft::Core::PingResult::ResultCode::NoReply;
+
     if (returnValue) {
         PICMP_ECHO_REPLY pEchoReply = (PICMP_ECHO_REPLY) replyBuffer.data();
 
-        struct in_addr ReplyAddr;
+        //TODO: ipV6
 
-        ReplyAddr.S_un.S_addr = pEchoReply->Address;
+        replyHost = QHostAddress(ntohl(pEchoReply->Address));
 
-        pEchoReply->RoundTripTime;
-        pEchoReply->Address;
-        pEchoReply->Status; //IP_REQ_TIMED_OUT IP_TTL_EXPIRED_TRANSIT IP_SUCCESS
-
-        char *hostAddress = 0;
-        auto epoch = std::chrono::system_clock::now();
-
-        /*pingResult = Nedrysoft::Core::PingResult(
-                0,
-                Nedrysoft::Core::PingResult::ResultCode::Ok,
-                hostAddress,
-                epoch,
-                std::chrono::duration<double, std::milli>(pEchoReply->RoundTripTime),
-                nullptr);*/
+        if (pEchoReply->Status==IP_SUCCESS) {
+            resultCode = Nedrysoft::Core::PingResult::ResultCode::Ok;
+        } else if (pEchoReply->Status==IP_TTL_EXPIRED_TRANSIT) {
+            resultCode = Nedrysoft::Core::PingResult::ResultCode::TimeExceeded;
+        }
     }
 
-    emit result(pingResult);
+    result = Nedrysoft::Core::PingResult(
+            m_sampleNumber,
+            resultCode,
+            replyHost,
+            epoch,
+            std::chrono::duration<double, std::milli>(roundTripTime),
+            m_target);
+
+    IcmpCloseHandle(icmpHandle);
+
+    Q_EMIT pingResult(result);
 }
+
+
+

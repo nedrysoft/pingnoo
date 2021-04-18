@@ -61,7 +61,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::createEngine(
 
     d->m_engineList.append(engineInstance);
 
-    return ( engineInstance );
+    return engineInstance;
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::description() -> QString {
@@ -86,13 +86,13 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::loadConfiguration(Q
     return ( false );
 }
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::deleteEngine(Nedrysoft::Core::IPingEngine *engine) -> bool {
-    /*auto pingEngine = qobject_cast<Nedrysoft::ICMPPingEngine::ICMPPingEngine *>(engine);
+    auto pingEngine = qobject_cast<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *>(engine);
 
     if (d->m_engineList.contains(pingEngine)) {
         engine->stop();
         d->m_engineList.removeAll(pingEngine);
         pingEngine->deleteLater();
-    }*/
+    }
 
     return true;
 }

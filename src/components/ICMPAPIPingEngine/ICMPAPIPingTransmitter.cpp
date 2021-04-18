@@ -27,15 +27,10 @@
 #include "ICMPAPIPingTarget.h"
 #include "ICMPAPIPingWorker.h"
 
-#include <QMutexLocker>
 #include <QRandomGenerator>
 #include <QThread>
-#include <array>
-#include <cerrno>
 #include <chrono>
 #include <cstdint>
-#include <fcntl.h>
-#include <string>
 
 using namespace std::chrono_literals;
 
@@ -55,17 +50,15 @@ Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::ICMPAPIPingTransmitter(
 void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::addTarget(
         Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *target) {
 
+    m_targets.append(target);
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
     uint16_t currentSequenceId;
     std::chrono::high_resolution_clock::time_point startTime;
-    //FZICMPPingItem *pingItem;
     unsigned long sampleNumber = 0;
 
     m_isRunning = true;
-
-    //QThread::currentThread()->setPriority(QThread::HighPriority);
 
     currentSequenceId = static_cast<uint16_t>(QRandomGenerator::global()->generate());
 
@@ -74,29 +67,33 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
 
         m_targetsMutex.lock();
 
-        auto pingWorker = new Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker();
+        for (auto target : m_targets) {
+            auto pingWorker = new Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker(sampleNumber, target);
 
-        auto pingThread = new QThread();
+            auto pingThread = new QThread();
 
-        pingWorker->moveToThread(pingThread);
+            pingWorker->moveToThread(pingThread);
 
-        connect(pingThread, &QThread::started, pingWorker, &ICMPAPIPingWorker::doWork);
-        connect(pingThread, &QThread::finished, pingThread, &QThread::deleteLater);
-        connect(pingThread, &QThread::finished, pingWorker, &QThread::deleteLater);
+            connect(pingThread, &QThread::started, pingWorker, &ICMPAPIPingWorker::doWork);
+            connect(pingThread, &QThread::finished, pingThread, &QThread::deleteLater);
+            connect(pingThread, &QThread::finished, pingWorker, &ICMPAPIPingWorker::deleteLater);
 
-        connect(pingWorker, &ICMPAPIPingWorker::result, this, &ICMPAPIPingTransmitter::result);
+            // TODO: for some reason, directly connecting these signals doesn't work, very strange.
 
-        pingThread->start();
+            connect(pingWorker, &ICMPAPIPingWorker::pingResult, [=](Nedrysoft::Core::PingResult res) {
+                Q_EMIT result(res);
+            });
 
+            pingThread->start();
+        }
 
         m_targetsMutex.unlock();
 
-        QThread::sleep(1);
+        auto diff = std::chrono::high_resolution_clock::now() - startTime;
 
-        std::chrono::duration<double> diff = std::chrono::high_resolution_clock::now() - startTime;
-
-        if (diff < m_interval)
+        if (diff < m_interval) {
             std::this_thread::sleep_for(m_interval - diff);
+        }
 
         currentSequenceId++;
         sampleNumber++;
@@ -106,14 +103,5 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::setInterval(std::chrono::milliseconds interval) -> bool {
     m_interval = interval;
 
-    return ( true );
+    return true;
 }
-
-/*
-void Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::addTarget(FZICMPPingTarget *target)
-{
-    QMutexLocker locker(&m_targetsMutex);
-
-    m_targets.append(target);
-}
-*/

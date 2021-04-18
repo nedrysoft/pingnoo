@@ -67,19 +67,27 @@ namespace Nedrysoft::ICMPAPIPingEngine {
              */
             Q_SLOT void doWork(void);
 
+            /**
+             * @brief       Signslled when a result is available.
+             *
+             * @param[in]   result the ping result.
+             */
             Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
 
+            /**
+             * @brief       Adds a target to be pinged.
+             *
+             * @param[in]   target the target to be pinged
+             */
             void addTarget(Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *target);
 
             friend class ICMPAPIPingEngine;
-
-
 
         private:
             std::chrono::milliseconds m_interval = {};          //! The transmission period in milliseconds
             Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *m_engine;    //! The engine that owns this transmitter worker
 
-            //QList<Nedrysoft::Pingnoo::ICMPAPIPingEngine *> m_targets;              //! List of ping targets
+            QList<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *> m_targets;    //! List of ping targets
             QMutex m_targetsMutex;                              //! Mutex to protect the ping target list
             bool m_isRunning;                                   //! Whether thread is running
     };

@@ -39,11 +39,8 @@ class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTargetData {
                 m_engine(nullptr),
                 m_id(( QRandomGenerator::global()->generate() % ( UINT16_MAX - 1 )) + 1),
                 m_userData(nullptr),
-                m_ttl(0),
-                m_currentSocket(0) {
+                m_ttl(0) {
 
-            for (int i = 0; i < TotalTargetSockets; i++)
-                m_socketDescriptors.append(0);
         }
 
         friend class ICMPAPIPingTarget;
@@ -53,15 +50,10 @@ class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTargetData {
 
         QHostAddress m_hostAddress;
         Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *m_engine;
-#if defined(Q_OS_UNIX)
-        QList<int> m_socketDescriptors;
-#elif defined(Q_OS_WIN)
-        QList<SOCKET> m_socketDescriptors;
-#endif
+
         uint16_t m_id;
         void *m_userData;
         unsigned int m_ttl;
-        int m_currentSocket;
 };
 
 Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::ICMPAPIPingTarget(
@@ -88,33 +80,6 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::engine() -> Nedrysoft::Cor
     return d->m_engine;
 }
 
-auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::socketDescriptor() -> SOCKET {
-    if (d->m_socketDescriptors[d->m_currentSocket] == 0) {
-
-        d->m_socketDescriptors[d->m_currentSocket] = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
-
-        int socketFlags = 1;
-
-        int result = ioctlsocket(d->m_socketDescriptors[d->m_currentSocket], static_cast<long>(FIONBIO), reinterpret_cast<u_long *>(&socketFlags));
-
-        if (result<0) {
-            qDebug() << "Error setting non blocking on socket";
-        }
-
-        if (d->m_ttl)
-            setsockopt(d->m_socketDescriptors[d->m_currentSocket], IPPROTO_IP, IP_TTL,
-                       reinterpret_cast<char *>(&d->m_ttl), sizeof(d->m_ttl));
-    }
-
-    SOCKET socketDescriptor;
-
-    socketDescriptor = d->m_socketDescriptors[d->m_currentSocket];
-
-    d->m_currentSocket = d->m_currentSocket % d->m_socketDescriptors.count();
-
-    return socketDescriptor;
-}
-
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::id() -> uint16_t {
     return d->m_id;
 }
@@ -128,7 +93,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::setUserData(void *data) ->
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::ttl() -> unsigned short {
-    return 1;
+    return d->m_ttl;
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::saveConfiguration() -> QJsonObject {

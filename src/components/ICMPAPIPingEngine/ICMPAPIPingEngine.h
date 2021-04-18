@@ -34,7 +34,7 @@ namespace Nedrysoft::ICMPAPIPingEngine {
     class ICMPPingItem;
 
     /**
-     * @brief       The ICMPAPIPingEngine provides An IPingEngine that uses the Windows ICMP API feature.
+     * @brief       The ICMPAPIPingEngine provides An IPingEngine that uses Windows ICMPAPI.
      */
     class ICMPAPIPingEngine :
             public Nedrysoft::Core::IPingEngine {

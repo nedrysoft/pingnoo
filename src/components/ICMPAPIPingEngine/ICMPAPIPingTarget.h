@@ -27,10 +27,8 @@
 #include "Core/IPingTarget.h"
 #include "ICMPAPIPingEngineSpec.h"
 
-#if defined(Q_OS_WIN)
 #include <WS2tcpip.h>
 #include <WinSock2.h>
-#endif
 
 namespace Nedrysoft::ICMPAPIPingEngine {
     class ICMPAPIPingTargetData;
@@ -135,13 +133,6 @@ namespace Nedrysoft::ICMPAPIPingEngine {
             auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         protected:
-            /**
-             * @brief       Returns a socket descriptor to be used to send an ICMP packet to the target.
-             *
-             * @returns     the socket descriptor.
-             */
-            auto socketDescriptor() -> SOCKET;
-
             /**
              * @brief       Returns the ICMP id used for this target.
              *

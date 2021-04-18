@@ -37,8 +37,6 @@ pingnoo_add_sources(
     ICMPAPIPingEngineFactory.cpp
     ICMPAPIPingEngineFactory.h
     ICMPAPIPingEngineSpec.h
-    ICMPAPIPingItem.cpp
-    ICMPAPIPingItem.h
     ICMPAPIPingTarget.cpp
     ICMPAPIPingTarget.h
     ICMPAPIPingTransmitter.cpp
