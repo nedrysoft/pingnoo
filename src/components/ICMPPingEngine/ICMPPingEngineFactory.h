@@ -60,7 +60,7 @@ namespace Nedrysoft::ICMPPingEngine {
 
         public:
             /**
-             * @brief       Creates a ICMPAPIPingEngine instance.
+             * @brief       Creates a ICMPPingEngine instance.
              *
              * @see         Nedrysoft::Core::IPingEngineFactory::createEngine
              *

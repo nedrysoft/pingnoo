@@ -25,10 +25,10 @@
 
 #include "ICMPAPIPingEngine.h"
 
-class Nedrysoft::Pingnoo::ICMPAPIPingEngineFactoryData {
+class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactoryData {
 
     public:
-        ICMPAPIPingEngineFactoryData(Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory *parent) :
+        ICMPAPIPingEngineFactoryData(Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory *parent) :
                 m_pingEngineFactory(parent) {
 
         }
@@ -36,42 +36,63 @@ class Nedrysoft::Pingnoo::ICMPAPIPingEngineFactoryData {
         friend class ICMPAPIPingEngineFactory;
 
     private:
-        Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory *m_pingEngineFactory;
+        Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory *m_pingEngineFactory;
 
-        QList<Nedrysoft::Pingnoo::ICMPAPIPingEngine *> m_engineList;
+        QList<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *> m_engineList;
 };
 
-Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::ICMPAPIPingEngineFactory() :
+Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::ICMPAPIPingEngineFactory() :
         d(std::make_shared<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactoryData>(this)) {
 
 }
 
-Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::~ICMPAPIPingEngineFactory() {
+Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::~ICMPAPIPingEngineFactory() {
     for (auto engineInstance : d->m_engineList) {
         delete engineInstance;
     }
 
-    delete d;
+    d.reset();
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::asQObject() -> QObject * {
-    return ( this );
-}
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::createEngine(
+        Nedrysoft::Core::IPVersion ipVersion) -> Nedrysoft::Core::IPingEngine * {
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::createEngine() -> Nedrysoft::Pingnoo::IPingEngine * {
-    auto engineInstance = new Nedrysoft::Pingnoo::ICMPAPIPingEngine;
+    auto engineInstance = new Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine(ipVersion);
 
     d->m_engineList.append(engineInstance);
 
     return ( engineInstance );
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::saveConfiguration() -> QJsonObject {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::description() -> QString {
+    return tr("ICMPAPI");
+}
+
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::priority() -> double {
+    return 1;
+}
+
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::available() -> bool {
+    return true;
+}
+
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::saveConfiguration() -> QJsonObject {
     return ( QJsonObject());
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory::loadConfiguration(QJsonObject configuration) -> bool {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::loadConfiguration(QJsonObject configuration) -> bool {
     Q_UNUSED(configuration)
 
     return ( false );
+}
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::deleteEngine(Nedrysoft::Core::IPingEngine *engine) -> bool {
+    /*auto pingEngine = qobject_cast<Nedrysoft::ICMPPingEngine::ICMPPingEngine *>(engine);
+
+    if (d->m_engineList.contains(pingEngine)) {
+        engine->stop();
+        d->m_engineList.removeAll(pingEngine);
+        pingEngine->deleteLater();
+    }*/
+
+    return true;
 }

@@ -24,19 +24,17 @@
 #include "ICMPAPIPingTransmitter.h"
 
 #include "ICMPAPIPingEngine.h"
+#include "ICMPAPIPingTarget.h"
+#include "ICMPAPIPingWorker.h"
 
-#include <IcmpAPI.h>
 #include <QMutexLocker>
 #include <QRandomGenerator>
 #include <QThread>
-#include <WS2tcpip.h>
-#include <WinSock2.h>
 #include <array>
 #include <cerrno>
 #include <chrono>
 #include <cstdint>
 #include <fcntl.h>
-#include <iphlpapi.h>
 #include <string>
 
 using namespace std::chrono_literals;
@@ -44,17 +42,22 @@ using namespace std::chrono_literals;
 constexpr auto DefaultTransmitInterval = 1s;
 constexpr auto DefaultReplyTimeout = 3s;
 constexpr auto DefaultTransmitTimeout = 3s;
-constexpr unsigned long PingPayloadLength = 1024;
 
-Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::ICMPAPIPingTransmitter(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine) :
-        m_engine(engine),
-        m_interval(DefaultTransmitInterval),
-        m_isRunning(false) {
+Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::ICMPAPIPingTransmitter(
+        Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *engine) :
+
+            m_engine(engine),
+            m_interval(DefaultTransmitInterval),
+            m_isRunning(false) {
 
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::doWork() -> void {
-    HANDLE icmpHandle;
+void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::addTarget(
+        Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *target) {
+
+}
+
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
     uint16_t currentSequenceId;
     std::chrono::high_resolution_clock::time_point startTime;
     //FZICMPPingItem *pingItem;
@@ -66,44 +69,25 @@ auto Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::doWork() -> void {
 
     currentSequenceId = static_cast<uint16_t>(QRandomGenerator::global()->generate());
 
-    icmpHandle = IcmpCreateFile();
-
     while (m_isRunning) {
         startTime = std::chrono::high_resolution_clock::now();
 
         m_targetsMutex.lock();
 
-        QByteArray dataBuffer = QString("Hello World").toLatin1();
-        QByteArray tempBuffer(PingPayloadLength, 0);
-        struct sockaddr_in toAddress = {};
+        auto pingWorker = new Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker();
 
-        inet_pton(AF_INET, "172.29.13.1", &toAddress.sin_addr.S_un.S_addr);
+        auto pingThread = new QThread();
 
-        HANDLE waitEvent;
+        pingWorker->moveToThread(pingThread);
 
-        waitEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+        connect(pingThread, &QThread::started, pingWorker, &ICMPAPIPingWorker::doWork);
+        connect(pingThread, &QThread::finished, pingThread, &QThread::deleteLater);
+        connect(pingThread, &QThread::finished, pingWorker, &QThread::deleteLater);
 
-        DWORD returnValue;
+        connect(pingWorker, &ICMPAPIPingWorker::result, this, &ICMPAPIPingTransmitter::result);
 
-        returnValue = IcmpSendEcho2(icmpHandle, waitEvent, nullptr, nullptr, toAddress.sin_addr.S_un.S_addr,
-                                    dataBuffer.data(), static_cast<WORD>(dataBuffer.length()), nullptr,
-                                    tempBuffer.data(), static_cast<DWORD>(tempBuffer.length()),
-                                    std::chrono::duration<DWORD, std::milli>(
-                                            DefaultTransmitTimeout).count()); // NOLINT(cppcoreguidelines-pro-type-union-access)
+        pingThread->start();
 
-        if (returnValue != ERROR_IO_PENDING) {
-            qWarning() << tr("Error sending icmp.");
-
-            m_targetsMutex.unlock();
-
-            continue;
-        }
-
-        returnValue = WaitForMultipleObjectsEx(1, &waitEvent, FALSE,
-                                               std::chrono::duration<DWORD, std::milli>(DefaultReplyTimeout).count(),
-                                               TRUE);
-
-        CloseHandle(waitEvent);
 
         m_targetsMutex.unlock();
 
@@ -119,7 +103,7 @@ auto Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::doWork() -> void {
     }
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingTransmitter::setInterval(std::chrono::milliseconds interval) -> bool {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::setInterval(std::chrono::milliseconds interval) -> bool {
     m_interval = interval;
 
     return ( true );

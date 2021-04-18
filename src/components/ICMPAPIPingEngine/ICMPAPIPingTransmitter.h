@@ -30,8 +30,9 @@
 #include <QMutex>
 #include <QObject>
 
-namespace Nedrysoft::Pingnoo {
+namespace Nedrysoft::ICMPAPIPingEngine {
     class ICMPAPIPingEngine;
+    class ICMPAPIPingTarget;
 
     /**
      * @brief       The ICMPAPIPingTransmitter class provides a thread for transmitting ICMP packets.
@@ -52,7 +53,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @param[in]   engine the owner engine.
              */
-            explicit ICMPAPIPingTransmitter(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine);
+            explicit ICMPAPIPingTransmitter(Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *engine);
 
             /**
              * @brief       Sets the interval between a set of pings.
@@ -66,11 +67,17 @@ namespace Nedrysoft::Pingnoo {
              */
             Q_SLOT void doWork(void);
 
+            Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
+
+            void addTarget(Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *target);
+
             friend class ICMPAPIPingEngine;
+
+
 
         private:
             std::chrono::milliseconds m_interval = {};          //! The transmission period in milliseconds
-            Nedrysoft::Pingnoo::ICMPAPIPingEngine *m_engine;    //! The engine that owns this transmitter worker
+            Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *m_engine;    //! The engine that owns this transmitter worker
 
             //QList<Nedrysoft::Pingnoo::ICMPAPIPingEngine *> m_targets;              //! List of ping targets
             QMutex m_targetsMutex;                              //! Mutex to protect the ping target list

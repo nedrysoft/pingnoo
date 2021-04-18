@@ -29,7 +29,7 @@
 #include <QObject>
 #include <chrono>
 
-namespace Nedrysoft::Pingnoo {
+namespace Nedrysoft::ICMPAPIPingEngine {
     class ICMPAPIPingTarget;
 
     class ICMPAPIPingItemData;
@@ -78,6 +78,13 @@ namespace Nedrysoft::Pingnoo {
             auto setSequenceId(uint16_t sequence) -> void;
 
             /**
+             * @brief       Returns the sequence id used in the ping request.
+             *
+             * @returns     the sequence id.
+             */
+            auto sequenceId() -> uint16_t;
+
+            /**
              * @brief       Set whether this request has been serviced.
              *
              * @details     Marks the request as being serviced, prevents a packet being flagged as both replied to
@@ -113,14 +120,14 @@ namespace Nedrysoft::Pingnoo {
              *
              * @param[in]   target the target.
              */
-            auto setTarget(Nedrysoft::Pingnoo::ICMPAPIPingTarget *target) -> void;
+            auto setTarget(Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *target) -> void;
 
             /**
              * @brief       Returns the target associated with this request.
              *
              * @returns     the request.
              */
-            auto target() -> Nedrysoft::Pingnoo::ICMPAPIPingTarget *;
+            auto target() -> Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *;
 
             /**
              * @brief       Sets the time at which the request was transmitted.

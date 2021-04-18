@@ -30,33 +30,13 @@
 #include <cerrno>
 #include <fcntl.h>
 
-#if defined(Q_OS_UNIX)
-
-#include <arpa/inet.h>
-#include <arpa/inet.h>
-#include <cstdint>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <netinet/ip.h>
-#include <netinet/ip_icmp.h>
-#include <poll.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <utility>
-
-#elif defined(Q_OS_WIN)
-#include "windows_ip_icmp.h"
-#endif
-
 constexpr int TotalTargetSockets = 10;
 
-class Nedrysoft::Pingnoo::ICMPAPIPingTargetData {
+class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTargetData {
     public:
-        ICMPAPIPingTargetData(Nedrysoft::Pingnoo::ICMPAPIPingTarget *parent) :
+        ICMPAPIPingTargetData(Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *parent) :
                 m_pingTarget(parent),
-                m_engine(nullptr)
+                m_engine(nullptr),
                 m_id(( QRandomGenerator::global()->generate() % ( UINT16_MAX - 1 )) + 1),
                 m_userData(nullptr),
                 m_ttl(0),
@@ -69,10 +49,10 @@ class Nedrysoft::Pingnoo::ICMPAPIPingTargetData {
         friend class ICMPAPIPingTarget;
 
     private:
-        Nedrysoft::Pingnoo::ICMPAPIPingTarget *m_pingTarget;
+        Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *m_pingTarget;
 
         QHostAddress m_hostAddress;
-        Nedrysoft::Pingnoo::ICMPAPIPingEngine *m_engine;
+        Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *m_engine;
 #if defined(Q_OS_UNIX)
         QList<int> m_socketDescriptors;
 #elif defined(Q_OS_WIN)
@@ -84,8 +64,8 @@ class Nedrysoft::Pingnoo::ICMPAPIPingTargetData {
         int m_currentSocket;
 };
 
-Nedrysoft::Pingnoo::ICMPAPIPingTarget::ICMPAPIPingTarget(
-        Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine,
+Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::ICMPAPIPingTarget(
+        Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *engine,
         const QHostAddress &hostAddress,
         int ttl) :
 
@@ -96,23 +76,19 @@ Nedrysoft::Pingnoo::ICMPAPIPingTarget::ICMPAPIPingTarget(
     d->m_ttl = ttl;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingTarget::asQObject() -> QObject * {
-    return this;
-}
-
-auto Nedrysoft::Pingnoo::ICMPAPIPingTarget::setHostAddress(const QHostAddress &hostAddress) -> void {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::setHostAddress(QHostAddress hostAddress) -> void {
     d->m_hostAddress = hostAddress;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingTarget::hostAddress() -> QHostAddress {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::hostAddress() -> QHostAddress {
     return d->m_hostAddress;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingTarget::engine() -> Nedrysoft::Pingnoo::IPingEngine * {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::engine() -> Nedrysoft::Core::IPingEngine * {
     return d->m_engine;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingTarget::socketDescriptor() -> SOCKET {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::socketDescriptor() -> SOCKET {
     if (d->m_socketDescriptors[d->m_currentSocket] == 0) {
 
         d->m_socketDescriptors[d->m_currentSocket] = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
@@ -139,23 +115,27 @@ auto Nedrysoft::Pingnoo::ICMPAPIPingTarget::socketDescriptor() -> SOCKET {
     return socketDescriptor;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingTarget::id() -> uint16_t {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::id() -> uint16_t {
     return d->m_id;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingTarget::userData() -> void * {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::userData() -> void * {
     return d->m_userData;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingTarget::setUserData(void *data) -> void {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::setUserData(void *data) -> void {
     d->m_userData = data;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingTarget::saveConfiguration() -> QJsonObject {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::ttl() -> unsigned short {
+    return 1;
+}
+
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::saveConfiguration() -> QJsonObject {
     return QJsonObject();
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingTarget::loadConfiguration(QJsonObject configuration) -> bool {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::loadConfiguration(QJsonObject configuration) -> bool {
     Q_UNUSED(configuration)
 
     return false;

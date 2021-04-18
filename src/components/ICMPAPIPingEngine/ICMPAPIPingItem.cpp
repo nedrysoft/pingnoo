@@ -26,9 +26,9 @@
 #include <QDebug>
 #include <QTimer>
 
-class Nedrysoft::Pingnoo::ICMPAPIPingItemData {
+class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItemData {
     public:
-        explicit ICMPAPIPingItemData(Nedrysoft::Pingnoo::ICMPAPIPingItem *parent) :
+        explicit ICMPAPIPingItemData(Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItem *parent) :
                 m_pingItem(parent),
                 m_id(0),
                 m_sequenceId(0),
@@ -41,7 +41,7 @@ class Nedrysoft::Pingnoo::ICMPAPIPingItemData {
         friend class ICMPAPIPingItem;
 
     private:
-        Nedrysoft::Pingnoo::ICMPAPIPingItem *m_pingItem;
+        Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItem *m_pingItem;
 
         std::chrono::high_resolution_clock::time_point m_transmitTime;
 
@@ -52,60 +52,62 @@ class Nedrysoft::Pingnoo::ICMPAPIPingItemData {
 
         bool m_serviced;
 
-        Nedrysoft::Pingnoo::ICMPAPIPingTarget *m_target;
+        Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *m_target;
 };
 
-Nedrysoft::Pingnoo::ICMPAPIPingItem::ICMPAPIPingItem() :
+Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItem::ICMPAPIPingItem() :
         d(std::make_shared<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItemData>(this)) {
 
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingItem::setId(uint16_t id) -> void {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItem::setId(uint16_t id) -> void {
     d->m_id = id;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingItem::setSequenceId(uint16_t sequence) -> void {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItem::setSequenceId(uint16_t sequence) -> void {
     d->m_sequenceId = sequence;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingItem::sequenceId() -> uint16_t {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItem::sequenceId() -> uint16_t {
     return d->m_sequenceId;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingItem::setTransmitTime(
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItem::setTransmitTime(
         std::chrono::high_resolution_clock::time_point time ) -> void {
 
     d->m_transmitTime = time;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingItem::setServiced(bool serviced) -> void {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItem::setServiced(bool serviced) -> void {
     d->m_serviced = serviced;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingItem::serviced() -> bool {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItem::serviced() -> bool {
     return d->m_serviced;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingItem::id() -> uint16_t {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItem::id() -> uint16_t {
     return d->m_id;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingItem::setTarget(Nedrysoft::Pingnoo::ICMPAPIPingTarget *target) -> void {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItem::setTarget(
+        Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *target) -> void {
+
     d->m_target = target;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingItem::target() -> Nedrysoft::Pingnoo::ICMPAPIPingTarget * {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItem::target() -> Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget * {
     return d->m_target;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingItem::transmitTime() -> std::chrono::high_resolution_clock::time_point {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItem::transmitTime() -> std::chrono::high_resolution_clock::time_point {
     return d->m_transmitTime;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingItem::setSampleNumber(unsigned long sampleNumber) -> void {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItem::setSampleNumber(unsigned long sampleNumber) -> void {
     d->m_sampleNumber = sampleNumber;
 }
 
-auto Nedrysoft::Pingnoo::ICMPAPIPingItem::sampleNumber() -> unsigned long {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingItem::sampleNumber() -> unsigned long {
     return d->m_sampleNumber;
 }

@@ -21,9 +21,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-#if(NOT WIN32)
+if(NOT WIN32)
     return()
-#endif()
+endif()
 
 pingnoo_start_component()
 
@@ -43,6 +43,8 @@ pingnoo_add_sources(
     ICMPAPIPingTarget.h
     ICMPAPIPingTransmitter.cpp
     ICMPAPIPingTransmitter.h
+    ICMPAPIPingWorker.cpp
+    ICMPAPIPingWorker.h
 )
 
 pingnoo_set_description("ICMPAPI ping engine component")
@@ -55,6 +57,8 @@ pingnoo_use_shared_library(ComponentSystem)
 pingnoo_use_shared_library(ICMPPacket)
 pingnoo_use_shared_library(ICMPSocket)
 
-pingnoo_set_component_metadata("Ping Engines" "Provides an socket based ICMP ping engine")
+pingnoo_set_component_metadata("Ping Engines" "Provides an ICMPAPI ping engine")
+
+pingnoo_use_system_libraries(WIN32 Iphlpapi.lib)
 
 pingnoo_end_component()

@@ -30,8 +30,9 @@
 /**
  * @brief       The ICMPAPIPingComponent class provides a ping engine for the Windows ICMPAPI api.
  */
-class NEDRYSOFT_PINGNOO_ICMPAPIPINGENGINE_DLLSPEC ICMPAPIPingComponent :
-        public QObject, public Nedrysoft::ComponentSystem::IComponent {
+class NEDRYSOFT_ICMPAPIPINGENGINE_DLLSPEC ICMPAPIPingComponent :
+        public QObject,
+        public Nedrysoft::ComponentSystem::IComponent {
 
     private:
         Q_OBJECT

@@ -32,7 +32,7 @@
 #include <WinSock2.h>
 #endif
 
-namespace Nedrysoft::Pingnoo {
+namespace Nedrysoft::ICMPAPIPingEngine {
     class ICMPAPIPingTargetData;
 
     class ICMPAPIPingEngine;
@@ -58,7 +58,9 @@ namespace Nedrysoft::Pingnoo {
              * @param[in]   hostAddress the target of the ping.
              * @param[in]   ttl the TTL to be used in the ping.
              */
-            ICMPAPIPingTarget(Nedrysoft::Pingnoo::ICMPAPIPingEngine *engine, const QHostAddress &hostAddress, int ttl = 0);
+            ICMPAPIPingTarget(Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *engine,
+                              const QHostAddress &hostAddress,
+                              int ttl = 0);
 
         public:
             /**
@@ -68,7 +70,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @param[in]   hostAddress the host address to be pinged.
              */
-            setHostAddress(const QHostAddress &hostAddress) -> void override;
+            auto setHostAddress(QHostAddress hostAddress) -> void override;
 
             /**
              * @brief       Returns the host address for this target.
@@ -77,7 +79,7 @@ namespace Nedrysoft::Pingnoo {
              *
              * @returns     the host address for this target.
              */
-            hostAddress() -> QHostAddress override;
+            auto hostAddress() -> QHostAddress override;
 
             /**
              * @brief       Returns the Nedrysoft::Core::IPingEngine that created this target.
