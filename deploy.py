@@ -221,7 +221,7 @@ args = parser.parse_args()
 
 build_arch = args.arch
 build_type = args.type.capitalize()
-build_version = args.version
+build_version = args.version.replace("/", "-")
 
 
 def _do_darwin():
