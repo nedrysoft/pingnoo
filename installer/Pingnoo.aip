@@ -43,9 +43,23 @@
     <ROW Directory="ProgramMenuFolder" Directory_Parent="TARGETDIR" DefaultDir="PROGRA~1|ProgramMenuFolder" IsPseudoRoot="1"/>
     <ROW Directory="SHORTCUTDIR" Directory_Parent="TARGETDIR" DefaultDir="SHORTC~1|SHORTCUTDIR" IsPseudoRoot="1"/>
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
+    <ROW Directory="bearer_1_Dir" Directory_Parent="Deploy_1_Dir" DefaultDir="bearer"/>
+    <ROW Directory="bearer_Dir" Directory_Parent="Deploy_Dir" DefaultDir="bearer"/>
     <ROW Directory="bit_1_Dir" Directory_Parent="SHORTCUTDIR" DefaultDir="32-bit"/>
     <ROW Directory="bit_2_Dir" Directory_Parent="DesktopFolder" DefaultDir=".:32-bit"/>
     <ROW Directory="bit_Dir" Directory_Parent="ProgramMenuFolder" DefaultDir=".:32-bit"/>
+    <ROW Directory="iconengines_1_Dir" Directory_Parent="Deploy_1_Dir" DefaultDir="ICONEN~1|iconengines"/>
+    <ROW Directory="iconengines_Dir" Directory_Parent="Deploy_Dir" DefaultDir="ICONEN~1|iconengines"/>
+    <ROW Directory="imageformats_1_Dir" Directory_Parent="Deploy_1_Dir" DefaultDir="IMAGEF~1|imageformats"/>
+    <ROW Directory="imageformats_Dir" Directory_Parent="Deploy_Dir" DefaultDir="IMAGEF~1|imageformats"/>
+    <ROW Directory="platforms_1_Dir" Directory_Parent="Deploy_1_Dir" DefaultDir="PLATFO~1|platforms"/>
+    <ROW Directory="platforms_Dir" Directory_Parent="Deploy_Dir" DefaultDir="PLATFO~1|platforms"/>
+    <ROW Directory="printsupport_1_Dir" Directory_Parent="Deploy_1_Dir" DefaultDir="PRINTS~1|printsupport"/>
+    <ROW Directory="printsupport_Dir" Directory_Parent="Deploy_Dir" DefaultDir="PRINTS~1|printsupport"/>
+    <ROW Directory="sqldrivers_1_Dir" Directory_Parent="Deploy_1_Dir" DefaultDir="SQLDRI~1|sqldrivers"/>
+    <ROW Directory="sqldrivers_Dir" Directory_Parent="Deploy_Dir" DefaultDir="SQLDRI~1|sqldrivers"/>
+    <ROW Directory="styles_1_Dir" Directory_Parent="Deploy_1_Dir" DefaultDir="styles"/>
+    <ROW Directory="styles_Dir" Directory_Parent="Deploy_Dir" DefaultDir="styles"/>
     <ROW Directory="translations_1_Dir" Directory_Parent="Deploy_1_Dir" DefaultDir="TRANSL~1|translations"/>
     <ROW Directory="translations_Dir" Directory_Parent="Deploy_Dir" DefaultDir="TRANSL~1|translations"/>
   </COMPONENT>
@@ -66,6 +80,8 @@
     <ROW Component="FontAwesome.dll_1" ComponentId="{5B45F014-0FB0-4B75-859E-AFEDDFBC9209}" Directory_="Deploy_1_Dir" Attributes="256" Condition="(VersionNT64)" KeyPath="FontAwesome.dll_1"/>
     <ROW Component="HostIPGeoIPProvider.dll" ComponentId="{DE853A86-3852-491F-937F-796A60F062AA}" Directory_="Components_Dir" Attributes="0" Condition="NOT (VersionNT64)" KeyPath="HostIPGeoIPProvider.dll"/>
     <ROW Component="HostIPGeoIPProvider.dll_1" ComponentId="{B655DE4D-8831-4694-9F5C-875C75C5CF8E}" Directory_="Components_1_Dir" Attributes="256" Condition="(VersionNT64)" KeyPath="HostIPGeoIPProvider.dll_1"/>
+    <ROW Component="ICMPAPIPingEngine.dll" ComponentId="{4193270A-14F8-4712-AFE6-16656AFF4281}" Directory_="Components_Dir" Attributes="0" KeyPath="ICMPAPIPingEngine.dll"/>
+    <ROW Component="ICMPAPIPingEngine.dll_1" ComponentId="{3E922528-ECD2-4CF4-8333-5C0E38111D7E}" Directory_="Components_1_Dir" Attributes="256" KeyPath="ICMPAPIPingEngine.dll_1"/>
     <ROW Component="ICMPPacket.dll" ComponentId="{5595ABEC-AF54-4250-B4CD-E164977CCCA5}" Directory_="Deploy_Dir" Attributes="0" Condition="NOT (VersionNT64)" KeyPath="ICMPPacket.dll"/>
     <ROW Component="ICMPPacket.dll_1" ComponentId="{30F40A13-456F-4484-8E1C-7F80C10B0B91}" Directory_="Deploy_1_Dir" Attributes="256" Condition="(VersionNT64)" KeyPath="ICMPPacket.dll_1"/>
     <ROW Component="ICMPPingEngine.dll" ComponentId="{7BB03103-B605-4AD7-B97C-9D6B6C6967B8}" Directory_="Components_Dir" Attributes="0" Condition="NOT (VersionNT64)" KeyPath="ICMPPingEngine.dll"/>
@@ -83,6 +99,28 @@
     <ROW Component="PublicIPHostMasker.dll_1" ComponentId="{09AE84F8-367F-4F9B-B18E-05A0EAE474BB}" Directory_="Components_1_Dir" Attributes="256" Condition="(VersionNT64)" KeyPath="PublicIPHostMasker.dll_1"/>
     <ROW Component="QCustomPlot.dll" ComponentId="{AD06CD72-BE43-4878-8650-7961BFABB170}" Directory_="Deploy_Dir" Attributes="0" Condition="NOT (VersionNT64)" KeyPath="QCustomPlot.dll"/>
     <ROW Component="QCustomPlot.dll_1" ComponentId="{B84C4D3C-D98B-4CB2-9F83-07EAB640080B}" Directory_="Deploy_1_Dir" Attributes="256" Condition="(VersionNT64)" KeyPath="QCustomPlot.dll_1"/>
+    <ROW Component="Qt5Core.dll" ComponentId="{0BF618F2-5367-477D-B80E-226600AFC130}" Directory_="Deploy_Dir" Attributes="0" KeyPath="Qt5Core.dll"/>
+    <ROW Component="Qt5Core.dll_1" ComponentId="{3A33670D-6562-437A-B339-90F381EAA9DC}" Directory_="Deploy_1_Dir" Attributes="256" KeyPath="Qt5Core.dll_1"/>
+    <ROW Component="Qt5Gui.dll" ComponentId="{4EA1197F-D61B-4711-9EAF-6408A7DB9CF3}" Directory_="Deploy_Dir" Attributes="0" KeyPath="Qt5Gui.dll"/>
+    <ROW Component="Qt5Gui.dll_1" ComponentId="{E3653DA0-1E3C-4F6C-AFB6-AD69E22CEDCB}" Directory_="Deploy_1_Dir" Attributes="256" KeyPath="Qt5Gui.dll_1"/>
+    <ROW Component="Qt5Network.dll" ComponentId="{D1F0628A-09AE-4BFA-9B04-25EFFD20B3EB}" Directory_="Deploy_Dir" Attributes="0" KeyPath="Qt5Network.dll"/>
+    <ROW Component="Qt5Network.dll_1" ComponentId="{7CBAA24F-7A76-4548-8D8F-CAEB3D6F68C0}" Directory_="Deploy_1_Dir" Attributes="256" KeyPath="Qt5Network.dll_1"/>
+    <ROW Component="Qt5PrintSupport.dll" ComponentId="{E9371523-77C9-4135-8B97-7618084497C3}" Directory_="Deploy_Dir" Attributes="0" KeyPath="Qt5PrintSupport.dll"/>
+    <ROW Component="Qt5PrintSupport.dll_1" ComponentId="{28B4DB89-126D-42F8-965A-92A2BC9C2794}" Directory_="Deploy_1_Dir" Attributes="256" KeyPath="Qt5PrintSupport.dll_1"/>
+    <ROW Component="Qt5Qml.dll" ComponentId="{E696ABD0-198D-40DE-B22C-602FAB5E1F0C}" Directory_="Deploy_Dir" Attributes="0" KeyPath="Qt5Qml.dll"/>
+    <ROW Component="Qt5Qml.dll_1" ComponentId="{0D057CE3-3AA9-4D4E-835F-7B413E71D16D}" Directory_="Deploy_1_Dir" Attributes="256" KeyPath="Qt5Qml.dll_1"/>
+    <ROW Component="Qt5QmlModels.dll" ComponentId="{FCC17E86-A43D-4C28-8F99-657CF5FD42BD}" Directory_="Deploy_Dir" Attributes="0" KeyPath="Qt5QmlModels.dll"/>
+    <ROW Component="Qt5QmlModels.dll_1" ComponentId="{8F5A0E80-D245-4237-8CE2-51783DEB32DF}" Directory_="Deploy_1_Dir" Attributes="256" KeyPath="Qt5QmlModels.dll_1"/>
+    <ROW Component="Qt5Quick.dll" ComponentId="{9D7FF310-F20D-454E-91FC-F82FFEC4E55E}" Directory_="Deploy_Dir" Attributes="0" KeyPath="Qt5Quick.dll"/>
+    <ROW Component="Qt5Quick.dll_1" ComponentId="{060EDFB0-049E-4C8C-B34F-6349CE018A1F}" Directory_="Deploy_1_Dir" Attributes="256" KeyPath="Qt5Quick.dll_1"/>
+    <ROW Component="Qt5QuickWidgets.dll" ComponentId="{B8B3A14A-F4F5-4275-93B2-D91D47193F0B}" Directory_="Deploy_Dir" Attributes="0" KeyPath="Qt5QuickWidgets.dll"/>
+    <ROW Component="Qt5QuickWidgets.dll_1" ComponentId="{5D1784B3-2455-414B-B970-3F0E9DCE05A6}" Directory_="Deploy_1_Dir" Attributes="256" KeyPath="Qt5QuickWidgets.dll_1"/>
+    <ROW Component="Qt5Sql.dll" ComponentId="{146BD5CC-6039-45FB-A14E-479DE84D736F}" Directory_="Deploy_Dir" Attributes="0" KeyPath="Qt5Sql.dll"/>
+    <ROW Component="Qt5Sql.dll_1" ComponentId="{F16E526D-478E-48CF-907D-722FB81B4E99}" Directory_="Deploy_1_Dir" Attributes="256" KeyPath="Qt5Sql.dll_1"/>
+    <ROW Component="Qt5Svg.dll" ComponentId="{7A357410-C60D-4B8C-9EE2-46C707623EBA}" Directory_="Deploy_Dir" Attributes="0" KeyPath="Qt5Svg.dll"/>
+    <ROW Component="Qt5Svg.dll_1" ComponentId="{63A025B1-2E21-45EC-8B26-310D27313ADB}" Directory_="Deploy_1_Dir" Attributes="256" KeyPath="Qt5Svg.dll_1"/>
+    <ROW Component="Qt5Widgets.dll" ComponentId="{8D4EB429-224C-4DE7-AEAE-1B2C97573B15}" Directory_="Deploy_Dir" Attributes="0" KeyPath="Qt5Widgets.dll"/>
+    <ROW Component="Qt5Widgets.dll_1" ComponentId="{0FB5DFC8-3F58-4372-8DB8-412998A8AB51}" Directory_="Deploy_1_Dir" Attributes="256" KeyPath="Qt5Widgets.dll_1"/>
     <ROW Component="RegExHostMasker.dll" ComponentId="{8B0C0366-3430-4970-9B4F-80D5672A2435}" Directory_="Components_Dir" Attributes="0" Condition="NOT (VersionNT64)" KeyPath="RegExHostMasker.dll"/>
     <ROW Component="RegExHostMasker.dll_1" ComponentId="{8DD2DEF2-9CEA-4FC3-86FF-A5E0C6580D95}" Directory_="Components_1_Dir" Attributes="256" Condition="(VersionNT64)" KeyPath="RegExHostMasker.dll_1"/>
     <ROW Component="Ribbon.dll" ComponentId="{C3C34CD1-F0CA-4716-9F0C-1B39FB215ADB}" Directory_="Deploy_Dir" Attributes="0" Condition="NOT (VersionNT64)" KeyPath="Ribbon.dll"/>
@@ -99,8 +137,52 @@
     <ROW Component="bit" ComponentId="{196879D0-409C-4467-AA8C-47E99F9262FF}" Directory_="bit_Dir" Attributes="0"/>
     <ROW Component="bit_1" ComponentId="{C3FA7817-CF54-4C6E-B510-34BC032080F6}" Directory_="bit_1_Dir" Attributes="0"/>
     <ROW Component="bit_2" ComponentId="{945B36E3-6EF6-4E26-BD12-4F104819C3A2}" Directory_="bit_2_Dir" Attributes="0"/>
-    <ROW Component="qt_ar.qm" ComponentId="{0A601ADD-D01A-4D05-97A0-8BD4102083D2}" Directory_="translations_Dir" Attributes="0" Condition="NOT (VersionNT64)" KeyPath="pingnoo_cs.qm" Type="0"/>
-    <ROW Component="qt_ar.qm_1" ComponentId="{0274677D-CF16-49F9-B804-0648F3B0105B}" Directory_="translations_1_Dir" Attributes="0" Condition="(VersionNT64)" KeyPath="pingnoo_cs.qm_1" Type="0"/>
+    <ROW Component="d3dcompiler_47.dll" ComponentId="{C4B5B6D6-E61B-4DAF-A1D6-967A59F50EB7}" Directory_="Deploy_Dir" Attributes="0" KeyPath="d3dcompiler_47.dll"/>
+    <ROW Component="d3dcompiler_47.dll_1" ComponentId="{E5995722-695D-49F0-85F3-F6A60FC5AA9C}" Directory_="Deploy_1_Dir" Attributes="256" KeyPath="d3dcompiler_47.dll_1"/>
+    <ROW Component="libEGL.dll" ComponentId="{11DF9077-0235-44C2-91CC-35F4BF3C9EBB}" Directory_="Deploy_Dir" Attributes="0" KeyPath="libEGL.dll"/>
+    <ROW Component="libEGL.dll_1" ComponentId="{36A28D76-591C-466C-884D-31E9C3285B32}" Directory_="Deploy_1_Dir" Attributes="256" KeyPath="libEGL.dll_1"/>
+    <ROW Component="libGLESv2.dll" ComponentId="{CFD6D9C5-8136-48D3-98B3-6EFF02B140C0}" Directory_="Deploy_Dir" Attributes="0" KeyPath="libGLESv2.dll"/>
+    <ROW Component="libGLESv2.dll_1" ComponentId="{7BE36C21-8E04-4E3D-88A1-73C011FAD928}" Directory_="Deploy_1_Dir" Attributes="256" KeyPath="libGLESv2.dll_1"/>
+    <ROW Component="opengl32sw.dll" ComponentId="{0DB0E88F-86C5-4302-9F38-1FB522FB85AD}" Directory_="Deploy_Dir" Attributes="0" KeyPath="opengl32sw.dll"/>
+    <ROW Component="opengl32sw.dll_1" ComponentId="{E983A080-A061-4C57-9545-775C559648AC}" Directory_="Deploy_1_Dir" Attributes="256" KeyPath="opengl32sw.dll_1"/>
+    <ROW Component="qgenericbearer.dll" ComponentId="{BCBA0F1C-6BD8-4DCC-8645-046E17DFCCDB}" Directory_="bearer_Dir" Attributes="0" KeyPath="qgenericbearer.dll"/>
+    <ROW Component="qgenericbearer.dll_1" ComponentId="{4C3BE85E-5C1F-4DCE-AF52-EE7BD8F78C7E}" Directory_="bearer_1_Dir" Attributes="256" KeyPath="qgenericbearer.dll_1"/>
+    <ROW Component="qgif.dll" ComponentId="{1A306476-9986-497D-B94F-C194A3B61D5F}" Directory_="imageformats_Dir" Attributes="0" KeyPath="qgif.dll"/>
+    <ROW Component="qgif.dll_1" ComponentId="{BD3004E1-6BA4-4B46-BFF3-10F4CD4517EC}" Directory_="imageformats_1_Dir" Attributes="256" KeyPath="qgif.dll_1"/>
+    <ROW Component="qicns.dll" ComponentId="{5788472E-8F13-4B70-AD4C-B50F6523E863}" Directory_="imageformats_Dir" Attributes="0" KeyPath="qicns.dll"/>
+    <ROW Component="qicns.dll_1" ComponentId="{F837334D-2FE1-4D5C-B797-8DFBED08E640}" Directory_="imageformats_1_Dir" Attributes="256" KeyPath="qicns.dll_1"/>
+    <ROW Component="qico.dll" ComponentId="{0FE139A4-007B-467F-8D5E-4F5B67A5EC2E}" Directory_="imageformats_Dir" Attributes="0" KeyPath="qico.dll"/>
+    <ROW Component="qico.dll_1" ComponentId="{CBF8A3E7-FA17-4F3F-87AC-57317808FEF2}" Directory_="imageformats_1_Dir" Attributes="256" KeyPath="qico.dll_1"/>
+    <ROW Component="qjpeg.dll" ComponentId="{C6BE60DB-A1F5-4EDE-A532-202E8EF390B5}" Directory_="imageformats_Dir" Attributes="0" KeyPath="qjpeg.dll"/>
+    <ROW Component="qjpeg.dll_1" ComponentId="{27197132-5E0C-43A2-94AB-D232EBFA3B43}" Directory_="imageformats_1_Dir" Attributes="256" KeyPath="qjpeg.dll_1"/>
+    <ROW Component="qsqlite.dll" ComponentId="{467E68DE-5FD2-440D-831F-330C557706CE}" Directory_="sqldrivers_Dir" Attributes="0" KeyPath="qsqlite.dll"/>
+    <ROW Component="qsqlite.dll_1" ComponentId="{41E27371-9891-4034-BCD4-0CA53CA12E60}" Directory_="sqldrivers_1_Dir" Attributes="256" KeyPath="qsqlite.dll_1"/>
+    <ROW Component="qsqlodbc.dll" ComponentId="{01B9AE56-6821-449F-915F-1FEDDCF6BAB7}" Directory_="sqldrivers_Dir" Attributes="0" KeyPath="qsqlodbc.dll"/>
+    <ROW Component="qsqlodbc.dll_1" ComponentId="{ABF03B64-C19E-482E-B315-976C256BC9F3}" Directory_="sqldrivers_1_Dir" Attributes="256" KeyPath="qsqlodbc.dll_1"/>
+    <ROW Component="qsqlpsql.dll" ComponentId="{E4D0CD43-DDDD-4576-894A-05A52566A663}" Directory_="sqldrivers_Dir" Attributes="0" KeyPath="qsqlpsql.dll"/>
+    <ROW Component="qsqlpsql.dll_1" ComponentId="{A070D8EB-A79B-43A4-A8C6-165A53570895}" Directory_="sqldrivers_1_Dir" Attributes="256" KeyPath="qsqlpsql.dll_1"/>
+    <ROW Component="qsvg.dll" ComponentId="{139EDD68-3434-410B-9894-E584444D34E3}" Directory_="imageformats_Dir" Attributes="0" KeyPath="qsvg.dll"/>
+    <ROW Component="qsvg.dll_1" ComponentId="{64968C06-762B-48CF-B750-B5F2C04ADE16}" Directory_="imageformats_1_Dir" Attributes="256" KeyPath="qsvg.dll_1"/>
+    <ROW Component="qsvgicon.dll" ComponentId="{3A2BE6EA-D332-41AD-AB30-DEE33ECDAE28}" Directory_="iconengines_Dir" Attributes="0" KeyPath="qsvgicon.dll"/>
+    <ROW Component="qsvgicon.dll_1" ComponentId="{4A133AD4-0356-47D0-A9FB-7B1D5ED01C81}" Directory_="iconengines_1_Dir" Attributes="256" KeyPath="qsvgicon.dll_1"/>
+    <ROW Component="qt_ar.qm" ComponentId="{0A601ADD-D01A-4D05-97A0-8BD4102083D2}" Directory_="translations_Dir" Attributes="0" Condition="NOT (VersionNT64)" KeyPath="qt_ar.qm" Type="0"/>
+    <ROW Component="qt_ar.qm_1" ComponentId="{0274677D-CF16-49F9-B804-0648F3B0105B}" Directory_="translations_1_Dir" Attributes="0" Condition="(VersionNT64)" KeyPath="qt_ar.qm_1" Type="0"/>
+    <ROW Component="qtga.dll" ComponentId="{0E53F962-FC6B-40FD-9269-8085B0E7FB8A}" Directory_="imageformats_Dir" Attributes="0" KeyPath="qtga.dll"/>
+    <ROW Component="qtga.dll_1" ComponentId="{BE7476A2-3AC4-4178-B89F-7BAD96EBCFA2}" Directory_="imageformats_1_Dir" Attributes="256" KeyPath="qtga.dll_1"/>
+    <ROW Component="qtiff.dll" ComponentId="{8F5B229A-553D-445C-A416-01E51627CB42}" Directory_="imageformats_Dir" Attributes="0" KeyPath="qtiff.dll"/>
+    <ROW Component="qtiff.dll_1" ComponentId="{8673B2F5-7895-4F9C-8EB0-B6F3268B443B}" Directory_="imageformats_1_Dir" Attributes="256" KeyPath="qtiff.dll_1"/>
+    <ROW Component="qwbmp.dll" ComponentId="{BA9B375A-1B8C-4180-9499-BCEDAB1BB78A}" Directory_="imageformats_Dir" Attributes="0" KeyPath="qwbmp.dll"/>
+    <ROW Component="qwbmp.dll_1" ComponentId="{811AF75F-AC2E-40C8-B6BA-466642140A13}" Directory_="imageformats_1_Dir" Attributes="256" KeyPath="qwbmp.dll_1"/>
+    <ROW Component="qwebp.dll" ComponentId="{045A3259-4F63-4709-B970-5C762B41E5DD}" Directory_="imageformats_Dir" Attributes="0" KeyPath="qwebp.dll"/>
+    <ROW Component="qwebp.dll_1" ComponentId="{8B863954-C817-4A5E-8200-C585919F707A}" Directory_="imageformats_1_Dir" Attributes="256" KeyPath="qwebp.dll_1"/>
+    <ROW Component="qwindows.dll" ComponentId="{ADDA852A-888A-4828-82F7-86547F4F26C8}" Directory_="platforms_Dir" Attributes="0" KeyPath="qwindows.dll"/>
+    <ROW Component="qwindows.dll_1" ComponentId="{3C942A08-F9B3-4EB2-BE3A-8955B2DD40AC}" Directory_="platforms_1_Dir" Attributes="256" KeyPath="qwindows.dll_1"/>
+    <ROW Component="qwindowsvistastyle.dll" ComponentId="{269AE72F-A996-4F28-9B99-9F959C8B7284}" Directory_="styles_Dir" Attributes="0" KeyPath="qwindowsvistastyle.dll"/>
+    <ROW Component="qwindowsvistastyle.dll_1" ComponentId="{F5D50E82-F5C0-469E-A659-01DD75089C78}" Directory_="styles_1_Dir" Attributes="256" KeyPath="qwindowsvistastyle.dll_1"/>
+    <ROW Component="vc_redist.x64.exe" ComponentId="{9164E9FE-A3C1-4672-9178-535B034CF679}" Directory_="Deploy_1_Dir" Attributes="0" KeyPath="vc_redist.x64.exe"/>
+    <ROW Component="vc_redist.x86.exe" ComponentId="{F482B8BE-2955-48F0-9EC8-1EDD29C009A5}" Directory_="Deploy_Dir" Attributes="0" KeyPath="vc_redist.x86.exe"/>
+    <ROW Component="windowsprintersupport.dll" ComponentId="{C1CE46C1-F155-444E-AE1A-DD7B6503496B}" Directory_="printsupport_Dir" Attributes="0" KeyPath="windowsprintersupport.dll"/>
+    <ROW Component="windowsprintersupport.dll_1" ComponentId="{6A8E2CD9-754D-4AE3-A812-A3E0C45E1A0E}" Directory_="printsupport_1_Dir" Attributes="256" KeyPath="windowsprintersupport.dll_1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
     <ROW Feature="A918597FE054CCCB65ABDBA0AD8F63C" Title="Visual C++ Redistributable for Visual Studio 2015-2019 x86" Description="Visual C++ Redistributable for Visual Studio 2015-2019 x86" Display="5" Level="1" Attributes="0"/>
@@ -149,8 +231,120 @@
     <ROW File="Ribbon.dll_1" Component_="Ribbon.dll_1" FileName="Ribbon.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\Ribbon.dll" SelfReg="false"/>
     <ROW File="SettingsDialog.dll_1" Component_="SettingsDialog.dll_1" FileName="SETTIN~1.DLL|SettingsDialog.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\SettingsDialog.dll" SelfReg="false"/>
     <ROW File="ThemeSupport.dll_1" Component_="ThemeSupport.dll_1" FileName="THEMES~1.DLL|ThemeSupport.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\ThemeSupport.dll" SelfReg="false"/>
-    <ROW File="pingnoo_cs.qm" Component_="qt_ar.qm" FileName="PINGNO~1.QM|pingnoo_cs.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\pingnoo_cs.qm" SelfReg="false"/>
-    <ROW File="pingnoo_cs.qm_1" Component_="qt_ar.qm_1" FileName="PINGNO~1.QM|pingnoo_cs.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\pingnoo_cs.qm" SelfReg="false"/>
+    <ROW File="qgenericbearer.dll" Component_="qgenericbearer.dll" FileName="QGENER~1.DLL|qgenericbearer.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\bearer\qgenericbearer.dll" SelfReg="false"/>
+    <ROW File="ICMPAPIPingEngine.dll" Component_="ICMPAPIPingEngine.dll" FileName="ICMPAP~1.DLL|ICMPAPIPingEngine.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\Components\ICMPAPIPingEngine.dll" SelfReg="false"/>
+    <ROW File="d3dcompiler_47.dll" Component_="d3dcompiler_47.dll" FileName="D3DCOM~1.DLL|d3dcompiler_47.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\d3dcompiler_47.dll" SelfReg="false"/>
+    <ROW File="qsvgicon.dll" Component_="qsvgicon.dll" FileName="qsvgicon.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\iconengines\qsvgicon.dll" SelfReg="false"/>
+    <ROW File="qgif.dll" Component_="qgif.dll" FileName="qgif.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\imageformats\qgif.dll" SelfReg="false"/>
+    <ROW File="qicns.dll" Component_="qicns.dll" FileName="qicns.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\imageformats\qicns.dll" SelfReg="false"/>
+    <ROW File="qico.dll" Component_="qico.dll" FileName="qico.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\imageformats\qico.dll" SelfReg="false"/>
+    <ROW File="qjpeg.dll" Component_="qjpeg.dll" FileName="qjpeg.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\imageformats\qjpeg.dll" SelfReg="false"/>
+    <ROW File="qsvg.dll" Component_="qsvg.dll" FileName="qsvg.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\imageformats\qsvg.dll" SelfReg="false"/>
+    <ROW File="qtga.dll" Component_="qtga.dll" FileName="qtga.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\imageformats\qtga.dll" SelfReg="false"/>
+    <ROW File="qtiff.dll" Component_="qtiff.dll" FileName="qtiff.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\imageformats\qtiff.dll" SelfReg="false"/>
+    <ROW File="qwbmp.dll" Component_="qwbmp.dll" FileName="qwbmp.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\imageformats\qwbmp.dll" SelfReg="false"/>
+    <ROW File="qwebp.dll" Component_="qwebp.dll" FileName="qwebp.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\imageformats\qwebp.dll" SelfReg="false"/>
+    <ROW File="libEGL.dll" Component_="libEGL.dll" FileName="libEGL.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\libEGL.dll" SelfReg="false"/>
+    <ROW File="libGLESv2.dll" Component_="libGLESv2.dll" FileName="LIBGLE~1.DLL|libGLESv2.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\libGLESv2.dll" SelfReg="false"/>
+    <ROW File="opengl32sw.dll" Component_="opengl32sw.dll" FileName="OPENGL~1.DLL|opengl32sw.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\opengl32sw.dll" SelfReg="false"/>
+    <ROW File="qwindows.dll" Component_="qwindows.dll" FileName="qwindows.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\platforms\qwindows.dll" SelfReg="false"/>
+    <ROW File="windowsprintersupport.dll" Component_="windowsprintersupport.dll" FileName="WINDOW~1.DLL|windowsprintersupport.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\printsupport\windowsprintersupport.dll" SelfReg="false"/>
+    <ROW File="Qt5Core.dll" Component_="Qt5Core.dll" FileName="Qt5Core.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\Qt5Core.dll" SelfReg="false"/>
+    <ROW File="Qt5Gui.dll" Component_="Qt5Gui.dll" FileName="Qt5Gui.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\Qt5Gui.dll" SelfReg="false"/>
+    <ROW File="Qt5Network.dll" Component_="Qt5Network.dll" FileName="QT5NET~1.DLL|Qt5Network.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\Qt5Network.dll" SelfReg="false"/>
+    <ROW File="Qt5PrintSupport.dll" Component_="Qt5PrintSupport.dll" FileName="QT5PRI~1.DLL|Qt5PrintSupport.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\Qt5PrintSupport.dll" SelfReg="false"/>
+    <ROW File="Qt5Qml.dll" Component_="Qt5Qml.dll" FileName="Qt5Qml.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\Qt5Qml.dll" SelfReg="false"/>
+    <ROW File="Qt5QmlModels.dll" Component_="Qt5QmlModels.dll" FileName="QT5QML~1.DLL|Qt5QmlModels.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\Qt5QmlModels.dll" SelfReg="false"/>
+    <ROW File="Qt5Quick.dll" Component_="Qt5Quick.dll" FileName="Qt5Quick.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\Qt5Quick.dll" SelfReg="false"/>
+    <ROW File="Qt5QuickWidgets.dll" Component_="Qt5QuickWidgets.dll" FileName="QT5QUI~1.DLL|Qt5QuickWidgets.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\Qt5QuickWidgets.dll" SelfReg="false"/>
+    <ROW File="Qt5Sql.dll" Component_="Qt5Sql.dll" FileName="Qt5Sql.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\Qt5Sql.dll" SelfReg="false"/>
+    <ROW File="Qt5Svg.dll" Component_="Qt5Svg.dll" FileName="Qt5Svg.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\Qt5Svg.dll" SelfReg="false"/>
+    <ROW File="Qt5Widgets.dll" Component_="Qt5Widgets.dll" FileName="QT5WID~1.DLL|Qt5Widgets.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\Qt5Widgets.dll" SelfReg="false"/>
+    <ROW File="qsqlite.dll" Component_="qsqlite.dll" FileName="qsqlite.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\sqldrivers\qsqlite.dll" SelfReg="false"/>
+    <ROW File="qsqlodbc.dll" Component_="qsqlodbc.dll" FileName="qsqlodbc.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\sqldrivers\qsqlodbc.dll" SelfReg="false"/>
+    <ROW File="qsqlpsql.dll" Component_="qsqlpsql.dll" FileName="qsqlpsql.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\sqldrivers\qsqlpsql.dll" SelfReg="false"/>
+    <ROW File="qwindowsvistastyle.dll" Component_="qwindowsvistastyle.dll" FileName="QWINDO~1.DLL|qwindowsvistastyle.dll" Attributes="0" SourcePath="..\bin\x86\Deploy\styles\qwindowsvistastyle.dll" SelfReg="false"/>
+    <ROW File="qt_ar.qm" Component_="qt_ar.qm" FileName="qt_ar.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_ar.qm" SelfReg="false"/>
+    <ROW File="qt_bg.qm" Component_="qt_ar.qm" FileName="qt_bg.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_bg.qm" SelfReg="false"/>
+    <ROW File="qt_ca.qm" Component_="qt_ar.qm" FileName="qt_ca.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_ca.qm" SelfReg="false"/>
+    <ROW File="qt_cs.qm" Component_="qt_ar.qm" FileName="qt_cs.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_cs.qm" SelfReg="false"/>
+    <ROW File="qt_da.qm" Component_="qt_ar.qm" FileName="qt_da.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_da.qm" SelfReg="false"/>
+    <ROW File="qt_de.qm" Component_="qt_ar.qm" FileName="qt_de.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_de.qm" SelfReg="false"/>
+    <ROW File="qt_en.qm" Component_="qt_ar.qm" FileName="qt_en.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_en.qm" SelfReg="false"/>
+    <ROW File="qt_es.qm" Component_="qt_ar.qm" FileName="qt_es.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_es.qm" SelfReg="false"/>
+    <ROW File="qt_fi.qm" Component_="qt_ar.qm" FileName="qt_fi.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_fi.qm" SelfReg="false"/>
+    <ROW File="qt_fr.qm" Component_="qt_ar.qm" FileName="qt_fr.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_fr.qm" SelfReg="false"/>
+    <ROW File="qt_gd.qm" Component_="qt_ar.qm" FileName="qt_gd.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_gd.qm" SelfReg="false"/>
+    <ROW File="qt_he.qm" Component_="qt_ar.qm" FileName="qt_he.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_he.qm" SelfReg="false"/>
+    <ROW File="qt_hu.qm" Component_="qt_ar.qm" FileName="qt_hu.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_hu.qm" SelfReg="false"/>
+    <ROW File="qt_it.qm" Component_="qt_ar.qm" FileName="qt_it.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_it.qm" SelfReg="false"/>
+    <ROW File="qt_ja.qm" Component_="qt_ar.qm" FileName="qt_ja.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_ja.qm" SelfReg="false"/>
+    <ROW File="qt_ko.qm" Component_="qt_ar.qm" FileName="qt_ko.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_ko.qm" SelfReg="false"/>
+    <ROW File="qt_lv.qm" Component_="qt_ar.qm" FileName="qt_lv.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_lv.qm" SelfReg="false"/>
+    <ROW File="qt_pl.qm" Component_="qt_ar.qm" FileName="qt_pl.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_pl.qm" SelfReg="false"/>
+    <ROW File="qt_ru.qm" Component_="qt_ar.qm" FileName="qt_ru.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_ru.qm" SelfReg="false"/>
+    <ROW File="qt_sk.qm" Component_="qt_ar.qm" FileName="qt_sk.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_sk.qm" SelfReg="false"/>
+    <ROW File="qt_tr.qm" Component_="qt_ar.qm" FileName="qt_tr.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_tr.qm" SelfReg="false"/>
+    <ROW File="qt_uk.qm" Component_="qt_ar.qm" FileName="qt_uk.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_uk.qm" SelfReg="false"/>
+    <ROW File="qt_zh_TW.qm" Component_="qt_ar.qm" FileName="qt_zh_TW.qm" Attributes="0" SourcePath="..\bin\x86\Deploy\translations\qt_zh_TW.qm" SelfReg="false"/>
+    <ROW File="vc_redist.x86.exe" Component_="vc_redist.x86.exe" FileName="VC_RED~1.EXE|vc_redist.x86.exe" Attributes="0" SourcePath="..\bin\x86\Deploy\vc_redist.x86.exe" SelfReg="false"/>
+    <ROW File="qgenericbearer.dll_1" Component_="qgenericbearer.dll_1" FileName="QGENER~1.DLL|qgenericbearer.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\bearer\qgenericbearer.dll" SelfReg="false"/>
+    <ROW File="ICMPAPIPingEngine.dll_1" Component_="ICMPAPIPingEngine.dll_1" FileName="ICMPAP~1.DLL|ICMPAPIPingEngine.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\Components\ICMPAPIPingEngine.dll" SelfReg="false"/>
+    <ROW File="d3dcompiler_47.dll_1" Component_="d3dcompiler_47.dll_1" FileName="D3DCOM~1.DLL|d3dcompiler_47.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\d3dcompiler_47.dll" SelfReg="false"/>
+    <ROW File="qsvgicon.dll_1" Component_="qsvgicon.dll_1" FileName="qsvgicon.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\iconengines\qsvgicon.dll" SelfReg="false"/>
+    <ROW File="qgif.dll_1" Component_="qgif.dll_1" FileName="qgif.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\imageformats\qgif.dll" SelfReg="false"/>
+    <ROW File="qicns.dll_1" Component_="qicns.dll_1" FileName="qicns.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\imageformats\qicns.dll" SelfReg="false"/>
+    <ROW File="qico.dll_1" Component_="qico.dll_1" FileName="qico.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\imageformats\qico.dll" SelfReg="false"/>
+    <ROW File="qjpeg.dll_1" Component_="qjpeg.dll_1" FileName="qjpeg.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\imageformats\qjpeg.dll" SelfReg="false"/>
+    <ROW File="qsvg.dll_1" Component_="qsvg.dll_1" FileName="qsvg.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\imageformats\qsvg.dll" SelfReg="false"/>
+    <ROW File="qtga.dll_1" Component_="qtga.dll_1" FileName="qtga.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\imageformats\qtga.dll" SelfReg="false"/>
+    <ROW File="qtiff.dll_1" Component_="qtiff.dll_1" FileName="qtiff.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\imageformats\qtiff.dll" SelfReg="false"/>
+    <ROW File="qwbmp.dll_1" Component_="qwbmp.dll_1" FileName="qwbmp.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\imageformats\qwbmp.dll" SelfReg="false"/>
+    <ROW File="qwebp.dll_1" Component_="qwebp.dll_1" FileName="qwebp.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\imageformats\qwebp.dll" SelfReg="false"/>
+    <ROW File="libEGL.dll_1" Component_="libEGL.dll_1" FileName="libEGL.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\libEGL.dll" SelfReg="false"/>
+    <ROW File="libGLESv2.dll_1" Component_="libGLESv2.dll_1" FileName="LIBGLE~1.DLL|libGLESv2.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\libGLESv2.dll" SelfReg="false"/>
+    <ROW File="opengl32sw.dll_1" Component_="opengl32sw.dll_1" FileName="OPENGL~1.DLL|opengl32sw.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\opengl32sw.dll" SelfReg="false"/>
+    <ROW File="qwindows.dll_1" Component_="qwindows.dll_1" FileName="qwindows.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\platforms\qwindows.dll" SelfReg="false"/>
+    <ROW File="windowsprintersupport.dll_1" Component_="windowsprintersupport.dll_1" FileName="WINDOW~1.DLL|windowsprintersupport.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\printsupport\windowsprintersupport.dll" SelfReg="false"/>
+    <ROW File="Qt5Core.dll_1" Component_="Qt5Core.dll_1" FileName="Qt5Core.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\Qt5Core.dll" SelfReg="false"/>
+    <ROW File="Qt5Gui.dll_1" Component_="Qt5Gui.dll_1" FileName="Qt5Gui.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\Qt5Gui.dll" SelfReg="false"/>
+    <ROW File="Qt5Network.dll_1" Component_="Qt5Network.dll_1" FileName="QT5NET~1.DLL|Qt5Network.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\Qt5Network.dll" SelfReg="false"/>
+    <ROW File="Qt5PrintSupport.dll_1" Component_="Qt5PrintSupport.dll_1" FileName="QT5PRI~1.DLL|Qt5PrintSupport.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\Qt5PrintSupport.dll" SelfReg="false"/>
+    <ROW File="Qt5Qml.dll_1" Component_="Qt5Qml.dll_1" FileName="Qt5Qml.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\Qt5Qml.dll" SelfReg="false"/>
+    <ROW File="Qt5QmlModels.dll_1" Component_="Qt5QmlModels.dll_1" FileName="QT5QML~1.DLL|Qt5QmlModels.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\Qt5QmlModels.dll" SelfReg="false"/>
+    <ROW File="Qt5Quick.dll_1" Component_="Qt5Quick.dll_1" FileName="Qt5Quick.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\Qt5Quick.dll" SelfReg="false"/>
+    <ROW File="Qt5QuickWidgets.dll_1" Component_="Qt5QuickWidgets.dll_1" FileName="QT5QUI~1.DLL|Qt5QuickWidgets.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\Qt5QuickWidgets.dll" SelfReg="false"/>
+    <ROW File="Qt5Sql.dll_1" Component_="Qt5Sql.dll_1" FileName="Qt5Sql.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\Qt5Sql.dll" SelfReg="false"/>
+    <ROW File="Qt5Svg.dll_1" Component_="Qt5Svg.dll_1" FileName="Qt5Svg.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\Qt5Svg.dll" SelfReg="false"/>
+    <ROW File="Qt5Widgets.dll_1" Component_="Qt5Widgets.dll_1" FileName="QT5WID~1.DLL|Qt5Widgets.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\Qt5Widgets.dll" SelfReg="false"/>
+    <ROW File="qsqlite.dll_1" Component_="qsqlite.dll_1" FileName="qsqlite.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\sqldrivers\qsqlite.dll" SelfReg="false"/>
+    <ROW File="qsqlodbc.dll_1" Component_="qsqlodbc.dll_1" FileName="qsqlodbc.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\sqldrivers\qsqlodbc.dll" SelfReg="false"/>
+    <ROW File="qsqlpsql.dll_1" Component_="qsqlpsql.dll_1" FileName="qsqlpsql.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\sqldrivers\qsqlpsql.dll" SelfReg="false"/>
+    <ROW File="qwindowsvistastyle.dll_1" Component_="qwindowsvistastyle.dll_1" FileName="QWINDO~1.DLL|qwindowsvistastyle.dll" Attributes="0" SourcePath="..\bin\x86_64\Deploy\styles\qwindowsvistastyle.dll" SelfReg="false"/>
+    <ROW File="qt_ar.qm_1" Component_="qt_ar.qm_1" FileName="qt_ar.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_ar.qm" SelfReg="false"/>
+    <ROW File="qt_bg.qm_1" Component_="qt_ar.qm_1" FileName="qt_bg.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_bg.qm" SelfReg="false"/>
+    <ROW File="qt_ca.qm_1" Component_="qt_ar.qm_1" FileName="qt_ca.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_ca.qm" SelfReg="false"/>
+    <ROW File="qt_cs.qm_1" Component_="qt_ar.qm_1" FileName="qt_cs.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_cs.qm" SelfReg="false"/>
+    <ROW File="qt_da.qm_1" Component_="qt_ar.qm_1" FileName="qt_da.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_da.qm" SelfReg="false"/>
+    <ROW File="qt_de.qm_1" Component_="qt_ar.qm_1" FileName="qt_de.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_de.qm" SelfReg="false"/>
+    <ROW File="qt_en.qm_1" Component_="qt_ar.qm_1" FileName="qt_en.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_en.qm" SelfReg="false"/>
+    <ROW File="qt_es.qm_1" Component_="qt_ar.qm_1" FileName="qt_es.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_es.qm" SelfReg="false"/>
+    <ROW File="qt_fi.qm_1" Component_="qt_ar.qm_1" FileName="qt_fi.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_fi.qm" SelfReg="false"/>
+    <ROW File="qt_fr.qm_1" Component_="qt_ar.qm_1" FileName="qt_fr.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_fr.qm" SelfReg="false"/>
+    <ROW File="qt_gd.qm_1" Component_="qt_ar.qm_1" FileName="qt_gd.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_gd.qm" SelfReg="false"/>
+    <ROW File="qt_he.qm_1" Component_="qt_ar.qm_1" FileName="qt_he.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_he.qm" SelfReg="false"/>
+    <ROW File="qt_hu.qm_1" Component_="qt_ar.qm_1" FileName="qt_hu.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_hu.qm" SelfReg="false"/>
+    <ROW File="qt_it.qm_1" Component_="qt_ar.qm_1" FileName="qt_it.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_it.qm" SelfReg="false"/>
+    <ROW File="qt_ja.qm_1" Component_="qt_ar.qm_1" FileName="qt_ja.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_ja.qm" SelfReg="false"/>
+    <ROW File="qt_ko.qm_1" Component_="qt_ar.qm_1" FileName="qt_ko.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_ko.qm" SelfReg="false"/>
+    <ROW File="qt_lv.qm_1" Component_="qt_ar.qm_1" FileName="qt_lv.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_lv.qm" SelfReg="false"/>
+    <ROW File="qt_pl.qm_1" Component_="qt_ar.qm_1" FileName="qt_pl.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_pl.qm" SelfReg="false"/>
+    <ROW File="qt_ru.qm_1" Component_="qt_ar.qm_1" FileName="qt_ru.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_ru.qm" SelfReg="false"/>
+    <ROW File="qt_sk.qm_1" Component_="qt_ar.qm_1" FileName="qt_sk.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_sk.qm" SelfReg="false"/>
+    <ROW File="qt_tr.qm_1" Component_="qt_ar.qm_1" FileName="qt_tr.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_tr.qm" SelfReg="false"/>
+    <ROW File="qt_uk.qm_1" Component_="qt_ar.qm_1" FileName="qt_uk.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_uk.qm" SelfReg="false"/>
+    <ROW File="qt_zh_TW.qm_1" Component_="qt_ar.qm_1" FileName="qt_zh_TW.qm" Attributes="0" SourcePath="..\bin\x86_64\Deploy\translations\qt_zh_TW.qm" SelfReg="false"/>
+    <ROW File="vc_redist.x64.exe" Component_="vc_redist.x64.exe" FileName="VC_RED~1.EXE|vc_redist.x64.exe" Attributes="0" SourcePath="..\bin\x86_64\Deploy\vc_redist.x64.exe" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
@@ -166,7 +360,7 @@
     <ROW Path="&lt;AI_DICTS&gt;ui_en.ail"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DigCertStoreComponent">
-    <ROW TimeStampUrl="http://timestamp.digicert.com" SignerDescription="[|ProductName]" SignOptions="7" SignTool="0" UseSha256="1" Thumbprint="7253d6182ebc622eb16ec676969c67e967018db9 Subject: TestCert_2020-4-21_11-50-9&#10;Issuer: TestCert_2020-4-21_11-50-9&#10;Valid from 04/21/2020 to 04/21/2021&#10;User\MY" CustomToolPath="..\..\..\..\Tools\smartcardtools\x64\ScSignTool.exe" CustomToolCmdLine="&quot;&quot; -pin %CERTIFICATE_PIN% sign /fd sha256 /t http://time.certum.pl/ /a"/>
+    <ROW TimeStampUrl="http://timestamp.digicert.com" SignerDescription="[|ProductName]" SignOptions="7" SignTool="0" UseSha256="1" Thumbprint="7253d6182ebc622eb16ec676969c67e967018db9 Subject: TestCert_2020-4-21_11-50-9&#10;Issuer: TestCert_2020-4-21_11-50-9&#10;Valid from 04/21/2020 to 04/21/2021&#10;User\MY" CustomToolPath="..\..\..\..\..\..\Tools\smartcardtools\x64\ScSignTool.exe" CustomToolCmdLine="&quot;&quot; -pin %CERTIFICATE_PIN% sign /fd sha256 /t http://time.certum.pl/ /a"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.FragmentComponent">
     <ROW Fragment="CommonUI.aip" Path="&lt;AI_FRAGS&gt;CommonUI.aip"/>
@@ -211,7 +405,8 @@
     <ROW Name="lzmaextractor.dll" SourcePath="&lt;AI_CUSTACTS&gt;lzmaextractor.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiConditionComponent">
-    <ROW Feature_="AI32BitFiles" Level="0" Condition="VersionNT64"/>
+    <ROW Feature_="AI32BitFiles" Level="4" Condition="(VersionNT64)"/>
+    <ROW Feature_="MainFeature" Level="4" Condition="NOT (VersionNT64)"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlComponent">
     <ROW Dialog_="NewDialog" Control="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Attributes="3" Text="[ButtonText_Next]" Order="100" Options="1"/>
@@ -317,26 +512,6 @@
     <ROW Feature_="C4FE6FD5B7C4D07B3A313E754A9A6A8" Component_="C4FE6FD5B7C4D07B3A313E754A9A6A8"/>
     <ROW Feature_="MainFeature" Component_="AI_ExePath"/>
     <ROW Feature_="MainFeature" Component_="AIShRegAnswer"/>
-    <ROW Feature_="MainFeature" Component_="AppNap.dll"/>
-    <ROW Feature_="MainFeature" Component_="Core.dll"/>
-    <ROW Feature_="MainFeature" Component_="HostIPGeoIPProvider.dll"/>
-    <ROW Feature_="MainFeature" Component_="ICMPPingEngine.dll"/>
-    <ROW Feature_="MainFeature" Component_="JitterPlot.dll"/>
-    <ROW Feature_="MainFeature" Component_="PublicIPHostMasker.dll"/>
-    <ROW Feature_="MainFeature" Component_="RegExHostMasker.dll"/>
-    <ROW Feature_="MainFeature" Component_="RouteAnalyser.dll"/>
-    <ROW Feature_="MainFeature" Component_="RouteEngine.dll"/>
-    <ROW Feature_="MainFeature" Component_="ComponentSystem.dll"/>
-    <ROW Feature_="MainFeature" Component_="FontAwesome.dll"/>
-    <ROW Feature_="MainFeature" Component_="ICMPPacket.dll"/>
-    <ROW Feature_="MainFeature" Component_="ICMPSocket.dll"/>
-    <ROW Feature_="MainFeature" Component_="MapWidget.dll"/>
-    <ROW Feature_="MainFeature" Component_="Pingnoo.exe"/>
-    <ROW Feature_="MainFeature" Component_="QCustomPlot.dll"/>
-    <ROW Feature_="MainFeature" Component_="Ribbon.dll"/>
-    <ROW Feature_="MainFeature" Component_="SettingsDialog.dll"/>
-    <ROW Feature_="MainFeature" Component_="ThemeSupport.dll"/>
-    <ROW Feature_="MainFeature" Component_="qt_ar.qm"/>
     <ROW Feature_="MainFeature" Component_="AppNap.dll_1"/>
     <ROW Feature_="MainFeature" Component_="Core.dll_1"/>
     <ROW Feature_="MainFeature" Component_="HostIPGeoIPProvider.dll_1"/>
@@ -350,18 +525,106 @@
     <ROW Feature_="MainFeature" Component_="FontAwesome.dll_1"/>
     <ROW Feature_="MainFeature" Component_="ICMPPacket.dll_1"/>
     <ROW Feature_="MainFeature" Component_="ICMPSocket.dll_1"/>
+    <ROW Feature_="AI32BitFiles" Component_="AppNap.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="QCustomPlot.dll"/>
     <ROW Feature_="MainFeature" Component_="MapWidget.dll_1"/>
+    <ROW Feature_="AI32BitFiles" Component_="ComponentSystem.dll"/>
     <ROW Feature_="MainFeature" Component_="Pingnoo.exe_1"/>
+    <ROW Feature_="AI32BitFiles" Component_="Ribbon.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="FontAwesome.dll"/>
     <ROW Feature_="MainFeature" Component_="QCustomPlot.dll_1"/>
+    <ROW Feature_="AI32BitFiles" Component_="ICMPPacket.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="Pingnoo.exe"/>
+    <ROW Feature_="AI32BitFiles" Component_="ICMPSocket.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="MapWidget.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="SettingsDialog.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="ThemeSupport.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="RegExHostMasker.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="Core.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="PublicIPHostMasker.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="HostIPGeoIPProvider.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="ICMPPingEngine.dll"/>
     <ROW Feature_="MainFeature" Component_="Ribbon.dll_1"/>
     <ROW Feature_="MainFeature" Component_="SettingsDialog.dll_1"/>
+    <ROW Feature_="AI32BitFiles" Component_="JitterPlot.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="RouteAnalyser.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="RouteEngine.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qt_ar.qm"/>
     <ROW Feature_="MainFeature" Component_="ThemeSupport.dll_1"/>
     <ROW Feature_="MainFeature" Component_="qt_ar.qm_1"/>
+    <ROW Feature_="AI32BitFiles" Component_="qgenericbearer.dll"/>
     <ROW Feature_="MainFeature" Component_="bit_1"/>
     <ROW Feature_="MainFeature" Component_="SHORTCUTDIR"/>
     <ROW Feature_="MainFeature" Component_="bit_2"/>
     <ROW Feature_="MainFeature" Component_="bit"/>
     <ROW Feature_="A918597FE054CCCB65ABDBA0AD8F63C" Component_="A918597FE054CCCB65ABDBA0AD8F63C"/>
+    <ROW Feature_="AI32BitFiles" Component_="ICMPAPIPingEngine.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="d3dcompiler_47.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qsvgicon.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qgif.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qicns.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qico.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qjpeg.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qsvg.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qtga.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qtiff.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qwbmp.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qwebp.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="libEGL.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="libGLESv2.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="opengl32sw.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qwindows.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="windowsprintersupport.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="Qt5Core.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="Qt5Gui.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="Qt5Network.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="Qt5PrintSupport.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="Qt5Qml.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="Qt5QmlModels.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="Qt5Quick.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="Qt5QuickWidgets.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="Qt5Sql.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="Qt5Svg.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="Qt5Widgets.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qsqlite.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qsqlodbc.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qsqlpsql.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="qwindowsvistastyle.dll"/>
+    <ROW Feature_="AI32BitFiles" Component_="vc_redist.x86.exe"/>
+    <ROW Feature_="MainFeature" Component_="qgenericbearer.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="ICMPAPIPingEngine.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="d3dcompiler_47.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="qsvgicon.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="qgif.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="qicns.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="qico.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="qjpeg.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="qsvg.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="qtga.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="qtiff.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="qwbmp.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="qwebp.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="libEGL.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="libGLESv2.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="opengl32sw.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="qwindows.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="windowsprintersupport.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="Qt5Core.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="Qt5Gui.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="Qt5Network.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="Qt5PrintSupport.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="Qt5Qml.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="Qt5QmlModels.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="Qt5Quick.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="Qt5QuickWidgets.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="Qt5Sql.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="Qt5Svg.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="Qt5Widgets.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="qsqlite.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="qsqlodbc.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="qsqlpsql.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="qwindowsvistastyle.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="vc_redist.x64.exe"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
     <ROW Name="appicon.exe" SourcePath="..\src\app\appicon.ico" Index="0"/>
@@ -483,7 +746,7 @@
     <ROW SearchKey="C4FE6FD5B7C4D07B3A313E754A9A6A8Vers" Prereq="C4FE6FD5B7C4D07B3A313E754A9A6A8" SearchType="2" SearchString="HKLM\SOFTWARE\Microsoft\DevDiv\VC\Servicing\14.0\RuntimeMinimum\Version" VerMin="14.26.28720" Order="1" Property="PreReqSearch_C4FE6FD5B7C4D07B3A313E" Platform="1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.SynchronizedFolderComponent">
-    <ROW Directory_="Deploy_Dir" SourcePath="..\bin\x86\Deploy" Feature="MainFeature" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
+    <ROW Directory_="Deploy_Dir" SourcePath="..\bin\x86\Deploy" Feature="AI32BitFiles" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
     <ROW Directory_="Deploy_1_Dir" SourcePath="..\bin\x86_64\Deploy" Feature="MainFeature" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
   </COMPONENT>
 </DOCUMENT>
