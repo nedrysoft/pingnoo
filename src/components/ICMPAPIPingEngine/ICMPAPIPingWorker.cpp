@@ -59,19 +59,19 @@ void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker::doWork() {
     qint64 started, finished;
 
 #if defined(_WIN64)
-    IP_OPTION_INFORMATION32 pingOptions;
-
-    pingOptions.Ttl = m_target->ttl();
-    pingOptions.Flags = 0;
-    pingOptions.OptionsData = nullptr;
-    pingOptions.OptionsSize = 0;
-    pingOptions.Tos = 0;
-
-    PIP_OPTION_INFORMATION pipOptions = reinterpret_cast<PIP_OPTION_INFORMATION>(&pingOptions);
+    IP_OPTION_INFORMATION32 options;
 #else
-    PIP_OPTION_INFORMATION pipOptions;
+    IP_OPTION_INFORMATION options;
 #endif
     //TODO: ipV6
+
+    options.Ttl = m_target->ttl();
+    options.Flags = 0;
+    options.OptionsData = nullptr;
+    options.OptionsSize = 0;
+    options.Tos = 0;
+
+    PIP_OPTION_INFORMATION pipOptions = reinterpret_cast<PIP_OPTION_INFORMATION>(&options);
 
     icmpHandle = IcmpCreateFile();
 
