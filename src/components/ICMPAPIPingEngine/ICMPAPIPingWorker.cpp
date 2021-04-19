@@ -23,6 +23,7 @@
 
 #include "ICMPAPIPingWorker.h"
 
+#include "ICMPAPIPingEngine.h"
 #include "ICMPAPIPingTarget.h"
 
 #include <QHostAddress>
@@ -42,79 +43,29 @@ constexpr auto DefaultTransmitTimeout = 3s;
 constexpr auto nanosecondsInMillisecond = 1.0e6;
 
 Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker::ICMPAPIPingWorker(
+        Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *engine,
         int sampleNumber,
-        Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *target) {
+        Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *target) :
 
-    m_target = target;
-    m_sampleNumber = sampleNumber;
+            m_engine(engine),
+            m_target(target),
+            m_sampleNumber(sampleNumber) {
+
 }
 
 void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker::doWork() {
-    QByteArray dataBuffer = QString("pingnoo ping ").arg(m_sampleNumber).toLatin1();
-    QByteArray replyBuffer(sizeof(ICMP_ECHO_REPLY) + dataBuffer.length(), 0);
-    HANDLE icmpHandle;
-    QHostAddress replyHost;
-    Nedrysoft::Core::PingResult result;
-    QElapsedTimer timer;
-    qint64 started, finished;
+    auto pingResult = m_engine->singleShot(
+            m_target->hostAddress(),
+            m_target->ttl(),
+            std::chrono::duration<DWORD, std::milli>(DefaultTransmitTimeout).count());
 
-#if defined(_WIN64)
-    IP_OPTION_INFORMATION32 options;
-#else
-    IP_OPTION_INFORMATION options;
-#endif
-    //TODO: ipV6
-
-    options.Ttl = m_target->ttl();
-    options.Flags = 0;
-    options.OptionsData = nullptr;
-    options.OptionsSize = 0;
-    options.Tos = 0;
-
-    PIP_OPTION_INFORMATION pipOptions = reinterpret_cast<PIP_OPTION_INFORMATION>(&options);
-
-    icmpHandle = IcmpCreateFile();
-
-    started = timer.nsecsElapsed();
-
-    auto returnValue = IcmpSendEcho(icmpHandle, m_target->hostAddress().toIPv4Address(),
-                                    dataBuffer.data(), static_cast<WORD>(dataBuffer.length()), pipOptions,
-                                    replyBuffer.data(), static_cast<DWORD>(replyBuffer.length()),
-                                    std::chrono::duration<DWORD, std::milli>(
-                                            DefaultTransmitTimeout).count()); // NOLINT(cppcoreguidelines-pro-type-union-access)
-
-    finished = timer.nsecsElapsed();
-
-    auto roundTripTime = static_cast<double>(finished - started) / nanosecondsInMillisecond;
-    auto epoch = std::chrono::system_clock::now();
-
-    Nedrysoft::Core::PingResult::ResultCode resultCode = Nedrysoft::Core::PingResult::ResultCode::NoReply;
-
-    if (returnValue) {
-        PICMP_ECHO_REPLY pEchoReply = (PICMP_ECHO_REPLY) replyBuffer.data();
-
-        //TODO: ipV6
-
-        replyHost = QHostAddress(ntohl(pEchoReply->Address));
-
-        if (pEchoReply->Status==IP_SUCCESS) {
-            resultCode = Nedrysoft::Core::PingResult::ResultCode::Ok;
-        } else if (pEchoReply->Status==IP_TTL_EXPIRED_TRANSIT) {
-            resultCode = Nedrysoft::Core::PingResult::ResultCode::TimeExceeded;
-        }
-    }
-
-    result = Nedrysoft::Core::PingResult(
+    Q_EMIT result(Nedrysoft::Core::PingResult(
             m_sampleNumber,
-            resultCode,
-            replyHost,
-            epoch,
-            std::chrono::duration<double, std::milli>(roundTripTime),
-            m_target);
-
-    IcmpCloseHandle(icmpHandle);
-
-    Q_EMIT pingResult(result);
+            pingResult.code(),
+            pingResult.hostAddress(),
+            pingResult.requestTime(),
+            pingResult.roundTripTime(),
+            m_target));
 }
 
 

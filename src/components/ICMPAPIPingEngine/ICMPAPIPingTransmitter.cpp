@@ -68,7 +68,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
         m_targetsMutex.lock();
 
         for (auto target : m_targets) {
-            auto pingWorker = new Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker(sampleNumber, target);
+            auto pingWorker = new Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker(m_engine, sampleNumber, target);
 
             auto pingThread = new QThread();
 
@@ -78,11 +78,11 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
             connect(pingThread, &QThread::finished, pingThread, &QThread::deleteLater);
             connect(pingThread, &QThread::finished, pingWorker, &ICMPAPIPingWorker::deleteLater);
 
-            // TODO: for some reason, directly connecting these signals doesn't work, very strange.
-
-            connect(pingWorker, &ICMPAPIPingWorker::pingResult, [=](Nedrysoft::Core::PingResult res) {
-                Q_EMIT result(res);
-            });
+            connect(pingWorker,
+                    &ICMPAPIPingWorker::result,
+                    this,
+                    &ICMPAPIPingTransmitter::result,
+                    Qt::DirectConnection);
 
             pingThread->start();
         }

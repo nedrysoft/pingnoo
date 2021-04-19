@@ -196,36 +196,75 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
     options.Tos = 0;
 
     PIP_OPTION_INFORMATION pipOptions = reinterpret_cast<PIP_OPTION_INFORMATION>(&options);
-
-    //TODO: ipV6
-
-    icmpHandle = IcmpCreateFile();
-
-    hostAddress.toIPv4Address();
+    
+    if (hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
+        icmpHandle = IcmpCreateFile();
+    } else {
+        icmpHandle = Icmp6CreateFile();
+    }
 
     started = timer.nsecsElapsed();
 
-    auto returnValue = IcmpSendEcho(icmpHandle, hostAddress.toIPv4Address(),
-                                dataBuffer.data(), static_cast<WORD>(dataBuffer.length()), pipOptions,
-                                replyBuffer.data(), static_cast<DWORD>(replyBuffer.length()),
-                                std::chrono::duration<DWORD, std::milli>(
-                                        DefaultTransmitTimeout).count()); // NOLINT(cppcoreguidelines-pro-type-union-access)
+    sockaddr_in6 sourceAddress, targetAddress;
+
+    IN6ADDR_SETANY(&sourceAddress);
+    IN6ADDR_SETANY(&targetAddress);
+
+    memcpy(targetAddress.sin6_addr.u.Byte, hostAddress.toIPv6Address().c, sizeof(targetAddress.sin6_addr));
+
+    int returnValue;
+
+    if (hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
+        returnValue = IcmpSendEcho(
+                icmpHandle,
+                hostAddress.toIPv4Address(),
+                dataBuffer.data(),
+                static_cast<WORD>(dataBuffer.length()), pipOptions,
+                replyBuffer.data(),
+                static_cast<DWORD>(replyBuffer.length()),
+                std::chrono::duration<DWORD, std::milli>(
+                        DefaultTransmitTimeout).count() ); // NOLINT(cppcoreguidelines-pro-type-union-access)
+    } else {
+        returnValue = Icmp6SendEcho2(
+                icmpHandle,
+                nullptr,
+                nullptr,
+                nullptr,
+                &sourceAddress,
+                &targetAddress,
+                dataBuffer.data(),
+                static_cast<WORD>(dataBuffer.length()),
+                pipOptions,
+                replyBuffer.data(), static_cast<DWORD>(replyBuffer.length()),
+                std::chrono::duration<DWORD, std::milli>(
+                        DefaultTransmitTimeout).count() );  // NOLINT(cppcoreguidelines-pro-type-union-access)
+    }
 
     finished = timer.nsecsElapsed();
 
     auto roundTripTime = static_cast<double>(finished - started) / nanosecondsInMillisecond;
 
     if (returnValue) {
-        PICMP_ECHO_REPLY pEchoReply = (PICMP_ECHO_REPLY) replyBuffer.data();
+        if (hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
+            PICMP_ECHO_REPLY pEchoReply = (PICMP_ECHO_REPLY) replyBuffer.data();
 
-        //TODO: ipV6
+            replyHost = QHostAddress(ntohl(pEchoReply->Address));
 
-        replyHost = QHostAddress(ntohl(pEchoReply->Address));
+            if (pEchoReply->Status == IP_SUCCESS) {
+                resultCode = Nedrysoft::Core::PingResult::ResultCode::Ok;
+            } else if (pEchoReply->Status == IP_TTL_EXPIRED_TRANSIT) {
+                resultCode = Nedrysoft::Core::PingResult::ResultCode::TimeExceeded;
+            }
+        } else {
+            PICMPV6_ECHO_REPLY pEchoReply = (PICMPV6_ECHO_REPLY) replyBuffer.data();
 
-        if (pEchoReply->Status==IP_SUCCESS) {
-            resultCode = Nedrysoft::Core::PingResult::ResultCode::Ok;
-        } else if (pEchoReply->Status==IP_TTL_EXPIRED_TRANSIT) {
-            resultCode = Nedrysoft::Core::PingResult::ResultCode::TimeExceeded;
+            replyHost = QHostAddress(reinterpret_cast<char *>(pEchoReply->Address.sin6_addr));
+
+            if (pEchoReply->Status == IP_SUCCESS) {
+                resultCode = Nedrysoft::Core::PingResult::ResultCode::Ok;
+            } else if (pEchoReply->Status == IP_TTL_EXPIRED_TRANSIT) {
+                resultCode = Nedrysoft::Core::PingResult::ResultCode::TimeExceeded;
+            }
         }
     }
 

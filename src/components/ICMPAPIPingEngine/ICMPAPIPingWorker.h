@@ -30,6 +30,7 @@
 
 namespace Nedrysoft::ICMPAPIPingEngine {
     class ICMPAPIPingTarget;
+    class ICMPAPIPingEngine;
 
     /**
      * @brief       The ICMPAPIPingWorker class uses the synchronous ICMPAPI ping function to send
@@ -43,10 +44,14 @@ namespace Nedrysoft::ICMPAPIPingEngine {
             /**
              * @brief       Constructs an ICMPAPIPingWorker.
              *
+             * @param[in]   engine the ping engine that owns the worker.
              * @param[in]   sampleNumber the sample number of this ping.
              * @param[in]   target the target to be pinged.
              */
-            ICMPAPIPingWorker(int sampleNumber, Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *target);
+            ICMPAPIPingWorker(
+                    Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *engine,
+                    int sampleNumber,
+                    Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *target);
 
             /**
              * @brief       The thread worker function.
@@ -58,11 +63,12 @@ namespace Nedrysoft::ICMPAPIPingEngine {
              *
              * @param[in]   result the result.
              */
-            Q_SIGNAL void pingResult(Nedrysoft::Core::PingResult result);
+            Q_SIGNAL void result(Nedrysoft::Core::PingResult pingResult);
 
         private:
             Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *m_target;
             int m_sampleNumber;
+            Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *m_engine;
 
     };
 }
