@@ -24,16 +24,16 @@
 #ifndef PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGENGINE_H
 #define PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGENGINE_H
 
-#include "ICMPAPIPingEngineSpec.h"
 #include "Core/IPingEngine.h"
+#include "Core/IPingEngineFactory.h"
 
-namespace Nedrysoft::Pingnoo {
+namespace Nedrysoft::ICMPAPIPingEngine {
     class ICMPAPIPingEngineData;
 
     class ICMPPingItem;
 
     /**
-     * @brief       The ICMPAPIPingEngine provides An IPingEngine that uses the Windows ICMP API feature.
+     * @brief       The ICMPAPIPingEngine provides An IPingEngine that uses Windows ICMPAPI.
      */
     class ICMPAPIPingEngine :
             public Nedrysoft::Core::IPingEngine {
@@ -47,18 +47,32 @@ namespace Nedrysoft::Pingnoo {
             /**
              * @brief       Constructs an ICMPAPIPingEngine.
              */
-            ICMPAPIPingEngine();
+            ICMPAPIPingEngine(Nedrysoft::Core::IPVersion version);
 
             /**
-             * @brief       Sets the measurement interval for this engine instance.
-             *
-             * @see         Nedrysoft::Core::IPingEngine::setInterval
-             *
-             * @param[in]   interval interval time.
-             *
-             * @returns     returns true on success; otherwise false.
+             * @brief       Destroys the ICMPPingEngine.
              */
+            ~ICMPAPIPingEngine();
+
+            /**
+            * @brief       Sets the measurement interval for this engine instance.
+            *
+            * @see         Nedrysoft::Core::IPingEngine::setInterval
+            *
+            * @param[in]   interval interval time.
+            *
+            * @returns     returns true on success; otherwise false.
+            */
             auto setInterval(std::chrono::milliseconds interval) -> bool override;
+
+            /**
+             * @brief       Returns the interval set on the engine.
+             *
+             * @see         Nedrysoft::Core::IPingEngine::interval
+             *
+             * @returns     the interval.
+             */
+            auto interval() -> std::chrono::milliseconds override;
 
             /**
              * @brief       Sets the reply timeout for this engine instance.
@@ -101,23 +115,39 @@ namespace Nedrysoft::Pingnoo {
             auto addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget * override;
 
             /**
-             * @brief       Adds a ping target to this engine instance
+             * @brief       Adds a ping target to this engine instance.
              *
              * @see         Nedrysoft::Core::IPingEngine::addTarget
              *
-             * @param[in]   hostAddress the host address of the ping target
-             * @param[in]   ttl the time to live to use
+             * @param[in]   hostAddress the host address of the ping target.
+             * @param[in]   ttl the time to live to use.
              *
-             * @returns     returns a pointer to the created ping target
+             * @returns     returns a pointer to the created ping target.
              */
             auto addTarget(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::IPingTarget * override;
 
             /**
-             * @brief       Removes a ping target from this engine instance
+             * @brief       Transmits a single ping.
+             *
+             * @notes       This is a blocking function.
+             *
+             * @param[in]   hostAddress the target host address.
+             * @param[in]   ttl time to live for this packet.
+             * @param[in]   timeout time in seconds to wait for response.
+             *
+             * @returns     the result of the ping.
+             */
+            auto singleShot(
+                    QHostAddress hostAddress,
+                    int ttl,
+                    double timeout ) -> Nedrysoft::Core::PingResult override;
+
+            /**
+             * @brief       Removes a ping target from this engine instance.
              *
              * @see         Nedrysoft::Core::IPingEngine::addTarget
              *
-             * @param[in]   target the ping target to remove
+             * @param[in]   target the ping target to remove.
              *
              * @returns     true on success; otherwise false.
              */
@@ -128,9 +158,9 @@ namespace Nedrysoft::Pingnoo {
              *
              * @see         Nedrysoft::Core::IPingEngine::epoch
              *
-             * @returns     the time epoch
+             * @returns     the time epoch.
              */
-            auto epoch() -> std::chrono::system_clock::time_poin overridet;
+            auto epoch() -> std::chrono::system_clock::time_point override;
 
             /**
              * @brief       Returns the list of ping targets for the engine.
@@ -138,6 +168,13 @@ namespace Nedrysoft::Pingnoo {
              * @returns     a QList containing the list of targets.
              */
             auto targets() -> QList<Nedrysoft::Core::IPingTarget *> override;
+
+        private:
+            /*
+             * @brief       Stops the transmitter thread.
+             */
+            auto doStop() -> void;
+
         public:
             /**
              * @brief       Saves the configuration to a JSON object.

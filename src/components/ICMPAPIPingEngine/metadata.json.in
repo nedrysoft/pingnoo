@@ -1,11 +1,12 @@
 {
     "Name" : "@pingnooComponentName@",
     "Version" : "@pingnooComponentVersion@",
+    "Branch" : "@pingnooComponentBranch@",
+    "Revision" : "@pingnooComponentRevision@",
     "CompatVersion" : "1.0.0",
     "Vendor" : "nedrysoft.com",
     "Copyright" : "(C) 2020 Adrian Carpenter",
     "License" : [
-        "",
         "Copyright (C) 2020 Adrian Carpenter",
         "",
         "This program is free software: you can redistribute it and/or modify",
@@ -23,7 +24,9 @@
         ""
     ],
     "Category" : "@pingnooComponentCategory@",
-    @pingnooComponentDependencies@
+    "Dependencies" : [
+        @pingnooComponentDependencies@
+    ],
     "Description" : [
         "@pingnooComponentDescription@"
     ],

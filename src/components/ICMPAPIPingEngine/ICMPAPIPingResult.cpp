@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2020 Adrian Carpenter
+ * Copyright (C) 2021 Adrian Carpenter
  *
  * This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
  *
  * An open-source cross-platform traceroute analyser.
  *
- * Created by Adrian Carpenter on 27/03/2020.
+ * Created by Adrian Carpenter on 20/04/2021.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,13 +21,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPAPIPINGENGINESPEC_H
-#define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPAPIPINGENGINESPEC_H
+#include "ICMPAPIPingResult.h"
 
-#if defined(NEDRYSOFT_COMPONENT_ICMPAPIPINGENGINE_EXPORT)
-#define NEDRYSOFT_ICMPAPIPINGENGINE_DLLSPEC Q_DECL_EXPORT
-#else
-#define NEDRYSOFT_ICMPAPIPINGENGINE_DLLSPEC Q_DECL_IMPORT
-#endif
+#include "Core/IPingTarget.h"
 
-#endif // PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPAPIPINGENGINESPEC_H
+Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingResult::ICMPAPIPingResult(Nedrysoft::Core::PingResult result) {
+    m_code = result.code();
+    m_target = result.target();
+    m_hostAddress = result.hostAddress();
+    m_requestTime = result.requestTime();
+    m_roundTripTime = result.roundTripTime();
+}
+
+void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingResult::setSampleNumber(int sampleNumber) {
+    m_sampleNumber = sampleNumber;
+}
+
+void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingResult::setTarget(Nedrysoft::Core::IPingTarget *target) {
+    m_target = target;
+}

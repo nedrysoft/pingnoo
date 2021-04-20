@@ -26,8 +26,7 @@
 #include "ComponentSystem/IComponentManager.h"
 #include "ICMPAPIPingEngineFactory.h"
 
-#include <IPExport.h>
-#include <WS2tcpip.h>
+#include <windows.h>
 #include <spdlog/spdlog.h>
 
 ICMPAPIPingComponent::ICMPAPIPingComponent() = default;
@@ -35,14 +34,13 @@ ICMPAPIPingComponent::ICMPAPIPingComponent() = default;
 ICMPAPIPingComponent::~ICMPAPIPingComponent() = default;
 
 auto ICMPAPIPingComponent::initialiseEvent() -> void {
-#if defined(Q_OS_WIN)
     WSADATA wsaData;
 
     if (WSAStartup(MAKEWORD(2,2), &wsaData)!=0) {
         spdlog::warn("error initialising winsock");
     }
-#endif
-    //Nedrysoft::ComponentSystem::addObject(new Nedrysoft::Pingnoo::ICMPAPIPingEngineFactory());
+
+    Nedrysoft::ComponentSystem::addObject(new Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory());
 }
 
 

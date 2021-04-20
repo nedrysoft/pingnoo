@@ -26,10 +26,8 @@
 
 #include "ComponentSystem/IInterface.h"
 #include "Core/IPingEngineFactory.h"
-#include "ICMPAPIPingEngineSpec.h"
 
-namespace Nedrysoft::Pingnoo {
-
+namespace Nedrysoft::ICMPAPIPingEngine {
     class ICMPAPIPingEngineFactoryData;
 
     class ICMPPingEngine;
@@ -60,13 +58,49 @@ namespace Nedrysoft::Pingnoo {
             /**
              * @brief       Creates a ICMPAPIPingEngine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngineFactory::createEngine.
+             * @see         Nedrysoft::Core::IPingEngineFactory::createEngine
              *
              * @param[in]   version the IP version of the engine.
              *
              * @returns     the new ICMPAPIPingEngine instance.
              */
-            auto createEngine() -> Nedrysoft::Core::IPingEngine * override;
+            auto createEngine(Nedrysoft::Core::IPVersion version) -> Nedrysoft::Core::IPingEngine * override;
+
+            /**
+             * @brief       Returns the descriptive name of the factory.
+             *
+             * @returns     the descriptive name of the ping engine.
+             */
+            auto description() -> QString override;
+
+            /**
+             * @brief       Priority of the ping engine.  The priority is 0=lowest, 1=highest.  This allows
+             *              the application to provide a default engine per platform.
+             *
+             * @returns     the priority.
+             */
+            auto priority() -> double override;
+
+            /**
+             * @brief      Returns whether the ping engine is available for use.
+             *
+             * @note       Under linux, the ICMP ping engine may not be available if raw sockets cannot
+             *             be created, so this allows us to disable a ping engine from being used.
+             *
+             * @returns    true if available; otherwise false.
+             */
+            auto available() -> bool override;
+
+            /**
+             * @brief      Deletes a ping engine that was created by this instance.
+             *
+             * @note       If the ping engine is still running, this function will stop it.
+             *
+             * @param[in]  pingEngine the ping engine to be removed.
+             *
+             * @returns    true if the engine was deleted; otherwise false.
+             */
+            auto deleteEngine(Nedrysoft::Core::IPingEngine *engine) -> bool override;
 
         public:
             /**
@@ -88,7 +122,7 @@ namespace Nedrysoft::Pingnoo {
             auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         protected:
-            std::shared_ptr<ICMPAPIAPIPingEngineFactoryData> d;
+            std::shared_ptr<ICMPAPIPingEngineFactoryData> d;
     };
 }
 

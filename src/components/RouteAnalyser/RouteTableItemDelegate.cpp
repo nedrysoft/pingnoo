@@ -823,6 +823,10 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::drawLatencyLine(
     auto previousData = getSiblingData(index, -1, tableView, previousRect);
     auto nextData = getSiblingData(index, 1, tableView, nextRect);
 
+    if (graphMaxLatency==0) {
+        graphMaxLatency = 1;
+    }
+
     painter->save();
 
     if (previousData) {

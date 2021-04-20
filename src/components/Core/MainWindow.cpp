@@ -71,11 +71,12 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
 
     showMaximized();
 
-    this->setWindowTitle(QString(tr("Pingnoo %1.%2.%3-%4"))
+    this->setWindowTitle(QString(tr("Pingnoo %1.%2.%3-%4 (%5)"))
             .arg(PINGNOO_GIT_YEAR)
             .arg(PINGNOO_GIT_MONTH)
             .arg(PINGNOO_GIT_DAY)
-            .arg(PINGNOO_GIT_BRANCH) );
+            .arg(PINGNOO_GIT_BRANCH)
+            .arg(PINGNOO_GIT_HASH) );
 
     // QStatusBar *statusBar = new QStatusBar;
 
