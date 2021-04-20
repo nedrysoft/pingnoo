@@ -92,7 +92,23 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
     });
 
     m_targetHighlighter = new LineSyntaxHighlighter(ui->targetLineEdit->document(), [=](const QString &text) {
-        return Nedrysoft::Utils::checkHostValid(text);
+        QAbstractSocket::NetworkLayerProtocol protocol;
+
+        auto returnValue = Nedrysoft::Utils::checkHostValid(text, &protocol);
+
+        if (returnValue) {
+            switch(protocol) {
+                case QAbstractSocket::IPv4Protocol: {
+                    return ui->ipv4RadioButton->isChecked();
+                }
+
+                case QAbstractSocket::IPv6Protocol: {
+                    return ui->ipV6RadioButton->isChecked();
+                }
+            }
+        }
+
+        return returnValue;
     });
 
     ui->targetLineEdit->setLineWrapMode(QTextEdit::NoWrap);
@@ -134,11 +150,43 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
         ui->ipV6RadioButton->setChecked(true);
     }
 
+    connect(ui->ipv4RadioButton, &QRadioButton::toggled, [=](bool checked) {
+        m_targetHighlighter->rehighlight();
+        updateButtonBoxState();
+    });
+
+    connect(ui->ipV6RadioButton, &QRadioButton::toggled, [=](bool checked) {
+        m_targetHighlighter->rehighlight();
+        updateButtonBoxState();
+    });
+
     validateFields();
 }
 
 Nedrysoft::RouteAnalyser::NewTargetDialog::~NewTargetDialog() {
     delete ui;
+}
+
+auto Nedrysoft::RouteAnalyser::NewTargetDialog::updateButtonBoxState() -> void {
+    QAbstractSocket::NetworkLayerProtocol protocol;
+
+    auto isValid = Nedrysoft::Utils::checkHostValid(ui->targetLineEdit->toPlainText(), &protocol);
+
+    if (isValid) {
+        switch(protocol) {
+            case QAbstractSocket::IPv4Protocol: {
+                isValid = ui->ipv4RadioButton->isChecked();
+                break;
+            }
+
+            case QAbstractSocket::IPv6Protocol: {
+                isValid = ui->ipV6RadioButton->isChecked();
+                break;
+            }
+        }
+    }
+
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(isValid);
 }
 
 auto Nedrysoft::RouteAnalyser::NewTargetDialog::pingEngineFactory() -> Nedrysoft::Core::IPingEngineFactory * {
@@ -186,8 +234,28 @@ auto Nedrysoft::RouteAnalyser::NewTargetDialog::checkFieldsValid(QString &string
                     ui->intervalLineEdit->placeholderText() :
                     ui->intervalLineEdit->toPlainText();
 
-    if (!Nedrysoft::Utils::checkHostValid(target)) {
-        returnWidget=ui->targetLineEdit;
+    QAbstractSocket::NetworkLayerProtocol protocol;
+
+    if (Nedrysoft::Utils::checkHostValid(target, &protocol)) {
+        switch(protocol) {
+            case QAbstractSocket::IPv4Protocol: {
+                if (!ui->ipv4RadioButton->isChecked()) {
+                    returnWidget = ui->targetLineEdit;
+                }
+
+                break;
+            }
+
+            case QAbstractSocket::IPv6Protocol: {
+                if (!ui->ipV6RadioButton->isChecked()) {
+                    returnWidget = ui->targetLineEdit;
+                }
+
+                break;
+            }
+        }
+    } else {
+        returnWidget = ui->targetLineEdit;
     }
 
     if (!Nedrysoft::Utils::parseIntervalString(interval, intervalValue)) {

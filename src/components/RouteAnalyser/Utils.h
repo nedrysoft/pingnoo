@@ -27,6 +27,7 @@
 #include <limits.h>
 #include <stdint.h>
 
+#include <QAbstractSocket>
 #include <QString>
 
 namespace Nedrysoft::Utils {
@@ -72,10 +73,11 @@ namespace Nedrysoft::Utils {
      * @brief       Check if the host is a valid host name or ip address.
      *
      * @param[in]   host the host to check.
+     * @param[out]  protocol the detected protocol.
      *
      * @returns     true if valid; otherwise false.
      */
-    auto checkHostValid(const QString &host) -> bool;
+    auto checkHostValid(const QString &host, QAbstractSocket::NetworkLayerProtocol *protocol) -> bool;
 
     /**
      * @brief       Converts seconds to a interval string with units.

@@ -23,6 +23,7 @@
 
 #include "Utils.h"
 
+#include <QHostAddress>
 #include <QObject>
 #include <QRegularExpression>
 
@@ -84,20 +85,34 @@ auto Nedrysoft::Utils::parseIntervalString(QString intervalString, double &inter
     return true;
 }
 
-auto Nedrysoft::Utils::checkHostValid(const QString &host) -> bool {
-    auto hostMatch = QRegularExpression(
-            hostNameRegularExpression,
-            QRegularExpression::CaseInsensitiveOption ).match(host);
+auto Nedrysoft::Utils::checkHostValid(const QString &host, QAbstractSocket::NetworkLayerProtocol *protocol) -> bool {
+    QHostAddress hostAddress(host);
 
-    auto ipMatch = QRegularExpression(
-            ipAddressRegularExpression,
-            QRegularExpression::CaseInsensitiveOption ).match(host);
+    if (hostAddress.protocol()!=QAbstractSocket::UnknownNetworkLayerProtocol) {
+        if (protocol) {
+            *protocol = hostAddress.protocol();
+        }
 
-    if ((!ipMatch.hasMatch()) && (!hostMatch.hasMatch())) {
-        return false;
+        return true;
+    } else {
+        auto hostMatch = QRegularExpression(
+                hostNameRegularExpression,
+                QRegularExpression::CaseInsensitiveOption).match(host);
+
+        if (hostMatch.hasMatch()) {
+            if (protocol) {
+                *protocol = QAbstractSocket::AnyIPProtocol;
+            }
+
+            return true;
+        }
     }
 
-    return true;
+    if (protocol) {
+        *protocol = QAbstractSocket::UnknownNetworkLayerProtocol;
+    }
+
+    return false;
 }
 
 auto Nedrysoft::Utils::intervalToString(double value) -> QString {
