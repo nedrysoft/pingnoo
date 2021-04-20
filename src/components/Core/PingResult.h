@@ -127,7 +127,7 @@ namespace Nedrysoft::Core {
              */
             auto target() -> Nedrysoft::Core::IPingTarget *;
 
-        private:
+        protected:
             unsigned long m_sampleNumber;
             PingResult::ResultCode m_code;
             QHostAddress m_hostAddress;

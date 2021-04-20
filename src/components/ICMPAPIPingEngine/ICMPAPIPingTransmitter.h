@@ -25,7 +25,6 @@
 #define PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGTRANSMITTER_H
 
 #include "Core/PingResult.h"
-#include "ICMPAPIPingEngineSpec.h"
 
 #include <QMutex>
 #include <QObject>

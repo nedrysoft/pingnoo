@@ -27,7 +27,6 @@
 #include "ICMPAPIPingTarget.h"
 #include "ICMPAPIPingWorker.h"
 
-#include <QRandomGenerator>
 #include <QThread>
 #include <chrono>
 #include <cstdint>
@@ -54,13 +53,10 @@ void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::addTarget(
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
-    uint16_t currentSequenceId;
     std::chrono::high_resolution_clock::time_point startTime;
     unsigned long sampleNumber = 0;
 
     m_isRunning = true;
-
-    currentSequenceId = static_cast<uint16_t>(QRandomGenerator::global()->generate());
 
     while (m_isRunning) {
         startTime = std::chrono::high_resolution_clock::now();
@@ -95,7 +91,6 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
             std::this_thread::sleep_for(m_interval - diff);
         }
 
-        currentSequenceId++;
         sampleNumber++;
     }
 }

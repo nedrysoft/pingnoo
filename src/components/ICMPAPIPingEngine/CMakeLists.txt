@@ -30,19 +30,21 @@ pingnoo_start_component()
 pingnoo_set_component_optional(ON)
 
 pingnoo_add_sources(
-    ICMPAPIPingComponent.cpp
-    ICMPAPIPingComponent.h
-    ICMPAPIPingEngine.cpp
-    ICMPAPIPingEngine.h
-    ICMPAPIPingEngineFactory.cpp
-    ICMPAPIPingEngineFactory.h
-    ICMPAPIPingEngineSpec.h
-    ICMPAPIPingTarget.cpp
-    ICMPAPIPingTarget.h
-    ICMPAPIPingTransmitter.cpp
-    ICMPAPIPingTransmitter.h
-    ICMPAPIPingWorker.cpp
-    ICMPAPIPingWorker.h
+        ICMPAPIPingComponent.cpp
+        ICMPAPIPingComponent.h
+        ICMPAPIPingEngine.cpp
+        ICMPAPIPingEngine.h
+        ICMPAPIPingEngineFactory.cpp
+        ICMPAPIPingEngineFactory.h
+        ICMPAPIPingEngineSpec.h
+        ICMPAPIPingResult.cpp
+        ICMPAPIPingResult.h
+        ICMPAPIPingTarget.cpp
+        ICMPAPIPingTarget.h
+        ICMPAPIPingTransmitter.cpp
+        ICMPAPIPingTransmitter.h
+        ICMPAPIPingWorker.cpp
+        ICMPAPIPingWorker.h
 )
 
 pingnoo_set_description("ICMPAPI ping engine component")

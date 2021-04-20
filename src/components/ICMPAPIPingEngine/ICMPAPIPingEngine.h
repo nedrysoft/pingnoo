@@ -24,7 +24,6 @@
 #ifndef PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGENGINE_H
 #define PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGENGINE_H
 
-#include "ICMPAPIPingEngineSpec.h"
 #include "Core/IPingEngine.h"
 #include "Core/IPingEngineFactory.h"
 
@@ -169,6 +168,13 @@ namespace Nedrysoft::ICMPAPIPingEngine {
              * @returns     a QList containing the list of targets.
              */
             auto targets() -> QList<Nedrysoft::Core::IPingTarget *> override;
+
+        private:
+            /*
+             * @brief       Stops the transmitter thread.
+             */
+            auto doStop() -> void;
+
         public:
             /**
              * @brief       Saves the configuration to a JSON object.

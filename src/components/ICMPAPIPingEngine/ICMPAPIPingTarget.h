@@ -25,10 +25,6 @@
 #define PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGTARGET_H
 
 #include "Core/IPingTarget.h"
-#include "ICMPAPIPingEngineSpec.h"
-
-#include <WS2tcpip.h>
-#include <WinSock2.h>
 
 namespace Nedrysoft::ICMPAPIPingEngine {
     class ICMPAPIPingTargetData;

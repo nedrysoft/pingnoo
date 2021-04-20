@@ -24,23 +24,16 @@
 #include "ICMPAPIPingWorker.h"
 
 #include "ICMPAPIPingEngine.h"
+#include "ICMPAPIPingResult.h"
 #include "ICMPAPIPingTarget.h"
 
-#include <QHostAddress>
-#include <QMutexLocker>
 #include <QThread>
-#include <WS2tcpip.h>
-#include <WinSock2.h>
 #include <chrono>
-
-#include <iphlpapi.h>
-#include <IcmpAPI.h>
+#include <windows.h>
 
 using namespace std::chrono_literals;
 
-constexpr unsigned long PingPayloadLength = 1024;
 constexpr auto DefaultTransmitTimeout = 3s;
-constexpr auto nanosecondsInMillisecond = 1.0e6;
 
 Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker::ICMPAPIPingWorker(
         Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *engine,
@@ -54,18 +47,15 @@ Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker::ICMPAPIPingWorker(
 }
 
 void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker::doWork() {
-    auto pingResult = m_engine->singleShot(
+    Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingResult pingResult = m_engine->singleShot(
             m_target->hostAddress(),
             m_target->ttl(),
             std::chrono::duration<DWORD, std::milli>(DefaultTransmitTimeout).count());
 
-    Q_EMIT result(Nedrysoft::Core::PingResult(
-            m_sampleNumber,
-            pingResult.code(),
-            pingResult.hostAddress(),
-            pingResult.requestTime(),
-            pingResult.roundTripTime(),
-            m_target));
+    pingResult.setSampleNumber(m_sampleNumber);
+    pingResult.setTarget(m_target);
+
+    Q_EMIT result(pingResult);
 }
 
 

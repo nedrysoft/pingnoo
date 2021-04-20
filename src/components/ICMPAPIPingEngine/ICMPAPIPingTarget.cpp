@@ -27,8 +27,6 @@
 
 #include <QHostAddress>
 #include <QRandomGenerator>
-#include <cerrno>
-#include <fcntl.h>
 
 constexpr int TotalTargetSockets = 10;
 

@@ -26,7 +26,6 @@
 
 #include "ComponentSystem/IInterface.h"
 #include "Core/IPingEngineFactory.h"
-#include "ICMPAPIPingEngineSpec.h"
 
 namespace Nedrysoft::ICMPAPIPingEngine {
     class ICMPAPIPingEngineFactoryData;
