@@ -91,6 +91,11 @@ namespace Nedrysoft::RouteAnalyser {
              */
             auto validateFields() -> void ;
 
+            /**
+             * @brief       Updates the start button state by validating the text + radio buttons.
+             */
+            auto updateStartState() -> void;
+
         private:
             /**
              * @brief       Finds the build path in the map using case insensitivity.

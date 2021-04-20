@@ -84,7 +84,7 @@ namespace Nedrysoft::RouteAnalyser {
             auto ipVersion() -> Nedrysoft::Core::IPVersion;
 
             /**
-             * @brief       Returns he ping interval.
+             * @brief       Returns the ping interval.
              *
              * @details     The ping interval is the number of seconds between ping clusters,
              *              this can be a sub-second value.
@@ -92,6 +92,11 @@ namespace Nedrysoft::RouteAnalyser {
              * @returns     the ping internal in seconds.
              */
             auto interval() -> double;
+
+            /**
+             * @brief       Updates the button box according to the target text + radio buttons.
+             */
+            auto updateButtonBoxState() -> void;
 
         protected:
             /**
