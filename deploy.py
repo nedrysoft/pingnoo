@@ -30,6 +30,7 @@ import platform
 import re
 import shutil
 import string
+
 import sys
 import tempfile
 import time
@@ -305,12 +306,14 @@ def _do_darwin():
             for file in glob.glob(f'bin/{build_arch}/Deploy/Pingnoo.app/**/*.framework', recursive=True):
                 result_code, result_output = mac_sign_binary(file, args.cert)
                 if result_code:
-                    raise MsgPrinterException(f'there was a problem signing a file ({file}).\r\n\r\n{result_output}\r\n')
+                    raise MsgPrinterException(
+                        f'there was a problem signing a file ({file}).\r\n\r\n{result_output}\r\n')
 
             for file in glob.glob(f'bin/{build_arch}/Deploy/Pingnoo.app/**/*.dylib', recursive=True):
                 result_code, result_output = mac_sign_binary(file, args.cert)
                 if result_code:
-                    raise MsgPrinterException(f'there was a problem signing a file ({file}).\r\n\r\n{result_output}\r\n')
+                    raise MsgPrinterException(
+                        f'there was a problem signing a file ({file}).\r\n\r\n{result_output}\r\n')
 
             result_code, result_output = mac_sign_binary(f'bin/{build_arch}/Deploy/Pingnoo.app', args.cert)
 
@@ -397,6 +400,8 @@ def _do_linux():
     if args.appimage or args.deb:
         # RPM building has its own Qt macros
         qtdir = find_qt()
+    else:
+        qtdir = None
 
     deployed_message = ""
 
@@ -567,7 +572,7 @@ def _do_linux():
         version_parts = deb_version.split('-', 1)
         build_filename = f'deployment/pingnoo_{deb_version}-{deb_distro}_{deb_arch}.deb'
 
-        if len(version_parts) == 2:
+        if int(len(version_parts)) == 2:
             deb_version = version_parts[0][2:]
 
         try:
@@ -607,6 +612,7 @@ def _do_linux():
 
     print(deployed_message, flush=True)
 
+
 def file_matched(file, expressions):
     for expression in expressions:
         if re.match(expression, file):
@@ -614,30 +620,34 @@ def file_matched(file, expressions):
 
     return False
 
-def add_files_to_zip(zip_file, root_path, exclusions=[]):
+
+def add_files_to_zip(zip_file, root_path, exclusions=None):
+    if exclusions is None:
+        exclusions = []
     for root, dirs, files in os.walk(root_path):
         for file in files:
             if file_matched(file, exclusions):
                 continue
 
-            file_path = os.path.join(root, file);
+            file_path = os.path.join(root, file)
             rel_path = os.path.relpath(file_path, root_path)
 
             zip_file.write(os.path.join(root, file), arcname=rel_path)
 
+
 def _do_windows():
     """ Windows version """
 
-    def win_sign_binary(signingtool, filetosign, cert, timeserver, pin=None):
+    def win_sign_binary(signingtool, filetosign, certificate, timeserver, pin=None):
         # TODO: Move to new execute
         # FIXME: cert parameter was unused?
         if pin:
             pin = "-pin " + pin
 
         if args.debugoutput:
-            print(f'sign command {signingtool} {pin} sign /fd sha256 /t {timeserver} /n {cert} {filetosign}')
+            print(f'sign command {signingtool} {pin} sign /fd sha256 /t {timeserver} /n {certificate} {filetosign}')
 
-        return execute(f'{signingtool} {pin} sign /fd sha256 /t {timeserver} /n {cert} {filetosign}')
+        return execute(f'{signingtool} {pin} sign /fd sha256 /t {timeserver} /n {certificate} {filetosign}')
 
     with msg_printer('Checking for curl...'):
         if args.curlbin and os.path.isfile(args.curlbin):
@@ -658,7 +668,7 @@ def _do_windows():
     cert = None
 
     if args.cert:
-        cert = args.cert;
+        cert = args.cert
     else:
         if os.environ.get('PINGNOO_DEVELOPER_CERTIFICATE'):
             cert = os.environ.get('PINGNOO_DEVELOPER_CERTIFICATE')
@@ -680,36 +690,30 @@ def _do_windows():
                         f'\\smartcardtools.zip\" -d tools\\smartcardtools',
                         fail_msg='unable to unzip SmartCardTools.')
 
-                #if build_arch=="x86_64":
-                #    signtool = 'tools\\smartcardtools\\x64\\ScSignTool.exe'
-                #else:
                 signtool = 'tools\\smartcardtools\\x64\\ScSignTool.exe'
 
     # if universal, then we run the deployment stages once for each arch, otherwise just once.
 
-    if args.arch=="universal":
+    if args.arch == "universal":
         architectures = ['x86_64', 'x86']
     else:
         architectures = [args.arch]
 
-    qtdirs = {}
-
-    qtdirs['x86_64'] = args.qtdir64
-    qtdirs['x86'] = args.qtdir
+    qtdirs = {'x86_64': args.qtdir64, 'x86': args.qtdir}
 
     rm_path('deployment')
     os.makedirs('deployment')
 
-    for build_arch in architectures:
-        if build_arch=="x86_64":
+    for current_build_arch in architectures:
+        if current_build_arch == "x86_64":
             windows_arch = "x64"
         else:
             windows_arch = "x86"
 
         # check for qt installation
-        with msg_printer(f'Checking {build_arch} qtdir...'):
-            if qtdirs[build_arch] and os.path.isfile(f'{qtdirs[build_arch]}\\bin\\windeployqt.exe'):
-                windeployqt = f'{qtdirs[build_arch]}\\bin\\windeployqt.exe'
+        with msg_printer(f'Checking {current_build_arch} qtdir...'):
+            if qtdirs[current_build_arch] and os.path.isfile(f'{qtdirs[current_build_arch]}\\bin\\windeployqt.exe'):
+                windeployqt = f'{qtdirs[current_build_arch]}\\bin\\windeployqt.exe'
             else:
                 windeployqt = which('windeployqt')
 
@@ -717,9 +721,9 @@ def _do_windows():
                 raise MsgPrinterException('qt could not be found. (see --qtdir).')
 
         # remove previous deployment files and copy current binaries
-        with msg_printer(f'Setting up {build_arch} deployment directory...'):
-            deploy_dir = f'bin\\{build_arch}\\Deploy'
-            binary_dir = f'bin\\{build_arch}\\{build_type}'
+        with msg_printer(f'Setting up {current_build_arch} deployment directory...'):
+            deploy_dir = f'bin\\{current_build_arch}\\Deploy'
+            binary_dir = f'bin\\{current_build_arch}\\{build_type}'
             extensions = ['.exe', '.dll']
 
             rm_path(deploy_dir)
@@ -750,23 +754,25 @@ def _do_windows():
 
         # sign the application binaries
         if cert:
-            with msg_printer(f'Signing {build_arch} binaries...'):
+            with msg_printer(f'Signing {current_build_arch} binaries...'):
                 for file in sign_list:
                     result_code, result_output = win_sign_binary(signtool, file, cert, args.timeserver, pin_code)
 
                     if result_code:
-                        raise MsgPrinterException(f'there was a problem signing a file ({file}).\r\n\r\n{result_output}\r\n')
+                        raise MsgPrinterException(
+                            f'there was a problem signing a file ({file}).\r\n\r\n{result_output}\r\n')
 
         files_string = ' '.join(files)
 
         # run windeployqt
-        with msg_printer(f'Deploying {build_arch} qt libraries...'):
+        with msg_printer(f'Deploying {current_build_arch} qt libraries...'):
             execute(f'{windeployqt} --dir {deploy_dir} {files_string} -sql --{args.type}',
                     fail_msg='there was a problem running windeployqt.')
 
         if args.portable:
-            with msg_printer(f'Creating {build_arch} portable edition...'):
-                zip_file = zipfile.ZipFile(f'.\\deployment\\Pingnoo.{build_version}.windows-portable.{build_arch}.zip', "w")
+            with msg_printer(f'Creating {current_build_arch} portable edition...'):
+                zip_file = zipfile.ZipFile(
+                    f'.\\deployment\\Pingnoo.{build_version}.windows-portable.{current_build_arch}.zip', "w")
 
                 # portable edition is detected by pingnoo if a folder named data exists in the same folder as the exe
 
@@ -776,7 +782,7 @@ def _do_windows():
 
                 # copy the deployed folder to the zip file
 
-                add_files_to_zip(zip_file, f'bin\\{build_arch}\\Deploy\\', ['vc_redist.*'])
+                add_files_to_zip(zip_file, f'bin\\{current_build_arch}\\Deploy\\', ['vc_redist.*'])
 
                 # copy the visual studio redistributable to the zip
 
@@ -807,7 +813,7 @@ def _do_windows():
 
         build_parts = args.version.split('-', 1)
 
-        if len(build_parts) != 2:
+        if int(len(build_parts)) != 2:
             win_build_version = "0.0.0"
         else:
             win_build_version = build_parts[0][2:]
@@ -816,8 +822,9 @@ def _do_windows():
 
         execute(f'AdvancedInstaller.com /edit installer\\PingnooBuild.aip /SetVersion {win_build_version}',
                 fail_msg='there was a problem creating the installer.')
-        execute(
-            f'AdvancedInstaller.com /edit installer\\PingnooBuild.aip /SetPackageName "{build_filename}" -buildname MsiBuild',
+        execute((
+            f'AdvancedInstaller.com /edit installer\\PingnooBuild.aip /SetPackageName'
+            f'{build_filename}" -buildname MsiBuild'),
             fail_msg='there was a problem creating the installer.')
         execute(f'AdvancedInstaller.com /build installer\\PingnooBuild.aip',
                 fail_msg='there was a problem creating the installer.')
