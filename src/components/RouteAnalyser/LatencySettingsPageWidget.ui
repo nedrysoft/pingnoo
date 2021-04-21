@@ -45,7 +45,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="idealLabel">
        <property name="text">
         <string>(double click on colour boxes to select colour)</string>
        </property>

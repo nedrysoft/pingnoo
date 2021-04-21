@@ -34,7 +34,7 @@
 #include <QRegularExpression>
 #include <cassert>
 
-constexpr auto ColourWidgetHeight = 21;
+constexpr auto TextMargin = 4;
 
 Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(QWidget *parent) :
         QWidget(parent),
@@ -87,9 +87,24 @@ Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(Q
     ui->warningWidget->setColour(latencySettings->warningColour());
     ui->criticalWidget->setColour(latencySettings->criticalColour());
 
-    ui->idealWidget->setFixedHeight(ColourWidgetHeight);
-    ui->warningWidget->setFixedHeight(ColourWidgetHeight);
-    ui->criticalWidget->setFixedHeight(ColourWidgetHeight);
+    ui->warningLineEdit->setTextMargins(TextMargin, TextMargin, TextMargin, TextMargin);
+    ui->criticalLineEdit->setTextMargins(TextMargin, TextMargin, TextMargin, TextMargin);
+    ui->idealLabel->setMargin(TextMargin);
+
+    auto height = ui->criticalWidget->fontMetrics().height() + (TextMargin*2);
+
+    auto widgetList = QList<QWidget *>()
+            << ui->idealLabel
+            << ui->warningWidget
+            << ui->criticalWidget
+            << ui->idealWidget
+            << ui->warningLineEdit
+            << ui->criticalLineEdit;
+
+    for(auto widget : widgetList) {
+        widget->setMinimumHeight(height);
+        widget->setMaximumHeight(height);
+    }
 
     ui->gradientFillcheckBox->setChecked(latencySettings->gradientFill() ? Qt::Checked : Qt::Unchecked);
 }
@@ -115,9 +130,7 @@ auto Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::acceptSettings() -> vo
     auto latencySettings = Nedrysoft::ComponentSystem::getObject<LatencySettings>();
 
     assert(latencySettings!=nullptr);
-
-    //latencySettings->blockSignals(true);
-
+    
     latencySettings->setWarningValue(ui->warningLineEdit->text());
     latencySettings->setCriticalValue(ui->criticalLineEdit->text());
 
@@ -126,8 +139,6 @@ auto Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::acceptSettings() -> vo
     latencySettings->setCriticalColour(ui->criticalWidget->colour().rgb());
 
     latencySettings->setGradientFill(ui->gradientFillcheckBox->isChecked());
-
-    //latencySettings->blockSignals(false);
 
     latencySettings->saveToFile();
 }
