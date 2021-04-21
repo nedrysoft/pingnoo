@@ -32,6 +32,7 @@ from functools import lru_cache
 from .common import *
 from .msg_printer import msg_printer, MsgPrinterException
 
+
 # Currently unused?
 @lru_cache()
 def find_provider(library):
@@ -49,11 +50,11 @@ def _find_prereqs():
 
 
 def rpm_create(build_arch, build_type, version, release, key):
-    version = re.sub(r'-.*',"",version)
+    version = re.sub(r'-.*', "", version)
     _find_prereqs()
     if build_arch == "x86":
         build_arch = "i686"  # Fedora/RPM terminology
-                             # FIXME: Never got 32-bit working because I didn't have Qt5 built for it
+    # FIXME: Never got 32-bit working because I didn't have Qt5 built for it
 
     # Find release info, if any
     rpm_dist = execute("rpm --eval %{?dist}")[1].strip()
@@ -121,10 +122,10 @@ def rpm_create(build_arch, build_type, version, release, key):
                  f'bin/{build_arch}/Deploy/rpm/')
 
     if key:
-        execute(f'rpm --define \"_gpg_name {key}\" '\
-                '--define \"_signature gpg\" '\
-                '--define \"%_gpg_path /root/.gnupg\" '\
-                '--define \"%_gpgbin /usr/bin/gpg\" '\
+        execute(f'rpm --define \"_gpg_name {key}\" '
+                '--define \"_signature gpg\" '
+                '--define \"%_gpg_path /root/.gnupg\" '
+                '--define \"%_gpgbin /usr/bin/gpg\" '
                 '--addsign \"bin/{build_arch}/Deploy/rpm/{final_name}\"')
 
     return final_name

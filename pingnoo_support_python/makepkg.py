@@ -28,7 +28,8 @@ import shutil
 import string
 
 from .common import *
-from .msg_printer import msg_printer, MsgPrinterException
+from .msg_printer import msg_printer
+
 
 def pkg_create(build_arch, build_type, version, key):
 
@@ -56,7 +57,7 @@ def pkg_create(build_arch, build_type, version, key):
         execute(f'git-archive-all {source_location}', "Failed to create source archive")
 
     with msg_printer("Generating tarball hash"):
-        source_hash = execute(f'md5sum {source_location}', "Failed to get hash of source archive").split(' ')[0]
+        tarball_hash = execute(f'md5sum {source_location}', "Failed to get hash of source archive").split(' ')[0]
 
     dependencies = set()
     libraries = set()
@@ -89,7 +90,7 @@ def pkg_create(build_arch, build_type, version, key):
 
     # Using the shared library list, find the package that provides the shared library and add to
     # the list of dependencies
-    pkg_regex = re.compile(r".*\/(?P<pkg>\S*)\s.*\[installed(:.*)?\]")
+    pkg_regex = re.compile(r".*/(?P<pkg>\S*)\s.*\[installed(:.*)?]")
     for dependency in dependencies:
         dependency = os.path.basename(dependency)
         with msg_printer(f"Determining package providing for {dependency}"):
@@ -107,9 +108,15 @@ def pkg_create(build_arch, build_type, version, key):
         build_version = version.split('-')
 
         # use PKGBUILD.in template to create PKGBUILD file
-        pkgbuild_file_content = pkgbuild_template.substitute(GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch, GIT_UNCOMMITTED=git_uncommitted, sourcelocation=f'file://{source_location}', arch=build_arch, md5sum=source_hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
+        pkgbuild_file_content = pkgbuild_template.substitute(
+            GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch,
+            GIT_UNCOMMITTED=git_uncommitted, sourcelocation=f'file://{source_location}', arch=build_arch,
+            md5sum=tarball_hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
 
-        aur_pkgbuild_file_content = pkgbuild_template.substitute(GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch, GIT_UNCOMMITTED=git_uncommitted, sourcelocation=aur_source_location, arch=build_arch, md5sum=source_hash, version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
+        aur_pkgbuild_file_content = pkgbuild_template.substitute(
+            GIT_YEAR=git_year, GIT_MONTH=git_month, GIT_DAY=git_day, GIT_HASH=git_hash, GIT_BRANCH=git_branch,
+            GIT_UNCOMMITTED=git_uncommitted, sourcelocation=aur_source_location, arch=build_arch, md5sum=tarball_hash,
+            version=build_version[0], dependencies="\'{0}\'".format("\' \'".join(packages)))
 
         with open(f'bin/{build_arch}/Deploy/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(pkgbuild_file_content)
@@ -127,7 +134,8 @@ def pkg_create(build_arch, build_type, version, key):
 
     # create the pkg file
     with msg_printer("Building package"):
-        execute(f'PKGDEST={deployment_dir} bash -c "cd bin/{build_arch}/Deploy && makepkg {key_param}"', "Failed to build!")
+        execute(
+            f'PKGDEST={deployment_dir} bash -c "cd bin/{build_arch}/Deploy && makepkg {key_param}"', "Failed to build!")
 
     with msg_printer("Creating AUR deployment"):
         os.makedirs(f'{deployment_dir}/aur')
@@ -138,6 +146,7 @@ def pkg_create(build_arch, build_type, version, key):
             pkgbuild_file.write(aur_pkgbuild_file_content)
 
         execute(f'cd {deployment_dir}/aur && makepkg --printsrcinfo > .SRCINFO', "Failed to create .SRCINFO!")
+
 
 def main():
     parser = argparse.ArgumentParser(description='pkg build script')
@@ -167,6 +176,7 @@ def main():
     args = parser.parse_args()
 
     pkg_create(args.arch, args.type, args.version, args.key)
+
 
 if __name__ == "__main__":
     main()

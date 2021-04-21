@@ -49,12 +49,10 @@ except ModuleNotFoundError:
         RESET = ''
 
 
-__all__.append('ExecuteException')
 class ExecuteException(MsgPrinterException):
     """ Custom class to separate msgprinter vs. this code """
 
 
-__all__.append('timedelta')
 def timedelta(seconds):
     """ Pretty print a time interval """
     seconds = abs(int(seconds))
@@ -72,39 +70,33 @@ def timedelta(seconds):
     return f'{seconds}s'
 
 
-__all__.append('write_msg')
 def write_msg(msg):
     """ Neutral message printer """
     sys.stdout.write(Style.BRIGHT + msg + Fore.RESET + '\r\n')
 
 
-__all__.append('bad_msg')
 def bad_msg(msg):
     """ Bad message printer """
     sys.stdout.write(Style.BRIGHT + Fore.RED + msg + Fore.RESET + '\r\n')
 
 
-__all__.append('parent')
 def parent(path):
     """ Parent path """
     return os.path.normpath(os.path.join(path, os.pardir))
 
 
-__all__.append('rm_file')
 def rm_file(path):
     """ Will remove file if it exists; no warnings if not """
     if os.path.isfile(path):
         os.remove(path)
 
 
-__all__.append('rm_path')
 def rm_path(path):
     """ Will remove path if it exists; no warnings if not """
     if os.path.exists(path):
         shutil.rmtree(path)
 
 
-__all__.append('execute')
 def execute(command, fail_msg=None, out_log=None):
     """ Execute a command in subprocess and throw exceptions if given fail_msg """
     output = subprocess.run(command,
@@ -123,7 +115,6 @@ def execute(command, fail_msg=None, out_log=None):
     return output_text
 
 
-__all__.append('which')
 def which(appname):
     """ Find executable in path """
     command = 'where'
@@ -136,8 +127,19 @@ def which(appname):
     return output.split()[0]
 
 
-__all__.append('run')
 def run(command):
     """ Simplistic os.popen wrapper """
     stream = os.popen(command)
     return stream.read()
+
+
+__all__.append('ExecuteException')
+__all__.append('timedelta')
+__all__.append('write_msg')
+__all__.append('bad_msg')
+__all__.append('parent')
+__all__.append('rm_file')
+__all__.append('rm_path')
+__all__.append('execute')
+__all__.append('which')
+__all__.append('run')

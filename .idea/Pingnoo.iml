@@ -5,4 +5,11 @@
       <configuration sdkName="Python 3.9 (pingnoo)" />
     </facet>
   </component>
+  <component name="PyNamespacePackagesService">
+    <option name="namespacePackageFolders">
+      <list>
+        <option value="$MODULE_DIR$/pingnoo_support_python" />
+      </list>
+    </option>
+  </component>
 </module>

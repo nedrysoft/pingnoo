@@ -113,7 +113,7 @@ def deb_create(build_arch, build_type, version, output_file, key):
 
     # Using the shared library list, find the package that provides the shared library and add to
     # the list of dependencies
-    dpkg_regex = re.compile(r"(?P<pkg>.*)\:(?P<arch>.*)\:\s(?P<lib>.*)")
+    dpkg_regex = re.compile(r"(?P<pkg>.*):(?P<arch>.*):\s(?P<lib>.*)")
     for dependency in dependencies:
         with msg_printer(f"Determining package providing for {dependency}"):
             dpkg = execute(f'dpkg -S {dependency}', f"Failed to determine package that provides {dependency}")
@@ -189,6 +189,7 @@ def main():
     args = parser.parse_args()
 
     deb_create(args.arch, args.type, args.version, args.output, args.key)
+
 
 if __name__ == "__main__":
     main()
