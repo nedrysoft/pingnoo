@@ -47,15 +47,11 @@ auto Nedrysoft::Core::HostMaskerSettingsPage::description() -> QString {
 }
 
 auto Nedrysoft::Core::HostMaskerSettingsPage::icon(bool isDarkMode) -> QIcon {
-#if !defined(Q_OS_MACOS)
-    return QIcon(":/Core/icons/2x/twotone_security_black_24dp.png");
-#else
     if (isDarkMode) {
         return QIcon(":/Core/icons/2x/twotone_security_white_24dp.png");
     } else {
         return QIcon(":/Core/icons/2x/twotone_security_black_24dp.png");
     }
-#endif
 }
 
 auto Nedrysoft::Core::HostMaskerSettingsPage::createWidget() -> QWidget * {

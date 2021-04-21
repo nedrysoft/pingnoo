@@ -20,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-// You may need to build the project (run Qt uic code generator) to get "ui_LatencySettingsPage.h" resolved
 
 #include "TargetSettingsPage.h"
 
@@ -50,15 +49,11 @@ auto Nedrysoft::RouteAnalyser::TargetSettingsPage::description() -> QString {
 }
 
 auto Nedrysoft::RouteAnalyser::TargetSettingsPage::icon(bool isDarkMode) -> QIcon {
-#if !defined(Q_OS_MACOS)
-    return QIcon(":/RouteAnalyser/icons/2x/twotone_alt_route_black_24dp.png");
-#else
     if (isDarkMode) {
         return QIcon(":/RouteAnalyser/icons/2x/twotone_alt_route_white_24dp.png");
     } else {
         return QIcon(":/RouteAnalyser/icons/2x/twotone_alt_route_black_24dp.png");
     }
-#endif
 }
 
 auto Nedrysoft::RouteAnalyser::TargetSettingsPage::createWidget() -> QWidget * {

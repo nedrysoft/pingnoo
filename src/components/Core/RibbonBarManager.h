@@ -31,6 +31,15 @@
 
 namespace Nedrysoft::Core {
     class RibbonPage;
+
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
+    struct RibbonPageVisibility {
+        QString title;
+        RibbonPage *page;
+        bool visible;
+    };
+#endif
+
     /**
      * @brief       The RibbonBarManager implements IRibbonBarManager using Nedrysoft::Ribbon as the implementation.
      */
@@ -110,6 +119,10 @@ namespace Nedrysoft::Core {
         private:
             Nedrysoft::Ribbon::RibbonWidget *m_ribbonWidget;
             QMap<QString, Nedrysoft::Core::RibbonPage *> m_pages;
+
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
+            QList<RibbonPageVisibility> m_visibleList;
+#endif
     };
 }
 

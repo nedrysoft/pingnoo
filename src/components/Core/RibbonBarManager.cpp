@@ -73,15 +73,24 @@ auto Nedrysoft::Core::RibbonBarManager::addPage(QString title, QString id, float
     }
 
     if (tabIndex==-1) {
-#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
-        m_ribbonWidget->setTabVisible(m_ribbonWidget->addTab(ribbonPage->widget(), title), true);
-#else
-        m_ribbonWidget->addTab(ribbonPage->widget(), title);
-#endif
+        tabIndex = m_ribbonWidget->addTab(ribbonPage->widget(), title);
     }
 
-    m_pages[id] = ribbonPage;
+#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
+    m_ribbonWidget->setTabVisible(tabIndex, false);
+#else
+    RibbonPageVisibility page;
 
+    page.title = title;
+    page.page = ribbonPage;
+    page.visible = false;
+
+    m_visibleList.insert(tabIndex, page);
+
+    m_ribbonWidget->removeTab(tabIndex);
+
+    m_pages[id] = ribbonPage;
+#endif
     return ribbonPage;
 }
 
@@ -102,6 +111,18 @@ auto Nedrysoft::Core::RibbonBarManager::groupAdded(Nedrysoft::Core::RibbonPage *
     for(auto currentIndex=0;currentIndex<m_ribbonWidget->count();currentIndex++) {
         if (m_ribbonWidget->widget(currentIndex)==page->widget()) {
             m_ribbonWidget->setTabVisible(currentIndex, true);
+        }
+    }
+#else
+    for (auto tabIndex=0;tabIndex<m_visibleList.count();tabIndex++) {
+        if (m_visibleList[tabIndex].page==page) {
+            if (!m_visibleList[tabIndex].visible) {
+                m_visibleList[tabIndex].visible = true;
+                m_ribbonWidget->insertTab(
+                        tabIndex,
+                        m_visibleList[tabIndex].page->widget(),
+                        m_visibleList[tabIndex].title);
+            }
         }
     }
 #endif

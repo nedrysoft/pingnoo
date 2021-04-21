@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>520</width>
-    <height>189</height>
+    <height>215</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,79 +20,14 @@
    <string>LatencySettingsPage</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <widget class="Nedrysoft::RouteAnalyser::LatencyWidget" name="warningWidget" native="true">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>0</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="warningLineEdit"/>
-     </item>
-    </layout>
-   </item>
-   <item row="2" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="Nedrysoft::RouteAnalyser::LatencyWidget" name="criticalWidget" native="true">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>0</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="criticalLineEdit"/>
-     </item>
-    </layout>
-   </item>
-   <item row="4" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="resetPushButton">
-       <property name="text">
-        <string>Reset to defaults</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="1" column="2">
-    <spacer name="horizontalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <property name="sizeConstraint">
+    <enum>QLayout::SetMinAndMaxSize</enum>
+   </property>
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="idealLayout" stretch="0,0">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMaximumSize</enum>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0">
      <item>
       <widget class="Nedrysoft::RouteAnalyser::LatencyWidget" name="idealWidget" native="true">
        <property name="sizePolicy">
@@ -110,33 +45,75 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;(double click on colour boxes to select colour)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>(double click on colour boxes to select colour)</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
-   <item row="0" column="0">
-    <spacer name="horizontalSpacer">
+   <item row="4" column="0">
+    <layout class="QHBoxLayout" name="criticalLayout">
+     <item>
+      <widget class="Nedrysoft::RouteAnalyser::LatencyWidget" name="criticalWidget" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="criticalLineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item row="6" column="0">
+    <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>40</width>
-       <height>20</height>
+       <width>20</width>
+       <height>40</height>
       </size>
      </property>
     </spacer>
    </item>
-   <item row="3" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout_6">
+   <item row="3" column="0">
+    <layout class="QHBoxLayout" name="warningLayout">
+     <item>
+      <widget class="Nedrysoft::RouteAnalyser::LatencyWidget" name="warningWidget" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="warningLineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item row="5" column="0">
+    <layout class="QHBoxLayout" name="gradientFillLayout">
      <item>
       <spacer name="horizontalSpacer_4">
        <property name="orientation">
@@ -160,6 +137,26 @@
        </property>
       </widget>
      </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="resetPushButton">
+       <property name="text">
+        <string>Reset to defaults</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
@@ -175,7 +172,6 @@
   <tabstop>warningLineEdit</tabstop>
   <tabstop>criticalLineEdit</tabstop>
   <tabstop>gradientFillcheckBox</tabstop>
-  <tabstop>resetPushButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>
