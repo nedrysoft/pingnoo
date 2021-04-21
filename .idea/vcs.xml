@@ -2,7 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/src/libs/3rdparty/QDarkStyleSheet" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/libs/3rdparty/rapidfuzz-cpp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/libs/3rdparty/spdlog" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/libs/ComponentSystem" vcs="Git" />
@@ -10,6 +9,5 @@
     <mapping directory="$PROJECT_DIR$/src/libs/Ribbon" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/libs/SettingsDialog" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/libs/ThemeSupport" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/src/libs/spdlog" vcs="Git" />
   </component>
 </project>

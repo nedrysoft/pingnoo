@@ -105,6 +105,10 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
                 case QAbstractSocket::IPv6Protocol: {
                     return ui->ipV6RadioButton->isChecked();
                 }
+
+                default: {
+                    break;
+                }
             }
         }
 
@@ -186,6 +190,10 @@ auto Nedrysoft::RouteAnalyser::NewTargetDialog::updateButtonBoxState() -> void {
                 isValid = ui->ipV6RadioButton->isChecked();
                 break;
             }
+
+            default: {
+                break;
+            }
         }
     }
 
@@ -254,6 +262,10 @@ auto Nedrysoft::RouteAnalyser::NewTargetDialog::checkFieldsValid(QString &string
                     returnWidget = ui->targetLineEdit;
                 }
 
+                break;
+            }
+
+            default: {
                 break;
             }
         }

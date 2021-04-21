@@ -157,6 +157,10 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
                 case QAbstractSocket::IPv6Protocol: {
                     return ui->ipV6RadioButton->isChecked();
                 }
+
+                default: {
+                    break;
+                }
             }
         }
 
@@ -308,6 +312,10 @@ auto Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::updateStartState() -> void 
                 isValid = ui->ipV6RadioButton->isChecked();
                 break;
             }
+
+            default: {
+                break;
+            }
         }
     }
 
@@ -355,6 +363,10 @@ auto Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::checkFieldsValid(QString &s
                     returnWidget = ui->targetLineEdit;
                 }
 
+                break;
+            }
+
+            default: {
                 break;
             }
         }

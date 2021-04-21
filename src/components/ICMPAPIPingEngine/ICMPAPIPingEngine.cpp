@@ -31,7 +31,6 @@
 #include <chrono>
 #include <WS2tcpip.h>
 
-
 #include <WinSock2.h>
 #include <iphlpapi.h>
 #include <IcmpAPI.h>
