@@ -160,6 +160,9 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
         updateButtonBoxState();
     });
 
+    ui->targetLineEdit->setTabChangesFocus(true);
+    ui->intervalLineEdit->setTabChangesFocus(true);
+
     validateFields();
 }
 
