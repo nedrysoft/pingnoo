@@ -34,6 +34,8 @@
 #include <QRegularExpression>
 #include <cassert>
 
+constexpr auto ColourWidgetHeight = 21;
+
 Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(QWidget *parent) :
         QWidget(parent),
         ui(new Ui::LatencySettingsPageWidget) {
@@ -85,7 +87,9 @@ Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::LatencySettingsPageWidget(Q
     ui->warningWidget->setColour(latencySettings->warningColour());
     ui->criticalWidget->setColour(latencySettings->criticalColour());
 
-    ui->idealWidget->setFixedHeight(ui->warningWidget->height());
+    ui->idealWidget->setFixedHeight(ColourWidgetHeight);
+    ui->warningWidget->setFixedHeight(ColourWidgetHeight);
+    ui->criticalWidget->setFixedHeight(ColourWidgetHeight);
 
     ui->gradientFillcheckBox->setChecked(latencySettings->gradientFill() ? Qt::Checked : Qt::Unchecked);
 }
