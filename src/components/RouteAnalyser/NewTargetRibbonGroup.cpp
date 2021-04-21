@@ -277,6 +277,9 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
     ui->targetLineEdit->setMaximumHeight(lineEditHeight);
     ui->intervalLineEdit->setMaximumHeight(lineEditHeight);
+
+    ui->targetLineEdit->setTabChangesFocus(true);
+    ui->intervalLineEdit->setTabChangesFocus(true);
 }
 
 Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::~NewTargetRibbonGroup() {
