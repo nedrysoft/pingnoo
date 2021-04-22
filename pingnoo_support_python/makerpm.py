@@ -53,14 +53,16 @@ def rpm_create(build_arch, build_type, version, release, key):
     version = re.sub(r'-.*', "", version)
     _find_prereqs()
     if build_arch == "x86":
-        build_arch = "i686"  # Fedora/RPM terminology
+        fedora_build_arch = "i686"  # Fedora/RPM terminology
+    else:
+        fedora_build_arch = buld_arch
     # FIXME: Never got 32-bit working because I didn't have Qt5 built for it
 
     # Find release info, if any
     rpm_dist = execute("rpm --eval %{?dist}")[1].strip()
 
     if False:  # TODO: Eventually would like parallel build paths enabled... rpm_dist:
-        os.environ['HOME'] = os.path.join(os.getcwd(), f"rpmbuild-{rpm_dist[1:]}-{build_arch}")
+        os.environ['HOME'] = os.path.join(os.getcwd(), f"rpmbuild-{rpm_dist[1:]}-{fedora_build_arch}")
         os.chdir(os.environ['HOME'])
     else:
         os.environ['HOME'] = os.getcwd()
@@ -75,22 +77,21 @@ def rpm_create(build_arch, build_type, version, release, key):
         with open("installer/Pingnoo.desktop.in", 'r') as desktop_file:
             desktop_template = string.Template(desktop_file.read())
 
-            # use control.in template to create the deb control file
-        desktop_file_content = desktop_template.substitute(
-            executable="/usr/local/bin/pingnoo/Pingnoo",
-            icon="/usr/share/icons/hicolor/512x512/apps/pingnoo.png",
-            version=version)
+            desktop_file_content = desktop_template.substitute(
+                executable="/usr/local/bin/pingnoo/Pingnoo",
+                icon="/usr/share/icons/hicolor/512x512/apps/pingnoo.png",
+                version=version)
 
-        desktop_file = f'bin/{build_arch}/Deploy/Pingnoo.desktop'
+            desktop_file = f'bin/{build_arch}/Deploy/Pingnoo.desktop'
 
-        with open(desktop_file, 'w') as desktop_file:
-            desktop_file.write(desktop_file_content)
+            with open(desktop_file, 'w') as desktop_file:
+                desktop_file.write(desktop_file_content)
 
     with msg_printer("Creating specfile"):
         with open("rpm/pingnoo.spec.in") as in_file:
             out_data = string.Template(in_file.read()).substitute(version=version,
                                                                   release=release,
-                                                                  build_arch=build_arch,
+                                                                  build_arch=fedora_build_arch,
                                                                   cmake_build_type=build_type,
                                                                   desktop_file=desktop_file)
             with open("rpmbuild/SPECS/pingnoo.spec", 'w') as out_file:
@@ -111,22 +112,22 @@ def rpm_create(build_arch, build_type, version, release, key):
             tarball.add('.', arcname=f"pingnoo-{version}", filter=tar_filter)
         shutil.move(f"pingnoo-{version}.tar", "rpmbuild/SOURCES")
 
-    with msg_printer(f"Calling rpmbuild (logged to rpmbuild-{rpm_dist[1:]}-{build_arch}.log)"):
-        execute(f"rpmbuild -bb --target {build_arch} rpmbuild/SPECS/pingnoo.spec",
+    with msg_printer(f"Calling rpmbuild (logged to rpmbuild-{rpm_dist[1:]}-{fedora_build_arch}.log)"):
+        execute(f"rpmbuild -bb --target {fedora_build_arch} rpmbuild/SPECS/pingnoo.spec",
                 fail_msg="rpmbuild failed",
                 out_log=f"rpmbuild-{rpm_dist[1:]}-{build_arch}.log")
 
-    pathlib.Path(f'bin/{build_arch}/Deploy/rpm/').mkdir(parents=True, exist_ok=True)
-    final_name = f'pingnoo-{version}-{release}{rpm_dist}.{build_arch}.rpm'
-    shutil.copy2(f'rpmbuild/RPMS/{build_arch}/{final_name}',
-                 f'bin/{build_arch}/Deploy/rpm/')
+    pathlib.Path(f'bin/{fedora_build_arch}/Deploy/rpm/').mkdir(parents=True, exist_ok=True)
+    final_name = f'pingnoo-{version}-{release}{rpm_dist}.{fedora_build_arch}.rpm'
+    shutil.copy2(f'rpmbuild/RPMS/{fedora_build_arch}/{final_name}',
+                 f'bin/{fedora_build_arch}/Deploy/rpm/')
 
     if key:
         execute(f'rpm --define \"_gpg_name {key}\" '
                 '--define \"_signature gpg\" '
                 '--define \"%_gpg_path /root/.gnupg\" '
                 '--define \"%_gpgbin /usr/bin/gpg\" '
-                '--addsign \"bin/{build_arch}/Deploy/rpm/{final_name}\"')
+                '--addsign \"bin/{fedora_build_arch}/Deploy/rpm/{final_name}\"')
 
     return final_name
 

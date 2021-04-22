@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 #
 # Copyright (C) 2021 Adrian Carpenter
 #
@@ -5,7 +7,7 @@
 #
 # An open-source cross-platform traceroute analyser.
 #
-# Created by Adrian Carpenter on 14/04/2021.
+# Created by Adrian Carpenter on 22/04/2021.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,33 +23,34 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# docker build -f Dockerfile -t registry.fizzyade.com/arch-builder .
-# docker save registry.fizzyade.com/arch-builder | gzip > arch-builder.tar.gz
-# docker import arch-builder.tar.gz
-# docker push registry.fizzyade.com/arch-builder
+DOCKER_REGISTRY=registry.fizzyade.com
+DOCKER_IMAGE=${PWD##*/}
 
-FROM archlinux
-RUN pacman --noconfirm -Syu
-RUN pacman --noconfirm -Fy
-RUN pacman --noconfirm -S cmake \
-    wget \
-    git \
-    base-devel \
-    qt5-base \
-    qt5-tools \
-    qt5-quickcontrols \
-    dbus \
-    python3 \
-    python-pip
-RUN pip install git-archive-all
+DOCKER_USER=${DOCKER_USER:-teamcity}
+DOCKER_GROUP=${DOCKER_GROUP:-teamcity}
 
-ARG DOCKER_USER=teamcity
-ARG DOCKER_GROUP=teamcity
-ARG DOCKER_USER_ID=0
-ARG DOCKER_GROUP_ID=0
+DOCKER_USER_ID=$(id $DOCKER_USER -u)
+DOCKER_GROUP_ID=$(id $DOCKER_USER -g)
 
-RUN groupadd -g $DOCKER_GROUP_ID $DOCKER_GROUP && useradd -u $DOCKER_USER_ID -m -g $DOCKER_USER $DOCKER_GROUP
+if [ -z "$DOCKER_USER_ID" ]
+then
+  echo "error: could not find the user $DOCKER_USER."
+  exit 1
+fi
 
-USER $DOCKER_USER
+if [ -z "$DOCKER_GROUP_ID" ]
+then
+  echo "error: could not find the group $DOCKER_USER."
+  exit 1
+fi
 
+docker build \
+       -f Dockerfile \
+       --build-arg DOCKER_USER=$DOCKER_USER \
+       --build-arg DOCKER_GROUP=$DOCKER_GROUP \
+       --build-arg DOCKER_USER_ID=$DOCKER_USER_ID \
+       --build-arg DOCKER_GROUP_ID=$DOCKER_GROUP_ID \
+       -t $DOCKER_REGISTRY/$DOCKER_IMAGE \
+       .
 
+docker push $DOCKER_REGISTRY/$DOCKER_IMAGE

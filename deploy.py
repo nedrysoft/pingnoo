@@ -823,7 +823,7 @@ def _do_windows():
         execute(f'AdvancedInstaller.com /edit installer\\PingnooBuild.aip /SetVersion {win_build_version}',
                 fail_msg='there was a problem creating the installer.')
         execute((
-            f'AdvancedInstaller.com /edit installer\\PingnooBuild.aip /SetPackageName'
+            f'AdvancedInstaller.com /edit installer\\PingnooBuild.aip /SetPackageName '
             f'{build_filename}" -buildname MsiBuild'),
             fail_msg='there was a problem creating the installer.')
         execute(f'AdvancedInstaller.com /build installer\\PingnooBuild.aip',
