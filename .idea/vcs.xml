@@ -9,5 +9,7 @@
     <mapping directory="$PROJECT_DIR$/src/libs/Ribbon" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/libs/SettingsDialog" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/libs/ThemeSupport" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/tools/create-dmg" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/tools/macdeployqtfix" vcs="Git" />
   </component>
 </project>

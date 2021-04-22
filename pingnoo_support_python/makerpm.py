@@ -55,7 +55,7 @@ def rpm_create(build_arch, build_type, version, release, key):
     if build_arch == "x86":
         fedora_build_arch = "i686"  # Fedora/RPM terminology
     else:
-        fedora_build_arch = buld_arch
+        fedora_build_arch = build_arch
     # FIXME: Never got 32-bit working because I didn't have Qt5 built for it
 
     # Find release info, if any
