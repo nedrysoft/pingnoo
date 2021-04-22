@@ -363,6 +363,7 @@ Also, Pingnoo was developed using the following commercially licensed tools/serv
 -   [Deleaker](https://deleaker.com) - A memory leak detector for Windows, the license was kindly provided for free for the project. 
 -   [Icofx](https://icofx.ro) - A tool for producing icon & icns files from source images.
 -   [packagecloud](https://packagecloud.io) - packagecloud kindly host the package repositories for debian, ubuntu and fedora that make installing on those operating systems very easy.
+-   [Araxis Merge](https://www.araxis.com/merge) - A standalone merge resolution tool, the license was kindly provided for free for the project.
 
 ## Thanks
 

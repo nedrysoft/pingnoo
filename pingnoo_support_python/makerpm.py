@@ -73,6 +73,11 @@ def rpm_create(build_arch, build_type, version, release, key):
     with msg_printer("Creating rpmbuild subtree"):
         execute("rpmdev-setuptree", "Could not create rpmbuild temporary area")
 
+    with msg_printer("Creating directory structure"):
+        rm_path(f'bin/{build_arch}/Deploy')
+
+        os.makedirs(f'bin/{build_arch}/Deploy/')
+
     with msg_printer("Generating desktop file"):
         with open("installer/Pingnoo.desktop.in", 'r') as desktop_file:
             desktop_template = string.Template(desktop_file.read())
