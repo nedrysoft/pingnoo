@@ -88,7 +88,7 @@ def rpm_create(build_arch, build_type, version, release, key):
         def tar_filter(tar_info):
             if tar_info.name == f"pingnoo-{version}":  # Top-level
                 return tar_info
-            for good_str in ('/.git', '/cmake', '/dpkg', '/src', 'CMake'):
+            for good_str in ('/.git', '/cmake', '/dpkg', '/src', 'CMake','/installer/Pingnoo.desktop'):
                 if good_str in tar_info.name:
                     return tar_info
             return None
