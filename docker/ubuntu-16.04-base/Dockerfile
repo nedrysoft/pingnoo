@@ -29,7 +29,7 @@
 FROM ubuntu:16.04
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y && \
-    apt-get install -y software-properties-common && \
+    apt-get install -y apt-utils software-properties-common && \
     add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
     apt-get update && \
     apt-get install -y \
