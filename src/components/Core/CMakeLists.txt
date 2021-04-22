@@ -81,7 +81,6 @@ pingnoo_add_sources(
     RibbonBarManager.h
     RibbonGroup.cpp
     RibbonGroup.h
-    RibbonIcons.qrc
     RibbonPage.cpp
     RibbonPage.h
     StatusBarManager.cpp

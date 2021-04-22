@@ -24,6 +24,7 @@
 #include "EditorManager.h"
 
 #include "IEditor.h"
+#include "ThemeSupport/includes/ThemeSupport.h"
 
 #include <QCheckBox>
 #include <QTabBar>
@@ -35,19 +36,120 @@ constexpr auto macStylesheet = R"(
     }
 )";
 
-constexpr auto otherStylesheet = R"(
+constexpr auto windowsStylesheet = R"(
     QTabBar::tab {
-        padding-right:8px;
+        padding-right: 8px;
         text-align: center;
-        margin-left: 16px;
+        padding-left: 16px;
+        height: 22px;
+        border-bottom: 0px;
     }
 
-    QTabBar::close-button {
-        image: url(:/RibbonIcons/Icons/close-button-light.png);
+    QTabBar {
+        border-bottom: 4px solid #007dd2;
     }
 
-    QTabBar::close-button:hover {
-        image: url(:/RibbonIcons/Icons/close-button-dark.png);
+    QTabBar::tab:selected {
+        background-color: #007dd2;
+        color: white;
+ 		border-bottom: 4px solid #007dd2;
+    }
+
+    QTabBar::tab:!selected {
+        background-color: lightgrey;
+        color: black;
+    }
+
+    QTabBar::close-button:selected {
+        image: url(:/Core/icons/1x/close-button-white.png);
+    }
+
+    QTabBar::close-button:!selected {
+        image: url(:/Core/icons/1x/close-button-grey.png);
+    }
+
+    QTabBar::close-button:selected:hover {
+        image: url(:/Core/icons/1x/close-button-dark.png);
+    }
+
+    QTabBar::close-button:!selected:hover {
+        image: url(:/Core/icons/1x/close-button-dark.png);
+    }
+)";
+
+constexpr auto linuxDarkStylesheet = R"(
+    QTabBar::tab {
+        padding-right: 8px;
+        text-align: center;
+        padding-left: 16px;
+    }
+
+    QTabBar {
+        border-bottom: 4px solid #505050;
+    }
+
+    QTabBar::tab:selected {
+        background-color: #505050;
+        color: white;
+ 		border-bottom: 4px solid #505050;
+    }
+
+    QTabBar::tab:!selected {
+        background-color: #404040;
+        color: lightgrey;
+    }
+    QTabBar::close-button:selected {
+        image: url(:/Core/icons/1x/close-button-grey.png);
+    }
+
+    QTabBar::close-button:!selected {
+        image: url(:/Core/icons/1x/close-button-grey.png);
+    }
+
+    QTabBar::close-button:selected:hover {
+        image: url(:/Core/icons/1x/close-button-light.png);
+    }
+
+    QTabBar::close-button:!selected:hover {
+        image: url(:/Core/icons/1x/close-button-dark.png);
+    }
+)";
+
+constexpr auto linuxLightStylesheet = R"(
+    QTabBar::tab {
+        padding-right: 8px;
+        text-align: center;
+        padding-left: 16px;
+    }
+
+    QTabBar {
+        border-bottom: 4px solid #FFFFFF;
+    }
+
+    QTabBar::tab:selected {
+        background-color: #FFFFFF;
+        color: black;
+ 		border-bottom: 4px solid #FFFFFF;
+    }
+
+    QTabBar::tab:!selected {
+        background-color: lightgrey;
+        color: black;
+    }
+    QTabBar::close-button:selected {
+        image: url(:/Core/icons/1x/close-button-grey.png);
+    }
+
+    QTabBar::close-button:!selected {
+        image: url(:/Core/icons/1x/close-button-grey.png);
+    }
+
+    QTabBar::close-button:selected:hover {
+        image: url(:/Core/icons/1x/close-button-light.png);
+    }
+
+    QTabBar::close-button:!selected:hover {
+        image: url(:/Core/icons/1x/close-button-dark.png);
     }
 )";
 
@@ -87,17 +189,23 @@ auto Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) -> int {
 
 #if defined(Q_OS_MACOS)
     m_tabWidget->tabBar()->setTabButton(tabIndex, QTabBar::RightSide, m_tabWidget->tabBar()->tabButton(tabIndex, QTabBar::LeftSide));
-#else
+#elif defined(Q_OS_WINDOWS)
     Q_UNUSED(tabIndex);
 
-    m_tabWidget->setStyleSheet(otherStylesheet);
+    m_tabWidget->setStyleSheet(windowsStylesheet);
+#else
+    Q_UNUSED(tabIndex);
+    if (Nedrysoft::ThemeSupport::ThemeSupport().isDarkMode()) {
+        m_tabWidget->setStyleSheet(linuxDarkStylesheet);
+    } else {
+        m_tabWidget->setStyleSheet(linuxLightStylesheet);
+    };
 #endif
 
     connect(m_tabWidget, &QTabWidget::tabCloseRequested, [=](int index) {
         m_tabWidget->removeTab(index);
 
         m_editorMap.remove(editor->widget());
-        //editor->closed();
     });
 
     return 0;

@@ -194,6 +194,8 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
         m_tableView->horizontalHeader()->resizeSection(static_cast<int>(headerIterator.key()), maxWidth);
     }
 
+    m_tableView->setFrameStyle(QFrame::NoFrame);
+
     m_splitter->addWidget(m_tableView);
     m_splitter->addWidget(m_scrollArea);
 
