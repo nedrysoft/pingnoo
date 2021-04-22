@@ -24,6 +24,7 @@
 #include "EditorManager.h"
 
 #include "IEditor.h"
+#include "ThemeSupport/includes/ThemeSupport.h"
 
 #include <QCheckBox>
 #include <QTabBar>
@@ -67,28 +68,88 @@ constexpr auto windowsStylesheet = R"(
         image: url(:/Core/icons/1x/close-button-grey.png);
     }
 
-    QTabBar::close-button:hover {
-        image: url(:/Nedrysoft/Ribbon/icons/close-button-light.png);
+    QTabBar::close-button:selected:hover {
+        image: url(:/Core/icons/1x/close-button-dark.png);
+    }
+
+    QTabBar::close-button:!selected:hover {
+        image: url(:/Core/icons/1x/close-button-dark.png);
     }
 )";
 
-constexpr auto linuxStylesheet = R"(
+constexpr auto linuxDarkStylesheet = R"(
     QTabBar::tab {
         padding-right: 8px;
         text-align: center;
         padding-left: 16px;
     }
 
+    QTabBar {
+        border-bottom: 4px solid #505050;
+    }
+
+    QTabBar::tab:selected {
+        background-color: #505050;
+        color: white;
+ 		border-bottom: 4px solid #505050;
+    }
+
+    QTabBar::tab:!selected {
+        background-color: #404040;
+        color: lightgrey;
+    }
     QTabBar::close-button:selected {
-        image: url(:/Core/icons/1x/close-button-white.png);
+        image: url(:/Core/icons/1x/close-button-grey.png);
     }
 
     QTabBar::close-button:!selected {
-        image: url(:/Core/icons/1x/close-button-dark.png);
+        image: url(:/Core/icons/1x/close-button-grey.png);
     }
 
-    QTabBar::close-button:hover {
-        image: url(:/Nedrysoft/Ribbon/icons/close-button-light.png);
+    QTabBar::close-button:selected:hover {
+        image: url(:/Core/icons/1x/close-button-light.png);
+    }
+
+    QTabBar::close-button:!selected:hover {
+        image: url(:/Core/icons/1x/close-button-dark.png);
+    }
+)";
+
+constexpr auto linuxLightStylesheet = R"(
+    QTabBar::tab {
+        padding-right: 8px;
+        text-align: center;
+        padding-left: 16px;
+    }
+
+    QTabBar {
+        border-bottom: 4px solid #FFFFFF;
+    }
+
+    QTabBar::tab:selected {
+        background-color: #FFFFFF;
+        color: black;
+ 		border-bottom: 4px solid #FFFFFF;
+    }
+
+    QTabBar::tab:!selected {
+        background-color: lightgrey;
+        color: black;
+    }
+    QTabBar::close-button:selected {
+        image: url(:/Core/icons/1x/close-button-grey.png);
+    }
+
+    QTabBar::close-button:!selected {
+        image: url(:/Core/icons/1x/close-button-grey.png);
+    }
+
+    QTabBar::close-button:selected:hover {
+        image: url(:/Core/icons/1x/close-button-light.png);
+    }
+
+    QTabBar::close-button:!selected:hover {
+        image: url(:/Core/icons/1x/close-button-dark.png);
     }
 )";
 
@@ -134,8 +195,11 @@ auto Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) -> int {
     m_tabWidget->setStyleSheet(windowsStylesheet);
 #else
     Q_UNUSED(tabIndex);
-
-    m_tabWidget->setStyleSheet(linuxStylesheet);
+    if (Nedrysoft::ThemeSupport::ThemeSupport().isDarkMode()) {
+        m_tabWidget->setStyleSheet(linuxDarkStylesheet);
+    } else {
+        m_tabWidget->setStyleSheet(linuxLightStylesheet);
+    };
 #endif
 
     connect(m_tabWidget, &QTabWidget::tabCloseRequested, [=](int index) {

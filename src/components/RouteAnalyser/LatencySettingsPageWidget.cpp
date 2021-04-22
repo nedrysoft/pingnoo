@@ -130,7 +130,7 @@ auto Nedrysoft::RouteAnalyser::LatencySettingsPageWidget::acceptSettings() -> vo
     auto latencySettings = Nedrysoft::ComponentSystem::getObject<LatencySettings>();
 
     assert(latencySettings!=nullptr);
-    
+
     latencySettings->setWarningValue(ui->warningLineEdit->text());
     latencySettings->setCriticalValue(ui->criticalLineEdit->text());
 
