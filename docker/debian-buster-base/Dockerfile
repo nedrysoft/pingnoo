@@ -27,7 +27,11 @@
 # docker push registry.fizzyade.com/debian-buster-base
 
 FROM debian:buster
+
+LABEL maintainer="hello@nedrysoft.com"
+
 ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
     software-properties-common  \
@@ -69,6 +73,7 @@ RUN apt-get install -y --no-install-recommends \
     ruby-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
 RUN echo "gem: --no-ri --no-rdoc" >/etc/gemrc
 RUN gem install fpm -v 1.4.0
 RUN gem install fpm-cookery -v 0.29.0

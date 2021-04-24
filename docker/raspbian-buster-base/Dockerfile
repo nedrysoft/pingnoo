@@ -5,7 +5,7 @@
 #
 # An open-source cross-platform traceroute analyser.
 #
-# Created by Adrian Carpenter on 14/04/2021.
+# Created by Adrian Carpenter on 23/04/2021.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,35 +21,23 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# docker build -f Dockerfile -t registry.fizzyade.com/ubuntu-16.04-base .
-# docker save registry.fizzyade.com/ubuntu-16.04-base | gzip > ubuntu-16.04-base.tar.gz
-# docker import ubuntu-16.04-base.tar.gz
-# docker push registry.fizzyade.com/ubuntu-16.04-base
+# docker build -f Dockerfile -t registry.fizzyade.com/raspbian-buster-base .
+# docker save registry.fizzyade.com/raspbian-buster-base | gzip > raspbian-buster-base.tar.gz
+# docker import raspbian-buster-base.tar.gz
+# docker push registry.fizzyade.com/raspbian-buster-base
 
-FROM ubuntu:16.04
+FROM registry.fizzyade.com/raspbian-buster
 
 LABEL maintainer="hello@nedrysoft.com"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install -y && \
-    apt-get install -y apt-utils software-properties-common && \
-    add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
-    apt-get update && \
-    apt-get install -y \
-    curl \
-    python3 \
-    p7zip \
-    p7zip-full && \
-    curl https://bootstrap.pypa.io/pip/3.5/get-pip.py -o get-pip.py && \
-    python3 get-pip.py && \
-    python3 -m pip install aqtinstall && \
-    apt-get install -y \
-    gcc-6 \
-    g++-6 \
+RUN apt-get update -y
+RUN apt-get install -y --no-install-recommends \
+    software-properties-common  \
+    wget \
     curl \
     build-essential \
-    wget \
     unzip \
     vim \
     mesa-common-dev \
@@ -60,28 +48,28 @@ RUN apt-get update && apt-get install -y && \
     qml-module-qtquick-controls \
     qt5-default \
     qttools5-dev \
+    default-jdk \
     dpkg-sig \
+    ruby \
     autoconf \
-    dh-autoreconf \
-    libcurl4-gnutls-dev \
-    libexpat1-dev \
-    gettext \
-    libz-dev \
+    ruby-dev \
     libssl-dev \
+    zlib1g-dev \
+    tcl \
+    gettext \
     asciidoc \
-    xmlto \
     docbook2x \
     install-info \
-    zlib1g-dev \
-    libncurses5-dev \
-    libgdbm-dev \
-    libnss3-dev \
-    libssl-dev \
-    libsqlite3-dev \
+    libsqlite0 \
+    libsqlite0-dev \
     libreadline-dev \
-    libffi-dev \
     libbz2-dev \
-    ruby \
-    ruby-dev \
-    fuse \
-    appstream
+    sqlite3 \
+    tk-dev \
+    libgdbm-dev \
+    libncurses5-dev \
+    uuid-dev \
+    lzma-dev \
+    liblzma-dev \
+    xmlto \
+    libcurl4-openssl-dev

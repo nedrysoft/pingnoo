@@ -7,7 +7,7 @@
 #
 # An open-source cross-platform traceroute analyser.
 #
-# Created by Adrian Carpenter on 12/04/2021.
+# Created by Adrian Carpenter on 23/04/2021.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,6 +25,32 @@
 
 set -e
 
+# build gcc 10 from source
+
+cd /tmp
+wget https://ftp.gnu.org/gnu/gcc/gcc-10.1.0/gcc-10.1.0.tar.xz
+tar -xf gcc-10.1.0.tar.xz
+cd gcc-10.1.0
+./contrib/download_prerequisites
+mkdir build
+cd build
+../configure --enable-languages=c,c++,fortran --with-cpu=cortex-a72 \
+  --with-fpu=neon-fp-armv8 --with-float=hard --build=arm-linux-gnueabihf \
+  --host=arm-linux-gnueabihf --target=arm-linux-gnueabihf  \
+  --prefix=/usr/local/gcc-10.1.0 -program-suffix=-10.1
+make -j$(($(nproc)-1))
+make install-strip
+
+# build cmake from source
+
+cd /tmp
+wget https://github.com/Kitware/CMake/releases/download/v3.20.1/cmake-3.20.1.tar.gz
+tar -xf cmake-3.20.1.tar.gz
+cd cmake-3.20.1
+./bootstrap
+make -j$(($(nproc)-1))
+make install
+
 # build git from source
 
 cd /tmp
@@ -33,8 +59,8 @@ tar -zxf v2.31.0.tar.gz
 cd git-2.31.0
 make configure
 ./configure --prefix=/usr
-make all doc info
-make install install-doc install-html install-info
+make -j$(($(nproc)-1)) all
+make doc info install install-doc install-html install-info
 
 # build python from source
 
@@ -43,19 +69,12 @@ wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz
 tar -xf Python-3.9.1.tgz
 cd Python-3.9.1
 ./configure --enable-optimizations
-make -j $(nproc)
+make -j$(($(nproc)-1))
 make install
 
-# install cmake
-
-cd /tmp
-wget https://github.com/Kitware/CMake/releases/download/v3.20.0-rc2/cmake-3.20.0-rc2-linux-x86_64.sh
-chmod +x cmake-3.20.0-rc2-linux-x86_64.sh
-./cmake-3.20.0-rc2-linux-x86_64.sh --skip-license --prefix=/usr/local
+pip3 install colorama
 
 # cleanup
 
 rm -rf /tmp/*
-
-
 

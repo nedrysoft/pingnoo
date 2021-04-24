@@ -5,7 +5,7 @@
 #
 # An open-source cross-platform traceroute analyser.
 #
-# Created by Adrian Carpenter on 14/04/2021.
+# Created by Adrian Carpenter on 23/04/2021.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,34 +21,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# docker build -f Dockerfile -t registry.fizzyade.com/fedora-33-builder .
-# docker save registry.fizzyade.com/fedora-33-builder | gzip > fedora-33-builder.tar.gz
-# docker import fedora-33-builder.tar.gz
-# docker push registry.fizzyade.com/fedora-33-builder
+# docker build -f Dockerfile -t registry.fizzyade.com/raspbian-stretch-builder .
+# docker save registry.fizzyade.com/raspbian-stretch-builder | gzip > raspbian-stretch-builder.tar.gz
+# docker import raspbian-stretch-builder.tar.gz
+# docker push registry.fizzyade.com/raspbian-stretch-builder
 
-FROM fedora:33
+FROM registry.fizzyade.com/raspbian-stretch-base
 
 LABEL maintainer="hello@nedrysoft.com"
 
-RUN dnf -y group install "C Development Tools and Libraries"
+ENV DEBIAN_FRONTEND noninteractive
 
-RUN dnf -y install \
-    cmake \
-    git \
-    python-qt5-rpm-macros \
-    qt5-linguist \
-    rpm-build \
-    rpmdevtools \
-    qt5-qtquickcontrols2-devel \
-    dbus-devel \
-    vim \
-    wget \
-    unzip \
-    rpm-sign \
-    ruby \
-    ruby-devel \
-    qt5-qtbase-devel
+COPY setup.sh /tmp
 
-RUN ln -s /usr/lib64/qt5/bin/lrelease /bin/lrelease
-
+RUN /tmp/setup.sh
 

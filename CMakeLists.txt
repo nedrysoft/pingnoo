@@ -37,10 +37,10 @@ add_subdirectory(src/libs)
 add_subdirectory(src/components)
 
 if (${Pingnoo_Build_Tests})
-    add_subdirectory(src/tests)
-else()
-    add_subdirectory(src/app)
+    add_subdirectory(tests)
 endif()
+
+add_subdirectory(src/app)
 
 if(UNIX AND NOT APPLE)
     set(NEDRYSOFT_LIBRARY_DIR ${PINGNOO_BINARY_ROOT})
