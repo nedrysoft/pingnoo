@@ -27,6 +27,7 @@
 #include <QApplication>
 #include <QColor>
 #include <QString>
+#include <functional>
 
 #if defined(__OBJC__)
 #import <AppKit/NSColorPanel.h>
