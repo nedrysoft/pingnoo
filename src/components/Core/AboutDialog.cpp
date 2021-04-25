@@ -58,13 +58,19 @@ Nedrysoft::Core::AboutDialog::AboutDialog(QWidget *parent) :
 
     ui->buildRevisionLabel->setText(revisionText);
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
+    auto applicationQtVersion = QLibraryInfo::version().toString();
+#else
+    auto applicationQtVersion = QString::fromLatin1(qVersion());
+#endif
+
     ui->qtVersionLabel->setText(
             QString(tr("Based on Qt %1.%2.%3 (%4, %5 bit), runtime Qt %6"))
             .arg(QT_VERSION_MAJOR)
             .arg(QT_VERSION_MINOR)
             .arg(QT_VERSION_PATCH)
             .arg(compiler())
-            .arg(QSysInfo::WordSize).arg(QLibraryInfo::version().toString()) );
+            .arg(QSysInfo::WordSize).arg(applicationQtVersion) );
 }
 
 Nedrysoft::Core::AboutDialog::~AboutDialog() {

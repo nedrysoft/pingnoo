@@ -70,7 +70,13 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::removeUnused() -> void {
     while(mapIterator.hasNext()) {
         mapIterator.next();
 
-        if (QDateTime::currentSecsSinceEpoch()-mapIterator.value()>unusedRemovalTime) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
+        auto secondsSinceEpoch = QDateTime::currentSecsSinceEpoch();
+#else
+        auto secondsSinceEpoch = abs(QDateTime::currentDateTime().secsTo(QDateTime(QDate(1970,1,1), QTime(0, 0))));
+#endif
+
+        if (secondsSinceEpoch-mapIterator.value()>unusedRemovalTime) {
             QString key = mapIterator.key();
 
             m_buffers.remove(key);
@@ -165,7 +171,13 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
         m_buffers[bufferName] = bufferedImage;
     }
 
-    m_age[bufferName] = QDateTime::currentSecsSinceEpoch();
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
+    auto secondsSinceEpoch = QDateTime::currentSecsSinceEpoch();
+#else
+    auto secondsSinceEpoch = abs(QDateTime::currentDateTime().secsTo(QDateTime(QDate(1970,1,1), QTime(0, 0))));
+#endif
+
+    m_age[bufferName] = secondsSinceEpoch;
 
     QPainterPath clippingPath;
 

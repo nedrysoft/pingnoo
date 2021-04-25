@@ -28,6 +28,7 @@
 
 #include <QHostAddress>
 #include <QObject>
+#include <chrono>
 #include <cmath>
 #include <cstdint>
 

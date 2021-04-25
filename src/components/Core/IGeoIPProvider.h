@@ -28,6 +28,7 @@
 #include "CoreSpec.h"
 
 #include <QHostAddress>
+#include <functional>
 
 namespace Nedrysoft { namespace Core {
     using GeoFunction = std::function<void(const QString &, const QVariantMap &)>;

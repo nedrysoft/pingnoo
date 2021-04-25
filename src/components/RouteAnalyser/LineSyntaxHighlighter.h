@@ -26,6 +26,7 @@
 
 #include <QSyntaxHighlighter>
 #include <QTextDocument>
+#include <functional>
 
 namespace Nedrysoft { namespace RouteAnalyser {
     using SyntaxFunction = std::function<bool(const QString &text)>;
