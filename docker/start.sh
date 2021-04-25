@@ -7,7 +7,7 @@
 #
 # An open-source cross-platform traceroute analyser.
 #
-# Created by Adrian Carpenter on 25/04/2021.
+# Created by Adrian Carpenter on 24/04/2021.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

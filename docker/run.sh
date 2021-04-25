@@ -7,7 +7,7 @@
 #
 # An open-source cross-platform traceroute analyser.
 #
-# Created by Adrian Carpenter on 25/04/2021.
+# Created by Adrian Carpenter on 24/04/2021.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,5 +23,19 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-docker run -d --restart unless-stopped --name "stretch-agent" -v /home/pi/docker-configs/stretch:/opt/teamcity-agent/conf registry.fizzyade.com/raspbian-stretch-agent
-docker run -d --restart unless-stopped --name "buster-agent" -v /home/pi/docker-configs/buster:/opt/teamcity-agent/conf registry.fizzyade.com/raspbian-buster-agent
+docker run \
+	-d \
+	--restart unless-stopped \
+	--name "stretch-agent" \
+	-v /home/pi/.gnupg:/root/.gnupg \
+       	-v /home/pi/docker-configs/stretch:/opt/teamcity-agent/conf \
+	registry.fizzyade.com/raspbian-stretch-agent
+
+docker run \
+	-d \
+	--restart unless-stopped \
+	--name "buster-agent" \
+	-v /home/pi/.gnupg:/root/.gnupg \
+       	-v /home/pi/docker-configs/buster:/opt/teamcity-agent/conf \
+	registry.fizzyade.com/raspbian-buster-agent
+
