@@ -1,6 +1,6 @@
 # Contributing to the project
 
-The following document contains a set of guidelines for contributing to the project.  Any pull-requests should be compliant with this guide.  Code style is often fluent, open a GitHub issue for suggestions or improvements.
+The following document contains a set of guidelines for contributing to the project.  Any pull requests should be compliant with this guide.  Code style is often fluent. Open a GitHub issue for suggestions or improvements.
 
 ## C++ Version
 
@@ -41,27 +41,27 @@ Include files are logically grouped according to their scope and sorted alphabet
 
 1.  The first header should be the corresponding header to the source file.
 2.  *Empty Line*
-3.  Local includes (sorted alphabetically)
+3.  Local includes. (sorted alphabetically)
 4.  *Empty Line*
-5.  System includes (sorted alphabetically)
+5.  System includes. (sorted alphabetically)
 
 ### Header file
 
-1.  Local includes (sorted alphabetically)
+1.  Local includes. (sorted alphabetically)
 2.  *Empty Line*
-3.  System includes (sorted alphabetically)
+3.  System includes. (sorted alphabetically)
 4.  *Empty Line*
-5.  Objective C++ imports (sorted alphabetically)
+5.  Objective-C++ imports. (sorted alphabetically)
 
 ### Exceptions
 
-If a file requires including at a specific location (i.e. either the first or last), then it should be accompanied a comment explaining why the file is out of sequence.
+If a file requires including at a specific location (i.e. either the first or last),  a comment should follow explaining why the file is out of sequence.
 
 ## C++
 
 ###Include Guards
 
-All include files should have an include guard to prevent the file from being included more than once.
+All include files should have a guard to prevent the file from being included more than once.
 
 ```c++
 #ifndef NEDRYSOFT_RIBBONPUSHBUTTON_H
@@ -70,30 +70,42 @@ All include files should have an include guard to prevent the file from being in
 #endif // NEDRYSOFT_RIBBONPUSHBUTTON_H
 ```
 
-The format of an include guard should be as follows:
+The format of the include guard should be as follows.
 
 ```c++
-[ORGANISATION]_[FILENAME]_H
+[APPLICATION]_[PARENT FOLDER]_[FOLDER]_[CLASS]_H
 ```
 
-##$ Namespaces
+```c++
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETMANAGER_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETMANAGER_H
+...
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETMANAGER_H
+```
 
-All code must exist in an appropriate namespace to prevent clashes with third party code, when using an item from a namespace then the fully qualified name should be used, and "using <namespace>" should not be used, using the full decorated namespace makes it much easier to locate the items origin.
+## Namespaces
 
-*   Use C++17 nested namespaces.
+All code must exist in an appropriate namespace to prevent clashes with third party code. Using an item from a namespace, the fully qualified name should be used, and "using <namespace>" should not be used. Using the full decorated namespace makes it much easier to locate the origin of the item.
+
+*   Do not use C++17 nested namespaces as older versions of the moc do not handle them.
 *   Braces should be on the same line as the namespace definition.
-*   Items inside a namespace indent 1 level
+*   Items inside a namespace indent 1 level.
 
 *Good*
+
+```c++
+namespace Nedrysoft { namespace Utils {
+    ...
+}}
+```
+
+*Bad*
 
 ```c++
 namespace Nedrysoft::Utils {
     ...
 }
 ```
-
-*Bad*
-
 ```c++
 namespace Nedrysoft {
     namespace Utils {
@@ -130,7 +142,7 @@ constexpr auto RibbonPushButtonDefaultFontSize = 10;
 
 ### Line Breaks
 
-Line breaks are permitted when they improve clarity, use a double indent on the following lines.
+Line breaks are permitted when they improve clarity. Use a double indent on the following lines.
 
 ```c++
 QString filename =
@@ -145,9 +157,9 @@ QString filename =
 
 ### Line Wrapping
 
-Limit lines to 120 characters whenever possible, a blank line separates the parameters from the next block.  There should be one parameter per line starting from the line following the open brace.
+Limit lines to 120 characters whenever possible. A blank line separates the parameters from the next block.  There should be one parameter per line starting from the line following the open brace.
 
-In the case of functions with initialisers then indent the initialisers one additional level.
+In the case of functions with initialisers, then indent the initialisers one additional level.
 
 For function calls, parameters appear on separate lines and are indented two levels, and a space character should precede the closing brace.
 
@@ -195,7 +207,7 @@ auto asFloat = (float) exampleInteger;
 
 ### Comments
 
-Use comments where appropriate, code should use descriptive names which alleviates the need for large blocks of comments.  Use Comments to describe operations that may not be obvious.
+Use comments where appropriate. Code should use descriptive names, which alleviates the need for detailed comment blocks.  Use Comments to describe operations that may not be obvious.
 
 ### Comment Format
 
@@ -210,21 +222,21 @@ Comments use the JavaDoc style for consistency.
  * @param[in]   watched the object that caused the event.
  * @param[in]   event the event information.
  *
- * @returns     true if event was handled, otherwise false.
+ * @returns     true if the event was handled, otherwise false.
  */
 bool eventFilter(QObject *watched, QEvent *event) override;
 ```
 
-*   The comment must come directly before the method and there should be no gap between the comment and the function declaration.
+*   The comment must come directly before the method, and there should be no gap between the comment and the function declaration.
 *   A new line must exist between each section of the comment; group parameters without newlines.
 *   The ```@returns``` tag should be used instead of ```@return```.
 *   Parameters should include the direction of data.
 
 ### Class declarations
 
-The scope modifier should be indented one level, and functions and variables also should be indented a further level.
+The scope modifier should be indented one level, and functions and variables should also be indented further.
 
-All class definitions should adhere to the following style:
+All class definitions should adhere to the following style.
 
 *Good*
 
@@ -266,7 +278,7 @@ public:
 
 ### Class layout
 
-The class definition groups items by their scope and type, enums have their own scope, and function definitions have their own scope and so on.
+The class definition groups items by their scope and type, enums should be in their own scope, and function definitions have their own scope and so on.
 
 ```c++
 class RibbonTabBar :
@@ -317,7 +329,7 @@ class RibbonTabBar :
 2.  This section (there may be more than one depending on scope) should define any ```enums``` or ```constexpr```.
 3.  This section includes constructors, destructors, and any public methods that the class exposes.
 4.  This section contains any overridden superclass functions.
-5.  This section (there may be more than one depending on scope) contains internal functions.
+5.  This section (there may be more than one, depending on scope) contains internal functions.
 6.  This section contains any member variables.
 
 ### Case
@@ -369,7 +381,7 @@ Source files generally follow the same style as set out for include files; all c
 
 ### Function Definition
 
-Function names should be descriptive and whenever possible, and not truncated.  Using descriptive naming makes the code easier to follow and more precise and negates the need for additional comments.
+Function names should be descriptive and, whenever possible, not truncated.  Using descriptive naming makes the code easier to follow and more precise and negates additional comments.
 
 Each function definition must conform to the following code standard.
 
@@ -378,8 +390,8 @@ Each function definition must conform to the following code standard.
 3.  Each initialiser is indented by two levels.
 4.  One initialiser per line.
 5.  The final initialiser contains the opening brace for the function.
-6.  A blank line should always follow the opening brace for constructors that have initialisers regardless of whether or not any statements follow.  For constructors, without initialisers, the blank line should be omitted.
-7.  Splitting parameters onto separate lines to increase readability is allowed.  A newline follows the opening brace, and there should be one line per parameter.  The parameters are indented two levels, and the closing brace and curly brace follows the final parameter, a blank line should also follow.
+6.  A blank line should always follow the opening brace for constructors with initialisers regardless of whether or not any statements follow.  For constructors, without initialisers, the blank line should be omitted.
+7.  Splitting parameters onto separate lines to increase readability is allowed.  A new line follows the opening brace, and there should be one line per parameter.  The parameters are indented two levels, and the closing brace and curly brace follows the final parameter. A blank line should also follow.
 
 *Good*
 
@@ -518,7 +530,7 @@ The program flow style is an extension of the rules described above.
 #### if conditional
 
 *   Braces should always be used, even in the case of a single-line statement.
-*   Braces appear on the same line as the terminating conditional statement
+*   Braces appear on the same line as the terminating conditional statement.
 *   Multiple conditions may be split across multiple lines if it improves clarity.
 *   Each conditional must be surrounded by braces to avoid ambiguity.
 
@@ -571,8 +583,8 @@ else
 
 #### for loops
 
-*   Wherever possible use range-based loops or iterators.
-*   Use descriptive names for indices or iterators
+*   Wherever possible, use range-based loops or iterators.
+*   Use descriptive names for indices or iterators.
 
 *Good*
 
@@ -673,7 +685,7 @@ switch(m_currentMode) {
 
 #### Lambda functions
 
-*   Use of lambda expressions where possible, this is particularly true when dealing with asynchronous operations where using a lambda expression will result in cleaner and more readable code.
+*   Use of lambda expressions where possible. Lambda expressions make asynchronous operations more straightforward to understand and produce cleaner and more readable code.
 *   std::function should be used as it allows both lambda and callback style operations.
 
 ```c++
@@ -686,7 +698,7 @@ void MyClass::downloadFile(DownloadInfo downloadInfo, std::function<void(Downloa
 
 #### Singletons
 
-*   Singletons may be used where appropriate, for example, the MainWindow of the application may be accessed through a singleton instance which provides access to the object across the project.
+*   Singletons may be used where appropriate. For example, the applications MainWindow may be accessed through a singleton instance which provides access to the object throughout the project.
 *   Singletons must use the C++11 pattern shown below as this inherently thread-safe.
 
 ```c++
@@ -715,7 +727,7 @@ QSettingsDialog settingsDialog;
 
 ### Qt Specific
 
-*   Qt keyword definitions should be disabled as they may conflict with third party code.  
+*   Qt keyword definitions should be disabled as they may conflict with third party code.
 *   Use ```Q_EMIT Q_SIGNAL Q_SLOT``` macros.
 
 ```c++
@@ -756,13 +768,13 @@ for (int i=0;i<j;i++) {
 
 All commits to the repository must follow the conventional commit style.
 
-The following tags are in use:
+The following tags are in use.
 
 *   "repo:" a change to the repo, includes operations such as editing README.md or restructuring.
 *   "wip:" a work in progress message.
 *   "refactor:" refactoring of the code.
 *   "chore:" general housekeeping task such as removing dead files from the repo.
-*   "fix:" a fix of a specific issue should typically be link reference a GitHub issue.
+*   "fix:" a fix of a specific issue.  Typically, will include the GitHub issue reference.
 *   "feat:" work on a specific feature.
 
 Open a GitHub issue for suggestions of other tag types. 
