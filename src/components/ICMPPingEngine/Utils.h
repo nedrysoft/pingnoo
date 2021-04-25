@@ -27,7 +27,7 @@
 #include <limits.h>
 #include <stdint.h>
 
-namespace Nedrysoft::Utils {
+namespace Nedrysoft { namespace Utils {
     /**
      * @brief       Convert 16 bit words to 32 bit
      *
@@ -42,6 +42,6 @@ namespace Nedrysoft::Utils {
     constexpr auto fzMake32(uint16_t high, uint16_t low) -> uint32_t {
         return ( static_cast<uint32_t>(( high << ( sizeof(high) * CHAR_BIT ) | low )));
     }
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ICMPPINGENGINE_UTILS_H

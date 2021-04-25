@@ -29,7 +29,7 @@
 
 #include <memory>
 
-namespace Nedrysoft::PingCommandPingEngine {
+namespace Nedrysoft { namespace PingCommandPingEngine {
     class PingCommandPingEngine;
 
     /**
@@ -123,7 +123,7 @@ namespace Nedrysoft::PingCommandPingEngine {
              */
             auto loadConfiguration(QJsonObject configuration) -> bool override;
     };
-}
+}}
 
 
 #endif // PINGNOO_COMPONENTS_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGENGINEFACTORY_H

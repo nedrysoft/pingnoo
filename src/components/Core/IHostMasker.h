@@ -32,7 +32,7 @@
 #include <QObject>
 #include <QString>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       Interface definition of a host masker.
      *
@@ -78,7 +78,7 @@ namespace Nedrysoft::Core {
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~IHostMasker() = default;
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IHostMasker, "com.nedrysoft.core.IHostMasker/1.0.0")
 

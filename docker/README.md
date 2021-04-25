@@ -2,22 +2,25 @@
 
 This folder contains the docker image definitions used by my CI/CD system (TeamCity) for building native packages.
 
-Each platform may be split into 2 separate images, this is for convenience when test building the images.  By having the system packages installed in a "base" image, we do not have to rebuild everything should compilation fail on Git or Python.
+Each platform may consist of 2 main images, which is for convenience when test building the images.  By having the system packages installed in a "base" image, we do not have to re-build everything should compilation fail on Git or Python.
 
-Base only ever contains packages that can be installed via a package manager (rpm, apt, gem, pip and so on).
+Base only ever contains packages installed using the operating systems native a package manager (rpm, apt, gem, pip and so on).
 
--   -base is the base OS image with the required apt packages installed for building & deployment
--   -builder contains extra tools (if needed) that are built from source (or available as a binary) (git, python, cmake).  This image is used to build the distributable packages.
+-   *no prefix*, this is the base OS image. Typically, not required unless building the OS image from scratch (this is the case for raspbian)
+-   *-base* is the base OS image with the required apt packages installed for building & deployment
+-   *-builder* contains extra tools (if needed) not from native packages, either from source or a pre-built binary (git, python, cmake etc.).  This image builds the redistributable.
 
-I self host my own docker registry so that I am not limited by transfer quota restrictions on DockerHub.
+I self-host my a docker registry, so that transfer quota restrictions on DockerHub do not limit me.
+
+Each folder may include a python script named init.py, the user may run this directly, but it is typically invoked by the build.py script if it exists.  The script's purpose is to do any initialisation before building the image, such as downloading any required files.  Additionally, it may be used to prevent an image from being built on the wrong architecture, i.e. the raspbian image builders can only be executed on a raspberry pi device.
 
 ## TeamCity Agents
 
-A TeamCity agent docker image is used to spawn the actual docker container used to build the software, unfortunately the TeamCity docker agent image has a hardcoded path which means you can only run 1 instance of the agent on a host.
+A TeamCity docker agent spawns the actual docker container (on demand) used to build the software. Unfortunately, the TeamCity docker agent image has a hardcoded path which means you can only run one instance of the agent on a host.
 
-### Building the Agents
+### Building custom agents
 
-However, you can re-build the agent image and replace the path with your own suffix while will allow multiple agents to run on a single host.
+However, you can re-build the agent image and replace the path with a  suffix, allowing multiple agents to run on a single host.
 
 ```bash
 git clone https://github.com/JetBrains/teamcity-docker-images.git
@@ -32,10 +35,10 @@ context/run-agent.sh
 context/generated/linux/MinimalAgent/Ubuntu/20.04/Dockerfile
 ```
 
-And replace all occurrences of:
+Replace all occurrences of the following.
 
 ```bash
-/opt/buildagent
+/opt/build agent
 ```
 
 With (for example):
@@ -89,9 +92,9 @@ From the ```docker``` folder, execute the following command sequence to build th
 (cd fedora-32-builder && docker build -f Dockerfile -t registry.fizzyade.com/fedora-32-builder .) && \
 (cd fedora-33-builder && docker build -f Dockerfile -t registry.fizzyade.com/fedora-33-builder .)
 ```
-## Pushing images to local registry
+## Pushing images to a local registry
 
-Once built, the images can be pushed 
+Once built, the user can push the images with the following terminal commands.
 
 ```bash
 docker push registry.fizzyade.com/ubuntu-18.04-base && \

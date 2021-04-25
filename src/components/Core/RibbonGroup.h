@@ -29,7 +29,7 @@
 #include <QGridLayout>
 #include <QWidget>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       The RibbonGroup represents a group of the ribbon bar.
      *
@@ -44,6 +44,6 @@ namespace Nedrysoft::Core {
 
             Q_INTERFACES(Nedrysoft::Core::IRibbonGroup);
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_RIBBONGROUP_H

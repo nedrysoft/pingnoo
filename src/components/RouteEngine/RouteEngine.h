@@ -34,12 +34,12 @@
 
 class QThread;
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class IPingEngineFactory;
     class IPingEngine;
-};
+}}
 
-namespace Nedrysoft::RouteEngine {
+namespace Nedrysoft { namespace RouteEngine {
     class RouteEngineWorker;
 
     /**
@@ -81,6 +81,6 @@ namespace Nedrysoft::RouteEngine {
             Nedrysoft::RouteEngine::RouteEngineWorker *m_routeWorker;
             QThread *m_routeWorkerThread;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEENGINE_ROUTEENGINE_H

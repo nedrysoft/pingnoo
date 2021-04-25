@@ -29,7 +29,7 @@
 #include <QMutex>
 #include <QObject>
 
-namespace Nedrysoft::ICMPAPIPingEngine {
+namespace Nedrysoft { namespace ICMPAPIPingEngine {
     class ICMPAPIPingEngine;
     class ICMPAPIPingTarget;
 
@@ -90,6 +90,6 @@ namespace Nedrysoft::ICMPAPIPingEngine {
             QMutex m_targetsMutex;                              //! Mutex to protect the ping target list
             bool m_isRunning;                                   //! Whether thread is running
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGTRANSMITTER_H

@@ -37,11 +37,11 @@
 
 #pragma warning(pop)
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class IHostMasker;
     class IPingEngine;
     class IPingEngineFactory;
-}
+}}
 
 class QTableView;
 class QStandardItemModel;
@@ -49,7 +49,7 @@ class QSplitter;
 class QScrollArea;
 class Timer;
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     class GraphLatencyLayer;
     class RouteTableItemDelegate;
     class PlotScrollArea;
@@ -222,6 +222,6 @@ namespace Nedrysoft::RouteAnalyser {
             double m_endPoint;                                      //! the unix timestamp of the most recent ping result
             double m_savedDiff;                                     //! the latest calculated span of results in seconds.
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTEANALYSERWIDGET_H

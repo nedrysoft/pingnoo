@@ -30,7 +30,7 @@
 #include <QMenu>
 #include <QMenuBar>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class ICommand;
 
     enum class MenuTypes {
@@ -148,7 +148,7 @@ namespace Nedrysoft::Core {
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~IMenu() = default;
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IMenu, "com.nedrysoft.core.IMenu/1.0.0")
 

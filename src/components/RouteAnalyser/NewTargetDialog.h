@@ -30,7 +30,7 @@
 
 class QTextEdit;
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     namespace Ui {
         class NewTargetDialog;
     }
@@ -129,6 +129,6 @@ namespace Nedrysoft::RouteAnalyser {
             LineSyntaxHighlighter *m_targetHighlighter;
             LineSyntaxHighlighter *m_intervalHighlighter;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_NEWTARGETDIALOG_H

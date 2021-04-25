@@ -23,65 +23,120 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# this script is used to generate the docker image(s) for a platform, it can be called with the name of the folder
+# to generate, or called with the --all parameter with {os}-{release} and then the script will attempt tp build the
+# platforms images.
+#
+# i.e call with "raspbian-buster" as the image name, it will try to build:
+#
+#   raspbian-buster
+#   raspbian-buster-base
+#   raspbian-buster-builder
+#
+# in that order.  Any folder that does not exist will be skipped.
+
 import argparse
+import importlib
 import os
 import subprocess
+import sys
+
 
 class ExecuteException(Exception):
     pass
 
-def execute(command, fail_msg=None):
-    """ Execute a command in subprocess and throw exceptions if given fail_msg """
+
+def execute(command, fail_msg=None, capture_output=True):
+    if capture_output:
+        output_stream = subprocess.PIPE
+        error_stream = subprocess.PIPE
+    else:
+        output_stream = sys.stdout
+        error_stream = sys.stderr
+
     output = subprocess.run(command,
                             shell=True,
-                            stdout=subprocess.PIPE,
-                            stderr=subprocess.PIPE,
+                            stdout=output_stream,
+                            stderr=error_stream,
                             check=False)
-    output_text = output.stdout.decode('utf-8') + output.stderr.decode('utf-8')
+
+    if capture_output:
+        output_text = output.stdout.decode('utf-8') + output.stderr.decode('utf-8')
+    else:
+        output_text = ""
 
     if fail_msg and output.returncode:
         raise ExecuteException(fail_msg + "\r\n\r\n" + output_text)
-    if fail_msg is None:  # Return backwards-compat results of return code + text
-        return output.returncode, output_text
+
     return output_text
+
 
 try:
     parser = argparse.ArgumentParser(description='docker build image generator')
 
     parser.add_argument("image", nargs=None, help="the image to build (the folder that contains the Dockerfile")
-    parser.add_argument('--user', type=str, nargs='?', help='the user to run the build as', default='root')
-    parser.add_argument('--group', type=str, nargs='?', help='the group to run the build as', default='root')
-    parser.add_argument('--registry', type=str, nargs='?', help='the group to run the build as', default='registry.fizzyade.com')
+    parser.add_argument('--all',
+                        action='store_true',
+                        help='build all images, first without a suffix, then with -base and finally -builder')
+    parser.add_argument('--user', type=str, nargs='?', help='the user to run the build as', default=None)
+    parser.add_argument('--group', type=str, nargs='?', help='the group to run the build as', default=None)
+    parser.add_argument('--registry',
+                        type=str,
+                        nargs='?',
+                        help='the group to run the build as',
+                        default='registry.fizzyade.com')
 
     args = parser.parse_args()
 
-    if not os.path.exists(args.image):
-        print(f"error: the image {args.image} does not exist.")
-        exit(1)
+    user_string = ""
+    group_string = ""
 
-    if not os.path.exists(args.image+"/Dockerfile"):
-        print(f"error: the image {args.image} does not contain a Dockerfile.")
-        exit(1)
+    if args.user is not None:
+        user_id = execute(f"id -u {args.user}", "error: error finding the user id for user  \'{args.user}\'")
+ 
+        user_id = user_id.strip()
+        
+        user_string = f'--build-arg DOCKER_USER={args.user} ' \
+                      f'--build-arg DOCKER_USER_ID={user_id} '
+        
+        user_id = user_id.strip()
+    
+    if args.group is not None:
+        group_id = execute(f"id -g {args.user}", "error: error finding the group id for user \'{args.user}\'.")
+        
+        group_id = group_id.strip()
+        
+        group_string = f'--build-arg DOCKER_GROUP={args.group} ' \
+                       f'--build-arg DOCKER_GROUP_ID={group_id} '
+        
+    images = [args.image]
 
-    user_id=execute(f"id -u {args.user}", "error: error finding the user id for user  \'{args.user}\'")
+    if args.all:
+        images.extend([f'{args.image}-base', f'{args.image}-builder', f'{args.image}-agent'])
 
-    group_id=execute(f"id -g {args.user}", "error: error finding the group id for user \'{args.user}\'.")
+    base_folder = os.getcwd()
 
-    user_id = user_id.strip()
-    group_id = group_id.strip()
+    for current_image in images:
+        if not os.path.exists(current_image):
+            continue
 
-    docker_command = 'docker build -f Dockerfile ' \
-                     f'--build-arg DOCKER_USER={args.user} ' \
-                     f'--build-arg DOCKER_GROUP={args.group} ' \
-                     f'--build-arg DOCKER_USER_ID={user_id} ' \
-                     f'--build-arg DOCKER_GROUP_ID={group_id} ' \
-                     f'-t {args.registry}/{args.image}'
+        if not os.path.exists(current_image+"/Dockerfile"):
+            continue
 
-    execute(docker_command, "error: error building docker image.")
+        if os.path.exists(current_image+"/init.py"):
+            init_module = importlib.import_module(current_image+".init", package=None)
 
-    docker_command = f'docker push {args.registry}/{args.image}'
+            init_module.initialise_docker()
 
-    execute(docker_command, "error: error pushing the docker image to \'{args.registry'}\'.")
+        docker_command = f'(cd {current_image} && docker build -f Dockerfile ' \
+                         f'{user_string}{group_string}' \
+                         f'-t {args.registry}/{current_image} .)'
+
+        execute(docker_command, "error: error building docker image.", False)
+
+        docker_command = f'docker push {args.registry}/{current_image}'
+
+        execute(docker_command, "error: error pushing the docker image to \'{args.registry'}\'.", False)
 
 except ExecuteException as error:
     print(error)

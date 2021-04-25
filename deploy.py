@@ -135,7 +135,7 @@ if platform.system() == "Darwin":
                         help='architecture type to deploy')
 elif platform.system() == "Linux":
     parser.add_argument('--arch',
-                        choices=['x86', 'x86_64'],
+                        choices=['x86', 'x86_64', 'armv7l'],
                         type=str,
                         default='x86_64',
                         nargs='?',

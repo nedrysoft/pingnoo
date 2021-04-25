@@ -27,7 +27,7 @@
 #include "QCustomPlot/qcustomplot.h"
 #include "chrono"
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     /**
      * @brief       The GraphLatencyLayer renders the background with the latency colours.
      *
@@ -77,6 +77,6 @@ namespace Nedrysoft::RouteAnalyser {
             static QMap<QString, QPixmap> m_buffers;
             static QMap<QString, uint64_t> m_age;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_GRAPHLATENCYLAYER_H

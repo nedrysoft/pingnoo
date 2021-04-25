@@ -28,7 +28,7 @@
 #include "Core/IContextManager.h"
 #include "CoreSpec.h"
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class IRibbonPage;
 
     /**
@@ -89,7 +89,7 @@ namespace Nedrysoft::Core {
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~IRibbonBarManager() = default;
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IRibbonBarManager, "com.nedrysoft.core.IRibbonBarManager/1.0.0")
 

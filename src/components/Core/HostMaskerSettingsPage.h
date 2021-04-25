@@ -30,7 +30,7 @@
 #include <QString>
 #include <QWidget>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class HostMaskerSettingsPageWidget;
 
     /**
@@ -110,6 +110,6 @@ namespace Nedrysoft::Core {
         private:
             HostMaskerSettingsPageWidget *m_settingsWidget;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_HOSTMASKERSETTINGSPAGE_H

@@ -26,7 +26,7 @@
 
 #include "Core/PingResult.h"
 
-namespace Nedrysoft::ICMPPingEngine {
+namespace Nedrysoft { namespace ICMPPingEngine {
     class ICMPPingEngine;
 
     /**
@@ -70,6 +70,6 @@ namespace Nedrysoft::ICMPPingEngine {
         protected:
             bool m_isRunning;                               //! Thread is running
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGTIMEOUT_H

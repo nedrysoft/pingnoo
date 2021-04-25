@@ -96,7 +96,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingItem::sampleNumber() -> unsigned long {
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingItem::lock() -> bool {
-    return m_mutex.try_lock();
+    return m_mutex.tryLock();
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingItem::unlock() -> void {

@@ -26,7 +26,7 @@
 
 #include <QWidget>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     namespace Ui {
         class ViewportRibbonGroup;
     }
@@ -104,6 +104,6 @@ namespace Nedrysoft::RouteAnalyser {
         private:
             Ui::ViewportRibbonGroup *ui;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_VIEWPORTRIBBONGROUP_H

@@ -27,7 +27,7 @@
 #include <QAction>
 #include <QPointer>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       The ActionProxy class is used to proxy actions depending on context.
      *
@@ -67,6 +67,6 @@ namespace Nedrysoft::Core {
         private:
             QPointer<QAction> m_action;                         //! Pointer to active action
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_ACTIONPROXY_H

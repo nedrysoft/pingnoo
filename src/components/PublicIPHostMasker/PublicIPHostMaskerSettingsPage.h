@@ -26,7 +26,7 @@
 
 #include "Core/IHostMaskerSettingsPage.h"
 
-namespace Nedrysoft::PublicIPHostMasker {
+namespace Nedrysoft { namespace PublicIPHostMasker {
     class PublicIPHostMaskerSettingsPageWidget;
 
     /**
@@ -78,6 +78,6 @@ namespace Nedrysoft::PublicIPHostMasker {
         public:
             PublicIPHostMaskerSettingsPageWidget *m_settingsPageWidget;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKERSETTINGSPAGE_H

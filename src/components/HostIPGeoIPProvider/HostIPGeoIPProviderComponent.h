@@ -28,9 +28,9 @@
 #include "Core/ILogger.h"
 #include "HostIPGeoIPProviderSpec.h"
 
-namespace Nedrysoft::HostIPGeoIPProvider {
+namespace Nedrysoft { namespace HostIPGeoIPProvider {
     class HostIPGeoIPProvider;
-}
+}}
 
 /**
  * @brief       The HostIPGeoIPProviderComponent class provides a hostip.com geo location lookup.
@@ -40,7 +40,7 @@ class NEDRYSOFT_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
         public Nedrysoft::ComponentSystem::IComponent {
 
     private:
-        Q_OBJECT
+    Q_OBJECT
 
         Q_PLUGIN_METADATA(IID NedrysoftComponentInterfaceIID FILE "metadata.json")
 

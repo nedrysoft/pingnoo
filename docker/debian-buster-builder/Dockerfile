@@ -27,7 +27,11 @@
 # docker push registry.fizzyade.com/debian-buster-builder
 
 FROM registry.fizzyade.com/debian-buster-base
-ENV DEBIAN_FRONTEND noninteractive
-COPY setup.sh /tmp
-RUN /tmp/setup.sh
 
+LABEL maintainer="hello@nedrysoft.com"
+
+ENV DEBIAN_FRONTEND noninteractive
+
+COPY setup.sh /tmp
+
+RUN /tmp/setup.sh

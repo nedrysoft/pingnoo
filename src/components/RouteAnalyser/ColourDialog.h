@@ -27,6 +27,7 @@
 #include <QApplication>
 #include <QColor>
 #include <QString>
+#include <functional>
 
 #if defined(__OBJC__)
 #import <AppKit/NSColorPanel.h>
@@ -34,7 +35,7 @@
 #include <QColorDialog>
 #endif
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     using ColourFunction = std::function<void(QColor colour)>;
 
     /**
@@ -91,6 +92,6 @@ namespace Nedrysoft::RouteAnalyser {
             QColorDialog *m_colourDialog;
 #endif
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_COLOURDIALOG_H

@@ -29,7 +29,7 @@
 #include <QWidget>
 #include <SettingsDialog/ISettingsPage.h>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     class LatencySettingsPageWidget;
 
     class LatencySettingsPage :
@@ -99,6 +99,6 @@ namespace Nedrysoft::RouteAnalyser {
             LatencySettingsPageWidget *m_settingsPageWidget;
 
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYSETTINGSPAGE_H

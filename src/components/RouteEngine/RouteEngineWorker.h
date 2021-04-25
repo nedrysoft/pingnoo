@@ -31,11 +31,11 @@
 #include <QObject>
 #include <QThread>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class IPingEngineFactory;
-}
+}}
 
-namespace Nedrysoft::RouteEngine {
+namespace Nedrysoft { namespace RouteEngine {
     /**
      * @brief       The worker object for route discovery.
      */
@@ -78,7 +78,7 @@ namespace Nedrysoft::RouteEngine {
 
         bool m_isRunning;
     };
-}
+}}
 
 #endif //PINGNOO_COMPONENTS_ROUTEENGINE_ROUTEENGINEWORKER_H
 

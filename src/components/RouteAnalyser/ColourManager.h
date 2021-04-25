@@ -26,7 +26,7 @@
 
 #include <QRgb>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     /**
      * @brief       The ColourManager class is a convenience class for getting the min, mid and max colours, these
      *              change according to light or dark mode.
@@ -54,6 +54,6 @@ namespace Nedrysoft::RouteAnalyser {
              */
             static auto getCriticalColour() -> QRgb;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_COLOURMANAGER_H

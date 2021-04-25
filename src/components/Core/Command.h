@@ -31,7 +31,7 @@
 #include <QObject>
 #include <QString>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class ActionProxy;
 
     /**
@@ -121,6 +121,6 @@ namespace Nedrysoft::Core {
             Nedrysoft::Core::ActionProxy *m_action;                //! The proxy action used by the UI
             QString m_id;                                          //! Unique identifier for the command
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_COMMAND_H

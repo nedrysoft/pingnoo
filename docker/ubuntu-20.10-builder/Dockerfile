@@ -27,7 +27,12 @@
 # docker push registry.fizzyade.com/ubuntu-20.10-builder
 
 FROM registry.fizzyade.com/ubuntu-20.10-base
+
+LABEL maintainer="hello@nedrysoft.com"
+
 ENV DEBIAN_FRONTEND noninteractive
+
 COPY setup.sh /tmp
+
 RUN /tmp/setup.sh
 

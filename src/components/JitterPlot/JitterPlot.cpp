@@ -73,9 +73,15 @@ auto Nedrysoft::JitterPlot::JitterPlot::widget() -> QWidget * {
 
     customPlot->xAxis->setVisible(false);
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
+    auto secondsSinceEpoch = QDateTime::currentSecsSinceEpoch();
+#else
+    auto secondsSinceEpoch = abs(QDateTime::currentDateTime().secsTo(QDateTime(QDate(1970,1,1), QTime(0, 0))));
+#endif
+
     customPlot->xAxis->setRange(
-            static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch()),
-            static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch() + viewportSize) );
+            static_cast<double>(secondsSinceEpoch),
+            static_cast<double>(secondsSinceEpoch + viewportSize) );
 
     customPlot->graph(0)->setLineStyle(QCPGraph::lsStepCenter);
     customPlot->graph(0)->setPen(QPen(Qt::black, 1));

@@ -39,7 +39,7 @@
 Q_FORWARD_DECLARE_OBJC_CLASS(NSObject);
 #endif
 
-namespace Nedrysoft::AppNap {
+namespace Nedrysoft { namespace AppNap {
     /**
      * @brief       The AppNap class Provides control over sleep mode in macOS.
      *
@@ -106,6 +106,6 @@ namespace Nedrysoft::AppNap {
             int m_count = {};
 #endif
     };
-}
+}}
 
 #endif // NEDRYSOFT_UTILS_APPNAP_H

@@ -30,7 +30,7 @@
 #include <QHBoxLayout>
 #include <QWidget>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class RibbonBarManager;
 
     /**
@@ -90,6 +90,6 @@ namespace Nedrysoft::Core {
             QHBoxLayout *m_pageLayout;
             QSpacerItem *m_spacerItem;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_RIBBONPAGE_H

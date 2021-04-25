@@ -26,7 +26,7 @@
 
 #include <QWidget>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     namespace Ui {
         class HostMaskerSettingsPageWidget;
     }
@@ -80,6 +80,6 @@ namespace Nedrysoft::Core {
 
             QList<IHostMaskerSettingsPage *> m_maskerSettingsPages;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_HOSTMASKERSETTINGSPAGEWIDGET_H

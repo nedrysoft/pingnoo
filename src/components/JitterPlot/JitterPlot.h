@@ -28,7 +28,7 @@
 
 #include "QCustomPlot/qcustomplot.h"
 
-namespace Nedrysoft::JitterPlot {
+namespace Nedrysoft { namespace JitterPlot {
     class JitterBackgroundLayer;
 
     /**
@@ -92,6 +92,6 @@ namespace Nedrysoft::JitterPlot {
             Nedrysoft::JitterPlot::JitterBackgroundLayer *m_backgroundLayer;
             QMargins m_margins;
     };
-}
+}}
 
 #endif // NEDRYSOFT_JITTERPLOT_JITTERPLOT_H

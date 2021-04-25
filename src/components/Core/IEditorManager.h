@@ -30,7 +30,7 @@
 
 #include <QObject>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class IEditor;
 
     /**
@@ -64,7 +64,7 @@ namespace Nedrysoft::Core {
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~IEditorManager() = default;
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IEditorManager, "com.nedrysoft.core.IEditorManager/1.0.0")
 

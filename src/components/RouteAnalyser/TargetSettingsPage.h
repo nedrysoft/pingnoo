@@ -29,7 +29,7 @@
 #include <QWidget>
 #include <SettingsDialog/ISettingsPage.h>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     class TargetSettingsPageWidget;
 
     class TargetSettingsPage :
@@ -98,6 +98,6 @@ namespace Nedrysoft::RouteAnalyser {
         private:
             TargetSettingsPageWidget *m_settingsPageWidget;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETSETTINGSPAGE_H

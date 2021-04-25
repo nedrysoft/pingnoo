@@ -27,7 +27,11 @@
 # docker push registry.fizzyade.com/ubuntu-16.04-base
 
 FROM ubuntu:16.04
+
+LABEL maintainer="hello@nedrysoft.com"
+
 ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get update && apt-get install -y && \
     apt-get install -y apt-utils software-properties-common && \
     add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
@@ -81,4 +85,3 @@ RUN apt-get update && apt-get install -y && \
     ruby-dev \
     fuse \
     appstream
-

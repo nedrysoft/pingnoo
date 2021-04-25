@@ -31,7 +31,7 @@
 #include <QAction>
 #include <QObject>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       ICommand interface
      *
@@ -89,7 +89,7 @@ namespace Nedrysoft::Core {
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~ICommand() = default;
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::ICommand, "com.nedrysoft.core.ICommand/1.0.0")
 

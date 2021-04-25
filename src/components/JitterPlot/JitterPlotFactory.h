@@ -29,7 +29,7 @@
 
 #include <QList>
 
-namespace Nedrysoft::JitterPlot {
+namespace Nedrysoft { namespace JitterPlot {
     /**
      * @brief       Factory class for jitter plots
      */
@@ -65,6 +65,6 @@ namespace Nedrysoft::JitterPlot {
         private:
             QList<Nedrysoft::RouteAnalyser::IPlot *> m_plots;
     };
-}
+}}
 
 #endif // NEDRYSOFT_JITTERPLOT_JITTERPLOTFACTORY_H

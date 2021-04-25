@@ -27,7 +27,7 @@
 #include "Core/IPingEngine.h"
 #include "Core/IPingEngineFactory.h"
 
-namespace Nedrysoft::ICMPAPIPingEngine {
+namespace Nedrysoft { namespace ICMPAPIPingEngine {
     class ICMPAPIPingEngineData;
 
     class ICMPPingItem;
@@ -199,6 +199,6 @@ namespace Nedrysoft::ICMPAPIPingEngine {
         protected:
             std::shared_ptr<ICMPAPIPingEngineData> d;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGENGINE_H

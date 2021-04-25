@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #
 # Copyright (C) 2021 Adrian Carpenter
@@ -55,8 +55,6 @@ chmod +x cmake-3.20.0-rc2-linux-x86_64.sh
 
 # cleanup
 
-rm -rf /tmp/git-2.31.0
-rm -rf /tmp/Python-3.9.1
-rm -rf /tmp/cmake-3.20.0-rc2-linux-x86_64.sh
+rm -rf /tmp/*
 
 

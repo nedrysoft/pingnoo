@@ -27,7 +27,7 @@
 #include "ComponentSystem/IInterface.h"
 #include "../RouteAnalyserSpec.h"
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     /**
      * @brief       The IPlot interface provides additional plots to the main route analyser.
      */
@@ -75,7 +75,7 @@ namespace Nedrysoft::RouteAnalyser {
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~IPlot() = default;
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::RouteAnalyser::IPlot, "com.nedrysoft.routeanalyser.IPlot/1.0.0")
 

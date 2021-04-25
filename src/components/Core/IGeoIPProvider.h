@@ -28,8 +28,9 @@
 #include "CoreSpec.h"
 
 #include <QHostAddress>
+#include <functional>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     using GeoFunction = std::function<void(const QString &, const QVariantMap &)>;
 
     /**
@@ -97,7 +98,7 @@ namespace Nedrysoft::Core {
              */
             Q_SIGNAL void result(const QString host, const QVariantMap result);
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IGeoIPProvider, "com.nedrysoft.core.IGeoIPProvider/1.0.0")
 

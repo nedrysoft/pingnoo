@@ -26,7 +26,7 @@
 
 #include <QDialog>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     namespace Ui {
         class AboutDialog;
     }
@@ -64,6 +64,6 @@ namespace Nedrysoft::Core {
         private:
             Ui::AboutDialog *ui;                    //! The generated ui class for the dialog
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_ABOUTDIALOG_H

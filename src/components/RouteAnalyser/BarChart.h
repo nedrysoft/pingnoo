@@ -31,7 +31,7 @@
 
 #pragma warning(pop)
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     /**
      * @brief       The BarChart class is a subclass of QCPBars which clips the chart to a rounded rectangle.
      */
@@ -57,6 +57,6 @@ namespace Nedrysoft::RouteAnalyser {
              */
             virtual void draw(QCPPainter *painter);
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_BARCHART_H

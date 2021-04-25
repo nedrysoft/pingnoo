@@ -29,7 +29,7 @@
 
 #include <QMargins>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     class IPlot;
 
     /**
@@ -54,7 +54,7 @@ namespace Nedrysoft::RouteAnalyser {
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~IPlotFactory() = default;
     };
-};
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::RouteAnalyser::IPlotFactory, "com.nedrysoft.routeanalyser.IPlotFactory/1.0.0")
 

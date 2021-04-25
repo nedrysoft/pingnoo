@@ -28,11 +28,11 @@
 
 #include <QObject>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class IPingTarget;
-}
+}}
 
-namespace Nedrysoft::ICMPAPIPingEngine {
+namespace Nedrysoft { namespace ICMPAPIPingEngine {
     /**
      * @brief       The ICMPAPIPingResult is an internal class used by this ping engine that allows the sample number
      *              and target fields to be set.  It is required because the ping engine makes use of the singleShot
@@ -68,6 +68,6 @@ namespace Nedrysoft::ICMPAPIPingEngine {
          */
         void setTarget(Nedrysoft::Core::IPingTarget *target);
     };
-}
+}}
 
 #endif //PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGRESULT_H

@@ -28,7 +28,7 @@
 #include <QString>
 #include <QWidget>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     namespace Ui {
         class TargetSettingsPageWidget;
     }
@@ -70,6 +70,6 @@ namespace Nedrysoft::RouteAnalyser {
         private:
             Ui::TargetSettingsPageWidget *ui;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETSETTINGSPAGEWIDGET_H

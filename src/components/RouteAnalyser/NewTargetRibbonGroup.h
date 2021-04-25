@@ -30,19 +30,19 @@
 
 class QMenu;
 
-namespace Nedrysoft::Ribbon {
+namespace Nedrysoft { namespace Ribbon {
     class RibbonLineEdit;
-}
+}}
 
-namespace Nedrysoft::ThemeSupport {
+namespace Nedrysoft { namespace ThemeSupport {
     class ThemeSupport;
-}
+}}
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class IPingEngineFactory;
-}
+}}
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     namespace Ui {
         class NewTargetRibbonGroup;
     }
@@ -195,6 +195,6 @@ namespace Nedrysoft::RouteAnalyser {
             QAction * m_importFavouritesAction;
             QAction * m_exportFavouritesAction;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_NEWTARGETRIBBONGROUP_H

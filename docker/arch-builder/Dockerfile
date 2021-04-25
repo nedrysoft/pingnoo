@@ -27,6 +27,9 @@
 # docker push registry.fizzyade.com/arch-builder
 
 FROM archlinux
+
+LABEL maintainer="hello@nedrysoft.com"
+
 RUN pacman --noconfirm -Syu
 RUN pacman --noconfirm -Fy
 RUN pacman --noconfirm -S cmake \
@@ -39,6 +42,7 @@ RUN pacman --noconfirm -S cmake \
     dbus \
     python3 \
     python-pip
+
 RUN pip install git-archive-all
 
 ARG DOCKER_USER=teamcity

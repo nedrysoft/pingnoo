@@ -28,7 +28,7 @@
 #include <QString>
 #include <QWidget>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     namespace Ui {
         class LatencySettingsPageWidget;
     }
@@ -72,6 +72,6 @@ namespace Nedrysoft::RouteAnalyser {
 
             QList<QMetaObject::Connection> m_connections;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYSETTINGSPAGEWIDGET_H

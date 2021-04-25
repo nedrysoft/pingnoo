@@ -29,7 +29,7 @@
 
 #include <spdlog/spdlog.h>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       The ILogger class is used to allow spdlog to be managed in the main application.
      */
@@ -50,7 +50,7 @@ namespace Nedrysoft::Core {
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~ILogger() = default;
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::ILogger, "com.nedrysoft.core.ILogger/1.0.0")
 

@@ -29,7 +29,7 @@
 #include "RegExHostMaskerSpec.h"
 #include <QSet>
 
-namespace Nedrysoft::RegExHostMasker {
+namespace Nedrysoft { namespace RegExHostMasker {
     class RegExHostMaskerItem {
         public:
             QSet<int> m_hops;
@@ -183,7 +183,7 @@ namespace Nedrysoft::RegExHostMasker {
             QList<RegExHostMaskerItem> m_maskList;
 
     };
-}
+}}
 
 Q_DECLARE_METATYPE(Nedrysoft::RegExHostMasker::RegExHostMaskerItem)
 

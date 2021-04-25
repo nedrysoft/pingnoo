@@ -29,7 +29,7 @@
 
 #include <QMap>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class RibbonPage;
 
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
@@ -124,6 +124,6 @@ namespace Nedrysoft::Core {
             QList<RibbonPageVisibility> m_visibleList;
 #endif
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_RIBBONBARMANAGER_H

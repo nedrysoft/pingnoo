@@ -28,7 +28,7 @@
 #include "RouteAnalyserEditor.h"
 #include "RouteAnalyserSpec.h"
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     class NewTargetRibbonGroup;
     class LatencyRibbonGroup;
     class LatencySettings;
@@ -36,11 +36,11 @@ namespace Nedrysoft::RouteAnalyser {
     class TargetSettings;
     class TargetSettingsPage;
     class ViewportRibbonGroup;
-}
+}}
 
-namespace Nedrysoft::AppNap {
+namespace Nedrysoft { namespace AppNap {
     class AppNap;
-}
+}}
 
 /**
  * @brief       The RouteAnalyserComponent class provides the route analysis feature to the application.

@@ -26,7 +26,7 @@
 
 #include <QJsonObject>
 
-namespace Nedrysoft::IPAPIGeoIPProvider {
+namespace Nedrysoft { namespace IPAPIGeoIPProvider {
     /**
      * @brief       The Cache class provides a basic cache for IP results to prevent too many requests being made.
      */
@@ -59,6 +59,6 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
              */
             auto find(const QString &name, QJsonObject &object) -> bool;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_IPAPIGEOIPPROVIDER_CACHE_H

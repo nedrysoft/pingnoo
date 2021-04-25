@@ -27,7 +27,10 @@
 # docker push registry.fizzyade.com/ubuntu-20.04-builder
 
 FROM registry.fizzyade.com/ubuntu-20.04-base
+
 ENV DEBIAN_FRONTEND noninteractive
+
 COPY setup.sh /tmp
+
 RUN /tmp/setup.sh
 

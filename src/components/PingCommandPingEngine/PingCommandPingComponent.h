@@ -27,9 +27,9 @@
 #include "ComponentSystem/IComponent.h"
 #include "PingCommandPingEngineSpec.h"
 
-namespace Nedrysoft::PingCommandPingEngine {
+namespace Nedrysoft { namespace PingCommandPingEngine {
     class PingCommandPingEngineFactory;
-}
+}}
 
 /**
  * @brief       The PingCommandPingComponent class provides a ping engine using the ping executable, this

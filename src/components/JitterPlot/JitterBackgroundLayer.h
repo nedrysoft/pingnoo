@@ -27,7 +27,7 @@
 #include "QCustomPlot/qcustomplot.h"
 #include "chrono"
 
-namespace Nedrysoft::JitterPlot {
+namespace Nedrysoft { namespace JitterPlot {
     /**
      * @brief       The GraphLatencyLayer renders the background with the latency colours.
      *
@@ -64,6 +64,6 @@ namespace Nedrysoft::JitterPlot {
             double m_maximumJitter;
             QPixmap m_bufferedImage;
     };
-}
+}}
 
 #endif // NEDRYSOFT_JITTERPLOT_JITTERBACKGROUNDLAYER_H

@@ -28,7 +28,7 @@
 #include "Core/IContextManager.h"
 #include "CoreSpec.h"
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       The IStatusBarManager describes a manager for status bars.
      *
@@ -54,7 +54,7 @@ namespace Nedrysoft::Core {
                 return ComponentSystem::getObject<IStatusBarManager>();
             }
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IStatusBarManager, "com.nedrysoft.core.IStatusBarManager/1.0.0")
 

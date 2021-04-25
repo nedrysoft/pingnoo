@@ -54,7 +54,7 @@
 #define NEDRYSOFT_ICMPSOCKET_DLLSPEC Q_DECL_IMPORT
 #endif
 
-namespace Nedrysoft::ICMPSocket {
+namespace Nedrysoft { namespace ICMPSocket {
     enum IPVersion {
         V4 = 4,
         V6 = 6
@@ -177,6 +177,6 @@ namespace Nedrysoft::ICMPSocket {
             Nedrysoft::ICMPSocket::IPVersion m_version;
             int m_ttl;
     };
-}
+}}
 
 #endif // NEDRYSOFT_ICMPSOCKET_ICMPSOCKET_H

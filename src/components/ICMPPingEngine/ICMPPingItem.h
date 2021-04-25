@@ -28,7 +28,7 @@
 #include <QObject>
 #include <chrono>
 
-namespace Nedrysoft::ICMPPingEngine {
+namespace Nedrysoft { namespace ICMPPingEngine {
     class ICMPPingTarget;
 
     /**
@@ -179,6 +179,6 @@ namespace Nedrysoft::ICMPPingEngine {
 
             QMutex m_mutex;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGITEM_H

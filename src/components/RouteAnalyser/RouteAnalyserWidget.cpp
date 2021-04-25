@@ -430,10 +430,16 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
                     "\n" +
                     locale.dateFormat(QLocale::ShortFormat) );
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
+            auto secondsSinceEpoch = QDateTime::currentSecsSinceEpoch();
+#else
+            auto secondsSinceEpoch = abs(QDateTime::currentDateTime().secsTo(QDateTime(QDate(1970,1,1), QTime(0, 0))));
+#endif
+
             customPlot->xAxis->setTicker(dateTicker);
             customPlot->xAxis->setRange(
-                    static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch()),
-                    static_cast<double>(QDateTime::currentDateTime().toSecsSinceEpoch() + m_viewportSize) );
+                    static_cast<double>(secondsSinceEpoch),
+                    static_cast<double>(secondsSinceEpoch + m_viewportSize) );
 
             customPlot->graph(RoundTripGraph)->setLineStyle(QCPGraph::lsStepCenter);
 

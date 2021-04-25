@@ -27,7 +27,7 @@
 #include <QDialog>
 #include <QVariantMap>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     namespace Ui {
         class FavouriteEditorDialog;
     }
@@ -69,6 +69,6 @@ namespace Nedrysoft::RouteAnalyser {
 
             QVariantMap m_parametersMap;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_FAVOURITEEDITORDIALOG_H

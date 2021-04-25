@@ -27,7 +27,11 @@
 # docker push registry.fizzyade.com/fedora-33-builder
 
 FROM fedora:33
+
+LABEL maintainer="hello@nedrysoft.com"
+
 RUN dnf -y group install "C Development Tools and Libraries"
+
 RUN dnf -y install \
     cmake \
     git \
@@ -44,6 +48,7 @@ RUN dnf -y install \
     ruby \
     ruby-devel \
     qt5-qtbase-devel
+
 RUN ln -s /usr/lib64/qt5/bin/lrelease /bin/lrelease
 
 

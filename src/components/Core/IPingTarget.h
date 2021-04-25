@@ -30,7 +30,7 @@
 
 #include <QHostAddress>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class IPingEngine;
 
     /**
@@ -96,7 +96,7 @@ namespace Nedrysoft::Core {
              */
             virtual auto ttl() -> uint16_t = 0;
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingTarget, "com.nedrysoft.core.IPingTarget/1.0.0")
 

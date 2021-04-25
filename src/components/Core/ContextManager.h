@@ -30,7 +30,7 @@
 #include <QObject>
 #include <QString>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       The ContextManager class is used to manage the current application context.
      *
@@ -109,6 +109,6 @@ namespace Nedrysoft::Core {
             int m_nextContextId;                                //! The next available context id available to register
             QMap<QString, int> m_contextIds;                    //! The list of registered context ids
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_CONTEXTMANAGER_H

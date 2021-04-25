@@ -30,7 +30,7 @@
 #include <QObject>
 #include <chrono>
 
-namespace Nedrysoft::ICMPPingEngine {
+namespace Nedrysoft { namespace ICMPPingEngine {
     class ICMPPingEngine;
     class ICMPPingTarget;
     class ICMPPingItem;
@@ -113,6 +113,6 @@ namespace Nedrysoft::ICMPPingEngine {
         protected:
             bool m_isRunning;                                                 //! Thread is running
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGTRANSMITTER_H

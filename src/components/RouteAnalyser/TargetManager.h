@@ -29,7 +29,7 @@
 #include <QJsonObject>
 #include <QObject>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     enum class FavouriteField {
         Host,
         Name,
@@ -187,6 +187,6 @@ namespace Nedrysoft::RouteAnalyser {
             QList<QVariantMap> m_favouriteList;
             QList<QVariantMap> m_recentsList;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETMANAGER_H
