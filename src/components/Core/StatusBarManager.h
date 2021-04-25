@@ -26,7 +26,7 @@
 
 #include "IStatusBarManager.h"
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       The StatusBarManager class provides an IStatusBarManager implementation.
      */
@@ -39,6 +39,6 @@ namespace Nedrysoft::Core {
              */
             StatusBarManager();
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_STATUSBARMANAGER_H

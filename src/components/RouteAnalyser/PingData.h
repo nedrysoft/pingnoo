@@ -37,7 +37,7 @@ class QTableView;
 
 class QStandardItemModel;
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     class RouteItemTableDelegate;
     class IPlot;
 
@@ -287,7 +287,7 @@ namespace Nedrysoft::RouteAnalyser {
 
             QList<Nedrysoft::RouteAnalyser::IPlot *> m_plots;   //! The additional plots
     };
-}
+}}
 
 Q_DECLARE_METATYPE(Nedrysoft::RouteAnalyser::PingData)
 Q_DECLARE_METATYPE(Nedrysoft::RouteAnalyser::PingData *)

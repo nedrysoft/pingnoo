@@ -30,7 +30,7 @@
 
 class QTableView;
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     class PingData;
 
     /**
@@ -229,6 +229,6 @@ namespace Nedrysoft::RouteAnalyser {
 
             bool m_useGradient;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTETABLEITEMDELEGATE_H

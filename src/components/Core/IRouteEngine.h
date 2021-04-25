@@ -31,7 +31,7 @@
 #include <QHostAddress>
 #include <QObject>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     typedef QList<QHostAddress> RouteList;
     class IPingEngineFactory;
 
@@ -71,7 +71,7 @@ namespace Nedrysoft::Core {
              */
             Q_SIGNAL void result(const QHostAddress hostAddress, const Nedrysoft::Core::RouteList result);
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IRouteEngine, "com.nedrysoft.core.IRouteEngine/1.0.0")
 

@@ -31,7 +31,7 @@
 #include <QObject>
 #include <QString>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class Command;
 
     /**
@@ -156,6 +156,6 @@ namespace Nedrysoft::Core {
             QMap<QString, Command *> m_commandMap;                           //! Map containing commands registered in this manager
             QMap<QString, Nedrysoft::Core::Menu *> m_menuMap;                //! Map containing all menus registered in this manager
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_COMMANDMANAGER_H

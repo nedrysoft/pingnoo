@@ -27,7 +27,7 @@
 #include <QJsonObject>
 #include <QSqlDatabase>
 
-namespace Nedrysoft::HostIPGeoIPProvider {
+namespace Nedrysoft { namespace HostIPGeoIPProvider {
     /**
      * @brief       The Cache class provides a basic cache for IP results to prevent too many requests being made.
      */
@@ -60,6 +60,6 @@ namespace Nedrysoft::HostIPGeoIPProvider {
              */
             auto find(const QString &name, QJsonObject &object) -> bool;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_HOSTIPGEOIPPROVIDER_CACHE_H

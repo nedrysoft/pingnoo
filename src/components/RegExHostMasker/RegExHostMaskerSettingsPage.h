@@ -26,7 +26,7 @@
 
 #include "Core/IHostMaskerSettingsPage.h"
 
-namespace Nedrysoft::RegExHostMasker {
+namespace Nedrysoft { namespace RegExHostMasker {
     class RegExHostMaskerSettingsPageWidget;
 
     /**
@@ -78,6 +78,6 @@ namespace Nedrysoft::RegExHostMasker {
             private:
                 RegExHostMaskerSettingsPageWidget *m_settingsPageWidget;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_REGEXHOSTMASKER_REGEXHOSTMASKERSETTINGSPAGE_H

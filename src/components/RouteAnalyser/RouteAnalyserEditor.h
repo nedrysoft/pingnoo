@@ -32,11 +32,11 @@
 
 #include <QObject>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class IPingEngineFactory;
-}
+}}
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     class RouteAnalyserComponent;
     class RouteAnalyserWidget;
 
@@ -194,6 +194,6 @@ namespace Nedrysoft::RouteAnalyser {
             double m_viewportEnd;
             QMetaObject::Connection m_dataChangedConnection;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTEANALYSEREDITOR_H

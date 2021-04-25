@@ -28,7 +28,7 @@
 #include <QStandardItemModel>
 #include "FavouritesSortProxyFilterModel.h"
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     namespace Ui {
         class OpenFavouriteDialog;
     }
@@ -94,5 +94,6 @@ namespace Nedrysoft::RouteAnalyser {
             FavouritesSortProxyFilterModel m_filterModel;
             QVariantMap m_selectedItem;
     };
-}
+}}
+
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_OPENFAVOURITEDIALOG_H

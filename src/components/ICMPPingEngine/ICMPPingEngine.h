@@ -31,7 +31,7 @@
 #include <memory>
 #include <chrono>
 
-namespace Nedrysoft::ICMPPingEngine {
+namespace Nedrysoft { namespace ICMPPingEngine {
     class ICMPPingEngineData;
     class ICMPPingTransitter;
     class ICMPPingItem;
@@ -284,6 +284,6 @@ namespace Nedrysoft::ICMPPingEngine {
         protected:
             std::shared_ptr<ICMPPingEngineData> d;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGENGINE_H

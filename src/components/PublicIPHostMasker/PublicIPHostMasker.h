@@ -33,7 +33,7 @@
 class QEventLoop;
 class QNetworkAccessManager;
 
-namespace Nedrysoft::PublicIPHostMasker {
+namespace Nedrysoft { namespace PublicIPHostMasker {
     class PublicIPHostMaskerSettingsPageWidget;
 
     /**
@@ -133,6 +133,6 @@ namespace Nedrysoft::PublicIPHostMasker {
             QNetworkAccessManager *m_networkManager;
             bool m_enabled;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKER_H

@@ -26,7 +26,7 @@
 
 #include <QSortFilterProxyModel>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     /**
      * @brief       Implements a proxy filter model using rapidfuzz for string matching
      */
@@ -57,6 +57,6 @@ namespace Nedrysoft::RouteAnalyser {
         private:
             QString m_filterText;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_FAVOURITESSORTPROXYFILTERMODEL_H

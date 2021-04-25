@@ -31,7 +31,7 @@
 #include <cmath>
 #include <cstdint>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class IPingTarget;
 
     /**
@@ -135,6 +135,6 @@ namespace Nedrysoft::Core {
             std::chrono::system_clock::time_point m_requestTime = {};
             Nedrysoft::Core::IPingTarget *m_target;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_PINGRESULT_H

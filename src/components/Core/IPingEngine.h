@@ -32,7 +32,7 @@
 #include <QHostAddress>
 #include <chrono>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class IPingTarget;
 
     /**
@@ -162,7 +162,7 @@ namespace Nedrysoft::Core {
              */
             virtual auto targets() -> QList<Nedrysoft::Core::IPingTarget *> = 0;
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingEngine, "com.nedrysoft.core.IPingEngine/1.0.0")
 

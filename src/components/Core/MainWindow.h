@@ -30,15 +30,15 @@
 #include <QAction>
 #include <QMainWindow>
 
-namespace Nedrysoft::Core::Ui {
+namespace Nedrysoft { namespace Core { namespace Ui {
 
-}
+}}}
 
-namespace Nedrysoft::SettingsDialog {
+namespace Nedrysoft { namespace SettingsDialog {
     class SettingsDialog;
-}
+}}
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     QT_BEGIN_NAMESPACE
     namespace Ui { class MainWindow; }
     QT_END_NAMESPACE
@@ -148,6 +148,6 @@ namespace Nedrysoft::Core {
             QLabel *m_timeInfoLabel;
             */
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_MAINWINDOW_H

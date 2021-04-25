@@ -26,7 +26,7 @@
 
 #include <QScrollArea>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     /**
      * @brief       The PlotScrollArea class is a thin wrapper around QScrollArea.  It's sole purpose is o emit the
      *              didScroll() signal when the view is scrolled, this allows the editor widget to re-plot graphs
@@ -54,6 +54,6 @@ namespace Nedrysoft::RouteAnalyser {
              */
             auto scrollContentsBy(int dx, int dy) -> void override;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_PLOTSCROLLAREA_H

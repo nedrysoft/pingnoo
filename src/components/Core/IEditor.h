@@ -29,7 +29,7 @@
 
 #include <QWidget>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       The IEditor interface defines the contract of an editor
      *
@@ -79,7 +79,7 @@ namespace Nedrysoft::Core {
              */
             virtual auto deactivated() -> void = 0;
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IEditor, "com.nedrysoft.core.IEditor/1.0.0")
 

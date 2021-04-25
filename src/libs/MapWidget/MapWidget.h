@@ -35,7 +35,7 @@
 
 class QQuickWidget;
 
-namespace Nedrysoft::MapWidget {
+namespace Nedrysoft { namespace MapWidget {
     /**
      * @brief       THe MapWidget is a bridge from the QML map widget to a QWidget.
      */
@@ -59,6 +59,6 @@ namespace Nedrysoft::MapWidget {
             QQuickWidget *m_mapWidget;
             QGridLayout *m_mapLayout;
     };
-}
+}}
 
 #endif // NEDRYSOFT_MAPWIDGET_MAPWIDGET_H

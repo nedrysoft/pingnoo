@@ -29,7 +29,7 @@
 
 #include <QObject>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     /**
      * @brief       The TargetSettings class is used as the central location for target settings.
      */
@@ -153,6 +153,6 @@ namespace Nedrysoft::RouteAnalyser {
             Nedrysoft::Core::IPVersion m_defaultIPVersion;
 
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETSETTINGS_H

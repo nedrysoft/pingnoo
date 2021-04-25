@@ -33,7 +33,7 @@
 #include <QObject>
 #include <QString>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       The Menu class provides a QMenu based implementation of IMenu.
      *
@@ -268,6 +268,6 @@ namespace Nedrysoft::Core {
             QMenu *m_menu;
             QList<GroupItem> m_groupList;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_MENU_H

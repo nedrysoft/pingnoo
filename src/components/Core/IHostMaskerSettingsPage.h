@@ -29,7 +29,7 @@
 
 #include <QWidget>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       The ISettingsPage interface defines a settings page.
      */
@@ -69,7 +69,7 @@ namespace Nedrysoft::Core {
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~IHostMaskerSettingsPage() = default;
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IHostMaskerSettingsPage, "com.nedrysoft.core.IHostMaskerSettingsPage/1.0.0")
 

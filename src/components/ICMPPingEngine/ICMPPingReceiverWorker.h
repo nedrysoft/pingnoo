@@ -30,11 +30,11 @@
 #include <QHostAddress>
 #include <QThread>
 
-namespace Nedrysoft::ICMPSocket {
+namespace Nedrysoft { namespace ICMPSocket {
     class ICMPSocket;
-}
+}}
 
-namespace Nedrysoft::ICMPPingEngine {
+namespace Nedrysoft { namespace ICMPPingEngine {
     class ICMPPingEngine;
     class ICMPPingReceiverWorker;
 
@@ -102,7 +102,7 @@ namespace Nedrysoft::ICMPPingEngine {
 
             bool m_isRunning;
     };
-}
+}}
 
 Q_DECLARE_METATYPE(std::chrono::time_point<std::chrono::high_resolution_clock>)
 

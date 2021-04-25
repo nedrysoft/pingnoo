@@ -26,7 +26,7 @@
 
 #include "QCustomPlot/qcustomplot.h"
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     /**
      * @brief       The QCPAxisTicker is a QCustomPlot Axis ticker class that displays milliseconds.
      */
@@ -46,6 +46,6 @@ namespace Nedrysoft::RouteAnalyser {
              */
             auto getTickLabel(double tick, const QLocale &locale, QChar formatChar, int precision) -> QString override;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_CPAXISTICKERMS_H

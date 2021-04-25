@@ -27,9 +27,9 @@
 #include "ComponentSystem/IComponent.h"
 #include "ICMPPingEngineSpec.h"
 
-namespace Nedrysoft::ICMPPingEngine {
+namespace Nedrysoft { namespace ICMPPingEngine {
     class ICMPPingEngineFactory;
-}
+}}
 
 /**
  * @brief       The ICMPPingComponent class provides a socket based ICMP ping engine for all platforms.

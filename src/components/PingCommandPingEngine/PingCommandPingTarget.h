@@ -32,7 +32,7 @@
 #include <thread>
 #endif
 
-namespace Nedrysoft::PingCommandPingEngine {
+namespace Nedrysoft { namespace PingCommandPingEngine {
     class PingCommandPingEngine;
 
     /**
@@ -149,6 +149,6 @@ namespace Nedrysoft::PingCommandPingEngine {
             int m_ttl;
             QHostAddress m_hostAddress;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGTARGET_H

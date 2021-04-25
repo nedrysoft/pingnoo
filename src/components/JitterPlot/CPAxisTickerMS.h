@@ -26,7 +26,7 @@
 
 #include "QCustomPlot/qcustomplot.h"
 
-namespace Nedrysoft::JitterPlot {
+namespace Nedrysoft { namespace JitterPlot {
     /**
      * @brief       The QCPAxisTicker is a QCustomPlot Axis ticker class that displays milliseconds.
      */
@@ -46,6 +46,6 @@ namespace Nedrysoft::JitterPlot {
              */
             auto getTickLabel(double tick, const QLocale &locale, QChar formatChar, int precision) -> QString override;
     };
-}
+}}
 
 #endif // NEDRYSOFT_JITTERPLOT_CPAXISTICKERMS_H

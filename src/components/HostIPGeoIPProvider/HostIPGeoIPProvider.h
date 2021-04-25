@@ -31,7 +31,7 @@
 #include <QObject>
 #include <QVariantMap>
 
-namespace Nedrysoft::HostIPGeoIPProvider {
+namespace Nedrysoft { namespace HostIPGeoIPProvider {
     class Cache;
     /**
      * @brief       The HostIPGeoIPProvider class provides a geo lookup using hostip.com.
@@ -83,6 +83,6 @@ namespace Nedrysoft::HostIPGeoIPProvider {
     private:
             Nedrysoft::HostIPGeoIPProvider::Cache *m_cache;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDER_H

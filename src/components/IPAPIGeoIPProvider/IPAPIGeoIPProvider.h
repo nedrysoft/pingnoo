@@ -32,7 +32,7 @@
 #include <QObject>
 #include <QVariantMap>
 
-namespace Nedrysoft::IPAPIGeoIPProvider {
+namespace Nedrysoft { namespace IPAPIGeoIPProvider {
     class Cache;
 
     /**
@@ -88,6 +88,6 @@ namespace Nedrysoft::IPAPIGeoIPProvider {
         private:
             Nedrysoft::IPAPIGeoIPProvider::Cache *m_cache;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_IPAPIGEOIPPROVIDER_IPAPIGEOIPROVIDER_H

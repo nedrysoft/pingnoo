@@ -31,7 +31,7 @@
 #include <QMainWindow>
 #include <QObject>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * IP version enumeration
      */
@@ -39,9 +39,9 @@ namespace Nedrysoft::Core {
             V4 = 4,
             V6 = 6
     };
-}
+}}
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       The ICore interface is the root component for the application.
      *
@@ -121,7 +121,7 @@ namespace Nedrysoft::Core {
 
         return nullptr;
     }
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::ICore, "com.nedrysoft.core.ICore/1.0.0")
 Q_DECLARE_METATYPE(Nedrysoft::Core::IPVersion);

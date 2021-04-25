@@ -26,7 +26,7 @@
 
 #include <QTabWidget>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       The EditorManagerTabWidget provides a tab editor which has text on the background
      *              when no tabs are open.
@@ -61,6 +61,6 @@ namespace Nedrysoft::Core {
             QString m_text;
             int m_openSansRegular;
     };
-}
+}}
 
 #endif //PINGNOO_COMPONENTS_CORE_EDITORMANAGERTABWIDGET_H

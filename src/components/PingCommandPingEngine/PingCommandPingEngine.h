@@ -30,7 +30,7 @@
 
 #include <chrono>
 
-namespace Nedrysoft::PingCommandPingEngine {
+namespace Nedrysoft { namespace PingCommandPingEngine {
     class PingCommandPingTarget;
 
     /**
@@ -201,6 +201,6 @@ namespace Nedrysoft::PingCommandPingEngine {
 
             std::chrono::milliseconds m_interval;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGENGINE_H

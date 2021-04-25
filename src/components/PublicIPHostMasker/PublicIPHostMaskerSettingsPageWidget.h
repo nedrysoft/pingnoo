@@ -26,7 +26,7 @@
 
 #include <QWidget>
 
-namespace Nedrysoft::PublicIPHostMasker {
+namespace Nedrysoft { namespace PublicIPHostMasker {
     namespace Ui {
         class PublicIPHostMaskerSettingsPageWidget;
     }
@@ -78,6 +78,6 @@ namespace Nedrysoft::PublicIPHostMasker {
             Ui::PublicIPHostMaskerSettingsPageWidget *ui;
             bool m_loadingConfiguration;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKERSETTINGSPAGEWIDGET_H

@@ -32,7 +32,7 @@
 #include <QString>
 #include <random>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       The Core class is the root component for the application.
      *
@@ -112,6 +112,6 @@ namespace Nedrysoft::Core {
 
             std::mt19937 *m_randomGenerator;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_CORE_H

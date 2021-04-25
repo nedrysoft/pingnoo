@@ -28,10 +28,10 @@
 #include "PublicIPHostMasker.h"
 #include "PublicIPHostMaskerSpec.h"
 
-namespace Nedrysoft::PublicIPHostMasker {
+namespace Nedrysoft { namespace PublicIPHostMasker {
     class PublicIPHostMasker;
     class PublicIPHostMaskerSettingsPage;
-}
+}}
 
 
 /**

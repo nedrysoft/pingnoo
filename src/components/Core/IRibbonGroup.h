@@ -27,7 +27,7 @@
 #include "ComponentSystem/IInterface.h"
 #include "CoreSpec.h"
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       The IRibbonGroup interface describes a group of the ribbon bar.
      *
@@ -39,7 +39,7 @@ namespace Nedrysoft::Core {
         private:
             Q_OBJECT
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IRibbonGroup, "com.nedrysoft.core.IRibbonGroup/1.0.0")\
 

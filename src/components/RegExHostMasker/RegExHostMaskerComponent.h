@@ -27,10 +27,10 @@
 #include "RegExHostMaskerSpec.h"
 #include "ComponentSystem/IComponent.h"
 
-namespace Nedrysoft::RegExHostMasker {
+namespace Nedrysoft { namespace RegExHostMasker {
     class RegExHostMasker;
     class RegExHostMaskerSettingsPage;
-}
+}}
 
 /**
  * @brief       The RegExHostMaskerComponent class provides a host masker using a regular expression.

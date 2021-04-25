@@ -29,7 +29,7 @@
 
 class QPaintEvent;
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     /**
      * @brief       The LatencyWidget is a widget that draws text in a rounded rectangle.
      */
@@ -118,6 +118,6 @@ namespace Nedrysoft::RouteAnalyser {
             QColor m_colour;
             QString m_text;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYWIDGET_H

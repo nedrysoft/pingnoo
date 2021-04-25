@@ -30,7 +30,7 @@
 
 #include <memory>
 
-namespace Nedrysoft::ICMPPingEngine {
+namespace Nedrysoft { namespace ICMPPingEngine {
     class ICMPPingEngineFactoryData;
     class ICMPPingEngine;
 
@@ -128,7 +128,7 @@ namespace Nedrysoft::ICMPPingEngine {
         protected:
             std::shared_ptr<ICMPPingEngineFactoryData> d;
     };
-}
+}}
 
 
 #endif // PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGENGINEFACTORY_H

@@ -30,7 +30,7 @@
 #include <QAbstractSocket>
 #include <QString>
 
-namespace Nedrysoft::Utils {
+namespace Nedrysoft { namespace Utils {
     /**
      * @brief       Convert 16 bit words to 32 bit.
      *
@@ -87,6 +87,6 @@ namespace Nedrysoft::Utils {
      * @returns     the interval as a string
      */
     auto intervalToString(double value) -> QString;
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_UTILS_H

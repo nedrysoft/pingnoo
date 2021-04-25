@@ -31,7 +31,7 @@
 class QTreeWidgetItem;
 class QCheckBox;
 
-namespace Nedrysoft::RegExHostMasker {
+namespace Nedrysoft { namespace RegExHostMasker {
     namespace Ui {
         class RegExHostMaskerSettingsPageWidget;
     }
@@ -152,6 +152,6 @@ namespace Nedrysoft::RegExHostMasker {
 
             bool m_loadingConfiguration;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_REGEXHOSTMASKER_REGEXHOSTMASKERSETTINGSPAGEWIDGET_H

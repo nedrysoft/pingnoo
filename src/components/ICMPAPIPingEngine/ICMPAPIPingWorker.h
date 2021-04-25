@@ -28,7 +28,7 @@
 
 #include "Core/IPingEngine.h"
 
-namespace Nedrysoft::ICMPAPIPingEngine {
+namespace Nedrysoft { namespace ICMPAPIPingEngine {
     class ICMPAPIPingTarget;
     class ICMPAPIPingEngine;
 
@@ -71,6 +71,6 @@ namespace Nedrysoft::ICMPAPIPingEngine {
             Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *m_engine;
 
     };
-}
+}}
 
 #endif //PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGWORKER_H

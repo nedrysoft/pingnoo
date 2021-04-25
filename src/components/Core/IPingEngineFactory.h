@@ -29,7 +29,7 @@
 #include "CoreSpec.h"
 #include "IConfiguration.h"
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class IPingEngine;
 
     /**
@@ -99,7 +99,7 @@ namespace Nedrysoft::Core {
              virtual auto deleteEngine(Nedrysoft::Core::IPingEngine *engine) -> bool = 0;
 
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingEngineFactory, "com.nedrysoft.core.IPingEngineFactory/1.0.0")
 

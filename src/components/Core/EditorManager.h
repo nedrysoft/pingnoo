@@ -32,7 +32,7 @@
 #include <QString>
 #include <QWidget>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
 
     /**
      * @brief       The EditorManager class.
@@ -69,6 +69,6 @@ namespace Nedrysoft::Core {
             int m_previousIndex;
             QMap<QWidget *, IEditor *> m_editorMap;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_CORE_EDITORMANAGER_H

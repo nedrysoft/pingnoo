@@ -26,7 +26,7 @@
 
 #include "Core/IPingTarget.h"
 
-namespace Nedrysoft::ICMPAPIPingEngine {
+namespace Nedrysoft { namespace ICMPAPIPingEngine {
     class ICMPAPIPingTargetData;
 
     class ICMPAPIPingEngine;
@@ -141,6 +141,6 @@ namespace Nedrysoft::ICMPAPIPingEngine {
         protected:
             std::shared_ptr<ICMPAPIPingTargetData> d;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGTARGET_H

@@ -35,7 +35,7 @@
 #include <QList>
 #include <QObject>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       The ICommandManager interface is responsible for creating Commands and updating them when the
      *              application context changes.
@@ -187,7 +187,7 @@ namespace Nedrysoft::Core {
             virtual ~ICommandManager() = default;
 
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::ICommandManager, "com.nedrysoft.core.ICommandManager/1.0.0")
 

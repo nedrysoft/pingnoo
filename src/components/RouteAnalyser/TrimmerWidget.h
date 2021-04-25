@@ -27,7 +27,7 @@
 #include <QWidget>
 #include <QFlags>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     /**
      * @brief       The TrimmerWidget provides an overview of the dataset along with a viewport for the currently viewed
      *              subset.
@@ -160,7 +160,7 @@ namespace Nedrysoft::RouteAnalyser {
             TrimmerFlags m_flags;
             bool m_canBeResized;                                    //! whether the viewport can be resized.
     };
-}
+}}
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Nedrysoft::RouteAnalyser::TrimmerWidget::TrimmerFlags)
 

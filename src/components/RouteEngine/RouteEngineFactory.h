@@ -29,7 +29,7 @@
 
 #include <memory>
 
-namespace Nedrysoft::RouteEngine {
+namespace Nedrysoft { namespace RouteEngine {
     class RouteEngineFactoryData;
 
     class RouteEngine;
@@ -105,7 +105,6 @@ namespace Nedrysoft::RouteEngine {
         protected:
             std::shared_ptr<RouteEngineFactoryData> d;
     };
-}
-
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEENGINE_ROUTEENGINEFACTORY_H

@@ -27,9 +27,9 @@
 #include "ComponentSystem/IComponent.h"
 #include "JitterPlotSpec.h"
 
-namespace Nedrysoft::JitterPlot {
+namespace Nedrysoft { namespace JitterPlot {
     class JitterPlotFactory;
-}
+}}
 
 /**
  * @brief       The ICMPPingComponent class provides a socket based ICMP ping engine for all platforms.

@@ -27,13 +27,13 @@
 #include "ComponentSystem/IComponent.h"
 #include "CoreSpec.h"
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class Core;
     class ContextManager;
     class CommandManager;
     class RibbonBarManager;
     class HostMaskerSettingsPage;
-}
+}}
 
 /**
  * @brief       The Core component

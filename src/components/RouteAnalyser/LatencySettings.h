@@ -31,7 +31,7 @@
 #include <QColor>
 #include <QObject>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     /**
      * @brief       The LatencySettings class is used as the central location for latency settings, this includes
      *              parameters such as the default values for the latency thresholds and the default colour which
@@ -225,6 +225,6 @@ namespace Nedrysoft::RouteAnalyser {
 
             bool m_useGradientFill;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYSETTINGS_H

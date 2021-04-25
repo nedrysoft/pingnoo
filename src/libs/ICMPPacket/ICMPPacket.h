@@ -39,7 +39,7 @@
 #define NEDRYSOFT_ICMPPACKET_DLLSPEC Q_DECL_IMPORT
 #endif
 
-namespace Nedrysoft::ICMPPacket {
+namespace Nedrysoft { namespace ICMPPacket {
     enum IPVersion {
         Unknown = 0,
         V4 = 4,
@@ -208,6 +208,6 @@ namespace Nedrysoft::ICMPPacket {
             uint16_t m_sequence;
             IPVersion m_ipVersion;
     };
-}
+}}
 
 #endif // NEDRYSOFT_ICMPPACKET_ICMPPACKET_H

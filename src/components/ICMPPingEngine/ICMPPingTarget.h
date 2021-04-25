@@ -32,11 +32,11 @@
 #endif
 #include <memory>
 
-namespace Nedrysoft::ICMPSocket {
+namespace Nedrysoft { namespace ICMPSocket {
     class ICMPSocket;
-}
+}}
 
-namespace Nedrysoft::ICMPPingEngine {
+namespace Nedrysoft { namespace ICMPPingEngine {
     class ICMPPingTargetData;
 
     class ICMPPingEngine;
@@ -161,6 +161,6 @@ namespace Nedrysoft::ICMPPingEngine {
         protected:
             std::shared_ptr<ICMPPingTargetData> d;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGTARGET_H

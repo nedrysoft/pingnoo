@@ -27,7 +27,7 @@
 #include <QDialog>
 #include <QStandardItemModel>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     namespace Ui {
         class FavouritesManagerDialog;
     }
@@ -111,6 +111,6 @@ namespace Nedrysoft::RouteAnalyser {
             QStandardItemModel *m_itemModel;
             bool m_modelDirty;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_FAVOURITESMANAGERDIALOG_H

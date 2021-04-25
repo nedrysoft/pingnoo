@@ -30,7 +30,7 @@
 
 #include <QObject>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     using ContextList = QList<int>;
 
     constexpr int GlobalContext = 0;
@@ -112,7 +112,7 @@ namespace Nedrysoft::Core {
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~IContextManager() = default;
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IContextManager, "com.nedrysoft.core.IContextManager/1.0.0")
 

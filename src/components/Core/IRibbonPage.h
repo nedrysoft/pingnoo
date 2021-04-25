@@ -31,7 +31,7 @@
 
 #include <QWidget>
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     /**
      * @brief       The IRibbonPage interface describes a ribbon bar page.
      *
@@ -60,7 +60,7 @@ namespace Nedrysoft::Core {
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~IRibbonPage() = default;
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IRibbonPage, "com.nedrysoft.core.IRibbonPage/1.0.0")
 

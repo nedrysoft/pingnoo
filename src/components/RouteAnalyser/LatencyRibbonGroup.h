@@ -26,11 +26,11 @@
 
 #include <QWidget>
 
-namespace Nedrysoft::Ribbon {
+namespace Nedrysoft { namespace Ribbon {
     class RibbonLineEdit;
-}
+}}
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     namespace Ui {
         class LatencyRibbonGroup;
     }
@@ -100,6 +100,6 @@ namespace Nedrysoft::RouteAnalyser {
             LineSyntaxHighlighter *m_warningHighlighter;
             LineSyntaxHighlighter *m_criticalHighlighter;
     };
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYRIBBONGROUP_H

@@ -27,7 +27,7 @@
 #include <QSyntaxHighlighter>
 #include <QTextDocument>
 
-namespace Nedrysoft::RouteAnalyser {
+namespace Nedrysoft { namespace RouteAnalyser {
     using SyntaxFunction = std::function<bool(const QString &text)>;
 
     /**
@@ -60,7 +60,6 @@ namespace Nedrysoft::RouteAnalyser {
         private:
             SyntaxFunction m_syntaxFunction;
     };
-
-}
+}}
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_LINESYNTAXHIGHLIGHTER_H

@@ -29,7 +29,7 @@
 #include "CoreSpec.h"
 #include "IConfiguration.h"
 
-namespace Nedrysoft::Core {
+namespace Nedrysoft { namespace Core {
     class IRouteEngine;
 
     /**
@@ -83,7 +83,7 @@ namespace Nedrysoft::Core {
              */
             virtual auto priority() -> double = 0;
     };
-}
+}}
 
 Q_DECLARE_INTERFACE(Nedrysoft::Core::IRouteEngineFactory, "com.nedrysoft.core.IRouteEngineFactory/1.0.0")
 

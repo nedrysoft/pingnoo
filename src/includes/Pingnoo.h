@@ -27,7 +27,7 @@
 #include <QMap>
 #include <QObject>
 
-namespace Pingnoo::Constants {
+namespace Pingnoo { namespace Constants {
     constexpr auto editCut = "Edit.Cut";
     constexpr auto editCopy = "Edit.Copy";
     constexpr auto editPaste = "Edit.Paste";
@@ -94,6 +94,6 @@ namespace Pingnoo::Constants {
 
         return string;
     }
-}
+}}
 
 #endif // NEDRYSOFT_PINGNOO_CONSTANTS_H
