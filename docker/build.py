@@ -112,7 +112,7 @@ try:
     images = [args.image]
 
     if args.all:
-        images.extend([f'{args.image}-base', f'{args.image}-builder'])
+        images.extend([f'{args.image}-base', f'{args.image}-builder', f'{args.image}-agent'])
 
     base_folder = os.getcwd()
 

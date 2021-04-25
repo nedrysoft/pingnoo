@@ -51,3 +51,33 @@ Raspbian attempts to support older architecture pi boards, for us we are only in
 ```
 sudo echo /usr/lib/arm-linux-gnueabihf/libarmmem-v7l.so > /etc/ld.so.preload
 ```
+
+## Building from source
+
+Pingnoo uses c++17 and requires gcc 5 or later.
+
+### Raspbian stretch (9)
+
+The version of gcc in stretch is too old to support C++17.  The builder image builds 8.3.0 and installs it to `/usr/local/gcc-8.3.0`, it exists side by side with the original gcc version.  To use the 8.3 the CC and CXX environment variables must be set to the location of the replacement versions.
+
+```bash
+cd /tmp
+git clone https://github.com/nedrysoft/pingnoo
+git submodule update --init --recursive
+mkdir build
+cd build
+CC=/usr/local/gcc-8.3.0/bin/gcc-8.3 CXX=/usr/local/gcc-8.3.0/bin/g++-8.3 cmake ..
+```
+
+### Raspbian buster (10)
+
+Buster provides a gcc version which has c++17 support.
+
+```bash
+cd /tmp
+git clone https://github.com/nedrysoft/pingnoo
+git submodule update --init --recursive
+mkdir build
+cd build
+cmake ..
+```
