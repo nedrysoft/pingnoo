@@ -40,7 +40,7 @@ def _find_prereqs():
                 raise MsgPrinterException(f"Could not find '{app}' executable!")
 
 
-def deb_create(build_arch, build_type, version, output_file, key):
+def deb_create(build_arch, build_type, version, output_file, key, extra_packages):
     _find_prereqs()
 
     # remove previous dpkg build tree if it exists
@@ -123,12 +123,55 @@ def deb_create(build_arch, build_type, version, output_file, key):
             else:
                 raise ValueError(f"Could not provider for {dependency}: regex failed parsing:\n{dpkg}")
 
+    # If extra packages are provided, then check each package to make sure it exists and as not already in the
+    # package dependencies
+
+    if extra_packages:
+        available_extra_packages = []
+
+        extra_packages = args.extra_packages.split(",")
+
+        for package in extra_packages:
+            package = package.strip()
+
+            if package in packages:
+                continue
+
+            try:
+                apt_command = f'apt-cache --quiet=0 show {package}'
+
+                result = subprocess.run(apt_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+
+                if result.returncode:
+                    continue
+
+                result = result.stderr.decode('UTF-8')
+
+                match_string = f'N: Can\'t select versions from package \'{package}\' as it is purely virtual'
+
+                if result.find(match_string)!=-1:
+                    continue
+
+                available_extra_packages.append(package)
+
+            except Exception as exception:
+                continue
+
+        packages.extend(available_extra_packages)
+
     with msg_printer("Creating control files"):
         with open("dpkg/control.in", 'r') as control_file:
             control_template = string.Template(control_file.read())
 
+        if len(available_extra_packages):
+            extra_packages = ",".join(available_extra_packages)
+        else:
+            extra_packages = ""
+
         # use control.in template to create the deb control file
-        control_file_content = control_template.substitute(version=version, dependencies=",".join(packages))
+        control_file_content = control_template.substitute(
+            version=version,
+            dependencies=",".join(packages)
 
         with open(f'bin/{build_arch}/Deploy/dpkg/DEBIAN/control', 'w') as control_file:
             control_file.write(control_file_content)
@@ -178,6 +221,12 @@ def main():
                         nargs='?',
                         help='the output deb file')
 
+    parser.add_argument('--extra-packages',
+                        type=str,
+                        default=None,
+                        nargs='?',
+                        help='any extra packages that are required')
+
     parser.add_argument('--key',
                         type=str,
                         default=None,
@@ -188,7 +237,7 @@ def main():
 
     args = parser.parse_args()
 
-    deb_create(args.arch, args.type, args.version, args.output, args.key)
+    deb_create(args.arch, args.type, args.version, args.output, args.key, args.extra_packages)
 
 
 if __name__ == "__main__":

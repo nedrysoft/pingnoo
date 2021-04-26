@@ -134,6 +134,7 @@ elseif(UNIX)
             \"--arch=${PINGNOO_PLATFORM_ARCH}\"
             \"--qtdir=${CMAKE_PREFIX_PATH}\"
             \"--type=${PINGNOO_BUILD_TYPE}\"
+            \"--extra-packages=qt5-style-plugins,qt5-gtk-platformtheme,qt5-gtk2-platformtheme\"
             \"--version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}\"
             \"--cert=$ENV{PINGNOO_DEVELOPER_CERTIFICATE}\"
             \"$ENV{PINGNOO_ASSET_TYPES}\"

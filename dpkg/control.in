@@ -5,6 +5,6 @@ Section: net
 Homepage: https://www.pingnoo.com
 Architecture: all
 Priority: optional
-Depends: $dependencies , qt5-style-plugins, qt5-gtk2-platformtheme
+Depends: $dependencies
 Description: A ping/traceroute analyser
  Pingnoo is an open-source ping/traceroute analyser which provides visualisation of hop latency & packet loss.

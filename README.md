@@ -360,7 +360,8 @@ Also, the development of pingnoo is made possible with the following commerciall
 -   [Deleaker](https://deleaker.com) - A memory leak detector for Windows, Softanics kindly provided the license for free for the project.
 -   [Icofx](https://icofx.ro) - A tool for producing icon & icns files from source images.
 -   [packagecloud](https://packagecloud.io) - packagecloud kindly host the package repositories for Debian, Ubuntu and Fedora that make installing on those operating systems very easy.
--   [Araxis Merge](https://www.araxis.com/merge) - Araxsis kindly provided the license for free for the project.
+-   [Araxis Merge](https://www.araxis.com/merge) - Araxis kindly provided the license for free for the project.
+-   [Outline](https://www.getoutline.com/) - A note taking app that supports rich content and based on Markdown, the application is open-source but hosted accounts are available.
 
 ## Thanks
 

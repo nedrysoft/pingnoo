@@ -62,21 +62,14 @@ RUN apt-get install -y --no-install-recommends \
     install-info \
     zlib1g-dev \
     libncurses5-dev \
-    libgdbm-dev \
     libnss3-dev \
-    libssl-dev \
     libsqlite3-dev \
     libreadline-dev \
     libffi-dev \
     libbz2-dev \
-    ruby \
-    ruby-dev && \
+    libgdbm-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN echo "gem: --no-ri --no-rdoc" >/etc/gemrc
-RUN gem install fpm -v 1.4.0
-RUN gem install fpm-cookery -v 0.29.0
-RUN gem install buildtasks -v 0.0.1
-RUN gem install bundler -v 1.10.0
+
 

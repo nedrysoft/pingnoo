@@ -186,6 +186,12 @@ if platform.system() == "Linux":
                         action='store_true',
                         help='generate AppImage package')
 
+    parser.add_argument('--extra-packages',
+                        type=str,
+                        default=None,
+                        nargs='?',
+                        help='any extra packages that are required')
+
 if platform.system() == "Windows":
     parser.add_argument('--timeserver',
                         type=str,
@@ -576,7 +582,7 @@ def _do_linux():
             deb_version = version_parts[0][2:]
 
         try:
-            if deb_create(build_arch, build_type, deb_version, build_filename, args.cert):
+            if deb_create(build_arch, build_type, deb_version, build_filename, args.cert, args.extra_packages):
                 raise RuntimeError("deb creation unknown error")
 
             deployed_message += '\r\n' + Style.BRIGHT + Fore.CYAN + \

@@ -25,6 +25,23 @@
 
 set -e
 
+# build ruby from source
+
+cd /tmp
+wget https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.3.tar.gz
+tar -xf ruby-2.7.3.tar.gz
+cd ruby-2.7.3
+./configure
+make -j$(($(nproc)-1))
+make install
+
+echo "gem: --no-ri --no-rdoc" >/etc/gemrc
+
+gem install fpm -v 1.4.0
+gem install fpm-cookery -v 0.29.0
+gem install buildtasks -v 0.0.1
+gem install bundler -v 1.10.0
+
 # build gcc 8 from source
 
 cd /tmp

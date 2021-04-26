@@ -55,7 +55,6 @@ RUN apt-get install -y --no-install-recommends \
     libexpat1-dev \
     gettext \
     libz-dev \
-    libssl-dev \
     asciidoc \
     xmlto \
     docbook2x \
