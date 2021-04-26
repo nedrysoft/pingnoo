@@ -158,7 +158,7 @@ def deb_create(build_arch, build_type, version, output_file, key, extra_packages
             except Exception:
                 continue
 
-        packages.extend(available_extra_packages)
+        packages.update(available_extra_packages)
 
     with msg_printer("Creating control files"):
         with open("dpkg/control.in", 'r') as control_file:
