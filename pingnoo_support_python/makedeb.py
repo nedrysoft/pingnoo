@@ -27,6 +27,7 @@ import os
 import re
 import shutil
 import string
+import subprocess
 
 from .common import *
 from .msg_printer import msg_printer, MsgPrinterException
@@ -68,7 +69,7 @@ def deb_create(build_arch, build_type, version, output_file, key, extra_packages
     with msg_printer("Generating desktop file"):
         build_parts = version.split('-', 1)
 
-        if len(build_parts) != 2:
+        if int(len(build_parts)) != 2:
             linux_build_version = "1.0.0"
         else:
             linux_build_version = build_parts[0][2:]
@@ -82,7 +83,7 @@ def deb_create(build_arch, build_type, version, output_file, key, extra_packages
             icon="/usr/share/icons/hicolor/512x512/apps/pingnoo.png",
             version=linux_build_version)
 
-        with open( f'bin/{build_arch}/Deploy/dpkg/usr/share/applications/Pingnoo.desktop', 'w') as desktop_file:
+        with open(f'bin/{build_arch}/Deploy/dpkg/usr/share/applications/Pingnoo.desktop', 'w') as desktop_file:
             desktop_file.write(desktop_file_content)
 
     dependencies = set()
@@ -129,7 +130,7 @@ def deb_create(build_arch, build_type, version, output_file, key, extra_packages
     if extra_packages:
         available_extra_packages = []
 
-        extra_packages = args.extra_packages.split(",")
+        extra_packages = extra_packages.split(",")
 
         for package in extra_packages:
             package = package.strip()
@@ -149,12 +150,12 @@ def deb_create(build_arch, build_type, version, output_file, key, extra_packages
 
                 match_string = f'N: Can\'t select versions from package \'{package}\' as it is purely virtual'
 
-                if result.find(match_string)!=-1:
+                if result.find(match_string) != -1:
                     continue
 
                 available_extra_packages.append(package)
 
-            except Exception as exception:
+            except Exception:
                 continue
 
         packages.extend(available_extra_packages)
@@ -163,15 +164,10 @@ def deb_create(build_arch, build_type, version, output_file, key, extra_packages
         with open("dpkg/control.in", 'r') as control_file:
             control_template = string.Template(control_file.read())
 
-        if len(available_extra_packages):
-            extra_packages = ",".join(available_extra_packages)
-        else:
-            extra_packages = ""
-
         # use control.in template to create the deb control file
         control_file_content = control_template.substitute(
             version=version,
-            dependencies=",".join(packages)
+            dependencies=",".join(packages))
 
         with open(f'bin/{build_arch}/Deploy/dpkg/DEBIAN/control', 'w') as control_file:
             control_file.write(control_file_content)
