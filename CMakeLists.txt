@@ -78,7 +78,7 @@ if(APPLE)
             \"--password=$ENV{PINGNOO_DEVELOPER_PASSWORD}\"
             \"--cert=$ENV{PINGNOO_DEVELOPER_CERTIFICATE}\"
             \"--arch=${PINGNOO_PLATFORM_ARCH}\"
-            \"--type=${PINGNOO_BUILD_TYPE}\"
+            \"--type=universal\"
             \"--qtdir=${CMAKE_PREFIX_PATH}\"
             \"--version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}\"
         )"
