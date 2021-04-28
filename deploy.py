@@ -365,7 +365,7 @@ def _do_darwin():
                     'artwork/pingnoo_background.tiff',
                     fail_msg='there was a problem creating the combined tiff.')
 
-            defines = []
+            defines = {}
 
             defines['application_binary'] = f'./bin/{target_arch}/Deploy/Pingnoo.dmg'
             defines['background_image'] = './artwork/pingnoo_background.tiff'
