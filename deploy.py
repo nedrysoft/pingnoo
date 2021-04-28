@@ -355,22 +355,28 @@ def _do_darwin():
                 'there was a problem stapling the ticket to application.')
 
     with msg_printer('Creating installation dmg...'):
-        execute('tiffutil '
-                '-cat '
-                'artwork/background.tiff artwork/background@2x.tiff '
-                '-out '
-                'artwork/pingnoo_background.tiff',
-                fail_msg='there was a problem creating the combined tiff.')
-        execute(f'tools/create-dmg/create-dmg '
-                f'--volname "Pingnoo" '
-                f'--background ./artwork/pingnoo_background.tiff '
-                f'--window-size 768 534 '
-                f'--icon-size 160 '
-                f'--icon Pingnoo.app 199 276 -'
-                f'-app-drop-link 569 276 '
-                f'./bin/{target_arch}/Deploy/Pingnoo.dmg '
-                f'bin/{target_arch}/Deploy/Pingnoo.app',
-                fail_msg='there was a problem creating the dmg.')
+        try:
+            import dmgbuild
+
+            execute('tiffutil '
+                    '-cat '
+                    'artwork/background.tiff artwork/background@2x.tiff '
+                    '-out '
+                    'artwork/pingnoo_background.tiff',
+                    fail_msg='there was a problem creating the combined tiff.')
+
+            defines = []
+
+            defines['application_binary'] = f'./bin/{target_arch}/Deploy/Pingnoo.dmg'
+            defines['background_image'] = './artwork/pingnoo_background.tiff'
+
+            dmgbuild.build_dmg(volume_name='Pingnoo',
+                               filename=f'./bin/{target_arch}/Deploy/Pingnoo.dmg',
+                               settings_file='dmg-settings.py',
+                               defines=defines,
+                               lookForHiDPI=True)
+        except Exception as err:
+            raise MsgPrinterException(f'there was a problem creating the dmg.\r\n\r\n'+err)
 
     # sign the dmg and notarize it
     with msg_printer('Signing dmg...'):
