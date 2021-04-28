@@ -378,6 +378,8 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             auto customPlot = new QCustomPlot();
 
+            //customPlot->setOpenGl(true);
+
             customPlot->addLayer("newBackground", customPlot->layer("grid"), QCustomPlot::limBelow);
 
             auto latencyLayer = new GraphLatencyLayer(customPlot);

@@ -12,6 +12,16 @@ We build both the Intel and Apple Silicon builds to ensure both architectures ar
 
 -  Xcode ([App Store](https://apps.apple.com/gb/app/xcode/id497799835?mt=12))
 
+### Obtain the Qt source-code
+
+```bash
+cd ~
+git clone https://code.qt.io/qt/qt5.git
+cd ~/qt5
+git checkout 5.15.2
+./init-repository
+```
+
 ### Building Qt for Apple Silicon
 
 ```bash
@@ -42,6 +52,19 @@ You will need the makeuniversal tool which can be found at [https://github.com/n
 makeuniversal /usr/local/qt/5.15.2/universal /usr/local/qt/5.15.2/x86_64 /usr/local/qt/5.15.2/arm64
 ```
 
+## Compiling pingnoo
+
+Pingnoo has to be compiled twice, once for x86_64 and again for arm64.  The following commands should be executed in the folder where
+
+```bash
+mkdir build-arm64
+mkdir build-x86_64
+
+cd build-arm64
+/Applications/CMake.app/Contents/bin/cmake -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_PREFIX_PATH=/usr/local/qt/5.15.2/arm64 -DCMAKE_BUILD_TYPE=Release ../
+
+```
+
 ## Creating a universal version of pingnoo
 
 To create the universal binary of pingnoo, from the root of the repository execute the following.
@@ -53,3 +76,4 @@ makeuniversal ./bin/Universal/Release ./bin/x86_64/Release ./bin/arm64Release
 ## Finishing up
 
 After creating the universal binary for the application, macdeployqt and macdeployqtfix should be used to add the qt dependencies to the application bundle, once the bundling is complete the resulting app bundle can be signed.
+
