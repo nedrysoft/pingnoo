@@ -79,7 +79,7 @@ if(APPLE)
             \"--cert=$ENV{PINGNOO_DEVELOPER_CERTIFICATE}\"
             \"--arch=${PINGNOO_BUILD_ARCH}\"
             \"--universal\"
-            \"--type=${PINGNOO_BUILD_TYPE}\"
+            \"--type=${PINGNOO_PLATFORM_ARCH}\"
             \"--qtdir=${CMAKE_PREFIX_PATH}\"
             \"--universal\"
             \"--version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}\"
