@@ -69,6 +69,14 @@ add_custom_target(
 )
 
 if(APPLE)
+    execute_process(COMMAND echo "PINGNOO_DEPLOYMENT_TYPE" RESULT_VARIABLE PINGNOO_DEPLOYMENT_TYPE)
+
+    message(INFO ${PINGNOO_DEPLOYMENT_TYPE})
+
+    if (${PINGNOO_DEPLOYMENT_TYPE}!="")
+        set(PINGNOO_BUILD_TYPE ${PINGNOO_DEPLOYMENT_TYPE})
+    endif()
+
     install(CODE
         "execute_process(
             WORKING_DIRECTORY \"${PINGNOO_ROOT_DIR}\"
