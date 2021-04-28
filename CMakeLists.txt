@@ -69,14 +69,6 @@ add_custom_target(
 )
 
 if(APPLE)
-    execute_process(COMMAND echo "PINGNOO_DEPLOYMENT_TYPE" RESULT_VARIABLE PINGNOO_DEPLOYMENT_TYPE)
-
-    message(INFO ${PINGNOO_DEPLOYMENT_TYPE})
-
-    if (${PINGNOO_DEPLOYMENT_TYPE}!="")
-        set(PINGNOO_BUILD_TYPE ${PINGNOO_DEPLOYMENT_TYPE})
-    endif()
-
     install(CODE
         "execute_process(
             WORKING_DIRECTORY \"${PINGNOO_ROOT_DIR}\"
@@ -85,9 +77,11 @@ if(APPLE)
             \"--appleid=$ENV{PINGNOO_DEVELOPER_EMAIL}\"
             \"--password=$ENV{PINGNOO_DEVELOPER_PASSWORD}\"
             \"--cert=$ENV{PINGNOO_DEVELOPER_CERTIFICATE}\"
-            \"--arch=$ENV{PINGNOO_BUILD_ARCH}\"
+            \"--arch=${PINGNOO_BUILD_ARCH}\"
+            \"--universal\"
             \"--type=${PINGNOO_BUILD_TYPE}\"
             \"--qtdir=${CMAKE_PREFIX_PATH}\"
+            \"--universal\"
             \"--version=${PINGNOO_GIT_YEAR}.${PINGNOO_GIT_MONTH}.${PINGNOO_GIT_DAY}-${PINGNOO_GIT_BRANCH}\"
         )"
     )
