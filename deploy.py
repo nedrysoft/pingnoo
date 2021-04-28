@@ -270,7 +270,7 @@ def _do_darwin():
             execute('cd tools;git clone https://github.com/andreyvit/create-dmg.git',
                     fail_msg='unable to clone create-dmg.')
 
-    if args.universal == "universal":
+    if args.universal:
         if not os.path.isfile('tools/makeuniversal/makeuniversal'):
             rm_path('tools/makeuniversal')
 
