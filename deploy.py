@@ -133,6 +133,11 @@ if platform.system() == "Darwin":
                         default='x86_64',
                         nargs='?',
                         help='architecture type to deploy')
+
+    parser.add_argument('--universal',
+                        action='store_true',
+                        help='whether to deploy a universal binary or the target arch binary')
+
 elif platform.system() == "Linux":
     parser.add_argument('--arch',
                         choices=['x86', 'x86_64', 'armv7l'],
@@ -241,12 +246,15 @@ def _do_darwin():
     # check for qt installation
     qtdir = find_qt()
 
+    if args.universal:
+        target_arch = "universal"
+
     # remove previous deployment files and copy current binaries
     with msg_printer('Setting up deployment directory...'):
         rm_path('deployment')
         os.makedirs('deployment')
-        rm_path(f'bin/{build_arch}/Deploy')
-        os.makedirs(f'bin/{build_arch}/Deploy')
+        rm_path(f'bin/{target_arch}/Deploy')
+        os.makedirs(f'bin/{target_arch}/Deploy')
 
     if not os.path.isfile('tools/macdeployqtfix/macdeployqtfix.py'):
         rm_path('tools/macdeployqtfix')
@@ -255,17 +263,7 @@ def _do_darwin():
             execute('cd tools; git clone https://github.com/nedrysoft/macdeployqtfix.git',
                     fail_msg='unable to clone macdeployqtfix.')
 
-    if not os.path.isfile('tools/create-dmg/create-dmg'):
-        rm_path('tools/create-dmg')
-
-        with msg_printer('Cloning create-dmg...'):
-            execute('cd tools;git clone https://github.com/andreyvit/create-dmg.git',
-                    fail_msg='unable to clone create-dmg.')
-
-    if not build_arch == "universal":
-        shutil.copytree(f'bin/{build_arch}/{build_type}/Pingnoo.app',
-                        f'bin/{build_arch}/Deploy/Pingnoo.app', symlinks=True)
-    else:
+    if args.universal:
         if not os.path.isfile('tools/makeuniversal/makeuniversal'):
             rm_path('tools/makeuniversal')
 
@@ -277,20 +275,24 @@ def _do_darwin():
                 execute(f'cd tools/makeuniversal;{qtdir}/bin/qmake;make', fail_msg='error building makeuniversal.')
 
         with msg_printer('Running makeuniversal...'):
-
             execute(f'tools/makeuniversal/makeuniversal bin/universal/Deploy/Pingnoo.app '
                     f'bin/x86_64/{build_type}/Pingnoo.app bin/arm64/{build_type}/Pingnoo.app',
                     fail_msg='error building makeuniversal.')
+    else:
+        shutil.copytree(f'bin/{build_arch}/{build_type}/Pingnoo.app',
+                        f'bin/{build_arch}/Deploy/Pingnoo.app', symlinks=True)
+
+        target_arch = build_arch
 
     # run standard qt deployment tool
     with msg_printer('Running macdeployqt...'):
-        execute(f'{qtdir}/bin/macdeployqt bin/{build_arch}/Deploy/Pingnoo.app -no-strip',
+        execute(f'{qtdir}/bin/macdeployqt bin/{target_arch}/Deploy/Pingnoo.app -no-strip',
                 fail_msg='there was a problem running macdeployqt.')
 
     # remove the sql drivers that we don't use
     with msg_printer('Removing unwanted qt plugins...'):
-        rm_file(f'bin/{build_arch}/Deploy/Pingnoo.app/Contents/PlugIns/sqldrivers/libqsqlodbc.dylib')
-        rm_file(f'bin/{build_arch}/Deploy/Pingnoo.app/Contents/PlugIns/sqldrivers/libqsqlpsql.dylib')
+        rm_file(f'bin/{target_arch}/Deploy/Pingnoo.app/Contents/PlugIns/sqldrivers/libqsqlodbc.dylib')
+        rm_file(f'bin/{target_arch}/Deploy/Pingnoo.app/Contents/PlugIns/sqldrivers/libqsqlpsql.dylib')
 
     # run fixed qt deployment tool
     if platform.system() == "Darwin":
@@ -300,7 +302,7 @@ def _do_darwin():
             import macdeployqtfix as fixdeploy
 
             fixdeploy.GlobalConfig.qtpath = os.path.normpath(f'{qtdir}/bin')
-            fixdeploy.GlobalConfig.exepath = f'bin/{build_arch}/Deploy/Pingnoo.app'
+            fixdeploy.GlobalConfig.exepath = f'bin/{target_arch}/Deploy/Pingnoo.app'
             fixdeploy.GlobalConfig.logger = logging.getLogger()
             fixdeploy.GlobalConfig.logger.addHandler(logging.NullHandler())
 
@@ -309,22 +311,22 @@ def _do_darwin():
 
         # sign the application
         with msg_printer('Signing binaries...'):
-            for file in glob.glob(f'bin/{build_arch}/Deploy/Pingnoo.app/**/*.framework', recursive=True):
+            for file in glob.glob(f'bin/{target_arch}/Deploy/Pingnoo.app/**/*.framework', recursive=True):
                 result_code, result_output = mac_sign_binary(file, args.cert)
                 if result_code:
                     raise MsgPrinterException(
                         f'there was a problem signing a file ({file}).\r\n\r\n{result_output}\r\n')
 
-            for file in glob.glob(f'bin/{build_arch}/Deploy/Pingnoo.app/**/*.dylib', recursive=True):
+            for file in glob.glob(f'bin/{target_arch}/Deploy/Pingnoo.app/**/*.dylib', recursive=True):
                 result_code, result_output = mac_sign_binary(file, args.cert)
                 if result_code:
                     raise MsgPrinterException(
                         f'there was a problem signing a file ({file}).\r\n\r\n{result_output}\r\n')
 
-            result_code, result_output = mac_sign_binary(f'bin/{build_arch}/Deploy/Pingnoo.app', args.cert)
+            result_code, result_output = mac_sign_binary(f'bin/{target_arch}/Deploy/Pingnoo.app', args.cert)
 
             if result_code:
-                raise MsgPrinterException(f'there was a problem signing a file (bin/{build_arch}/Deploy/Pingnoo.app).'
+                raise MsgPrinterException(f'there was a problem signing a file (bin/{target_arch}/Deploy/Pingnoo.app).'
                                           f'\r\n\r\n{result_output}\r\n')
 
     # package the application into a zip file and notarize the application
@@ -332,57 +334,63 @@ def _do_darwin():
         execute(f'ditto '
                 f'-ck '
                 f'--sequesterRsrc '
-                f'--keepParent bin/{build_arch}/Deploy/Pingnoo.app '
-                f'bin/{build_arch}/Deploy/Pingnoo.zip', fail_msg='there was a problem generating the application zip.')
+                f'--keepParent bin/{target_arch}/Deploy/Pingnoo.app '
+                f'bin/{target_arch}/Deploy/Pingnoo.zip', fail_msg='there was a problem generating the application zip.')
 
     with msg_printer('Performing notarization of application binary...'):
-        status = notarize_file(f'bin/{build_arch}/Deploy/Pingnoo.zip', args.appleid, args.password)
+        status = notarize_file(f'bin/{target_arch}/Deploy/Pingnoo.zip', args.appleid, args.password)
 
         if not status == "success":
             raise MsgPrinterException(f'there was a problem notarizing the application ({status}).')
 
     with msg_printer('Stapling notarization ticket to binary...'):
-        execute(f'xcrun stapler staple bin/{build_arch}/Deploy/Pingnoo.app',
+        execute(f'xcrun stapler staple bin/{target_arch}/Deploy/Pingnoo.app',
                 'there was a problem stapling the ticket to application.')
 
     with msg_printer('Creating installation dmg...'):
-        execute('tiffutil '
-                '-cat '
-                'artwork/background.tiff artwork/background@2x.tiff '
-                '-out '
-                'artwork/pingnoo_background.tiff',
-                fail_msg='there was a problem creating the combined tiff.')
-        execute(f'tools/create-dmg/create-dmg '
-                f'--volname "Pingnoo" '
-                f'--background ./artwork/pingnoo_background.tiff '
-                f'--window-size 768 534 '
-                f'--icon-size 160 '
-                f'--icon Pingnoo.app 199 276 -'
-                f'-app-drop-link 569 276 '
-                f'./bin/{build_arch}/Deploy/Pingnoo.dmg '
-                f'bin/{build_arch}/Deploy/Pingnoo.app',
-                fail_msg='there was a problem creating the dmg.')
+        try:
+            import dmgbuild
+
+            execute('tiffutil '
+                    '-cat '
+                    'artwork/background.tiff artwork/background@2x.tiff '
+                    '-out '
+                    'artwork/pingnoo_background.tiff',
+                    fail_msg='there was a problem creating the combined tiff.')
+
+            defines = {}
+
+            defines['application_binary'] = f'bin/{target_arch}/Deploy/Pingnoo.app'
+            defines['background_image'] = 'artwork/pingnoo_background.tiff'
+
+            dmgbuild.build_dmg(volume_name='Pingnoo',
+                               filename=f'bin/{target_arch}/Deploy/Pingnoo.dmg',
+                               settings_file='installer/dmg-settings.py',
+                               defines=defines,
+                               lookForHiDPI=True)
+        except Exception as err:
+            raise MsgPrinterException(f'there was a problem creating the dmg.\r\n\r\n'+err)
 
     # sign the dmg and notarize it
     with msg_printer('Signing dmg...'):
-        result_code, result_output = mac_sign_binary(f'./bin/{build_arch}/Deploy/Pingnoo.dmg', args.cert)
+        result_code, result_output = mac_sign_binary(f'./bin/{target_arch}/Deploy/Pingnoo.dmg', args.cert)
 
         if result_code:
             raise MsgPrinterException(f'there was a problem signing the dmg.\r\n\r\n{result_output}\r\n')
 
     with msg_printer('Performing notarization of installation dmg...'):
-        status = notarize_file(f'bin/{build_arch}/Deploy/Pingnoo.dmg', args.appleid, args.password)
+        status = notarize_file(f'bin/{target_arch}/Deploy/Pingnoo.dmg', args.appleid, args.password)
 
         if not status == "success":
             raise MsgPrinterException(f'there was a problem notarizing the dmg ({status}).')
 
     with msg_printer('Stapling notarization ticket to dmg...'):
-        execute(f'xcrun stapler staple bin/{build_arch}/Deploy/Pingnoo.dmg',
+        execute(f'xcrun stapler staple bin/{target_arch}/Deploy/Pingnoo.dmg',
                 fail_msg='there was a problem stapling the ticket to dmg.')
 
     with msg_printer('Copying dmg to deployment directory...'):
-        build_filename = f'deployment/Pingnoo.{build_version}.{build_arch}.dmg'
-        shutil.copy2(f'bin/{build_arch}/Deploy/Pingnoo.dmg', build_filename)
+        build_filename = f'deployment/Pingnoo.{build_version}.{target_arch}.dmg'
+        shutil.copy2(f'bin/{target_arch}/Deploy/Pingnoo.dmg', build_filename)
 
     print(f'\r\n' + Style.BRIGHT + Fore.CYAN + f'Disk Image at \"deployment/{build_filename}\" is ' +
           Fore.GREEN + 'ready' + Fore.CYAN + ' for distribution.', flush=True)

@@ -344,7 +344,7 @@ Pingnoo uses the following third-party libraries/assets/tools/services in the de
 -   [QCustomPlot](https://www.qcustomplot.com/) - charting library for Qt, licensed under the [GPLv3 licence](https://www.gnu.org/licenses/gpl-3.0.en.html).
 -   [macdeployqtfix](https://github.com/arl/macdeployqtfix) - finishes the job that macdeployqt starts, licensed under the [MIT licence](https://github.com/arl/macdeployqtfix/blob/master/LICENSE).
 -   [linuxdeployqt](https://github.com/probonopd/linuxdeployqt) - creates deployable linux binaries, licensed under the [GPLv3 licence](https://github.com/probonopd/linuxdeployqt/blob/master/LICENSE.GPLv3).
--   [create-dmg](https://github.com/andreyvit/create-dmg) - automates the creation of macOS DMG files, licensed under the [MIT licence](https://github.com/andreyvit/create-dmg/blob/master/LICENSE).
+-   [dmgbuild](https://github.com/al45tair/dmgbuild.git) - automates the creation of macOS DMG files, licensed under the [MIT licence](https://github.com/al45tair/dmgbuild/blob/master/LICENSE).
 -   [colorama](https://github.com/tartley/colorama) - python module for terminal colour, licensed under the [BSD licence](https://github.com/tartley/colorama/blob/master/LICENSE.txt).
 -   [rapidfuzz-cpp](https://github.com/maxbachmann/rapidfuzz-cpp) - an implementation for fuzzy string matching, licensed under the [MIT licence](https://github.com/maxbachmann/rapidfuzz-cpp/blob/master/LICENSE).
 -   [gren](https://github-tools.github.io/github-release-notes/) - a tool for automating release notes, licensed under the [GPLv3 licence](https://github.com/github-tools/github-release-notes/blob/master/LICENSE).
