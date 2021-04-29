@@ -160,7 +160,7 @@ def pkg_create(build_arch, build_type, version, key):
         rm_path('artifacts')
 
         shutil.copytree(f'{deployment_dir}', 'artifacts/p2')
-        shutil.copytree(f'{deployment_dir}/makepkg/packages', 'artifacts/packages')
+        #shutil.copytree(f'{deployment_dir}/makepkg/packages', 'artifacts/packages')
         shutil.copytree(f'{deployment_dir}/aur', 'artifacts/aur')
 
 def main():
