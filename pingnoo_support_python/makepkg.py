@@ -139,6 +139,7 @@ def pkg_create(build_arch, build_type, version, key):
              'export GNUPGHOME=/tmp/.gnupg && ' 
             f'cd bin/{build_arch}/Deploy && '
             f'mkdir {deployment_dir} && '
+            f'mkdir {deployment_dir}/aur && '
             f'mkdir {deployment_dir}/packages && '
             f'mkdir {deployment_dir}/sources && '
             f'mkdir {deployment_dir}/srcpackages && '
@@ -149,7 +150,6 @@ def pkg_create(build_arch, build_type, version, key):
     # f'PKGDEST={deployment_dir} bash -c "cd bin/{build_arch}/Deploy && PKGDEST={deployment_dir} && BUILDDIR=/tmp/makepkg && sudo -u nobody makepkg {key_param}"'
 
     with msg_printer("Creating AUR deployment"):
-        os.makedirs(f'{deployment_dir}/aur')
         shutil.copy2(source_location, f'{deployment_dir}/aur/pingnoo-{git_year}.{git_month}.{git_day}.tar.gz')
         shutil.copy2('pkg/pingnoo.install', f'{deployment_dir}/aur/')
 
@@ -157,6 +157,7 @@ def pkg_create(build_arch, build_type, version, key):
             pkgbuild_file.write(aur_pkgbuild_file_content)
 
         execute('sudo -u nobody bash -c "'
+               f'ls -lhR {deployment_dir}'
                f'cd {deployment_dir}/aur && '
                'makepkg --printsrcinfo > .SRCINFO'
                '"', "Failed to create .SRCINFO!")
