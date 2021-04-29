@@ -144,7 +144,9 @@ def pkg_create(build_arch, build_type, version, key):
             f'mkdir {deployment_dir}/sources && '
             f'mkdir {deployment_dir}/srcpackages && '
             f'mkdir {deployment_dir}/makepkglogs && '
-            f'makepkg {key_param}'
+            f'makepkg {key_param} && '
+             'pwd && '
+             'ls -lHR .'
              '"', "Failed to build!")
 
     # f'PKGDEST={deployment_dir} bash -c "cd bin/{build_arch}/Deploy && PKGDEST={deployment_dir} && BUILDDIR=/tmp/makepkg && sudo -u nobody makepkg {key_param}"'
