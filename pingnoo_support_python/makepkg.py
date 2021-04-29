@@ -157,7 +157,7 @@ def pkg_create(build_arch, build_type, version, key):
             pkgbuild_file.write(aur_pkgbuild_file_content)
 
         execute('sudo -u nobody bash -c "'
-               f'ls -lhR {deployment_dir}'
+               f'ls -lhR {deployment_dir} && '
                f'cd {deployment_dir}/aur && '
                'makepkg --printsrcinfo > .SRCINFO'
                '"', "Failed to create .SRCINFO!")
