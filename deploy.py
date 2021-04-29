@@ -263,13 +263,6 @@ def _do_darwin():
             execute('cd tools; git clone https://github.com/nedrysoft/macdeployqtfix.git',
                     fail_msg='unable to clone macdeployqtfix.')
 
-    if not os.path.isfile('tools/create-dmg/create-dmg'):
-        rm_path('tools/create-dmg')
-
-        with msg_printer('Cloning create-dmg...'):
-            execute('cd tools;git clone https://github.com/andreyvit/create-dmg.git',
-                    fail_msg='unable to clone create-dmg.')
-
     if args.universal:
         if not os.path.isfile('tools/makeuniversal/makeuniversal'):
             rm_path('tools/makeuniversal')
@@ -367,7 +360,7 @@ def _do_darwin():
 
             defines = {}
 
-            defines['application_binary'] = f'bin/{target_arch}/Deploy/Pingnoo.dmg'
+            defines['application_binary'] = f'bin/{target_arch}/Deploy/Pingnoo.app'
             defines['background_image'] = 'artwork/pingnoo_background.tiff'
 
             dmgbuild.build_dmg(volume_name='Pingnoo',
