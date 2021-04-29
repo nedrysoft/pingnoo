@@ -135,8 +135,8 @@ def pkg_create(build_arch, build_type, version, key):
     # create the pkg file
     with msg_printer("Building package"):
         execute(
-            f'sudo -u nobody bash -c "'
-             'cd bin/{build_arch}/Deploy && '
+             'sudo -u nobody bash -c "'
+            f'cd bin/{build_arch}/Deploy && '
              'mkdir /tmp/packages && '
              'mkdir /tmp/sources && '
              'mkdir /tmp/srcpackages && '
