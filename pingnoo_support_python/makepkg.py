@@ -126,6 +126,7 @@ def pkg_create(build_arch, build_type, version, key):
     #os.makedirs('/tmp/deployment')
 
     deployment_dir = '/tmp/deployment'
+    os.makedirs('deployment')
 
     key_param = ""
 
@@ -149,6 +150,8 @@ def pkg_create(build_arch, build_type, version, key):
              'ls -lHR .'
              '"', "Failed to build!")
 
+        shutil.copy2(f'{deployment_dir}/packages', f'deployment/')
+
     # f'PKGDEST={deployment_dir} bash -c "cd bin/{build_arch}/Deploy && PKGDEST={deployment_dir} && BUILDDIR=/tmp/makepkg && sudo -u nobody makepkg {key_param}"'
 
     with msg_printer("Creating AUR deployment"):
@@ -165,6 +168,9 @@ def pkg_create(build_arch, build_type, version, key):
                f'cd {deployment_dir}/aur && '
                'makepkg --printsrcinfo > .SRCINFO'
                '"', "Failed to create .SRCINFO!")
+
+        shutil.copy2(f'{deployment_dir}/aur', f'deployment/')
+
 
 
 def main():
