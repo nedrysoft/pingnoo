@@ -122,7 +122,6 @@ def pkg_create(build_arch, build_type, version, key):
             pkgbuild_file.write(pkgbuild_file_content)
 
     # remove any previous deployment artifacts
-    shutil.rmtree('/tmp/deployment')
     os.makedirs('/tmp/deployment')
 
     deployment_dir = '/tmp/deployment'
