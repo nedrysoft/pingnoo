@@ -158,6 +158,8 @@ def pkg_create(build_arch, build_type, version, key):
         with open(f'{deployment_dir}/aur/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(aur_pkgbuild_file_content)
 
+        execute(f'ls -lhR {deployment_dir}', 'failed to look')
+
         execute('sudo -u nobody bash -c "'
                f'ls -lhR {deployment_dir} && '
                f'cd {deployment_dir}/aur && '
