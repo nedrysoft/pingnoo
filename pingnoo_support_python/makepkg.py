@@ -123,7 +123,7 @@ def pkg_create(build_arch, build_type, version, key):
 
     # remove any previous deployment artifacts
     rm_path('/tmp/deployment')
-    os.makedirs('/tmp/deployment')
+    #os.makedirs('/tmp/deployment')
 
     deployment_dir = '/tmp/deployment'
 
@@ -138,6 +138,7 @@ def pkg_create(build_arch, build_type, version, key):
              'sudo -u nobody bash -c "'
              'export GNUPGHOME=/tmp/.gnupg && ' 
             f'cd bin/{build_arch}/Deploy && '
+            f'mkdir {deployment_dir} && '
             f'mkdir {deployment_dir}/packages && '
             f'mkdir {deployment_dir}/sources && '
             f'mkdir {deployment_dir}/srcpackages && '
