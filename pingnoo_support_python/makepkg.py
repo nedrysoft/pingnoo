@@ -122,10 +122,10 @@ def pkg_create(build_arch, build_type, version, key):
             pkgbuild_file.write(pkgbuild_file_content)
 
     # remove any previous deployment artifacts
-    rm_path('deployment')
-    os.makedirs('deployment')
+    rm_path('/tmp/deployment')
+    os.makedirs('/tmp/deployment')
 
-    deployment_dir = os.getcwd()+"/deployment"
+    deployment_dir = '/tmp/deployment'
 
     key_param = ""
 
@@ -136,11 +136,12 @@ def pkg_create(build_arch, build_type, version, key):
     with msg_printer("Building package"):
         execute(
              'sudo -u nobody bash -c "'
+             'export GNUPGHOME=/tmp/.gnupg && ' 
             f'cd bin/{build_arch}/Deploy && '
-             'mkdir /tmp/packages && '
-             'mkdir /tmp/sources && '
-             'mkdir /tmp/srcpackages && '
-             'mkdir /tmp/makepkglogs && '
+            f'mkdir {deployment_dir}/packages && '
+            f'mkdir {deployment_dir}/sources && '
+            f'mkdir {deployment_dir}/srcpackages && '
+            f'mkdir {deployment_dir}/makepkglogs && '
             f'makepkg {key_param}'
              '"', "Failed to build!")
 
@@ -154,7 +155,10 @@ def pkg_create(build_arch, build_type, version, key):
         with open(f'{deployment_dir}/aur/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(aur_pkgbuild_file_content)
 
-        execute(f'cd {deployment_dir}/aur && makepkg --printsrcinfo > .SRCINFO', "Failed to create .SRCINFO!")
+        execute('sudo -u nobody bash -c "'
+               f'cd {deployment_dir}/aur && '
+               'makepkg --printsrcinfo > .SRCINFO'
+               '"', "Failed to create .SRCINFO!")
 
 
 def main():
