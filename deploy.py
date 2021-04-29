@@ -367,12 +367,12 @@ def _do_darwin():
 
             defines = {}
 
-            defines['application_binary'] = f'./bin/{target_arch}/Deploy/Pingnoo.dmg'
-            defines['background_image'] = './artwork/pingnoo_background.tiff'
+            defines['application_binary'] = f'bin/{target_arch}/Deploy/Pingnoo.dmg'
+            defines['background_image'] = 'artwork/pingnoo_background.tiff'
 
             dmgbuild.build_dmg(volume_name='Pingnoo',
-                               filename=f'./bin/{target_arch}/Deploy/Pingnoo.dmg',
-                               settings_file='dmg-settings.py',
+                               filename=f'bin/{target_arch}/Deploy/Pingnoo.dmg',
+                               settings_file='installer/dmg-settings.py',
                                defines=defines,
                                lookForHiDPI=True)
         except Exception as err:
