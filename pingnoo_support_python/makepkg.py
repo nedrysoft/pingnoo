@@ -135,12 +135,12 @@ def pkg_create(build_arch, build_type, version, key):
     # create the pkg file
     with msg_printer("Building package"):
         execute(
-            f'sudo -u nobody && "cd bin/{build_arch}/Deploy" && '
-             'sudo -u nobody && "mkdir /tmp/packages" && '
-             'sudo -u nobody && "mkdir /tmp/sources" && '
-             'sudo -u nobody && "mkdir /tmp/srcpackages" && '
-             'sudo -u nobody && "mkdir /tmp/makepkglogs" && '
-             'sudo -u nobody && "makepkg {key_param}"', "Failed to build!")
+            f'sudo -u nobody "cd bin/{build_arch}/Deploy" && '
+             'sudo -u nobody "mkdir /tmp/packages" && '
+             'sudo -u nobody "mkdir /tmp/sources" && '
+             'sudo -u nobody "mkdir /tmp/srcpackages" && '
+             'sudo -u nobody "mkdir /tmp/makepkglogs" && '
+             'sudo -u nobody "makepkg {key_param}"', "Failed to build!")
 
     # f'PKGDEST={deployment_dir} bash -c "cd bin/{build_arch}/Deploy && PKGDEST={deployment_dir} && BUILDDIR=/tmp/makepkg && sudo -u nobody makepkg {key_param}"'
 
