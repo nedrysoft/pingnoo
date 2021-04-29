@@ -122,8 +122,8 @@ def pkg_create(build_arch, build_type, version, key):
             pkgbuild_file.write(pkgbuild_file_content)
 
     # remove any previous deployment artifacts
-    rm_path('/tmp/deployment')
-    #os.makedirs('/tmp/deployment')
+    shutil.rmtree('/tmp/deployment')
+    os.makedirs('/tmp/deployment')
 
     deployment_dir = '/tmp/deployment'
     os.makedirs('deployment')
@@ -145,9 +145,7 @@ def pkg_create(build_arch, build_type, version, key):
             f'mkdir {deployment_dir}/sources && '
             f'mkdir {deployment_dir}/srcpackages && '
             f'mkdir {deployment_dir}/makepkglogs && '
-            f'makepkg {key_param} && '
-             'pwd && '
-             'ls -lHR .'
+            f'makepkg {key_param}'
              '"', "Failed to build!")
 
         shutil.copy2(f'{deployment_dir}/packages', f'deployment/')
