@@ -158,8 +158,8 @@ def pkg_create(build_arch, build_type, version, key):
 
     rm_path('artifacts')
 
-    shutil.copy2(f'{deployment_dir}/packages', 'artifacts/packages')
-    shutil.copy2(f'{deployment_dir}/aur', 'artifacts/aur')
+    shutil.copytree(f'{deployment_dir}/packages', 'artifacts/packages')
+    shutil.copytree(f'{deployment_dir}/aur', 'artifacts/aur')
 
 def main():
     parser = argparse.ArgumentParser(description='pkg build script')
