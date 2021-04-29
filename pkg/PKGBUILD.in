@@ -27,7 +27,7 @@ prepare=()
 
 build() {
     cmake -B build -S $${pkgname} -DCMAKE_SKIP_RPATH=True -DPINGNOO_GIT_YEAR=$GIT_YEAR -DPINGNOO_GIT_MONTH=$GIT_MONTH -DPINGNOO_GIT_DAY=$GIT_DAY -DPINGNOO_GIT_HASH=$GIT_HASH -DPINGNOO_GIT_BRANCH=$GIT_BRANCH -DPINGNOO_GIT_UNCOMMITTED=$GIT_UNCOMMITTED
-    make -C build
+    make -j`nproc` -C build
 }
 
 package() {
