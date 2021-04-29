@@ -128,9 +128,8 @@ def pkg_create(build_arch, build_type, version, key):
     if key:
         key_param = f'--sign --key {key}'
 
-    with msg_printer("Creating artifacts folder"):
-        rm_path('artifacts_')
-        os.makedirs('artifacts_')
+
+    rm_path('artifacts_')
 
     # create the pkg file
     with msg_printer("Building package"):
