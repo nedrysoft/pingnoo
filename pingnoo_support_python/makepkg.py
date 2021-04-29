@@ -128,6 +128,10 @@ def pkg_create(build_arch, build_type, version, key):
     if key:
         key_param = f'--sign --key {key}'
 
+    with msg_printer("Creating artifacts folder"):
+        rm_path('artifacts_')
+        os.makedirs('artifacts_')
+
     # create the pkg file
     with msg_printer("Building package"):
         execute(
@@ -140,7 +144,7 @@ def pkg_create(build_arch, build_type, version, key):
             f'mkdir {deployment_dir}/sources && '
             f'mkdir {deployment_dir}/srcpackages && '
             f'mkdir {deployment_dir}/makepkglogs && '
-            f'makepkg {key_param}'
+            f'PKGDEST=artifacts_ makepkg {key_param}'
              '"', "Failed to build!")
 
     with msg_printer("Creating AUR deployment"):
