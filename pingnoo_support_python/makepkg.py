@@ -121,11 +121,7 @@ def pkg_create(build_arch, build_type, version, key):
         with open(f'bin/{build_arch}/Deploy/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(pkgbuild_file_content)
 
-    # remove any previous deployment artifacts
-    os.makedirs('/tmp/deployment')
-
     deployment_dir = '/tmp/deployment'
-    os.makedirs('deployment')
 
     key_param = ""
 
@@ -147,10 +143,6 @@ def pkg_create(build_arch, build_type, version, key):
             f'makepkg {key_param}'
              '"', "Failed to build!")
 
-        shutil.copy2(f'{deployment_dir}/packages', f'deployment/')
-
-    # f'PKGDEST={deployment_dir} bash -c "cd bin/{build_arch}/Deploy && PKGDEST={deployment_dir} && BUILDDIR=/tmp/makepkg && sudo -u nobody makepkg {key_param}"'
-
     with msg_printer("Creating AUR deployment"):
         shutil.copy2(source_location, f'{deployment_dir}/aur/pingnoo-{git_year}.{git_month}.{git_day}.tar.gz')
         shutil.copy2('pkg/pingnoo.install', f'{deployment_dir}/aur/')
@@ -158,17 +150,20 @@ def pkg_create(build_arch, build_type, version, key):
         with open(f'{deployment_dir}/aur/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(aur_pkgbuild_file_content)
 
-        execute(f'ls -lhR {deployment_dir}', 'failed to look')
-
         execute('sudo -u nobody bash -c "'
                f'ls -lhR {deployment_dir} && '
                f'cd {deployment_dir}/aur && '
                'makepkg --printsrcinfo > .SRCINFO'
                '"', "Failed to create .SRCINFO!")
 
-        shutil.copy2(f'{deployment_dir}/aur', f'deployment/')
+    rm_path('artifacts/packages')
+    rm_path('artifacts/aur')
 
+    os.makedirs('artifacts/packages')
+    os.makedirs('artifacts/aur')
 
+    shutil.copy2(f'{deployment_dir}/packages', 'artifacts/packages')
+    shutil.copy2(f'{deployment_dir}/aur', 'artifacts/aur')
 
 def main():
     parser = argparse.ArgumentParser(description='pkg build script')
