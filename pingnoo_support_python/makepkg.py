@@ -121,11 +121,7 @@ def pkg_create(build_arch, build_type, version, key):
         with open(f'bin/{build_arch}/Deploy/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(pkgbuild_file_content)
 
-    # remove any previous deployment artifacts
-    rm_path('deployment')
-    os.makedirs('deployment')
-
-    deployment_dir = os.getcwd()+"/deployment"
+    build_dir = '/tmp/build'
 
     key_param = ""
 
@@ -135,18 +131,39 @@ def pkg_create(build_arch, build_type, version, key):
     # create the pkg file
     with msg_printer("Building package"):
         execute(
-            f'PKGDEST={deployment_dir} bash -c "cd bin/{build_arch}/Deploy && PKGDEST={deployment_dir} && BUILDDIR=/tmp/makepkg && sudo -u nobody makepkg {key_param}"', "Failed to build!")
+             'sudo -u nobody bash -c "'
+             'export GNUPGHOME=/tmp/.gnupg && ' 
+            f'cd bin/{build_arch}/Deploy && '
+            f'mkdir {build_dir} && '
+            f'mkdir {build_dir}/aur && '
+            f'mkdir {build_dir}/packages && '
+            f'mkdir {build_dir}/sources && '
+            f'mkdir {build_dir}/srcpackages && '
+            f'mkdir {build_dir}/makepkglogs && '
+            f'PKGDEST=/tmp/artifacts makepkg {key_param}'
+             '"', "Failed to build!")
 
     with msg_printer("Creating AUR deployment"):
-        os.makedirs(f'{deployment_dir}/aur')
-        shutil.copy2(source_location, f'{deployment_dir}/aur/pingnoo-{git_year}.{git_month}.{git_day}.tar.gz')
-        shutil.copy2('pkg/pingnoo.install', f'{deployment_dir}/aur/')
+        shutil.copy2(source_location, f'{build_dir}/aur/pingnoo-{git_year}.{git_month}.{git_day}.tar.gz')
+        shutil.copy2('pkg/pingnoo.install', f'{build_dir}/aur/')
 
-        with open(f'{deployment_dir}/aur/PKGBUILD', 'w') as pkgbuild_file:
+        with open(f'{build_dir}/aur/PKGBUILD', 'w') as pkgbuild_file:
             pkgbuild_file.write(aur_pkgbuild_file_content)
 
-        execute(f'cd {deployment_dir}/aur && makepkg --printsrcinfo > .SRCINFO', "Failed to create .SRCINFO!")
+        execute('sudo -u nobody bash -c "'
+               f'cd {build_dir}/aur && '
+               'makepkg --printsrcinfo > .SRCINFO'
+               '"', "Failed to create .SRCINFO!")
 
+    # this is a bit of a mess, the arch linux makepkg tool will not allow you to run it as root, this causes a lot
+    # of isuees with the TeamCity docker in docker agent with permissions.  To solve this, the build is done in
+    # the tmp directory and then the files moved to the artifacts folder for the server to pick up
+
+    with msg_printer("Moving build artifacts"):
+        rm_path('artifacts')
+
+        shutil.copytree('/tmp/artifacts', 'artifacts/package')
+        shutil.copytree(f'{build_dir}/aur', 'artifacts/aur')
 
 def main():
     parser = argparse.ArgumentParser(description='pkg build script')
