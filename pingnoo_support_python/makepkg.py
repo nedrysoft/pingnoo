@@ -135,7 +135,7 @@ def pkg_create(build_arch, build_type, version, key):
     # create the pkg file
     with msg_printer("Building package"):
         execute(
-            f'PKGDEST={deployment_dir} bash -c "PKGDEST={deployment_dir} && BUILDDIR=/tmp/makepkg && cd bin/{build_arch}/Deploy && sudo -u nobody makepkg {key_param}"', "Failed to build!")
+            f'PKGDEST={deployment_dir} bash -c "cd bin/{build_arch}/Deploy && PKGDEST={deployment_dir} && BUILDDIR=/tmp/makepkg && sudo -u nobody makepkg {key_param}"', "Failed to build!")
 
     with msg_printer("Creating AUR deployment"):
         os.makedirs(f'{deployment_dir}/aur')
