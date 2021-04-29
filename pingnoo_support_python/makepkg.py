@@ -156,11 +156,7 @@ def pkg_create(build_arch, build_type, version, key):
                'makepkg --printsrcinfo > .SRCINFO'
                '"', "Failed to create .SRCINFO!")
 
-    rm_path('artifacts/packages')
-    rm_path('artifacts/aur')
-
-    os.makedirs('artifacts/packages')
-    os.makedirs('artifacts/aur')
+    rm_path('artifacts')
 
     shutil.copy2(f'{deployment_dir}/packages', 'artifacts/packages')
     shutil.copy2(f'{deployment_dir}/aur', 'artifacts/aur')
