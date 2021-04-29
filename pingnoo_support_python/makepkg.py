@@ -156,10 +156,12 @@ def pkg_create(build_arch, build_type, version, key):
                'makepkg --printsrcinfo > .SRCINFO'
                '"', "Failed to create .SRCINFO!")
 
-    rm_path('artifacts')
+    with msg_printer("Moving build artifacts"):
+        rm_path('artifacts')
 
-    shutil.copytree(f'{deployment_dir}/packages', 'artifacts/packages')
-    shutil.copytree(f'{deployment_dir}/aur', 'artifacts/aur')
+        shutil.copytree(f'{deployment_dir}', 'artifacts/p2')
+        shutil.copytree(f'{deployment_dir}/packages', 'artifacts/packages')
+        shutil.copytree(f'{deployment_dir}/aur', 'artifacts/aur')
 
 def main():
     parser = argparse.ArgumentParser(description='pkg build script')
