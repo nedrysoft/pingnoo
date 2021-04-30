@@ -50,20 +50,7 @@ ARG DOCKER_GROUP=teamcity
 ARG DOCKER_USER_ID=0
 ARG DOCKER_GROUP_ID=0
 
-#RUN groupadd -g $DOCKER_GROUP_ID $DOCKER_GROUP && useradd -u $DOCKER_USER_ID -m -g $DOCKER_USER $DOCKER_GROUP
-
 COPY makepkg.conf /etc/makepkg.conf
 
-#RUN mkdir /tmp/packages && \
-#    mkdir /tmp/sources && \
-#    mkdir /tmp/srcpackages && \
-#    mkdir /tmp/makepkglogs
-
-#RUN chmod 666 /tmp/packages && \
-#    chmod 666 /tmp/sources && \
-#    chmod 666 /tmp/srcpackages && \
-#    chmod 666 /tmp/makepkglogs
-
-#USER $DOCKER_USER
 
 

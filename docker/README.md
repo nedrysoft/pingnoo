@@ -6,7 +6,7 @@ Each platform may consist of 2 main images, which is for convenience when test b
 
 Base only ever contains packages installed using the operating systems native a package manager (rpm, apt, gem, pip and so on).
 
--   *no prefix*, this is the base OS image. Typically, not required unless building the OS image from scratch (this is the case for raspbian)
+-   *no prefix*, this is the distribution rootfs. Typically, not required unless building the OS image from scratch (this is the case for raspbian)
 -   *-base* is the base OS image with the required apt packages installed for building & deployment
 -   *-builder* contains extra tools (if needed) not from native packages, either from source or a pre-built binary (git, python, cmake etc.).  This image builds the redistributable.
 
@@ -97,15 +97,40 @@ From the ```docker``` folder, execute the following command sequence to build th
 Once built, the user can push the images with the following terminal commands.
 
 ```bash
+docker push registry.fizzyade.com/ubuntu-16.04-base && \
+docker push registry.fizzyade.com/ubuntu-16.04-builder && \
 docker push registry.fizzyade.com/ubuntu-18.04-base && \
+docker push registry.fizzyade.com/ubuntu-18.04-builder && \
 docker push registry.fizzyade.com/ubuntu-20.04-base && \
+docker push registry.fizzyade.com/ubuntu-20.04-builder && \
 docker push registry.fizzyade.com/ubuntu-20.10-base && \
+docker push registry.fizzyade.com/ubuntu-20.10-builder && \
 docker push registry.fizzyade.com/debian-buster-base && \
 docker push registry.fizzyade.com/debian-buster-builder && \
-docker push registry.fizzyade.com/ubuntu-18.04-builder && \
-docker push registry.fizzyade.com/ubuntu-20.04-builder && \
-docker push registry.fizzyade.com/ubuntu-20.10-builder && \
+docker push registry.fizzyade.com/debian-stretch-base && \
+docker push registry.fizzyade.com/debian-stretch-builder && \
 docker push registry.fizzyade.com/fedora-33-builder && \
 docker push registry.fizzyade.com/fedora-32-builder && \
-docker push registry.fizzyade.com/arch-builder
+docker push registry.fizzyade.com/arch-builder && \
+docker push registry.fizzyade.com/raspbian-buster && \
+docker push registry.fizzyade.com/raspbian-buster-base && \
+docker push registry.fizzyade.com/raspbian-buster-builder && \
+docker push registry.fizzyade.com/raspbian-stretch && \
+docker push registry.fizzyade.com/raspbian-stretch-base && \
+docker push registry.fizzyade.com/raspbian-stretch-builder
 ```
+
+## Scripts
+
+For convenience, python scripts are provided to provide automation for generating the docker images.
+
+-   build.py - builds the specified image or if called correctly all images for a distribution.
+
+### Raspbian
+
+The following scripts are provided to work with docker images and containers on raspbian.
+
+-   run.sh - provides a convenient way to start the docker containers on raspbian.
+-   save.sh - provides a convenient way to save the generated docker images on raspbian.
+-   start.sh - starts the docker containers on raspbian.
+-   stop.sh - stops the docker containers on raspbian.

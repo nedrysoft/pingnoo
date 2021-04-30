@@ -39,7 +39,11 @@ You can extract the portable edition zip file onto a memory stick. The applicati
 
 ### MacOS
 
-The application is a dmg disk image.  Download and open the disk image and drag the Pingnoo icon into the Applications folder. You can then launch the application by double-clicking on the Pingnoo icon in Applications.
+The application is a dmg disk image.
+
+Download and open the disk image and drag the Pingnoo icon into the Applications folder. You can then launch the application by double-clicking on the Pingnoo icon in Applications.
+
+From version 2021.04.30 pingnoo is built as a universal binary that will run natively on both Intel and Apple Silicon devices.
 
 ---
 
@@ -49,11 +53,12 @@ Native packages for popular Linux distributions are available, and these install
 
 ### Debian/Ubuntu/Raspbian
 
-Pingnoo is available pre-built for the following versions.
+Pingnoo is available pre-built for the following distributions.
 
--   Debian 10
--   Ubuntu 18.04, 20.04, 20.10
--   Raspbian 10
+-   Arch Linux (*64 bit binaries only*)
+-   Debian 9, 10 (*64 bit binaries only*)
+-   Ubuntu 18.04, 20.04, 20.10 (*64 bit binaries only*)
+-   Raspbian 9, 10 (*32 bit binaries only*)
 
 pingnoo is available for installation using apt. To do this, you will need to add our apt repository and gpg key, and You can use the following command to add the pingnoo repository to your operating system.
 
@@ -124,7 +129,7 @@ makepkg
 sudo pacman -U <filename>.zst
 ```
 
-Alternatively, You can also use a tool such as yay to install pingnoo.
+Alternatively, You can also use a tool such as yay to install the pingnoo binary along with any required dependencies.
 
 ```bash
 yay -S pingnoo
@@ -361,7 +366,7 @@ Also, the development of pingnoo is made possible with the following commerciall
 -   [Icofx](https://icofx.ro) - A tool for producing icon & icns files from source images.
 -   [packagecloud](https://packagecloud.io) - packagecloud kindly host the package repositories for Debian, Ubuntu and Fedora that make installing on those operating systems very easy.
 -   [Araxis Merge](https://www.araxis.com/merge) - Araxis kindly provided the license for free for the project.
--   [Outline](https://www.getoutline.com/) - A note taking app that supports rich content and based on Markdown, the application is open-source but hosted accounts are available.
+-   [Outline](https://www.getoutline.com/) - A note-taking app that supports rich content and based on Markdown, the application is open-source but hosted accounts are available.
 
 ## Thanks
 

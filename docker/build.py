@@ -33,7 +33,7 @@
 #   raspbian-buster-base
 #   raspbian-buster-builder
 #
-# in that order.  Any folder that does not exist will be skipped.
+# in that order.  Any folder that does not exist will be silenty ignored.
 
 import argparse
 import importlib
@@ -78,36 +78,31 @@ try:
     parser.add_argument('--all',
                         action='store_true',
                         help='build all images, first without a suffix, then with -base and finally -builder')
-    parser.add_argument('--user', type=str, nargs='?', help='the user to run the build as', default=None)
-    parser.add_argument('--group', type=str, nargs='?', help='the group to run the build as', default=None)
+    parser.add_argument('--user', type=str, nargs='?', help='the user to run the build as', default='root')
+    parser.add_argument('--group', type=str, nargs='?', help='the group to run the build as', default='root')
     parser.add_argument('--registry',
                         type=str,
                         nargs='?',
-                        help='the group to run the build as',
+                        help='the hostname of the registry used to tag images',
                         default='registry.fizzyade.com')
 
     args = parser.parse_args()
 
-    user_string = ""
-    group_string = ""
+    user_id = execute(f"id -u {args.user}", "error: error finding the user id for user  \'{args.user}\'")
 
-    if args.user is not None:
-        user_id = execute(f"id -u {args.user}", "error: error finding the user id for user  \'{args.user}\'")
- 
-        user_id = user_id.strip()
-        
-        user_string = f'--build-arg DOCKER_USER={args.user} ' \
-                      f'--build-arg DOCKER_USER_ID={user_id} '
-        
-        user_id = user_id.strip()
-    
-    if args.group is not None:
-        group_id = execute(f"id -g {args.user}", "error: error finding the group id for user \'{args.user}\'.")
-        
-        group_id = group_id.strip()
-        
-        group_string = f'--build-arg DOCKER_GROUP={args.group} ' \
-                       f'--build-arg DOCKER_GROUP_ID={group_id} '
+    user_id = user_id.strip()
+
+    user_string = f'--build-arg DOCKER_USER={args.user} ' \
+                  f'--build-arg DOCKER_USER_ID={user_id} '
+
+    user_id = user_id.strip()
+
+    group_id = execute(f"id -g {args.user}", "error: error finding the group id for user \'{args.user}\'.")
+
+    group_id = group_id.strip()
+
+    group_string = f'--build-arg DOCKER_GROUP={args.group} ' \
+                   f'--build-arg DOCKER_GROUP_ID={group_id} '
         
     images = [args.image]
 

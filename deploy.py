@@ -248,6 +248,8 @@ def _do_darwin():
 
     if args.universal:
         target_arch = "universal"
+    else:
+        target_arch = args.arch
 
     # remove previous deployment files and copy current binaries
     with msg_printer('Setting up deployment directory...'):
@@ -358,10 +360,8 @@ def _do_darwin():
                     'artwork/pingnoo_background.tiff',
                     fail_msg='there was a problem creating the combined tiff.')
 
-            defines = {}
-
-            defines['application_binary'] = f'bin/{target_arch}/Deploy/Pingnoo.app'
-            defines['background_image'] = 'artwork/pingnoo_background.tiff'
+            defines = {'application_binary': f'bin/{target_arch}/Deploy/Pingnoo.app',
+                       'background_image': 'artwork/pingnoo_background.tiff'}
 
             dmgbuild.build_dmg(volume_name='Pingnoo',
                                filename=f'bin/{target_arch}/Deploy/Pingnoo.dmg',
@@ -369,7 +369,7 @@ def _do_darwin():
                                defines=defines,
                                lookForHiDPI=True)
         except Exception as err:
-            raise MsgPrinterException(f'there was a problem creating the dmg.\r\n\r\n'+err)
+            raise MsgPrinterException(f'there was a problem creating the dmg.\r\n\r\n'+str(err))
 
     # sign the dmg and notarize it
     with msg_printer('Signing dmg...'):
@@ -506,7 +506,7 @@ def _do_linux():
 
             build_parts = args.version.split('-', 1)
 
-            if len(build_parts) != 2:
+            if not int(len(build_parts)) == 2:
                 linux_build_version = "0.0.0"
             else:
                 linux_build_version = build_parts[0][2:]
