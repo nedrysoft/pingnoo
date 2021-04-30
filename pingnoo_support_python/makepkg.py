@@ -49,7 +49,7 @@ def pkg_create(build_arch, build_type, version, key):
 
     pkgver = f'{git_year}.{git_month}.{git_day}'
 
-    aur_source_location = f'https://www.nedrysoft.com/downloads/pingnoo/source/pingnoo-${pkgver}.tar.gz'
+    aur_source_location = f'https://www.nedrysoft.com/downloads/pingnoo/source/pingnoo-{pkgver}.tar.gz'
 
     source_filename = f'pingnoo.tar.gz'
 
