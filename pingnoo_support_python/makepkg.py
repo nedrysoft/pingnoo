@@ -47,7 +47,9 @@ def pkg_create(build_arch, build_type, version, key):
         git_branch = re.sub(r'\W', '', execute("git branch --show-current")[1])
         git_uncommitted = 0
 
-    aur_source_location = 'https://www.nedryspft.com/downloads/${pkgname}/source/${pkgname}-${pkgver}.tar.gz'
+    pkgver = f'{git_year}.{git_month}.{git_day}'
+
+    aur_source_location = f'https://www.nedrysoft.com/downloads/pingnoo/source/pingnoo-{pkgver}.tar.gz'
 
     source_filename = f'pingnoo.tar.gz'
 
@@ -133,14 +135,14 @@ def pkg_create(build_arch, build_type, version, key):
         execute(
              'sudo -u nobody bash -c "'
              'export GNUPGHOME=/tmp/.gnupg && ' 
-            f'cd bin/{build_arch}/Deploy && '
-            f'mkdir {build_dir} && '
-            f'mkdir {build_dir}/aur && '
-            f'mkdir {build_dir}/packages && '
-            f'mkdir {build_dir}/sources && '
-            f'mkdir {build_dir}/srcpackages && '
-            f'mkdir {build_dir}/makepkglogs && '
-            f'PKGDEST=/tmp/artifacts makepkg {key_param}'
+             f'cd bin/{build_arch}/Deploy && '
+             f'mkdir {build_dir} && '
+             f'mkdir {build_dir}/aur && '
+             f'mkdir {build_dir}/packages && '
+             f'mkdir {build_dir}/sources && '
+             f'mkdir {build_dir}/srcpackages && '
+             f'mkdir {build_dir}/makepkglogs && '
+             f'PKGDEST=/tmp/artifacts makepkg {key_param}'
              '"', "Failed to build!")
 
     with msg_printer("Creating AUR deployment"):
@@ -151,12 +153,12 @@ def pkg_create(build_arch, build_type, version, key):
             pkgbuild_file.write(aur_pkgbuild_file_content)
 
         execute('sudo -u nobody bash -c "'
-               f'cd {build_dir}/aur && '
-               'makepkg --printsrcinfo > .SRCINFO'
-               '"', "Failed to create .SRCINFO!")
+                f'cd {build_dir}/aur && '
+                'makepkg --printsrcinfo > .SRCINFO'
+                '"', "Failed to create .SRCINFO!")
 
     # this is a bit of a mess, the arch linux makepkg tool will not allow you to run it as root, this causes a lot
-    # of isuees with the TeamCity docker in docker agent with permissions.  To solve this, the build is done in
+    # of issues with the TeamCity docker in docker agent with permissions.  To solve this, the build is done in
     # the tmp directory and then the files moved to the artifacts folder for the server to pick up
 
     with msg_printer("Moving build artifacts"):
@@ -164,6 +166,7 @@ def pkg_create(build_arch, build_type, version, key):
 
         shutil.copytree('/tmp/artifacts', 'artifacts/package')
         shutil.copytree(f'{build_dir}/aur', 'artifacts/aur')
+
 
 def main():
     parser = argparse.ArgumentParser(description='pkg build script')

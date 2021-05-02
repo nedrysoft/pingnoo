@@ -1,6 +1,6 @@
 # Maintainer: Adrian Carpenter <hello@nedrysoft.com>
 pkgname=pingnoo
-pkgver="$version"
+pkgver=$version
 pkgrel=1
 epoch=
 pkgdesc="An open-source cross-platform tool for ping/traceroute analysis."
