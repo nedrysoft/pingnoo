@@ -34,14 +34,21 @@
 #include "RibbonBarManager.h"
 #include "SettingsDialog/ISettingsPage.h"
 #include "SettingsDialog/SettingsDialog.h"
+#include "SystemTrayIconManager.h"
 #include "ui_MainWindow.h"
 
 #include <QApplication>
 #include <QCloseEvent>
+#include <QDirIterator>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QSystemTrayIcon>
 #include <spdlog/spdlog.h>
+
+#include <QBitmap>
+
+extern "C" void popoverTest(QWidget *parentWidget, QPoint point);
 
 Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -56,10 +63,15 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
 #if defined(Q_OS_MACOS)
-    qApp->setWindowIcon(QIcon(":/app/images/appicon-512x512@2x.png"));
+    qApp->setWindowIcon(QIcon(":/app/images/appicon/colour/appicon/512x512@2x.png"));
 #else
     qApp->setWindowIcon(QIcon(":/app/AppIcon.ico"));
 #endif
+
+    m_systemTrayIcon = new SystemTrayIconManager(this);
+
+    m_systemTrayIcon->setIconColour(Qt::green);
+    m_systemTrayIcon->setVisible(true);
 
     m_ribbonBarManager = new Nedrysoft::Core::RibbonBarManager(ui->ribbonBar);
 

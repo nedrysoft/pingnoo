@@ -1,0 +1,57 @@
+<RCC>
+<qresource prefix="/app">
+    <file>images/appicon/colour/appicon-1024x1024.png</file>
+    <file>images/appicon/colour/appicon-1024x1024@2x.png</file>
+    <file>images/appicon/colour/appicon-128x128.png</file>
+    <file>images/appicon/colour/appicon-128x128@2x.png</file>
+    <file>images/appicon/colour/appicon-16x16.png</file>
+    <file>images/appicon/colour/appicon-16x16@2x.png</file>
+    <file>images/appicon/colour/appicon-20x20.png</file>
+    <file>images/appicon/colour/appicon-20x20@2x.png</file>
+    <file>images/appicon/colour/appicon-24x24.png</file>
+    <file>images/appicon/colour/appicon-24x24@2x.png</file>
+    <file>images/appicon/colour/appicon-256x256.png</file>
+    <file>images/appicon/colour/appicon-256x256@2x.png</file>
+    <file>images/appicon/colour/appicon-32x32.png</file>
+    <file>images/appicon/colour/appicon-32x32@2x.png</file>
+    <file>images/appicon/colour/appicon-40x40.png</file>
+    <file>images/appicon/colour/appicon-40x40@2x.png</file>
+    <file>images/appicon/colour/appicon-48x48.png</file>
+    <file>images/appicon/colour/appicon-48x48@2x.png</file>
+    <file>images/appicon/colour/appicon-512x512.png</file>
+    <file>images/appicon/colour/appicon-512x512@2x.png</file>
+    <file>images/appicon/colour/appicon-64x64.png</file>
+    <file>images/appicon/colour/appicon-64x64@2x.png</file>
+    <file>images/appicon/colour/appicon-96x96.png</file>
+    <file>images/appicon/colour/appicon-96x96@2x.png</file>
+
+
+    <file>images/appicon/mono/appicon-1024x1024.png</file>
+    <file>images/appicon/mono/appicon-1024x1024@2x.png</file>
+    <file>images/appicon/mono/appicon-128x128.png</file>
+    <file>images/appicon/mono/appicon-128x128@2x.png</file>
+    <file>images/appicon/mono/appicon-16x16.png</file>
+    <file>images/appicon/mono/appicon-16x16@2x.png</file>
+    <file>images/appicon/mono/appicon-20x20.png</file>
+    <file>images/appicon/mono/appicon-20x20@2x.png</file>
+    <file>images/appicon/mono/appicon-24x24.png</file>
+    <file>images/appicon/mono/appicon-24x24@2x.png</file>
+    <file>images/appicon/mono/appicon-256x256.png</file>
+    <file>images/appicon/mono/appicon-256x256@2x.png</file>
+    <file>images/appicon/mono/appicon-32x32.png</file>
+    <file>images/appicon/mono/appicon-32x32@2x.png</file>
+    <file>images/appicon/mono/appicon-40x40.png</file>
+    <file>images/appicon/mono/appicon-40x40@2x.png</file>
+    <file>images/appicon/mono/appicon-48x48.png</file>
+    <file>images/appicon/mono/appicon-48x48@2x.png</file>
+    <file>images/appicon/mono/appicon-512x512.png</file>
+    <file>images/appicon/mono/appicon-512x512@2x.png</file>
+    <file>images/appicon/mono/appicon-64x64.png</file>
+    <file>images/appicon/mono/appicon-64x64@2x.png</file>
+    <file>images/appicon/mono/appicon-96x96.png</file>
+    <file>images/appicon/mono/appicon-96x96@2x.png</file>
+
+    <file>images/splashscreen@2x.png</file>
+    <file>images/splashscreen.png</file>
+</qresource>
+</RCC>

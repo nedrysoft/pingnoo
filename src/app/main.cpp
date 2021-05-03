@@ -221,7 +221,7 @@ int main(int argc, char **argv) {
 #if defined(Q_OS_WINDOWS)
         qApp->setWindowIcon(QIcon(":/app/AppIcon.ico"));
 #else
-        qApp->setWindowIcon(QIcon(":/app/images/appicon-512x512@2x.png"));
+        qApp->setWindowIcon(QIcon(":/app/images/appicon/colour/appicon-512x512@2x.png"));
 #endif
 
         QTimer::singleShot(splashscreenTimeout, [=]() {

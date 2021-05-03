@@ -53,7 +53,7 @@ def deb_create(build_arch, build_type, version, output_file, key, extra_packages
 
         # copy data + binaries into the deb tree
         shutil.copy2(f'bin/{build_arch}/{build_type}/Pingnoo', f'bin/{build_arch}/Deploy/dpkg/usr/local/bin/pingnoo')
-        shutil.copy2('src/app/images/appicon-512x512-.png',
+        shutil.copy2('src/app/images/appicon/colour/appicon-512x512.png',
                      f'bin/{build_arch}/Deploy/dpkg/usr/share/icons/hicolor/512x512/apps/pingnoo.png')
 
         shutil.copytree(f'bin/{build_arch}/{build_type}/Components',
