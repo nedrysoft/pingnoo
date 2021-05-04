@@ -123,6 +123,8 @@ Nedrysoft::Core::MainWindow::~MainWindow() {
      delete m_hostInfoLabel;
      delete m_tableModel;*/
 
+    delete m_systemTrayIcon;
+
     delete ui;
 
     if (m_ribbonBarManager) {

@@ -29,17 +29,34 @@
 #include <QMenu>
 #include <QLabel>
 #include <QDebug>
+#include <QMap>
+#include <QString>
+#include <QPushButton>
 
 constexpr auto trayPixmap = ":/app/images/appicon/mono/appicon-1024x1024@2x.png";
 
 extern "C" void showPopover(QSystemTrayIcon *systemTrayIcon);
-extern "C" void addStatusIcon(QWidget *contentWidget);
+
+extern "C" QMap<QString, void *> addStatusIcon(QWidget *contentWidget);
+extern "C" void removeStatusIcon(QMap<QString, void *> map);
+
+QMap<QString, void *> tempMap;
+
+Nedrysoft::Core::SystemTrayIconManager::~SystemTrayIconManager() {
+    removeStatusIcon(tempMap);
+}
 
 Nedrysoft::Core::SystemTrayIconManager::SystemTrayIconManager(QObject *parent) :
         m_basePixmap(trayPixmap),
         m_systemTrayIcon(nullptr) {//new QSystemTrayIcon(QIcon(QPixmap(trayPixmap)), parent)) {
 
-    addStatusIcon(new QLabel("Har"));
+    auto label = new QPushButton("Har");
+
+    label->setStyleSheet("QPushButton:hover {\n"
+                         "     background-color: rgb(224, 255, 0);\n"
+                         " }");
+
+    tempMap = addStatusIcon(label);
 
     //setIconColour(Qt::white);
     //setVisible(false);

@@ -30,10 +30,14 @@
 
 @interface StatusBarHelper : NSObject {
     QWidget *m_contentWidget;
+    NSPopover *m_entryPopover;
+    NSView *m_nativeView;
+    NSViewController *m_viewController;
 }
 
 - (void) statusBarItemClicked:(NSStatusBarButton *) sender;
 - (void) setContentWidget:(QWidget *) contentWidget;
+- (void) receivePopoverClosedNotification:(NSNotification *) notification;
 
 @end
 

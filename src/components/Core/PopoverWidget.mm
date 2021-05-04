@@ -6,6 +6,8 @@
 #include <QPixmap>
 #include <QtMac>
 #include <QVBoxLayout>
+#include <QMap>
+#include <QString>
 
 constexpr int StatusBarIconSize = 20;
 constexpr auto trayPixmap = ":/app/images/appicon/mono/appicon-32x32.png";
@@ -13,62 +15,66 @@ constexpr auto trayPixmap = ":/app/images/appicon/mono/appicon-32x32.png";
 @implementation StatusBarHelper
 
 - (void) statusBarItemClicked:(NSStatusBarButton *) sender {
-    NSViewController *viewController = [[NSViewController alloc] init];
+    m_viewController = [[NSViewController alloc] init];
 
     // create the popover
 
-    NSPopover *entryPopover = [[NSPopover alloc] init];
+    m_entryPopover = [[NSPopover alloc] init];
 
-    [entryPopover setContentSize: NSMakeSize(200.0, 200.0)];
-    [entryPopover setBehavior: NSPopoverBehaviorTransient];
-    [entryPopover setAnimates: YES];
-    [entryPopover setContentViewController: viewController];
+    [m_entryPopover setContentSize: NSMakeSize(200.0, 200.0)];
+    [m_entryPopover setBehavior: NSPopoverBehaviorTransient];
+    [m_entryPopover setAnimates: YES];
+    [m_entryPopover setContentViewController: m_viewController];
 
-    // create our qt widget
+    qDebug() << m_contentWidget->parentWidget();
 
-    auto contentWidget = new QWidget();
+    auto contentWidgetView = reinterpret_cast<NSView *>(m_contentWidget->winId());
 
-    auto layout = new QVBoxLayout;
+    m_nativeView = [[NSView alloc] init];
 
-    layout->addWidget(m_contentWidget);
+    [m_nativeView addSubview: contentWidgetView];
+    qDebug() << m_contentWidget->parentWidget();
+    m_contentWidget->show();
 
-    contentWidget->setLayout(layout);
-
-    // create a NSView and add our content view as a sub view
-
-    auto contentView = reinterpret_cast<NSView *>(contentWidget->winId());
-
-    NSView *view = [[NSView alloc] init];
-
-    [view addSubview: contentView];
-
-    contentWidget->show();
-
-    [viewController setView: contentView];
+    [m_viewController setView: contentWidgetView];
 
     // show the popover in the correct place
 
     NSRect entryRect = [sender visibleRect];
 
-    [entryPopover showRelativeToRect: entryRect
-                              ofView: sender
-                       preferredEdge: NSMinYEdge];
+    [m_entryPopover showRelativeToRect: entryRect
+                                ofView: sender
+                         preferredEdge: NSMinYEdge];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivePopoverClosedNotification:)
+                                                 name:@"NSPopoverDidCloseNotification"
+                                               object:nil];
+}
+
+- (void) receivePopoverClosedNotification:(NSNotification *) notification {
+    delete m_contentWidget;
 }
 
 - (void) setContentWidget:(QWidget *) contentWidget {
     m_contentWidget = contentWidget;
 }
 
-extern "C" void addStatusIcon(QWidget *contentWidget) {
+StatusBarHelper *m_statusBarHelper;
+NSStatusItem *m_statusBarItem;
+
+extern "C" QMap<QString, void *> addStatusIcon(QWidget *contentWidget) {
+    QMap<QString, void *> map;
+
     NSStatusBar *bar = [NSStatusBar systemStatusBar];
 
-    NSStatusItem *statusBarItem = [bar statusItemWithLength: NSSquareStatusItemLength];
+    m_statusBarItem = [bar statusItemWithLength:NSSquareStatusItemLength];
 
-    StatusBarHelper *statusBarHelper = [[StatusBarHelper alloc] init];
+    m_statusBarHelper = [[StatusBarHelper alloc] init];
 
-    [statusBarItem retain];
+    [m_statusBarHelper retain];
 
-    [statusBarHelper setContentWidget: contentWidget];
+    [m_statusBarHelper setContentWidget:contentWidget];
 
     QPixmap trayIcon(trayPixmap);
 
@@ -76,15 +82,32 @@ extern "C" void addStatusIcon(QWidget *contentWidget) {
 
     CGImageRef imageRef = trayIcon.toImage().toCGImage();
 
-    NSImage *nsImage = [[NSImage alloc] initWithCGImage: imageRef
-                                                   size: NSMakeSize(trayIcon.width(), trayIcon.height())];
+    NSImage *m_nsImage = [[NSImage alloc] initWithCGImage:imageRef
+                                                     size:NSMakeSize(trayIcon.width(), trayIcon.height())];
 
-    NSStatusBarButton *button = [statusBarItem button];
+    NSStatusBarButton *m_button = [m_statusBarItem button];
 
-    [button setImage: nsImage];
+    [m_button setImage:m_nsImage];
 
-    [button setTarget: statusBarHelper];
-    [button setAction: @selector(statusBarItemClicked:)];
+    [m_button setTarget:m_statusBarHelper];
+    [m_button setAction:@selector(statusBarItemClicked:)];
+
+    map["m_button"] = m_button;
+    map["m_nsImage"] = m_nsImage;
+    map["m_statusBarHelper"] = m_statusBarHelper;
+    map["m_statusBarItem"] = m_statusBarItem;
+
+    return map;
+}
+
+extern "C" void removeStatusIcon(QMap<QString, void *> map) {
+    NSStatusBar *bar = [NSStatusBar systemStatusBar];
+
+    NSStatusItem *statusBarItem = (NSStatusItem*) map["m_statusBarItem"];
+
+    qDebug() << "removing!";
+
+    [bar removeStatusItem: statusBarItem];
 }
 
 void showPopover(QSystemTrayIcon *systemTrayIcon) {

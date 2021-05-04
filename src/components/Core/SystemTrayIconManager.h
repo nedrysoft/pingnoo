@@ -52,7 +52,7 @@ namespace Nedrysoft { namespace Core {
             /**
              * @brief       Destroys the SystemTrayIconManager
              */
-            ~SystemTrayIconManager() = default;
+            ~SystemTrayIconManager();
 
             /**
              * @brief       Sets whether the system tray icon is visible.
