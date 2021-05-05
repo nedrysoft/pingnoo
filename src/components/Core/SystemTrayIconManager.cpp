@@ -23,83 +23,68 @@
 
 #include "SystemTrayIconManager.h"
 
-#include <QMenu>
-#include <QSystemTrayIcon>
+#if defined(Q_OS_MACOS)
 #include <qglobal.h>
-#include <QMenu>
+
+#include "MacHelper/MenuBarIcon.h"
+#include "MacHelper/Popover.h"
+#else
+#include <QSystemTrayIcon>
+#endif
+
 #include <QLabel>
-#include <QDebug>
-#include <QMap>
-#include <QString>
-#include <QPushButton>
+#include <QVBoxLayout>
 
 constexpr auto trayPixmap = ":/app/images/appicon/mono/appicon-1024x1024@2x.png";
 
-extern "C" void showPopover(QSystemTrayIcon *systemTrayIcon);
+Nedrysoft::Core::SystemTrayIconManager::SystemTrayIconManager(QObject *parent) :
+        m_basePixmap(trayPixmap) {
 
-extern "C" QMap<QString, void *> addStatusIcon(QWidget *contentWidget);
-extern "C" void removeStatusIcon(QMap<QString, void *> map);
+#if defined(Q_OS_MACOS)
+    m_menuBarIcon = new Nedrysoft::MacHelper::MenuBarIcon(QPixmap(trayPixmap));
 
-QMap<QString, void *> tempMap;
+    connect(m_menuBarIcon, &Nedrysoft::MacHelper::MenuBarIcon::clicked, [=] {
+        auto popover = new Nedrysoft::MacHelper::Popover;
 
-Nedrysoft::Core::SystemTrayIconManager::~SystemTrayIconManager() {
-    removeStatusIcon(tempMap);
+        QWidget *contentWidget = new QWidget;
+
+        auto contentLayout = new QVBoxLayout;
+
+        contentLayout->addWidget(new QLabel("Hello!"));
+
+        contentWidget->setLayout(contentLayout);
+
+        popover->show(m_menuBarIcon, contentWidget, QSize(300, 600));
+    });
+#else
+    m_systemTrayIcon = new QSystemTrayIcon;
+#endif
 }
 
-Nedrysoft::Core::SystemTrayIconManager::SystemTrayIconManager(QObject *parent) :
-        m_basePixmap(trayPixmap),
-        m_systemTrayIcon(nullptr) {//new QSystemTrayIcon(QIcon(QPixmap(trayPixmap)), parent)) {
+Nedrysoft::Core::SystemTrayIconManager::~SystemTrayIconManager() {
 
-    auto label = new QPushButton("Har");
-
-    label->setStyleSheet("QPushButton:hover {\n"
-                         "     background-color: rgb(224, 255, 0);\n"
-                         " }");
-
-    tempMap = addStatusIcon(label);
-
-    //setIconColour(Qt::white);
-    //setVisible(false);
-/*
-    connect(m_systemTrayIcon, &QSystemTrayIcon::activated, [=](QSystemTrayIcon::ActivationReason reason) {
-        QWidget widget;
-
-        auto rect = m_systemTrayIcon->geometry();
-
-        auto popupWidget = new QWidget(nullptr, Qt::Popup);
-
-        auto popupSize = QSize( 300, 300);
-#if defined(Q_OS_MACOS)
-        auto popupRect = QRect(
-                rect.center().x()-(popupSize.width()/2),
-                rect.bottom(),
-                popupSize.width(),
-                popupSize.height() );
-#elif defined(Q_OS_UNIX)
-#error "functionality for unix needs to be implemented"
-#elif defined(Q_OS_MACOS)
-
-#endif
-        popupWidget->setGeometry(popupRect);
-
-        popupWidget->show();
-
-        showPopover(m_systemTrayIcon);
-    });*/
 }
 
 auto Nedrysoft::Core::SystemTrayIconManager::setVisible(bool visible) -> void {
-    /*m_visible = visible;
+    m_visible = visible;
 
+#if defined(Q_OS_MACOS)
+    if (m_visible) {
+        m_menuBarIcon->show();
+    } else {
+        m_menuBarIcon->hide();
+    }
+#else
     if (m_visible) {
         m_systemTrayIcon->show();
     } else {
         m_systemTrayIcon->hide();
-    }*/
+    }
+#endif
 }
 
 auto Nedrysoft::Core::SystemTrayIconManager::setIconColour(const QColor &iconColour) -> void {
-    /*QImage temporaryImage = m_basePixmap.toImage();
+    QImage temporaryImage = m_basePixmap.toImage();
 
     for(int y=0;y<temporaryImage.height();y++) {
         for (int x = 0; x < temporaryImage.width(); x++) {
@@ -115,5 +100,9 @@ auto Nedrysoft::Core::SystemTrayIconManager::setIconColour(const QColor &iconCol
         }
     }
 
-    m_systemTrayIcon->setIcon(QIcon(QPixmap::fromImage(temporaryImage)));*/
+#if defined(Q_OS_MACOS)
+    m_menuBarIcon->setPixmap(QPixmap::fromImage(temporaryImage));
+#else
+    m_systemTrayIcon->setIcon(QIcon(QPixmap::fromImage(temporaryImage)));
+#endif
 }

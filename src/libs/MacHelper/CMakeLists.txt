@@ -1,9 +1,7 @@
 #
 # Copyright (C) 2020 Adrian Carpenter
 #
-# This file is part of the Nedrysoft SettingsDialog. (https://github.com/nedrysoft/SettingsDialog)
-#
-# A cross-platform settings dialog
+# This file is part of the Nedrysoft MacHelper library.
 #
 # Created by Adrian Carpenter on 07/12/2020.
 #
@@ -41,7 +39,15 @@ if(APPLE)
 
     set(library_SOURCES
         includes/MacHelper/MacHelper.h
+        includes/MacHelper/MenuBarIcon.h
+        includes/MacHelper/Popover.h
+        includes/MacHelper/PopoverHelper.h
+        includes/MacHelper/StatusBarHelper.h
         src/MacHelper.mm
+        src/MenuBarIcon.mm
+        src/Popover.mm
+        src/PopoverHelper.mm
+        src/StatusBarHelper.mm
     )
 
     include_directories("src" "includes")

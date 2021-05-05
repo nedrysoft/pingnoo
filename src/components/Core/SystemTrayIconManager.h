@@ -30,6 +30,13 @@
 #include <QPixmap>
 #include <QSystemTrayIcon>
 
+#if defined(Q_OS_MACOS)
+namespace Nedrysoft { namespace MacHelper {
+    class MenuBarIcon;
+    class Popover;
+}}
+#endif
+
 namespace Nedrysoft { namespace Core {
     /**
      * @brief       The ISystemTrayIconManager provides access to the system tray icon that some operations
@@ -77,7 +84,12 @@ namespace Nedrysoft { namespace Core {
             QIcon m_icon;
             QPixmap m_basePixmap;
             QPixmap m_activePixmap;
+#if defined(Q_OS_MACOS)
+            Nedrysoft::MacHelper::MenuBarIcon *m_menuBarIcon;
+            Nedrysoft::MacHelper::Popover *m_popover;
+#else
             QSystemTrayIcon *m_systemTrayIcon;
+#endif
             bool m_visible;
     };
 }}

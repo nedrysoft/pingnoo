@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2021 Adrian Carpenter
  *
- * This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
+ * This file is part of the Nedrysoft MacHelper library.
  *
  * An open-source cross-platform traceroute analyser.
  *
- * Created by Adrian Carpenter on 03/05/2021.
+ * Created by Adrian Carpenter on 04/05/2021.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,24 +21,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_POPOVERWIDGET_H
-#define NEDRYSOFT_POPOVERWIDGET_H
+#ifndef NEDRYSOFT_POPOVERHELPER_H
+#define NEDRYSOFT_POPOVERHELPER_H
 
 #include <QWidget>
+#include <QSize>
 
-#import <Foundation/Foundation.h>
+#include "MacHelper/MenuBarIcon.h"
 
-@interface StatusBarHelper : NSObject {
+#import <AppKit/AppKit.h>
+
+@interface PopoverHelper : NSObject {
     QWidget *m_contentWidget;
-    NSPopover *m_entryPopover;
+    NSPopover *m_popover;
     NSView *m_nativeView;
     NSViewController *m_viewController;
 }
 
-- (void) statusBarItemClicked:(NSStatusBarButton *) sender;
-- (void) setContentWidget:(QWidget *) contentWidget;
-- (void) receivePopoverClosedNotification:(NSNotification *) notification;
+/**
+ * @brief       Show the popover with the given parameters.
+ *
+ * @param[in]   contentWidget the widget that is used as the content of the popover.
+ * @param[in]   sourceView the view that the popover originates from.
+ * @param[in]   sourceViewRect the rectangle of the view that the popover originates from.
+ * @param[in]   contentSize the size of the popover window.
+ */
+- (void) show:(QWidget *) contentWidget
+     withView:(NSView *) sourceView
+   sourceRect:(NSRect) sourceViewRect
+         size:(NSSize) contentSize;
 
 @end
 
-#endif //NEDRYSOFT_POPOVERWIDGET_H
+#endif // NEDRYSOFT_POPOVERHELPER_H

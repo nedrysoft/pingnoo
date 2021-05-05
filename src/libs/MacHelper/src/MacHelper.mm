@@ -1,9 +1,7 @@
 /*
  * Copyright (C) 2020 Adrian Carpenter
  *
- * This file is part of the Nedrysoft SettingsDialog. (https://github.com/nedrysoft/SettingsDialog)
- *
- * A cross-platform settings dialog
+ * This file is part of the Nedrysoft MacHelper library.
  *
  * Created by Adrian Carpenter on 07/12/2020.
  *
@@ -56,7 +54,6 @@ void Nedrysoft::MacHelper::enablePreferencesToolbar(QWidget *window) {
         }
     }
 }
-
 
 auto Nedrysoft::MacHelper::standardImage(StandardImage::StandardImageName standardImage, QSize imageSize)->QPixmap {
     auto bitmapRepresentation = [[NSBitmapImageRep alloc]

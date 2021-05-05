@@ -91,7 +91,6 @@ pingnoo_add_sources(
     SystemTrayIconManager.h
     fonts.qrc
     icons.qrc
-    PopoverWidget.mm
 )
 
 pingnoo_set_description("Core application support component")
@@ -106,6 +105,7 @@ pingnoo_use_shared_library(FontAwesome)
 pingnoo_set_component_metadata("Core" "Provides core services to components.")
 
 if(APPLE)
+    pingnoo_use_shared_library(MacHelper)
     pingnoo_use_qt_libraries(MacExtras)
     target_link_libraries(${PROJECT_NAME} "-framework AppKit" "-framework Cocoa")
     target_link_libraries(${PROJECT_NAME} stdc++ objc)
