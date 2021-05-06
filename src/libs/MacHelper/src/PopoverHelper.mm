@@ -24,9 +24,10 @@
 @implementation PopoverHelper
 
 - (void) show:(QWidget *) contentWidget
-     withView:(NSView *) sourceView
-   sourceRect:(NSRect) sourceViewRect
-         size:(NSSize) contentSize {
+     withView:(NSView *) view
+   sourceRect:(NSRect) rect
+         size:(NSSize) size
+preferredEdge:(Nedrysoft::MacHelper::Popover::Edge) preferredEdge {
 
     m_contentWidget = contentWidget;
 
@@ -36,7 +37,7 @@
 
     m_popover = [[NSPopover alloc] init];
 
-    [m_popover setContentSize: contentSize];
+    [m_popover setContentSize: size];
     [m_popover setBehavior: NSPopoverBehaviorTransient];
     [m_popover setAnimates: YES];
     [m_popover setContentViewController: m_viewController];
@@ -53,9 +54,21 @@
 
     // show the popover in the correct place
 
-    [m_popover showRelativeToRect: sourceViewRect
-                           ofView: sourceView
-                    preferredEdge: NSMinYEdge];
+    NSRectEdge edge;
+
+    if (preferredEdge==Nedrysoft::MacHelper::Popover::Edge::MinXEdge) {
+        edge = NSRectEdgeMinX;
+    } else if (preferredEdge==Nedrysoft::MacHelper::Popover::Edge::MaxXEdge) {
+        edge = NSRectEdgeMaxX;
+    } else if (preferredEdge==Nedrysoft::MacHelper::Popover::Edge::MinYEdge) {
+        edge = NSRectEdgeMinY;
+    } else {
+        edge = NSRectEdgeMaxY;
+    }
+
+    [m_popover showRelativeToRect: rect
+                           ofView: view
+                    preferredEdge: edge];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receivePopoverClosedNotification:)

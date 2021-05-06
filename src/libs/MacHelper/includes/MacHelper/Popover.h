@@ -42,6 +42,14 @@ namespace Nedrysoft { namespace MacHelper {
             Q_OBJECT
 
         public:
+            enum class Edge {
+                MaxXEdge,
+                MaxYEdge,
+                MinXEdge,
+                MinYEdge
+            };
+
+        public:
             /**
              * @brief       Shows the popup relative to a menu bar icon.
              *
@@ -51,8 +59,13 @@ namespace Nedrysoft { namespace MacHelper {
              * @param[in]   menuBarIcon the menu bar icon that the popover is relative to.
              * @param[in]   contentWidget the content to display in the popover.
              * @param[in]   size the size of the popover.
+             * @param[in]   edge the edge that the popover should be attached to.
              */
-            auto show(Nedrysoft::MacHelper::MenuBarIcon *menuBarIcon, QWidget *contentWidget, QSize size) -> void;
+            auto show(
+                    Nedrysoft::MacHelper::MenuBarIcon *menuBarIcon,
+                    QWidget *contentWidget,
+                    QSize size,
+                    Nedrysoft::MacHelper::Popover::Edge edge) -> void;
 
             /**
              * @brief       Shows the popup relative to a widget.
@@ -63,8 +76,13 @@ namespace Nedrysoft { namespace MacHelper {
              * @param[in]   widget the widget that the popover is relative to.
              * @param[in]   contentWidget the content to display in the popover.
              * @param[in]   size the size of the popover.
+             * @param[in]   edge the edge that the popover should be attached to.
              */
-            auto show(QWidget *widget, QWidget *contentWidget, QSize size) -> void;
+            auto show(
+                    QWidget *widget,
+                    QWidget *contentWidget,
+                    QSize size,
+                    Nedrysoft::MacHelper::Popover::Edge edge) -> void;
 
         public:
             /**
