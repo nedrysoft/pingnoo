@@ -54,7 +54,7 @@ Nedrysoft::Core::SystemTrayIconManager::SystemTrayIconManager(QObject *parent) :
 
         contentWidget->setLayout(contentLayout);
 
-        popover->show(m_menuBarIcon, contentWidget, QSize(300, 600));
+        popover->show(m_menuBarIcon, contentWidget, contentWidget->sizeHint(), Nedrysoft::MacHelper::Popover::Edge::MaxYEdge);
     });
 #else
     m_systemTrayIcon = new QSystemTrayIcon;

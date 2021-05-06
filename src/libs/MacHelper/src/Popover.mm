@@ -30,21 +30,29 @@
 auto Nedrysoft::MacHelper::Popover::show(
         Nedrysoft::MacHelper::MenuBarIcon *menuBarIcon,
         QWidget *contentWidget,
-        QSize size) -> void {
+        QSize size,
+        Nedrysoft::MacHelper::Popover::Edge edge) -> void {
 
     m_popover = [[PopoverHelper alloc] init];
 
     [m_popover show:contentWidget
            withView:menuBarIcon->button()
          sourceRect:NSRectFromCGRect(menuBarIcon->buttonRect().toCGRect())
-               size:size.toCGSize()];
+               size:size.toCGSize()
+      preferredEdge:edge];
 }
 
-auto Nedrysoft::MacHelper::Popover::show(QWidget *widget, QWidget *contentWidget, QSize size) -> void {
+auto Nedrysoft::MacHelper::Popover::show(
+        QWidget *widget,
+        QWidget *contentWidget,
+        QSize size,
+        Nedrysoft::MacHelper::Popover::Edge edge) -> void {
+
     m_popover = [[PopoverHelper alloc] init];
 
     [m_popover show:contentWidget
            withView:reinterpret_cast<NSView *>(widget->winId())
          sourceRect:NSRectFromCGRect(widget->rect().toCGRect())
-               size:size.toCGSize()];
+               size:size.toCGSize()
+      preferredEdge:edge];
 }

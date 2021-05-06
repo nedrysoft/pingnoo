@@ -28,6 +28,7 @@
 #include <QSize>
 
 #include "MacHelper/MenuBarIcon.h"
+#include "MacHelper/Popover.h"
 
 #import <AppKit/AppKit.h>
 
@@ -42,14 +43,16 @@
  * @brief       Show the popover with the given parameters.
  *
  * @param[in]   contentWidget the widget that is used as the content of the popover.
- * @param[in]   sourceView the view that the popover originates from.
+ * @param[in]   view the view that the popover originates from.
  * @param[in]   sourceViewRect the rectangle of the view that the popover originates from.
- * @param[in]   contentSize the size of the popover window.
+ * @param[in]   size the size of the popover window.
+ * @param[in]   preferredEdge the preferred edge that the popover should be relative to.
  */
 - (void) show:(QWidget *) contentWidget
-     withView:(NSView *) sourceView
-   sourceRect:(NSRect) sourceViewRect
-         size:(NSSize) contentSize;
+     withView:(NSView *) view
+   sourceRect:(NSRect) rect
+         size:(NSSize) size
+preferredEdge:(Nedrysoft::MacHelper::Popover::Edge) preferredEdge;
 
 @end
 
