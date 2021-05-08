@@ -22,6 +22,7 @@
 #include "includes/MacHelper/MacHelper.h"
 
 #include <QDialog>
+#include <QTimer>
 
 #import <AppKit/AppKit.h>
 
@@ -99,11 +100,15 @@ auto Nedrysoft::MacHelper::standardImage(StandardImage::StandardImageName standa
 
     [NSGraphicsContext restoreGraphicsState];
 
-    auto pixmap = QtMac::fromCGImageRef([bitmapRepresentation CGImage]);
+    auto imageRef = [bitmapRepresentation CGImage];
+
+    auto pixelData = CFDataGetBytePtr(CGDataProviderCopyData(CGImageGetDataProvider(imageRef)));
+
+    auto image = QImage(pixelData,  imageSize.width(), imageSize.height(),QImage::Format_ARGB32);
 
     [bitmapRepresentation release];
 
-    return pixmap;
+    return QPixmap::fromImage(image);
 }
 
 auto Nedrysoft::MacHelper::nativeAlert(

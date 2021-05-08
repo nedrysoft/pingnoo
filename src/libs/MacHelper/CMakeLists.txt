@@ -29,7 +29,32 @@ if(APPLE)
     set(CMAKE_AUTOUIC ON)
     set(CMAKE_AUTORCC ON)
 
-    find_package(Qt5 COMPONENTS Core Gui Widgets MacExtras REQUIRED)
+    # discover which Qt version is available
+
+    if (USE_QT_VERSION)
+        set(QT_VERSION_MAJOR ${USE_QT_VERSION})
+    else()
+        find_package(Qt6 COMPONENTS Core QUIET)
+        find_package(Qt5 COMPONENTS Core QUIET)
+
+        if (Qt6_FOUND)
+            set(QT_VERSION_MAJOR 6)
+        elseif(Qt5_FOUND)
+            set(QT_VERSION_MAJOR 5)
+        else()
+            message(FATAL_ERROR, "No valid Qt version was set, and none could be found")
+        endif()
+    endif()
+
+    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core QUIET)
+
+    if (NOT Qt${QT_VERSION_MAJOR}_FOUND)
+        message(FATAL_ERROR, "No valid Qt version was set, and none could be found")
+    endif()
+
+    # end of qt selection/detection
+
+    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Gui Widgets REQUIRED)
 
     add_definitions(-DQT_NO_KEYWORDS)
 
@@ -64,7 +89,10 @@ if(APPLE)
 
     target_link_libraries(${PROJECT_NAME} ${Qt_LIBS})
 
-    set(Qt_LIBS Qt5::Core Qt5::Widgets Qt5::Gui Qt5::MacExtras)
+    set(Qt_LIBS
+            Qt${QT_VERSION_MAJOR}::Core
+            Qt${QT_VERSION_MAJOR}::Widgets
+            Qt${QT_VERSION_MAJOR}::Gui)
 
     if(DEFINED NEDRYSOFT_MACHELPER_LIBRARY_DIR)
         set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${NEDRYSOFT_MACHELPER_LIBRARY_DIR}")

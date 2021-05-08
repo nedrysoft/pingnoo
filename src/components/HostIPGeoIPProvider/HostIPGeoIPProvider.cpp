@@ -72,8 +72,11 @@ auto Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider::lookup(
                         resultMap["creationTime"] = jsonDocument.object()["country_name"].toVariant();
                         resultMap["city"] = jsonDocument.object()["city"].toVariant();
                         resultMap["countryCode"] = jsonDocument.object()["country_code"].toVariant();
+#if (QT_VERSION_MAJOR>=6)
+                        resultMap["creationTime"] = QDateTime::currentDateTimeUtc().toSecsSinceEpoch();
+#else
                         resultMap["creationTime"] = QDateTime::currentDateTimeUtc().toTime_t();
-
+#endif
                         function(host, resultMap);
                     }
                 }

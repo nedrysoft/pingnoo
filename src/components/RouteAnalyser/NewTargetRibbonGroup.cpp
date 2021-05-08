@@ -260,8 +260,11 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
         map["host"] = target;
         map["interval"] = intervalTime;
+#if (QT_VERSION_MAJOR>=6)
+        map["ipversion"] = QVariant::fromValue(ipVersion);
+#else
         map["ipversion"].setValue<Nedrysoft::Core::IPVersion>(ipVersion);
-
+#endif
         openTarget(map, pingEngineFactory);
     });
 

@@ -81,7 +81,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
              *
              * @returns     true if configuration was changed; otherwise false.
              */
-            auto loadFromFile(QString filename = QString::Null(), bool append = false) -> bool;
+            auto loadFromFile(QString filename = QString(), bool append = false) -> bool;
 
             /**
              * @brief       Saves the configuration to disk.
@@ -90,7 +90,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
              *
              * @param[in]   filename the file to save to.
              */
-            auto saveToFile(QString filename = QString::Null()) -> void;
+            auto saveToFile(QString filename = QString()) -> void;
 
             /**
              * @brief       Sets the warning value by parsing the given string.

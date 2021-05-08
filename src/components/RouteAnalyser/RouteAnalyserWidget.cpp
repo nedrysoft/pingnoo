@@ -203,8 +203,11 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
 
     auto verticalLayout = new QVBoxLayout();
 
+#if (QT_VERSION_MAJOR>=6)
+    verticalLayout->setContentsMargins(0, 0, 0, 0);
+#else
     verticalLayout->setMargin(0);
-
+#endif
     verticalLayout->addWidget(m_splitter);
 
     this->setLayout(verticalLayout);

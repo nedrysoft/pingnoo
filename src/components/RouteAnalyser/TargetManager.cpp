@@ -63,8 +63,11 @@ auto Nedrysoft::RouteAnalyser::TargetManager::addFavourite(
     newFavourite["host"] = host;
     newFavourite["name"] = name;
     newFavourite["description"] = description;
+#if (QT_VERSION_MAJOR>=6)
+    newFavourite["ipversion"] = QVariant::fromValue(ipVersion);
+#else
     newFavourite["ipversion"].setValue<Nedrysoft::Core::IPVersion>(ipVersion);
-
+#endif
     for (auto favourite : m_favouriteList) {
         if (favourite["host"]==host) {
             m_favouriteList.removeFirst();
@@ -109,8 +112,11 @@ auto Nedrysoft::RouteAnalyser::TargetManager::addRecent(
     newRecent["host"] = host;
     newRecent["name"] = name;
     newRecent["description"] = description;
+#if (QT_VERSION_MAJOR>=6)
+    newRecent["ipversion"] = QVariant::fromValue(ipVersion);
+#else
     newRecent["ipversion"].setValue<Nedrysoft::Core::IPVersion>(ipVersion);
-
+#endif
     addRecent(newRecent);
 }
 

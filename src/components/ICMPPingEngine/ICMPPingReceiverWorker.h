@@ -104,6 +104,8 @@ namespace Nedrysoft { namespace ICMPPingEngine {
     };
 }}
 
+#if (QT_VERSION_MAJOR<6)
 Q_DECLARE_METATYPE(std::chrono::time_point<std::chrono::high_resolution_clock>)
+#endif
 
 #endif // PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGRECEIVERWORKER_H

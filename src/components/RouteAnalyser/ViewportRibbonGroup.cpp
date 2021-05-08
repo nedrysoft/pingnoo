@@ -84,8 +84,13 @@ auto Nedrysoft::RouteAnalyser::ViewportRibbonGroup::isViewportEnabled() -> bool 
 }
 
 auto Nedrysoft::RouteAnalyser::ViewportRibbonGroup::setStartAndEnd(double start, double end) -> void {
+#if (QT_VERSION_MAJOR>=6)
+    ui->startLineEdit->setText(QDateTime::fromSecsSinceEpoch(start).toString());
+    ui->endLineEdit->setText(QDateTime::fromSecsSinceEpoch(end).toString());
+#else
     ui->startLineEdit->setText(QDateTime::fromTime_t(start).toString());
     ui->endLineEdit->setText(QDateTime::fromTime_t(end).toString());
+#endif
 }
 
 auto Nedrysoft::RouteAnalyser::ViewportRibbonGroup::viewportSize() -> double {

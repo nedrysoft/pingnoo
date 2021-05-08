@@ -23,7 +23,6 @@
 #define NEDRYSOFT_MACHELPER_H
 
 #include <QPixmap>
-#include <QtMacExtras>
 
 class QMacToolBar;
 

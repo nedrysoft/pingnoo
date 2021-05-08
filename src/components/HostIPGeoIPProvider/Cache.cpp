@@ -92,7 +92,11 @@ auto Nedrysoft::HostIPGeoIPProvider::Cache::add(QJsonObject object) -> void {
                   "VALUES (:name, :creationTime, :country, :countryCode, :city)");
 
     query.bindValue(":name", object["ip"].toVariant());
+#if (QT_VERSION_MAJOR>=6)
+    query.bindValue(":creationTime", QDateTime::currentDateTimeUtc().toSecsSinceEpoch());
+#else
     query.bindValue(":creationTime", QDateTime::currentDateTimeUtc().toTime_t());
+#endif
     query.bindValue(":country", object["country_name"].toVariant());
     query.bindValue(":countryCode", object["country_code"].toVariant());
     query.bindValue(":city", object["city"].toVariant());

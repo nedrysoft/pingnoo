@@ -34,8 +34,11 @@ Nedrysoft::MapWidget::MapWidget::MapWidget(QWidget *parent) :
     m_mapWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     m_mapLayout->addWidget(m_mapWidget);
-
+#if (QT_VERSION_MAJOR>5)
+    m_mapLayout->setContentsMargins(0, 0, 0, 0);
+#else
     m_mapLayout->setMargin(0);
+#endif
 
     this->setLayout(m_mapLayout);
 }
