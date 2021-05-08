@@ -35,7 +35,7 @@ Nedrysoft::Core::AboutDialog::AboutDialog(QWidget *parent) :
 
     ui->setupUi(this);
 
-    ui->iconLabel->setPixmap(QPixmap(":/app/images/appicon-512x512@2x.png"));
+    ui->iconLabel->setPixmap(QPixmap(":src/app/images/appicon/colour/appicon-512x512@2x.png.png"));
 
     ui->titleLabel->setTextFormat(Qt::RichText);
 

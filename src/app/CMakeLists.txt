@@ -32,6 +32,7 @@ pingnoo_add_sources(
     SplashScreen.cpp
     SplashScreen.h
     WindowsIcon.qrc
+    images.qrc
     main.cpp
 )
 

@@ -70,6 +70,8 @@ pingnoo_add_sources(
     IRouteEngine.h
     IRouteEngineFactory.h
     IStatusBarManager.h
+    ISystemTrayIconManager.h
+    ISystemTrayIconWidget.h
     MainWindow.cpp
     MainWindow.h
     MainWindow.ui
@@ -85,6 +87,8 @@ pingnoo_add_sources(
     RibbonPage.h
     StatusBarManager.cpp
     StatusBarManager.h
+    SystemTrayIconManager.cpp
+    SystemTrayIconManager.h
     fonts.qrc
     icons.qrc
 )
@@ -99,5 +103,13 @@ pingnoo_use_shared_library(Ribbon)
 pingnoo_use_shared_library(FontAwesome)
 
 pingnoo_set_component_metadata("Core" "Provides core services to components.")
+
+if(APPLE)
+    pingnoo_use_shared_library(MacHelper)
+    pingnoo_use_qt_libraries(MacExtras)
+    target_link_libraries(${PROJECT_NAME} "-framework AppKit" "-framework Cocoa")
+    target_link_libraries(${PROJECT_NAME} stdc++ objc)
+endif()
+
 
 pingnoo_end_component()

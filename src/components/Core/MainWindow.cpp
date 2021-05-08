@@ -34,6 +34,7 @@
 #include "RibbonBarManager.h"
 #include "SettingsDialog/ISettingsPage.h"
 #include "SettingsDialog/SettingsDialog.h"
+#include "SystemTrayIconManager.h"
 #include "ui_MainWindow.h"
 
 #include <QApplication>
@@ -41,7 +42,10 @@
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QSystemTrayIcon>
 #include <spdlog/spdlog.h>
+
+#include <QBitmap>
 
 Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -56,10 +60,14 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
 #if defined(Q_OS_MACOS)
-    qApp->setWindowIcon(QIcon(":/app/images/appicon-512x512@2x.png"));
+    qApp->setWindowIcon(QIcon(":/app/images/appicon/colour/appicon/512x512@2x.png"));
 #else
     qApp->setWindowIcon(QIcon(":/app/AppIcon.ico"));
 #endif
+    m_systemTrayIcon = new SystemTrayIconManager(this);
+
+    m_systemTrayIcon->setIconColour(Qt::green);
+    m_systemTrayIcon->setVisible(true);
 
     m_ribbonBarManager = new Nedrysoft::Core::RibbonBarManager(ui->ribbonBar);
 
@@ -71,12 +79,8 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
 
     showMaximized();
 
-    this->setWindowTitle(QString(tr("Pingnoo %1.%2.%3-%4 (%5)"))
-            .arg(PINGNOO_GIT_YEAR)
-            .arg(PINGNOO_GIT_MONTH)
-            .arg(PINGNOO_GIT_DAY)
-            .arg(PINGNOO_GIT_BRANCH)
-            .arg(PINGNOO_GIT_HASH) );
+    setWindowTitle(QString(tr("Pingnoo %1.%2.%3-%4 (%5)"))
+            .arg(PINGNOO_GIT_YEAR, PINGNOO_GIT_MONTH, PINGNOO_GIT_DAY, PINGNOO_GIT_BRANCH, PINGNOO_GIT_HASH));
 
     // QStatusBar *statusBar = new QStatusBar;
 
@@ -110,6 +114,8 @@ Nedrysoft::Core::MainWindow::~MainWindow() {
      delete m_hopInfoLabel;
      delete m_hostInfoLabel;
      delete m_tableModel;*/
+
+    delete m_systemTrayIcon;
 
     delete ui;
 
@@ -200,7 +206,6 @@ auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
                     qApp->applicationName() + "/appSettings.json";
 
             QFile settingsFile(appSettingsFilename);
-            QVariantList disabledPlugins;
 
             settingsFile.open(QFile::ReadOnly);
 
