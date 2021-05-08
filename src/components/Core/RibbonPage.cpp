@@ -80,7 +80,11 @@ auto Nedrysoft::Core::RibbonPage::addGroup(QString title, QString id, QWidget *w
     auto groupLayout = new QGridLayout();
 
     groupLayout->setSpacing(0);
+#if (QT_VERSION_MAJOR>5)
+    groupLayout->setContentsMargins(0, 0, 0, 0);
+#else
     groupLayout->setMargin(0);
+#endif
     groupLayout->addWidget(widget);
 
     ribbonGroup->setLayout(groupLayout);

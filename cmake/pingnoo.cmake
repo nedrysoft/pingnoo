@@ -23,7 +23,6 @@
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_OSX_DEPLOYMENT_TARGET 10.13)
 
 set(PINGNOO_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 
@@ -65,7 +64,38 @@ else()
     set(PINGNOO_PLATFORM_TARGET "Linux")
 endif()
 
+# discover which Qt version is available
+
+if (PINGNOO_QT_VERSION)
+    set(QT_VERSION_MAJOR ${PINGNOO_QT_VERSION})
+else()
+    find_package(Qt6 COMPONENTS Core QUIET)
+    find_package(Qt5 COMPONENTS Core QUIET)
+
+    if (Qt6_FOUND)
+        set(QT_VERSION_MAJOR 6)
+    elseif(Qt5_FOUND)
+        set(QT_VERSION_MAJOR 5)
+    else()
+        message(FATAL_ERROR, "No valid Qt version was set, and none could be found")
+    endif()
+endif()
+
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core QUIET)
+
+if (NOT Qt${QT_VERSION_MAJOR}_FOUND)
+    message(FATAL_ERROR, "No valid Qt version was set, and none could be found")
+endif()
+
+# end of qt selection/detection
+
 if(APPLE)
+    if (QT_VERSION_MAJOR GREATER 5)
+        set(CMAKE_OSX_DEPLOYMENT_TARGET 10.14)
+    else()
+        set(CMAKE_OSX_DEPLOYMENT_TARGET 10.13)
+    endif()
+
     if (CMAKE_OSX_ARCHITECTURES MATCHES "arm64")
         set(PINGNOO_PLATFORM_ARCH "arm64")
     else()
@@ -358,12 +388,12 @@ macro(pingnoo_use_qt_libraries)
     set(pingnooFindPackageList "")
     set(pingnooLinkPackageList "")
 
-    list(APPEND pingnooFindPackageList "Qt5" "COMPONENTS")
+    list(APPEND pingnooFindPackageList "Qt${QT_VERSION_MAJOR}" "COMPONENTS")
     list(APPEND pingnooLinkPackageList "${pingnooCurrentProjectName}")
 
     foreach(arg IN ITEMS ${ARGN})
         list(APPEND pingnooFindPackageList "${arg}")
-        list(APPEND pingnooLinkPackageList "Qt5::${arg}")
+        list(APPEND pingnooLinkPackageList "Qt${QT_VERSION_MAJOR}::${arg}")
     endforeach()
 
     list(APPEND pingnooFindPackageList "REQUIRED")

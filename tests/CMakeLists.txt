@@ -34,7 +34,32 @@ ADD_DEFINITIONS(-DQT_NO_KEYWORDS)
 
 project(Tests)
 
-find_package(Qt5 COMPONENTS Core Widgets Network Test REQUIRED)
+# discover which Qt version is available
+
+if (USE_QT_VERSION)
+    set(QT_VERSION_MAJOR ${USE_QT_VERSION})
+else()
+    find_package(Qt6 COMPONENTS Core QUIET)
+    find_package(Qt5 COMPONENTS Core QUIET)
+
+    if (Qt6_FOUND)
+        set(QT_VERSION_MAJOR 6)
+    elseif(Qt5_FOUND)
+        set(QT_VERSION_MAJOR 5)
+    else()
+        message(FATAL_ERROR, "No valid Qt version was set, and none could be found")
+    endif()
+endif()
+
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core QUIET)
+
+if (NOT Qt${QT_VERSION_MAJOR}_FOUND)
+    message(FATAL_ERROR, "No valid Qt version was set, and none could be found")
+endif()
+
+# end of qt selection/detection
+
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Widgets Network Test REQUIRED)
 
 file(GLOB_RECURSE test_COMPONENTS "components/*.cpp" "components/*.qrc" "compoennts/*.ui")
 file(GLOB_RECURSE test_LIBRARIES "libs/*.cpp" "libs/*.qrc" "libs/*.ui")
@@ -45,7 +70,11 @@ set(test_SOURCES
     ${test_LIBRARIES}
 )
 
-set(Qt_LIBS Qt5::Core Qt5::Widgets Qt5::Network Qt5::Test)
+set(Qt_LIBS
+        Qt${QT_VERSION_MAJOR}::Core
+        Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::Network
+        Qt${QT_VERSION_MAJOR}::Test)
 
 add_executable(${PROJECT_NAME} ${test_SOURCES})
 

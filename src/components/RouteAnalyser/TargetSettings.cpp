@@ -39,7 +39,7 @@ constexpr auto DefaultIPVersion = Nedrysoft::Core::IPVersion::V4;
 constexpr auto DefaultPingInterval = 2.5;
 
 Nedrysoft::RouteAnalyser::TargetSettings::TargetSettings() :
-        m_defaultPingEngine(QString::Null()),
+        m_defaultPingEngine(QString()),
         m_defaultHostTarget(DefaultHostTarget),
         m_defaultPingInterval(DefaultPingInterval),
         m_defaultIPVersion(DefaultIPVersion) {
