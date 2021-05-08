@@ -68,11 +68,17 @@ if(APPLE)
         includes/MacHelper/Popover.h
         includes/MacHelper/PopoverHelper.h
         includes/MacHelper/StatusBarHelper.h
+        includes/MacHelper/MacToolbar.h
+        includes/MacHelper/MacToolbarItem.h
+        includes/MacHelper/ToolbarDelegate.h
         src/MacHelper.mm
         src/MenuBarIcon.mm
         src/Popover.mm
         src/PopoverHelper.mm
         src/StatusBarHelper.mm
+        src/MacToolbar.mm
+        src/MacToolbarItem.mm
+        src/ToolbarDelegate.mm
     )
 
     include_directories("src" "includes")

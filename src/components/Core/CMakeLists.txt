@@ -106,6 +106,7 @@ pingnoo_set_component_metadata("Core" "Provides core services to components.")
 
 if(APPLE)
     pingnoo_use_shared_library(MacHelper)
+
     target_link_libraries(${PROJECT_NAME} "-framework AppKit" "-framework Cocoa")
     target_link_libraries(${PROJECT_NAME} stdc++ objc)
 endif()
