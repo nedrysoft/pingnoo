@@ -106,9 +106,7 @@ auto Nedrysoft::SettingsDialog::MacToolbar::attachToWindow(QWidget *parent) -> v
     [m_toolbar setDelegate: m_toolbarDelegate];
 
     [window setToolbar: m_toolbar];
-
-    [m_toolbar release];
-
+    
     m_window = window;
 
     if (m_isPreferences) {
