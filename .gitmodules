@@ -19,3 +19,6 @@
 [submodule "src/libs/ThemeSupport"]
 	path = src/libs/ThemeSupport
 	url = https://github.com/nedrysoft/ThemeSupport
+[submodule "src/libs/MacHelper"]
+	path = src/libs/MacHelper
+	url = https://github.com/nedrysoft/MacHelper
