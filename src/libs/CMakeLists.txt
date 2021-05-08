@@ -60,7 +60,11 @@ add_subdirectory(ComponentSystem)
 add_subdirectory(FontAwesome)
 add_subdirectory(ICMPPacket)
 add_subdirectory(ICMPSocket)
-add_subdirectory(MacHelper)
+
+if(APPLE)
+    add_subdirectory(MacHelper)
+endif()
+
 add_subdirectory(MapWidget)
 add_subdirectory(Ribbon)
 add_subdirectory(SettingsDialog)

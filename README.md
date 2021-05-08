@@ -163,7 +163,7 @@ https://pingnoo.readthedocs.io/en/latest/
 
 ## Development
 
-You also have the option of building pingnoo from the source code. In addition to a compiler that supports the C++17 standard, you will also require the Qt 5 development libraries and CMake.
+You also have the option of building pingnoo from the source code. In addition to a compiler that supports the C++17 standard, you will also require the Qt 5 or 6 development libraries and CMake.
 
 ### Architecture
 
