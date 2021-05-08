@@ -76,7 +76,7 @@ auto Nedrysoft::Core::RibbonBarManager::addPage(QString title, QString id, float
         tabIndex = m_ribbonWidget->addTab(ribbonPage->widget(), title);
     }
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
+#if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
     m_ribbonWidget->setTabVisible(tabIndex, false);
 #else
     RibbonPageVisibility page;

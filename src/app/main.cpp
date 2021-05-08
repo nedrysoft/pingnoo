@@ -54,7 +54,10 @@ int main(int argc, char **argv) {
     }
 #endif
 
+#if (QT_VERSION_MAJOR<6)
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
+#endif
+
     QList<QTranslator *> translators;
 
 #ifdef Q_OS_MAC
