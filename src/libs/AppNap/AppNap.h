@@ -24,7 +24,6 @@
 #ifndef NEDRYSOFT_APPNAP_APPNAP_H
 #define NEDRYSOFT_APPNAP_APPNAP_H
 
-#include <QObject>
 #include <QtGlobal>
 
 #if ( defined(NEDRYSOFT_LIBRARY_APPNAP_EXPORT))

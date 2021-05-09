@@ -21,6 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QtGlobal>
+
 #include "ComponentSystem/Component.h"
 #include "ComponentSystem/ComponentLoader.h"
 #include "ComponentSystem/IComponentManager.h"
@@ -33,7 +35,6 @@
 #include <QIcon>
 #include <QJsonDocument>
 #include <QMainWindow>
-#include <QProcessEnvironment>
 #include <QStandardPaths>
 #include <QTimer>
 #include <QTranslator>
@@ -41,6 +42,8 @@
 
 #if defined(Q_OS_MAC)
 #include <CoreFoundation/CoreFoundation.h>
+#else
+#include <QProcessEnvironment>
 #endif
 
 auto constexpr splashscreenTimeout = 3000;

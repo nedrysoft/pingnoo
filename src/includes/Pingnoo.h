@@ -24,6 +24,8 @@
 #ifndef NEDRYSOFT_PINGNOO_CONSTANTS_H
 #define NEDRYSOFT_PINGNOO_CONSTANTS_H
 
+#include <QtGlobal>
+
 #include <QMap>
 #include <QObject>
 

@@ -23,6 +23,8 @@
 
 #include "AppNap.h"
 
+#include <QString>
+
 #import <Foundation/Foundation.h>
 
 void Nedrysoft::AppNap::AppNap::mac_init() {

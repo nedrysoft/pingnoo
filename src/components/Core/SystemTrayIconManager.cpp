@@ -24,8 +24,6 @@
 #include "SystemTrayIconManager.h"
 
 #if defined(Q_OS_MACOS)
-#include <qglobal.h>
-
 #include "MacHelper/MenuBarIcon.h"
 #include "MacHelper/Popover.h"
 #else

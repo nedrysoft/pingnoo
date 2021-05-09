@@ -21,12 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QtGlobal>
+
 #include "RibbonPage.h"
 
 #include "Ribbon/RibbonGroup.h"
 #include "RibbonBarManager.h"
-
-#include <QDebug>
 
 constexpr auto spacerStretchFactor = 2;
 

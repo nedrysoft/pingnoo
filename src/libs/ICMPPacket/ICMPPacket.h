@@ -24,6 +24,8 @@
 #ifndef NEDRYSOFT_ICMPPACKET_ICMPPACKET_H
 #define NEDRYSOFT_ICMPPACKET_ICMPPACKET_H
 
+#include <QtGlobal>
+
 #include <QDataStream>
 #include <QHostAddress>
 #include <cstdint>

@@ -24,6 +24,8 @@
 #ifndef NEDRYSOFT_SYSTEMTRAYICONMANAGER_H
 #define NEDRYSOFT_SYSTEMTRAYICONMANAGER_H
 
+#include <QtGlobal>
+
 #include "ISystemTrayIconManager.h"
 
 #include <QIcon>
