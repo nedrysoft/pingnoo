@@ -27,10 +27,10 @@
 #include <QObject>
 #include <QRegularExpression>
 
-constexpr auto millisecondsInSecond = 1000.0;
-constexpr auto secondsInMinute = 60.0;
-constexpr auto secondsInInHour = secondsInMinute*60.0;
-constexpr auto secondsInDay = secondsInInHour*24.0;
+constexpr auto MillisecondsInSecond = 1000.0;
+constexpr auto SecondsInMinute = 60.0;
+constexpr auto SecondsInInHour = SecondsInMinute*60.0;
+constexpr auto SecondsInDay = SecondsInInHour*24.0;
 
 constexpr auto timeIntervalRegularExpression =
         R"(^\s*(?<number>(\d*(\.\d+|\d*)))(\s*(?<units>ms|s|m|h|d|sec(s?)|second(s?)|min(s?)|minute(s?)|hour(s?)|day(s?))\s*)?$)";
@@ -66,15 +66,15 @@ auto Nedrysoft::Utils::parseIntervalString(QString intervalString, double &inter
         auto unitString = match.captured("units").toLower();
 
         if (unitString=="ms") {
-            intervalTime = intervalTime/millisecondsInSecond;
+            intervalTime = intervalTime/MillisecondsInSecond;
         } else if ((unitString=="s") || (unitString=="sec" ) || (unitString=="secs" ) || (unitString=="second") || (unitString=="seconds")) {
             // nothing to do!
         } else if ((unitString=="m") || (unitString=="min") || (unitString=="mins") || (unitString=="minute") || (unitString=="minutes")) {
-            intervalTime = intervalTime * secondsInMinute;
+            intervalTime = intervalTime * SecondsInMinute;
         } else if ((unitString=="h") || (unitString=="hour") || (unitString=="hours")){
-            intervalTime = intervalTime * secondsInInHour;
+            intervalTime = intervalTime * SecondsInInHour;
         } else if ((unitString=="d") || (unitString=="day") || (unitString=="days")) {
-            intervalTime = intervalTime * secondsInDay;
+            intervalTime = intervalTime * SecondsInDay;
         } else {
             return false;
         }
@@ -119,6 +119,6 @@ auto Nedrysoft::Utils::intervalToString(double value) -> QString {
     if (value>=1) {
         return QString(QObject::tr("%1 s")).arg(value, 0, 'g', 4, '0');
     } else {
-        return QString(QObject::tr("%1 ms")).arg(value*millisecondsInSecond, 1, 'f', 0, '0');
+        return QString(QObject::tr("%1 ms")).arg(value*MillisecondsInSecond, 1, 'f', 0, '0');
     }
 }

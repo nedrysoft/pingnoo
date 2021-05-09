@@ -40,7 +40,7 @@ using namespace std::chrono_literals;
 constexpr auto DefaultTransmitTimeout = 1s;
 constexpr auto DefaultReplyTimeout = 3s;
 constexpr auto PingPayloadLength = 64;
-constexpr auto nanosecondsInMillisecond = 1.0e6;
+constexpr auto NanosecondsInMillisecond = 1.0e6;
 
 class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData {
 
@@ -246,7 +246,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
 
     finished = timer.nsecsElapsed();
 
-    auto roundTripTime = static_cast<double>(finished - started) / nanosecondsInMillisecond;
+    auto roundTripTime = static_cast<double>(finished - started) / NanosecondsInMillisecond;
 
     if (returnValue) {
         if (hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {

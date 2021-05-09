@@ -29,18 +29,18 @@
 #include <QPaintEvent>
 #include <QPainter>
 
-constexpr auto fontPath = ":/Nedrysoft/Core/OpenSans/OpenSans-Regular.ttf";
-constexpr auto fontName = "Open Sans";
+constexpr auto FontPath = ":/Nedrysoft/Core/OpenSans/OpenSans-Regular.ttf";
+constexpr auto FontName = "Open Sans";
 #if defined(Q_OS_MACOS)
-constexpr auto fontSize = 14;
+constexpr auto FontSize = 14;
 #else
-constexpr auto fontSize = 12;
+constexpr auto FontSize = 12;
 #endif
-constexpr auto fontWeight = QFont::Normal;
+constexpr auto FontWeight = QFont::Normal;
 
 Nedrysoft::Core::EditorManagerTabWidget::EditorManagerTabWidget(QWidget *parent) :
         QTabWidget(parent),
-        m_openSansRegular(QFontDatabase::addApplicationFont(fontPath)) {
+        m_openSansRegular(QFontDatabase::addApplicationFont(FontPath)) {
 
     setTabsClosable(true);
 }
@@ -54,7 +54,7 @@ void Nedrysoft::Core::EditorManagerTabWidget::paintEvent(QPaintEvent *event) {
 
     QPainter painter(this);
 
-    painter.setFont(QFont(fontName, fontSize, fontWeight));
+    painter.setFont(QFont(FontName, FontSize, FontWeight));
 
     painter.drawText(rect(), Qt::AlignVCenter | Qt::AlignHCenter, m_text);
 }

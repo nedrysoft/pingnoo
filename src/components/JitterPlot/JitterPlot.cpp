@@ -30,6 +30,8 @@
 #include <QLabel>
 #include <cmath>
 
+constexpr auto DefaultGraphHeight = 150;
+
 Nedrysoft::JitterPlot::JitterPlot::JitterPlot(const QMargins &margins) :
         m_customPlot(0),
         m_previousValue(-1),
@@ -40,8 +42,6 @@ Nedrysoft::JitterPlot::JitterPlot::JitterPlot(const QMargins &margins) :
 Nedrysoft::JitterPlot::JitterPlot::~JitterPlot() {
 
 }
-
-constexpr auto DefaultGraphHeight = 150;
 
 auto Nedrysoft::JitterPlot::JitterPlot::widget() -> QWidget * {
     auto customPlot = new QCustomPlot();

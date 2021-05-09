@@ -34,7 +34,7 @@
 #include <cassert>
 #include <cmath>
 
-constexpr auto lineEditHeightAdjustment = 2;
+constexpr auto LineEditHeightAdjustment = 2;
 
 Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
         QDialog(parent),
@@ -51,7 +51,7 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
     if (!minimumLineHeight) {
         QLineEdit lineEdit;
 
-        minimumLineHeight = lineEdit.minimumSizeHint().height()+lineEditHeightAdjustment;
+        minimumLineHeight = lineEdit.minimumSizeHint().height()+LineEditHeightAdjustment;
     }
 
     ui->setupUi(this);

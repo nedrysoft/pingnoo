@@ -31,7 +31,7 @@
 
 #include <QDateTime>
 
-constexpr auto defaultViewportSize = 10*60;
+constexpr auto DefaultViewportSize = 10*60;
 
 Nedrysoft::RouteAnalyser::ViewportRibbonGroup::ViewportRibbonGroup(QWidget *parent) :
         QWidget(parent),
@@ -100,5 +100,5 @@ auto Nedrysoft::RouteAnalyser::ViewportRibbonGroup::viewportSize() -> double {
         return value;
     }
 
-    return defaultViewportSize;
+    return DefaultViewportSize;
 }

@@ -43,11 +43,9 @@
 #include <cassert>
 #include <map>
 
-constexpr auto comboPadding = 12;
-constexpr auto defaultInterval = "2.5s";
-constexpr auto defaultTarget = "1.1.1.1";
-constexpr auto lineEditHeight = 21;
-constexpr auto dataRole = Qt::UserRole + 1;
+constexpr auto ComboPadding = 12;
+constexpr auto LineEditHeight = 21;
+constexpr auto DataRole = Qt::UserRole + 1;
 constexpr auto MillisecondsPerSecond = 1000.0;
 
 Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *parent) :
@@ -205,22 +203,22 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
             auto model = dynamic_cast<QStandardItemModel *>(ui->engineComboBox->model());
 
             model->item(model->rowCount()-1, 0)->setEnabled(pingEngine->available());
-            model->item(model->rowCount()-1, 0)->setData(pingEngine->metaObject()->className(), dataRole);
+            model->item(model->rowCount()-1, 0)->setData(pingEngine->metaObject()->className(), DataRole);
 
             QFontMetrics fontMetrics(ui->engineComboBox->font());
 
-            minimumWidth = qMax(minimumWidth, fontMetrics.boundingRect(pingEngine->description()).width()+comboPadding);
+            minimumWidth = qMax(minimumWidth, fontMetrics.boundingRect(pingEngine->description()).width()+ComboPadding);
         }
 
         ui->engineComboBox->view()->setMinimumWidth(minimumWidth);
 
-        auto selectionIndex = ui->engineComboBox->findData(targetSettings->defaultPingEngine(), dataRole);
+        auto selectionIndex = ui->engineComboBox->findData(targetSettings->defaultPingEngine(), DataRole);
 
         if (selectionIndex==-1) {
             if (sortedPingEngines.count()) {
                 selectionIndex = ui->engineComboBox->findData(
                         sortedPingEngines.first()->metaObject()->className(),
-                        dataRole );
+                        DataRole );
             }
         }
 
@@ -282,8 +280,8 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
     validateFields();
 
-    ui->targetLineEdit->setMaximumHeight(lineEditHeight);
-    ui->intervalLineEdit->setMaximumHeight(lineEditHeight);
+    ui->targetLineEdit->setMaximumHeight(LineEditHeight);
+    ui->intervalLineEdit->setMaximumHeight(LineEditHeight);
 
     ui->targetLineEdit->setTabChangesFocus(true);
     ui->intervalLineEdit->setTabChangesFocus(true);

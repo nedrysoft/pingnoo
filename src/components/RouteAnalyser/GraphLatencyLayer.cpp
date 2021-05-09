@@ -39,12 +39,12 @@ using namespace std::chrono_literals;
 constexpr auto DefaultWarningLatency = 200ms;
 constexpr auto DefaultCriticalLatency = 500ms;
 
-constexpr auto roundedRectangleRadius = 10;
-constexpr auto tinyNumber = 0.0001;                             //! used to adjust a unit number to just under 1
+constexpr auto RoundedRectangleRadius = 10;
+constexpr auto TinyNumber = 0.0001;                             //! used to adjust a unit number to just under 1
 
-constexpr auto latencyStopLineColour = Qt::black;
+constexpr auto LatencyStopLineColour = Qt::black;
 
-constexpr auto unusedRemovalTime = 5;
+constexpr auto UnusedRemovalTime = 5;
 
 QMap<QString, QPixmap> Nedrysoft::RouteAnalyser::GraphLatencyLayer::m_buffers;// = QMap<QString, QPixmap>();
 QMap<QString, uint64_t> Nedrysoft::RouteAnalyser::GraphLatencyLayer::m_age;
@@ -76,7 +76,7 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::removeUnused() -> void {
         auto secondsSinceEpoch = abs(QDateTime::currentDateTime().secsTo(QDateTime(QDate(1970,1,1), QTime(0, 0))));
 #endif
 
-        if (secondsSinceEpoch-mapIterator.value()>unusedRemovalTime) {
+        if (secondsSinceEpoch-mapIterator.value()>UnusedRemovalTime) {
             QString key = mapIterator.key();
 
             m_buffers.remove(key);
@@ -119,7 +119,7 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
 
                     if (!m_useGradient) {
                         graphGradient.setColorAt(idealStop, QColor(latencySettings->warningColour()));
-                        graphGradient.setColorAt(idealStop-tinyNumber, QColor(latencySettings->idealColour()));
+                        graphGradient.setColorAt(idealStop-TinyNumber, QColor(latencySettings->idealColour()));
                     }
                 }
             } else {
@@ -129,8 +129,8 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
                 graphGradient.setColorAt(1, QColor(latencySettings->criticalColour()));
 
                 if (!m_useGradient) {
-                    graphGradient.setColorAt(idealStop-tinyNumber, QColor(latencySettings->idealColour()));
-                    graphGradient.setColorAt(warningStop-tinyNumber, QColor(latencySettings->warningColour()));
+                    graphGradient.setColorAt(idealStop-TinyNumber, QColor(latencySettings->idealColour()));
+                    graphGradient.setColorAt(warningStop-TinyNumber, QColor(latencySettings->warningColour()));
                 }
             }
         }
@@ -153,7 +153,7 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
 
         auto pen = QPen(Qt::DashLine);
 
-        pen.setColor(latencyStopLineColour);
+        pen.setColor(LatencyStopLineColour);
 
         bufferPainter.setPen(pen);
 
@@ -181,7 +181,7 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
 
     QPainterPath clippingPath;
 
-    clippingPath.addRoundedRect(parentPlot()->axisRect()->rect(), roundedRectangleRadius, roundedRectangleRadius);
+    clippingPath.addRoundedRect(parentPlot()->axisRect()->rect(), RoundedRectangleRadius, RoundedRectangleRadius);
 
     painter->setClipPath(clippingPath);
 

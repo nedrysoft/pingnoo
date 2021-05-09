@@ -33,10 +33,8 @@
 #include <QMessageBox>
 #include <cassert>
 
-constexpr auto defaultWidgetWidth = 650;
-constexpr auto defaultWidgetHeight = 0;
-constexpr auto columnPadding = 8;
-constexpr auto toolbarAdjustment = 50;
+constexpr auto DefaultWidgetWidth = 650;
+constexpr auto ToolbarAdjustment = 50;
 
 Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSettingsPageWidget(QWidget *parent) :
         QWidget(parent),
@@ -140,9 +138,9 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSe
         resizedColumnsWidth += columnWidth-4;
     }
 
-    auto adjustment = rect().width()-defaultWidgetWidth;
+    auto adjustment = rect().width()-DefaultWidgetWidth;
 
-    ui->expressionsTreeWidget->setColumnWidth(0, defaultWidgetWidth-resizedColumnsWidth-adjustment);
+    ui->expressionsTreeWidget->setColumnWidth(0, DefaultWidgetWidth-resizedColumnsWidth-adjustment);
 
     connect(ui->expressionsTreeWidget, &QTreeWidget::currentItemChanged, [=](QTreeWidgetItem *current, QTreeWidgetItem *previous) {
         updateWidgets(current);
@@ -321,9 +319,9 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::~RegExHostMaskerS
 QSize Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::sizeHint() const {
     QSize size;
 
-    size = QWidget::sizeHint()+QSize(0, toolbarAdjustment);
+    size = QWidget::sizeHint()+QSize(0, ToolbarAdjustment);
 
-    size.setWidth(qMax(size.width(), defaultWidgetWidth));
+    size.setWidth(qMax(size.width(), DefaultWidgetWidth));
 
     return size;
 }

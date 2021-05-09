@@ -28,8 +28,6 @@
 #include <QHostAddress>
 #include <cassert>
 
-int id = 0;
-
 class Nedrysoft::ICMPPingEngine::ICMPPingTargetData {
     public:
         ICMPPingTargetData(Nedrysoft::ICMPPingEngine::ICMPPingTarget *parent) :

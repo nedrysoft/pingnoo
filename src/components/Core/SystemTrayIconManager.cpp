@@ -33,13 +33,13 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-constexpr auto trayPixmap = ":/app/images/appicon/mono/appicon-1024x1024@2x.png";
+constexpr auto TrayPixmap = ":/app/images/appicon/mono/appicon-1024x1024@2x.png";
 
 Nedrysoft::Core::SystemTrayIconManager::SystemTrayIconManager(QObject *parent) :
-        m_basePixmap(trayPixmap) {
+        m_basePixmap(TrayPixmap) {
 
 #if defined(Q_OS_MACOS)
-    m_menuBarIcon = new Nedrysoft::MacHelper::MenuBarIcon(QPixmap(trayPixmap));
+    m_menuBarIcon = new Nedrysoft::MacHelper::MenuBarIcon(QPixmap(TrayPixmap));
 
     connect(m_menuBarIcon, &Nedrysoft::MacHelper::MenuBarIcon::clicked, [=] {
         auto popover = new Nedrysoft::MacHelper::Popover;

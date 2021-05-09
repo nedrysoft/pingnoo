@@ -34,7 +34,7 @@
 
 #include <QDebug>
 
-constexpr auto widgetRadius = 5;
+constexpr auto WidgetRadius = 5;
 
 Nedrysoft::RouteAnalyser::LatencyWidget::LatencyWidget(QWidget *parent) :
         QWidget(parent),
@@ -58,7 +58,7 @@ auto Nedrysoft::RouteAnalyser::LatencyWidget::paintEvent(QPaintEvent *event) -> 
 
     QPainterPath path;
 
-    path.addRoundedRect(rect(), widgetRadius, widgetRadius);
+    path.addRoundedRect(rect(), WidgetRadius, WidgetRadius);
 
     painter.fillPath(path, m_colour);
 

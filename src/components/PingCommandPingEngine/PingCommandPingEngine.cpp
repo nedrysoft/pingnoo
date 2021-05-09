@@ -38,9 +38,9 @@ constexpr auto DefaultReceiveTimeout = 1s;
 constexpr auto DefaultTerminateThreadTimeout = 5s;
 constexpr auto DefaultTTL = 64;
 
-constexpr auto nanosecondsInMillisecond = 1.0e6;
-constexpr auto packetLostRegularExpression = R"(100% packet loss)";
-constexpr auto ttlExceededRegularExpression = R"(From\ (?<ip>[\d\.]*)\ .*exceeded)";
+constexpr auto NanosecondsInMillisecond = 1.0e6;
+constexpr auto PacketLostRegularExpression = R"(100% packet loss)";
+constexpr auto TtlExceededRegularExpression = R"(From\ (?<ip>[\d\.]*)\ .*exceeded)";
 
 Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::PingCommandPingEngine(Nedrysoft::Core::IPVersion version) {
     Q_UNUSED(version)
@@ -157,12 +157,12 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::singleShot(
 
     finished = timer.nsecsElapsed();
 
-    auto roundTripTime = static_cast<double>(finished - started) / nanosecondsInMillisecond;
+    auto roundTripTime = static_cast<double>(finished - started) / NanosecondsInMillisecond;
 
     auto commandOutput = pingProcess.readAll();
 
-    QRegularExpression ttlExceededRegEx(ttlExceededRegularExpression);
-    QRegularExpression packetLostRegEx(packetLostRegularExpression);
+    QRegularExpression ttlExceededRegEx(TtlExceededRegularExpression);
+    QRegularExpression packetLostRegEx(PacketLostRegularExpression);
 
     Nedrysoft::Core::PingResult pingResult;
 

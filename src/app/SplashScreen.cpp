@@ -32,7 +32,7 @@
 constexpr auto splashScreenFilename = ":/app/images/splashscreen.png";
 constexpr auto fontFamily = "Poppins";
 #if defined(Q_OS_MAC)
-constexpr auto fontSize = 25;
+constexpr auto FontSize = 25;
 #else
 constexpr auto fontSize = 20;
 #endif
@@ -80,7 +80,7 @@ auto Nedrysoft::SplashScreen::getInstance() -> Nedrysoft::SplashScreen * {
 }
 
 auto Nedrysoft::SplashScreen::drawContents(QPainter *painter) -> void {
-    auto font = QFont(fontFamily, fontSize, QFont::Weight::Bold);
+    auto font = QFont(fontFamily, FontSize, QFont::Weight::Bold);
     auto versionText = QString("%1.%2.%3").arg(PINGNOO_GIT_YEAR).arg(PINGNOO_GIT_MONTH).arg(PINGNOO_GIT_DAY);
     auto textRect = QRectF(versionRect.topLeft()*m_scaleFactor, versionRect.size()*m_scaleFactor).toRect();
 

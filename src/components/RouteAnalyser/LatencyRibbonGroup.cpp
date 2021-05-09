@@ -34,7 +34,7 @@
 #include <QMenu>
 #include <cassert>
 
-constexpr auto lineEditHeight = 21;
+constexpr auto LineEditHeight = 21;
 
 Nedrysoft::RouteAnalyser::LatencyRibbonGroup::LatencyRibbonGroup(QWidget *parent) :
         QWidget(parent),
@@ -68,8 +68,8 @@ Nedrysoft::RouteAnalyser::LatencyRibbonGroup::LatencyRibbonGroup(QWidget *parent
     ui->warningLineEdit->setPlaceholderText(getValueString(LatencyType::Warning));
     ui->criticalLineEdit->setPlaceholderText(getValueString(LatencyType::Critical));
 
-    ui->warningLineEdit->setMaximumHeight(lineEditHeight);
-    ui->criticalLineEdit->setMaximumHeight(lineEditHeight);
+    ui->warningLineEdit->setMaximumHeight(LineEditHeight);
+    ui->criticalLineEdit->setMaximumHeight(LineEditHeight);
 
     connect(ui->warningLineEdit, &Nedrysoft::Ribbon::RibbonLineEdit::textChanged, [=]() {
         updatePeriod(LatencyType::Warning, ui->warningLineEdit);
