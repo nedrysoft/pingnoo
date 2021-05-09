@@ -396,7 +396,6 @@ macro(pingnoo_use_qt_libraries)
     set(pingnooFindPackageList "")
     set(pingnooLinkPackageList "")
 
-    list(APPEND pingnooFindPackageList "Qt${QT_VERSION_MAJOR}" "COMPONENTS")
     list(APPEND pingnooLinkPackageList "${pingnooCurrentProjectName}")
 
     foreach(arg IN ITEMS ${ARGN})
@@ -404,9 +403,8 @@ macro(pingnoo_use_qt_libraries)
         list(APPEND pingnooLinkPackageList "Qt${QT_VERSION_MAJOR}::${arg}")
     endforeach()
 
-    list(APPEND pingnooFindPackageList "REQUIRED")
+    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${pingnooFindPackageList} REQUIRED)
 
-    find_package(${pingnooFindPackageList})
     target_link_libraries(${pingnooLinkPackageList})
 endmacro(pingnoo_use_qt_libraries)
 
