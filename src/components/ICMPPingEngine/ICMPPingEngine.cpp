@@ -45,7 +45,7 @@ constexpr auto DefaultReceiveTimeout = 1s;
 constexpr auto DefaultTerminateThreadTimeout = 5s;
 constexpr auto DefaultTransmitInterval = 2.5s;
 
-constexpr auto secondsToMs(double seconds) {
+constexpr auto SecondsToMs(double seconds) {
     return seconds*1000;
 }
 
@@ -452,7 +452,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::singleShot(
 
     timeoutTimer.start();
 
-    while(timeoutTimer.elapsed()<(secondsToMs(timeout))) {
+    while(timeoutTimer.elapsed()<(SecondsToMs(timeout))) {
         auto remaining = DefaultReceiveTimeout-std::chrono::milliseconds(timeoutTimer.elapsed());
 
         if (remaining.count()<=0) {
