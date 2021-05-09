@@ -36,25 +36,33 @@ project(Tests)
 
 # discover which Qt version is available
 
-if (USE_QT_VERSION)
-    set(QT_VERSION_MAJOR ${USE_QT_VERSION})
-else()
-    find_package(Qt6 COMPONENTS Core QUIET)
-    find_package(Qt5 COMPONENTS Core QUIET)
-
-    if (Qt6_FOUND)
-        set(QT_VERSION_MAJOR 6)
-    elseif(Qt5_FOUND)
-        set(QT_VERSION_MAJOR 5)
+if (NOT DEFINED QT_VERSION_MAJOR)
+    if (DEFINED USE_QT_VERSION)
+        set(QT_VERSION_MAJOR ${USE_QT_VERSION})
+        message(STATUS "Qt${QT_VERSION_MAJOR} has been manually selected")
     else()
-        message(FATAL_ERROR, "No valid Qt version was set, and none could be found")
+        message(STATUS "Detecting Qt version")
+
+        find_package(Qt6 COMPONENTS Core QUIET)
+        find_package(Qt5 COMPONENTS Core QUIET)
+
+        if (Qt6_FOUND)
+            set(QT_VERSION_MAJOR 6)
+        elseif(Qt5_FOUND)
+            set(QT_VERSION_MAJOR 5)
+        else()
+            message(FATAL_ERROR "No valid Qt version was set, and none could be found")
+        endif()
+        message(STATUS "Detecting Qt version - done")
     endif()
-endif()
 
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core QUIET)
+    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core QUIET)
 
-if (NOT Qt${QT_VERSION_MAJOR}_FOUND)
-    message(FATAL_ERROR, "No valid Qt version was set, and none could be found")
+    if (NOT Qt${QT_VERSION_MAJOR}_FOUND)
+        message(FATAL_ERROR "Qt${QT_VERSION_MAJOR} could not be found")
+    endif()
+
+    message(STATUS "Qt major version: ${QT_VERSION_MAJOR}")
 endif()
 
 # end of qt selection/detection
