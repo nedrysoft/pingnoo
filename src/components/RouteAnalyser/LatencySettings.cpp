@@ -24,7 +24,7 @@
 #include "LatencySettings.h"
 
 #include "ColourManager.h"
-#include "Core/ICore.h"
+#include <ICore>
 #include "Utils.h"
 
 #include <QDir>

@@ -25,10 +25,9 @@
 
 #include "TrimmerWidget.h"
 
-#include "ThemeSupport.h"
-
 #include <QPainter>
 #include <QPaintEvent>
+#include <ThemeSupport>
 
 auto constexpr GripInsertWidth = 2;
 auto constexpr GripInsertHeight = 30;

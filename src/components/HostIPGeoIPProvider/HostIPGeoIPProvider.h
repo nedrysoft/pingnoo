@@ -25,7 +25,7 @@
 #define PINGNOO_COMPONENTS_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDER_H
 
 #include "ComponentSystem/IInterface.h"
-#include "Core/IGeoIPProvider.h"
+#include <IGeoIPProvider>
 #include "HostIPGeoIPProviderSpec.h"
 
 #include <QObject>

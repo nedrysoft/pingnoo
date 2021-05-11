@@ -26,11 +26,11 @@
 #include "EditorManager.h"
 
 #include "IEditor.h"
-#include "ThemeSupport/includes/ThemeSupport.h"
 
 #include <QCheckBox>
 #include <QTabBar>
 #include <QTabWidget>
+#include <ThemeSupport>
 
 constexpr auto MacStylesheet = R"(
     QTabBar::close-button {

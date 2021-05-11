@@ -25,7 +25,7 @@
 #define PINGNOO_COMPONENTS_REGEXHOSTMASKER_REGEXHOSTMASKER_H
 
 #include "ComponentSystem/IInterface.h"
-#include "Core/IHostMasker.h"
+#include <IHostMasker>
 #include "RegExHostMaskerSpec.h"
 #include <QSet>
 

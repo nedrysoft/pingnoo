@@ -23,8 +23,9 @@
 
 #include "PingData.h"
 
+#include "IPlot.h"
+#include "IPlotFactory.h"
 #include "RouteTableItemDelegate.h"
-#include "SDK/IPlot.h"
 
 #include <QHeaderView>
 #include <QStandardItemModel>

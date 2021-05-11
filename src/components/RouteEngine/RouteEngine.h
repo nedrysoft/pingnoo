@@ -24,10 +24,10 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEENGINE_ROUTEENGINE_H
 #define PINGNOO_COMPONENTS_ROUTEENGINE_ROUTEENGINE_H
 
-#include "Core/IRouteEngine.h"
+#include <IRouteEngine>
 
-#include "Core/Core.h"
-#include "Core/PingResult.h"
+#include <ICore>
+#include <PingResult>
 #include <QHostAddress>
 #include <QHostInfo>
 #include <QList>

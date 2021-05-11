@@ -23,7 +23,7 @@
 
 #include "ColourManager.h"
 
-#include "ThemeSupport.h"
+#include <ThemeSupport>
 
 constexpr auto LightIdealColour = qRgb(0xdc, 0xe5, 0xf4);
 constexpr auto LightWarningColour = qRgb(0xfc, 0xef, 0xd7);

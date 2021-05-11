@@ -25,18 +25,18 @@
 
 #include "BarChart.h"
 #include "CPAxisTickerMS.h"
-#include "Core/IGeoIPProvider.h"
-#include "Core/IHostMasker.h"
-#include "Core/IPingEngine.h"
-#include "Core/IPingEngineFactory.h"
-#include "Core/IPingTarget.h"
-#include "Core/IRouteEngineFactory.h"
+#include <IGeoIPProvider>
+#include <IHostMasker>
+#include <IPingEngine>
+#include <IPingEngineFactory>
+#include <IPingTarget>
+#include <IRouteEngineFactory>
 #include "LatencySettings.h"
 #include "GraphLatencyLayer.h"
 #include "PlotScrollArea.h"
 #include "RouteTableItemDelegate.h"
-#include "SDK/IPlotFactory.h"
-#include "SDK/IPlot.h"
+#include "IPlotFactory.h"
+#include "IPlot.h"
 
 #include <QDateTime>
 #include <QHostAddress>

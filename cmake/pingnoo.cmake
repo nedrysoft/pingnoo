@@ -177,13 +177,22 @@ endif()
 macro(pingnoo_use_component componentName)
     target_link_libraries(${PROJECT_NAME} ${componentName})
 
+    if(EXISTS "${PINGNOO_COMPONENTS_SOURCE_DIR}/${componentName}/SDK")
+        target_include_directories(${PROJECT_NAME} PUBLIC "${PINGNOO_COMPONENTS_SOURCE_DIR}/${componentName}/SDK")
+    endif()
+
     list(APPEND pingnooComponentDependenciesList ${componentName})
 endmacro(pingnoo_use_component)
 
 macro(pingnoo_use_shared_library libraryName)
     target_link_libraries(${PROJECT_NAME} ${libraryName})
 
+    if(EXISTS "${PINGNOO_LIBRARIES_SOURCE_DIR}/${libraryName}/include")
+        target_include_directories(${PROJECT_NAME} PUBLIC "${PINGNOO_LIBRARIES_SOURCE_DIR}/${libraryName}/include")
+    endif()
+
     if(EXISTS "${PINGNOO_LIBRARIES_SOURCE_DIR}/${libraryName}/includes")
+        message(WARNING includes needs to be replaced with include)
         target_include_directories(${PROJECT_NAME} PRIVATE "${PINGNOO_LIBRARIES_SOURCE_DIR}/${libraryName}/includes")
     endif()
 endmacro(pingnoo_use_shared_library)

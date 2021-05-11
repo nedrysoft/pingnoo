@@ -25,9 +25,9 @@
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTEANALYSEREDITOR_H
 
 #include "ComponentSystem/IInterface.h"
-#include "Core/Core.h"
-#include "Core/IConfiguration.h"
-#include "Core/IEditor.h"
+#include <ICore>
+#include <IConfiguration>
+#include <IEditor>
 #include "LatencyRibbonGroup.h"
 
 #include <QObject>

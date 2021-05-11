@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGTIMEOUT_H
 #define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGTIMEOUT_H
 
-#include "Core/PingResult.h"
+#include <PingResult>
 
 namespace Nedrysoft { namespace ICMPPingEngine {
     class ICMPPingEngine;

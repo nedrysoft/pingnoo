@@ -27,8 +27,8 @@
 #pragma warning(push)
 #pragma warning(disable : 4996)
 
-#include "Core/IRouteEngine.h"
-#include "Core/PingResult.h"
+#include <IRouteEngine>
+#include <PingResult>
 #include "PingData.h"
 #include "QCustomPlot/qcustomplot.h"
 #include <QMap>

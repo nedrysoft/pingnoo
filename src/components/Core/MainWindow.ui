@@ -88,7 +88,7 @@
   <customwidget>
    <class>Nedrysoft::Ribbon::RibbonWidget</class>
    <extends>QTabWidget</extends>
-   <header>Ribbon/RibbonWidget.h</header>
+   <header>RibbonWidget</header>
    <container>1</container>
   </customwidget>
   <customwidget>

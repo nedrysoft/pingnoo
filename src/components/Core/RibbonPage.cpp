@@ -25,7 +25,7 @@
 
 #include "RibbonPage.h"
 
-#include "Ribbon/RibbonGroup.h"
+#include <RibbonGroup>
 #include "RibbonBarManager.h"
 
 constexpr auto SpacerStretchFactor = 2;

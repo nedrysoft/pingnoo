@@ -25,7 +25,7 @@
 
 #include "RegExHostMasker.h"
 #include "ComponentSystem/IComponentManager.h"
-#include "Core/ICore.h"
+#include <ICore>
 
 #include "ui_RegExHostMaskerSettingsPageWidget.h"
 

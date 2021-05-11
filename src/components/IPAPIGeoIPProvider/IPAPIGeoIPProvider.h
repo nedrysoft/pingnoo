@@ -25,7 +25,7 @@
 #define PINGNOO_COMPONENTS_IPAPIGEOIPPROVIDER_IPAPIGEOIPROVIDER_H
 
 #include "ComponentSystem/IInterface.h"
-#include "Core/IGeoIPProvider.h"
+#include <IGeoIPProvider>
 #include "IPAPIGeoIPProvider.h"
 #include "IPAPIGeoIPProviderSpec.h"
 

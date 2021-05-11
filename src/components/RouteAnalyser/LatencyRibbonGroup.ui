@@ -201,7 +201,7 @@
   <customwidget>
    <class>Nedrysoft::Ribbon::RibbonLineEdit</class>
    <extends>QLineEdit</extends>
-   <header>Ribbon/RibbonLineEdit.h</header>
+   <header location="global">RibbonLineEdit</header>
    <container>1</container>
   </customwidget>
   <customwidget>

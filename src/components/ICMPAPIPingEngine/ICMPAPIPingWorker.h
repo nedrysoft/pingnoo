@@ -26,7 +26,7 @@
 
 #include <QObject>
 
-#include "Core/IPingEngine.h"
+#include <IPingEngine>
 
 namespace Nedrysoft { namespace ICMPAPIPingEngine {
     class ICMPAPIPingTarget;

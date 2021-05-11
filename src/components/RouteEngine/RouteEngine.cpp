@@ -23,9 +23,9 @@
 
 #include "RouteEngine.h"
 
-#include "Core/IPingEngine.h"
-#include "Core/IPingEngineFactory.h"
-#include "Core/IPingTarget.h"
+#include <IPingEngine>
+#include <IPingEngineFactory>
+#include <IPingTarget>
 #include "RouteEngineWorker.h"
 
 #include <QThread>

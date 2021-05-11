@@ -24,8 +24,8 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEENGINE_ROUTEENGINEWORKER_H
 #define PINGNOO_COMPONENTS_ROUTEENGINE_ROUTEENGINEWORKER_H
 
-#include "Core/ICore.h"
-#include "Core/IRouteEngine.h"
+#include <ICore>
+#include <IRouteEngine>
 
 #include <QHostAddress>
 #include <QObject>

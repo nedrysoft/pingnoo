@@ -24,8 +24,8 @@
 #ifndef PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGENGINE_H
 #define PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGENGINE_H
 
-#include "Core/IPingEngine.h"
-#include "Core/IPingEngineFactory.h"
+#include <IPingEngine>
+#include <IPingEngineFactory>
 
 namespace Nedrysoft { namespace ICMPAPIPingEngine {
     class ICMPAPIPingEngineData;

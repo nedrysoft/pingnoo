@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGTARGET_H
 #define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGTARGET_H
 
-#include "Core/IPingTarget.h"
+#include <IPingTarget>
 
 #if defined(Q_OS_WIN)
 #include <WS2tcpip.h>

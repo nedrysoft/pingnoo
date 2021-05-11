@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_NEWTARGETDIALOG_H
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_NEWTARGETDIALOG_H
 
-#include "Core/IPingEngineFactory.h"
+#include <IPingEngineFactory>
 
 #include <QDialog>
 

@@ -23,12 +23,11 @@
 
 #include "RouteAnalyserComponent.h"
 
-#include "AppNap/AppNap.h"
 #include "ColourDialog.h"
-#include "Core/ICommandManager.h"
-#include "Core/IEditorManager.h"
-#include "Core/IRibbonBarManager.h"
-#include "Core/IRibbonPage.h"
+#include <ICommandManager>
+#include <IEditorManager>
+#include <IRibbonBarManager>
+#include <IRibbonPage>
 #include "TargetManager.h"
 #include "LatencyRibbonGroup.h"
 #include "LatencySettings.h"
@@ -40,6 +39,8 @@
 #include "TargetSettings.h"
 #include "TargetSettingsPage.h"
 #include "ViewportRibbonGroup.h"
+
+#include <AppNap>
 
 RouteAnalyserComponent::RouteAnalyserComponent() :
         m_newTargetGroupWidget(nullptr),

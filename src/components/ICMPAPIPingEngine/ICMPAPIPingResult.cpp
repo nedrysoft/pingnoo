@@ -23,7 +23,7 @@
 
 #include "ICMPAPIPingResult.h"
 
-#include "Core/IPingTarget.h"
+#include <IPingTarget>
 
 Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingResult::ICMPAPIPingResult(Nedrysoft::Core::PingResult result) {
     m_code = result.code();

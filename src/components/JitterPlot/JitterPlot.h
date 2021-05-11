@@ -24,7 +24,7 @@
 #ifndef NEDRYSOFT_JITTERPLOT_JITTERPLOT_H
 #define NEDRYSOFT_JITTERPLOT_JITTERPLOT_H
 
-#include "RouteAnalyser/SDK/IPlot.h"
+#include <IPlot>
 
 #include "QCustomPlot/qcustomplot.h"
 

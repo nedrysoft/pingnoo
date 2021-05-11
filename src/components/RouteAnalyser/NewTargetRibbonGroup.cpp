@@ -25,21 +25,21 @@
 #include "ui_NewTargetRibbonGroup.h"
 
 #include "ComponentSystem/IComponentManager.h"
-#include "Core/ICommandManager.h"
-#include "Core/IEditorManager.h"
-#include "Core/IPingEngineFactory.h"
+#include <ICommandManager>
+#include <IEditorManager>
+#include <IPingEngineFactory>
 #include "FavouriteEditorDialog.h"
 #include "FavouritesManagerDialog.h"
 #include "OpenFavouriteDialog.h"
 #include "RouteAnalyserEditor.h"
 #include "TargetManager.h"
-#include "TargetSettings.h"
-#include "ThemeSupport.h"                   // what to do about this?  Separate library I guess...
+#include "TargetSettings.h" // what to do about this?  Separate library I guess...
 #include "Utils.h"
 
 #include <QAbstractItemView>
 #include <QMenu>
 #include <QStandardItemModel>
+#include <ThemeSupport>
 #include <cassert>
 #include <map>
 

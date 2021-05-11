@@ -101,6 +101,7 @@ pingnoo_use_shared_library(SettingsDialog)
 pingnoo_use_shared_library(ComponentSystem)
 pingnoo_use_shared_library(Ribbon)
 pingnoo_use_shared_library(FontAwesome)
+pingnoo_use_shared_library(ThemeSupport)
 
 pingnoo_set_component_metadata("Core" "Provides core services to components.")
 

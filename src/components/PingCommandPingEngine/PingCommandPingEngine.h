@@ -25,8 +25,8 @@
 #define PINGNOO_COMPONENTS_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGENGINE_H
 
 #include "ComponentSystem/IInterface.h"
-#include "Core/IPingEngine.h"
-#include "Core/IPingEngineFactory.h"
+#include <IPingEngine>
+#include <IPingEngineFactory>
 
 #include <chrono>
 

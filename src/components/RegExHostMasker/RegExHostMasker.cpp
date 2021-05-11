@@ -23,7 +23,7 @@
 
 #include "RegExHostMasker.h"
 
-#include "Core/ICore.h"
+#include <ICore>
 
 #include <QDir>
 #include <QJsonArray>

@@ -25,10 +25,10 @@
 
 #include "FavouritesManagerDialog.h"
 
-#include "Core/ICore.h"
+#include <ICore>
 #include "FavouriteEditorDialog.h"
 #if defined(Q_OS_MACOS)
-#include "MacHelper/MacHelper.h"
+#include <MacHelper>
 #endif
 #include "TargetManager.h"
 #include "Utils.h"

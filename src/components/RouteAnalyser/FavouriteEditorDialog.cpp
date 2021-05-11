@@ -23,7 +23,7 @@
 
 #include "FavouriteEditorDialog.h"
 
-#include "Core/ICore.h"
+#include <ICore>
 #include "Utils.h"
 
 #include <QTimer>

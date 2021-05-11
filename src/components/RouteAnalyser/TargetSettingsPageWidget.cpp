@@ -24,7 +24,7 @@
 #include "TargetSettingsPageWidget.h"
 
 #include "ComponentSystem/IComponentManager.h"
-#include "Core/IPingEngineFactory.h"
+#include <IPingEngineFactory>
 #include "TargetSettings.h"
 #include "Utils.h"
 

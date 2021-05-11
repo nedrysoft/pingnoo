@@ -25,9 +25,9 @@
 #define PINGNOO_COMPONENTS_CORE_RIBBONBARMANAGER_H
 
 #include "IRibbonBarManager.h"
-#include "Ribbon/RibbonWidget.h"
 
 #include <QMap>
+#include <RibbonWidget>
 
 namespace Nedrysoft { namespace Core {
     class RibbonPage;

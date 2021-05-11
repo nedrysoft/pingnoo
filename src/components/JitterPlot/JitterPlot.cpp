@@ -24,7 +24,7 @@
 #include "JitterPlot.h"
 
 #include "CPAxisTickerMS.h"
-#include "Core/ICore.h"
+#include <ICore>
 #include "JitterBackgroundLayer.h"
 
 #include <QLabel>

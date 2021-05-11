@@ -25,7 +25,7 @@
 #define PINGNOO_COMPONENTS_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDERCOMPONENT_H
 
 #include "ComponentSystem/IComponent.h"
-#include "Core/ILogger.h"
+#include <ILogger>
 #include "HostIPGeoIPProviderSpec.h"
 
 namespace Nedrysoft { namespace HostIPGeoIPProvider {

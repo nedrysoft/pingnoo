@@ -34,20 +34,19 @@
 #include "EditorManager.h"
 #include "Pingnoo.h"
 #include "RibbonBarManager.h"
-#include "SettingsDialog/ISettingsPage.h"
-#include "SettingsDialog/SettingsDialog.h"
 #include "SystemTrayIconManager.h"
 #include "ui_MainWindow.h"
 
 #include <QApplication>
+#include <QBitmap>
 #include <QCloseEvent>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <ISettingsPage>
+#include <SettingsDialog>
 #include <QSystemTrayIcon>
 #include <spdlog/spdlog.h>
-
-#include <QBitmap>
 
 Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),

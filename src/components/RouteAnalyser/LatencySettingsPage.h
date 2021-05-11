@@ -24,10 +24,10 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYSETTINGSPAGE_H
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYSETTINGSPAGE_H
 
+#include <ISettingsPage>
 #include <QIcon>
 #include <QString>
 #include <QWidget>
-#include <SettingsDialog/ISettingsPage.h>
 
 namespace Nedrysoft { namespace RouteAnalyser {
     class LatencySettingsPageWidget;

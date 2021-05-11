@@ -25,7 +25,7 @@
 #define PINGNOO_COMPONENTS_ROUTEENGINE_ROUTEENGINEFACTORY_H
 
 #include "ComponentSystem/IInterface.h"
-#include "Core/IRouteEngineFactory.h"
+#include <IRouteEngineFactory>
 
 #include <memory>
 

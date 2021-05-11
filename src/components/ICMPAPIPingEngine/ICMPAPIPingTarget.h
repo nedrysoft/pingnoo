@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGTARGET_H
 #define PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGTARGET_H
 
-#include "Core/IPingTarget.h"
+#include <IPingTarget>
 
 namespace Nedrysoft { namespace ICMPAPIPingEngine {
     class ICMPAPIPingTargetData;

@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGTRANSMITTER_H
 #define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGTRANSMITTER_H
 
-#include "Core/PingResult.h"
+#include <PingResult>
 
 #include <QMutex>
 #include <QObject>

@@ -25,7 +25,7 @@
 #define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGENGINEFACTORY_H
 
 #include "ComponentSystem/IInterface.h"
-#include "Core/IPingEngineFactory.h"
+#include <IPingEngineFactory>
 #include "ICMPSocket/ICMPSocket.h"
 
 #include <memory>

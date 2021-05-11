@@ -26,7 +26,6 @@
 #include "ColourManager.h"
 #include "LatencySettings.h"
 #include "PingData.h"
-#include "ThemeSupport.h"
 
 #include <QHeaderView>
 #include <QPainter>
@@ -34,6 +33,7 @@
 #include <QPropertyAnimation>
 #include <QStandardItemModel>
 #include <QTableView>
+#include <ThemeSupport>
 #include <cassert>
 
 using namespace std::chrono_literals;

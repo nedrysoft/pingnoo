@@ -24,7 +24,7 @@
 #include "TargetSettings.h"
 
 #include "ComponentSystem/IComponentManager.h"
-#include "Core/IPingEngineFactory.h"
+#include <IPingEngineFactory>
 
 #include <QDir>
 #include <QJsonArray>

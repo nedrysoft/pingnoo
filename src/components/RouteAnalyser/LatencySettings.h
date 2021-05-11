@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYSETTINGS_H
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYSETTINGS_H
 
-#include "Core/IConfiguration.h"
+#include <IConfiguration>
 
 #include "ComponentSystem/IComponentManager.h"
 

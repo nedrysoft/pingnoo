@@ -25,8 +25,8 @@
 #define PINGNOO_COMPONENTS_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKER_H
 
 #include "ComponentSystem/IInterface.h"
-#include "Core/IConfiguration.h"
-#include "Core/IHostMasker.h"
+#include <IConfiguration>
+#include <IHostMasker>
 
 #include <QObject>
 

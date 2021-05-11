@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_PINGDATA_H
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_PINGDATA_H
 
-#include "Core/PingResult.h"
+#include <PingResult>
 
 #include <QPersistentModelIndex>
 #include <QString>

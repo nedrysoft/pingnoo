@@ -23,8 +23,8 @@
 
 #include "RouteEngineWorker.h"
 
-#include "Core/IPingEngine.h"
-#include "Core/IPingEngineFactory.h"
+#include <IPingEngine>
+#include <IPingEngineFactory>
 #include "spdlog.h"
 
 #include <QHostInfo>
