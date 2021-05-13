@@ -24,10 +24,10 @@
 #ifndef PINGNOO_COMPONENTS_CORE_ICONTEXTMANAGER_H
 #define PINGNOO_COMPONENTS_CORE_ICONTEXTMANAGER_H
 
-#include "ComponentSystem/IComponentManager.h"
-#include "ComponentSystem/IInterface.h"
 #include "CoreSpec.h"
+#include "IComponentManager.h"
 
+#include <IInterface>
 #include <QObject>
 
 namespace Nedrysoft { namespace Core {

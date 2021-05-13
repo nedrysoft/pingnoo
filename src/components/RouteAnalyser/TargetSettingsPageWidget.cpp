@@ -21,15 +21,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "TargetSettingsPageWidget.h"
-
-#include "ComponentSystem/IComponentManager.h"
-#include <IPingEngineFactory>
 #include "TargetSettings.h"
+#include "TargetSettingsPageWidget.h"
 #include "Utils.h"
 
-#include <cassert>
 #include "ui_TargetSettingsPageWidget.h"
+
+#include <IComponentManager>
+#include <IPingEngineFactory>
+#include <cassert>
 
 Nedrysoft::RouteAnalyser::TargetSettingsPageWidget::TargetSettingsPageWidget(QWidget *parent) :
         QWidget(parent),

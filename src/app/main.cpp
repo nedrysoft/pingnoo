@@ -23,11 +23,11 @@
 
 #include <QtGlobal>
 
-#include "ComponentSystem/Component.h"
-#include "ComponentSystem/ComponentLoader.h"
-#include "ComponentSystem/IComponentManager.h"
 #include "SplashScreen.h"
 
+#include <Component>
+#include <ComponentLoader>
+#include <IComponentManager.h>
 #include <QApplication>
 #include <QDir>
 #include <QDirIterator>

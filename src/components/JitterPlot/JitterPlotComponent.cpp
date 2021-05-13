@@ -23,8 +23,9 @@
 
 #include "JitterPlotComponent.h"
 
-#include "ComponentSystem/IComponentManager.h"
 #include "JitterPlotFactory.h"
+
+#include <IComponentManager>
 
 JitterPlotComponent::JitterPlotComponent() :
         m_plotFactory(nullptr) {

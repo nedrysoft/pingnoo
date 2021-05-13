@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_CORE_IPINGENGINE_H
 #define PINGNOO_COMPONENTS_CORE_IPINGENGINE_H
 
-#include "ComponentSystem/IInterface.h"
+#include <IInterface>
 #include "CoreSpec.h"
 #include "IConfiguration.h"
 #include "PingResult.h"

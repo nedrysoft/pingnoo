@@ -24,8 +24,9 @@
 #ifndef PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGENGINECOMPONENT_H
 #define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGENGINECOMPONENT_H
 
-#include "ComponentSystem/IComponent.h"
 #include "ICMPPingEngineSpec.h"
+
+#include <IComponent>
 
 namespace Nedrysoft { namespace ICMPPingEngine {
     class ICMPPingEngineFactory;

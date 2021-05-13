@@ -23,8 +23,8 @@
 
 #include "HostMaskerSettingsPageWidget.h"
 
-#include "ComponentSystem/IComponentManager.h"
 #include "Core.h"
+#include "IComponentManager.h"
 #include "IHostMaskerSettingsPage.h"
 
 #include "ui_HostMaskerSettingsPageWidget.h"

@@ -24,12 +24,12 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTEANALYSEREDITOR_H
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTEANALYSEREDITOR_H
 
-#include "ComponentSystem/IInterface.h"
-#include <ICore>
-#include <IConfiguration>
-#include <IEditor>
 #include "LatencyRibbonGroup.h"
 
+#include <IConfiguration>
+#include <ICore>
+#include <IEditor>
+#include <IInterface>
 #include <QObject>
 
 namespace Nedrysoft { namespace Core {

@@ -24,9 +24,10 @@
 #ifndef PINGNOO_COMPONENTS_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKERCOMPONENT_H
 #define PINGNOO_COMPONENTS_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKERCOMPONENT_H
 
-#include "ComponentSystem/IComponent.h"
 #include "PublicIPHostMasker.h"
 #include "PublicIPHostMaskerSpec.h"
+
+#include <IComponent>
 
 namespace Nedrysoft { namespace PublicIPHostMasker {
     class PublicIPHostMasker;

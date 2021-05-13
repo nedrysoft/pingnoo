@@ -24,11 +24,12 @@
 #include "LatencySettingsPageWidget.h"
 
 #include "ColourManager.h"
-#include "ComponentSystem/IComponentManager.h"
 #include "LatencySettings.h"
 #include "Utils.h"
+
 #include "ui_LatencySettingsPageWidget.h"
 
+#include <IComponentManager>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QRegularExpression>

@@ -24,7 +24,6 @@
 #include "ViewportRibbonGroup.h"
 
 #include "ColourManager.h"
-#include "ComponentSystem/IComponentManager.h"
 #include "RouteAnalyserEditor.h"
 #include "Utils.h"
 #include "ui_ViewportRibbonGroup.h"

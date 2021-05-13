@@ -24,9 +24,10 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEENGINE_ROUTEENGINECOMPONENT_H
 #define PINGNOO_COMPONENTS_ROUTEENGINE_ROUTEENGINECOMPONENT_H
 
-#include "ComponentSystem/IComponent.h"
 #include "RouteEngineFactory.h"
 #include "RouteEngineSpec.h"
+
+#include <IComponent>
 
 /**
  * @brief       The RouteEngineComponent class provides a IRouteEngine implementation.

@@ -24,8 +24,8 @@
 #ifndef PINGNOO_COMPONENTS_CORE_IHOSTMASKER_H
 #define PINGNOO_COMPONENTS_CORE_IHOSTMASKER_H
 
-#include "ComponentSystem/IInterface.h"
-#include "Core/IConfiguration.h"
+#include <IInterface>
+#include "IConfiguration.h"
 #include "CoreSpec.h"
 
 #include <QJsonObject>

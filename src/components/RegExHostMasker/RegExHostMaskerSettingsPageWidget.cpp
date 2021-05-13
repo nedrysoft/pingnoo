@@ -21,17 +21,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "RegExHostMasker.h"
 #include "RegExHostMaskerSettingsPageWidget.h"
 
-#include "RegExHostMasker.h"
-#include "ComponentSystem/IComponentManager.h"
+#include <IComponentManager>
 #include <ICore>
-
-#include "ui_RegExHostMaskerSettingsPageWidget.h"
-
 #include <QFileDialog>
 #include <QMessageBox>
 #include <cassert>
+
+#include "ui_RegExHostMaskerSettingsPageWidget.h"
 
 constexpr auto DefaultWidgetWidth = 650;
 constexpr auto ToolbarAdjustment = 50;

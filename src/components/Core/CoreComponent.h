@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_CORE_CORECOMPONENT_H
 #define PINGNOO_COMPONENTS_CORE_CORECOMPONENT_H
 
-#include "ComponentSystem/IComponent.h"
+#include <IComponent>
 #include "CoreSpec.h"
 
 namespace Nedrysoft { namespace Core {

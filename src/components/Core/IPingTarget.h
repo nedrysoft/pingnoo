@@ -24,10 +24,10 @@
 #ifndef PINGNOO_COMPONENTS_CORE_IPINGTARGET_H
 #define PINGNOO_COMPONENTS_CORE_IPINGTARGET_H
 
-#include "ComponentSystem/IInterface.h"
 #include "CoreSpec.h"
 #include "IConfiguration.h"
 
+#include <IInterface>
 #include <QHostAddress>
 
 namespace Nedrysoft { namespace Core {

@@ -24,9 +24,10 @@
 #ifndef PINGNOO_COMPONENTS_CORE_ISTATUSBARMANAGER_H
 #define PINGNOO_COMPONENTS_CORE_ISTATUSBARMANAGER_H
 
-#include "ComponentSystem/IInterface.h"
-#include "Core/IContextManager.h"
 #include "CoreSpec.h"
+#include "IContextManager.h"
+
+#include <IInterface>
 
 namespace Nedrysoft { namespace Core {
     /**

@@ -24,10 +24,10 @@
 #ifndef PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGENGINEFACTORY_H
 #define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGENGINEFACTORY_H
 
-#include "ComponentSystem/IInterface.h"
-#include <IPingEngineFactory>
 #include "ICMPSocket/ICMPSocket.h"
 
+#include <IInterface>
+#include <IPingEngineFactory>
 #include <memory>
 
 namespace Nedrysoft { namespace ICMPPingEngine {

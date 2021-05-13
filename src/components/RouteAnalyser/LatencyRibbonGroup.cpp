@@ -24,13 +24,13 @@
 #include "LatencyRibbonGroup.h"
 
 #include "ColourManager.h"
-#include "ComponentSystem/IComponentManager.h"
 #include "LineSyntaxHighlighter.h"
 #include "LatencySettings.h"
 #include "RouteAnalyserEditor.h"
 #include "Utils.h"
 #include "ui_LatencyRibbonGroup.h"
 
+#include <IComponentManager>
 #include <QMenu>
 #include <cassert>
 

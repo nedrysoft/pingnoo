@@ -21,10 +21,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "HostIPGeoIPProvider.h"
 #include "HostIPGeoIPProviderComponent.h"
 
-#include "ComponentSystem/IComponentManager.h"
-#include "HostIPGeoIPProvider.h"
+#include <IComponentManager>
 
 HostIPGeoIPProviderComponent::HostIPGeoIPProviderComponent() :
         m_provider(nullptr) {

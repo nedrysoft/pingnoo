@@ -24,10 +24,9 @@
 #ifndef PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGENGINE_H
 #define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGENGINE_H
 
-#include "ComponentSystem/IInterface.h"
+#include <IInterface>
 #include <IPingEngine>
 #include <IPingEngineFactory>
-
 #include <memory>
 #include <chrono>
 

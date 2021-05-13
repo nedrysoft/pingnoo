@@ -26,17 +26,17 @@
 #include "MainWindow.h"
 
 #include "AboutDialog.h"
-#include "ComponentSystem/Component.h"
-#include "ComponentSystem/ComponentViewerDialog.h"
-#include "Core/ICommandManager.h"
-#include "Core/ICore.h"
-#include "Core/IEditor.h"
+#include "ICommandManager.h"
+#include "ICore.h"
+#include "IEditor.h"
 #include "EditorManager.h"
 #include "Pingnoo.h"
 #include "RibbonBarManager.h"
 #include "SystemTrayIconManager.h"
 #include "ui_MainWindow.h"
 
+#include <Component>
+#include <ComponentViewerDialog>
 #include <QApplication>
 #include <QBitmap>
 #include <QCloseEvent>

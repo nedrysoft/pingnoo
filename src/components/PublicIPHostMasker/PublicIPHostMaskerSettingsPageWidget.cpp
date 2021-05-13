@@ -23,11 +23,10 @@
 
 #include <QtGlobal>
 
+#include "PublicIPHostMasker.h"
 #include "PublicIPHostMaskerSettingsPageWidget.h"
 
-#include "ComponentSystem/IComponentManager.h"
-#include "PublicIPHostMasker.h"
-
+#include <IComponentManager>
 #include <cassert>
 
 #include "ui_PublicIPHostMaskerSettingsPageWidget.h"

@@ -24,8 +24,9 @@
 #ifndef PINGNOO_COMPONENTS_CORE_IRIBBONGROUP_H
 #define PINGNOO_COMPONENTS_CORE_IRIBBONGROUP_H
 
-#include "ComponentSystem/IInterface.h"
 #include "CoreSpec.h"
+
+#include <IInterface>
 
 namespace Nedrysoft { namespace Core {
     /**

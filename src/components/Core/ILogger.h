@@ -24,9 +24,9 @@
 #ifndef PINGNOO_COMPONENTS_CORE_ILOGGER_H
 #define PINGNOO_COMPONENTS_CORE_ILOGGER_H
 
-#include "ComponentSystem/IInterface.h"
 #include "CoreSpec.h"
 
+#include <IInterface>
 #include <spdlog/spdlog.h>
 
 namespace Nedrysoft { namespace Core {

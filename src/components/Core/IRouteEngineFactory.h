@@ -24,10 +24,11 @@
 #ifndef PINGNOO_COMPONENTS_CORE_IROUTEENGINEFACTORY_H
 #define PINGNOO_COMPONENTS_CORE_IROUTEENGINEFACTORY_H
 
-#include "ComponentSystem/IInterface.h"
-#include "Core/Core.h"
+#include "Core.h"
 #include "CoreSpec.h"
 #include "IConfiguration.h"
+
+#include <IInterface>
 
 namespace Nedrysoft { namespace Core {
     class IRouteEngine;

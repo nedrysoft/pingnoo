@@ -24,13 +24,13 @@
 #ifndef PINGNOO_COMPONENTS_CORE_ICOMMANDMANAGER_H
 #define PINGNOO_COMPONENTS_CORE_ICOMMANDMANAGER_H
 
-#include "ComponentSystem/IComponentManager.h"
-#include "ComponentSystem/IInterface.h"
-#include "Core/IContextManager.h"
-#include "Core/IMenu.h"
 #include "CoreSpec.h"
 #include "ICommand.h"
+#include "IComponentManager.h"
+#include "IContextManager.h"
+#include "IMenu.h"
 
+#include <IInterface>
 #include <QAction>
 #include <QList>
 #include <QObject>

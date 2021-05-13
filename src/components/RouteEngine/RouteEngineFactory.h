@@ -24,9 +24,8 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEENGINE_ROUTEENGINEFACTORY_H
 #define PINGNOO_COMPONENTS_ROUTEENGINE_ROUTEENGINEFACTORY_H
 
-#include "ComponentSystem/IInterface.h"
+#include <IInterface>
 #include <IRouteEngineFactory>
-
 #include <memory>
 
 namespace Nedrysoft { namespace RouteEngine {

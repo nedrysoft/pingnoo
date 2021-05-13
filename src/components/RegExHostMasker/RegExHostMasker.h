@@ -24,9 +24,10 @@
 #ifndef PINGNOO_COMPONENTS_REGEXHOSTMASKER_REGEXHOSTMASKER_H
 #define PINGNOO_COMPONENTS_REGEXHOSTMASKER_REGEXHOSTMASKER_H
 
-#include "ComponentSystem/IInterface.h"
-#include <IHostMasker>
 #include "RegExHostMaskerSpec.h"
+
+#include <IHostMasker>
+#include <IInterface>
 #include <QSet>
 
 namespace Nedrysoft { namespace RegExHostMasker {

@@ -22,20 +22,20 @@
  */
 
 #include "NewTargetRibbonGroup.h"
-#include "ui_NewTargetRibbonGroup.h"
 
-#include "ComponentSystem/IComponentManager.h"
-#include <ICommandManager>
-#include <IEditorManager>
-#include <IPingEngineFactory>
 #include "FavouriteEditorDialog.h"
 #include "FavouritesManagerDialog.h"
 #include "OpenFavouriteDialog.h"
 #include "RouteAnalyserEditor.h"
 #include "TargetManager.h"
-#include "TargetSettings.h" // what to do about this?  Separate library I guess...
+#include "TargetSettings.h" // TODO: what to do about this?  Separate library I guess...
 #include "Utils.h"
 
+#include "ui_NewTargetRibbonGroup.h"
+
+#include <ICommandManager>
+#include <IEditorManager>
+#include <IPingEngineFactory>
 #include <QAbstractItemView>
 #include <QMenu>
 #include <QStandardItemModel>

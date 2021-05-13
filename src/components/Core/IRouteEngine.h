@@ -24,10 +24,10 @@
 #ifndef PINGNOO_COMPONENTS_CORE_IROUTEENGINE_H
 #define PINGNOO_COMPONENTS_CORE_IROUTEENGINE_H
 
-#include "ComponentSystem/IInterface.h"
 #include "Core.h"
 #include "CoreSpec.h"
 
+#include <IInterface>
 #include <QHostAddress>
 #include <QObject>
 

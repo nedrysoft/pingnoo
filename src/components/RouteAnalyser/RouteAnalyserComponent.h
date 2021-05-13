@@ -24,9 +24,10 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTEANALYSERCOMPONENT_H
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTEANALYSERCOMPONENT_H
 
-#include "ComponentSystem/IComponent.h"
 #include "RouteAnalyserEditor.h"
 #include "RouteAnalyserSpec.h"
+
+#include <IComponent>
 
 namespace Nedrysoft { namespace RouteAnalyser {
     class NewTargetRibbonGroup;
