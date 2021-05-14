@@ -21,6 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "StatusBarManager.h"
+#include "StatusbarManager.h"
 
-Nedrysoft::Core::StatusBarManager::StatusBarManager() = default;
+Nedrysoft::Core::StatusbarManager::StatusbarManager() = default;

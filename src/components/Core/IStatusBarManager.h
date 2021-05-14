@@ -31,7 +31,7 @@
 
 namespace Nedrysoft { namespace Core {
     /**
-     * @brief       The IStatusBarManager describes a manager for status bars.
+     * @brief       The IStatusbarManager describes a manager for status bars.
      *
      * @details     The status bar manager handles the management of the application status bar, components may use
      *              the status bar to display information about tasks or results that are running.
@@ -39,7 +39,7 @@ namespace Nedrysoft { namespace Core {
      *              The status bar is normally context sensitive although components may created fixed entries that
      *              are shown regardless of the current application context.
      */
-    class NEDRYSOFT_CORE_DLLSPEC IStatusBarManager :
+    class NEDRYSOFT_CORE_DLLSPEC IStatusbarManager :
             public Nedrysoft::ComponentSystem::IInterface {
 
         private:
@@ -47,16 +47,16 @@ namespace Nedrysoft { namespace Core {
 
         public:
             /**
-             * @brief       Returns the IStatusBarManager instance.
+             * @brief       Returns the IStatusbarManager instance.
              *
-             * @returns     the IStatusBarManager instance.
+             * @returns     the IStatusbarManager instance.
              */
-            static auto getInstance() -> IStatusBarManager * {
-                return ComponentSystem::getObject<IStatusBarManager>();
+            static auto getInstance() -> IStatusbarManager * {
+                return ComponentSystem::getObject<IStatusbarManager>();
             }
     };
 }}
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IStatusBarManager, "com.nedrysoft.core.IStatusBarManager/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::Core::IStatusbarManager, "com.nedrysoft.core.IStatusbarManager/1.0.0")
 
 #endif // PINGNOO_COMPONENTS_CORE_ISTATUSBARMANAGER_H

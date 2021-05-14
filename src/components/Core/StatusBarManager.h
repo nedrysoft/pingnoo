@@ -24,20 +24,20 @@
 #ifndef PINGNOO_COMPONENTS_CORE_STATUSBARMANAGER_H
 #define PINGNOO_COMPONENTS_CORE_STATUSBARMANAGER_H
 
-#include "IStatusBarManager.h"
+#include "IStatusbarManager.h"
 
 namespace Nedrysoft { namespace Core {
     /**
-     * @brief       The StatusBarManager class provides an IStatusBarManager implementation.
+     * @brief       The StatusbarManager class provides an IStatusbarManager implementation.
      */
-    class StatusBarManager :
-            public IStatusBarManager {
+    class StatusbarManager :
+            public IStatusbarManager {
 
         public:
             /**
              * @brief       Constructs a status bar manager.
              */
-            StatusBarManager();
+            StatusbarManager();
     };
 }}
 
