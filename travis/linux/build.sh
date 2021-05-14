@@ -32,5 +32,5 @@ sudo apt-get install libdbus-1-dev
 export CMAKE_PREFIX_PATH=/usr/lib/x86_64-linux-gnu/qt5
 mkdir build
 cd build
-cmake ../
-make -j 4
+cmake ../ -DUSE_QT_VERSION=5 -DPINGNOO_QT_VERSION=5
+make -j $(nproc)
