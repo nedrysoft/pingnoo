@@ -100,9 +100,9 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
                 QRegularExpression packetLostRegEx(PacketLostRegularExpression);
 
                 if (pingProcess.exitCode() == 0) {
-                    auto pingResult = Nedrysoft::Core::PingResult(
+                    auto pingResult = Nedrysoft::RouteAnalyser::PingResult(
                             sampleNumber,
-                            Nedrysoft::Core::PingResult::ResultCode::Ok,
+                            Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok,
                             m_hostAddress,
                             epoch,
                             std::chrono::duration<double, std::milli>(roundTripTime),
@@ -114,9 +114,9 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
                     auto packetLostMatch = packetLostRegEx.match(commandOutput);
 
                     if (ttlExceededMatch.hasMatch()) {
-                        auto pingResult = Nedrysoft::Core::PingResult(
+                        auto pingResult = Nedrysoft::RouteAnalyser::PingResult(
                                 sampleNumber,
-                                Nedrysoft::Core::PingResult::ResultCode::TimeExceeded,
+                                Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded,
                                 QHostAddress(ttlExceededMatch.captured("ip")),
                                 epoch,
                                 std::chrono::duration<double, std::milli>(roundTripTime),
@@ -124,9 +124,9 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
 
                         engine->emitResult(pingResult);
                     } else if (packetLostMatch.hasMatch()) {
-                        auto pingResult = Nedrysoft::Core::PingResult(
+                        auto pingResult = Nedrysoft::RouteAnalyser::PingResult(
                                 sampleNumber,
-                                Nedrysoft::Core::PingResult::ResultCode::NoReply,
+                                Nedrysoft::RouteAnalyser::PingResult::ResultCode::NoReply,
                                 QHostAddress(packetLostMatch.captured("ip")),
                                 epoch,
                                 std::chrono::duration<double, std::milli>(roundTripTime),
@@ -173,7 +173,7 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::hostAddress() -> Q
     return m_hostAddress;
 }
 
-auto Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::engine() -> Nedrysoft::Core::IPingEngine * {
+auto Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::engine() -> Nedrysoft::RouteAnalyser::IPingEngine * {
     return m_engine;
 }
 

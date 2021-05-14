@@ -44,7 +44,7 @@ pingnoo_add_sources(
 pingnoo_set_description("Ping command ping engine component")
 
 pingnoo_use_component(Core)
-pingnoo_user_component(RouteAnalyser)
+pingnoo_use_component(RouteAnalyser)
 
 pingnoo_use_qt_libraries(Core)
 

@@ -23,7 +23,6 @@
 
 #include "PingCommandPingComponent.h"
 
-#include "ComponentSystem/IComponentManager.h"
 #include "PingCommandPingEngineFactory.h"
 
 PingCommandPingComponent::PingCommandPingComponent() :

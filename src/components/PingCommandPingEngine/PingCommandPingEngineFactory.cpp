@@ -36,7 +36,7 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingEngineFactory::~PingCommandPing
 }
 
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngineFactory::createEngine(
-        Nedrysoft::Core::IPVersion version ) -> Nedrysoft::Core::IPingEngine * {
+        Nedrysoft::Core::IPVersion version ) -> Nedrysoft::RouteAnalyser::IPingEngine * {
 
     auto engineInstance = new Nedrysoft::PingCommandPingEngine::PingCommandPingEngine(version);
 
@@ -73,7 +73,7 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngineFactory::available()
 }
 
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngineFactory::deleteEngine(
-        Nedrysoft::Core::IPingEngine *engine) -> bool {
+        Nedrysoft::RouteAnalyser::IPingEngine *engine) -> bool {
 
     return true;
 }
