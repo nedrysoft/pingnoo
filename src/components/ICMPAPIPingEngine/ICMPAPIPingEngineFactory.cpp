@@ -55,7 +55,7 @@ Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::~ICMPAPIPingEngineFactor
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::createEngine(
-        Nedrysoft::Core::IPVersion ipVersion) -> Nedrysoft::Core::IPingEngine * {
+        Nedrysoft::Core::IPVersion ipVersion) -> Nedrysoft::RouteAnalyser::IPingEngine * {
 
     auto engineInstance = new Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine(ipVersion);
 
@@ -85,7 +85,9 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::loadConfiguration(Q
 
     return ( false );
 }
-auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::deleteEngine(Nedrysoft::Core::IPingEngine *engine) -> bool {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::deleteEngine(
+        Nedrysoft::RouteAnalyser::IPingEngine *engine) -> bool {
+
     auto pingEngine = qobject_cast<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *>(engine);
 
     if (d->m_engineList.contains(pingEngine)) {

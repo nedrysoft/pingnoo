@@ -42,7 +42,7 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
         private:
             Q_OBJECT
 
-            Q_INTERFACES(Nedrysoft::Core::IPingTarget)
+            Q_INTERFACES(Nedrysoft::RouteAnalyser::IPingTarget)
 
         public:
             /**

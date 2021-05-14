@@ -23,9 +23,9 @@
 
 #include "ICMPAPIPingComponent.h"
 
-#include "ComponentSystem/IComponentManager.h"
 #include "ICMPAPIPingEngineFactory.h"
 
+#include <IComponentManager>
 #include <windows.h>
 #include <spdlog/spdlog.h>
 

@@ -167,7 +167,7 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
              *
              * @returns     a QList containing the list of targets.
              */
-            auto targets() -> QList<Nedrysoft::Core::IPingTarget *> override;
+            auto targets() -> QList<Nedrysoft::RouteAnalyser::IPingTarget *> override;
 
         private:
             /*

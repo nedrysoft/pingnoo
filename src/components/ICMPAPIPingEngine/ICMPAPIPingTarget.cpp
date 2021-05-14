@@ -74,7 +74,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::hostAddress() -> QHostAddr
     return d->m_hostAddress;
 }
 
-auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::engine() -> Nedrysoft::Core::IPingEngine * {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget::engine() -> Nedrysoft::RouteAnalyser::IPingEngine * {
     return d->m_engine;
 }
 

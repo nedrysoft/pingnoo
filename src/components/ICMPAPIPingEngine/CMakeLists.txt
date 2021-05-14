@@ -52,7 +52,7 @@ pingnoo_set_description("ICMPAPI ping engine component")
 pingnoo_use_qt_libraries(Core Network)
 
 pingnoo_use_component(Core)
-pingnoo_user_component(RouteAnalyser)
+pingnoo_use_component(RouteAnalyser)
 
 pingnoo_use_shared_library(ComponentSystem)
 pingnoo_use_shared_library(ICMPPacket)

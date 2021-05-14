@@ -25,7 +25,7 @@
 
 #include <IPingTarget>
 
-Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingResult::ICMPAPIPingResult(Nedrysoft::Core::PingResult result) {
+Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingResult::ICMPAPIPingResult(Nedrysoft::RouteAnalyser::PingResult result) {
     m_code = result.code();
     m_target = result.target();
     m_hostAddress = result.hostAddress();
@@ -37,6 +37,6 @@ void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingResult::setSampleNumber(int sample
     m_sampleNumber = sampleNumber;
 }
 
-void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingResult::setTarget(Nedrysoft::Core::IPingTarget *target) {
+void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingResult::setTarget(Nedrysoft::RouteAnalyser::IPingTarget *target) {
     m_target = target;
 }
