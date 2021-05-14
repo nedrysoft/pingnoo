@@ -24,9 +24,9 @@
 #ifndef PINGNOO_COMPONENTS_CORE_ICOMMAND_H
 #define PINGNOO_COMPONENTS_CORE_ICOMMAND_H
 
-#include "ComponentSystem/IInterface.h"
 #include "CoreSpec.h"
 
+#include <IInterface>
 #include <QAbstractButton>
 #include <QAction>
 #include <QObject>

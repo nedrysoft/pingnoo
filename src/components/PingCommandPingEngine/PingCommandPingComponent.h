@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGCOMPONENT_H
 #define PINGNOO_COMPONENTS_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGCOMPONENT_H
 
-#include "ComponentSystem/IComponent.h"
+#include <IComponent>
 #include "PingCommandPingEngineSpec.h"
 
 namespace Nedrysoft { namespace PingCommandPingEngine {

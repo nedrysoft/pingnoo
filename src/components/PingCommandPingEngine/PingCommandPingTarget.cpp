@@ -37,10 +37,10 @@
 #endif
 #include <cassert>
 
-constexpr auto replyTimeout = 3;
-constexpr auto nanosecondsInMillisecond = 1.0e6;
-constexpr auto packetLostRegularExpression = R"(100% packet loss)";
-constexpr auto ttlExceededRegularExpression = R"(From\ (?<ip>[\d\.]*)\ .*exceeded)";
+constexpr auto ReplyTimeout = 3;
+constexpr auto NanosecondsInMillisecond = 1.0e6;
+constexpr auto PacketLostRegularExpression = R"(100% packet loss)";
+constexpr auto TtlExceededRegularExpression = R"(From\ (?<ip>[\d\.]*)\ .*exceeded)";
 
 Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
         Nedrysoft::PingCommandPingEngine::PingCommandPingEngine *engine,
@@ -58,7 +58,7 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
     m_workerThread = new std::thread([=]() {
 #endif
         auto pingArguments = QStringList() <<
-                "-W" << QString("%1").arg(replyTimeout) <<
+                "-W" << QString("%1").arg(ReplyTimeout) <<
                 "-D" <<
                 "-c" << "1" <<
                 "-t" << QString("%1").arg(ttl) <<
@@ -92,17 +92,17 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
 
                 finished = timer.nsecsElapsed();
 
-                auto roundTripTime = static_cast<double>(finished - started) / nanosecondsInMillisecond;
+                auto roundTripTime = static_cast<double>(finished - started) / NanosecondsInMillisecond;
 
                 auto commandOutput = pingProcess.readAll();
 
-                QRegularExpression ttlExceededRegEx(ttlExceededRegularExpression);
-                QRegularExpression packetLostRegEx(packetLostRegularExpression);
+                QRegularExpression ttlExceededRegEx(TtlExceededRegularExpression);
+                QRegularExpression packetLostRegEx(PacketLostRegularExpression);
 
                 if (pingProcess.exitCode() == 0) {
-                    auto pingResult = Nedrysoft::Core::PingResult(
+                    auto pingResult = Nedrysoft::RouteAnalyser::PingResult(
                             sampleNumber,
-                            Nedrysoft::Core::PingResult::ResultCode::Ok,
+                            Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok,
                             m_hostAddress,
                             epoch,
                             std::chrono::duration<double, std::milli>(roundTripTime),
@@ -114,9 +114,9 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
                     auto packetLostMatch = packetLostRegEx.match(commandOutput);
 
                     if (ttlExceededMatch.hasMatch()) {
-                        auto pingResult = Nedrysoft::Core::PingResult(
+                        auto pingResult = Nedrysoft::RouteAnalyser::PingResult(
                                 sampleNumber,
-                                Nedrysoft::Core::PingResult::ResultCode::TimeExceeded,
+                                Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded,
                                 QHostAddress(ttlExceededMatch.captured("ip")),
                                 epoch,
                                 std::chrono::duration<double, std::milli>(roundTripTime),
@@ -124,9 +124,9 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
 
                         engine->emitResult(pingResult);
                     } else if (packetLostMatch.hasMatch()) {
-                        auto pingResult = Nedrysoft::Core::PingResult(
+                        auto pingResult = Nedrysoft::RouteAnalyser::PingResult(
                                 sampleNumber,
-                                Nedrysoft::Core::PingResult::ResultCode::NoReply,
+                                Nedrysoft::RouteAnalyser::PingResult::ResultCode::NoReply,
                                 QHostAddress(packetLostMatch.captured("ip")),
                                 epoch,
                                 std::chrono::duration<double, std::milli>(roundTripTime),
@@ -173,7 +173,7 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::hostAddress() -> Q
     return m_hostAddress;
 }
 
-auto Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::engine() -> Nedrysoft::Core::IPingEngine * {
+auto Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::engine() -> Nedrysoft::RouteAnalyser::IPingEngine * {
     return m_engine;
 }
 

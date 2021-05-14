@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETMANAGER_H
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETMANAGER_H
 
-#include "Core/ICore.h"
+#include <ICore>
 
 #include <QJsonObject>
 #include <QObject>

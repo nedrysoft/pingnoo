@@ -24,9 +24,8 @@
 #ifndef NEDRYSOFT_JITTERPLOT_JITTERPLOTFACTORY_H
 #define NEDRYSOFT_JITTERPLOT_JITTERPLOTFACTORY_H
 
-#include "RouteAnalyser/SDK/IPlotFactory.h"
-#include "RouteAnalyser/SDK/IPlot.h"
-
+#include <IPlotFactory>
+#include <IPlot>
 #include <QList>
 
 namespace Nedrysoft { namespace JitterPlot {

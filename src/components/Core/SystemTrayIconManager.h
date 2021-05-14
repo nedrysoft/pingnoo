@@ -34,8 +34,8 @@
 
 #if defined(Q_OS_MACOS)
 namespace Nedrysoft { namespace MacHelper {
-    class MenuBarIcon;
-    class Popover;
+    class MacMenubarIcon;
+    class MacPopover;
 }}
 #endif
 
@@ -87,8 +87,8 @@ namespace Nedrysoft { namespace Core {
             QPixmap m_basePixmap;
             QPixmap m_activePixmap;
 #if defined(Q_OS_MACOS)
-            Nedrysoft::MacHelper::MenuBarIcon *m_menuBarIcon;
-            Nedrysoft::MacHelper::Popover *m_popover;
+            Nedrysoft::MacHelper::MacMenubarIcon *m_menubarIcon;
+            Nedrysoft::MacHelper::MacPopover *m_popover;
 #else
             QSystemTrayIcon *m_systemTrayIcon;
 #endif

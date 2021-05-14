@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_NEWTARGETDIALOG_H
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_NEWTARGETDIALOG_H
 
-#include "Core/IPingEngineFactory.h"
+#include "IPingEngineFactory.h"
 
 #include <QDialog>
 
@@ -67,7 +67,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
              *
              * @returns     the selected IPingEngineFactory.
              */
-            auto pingEngineFactory() -> Nedrysoft::Core::IPingEngineFactory *;
+            auto pingEngineFactory() -> Nedrysoft::RouteAnalyser::IPingEngineFactory *;
 
             /**
              * @brief       Returns the selected target.

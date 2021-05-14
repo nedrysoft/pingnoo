@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGTARGET_H
 #define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGTARGET_H
 
-#include "Core/IPingTarget.h"
+#include <IPingTarget>
 
 #if defined(Q_OS_WIN)
 #include <WS2tcpip.h>
@@ -47,12 +47,12 @@ namespace Nedrysoft { namespace ICMPPingEngine {
      * @details     A ping target is used by an Nedrysoft::Core::IPingEngine to keep track of destinations to be pinged.
      */
     class ICMPPingTarget :
-            public Nedrysoft::Core::IPingTarget {
+            public Nedrysoft::RouteAnalyser::IPingTarget {
 
         private:
             Q_OBJECT
 
-            Q_INTERFACES(Nedrysoft::Core::IPingTarget)
+            Q_INTERFACES(Nedrysoft::RouteAnalyser::IPingTarget)
 
         public:
             /**
@@ -72,7 +72,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             /**
               * @brief       Sets the target host address.
               *
-              * @see         Nedrysoft::Core::IPingTarget::setHostAddress
+              * @see         Nedrysoft::RouteAnalyser::IPingTarget::setHostAddress
               *
               * @param[in]   hostAddress the host address to be pinged.
               */
@@ -88,18 +88,18 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             auto hostAddress() -> QHostAddress override;
 
             /**
-             * @brief       Returns the Nedrysoft::Core::IPingEngine that created this target.
+             * @brief       Returns the Nedrysoft::RouteAnalyser::IPingEngine that created this target.
              *
-             * @see         Nedrysoft::Core::IPingTarget::engine
+             * @see         Nedrysoft::RouteAnalyser::IPingTarget::engine
              *
-             * @returns     the Nedrysoft::Core::IPingEngine instance.
+             * @returns     the Nedrysoft::RouteAnalyser::IPingEngine instance.
              */
-            auto engine() -> Nedrysoft::Core::IPingEngine * override;
+            auto engine() -> Nedrysoft::RouteAnalyser::IPingEngine * override;
 
             /**
              * @brief       Returns the user data attached to this target.
              *
-             * @see         Nedrysoft::Core::IPingTarget::userData
+             * @see         Nedrysoft::RouteAnalyser::IPingTarget::userData
              *
              * @returns     the user data.
              */
@@ -108,7 +108,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             /**
              * @brief       Sets the user data attached to this target.
              *
-             * @see         Nedrysoft::Core::IPingTarget::setUserData
+             * @see         Nedrysoft::RouteAnalyser::IPingTarget::setUserData
              *
              * @param[in]   data the user data.
              */
@@ -117,7 +117,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             /**
              * @brief       Returns the TTL of this target.
              *
-             * @see         Nedrysoft::Core::IPingTarget::ttl
+             * @see         Nedrysoft::RouteAnalyser::IPingTarget::ttl
              *
              * @returns     the ttl value.
              */

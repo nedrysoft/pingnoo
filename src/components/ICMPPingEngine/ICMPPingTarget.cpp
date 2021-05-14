@@ -28,8 +28,6 @@
 #include <QHostAddress>
 #include <cassert>
 
-int id = 0;
-
 class Nedrysoft::ICMPPingEngine::ICMPPingTargetData {
     public:
         ICMPPingTargetData(Nedrysoft::ICMPPingEngine::ICMPPingTarget *parent) :
@@ -83,7 +81,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::hostAddress() -> QHostAddress {
     return d->m_hostAddress;
 }
 
-auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::engine() -> Nedrysoft::Core::IPingEngine * {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTarget::engine() -> Nedrysoft::RouteAnalyser::IPingEngine * {
     return d->m_engine;
 }
 

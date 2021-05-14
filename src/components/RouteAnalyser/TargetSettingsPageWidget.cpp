@@ -23,13 +23,14 @@
 
 #include "TargetSettingsPageWidget.h"
 
-#include "ComponentSystem/IComponentManager.h"
-#include "Core/IPingEngineFactory.h"
+#include "IPingEngineFactory.h"
 #include "TargetSettings.h"
 #include "Utils.h"
 
-#include <cassert>
 #include "ui_TargetSettingsPageWidget.h"
+
+#include <IComponentManager>
+#include <cassert>
 
 Nedrysoft::RouteAnalyser::TargetSettingsPageWidget::TargetSettingsPageWidget(QWidget *parent) :
         QWidget(parent),
@@ -39,9 +40,9 @@ Nedrysoft::RouteAnalyser::TargetSettingsPageWidget::TargetSettingsPageWidget(QWi
 
     ui->setupUi(this);
 
-    auto engineFactories = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IPingEngineFactory>();
+    auto engineFactories = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::IPingEngineFactory>();
 
-    QMultiMap<double, Nedrysoft::Core::IPingEngineFactory *> sortedPingEngines;
+    QMultiMap<double, Nedrysoft::RouteAnalyser::IPingEngineFactory *> sortedPingEngines;
 
     for (auto factory : engineFactories) {
         ui->defaultEngineComboBox->addItem(factory->description(), factory->metaObject()->className());

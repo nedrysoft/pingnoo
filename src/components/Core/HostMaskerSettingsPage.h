@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_CORE_HOSTMASKERSETTINGSPAGE_H
 #define PINGNOO_COMPONENTS_CORE_HOSTMASKERSETTINGSPAGE_H
 
-#include "SettingsDialog/ISettingsPage.h"
+#include <ISettingsPage>
 
 #include <QIcon>
 #include <QString>

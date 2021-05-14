@@ -25,7 +25,7 @@
 
 #include "RibbonPage.h"
 
-constexpr auto ribbonOrderProperty = "nedrysoft.ribbon.order";
+constexpr auto RibbonOrderProperty = "nedrysoft.ribbon.order";
 
 Nedrysoft::Core::RibbonBarManager::~RibbonBarManager() {
     qDeleteAll(m_pages);
@@ -40,16 +40,16 @@ auto Nedrysoft::Core::RibbonBarManager::addPage(QString title, QString id, float
     auto ribbonPage = new Nedrysoft::Core::RibbonPage(this);
     int tabIndex = -1;
 
-    ribbonPage->widget()->setProperty(ribbonOrderProperty, QVariant(order));
+    ribbonPage->widget()->setProperty(RibbonOrderProperty, QVariant(order));
 
     if (m_ribbonWidget->count()) {
-        if (order<m_ribbonWidget->widget(0)->property(ribbonOrderProperty).toFloat()) {
+        if (order<m_ribbonWidget->widget(0)->property(RibbonOrderProperty).toFloat()) {
             tabIndex = m_ribbonWidget->insertTab(0,ribbonPage->widget(), title);
-        } else if (order>m_ribbonWidget->widget(m_ribbonWidget->count()-1)->property(ribbonOrderProperty).toFloat()) {
+        } else if (order>m_ribbonWidget->widget(m_ribbonWidget->count()-1)->property(RibbonOrderProperty).toFloat()) {
             tabIndex = m_ribbonWidget->addTab(ribbonPage->widget(), title);
         } else {
             for (auto currentPage=0; currentPage<m_ribbonWidget->count(); currentPage++) {
-                auto currentOrder = m_ribbonWidget->widget(currentPage)->property(ribbonOrderProperty).toFloat();
+                auto currentOrder = m_ribbonWidget->widget(currentPage)->property(RibbonOrderProperty).toFloat();
 
                 if (order<currentOrder) {
                     tabIndex = m_ribbonWidget->insertTab(currentPage,ribbonPage->widget(), title);

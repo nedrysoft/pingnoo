@@ -23,11 +23,11 @@
 
 #include <QtGlobal>
 
-#include "ComponentSystem/Component.h"
-#include "ComponentSystem/ComponentLoader.h"
-#include "ComponentSystem/IComponentManager.h"
 #include "SplashScreen.h"
 
+#include <Component>
+#include <ComponentLoader>
+#include <IComponentManager.h>
 #include <QApplication>
 #include <QDir>
 #include <QDirIterator>
@@ -46,7 +46,7 @@
 #include <QProcessEnvironment>
 #endif
 
-auto constexpr splashscreenTimeout = 3000;
+auto constexpr SplashscreenTimeout = 3000;
 
 int main(int argc, char **argv) {
 #if defined(Q_OS_LINUX)
@@ -230,7 +230,7 @@ int main(int argc, char **argv) {
         qApp->setWindowIcon(QIcon(":/app/images/appicon/colour/appicon-512x512@2x.png"));
 #endif
 
-        QTimer::singleShot(splashscreenTimeout, [=]() {
+        QTimer::singleShot(SplashscreenTimeout, [=]() {
             splashScreen->deleteLater();
         });
 

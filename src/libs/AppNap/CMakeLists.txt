@@ -24,9 +24,9 @@
 pingnoo_start_shared_library()
 
 pingnoo_add_sources(
-    AppNap.cpp
-    AppNap.h
-    AppNap_mac.mm
+    src/AppNap.cpp
+    src/AppNap.h
+    src/AppNap_mac.mm
 )
 
 pingnoo_set_description("Application Nap extension")

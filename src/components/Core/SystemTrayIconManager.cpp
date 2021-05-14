@@ -24,8 +24,8 @@
 #include "SystemTrayIconManager.h"
 
 #if defined(Q_OS_MACOS)
-#include "MacHelper/MenuBarIcon.h"
-#include "MacHelper/Popover.h"
+#include <MacMenubarIcon>
+#include <MacPopover>
 #else
 #include <QSystemTrayIcon>
 #endif
@@ -33,16 +33,16 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-constexpr auto trayPixmap = ":/app/images/appicon/mono/appicon-1024x1024@2x.png";
+constexpr auto TrayPixmap = ":/app/images/appicon/mono/appicon-1024x1024@2x.png";
 
 Nedrysoft::Core::SystemTrayIconManager::SystemTrayIconManager(QObject *parent) :
-        m_basePixmap(trayPixmap) {
+        m_basePixmap(TrayPixmap) {
 
 #if defined(Q_OS_MACOS)
-    m_menuBarIcon = new Nedrysoft::MacHelper::MenuBarIcon(QPixmap(trayPixmap));
+    m_menubarIcon = new Nedrysoft::MacHelper::MacMenubarIcon(QPixmap(TrayPixmap));
 
-    connect(m_menuBarIcon, &Nedrysoft::MacHelper::MenuBarIcon::clicked, [=] {
-        auto popover = new Nedrysoft::MacHelper::Popover;
+    connect(m_menubarIcon, &Nedrysoft::MacHelper::MacMenubarIcon::clicked, [=] {
+        auto popover = new Nedrysoft::MacHelper::MacPopover;
 
         QWidget *contentWidget = new QWidget;
 
@@ -52,7 +52,10 @@ Nedrysoft::Core::SystemTrayIconManager::SystemTrayIconManager(QObject *parent) :
 
         contentWidget->setLayout(contentLayout);
 
-        popover->show(m_menuBarIcon, contentWidget, contentWidget->sizeHint(), Nedrysoft::MacHelper::Popover::Edge::MaxYEdge);
+        popover->show(m_menubarIcon,
+                      contentWidget,
+                      contentWidget->sizeHint(),
+                      Nedrysoft::MacHelper::MacPopover::Edge::MaxYEdge);
     });
 #else
     m_systemTrayIcon = new QSystemTrayIcon;
@@ -68,9 +71,9 @@ auto Nedrysoft::Core::SystemTrayIconManager::setVisible(bool visible) -> void {
 
 #if defined(Q_OS_MACOS)
     if (m_visible) {
-        m_menuBarIcon->show();
+        m_menubarIcon->show();
     } else {
-        m_menuBarIcon->hide();
+        m_menubarIcon->hide();
     }
 #else
     if (m_visible) {
@@ -99,7 +102,7 @@ auto Nedrysoft::Core::SystemTrayIconManager::setIconColour(const QColor &iconCol
     }
 
 #if defined(Q_OS_MACOS)
-    m_menuBarIcon->setPixmap(QPixmap::fromImage(temporaryImage));
+    m_menubarIcon->setPixmap(QPixmap::fromImage(temporaryImage));
 #else
     m_systemTrayIcon->setIcon(QIcon(QPixmap::fromImage(temporaryImage)));
 #endif

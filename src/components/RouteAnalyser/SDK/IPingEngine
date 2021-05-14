@@ -5,7 +5,7 @@
  *
  * An open-source cross-platform traceroute analyser.
  *
- * Created by Adrian Carpenter on 27/03/2020.
+ * Created by Adrian Carpenter on 14/05/2021.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,24 +21,4 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PINGNOO_COMPONENTS_CORE_STATUSBARMANAGER_H
-#define PINGNOO_COMPONENTS_CORE_STATUSBARMANAGER_H
-
-#include "IStatusBarManager.h"
-
-namespace Nedrysoft { namespace Core {
-    /**
-     * @brief       The StatusBarManager class provides an IStatusBarManager implementation.
-     */
-    class StatusBarManager :
-            public IStatusBarManager {
-
-        public:
-            /**
-             * @brief       Constructs a status bar manager.
-             */
-            StatusBarManager();
-    };
-}}
-
-#endif // PINGNOO_COMPONENTS_CORE_STATUSBARMANAGER_H
+#include "../IPingEngine.h"

@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGTRANSMITTER_H
 #define PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGTRANSMITTER_H
 
-#include "Core/PingResult.h"
+#include <PingResult>
 
 #include <QMutex>
 #include <QObject>
@@ -71,7 +71,7 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
              *
              * @param[in]   result the ping result.
              */
-            Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
+            Q_SIGNAL void result(Nedrysoft::RouteAnalyser::PingResult result);
 
             /**
              * @brief       Adds a target to be pinged.

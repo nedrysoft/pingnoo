@@ -23,7 +23,7 @@
 
 #include "PingResult.h"
 
-Nedrysoft::Core::PingResult::PingResult() :
+Nedrysoft::RouteAnalyser::PingResult::PingResult() :
     m_sampleNumber(0),
     m_code(PingResult::ResultCode::NoReply),
     m_hostAddress(QHostAddress()),
@@ -33,15 +33,15 @@ Nedrysoft::Core::PingResult::PingResult() :
 
 }
 
-Nedrysoft::Core::PingResult::~PingResult() = default;
+Nedrysoft::RouteAnalyser::PingResult::~PingResult() = default;
 
-Nedrysoft::Core::PingResult::PingResult(
+Nedrysoft::RouteAnalyser::PingResult::PingResult(
         unsigned long sampleNumber,
         PingResult::ResultCode code,
         const QHostAddress &hostAddress,
         std::chrono::system_clock::time_point requestTime,
         std::chrono::duration<double> roundTripTime,
-        Nedrysoft::Core::IPingTarget *target) :
+        Nedrysoft::RouteAnalyser::IPingTarget *target) :
 
             m_sampleNumber(sampleNumber),
             m_code(code),
@@ -52,26 +52,26 @@ Nedrysoft::Core::PingResult::PingResult(
 
 }
 
-auto Nedrysoft::Core::PingResult::sampleNumber() -> unsigned long {
+auto Nedrysoft::RouteAnalyser::PingResult::sampleNumber() -> unsigned long {
     return m_sampleNumber;
 }
 
-auto Nedrysoft::Core::PingResult::requestTime() -> std::chrono::system_clock::time_point {
+auto Nedrysoft::RouteAnalyser::PingResult::requestTime() -> std::chrono::system_clock::time_point {
     return m_requestTime;
 }
 
-auto Nedrysoft::Core::PingResult::code() -> Nedrysoft::Core::PingResult::ResultCode {
+auto Nedrysoft::RouteAnalyser::PingResult::code() -> Nedrysoft::RouteAnalyser::PingResult::ResultCode {
     return m_code;
 }
 
-auto Nedrysoft::Core::PingResult::hostAddress() -> QHostAddress {
+auto Nedrysoft::RouteAnalyser::PingResult::hostAddress() -> QHostAddress {
     return m_hostAddress;
 }
 
-auto Nedrysoft::Core::PingResult::roundTripTime() -> std::chrono::duration<double> {
+auto Nedrysoft::RouteAnalyser::PingResult::roundTripTime() -> std::chrono::duration<double> {
     return m_roundTripTime;
 }
 
-auto Nedrysoft::Core::PingResult::target() -> Nedrysoft::Core::IPingTarget * {
+auto Nedrysoft::RouteAnalyser::PingResult::target() -> Nedrysoft::RouteAnalyser::IPingTarget * {
     return m_target;
 }

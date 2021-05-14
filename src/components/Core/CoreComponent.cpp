@@ -27,12 +27,10 @@
 #include "ContextManager.h"
 #include "Core.h"
 #include "HostMaskerSettingsPage.h"
-#include "IPingEngineFactory.h"
 #include "IRibbonBarManager.h"
 #include "IRibbonPage.h"
-#include "IRouteEngine.h"
-#include "PingResult.h"
 #include "Pingnoo.h"
+#include <QHostAddress>
 
 CoreComponent::CoreComponent() :
         m_core(nullptr),
@@ -46,10 +44,8 @@ CoreComponent::~CoreComponent() {
 }
 
 auto CoreComponent::initialiseEvent() -> void {
-    qRegisterMetaType<Nedrysoft::Core::PingResult>("Nedrysoft::Core::PingResult");
-    qRegisterMetaType<Nedrysoft::Core::RouteList>("Nedrysoft::Core::RouteList");
     qRegisterMetaType<QHostAddress>("QHostAddress");
-    qRegisterMetaType<Nedrysoft::Core::IPingEngineFactory *>("Nedrysoft::Core::IPingEngineFactory *");
+
     qRegisterMetaType<Nedrysoft::Core::IPVersion>("Nedrysoft::Core::IPVersion");
 
     m_core = new Nedrysoft::Core::Core();

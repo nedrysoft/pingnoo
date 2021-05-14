@@ -23,8 +23,8 @@
 
 #include "RouteEngineWorker.h"
 
-#include "Core/IPingEngine.h"
-#include "Core/IPingEngineFactory.h"
+#include <IPingEngine>
+#include <IPingEngineFactory>
 #include "spdlog.h"
 
 #include <QHostInfo>
@@ -34,7 +34,7 @@ constexpr auto MaxRouteHops = 64;
 
 Nedrysoft::RouteEngine::RouteEngineWorker::RouteEngineWorker(
         QString host,
-        Nedrysoft::Core::IPingEngineFactory *pingEngineFactory,
+        Nedrysoft::RouteAnalyser::IPingEngineFactory *pingEngineFactory,
         Nedrysoft::Core::IPVersion ipVersion ) :
             m_host(host),
             m_ipVersion(ipVersion),
@@ -59,7 +59,7 @@ auto Nedrysoft::RouteEngine::RouteEngineWorker::doWork() -> void {
     auto targetAddresses = QHostInfo::fromName(m_host).addresses();
 
     if (!targetAddresses.count()) {
-        Q_EMIT result(QHostAddress(), Nedrysoft::Core::RouteList());
+        Q_EMIT result(QHostAddress(), Nedrysoft::RouteAnalyser::RouteList());
 
         SPDLOG_ERROR(QString("Failed to find address for %1.").arg(m_host).toStdString());
 
@@ -68,7 +68,7 @@ auto Nedrysoft::RouteEngine::RouteEngineWorker::doWork() -> void {
         return;
     }
 
-    auto route = Nedrysoft::Core::RouteList();
+    auto route = Nedrysoft::RouteAnalyser::RouteList();
 
     for (int hop=1;hop<MaxRouteHops;hop++) {
         if (!m_isRunning) {
@@ -79,10 +79,10 @@ auto Nedrysoft::RouteEngine::RouteEngineWorker::doWork() -> void {
 
         auto result = pingEngine->singleShot(targetAddresses.at(0), hop, DefaultDiscoveryTimeout);
 
-        if (result.code()==Nedrysoft::Core::PingResult::ResultCode::Ok) {
+        if (result.code()==Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok) {
             route.append(result.hostAddress());
             break;
-        } else  if (result.code()==Nedrysoft::Core::PingResult::ResultCode::TimeExceeded) {
+        } else  if (result.code()==Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded) {
             route.append(result.hostAddress());
         } else  {
             route.append(QHostAddress());

@@ -24,8 +24,9 @@
 #ifndef NEDRYSOFT_ROUTEANALYSER_JITTERPLOTCOMPONENT_H
 #define NEDRYSOFT_ROUTEANALYSER_JITTERPLOTCOMPONENT_H
 
-#include "ComponentSystem/IComponent.h"
 #include "JitterPlotSpec.h"
+
+#include <IComponent>
 
 namespace Nedrysoft { namespace JitterPlot {
     class JitterPlotFactory;

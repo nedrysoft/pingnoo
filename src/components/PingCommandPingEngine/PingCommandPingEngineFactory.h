@@ -24,8 +24,8 @@
 #ifndef PINGNOO_COMPONENTS_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGENGINEFACTORY_H
 #define PINGNOO_COMPONENTS_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGENGINEFACTORY_H
 
-#include "ComponentSystem/IInterface.h"
-#include "Core/IPingEngineFactory.h"
+#include <IInterface.h>
+#include <IPingEngineFactory>
 
 #include <memory>
 
@@ -38,12 +38,12 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
      * @details     The factory class for creating instances of the PingCommandPingEngine type
      */
     class PingCommandPingEngineFactory :
-            public Nedrysoft::Core::IPingEngineFactory {
+            public Nedrysoft::RouteAnalyser::IPingEngineFactory {
 
         private:
             Q_OBJECT
 
-            Q_INTERFACES(Nedrysoft::Core::IPingEngineFactory)
+            Q_INTERFACES(Nedrysoft::RouteAnalyser::IPingEngineFactory)
 
         public:
             /**
@@ -60,13 +60,13 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             /**
              * @brief       Creates a PingCommandPingEngine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngineFactory::createEngine
+             * @see         Nedrysoft::RouteAnalyser::IPingEngineFactory::createEngine
              *
              * @param[in]   version the IP version of the engine.
              *
              * @returns     the new PingCommandPingEngine instance.
              */
-            auto createEngine(Nedrysoft::Core::IPVersion version) -> Nedrysoft::Core::IPingEngine * override;
+            auto createEngine(Nedrysoft::Core::IPVersion version) -> Nedrysoft::RouteAnalyser::IPingEngine * override;
 
             /**
              * @brief       Returns the descriptive name of the factory.
@@ -102,7 +102,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
              *
              * @returns    true if the engine was deleted; otherwise false.
              */
-            auto deleteEngine(Nedrysoft::Core::IPingEngine *engine) -> bool override;
+            auto deleteEngine(Nedrysoft::RouteAnalyser::IPingEngine *engine) -> bool override;
 
         public:
             /**

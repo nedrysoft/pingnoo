@@ -24,11 +24,13 @@
 #include "JitterPlot.h"
 
 #include "CPAxisTickerMS.h"
-#include "Core/ICore.h"
+#include <ICore>
 #include "JitterBackgroundLayer.h"
 
 #include <QLabel>
 #include <cmath>
+
+constexpr auto DefaultGraphHeight = 150;
 
 Nedrysoft::JitterPlot::JitterPlot::JitterPlot(const QMargins &margins) :
         m_customPlot(0),
@@ -40,8 +42,6 @@ Nedrysoft::JitterPlot::JitterPlot::JitterPlot(const QMargins &margins) :
 Nedrysoft::JitterPlot::JitterPlot::~JitterPlot() {
 
 }
-
-constexpr auto DefaultGraphHeight = 150;
 
 auto Nedrysoft::JitterPlot::JitterPlot::widget() -> QWidget * {
     auto customPlot = new QCustomPlot();

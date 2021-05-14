@@ -24,9 +24,9 @@
 #ifndef PINGNOO_COMPONENTS_CORE_ICONFIGURATION_H
 #define PINGNOO_COMPONENTS_CORE_ICONFIGURATION_H
 
-#include "ComponentSystem/IInterface.h"
 #include "CoreSpec.h"
 
+#include <IInterface>
 #include <QJsonObject>
 #include <QObject>
 

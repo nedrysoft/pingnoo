@@ -26,19 +26,19 @@
 #include "EditorManager.h"
 
 #include "IEditor.h"
-#include "ThemeSupport/includes/ThemeSupport.h"
 
 #include <QCheckBox>
 #include <QTabBar>
 #include <QTabWidget>
+#include <ThemeSupport>
 
-constexpr auto macStylesheet = R"(
+constexpr auto MacStylesheet = R"(
     QTabBar::close-button {
         text-align: right;
     }
 )";
 
-constexpr auto windowsStylesheet = R"(
+constexpr auto WindowsStylesheet = R"(
     QTabBar::tab {
         padding-right: 8px;
         text-align: center;
@@ -79,7 +79,7 @@ constexpr auto windowsStylesheet = R"(
     }
 )";
 
-constexpr auto linuxDarkStylesheet = R"(
+constexpr auto LinuxDarkStylesheet = R"(
     QTabBar::tab {
         padding-right: 8px;
         text-align: center;
@@ -117,7 +117,7 @@ constexpr auto linuxDarkStylesheet = R"(
     }
 )";
 
-constexpr auto linuxLightStylesheet = R"(
+constexpr auto LinuxLightStylesheet = R"(
     QTabBar::tab {
         padding-right: 8px;
         text-align: center;
@@ -194,13 +194,13 @@ auto Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) -> int {
 #elif defined(Q_OS_WINDOWS)
     Q_UNUSED(tabIndex);
 
-    m_tabWidget->setStyleSheet(windowsStylesheet);
+    m_tabWidget->setStyleSheet(WindowsStylesheet);
 #else
     Q_UNUSED(tabIndex);
     if (Nedrysoft::ThemeSupport::ThemeSupport().isDarkMode()) {
-        m_tabWidget->setStyleSheet(linuxDarkStylesheet);
+        m_tabWidget->setStyleSheet(LinuxDarkStylesheet);
     } else {
-        m_tabWidget->setStyleSheet(linuxLightStylesheet);
+        m_tabWidget->setStyleSheet(LinuxLightStylesheet);
     };
 #endif
 

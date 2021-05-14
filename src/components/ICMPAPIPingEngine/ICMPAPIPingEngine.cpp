@@ -40,7 +40,7 @@ using namespace std::chrono_literals;
 constexpr auto DefaultTransmitTimeout = 1s;
 constexpr auto DefaultReplyTimeout = 3s;
 constexpr auto PingPayloadLength = 64;
-constexpr auto nanosecondsInMillisecond = 1.0e6;
+constexpr auto NanosecondsInMillisecond = 1.0e6;
 
 class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData {
 
@@ -63,7 +63,7 @@ class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData {
 
         QThread *m_transmitterThread;
 
-        QList<Nedrysoft::Core::IPingTarget *> m_pingTargets;
+        QList<Nedrysoft::RouteAnalyser::IPingTarget *> m_pingTargets;
         Nedrysoft::Core::IPVersion m_ipVersion;
 
         std::chrono::milliseconds m_timeout = {};
@@ -95,7 +95,7 @@ Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::~ICMPAPIPingEngine() {
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::addTarget(
-        QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget * {
+        QHostAddress hostAddress) -> Nedrysoft::RouteAnalyser::IPingTarget * {
 
     Q_UNUSED(hostAddress)
 
@@ -110,7 +110,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::addTarget(
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::addTarget(
         QHostAddress hostAddress,
-        int ttl ) -> Nedrysoft::Core::IPingTarget * {
+        int ttl ) -> Nedrysoft::RouteAnalyser::IPingTarget * {
 
     ICMPAPIPingTarget *pingTarget = new ICMPAPIPingTarget(this, hostAddress, ttl);
 
@@ -122,7 +122,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::addTarget(
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::removeTarget(
-        Nedrysoft::Core::IPingTarget *pingTarget) -> bool {
+        Nedrysoft::RouteAnalyser::IPingTarget *pingTarget) -> bool {
 
     Q_UNUSED(pingTarget)
 
@@ -172,13 +172,15 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::epoch() -> std::chrono::sy
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
         QHostAddress hostAddress,
         int ttl,
-        double timeout ) -> Nedrysoft::Core::PingResult {
+        double timeout ) -> Nedrysoft::RouteAnalyser::PingResult {
 
     QByteArray dataBuffer = QString("pingnoo ping").toLatin1();
     QByteArray replyBuffer;
     HANDLE icmpHandle;
-    Nedrysoft::Core::PingResult::ResultCode resultCode = Nedrysoft::Core::PingResult::ResultCode::NoReply;
-    Nedrysoft::Core::PingResult pingResult;
+    Nedrysoft::RouteAnalyser::PingResult::ResultCode resultCode =
+            Nedrysoft::RouteAnalyser::PingResult::ResultCode::NoReply;
+
+    Nedrysoft::RouteAnalyser::PingResult pingResult;
     QHostAddress replyHost;
     QElapsedTimer timer;
     qint64 started, finished;
@@ -246,7 +248,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
 
     finished = timer.nsecsElapsed();
 
-    auto roundTripTime = static_cast<double>(finished - started) / nanosecondsInMillisecond;
+    auto roundTripTime = static_cast<double>(finished - started) / NanosecondsInMillisecond;
 
     if (returnValue) {
         if (hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
@@ -255,9 +257,9 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
             replyHost = QHostAddress(ntohl(pEchoReply->Address));
 
             if (pEchoReply->Status == IP_SUCCESS) {
-                resultCode = Nedrysoft::Core::PingResult::ResultCode::Ok;
+                resultCode = Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok;
             } else if (pEchoReply->Status == IP_TTL_EXPIRED_TRANSIT) {
-                resultCode = Nedrysoft::Core::PingResult::ResultCode::TimeExceeded;
+                resultCode = Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded;
             }
         } else {
             PICMPV6_ECHO_REPLY pEchoReply = (PICMPV6_ECHO_REPLY) replyBuffer.data();
@@ -271,16 +273,16 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
             replyHost.setAddress(replySocketAddress.sin6_addr.u.Byte);
 
             if (pEchoReply->Status == IP_SUCCESS) {
-                resultCode = Nedrysoft::Core::PingResult::ResultCode::Ok;
+                resultCode = Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok;
             } else if (pEchoReply->Status == IP_TTL_EXPIRED_TRANSIT) {
-                resultCode = Nedrysoft::Core::PingResult::ResultCode::TimeExceeded;
+                resultCode = Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded;
             }
         }
     }
 
     IcmpCloseHandle(icmpHandle);
 
-    return Nedrysoft::Core::PingResult(
+    return Nedrysoft::RouteAnalyser::PingResult(
            0,
            resultCode,
            replyHost,
@@ -289,8 +291,8 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
            nullptr);
 }
 
-auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::targets() -> QList<Nedrysoft::Core::IPingTarget *> {
-    QList<Nedrysoft::Core::IPingTarget *> list;
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::targets() -> QList<Nedrysoft::RouteAnalyser::IPingTarget *> {
+    QList<Nedrysoft::RouteAnalyser::IPingTarget *> list;
 
     for (auto target : d->m_pingTargets) {
         list.append(target);

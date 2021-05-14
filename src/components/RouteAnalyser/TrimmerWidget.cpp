@@ -25,32 +25,31 @@
 
 #include "TrimmerWidget.h"
 
-#include "ThemeSupport.h"
-
 #include <QPainter>
 #include <QPaintEvent>
+#include <ThemeSupport>
 
-auto constexpr gripInsertWidth = 2;
-auto constexpr gripInsertHeight = 30;
-auto constexpr gripInnerColour = qRgb(0x80, 0x80, 0x00);
-auto constexpr viewportGripBorderSize = 2;
-auto constexpr trimmerBackgroundColourDark = qRgb(0x43,0x43, 0x43);
-auto constexpr trimmerBackgroundColourLight = qRgb(0xff,0xff, 0xff);
-auto constexpr viewportBackgroundColourDark = qRgb(0x80, 0x80, 0x80);
-auto constexpr viewportBackgroundColourLight = qRgb(0xdd, 0xdd, 0xdd);
-auto constexpr viewportGripColour = qRgb(0xff, 0xcc, 0x00);
+auto constexpr GripInsertWidth = 2;
+auto constexpr GripInsertHeight = 30;
+auto constexpr GripInnerColour = qRgb(0x80, 0x80, 0x00);
+auto constexpr ViewportGripBorderSize = 2;
+auto constexpr TrimmerBackgroundColourDark = qRgb(0x43,0x43, 0x43);
+auto constexpr TrimmerBackgroundColourLight = qRgb(0xff,0xff, 0xff);
+auto constexpr ViewportBackgroundColourDark = qRgb(0x80, 0x80, 0x80);
+auto constexpr ViewportBackgroundColourLight = qRgb(0xdd, 0xdd, 0xdd);
+auto constexpr ViewportGripColour = qRgb(0xff, 0xcc, 0x00);
 #if defined(Q_OS_MACOS)
-constexpr auto darkModeTrimmerBackgroundFactor = 150;
+constexpr auto DarkModeTrimmerBackgroundFactor = 150;
 #else
-constexpr auto darkModeTrimmerBackgroundFactor = 100;
+constexpr auto DarkModeTrimmerBackgroundFactor = 100;
 #endif
-constexpr auto lightModeGripBackgroundFactor = 100;
-constexpr auto lightModeTrimmerBackgroundFactor = 120;
-constexpr auto lightModeViewportBackgroundFactor = 100;
+constexpr auto LightModeGripBackgroundFactor = 100;
+constexpr auto LightModeTrimmerBackgroundFactor = 120;
+constexpr auto LightModeViewportBackgroundFactor = 100;
 
-auto constexpr trimmerCornerRadius = 8;
-auto constexpr defaultWidth = 200;
-auto constexpr defaultHeight = 60;
+auto constexpr TrimmerCornerRadius = 8;
+auto constexpr DefaultWidth = 200;
+auto constexpr DefaultHeight = 60;
 
 Nedrysoft::RouteAnalyser::TrimmerWidget::TrimmerWidget(QWidget *parent) :
         QWidget(parent),
@@ -92,37 +91,37 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
     QBrush gripInnerBrush;
 
     if (isEnabled()) {
-        gripBrush = QBrush(viewportGripColour);
-        gripInnerBrush = QBrush(gripInnerColour);
+        gripBrush = QBrush(ViewportGripColour);
+        gripInnerBrush = QBrush(GripInnerColour);
 
         if (Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode()) {
-            viewportBackgroundBrush = QBrush(viewportBackgroundColourDark);
-            trimmerBackgroundBrush = QBrush(trimmerBackgroundColourDark);
+            viewportBackgroundBrush = QBrush(ViewportBackgroundColourDark);
+            trimmerBackgroundBrush = QBrush(TrimmerBackgroundColourDark);
         } else {
-            viewportBackgroundBrush = QBrush(viewportBackgroundColourLight);
-            trimmerBackgroundBrush = QBrush(trimmerBackgroundColourLight);
+            viewportBackgroundBrush = QBrush(ViewportBackgroundColourLight);
+            trimmerBackgroundBrush = QBrush(TrimmerBackgroundColourLight);
         }
     } else {
         if (Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode()) {
             gripBrush = QBrush(QColor(Qt::lightGray).darker());
             viewportBackgroundBrush = QBrush(gripBrush.color().darker());
-            trimmerBackgroundBrush = QBrush(gripBrush.color().darker(darkModeTrimmerBackgroundFactor));
+            trimmerBackgroundBrush = QBrush(gripBrush.color().darker(DarkModeTrimmerBackgroundFactor));
             gripInnerBrush = QBrush(viewportBackgroundBrush.color().darker());
         } else {
             gripBrush = QBrush(
-                    QColor(Qt::lightGray).darker(lightModeGripBackgroundFactor) );
+                    QColor(Qt::lightGray).darker(LightModeGripBackgroundFactor) );
 
             viewportBackgroundBrush = QBrush(
-                    QColor(viewportBackgroundColourLight).darker(lightModeViewportBackgroundFactor) );
+                    QColor(ViewportBackgroundColourLight).darker(LightModeViewportBackgroundFactor) );
 
             trimmerBackgroundBrush = QBrush(
-                    QColor(trimmerBackgroundColourLight).darker(lightModeTrimmerBackgroundFactor) );
+                    QColor(TrimmerBackgroundColourLight).darker(LightModeTrimmerBackgroundFactor) );
 
             gripInnerBrush = QBrush(viewportBackgroundBrush.color().lighter());
         }
     }
 
-    auto colourPen = QPen(QColor(viewportGripColour));
+    auto colourPen = QPen(QColor(ViewportGripColour));
 
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
@@ -133,18 +132,18 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
 
     painter.drawRoundedRect(
             contentRect.adjusted(0,0,-1,0),
-            static_cast<double>(trimmerCornerRadius)/2.0,
-            static_cast<double>(trimmerCornerRadius)/2.0,
+            static_cast<double>(TrimmerCornerRadius)/2.0,
+            static_cast<double>(TrimmerCornerRadius)/2.0,
             Qt::AbsoluteSize );
 
     painter.translate(m_viewportPosition*contentWidth, 0);
 
     // set the gripper rectangles to the correct rectangles.
 
-    gripperRectLeft.setWidth(trimmerCornerRadius-1);
+    gripperRectLeft.setWidth(TrimmerCornerRadius-1);
 
-    gripperRectRight.setLeft(viewportWidth-trimmerCornerRadius);
-    gripperRectRight.setWidth(trimmerCornerRadius-1);
+    gripperRectRight.setLeft(viewportWidth-TrimmerCornerRadius);
+    gripperRectRight.setWidth(TrimmerCornerRadius-1);
 
     // draw the highlight background for the viewport area.
 
@@ -156,20 +155,20 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
 
     painter.drawRoundedRect(
             gripperRectLeft,
-            static_cast<double>(trimmerCornerRadius)/2.0,
-            static_cast<double>(trimmerCornerRadius)/2.0,
+            static_cast<double>(TrimmerCornerRadius)/2.0,
+            static_cast<double>(TrimmerCornerRadius)/2.0,
             Qt::AbsoluteSize );
 
     painter.fillRect(
-            QRectF(gripperRectLeft.adjusted(static_cast<double>(trimmerCornerRadius)/2.0, 0, 0, 0)),
+            QRectF(gripperRectLeft.adjusted(static_cast<double>(TrimmerCornerRadius)/2.0, 0, 0, 0)),
             gripBrush );
 
     painter.fillRect(
             QRectF(
-                gripperRectLeft.center().x()-(static_cast<double>(gripInsertWidth)/2.0),
-                gripperRectLeft.center().y()-(static_cast<double>(gripInsertHeight)/2.0),
-                gripInsertWidth+1,
-                gripInsertHeight+1 ),
+                gripperRectLeft.center().x()-(static_cast<double>(GripInsertWidth)/2.0),
+                gripperRectLeft.center().y()-(static_cast<double>(GripInsertHeight)/2.0),
+                GripInsertWidth+1,
+                GripInsertHeight+1 ),
 
             gripInnerBrush );
 
@@ -177,18 +176,18 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
 
     painter.drawRoundedRect(
             gripperRectRight,
-            static_cast<double>(trimmerCornerRadius)/2.0,
-            static_cast<double>(trimmerCornerRadius)/2.0,
+            static_cast<double>(TrimmerCornerRadius)/2.0,
+            static_cast<double>(TrimmerCornerRadius)/2.0,
             Qt::AbsoluteSize );
 
-    painter.fillRect(gripperRectRight.adjusted(0, 0, -(trimmerCornerRadius/2), 0), gripBrush);
+    painter.fillRect(gripperRectRight.adjusted(0, 0, -(TrimmerCornerRadius/2), 0), gripBrush);
 
     painter.fillRect(
             QRectF(
-                gripperRectRight.center().x()-(static_cast<double>(gripInsertWidth)/2.0),
-                gripperRectRight.center().y()-(static_cast<double>(gripInsertHeight)/2.0),
-                gripInsertWidth+1,
-                gripInsertHeight+1 ),
+                gripperRectRight.center().x()-(static_cast<double>(GripInsertWidth)/2.0),
+                gripperRectRight.center().y()-(static_cast<double>(GripInsertHeight)/2.0),
+                GripInsertWidth+1,
+                GripInsertHeight+1 ),
 
             gripInnerBrush );
 
@@ -198,16 +197,16 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
             QRectF(
                 gripperRectLeft.right(),
                 gripperRectLeft.top(),
-                gripperRectRight.left()-(static_cast<double>(trimmerCornerRadius)/2.0),
-                gripperRectLeft.top()+viewportGripBorderSize ),
+                gripperRectRight.left()-(static_cast<double>(TrimmerCornerRadius)/2.0),
+                gripperRectLeft.top()+ViewportGripBorderSize ),
 
             gripBrush );
 
     painter.fillRect(
             QRectF(
                 gripperRectLeft.right(),
-                gripperRectLeft.bottom()-viewportGripBorderSize,
-                gripperRectRight.left()-(static_cast<double>(trimmerCornerRadius)/2.0),
+                gripperRectLeft.bottom()-ViewportGripBorderSize,
+                gripperRectRight.left()-(static_cast<double>(TrimmerCornerRadius)/2.0),
                 gripperRectLeft.bottom() ),
 
             gripBrush );
@@ -222,7 +221,7 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
 }
 
 QSize Nedrysoft::RouteAnalyser::TrimmerWidget::sizeHint() const {
-    return QSize(defaultWidth, defaultHeight);
+    return QSize(DefaultWidth, DefaultHeight);
 }
 
 void Nedrysoft::RouteAnalyser::TrimmerWidget::mousePressEvent(QMouseEvent *event) {
@@ -243,13 +242,13 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mousePressEvent(QMouseEvent *event
         return;
     }
 
-    if (origin>viewportSize-trimmerCornerRadius) {
+    if (origin>viewportSize-TrimmerCornerRadius) {
         if (m_canBeResized) {
             if (!m_flags.testFlag(TrimmerFlag::FixedEnd)) {
                 m_editingState = State::MovingViewportEnd;
             }
         }
-    } else if (origin<trimmerCornerRadius) {
+    } else if (origin<TrimmerCornerRadius) {
         if (m_canBeResized) {
             if (!m_flags.testFlag(TrimmerFlag::FixedStart)) {
                 m_editingState = State::MovingViewportStart;
@@ -295,7 +294,7 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mouseMoveEvent(QMouseEvent *event)
 
         case State::MovingViewportStart: {
             double min = 0;
-            double max = m_viewportEnd-(static_cast<double>(trimmerCornerRadius*2.0)/trimmerWidth);
+            double max = m_viewportEnd-(static_cast<double>(TrimmerCornerRadius*2.0)/trimmerWidth);
 
             m_viewportPosition += delta;
 
@@ -311,7 +310,7 @@ void Nedrysoft::RouteAnalyser::TrimmerWidget::mouseMoveEvent(QMouseEvent *event)
         }
 
         case State::MovingViewportEnd: {
-            double min = static_cast<double>(trimmerCornerRadius*2.0)/trimmerWidth;
+            double min = static_cast<double>(TrimmerCornerRadius*2.0)/trimmerWidth;
             double max = 1-m_viewportPosition;
 
             m_viewportSize += delta;

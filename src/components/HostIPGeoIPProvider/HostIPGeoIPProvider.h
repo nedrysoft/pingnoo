@@ -24,10 +24,10 @@
 #ifndef PINGNOO_COMPONENTS_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDER_H
 #define PINGNOO_COMPONENTS_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDER_H
 
-#include "ComponentSystem/IInterface.h"
-#include "Core/IGeoIPProvider.h"
 #include "HostIPGeoIPProviderSpec.h"
 
+#include <IInterface>
+#include <IGeoIPProvider>
 #include <QObject>
 #include <QVariantMap>
 

@@ -24,8 +24,8 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETSETTINGS_H
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_TARGETSETTINGS_H
 
-#include "Core/Core.h"
-#include "Core/IConfiguration.h"
+#include <ICore>
+#include <IConfiguration>
 
 #include <QObject>
 

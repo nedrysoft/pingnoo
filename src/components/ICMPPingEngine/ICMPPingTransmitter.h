@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGTRANSMITTER_H
 #define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGTRANSMITTER_H
 
-#include "Core/PingResult.h"
+#include <PingResult>
 
 #include <QMutex>
 #include <QObject>
@@ -94,7 +94,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
              *
              * @param[in]   result the result.
              */
-            Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
+            Q_SIGNAL void result(Nedrysoft::RouteAnalyser::PingResult result);
 
             friend class ICMPPingEngine;
 

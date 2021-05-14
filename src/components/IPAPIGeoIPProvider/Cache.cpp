@@ -23,7 +23,7 @@
 
 #include "Cache.h"
 
-#include "Core/ICore.h"
+#include <ICore>
 
 #include <QDateTime>
 #include <QDir>

@@ -21,24 +21,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PINGNOO_COMPONENTS_CORE_IROUTEENGINE_H
-#define PINGNOO_COMPONENTS_CORE_IROUTEENGINE_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_IROUTEENGINE_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_IROUTEENGINE_H
 
-#include "ComponentSystem/IInterface.h"
-#include "Core.h"
-#include "CoreSpec.h"
+#include "RouteAnalyserSpec.h"
 
+#include <ICore>
+#include <IInterface>
 #include <QHostAddress>
 #include <QObject>
 
-namespace Nedrysoft { namespace Core {
+namespace Nedrysoft { namespace RouteAnalyser {
     typedef QList<QHostAddress> RouteList;
     class IPingEngineFactory;
 
     /**
      * @brief       The IRouteEngine interface describes the mechanism of finding the route to a host.
      */
-    class NEDRYSOFT_CORE_DLLSPEC IRouteEngine :
+    class NEDRYSOFT_ROUTEANALYSER_DLLSPEC IRouteEngine :
             public Nedrysoft::ComponentSystem::IInterface {
 
         private:
@@ -58,21 +58,24 @@ namespace Nedrysoft { namespace Core {
              * @notes       Route discovery is a asynchronous operation, the result signal is emitted when the
              *              discovery is completed.
              *
-             * @param[in]   engineFactory the ping engine to be used for discoveru.
+             * @param[in]   engineFactory the ping engine to be used for discovery.
              * @param[in]   host the target host name or address.
              * @param[in]   ipVersion the IP version to be used for discovery.
              */
-            virtual auto findRoute(Nedrysoft::Core::IPingEngineFactory *engineFactory, QString host, Nedrysoft::Core::IPVersion ipVersion) -> void = 0;
+            virtual auto findRoute(
+                    Nedrysoft::RouteAnalyser::IPingEngineFactory *engineFactory,
+                    QString host,
+                    Nedrysoft::Core::IPVersion ipVersion ) -> void = 0;
 
             /**
              * @brief       Signal emitted when the route discovery is completed.
              *
              * @param[in]   result the discovered route.
              */
-            Q_SIGNAL void result(const QHostAddress hostAddress, const Nedrysoft::Core::RouteList result);
+            Q_SIGNAL void result(const QHostAddress hostAddress, const Nedrysoft::RouteAnalyser::RouteList result);
     };
 }}
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IRouteEngine, "com.nedrysoft.core.IRouteEngine/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::RouteAnalyser::IRouteEngine, "com.nedrysoft.routeanalyser.IRouteEngine/1.0.0")
 
-#endif // PINGNOO_COMPONENTS_CORE_IROUTEENGINE_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_IROUTEENGINE_H

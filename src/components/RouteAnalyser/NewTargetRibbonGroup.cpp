@@ -22,32 +22,30 @@
  */
 
 #include "NewTargetRibbonGroup.h"
-#include "ui_NewTargetRibbonGroup.h"
 
-#include "ComponentSystem/IComponentManager.h"
-#include "Core/ICommandManager.h"
-#include "Core/IEditorManager.h"
-#include "Core/IPingEngineFactory.h"
 #include "FavouriteEditorDialog.h"
 #include "FavouritesManagerDialog.h"
+#include "IPingEngineFactory.h"
 #include "OpenFavouriteDialog.h"
 #include "RouteAnalyserEditor.h"
 #include "TargetManager.h"
-#include "TargetSettings.h"
-#include "ThemeSupport.h"                   // what to do about this?  Separate library I guess...
+#include "TargetSettings.h" // TODO: what to do about this?  Separate library I guess...
 #include "Utils.h"
 
+#include "ui_NewTargetRibbonGroup.h"
+
+#include <ICommandManager>
+#include <IEditorManager>
 #include <QAbstractItemView>
 #include <QMenu>
 #include <QStandardItemModel>
+#include <ThemeSupport>
 #include <cassert>
 #include <map>
 
-constexpr auto comboPadding = 12;
-constexpr auto defaultInterval = "2.5s";
-constexpr auto defaultTarget = "1.1.1.1";
-constexpr auto lineEditHeight = 21;
-constexpr auto dataRole = Qt::UserRole + 1;
+constexpr auto ComboPadding = 12;
+constexpr auto LineEditHeight = 21;
+constexpr auto DataRole = Qt::UserRole + 1;
 constexpr auto MillisecondsPerSecond = 1000.0;
 
 Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *parent) :
@@ -186,12 +184,12 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         updateStartState();
     });
 
-    auto pingEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IPingEngineFactory>();
+    auto pingEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::IPingEngineFactory>();
 
     if (pingEngines.count()) {
         auto minimumWidth = 0;
 
-        QMultiMap<double, Nedrysoft::Core::IPingEngineFactory *> sortedPingEngines;
+        QMultiMap<double, Nedrysoft::RouteAnalyser::IPingEngineFactory *> sortedPingEngines;
 
         for(auto pingEngine : pingEngines) {
             sortedPingEngines.insert(1-pingEngine->priority(), pingEngine);
@@ -200,27 +198,27 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
         for(auto pingEngine : sortedPingEngines) {
             ui->engineComboBox->addItem(
                     pingEngine->description(),
-                    QVariant::fromValue<Nedrysoft::Core::IPingEngineFactory *>(pingEngine) );
+                    QVariant::fromValue<Nedrysoft::RouteAnalyser::IPingEngineFactory *>(pingEngine) );
 
             auto model = dynamic_cast<QStandardItemModel *>(ui->engineComboBox->model());
 
             model->item(model->rowCount()-1, 0)->setEnabled(pingEngine->available());
-            model->item(model->rowCount()-1, 0)->setData(pingEngine->metaObject()->className(), dataRole);
+            model->item(model->rowCount()-1, 0)->setData(pingEngine->metaObject()->className(), DataRole);
 
             QFontMetrics fontMetrics(ui->engineComboBox->font());
 
-            minimumWidth = qMax(minimumWidth, fontMetrics.boundingRect(pingEngine->description()).width()+comboPadding);
+            minimumWidth = qMax(minimumWidth, fontMetrics.boundingRect(pingEngine->description()).width()+ComboPadding);
         }
 
         ui->engineComboBox->view()->setMinimumWidth(minimumWidth);
 
-        auto selectionIndex = ui->engineComboBox->findData(targetSettings->defaultPingEngine(), dataRole);
+        auto selectionIndex = ui->engineComboBox->findData(targetSettings->defaultPingEngine(), DataRole);
 
         if (selectionIndex==-1) {
             if (sortedPingEngines.count()) {
                 selectionIndex = ui->engineComboBox->findData(
                         sortedPingEngines.first()->metaObject()->className(),
-                        dataRole );
+                        DataRole );
             }
         }
 
@@ -230,7 +228,8 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
     connect(ui->startButton, &Nedrysoft::Ribbon::RibbonButton::clicked, [=](bool checked) {
         QVariantMap map;
 
-        auto pingEngineFactory = ui->engineComboBox->currentData().value<Nedrysoft::Core::IPingEngineFactory *>();
+        auto pingEngineFactory =
+                ui->engineComboBox->currentData().value<Nedrysoft::RouteAnalyser::IPingEngineFactory *>();
 
         auto target = ui->targetLineEdit->toPlainText().isEmpty() ?
                       ui->targetLineEdit->placeholderText() :
@@ -282,8 +281,8 @@ Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::NewTargetRibbonGroup(QWidget *pa
 
     validateFields();
 
-    ui->targetLineEdit->setMaximumHeight(lineEditHeight);
-    ui->intervalLineEdit->setMaximumHeight(lineEditHeight);
+    ui->targetLineEdit->setMaximumHeight(LineEditHeight);
+    ui->intervalLineEdit->setMaximumHeight(LineEditHeight);
 
     ui->targetLineEdit->setTabChangesFocus(true);
     ui->intervalLineEdit->setTabChangesFocus(true);
@@ -452,7 +451,7 @@ void Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onExportFavourites(bool che
 
 void Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::openTarget(
         QVariantMap parameters,
-        Nedrysoft::Core::IPingEngineFactory *pingEngineFactory ) {
+        Nedrysoft::RouteAnalyser::IPingEngineFactory *pingEngineFactory ) {
 
     auto editorManager = Nedrysoft::Core::IEditorManager::getInstance();
 
@@ -518,7 +517,8 @@ QVariantMap Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::onOpenFavourite(bool
         auto favouriteMap = openFavouriteDialog.selectedItem();
 
         if (!favouriteMap.isEmpty()) {
-            auto pingEngineFactory = ui->engineComboBox->currentData().value<Nedrysoft::Core::IPingEngineFactory *>();
+            auto pingEngineFactory =
+                    ui->engineComboBox->currentData().value<Nedrysoft::RouteAnalyser::IPingEngineFactory *>();
 
             if (pingEngineFactory) {
                 favouriteMap["interval"] = favouriteMap["interval"].toDouble() / MillisecondsPerSecond;
@@ -580,7 +580,8 @@ auto Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::populateFavouritesMenu() ->
         auto newAction = new QAction(entryName);
 
         connect(newAction, &QAction::triggered, [=](bool checked) {
-            auto pingEngineFactory = ui->engineComboBox->currentData().value<Nedrysoft::Core::IPingEngineFactory *>();
+            auto pingEngineFactory =
+                    ui->engineComboBox->currentData().value<Nedrysoft::RouteAnalyser::IPingEngineFactory *>();
 
             if (pingEngineFactory) {
                 QVariantMap map = newAction->data().toMap();

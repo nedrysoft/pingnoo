@@ -29,24 +29,24 @@
 #include <QDirIterator>
 #include <QFontDatabase>
 
-constexpr auto splashScreenFilename = ":/app/images/splashscreen.png";
-constexpr auto fontFamily = "Poppins";
+constexpr auto SplashScreenFilename = ":/app/images/splashscreen.png";
+constexpr auto FontFamily = "Poppins";
 #if defined(Q_OS_MAC)
-constexpr auto fontSize = 25;
+constexpr auto FontSize = 25;
 #else
-constexpr auto fontSize = 20;
+constexpr auto FontSize = 20;
 #endif
 
-constexpr auto splashScreenWidth = 700;
-constexpr auto alphaLevel = 255.0 * 0.8;
-constexpr auto textColour = qRgba(0xFF, 0xFF, 0xFF, alphaLevel);
-constexpr auto versionRect = QRectF(45, 123, 210, 32);
+constexpr auto SplashScreenWidth = 700;
+constexpr auto AlphaLevel = 255.0 * 0.8;
+constexpr auto TextColour = qRgba(0xFF, 0xFF, 0xFF, AlphaLevel);
+constexpr auto VersionRect = QRectF(45, 123, 210, 32);
 
 Nedrysoft::SplashScreen::SplashScreen() :
         QSplashScreen(QPixmap(), Qt::WindowStaysOnTopHint) {
 
-    auto pixmap = QPixmap(splashScreenFilename);
-    auto scaledPixmap = pixmap.scaledToWidth(splashScreenWidth * pixmap.devicePixelRatio(), Qt::SmoothTransformation);
+    auto pixmap = QPixmap(SplashScreenFilename);
+    auto scaledPixmap = pixmap.scaledToWidth(SplashScreenWidth * pixmap.devicePixelRatio(), Qt::SmoothTransformation);
 
     QDirIterator fontDirIterator(":/app/fonts", QDirIterator::Subdirectories);
 
@@ -80,23 +80,23 @@ auto Nedrysoft::SplashScreen::getInstance() -> Nedrysoft::SplashScreen * {
 }
 
 auto Nedrysoft::SplashScreen::drawContents(QPainter *painter) -> void {
-    auto font = QFont(fontFamily, fontSize, QFont::Weight::Bold);
+    auto font = QFont(FontFamily, FontSize, QFont::Weight::Bold);
     auto versionText = QString("%1.%2.%3").arg(PINGNOO_GIT_YEAR).arg(PINGNOO_GIT_MONTH).arg(PINGNOO_GIT_DAY);
-    auto textRect = QRectF(versionRect.topLeft()*m_scaleFactor, versionRect.size()*m_scaleFactor).toRect();
+    auto textRect = QRectF(VersionRect.topLeft()*m_scaleFactor, VersionRect.size()*m_scaleFactor).toRect();
 
     painter->save();
 
     painter->setFont(font);
 
-    painter->setPen(QColor::fromRgba(textColour));
+    painter->setPen(QColor::fromRgba(TextColour));
 
     QFontMetrics metrics(font);
 
     auto boxRect = metrics.tightBoundingRect(versionText);
 
-    textRect.adjust(0, (versionRect.height()-boxRect.height()), 0, (versionRect.height()-boxRect.height()));
+    textRect.adjust(0, (VersionRect.height()-boxRect.height()), 0, (VersionRect.height()-boxRect.height()));
 
-    painter->drawText(versionRect, Qt::AlignCenter | Qt::AlignVCenter, versionText);
+    painter->drawText(VersionRect, Qt::AlignCenter | Qt::AlignVCenter, versionText);
 
     painter->restore();
 }

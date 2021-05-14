@@ -21,11 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ComponentSystem/ComponentLoader.h"
-#include "ComponentSystem/IComponentManager.h"
-#include "Core/IHostMasker.h"
 #include "catch.hpp"
 
+#include <ComponentLoader>
+#include <IComponentManager>
+#include <IHostMasker.h>
 #include <QDebug>
 #include <QFile>
 #include <QJsonDocument>

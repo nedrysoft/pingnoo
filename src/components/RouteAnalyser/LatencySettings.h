@@ -24,10 +24,8 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYSETTINGS_H
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_LATENCYSETTINGS_H
 
-#include "Core/IConfiguration.h"
-
-#include "ComponentSystem/IComponentManager.h"
-
+#include <IConfiguration>
+#include <IComponentManager>
 #include <QColor>
 #include <QObject>
 

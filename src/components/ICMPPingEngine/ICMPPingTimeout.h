@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGTIMEOUT_H
 #define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGTIMEOUT_H
 
-#include "Core/PingResult.h"
+#include <PingResult>
 
 namespace Nedrysoft { namespace ICMPPingEngine {
     class ICMPPingEngine;
@@ -60,7 +60,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
              *
              * @param[in]   result the timeout result.
              */
-            Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
+            Q_SIGNAL void result(Nedrysoft::RouteAnalyser::PingResult result);
 
             friend class ICMPPingEngine;
 

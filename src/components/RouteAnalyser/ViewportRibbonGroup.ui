@@ -231,13 +231,13 @@
   <customwidget>
    <class>Nedrysoft::Ribbon::RibbonLineEdit</class>
    <extends>QLineEdit</extends>
-   <header>Ribbon/RibbonLineEdit.h</header>
+   <header location="global">RibbonLineEdit</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>Nedrysoft::Ribbon::RibbonComboBox</class>
    <extends>QComboBox</extends>
-   <header>Ribbon/RibbonComboBox.h</header>
+   <header location="global">RibbonComboBox</header>
    <container>1</container>
   </customwidget>
   <customwidget>

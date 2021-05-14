@@ -23,7 +23,7 @@
 
 #include "LineSyntaxHighlighter.h"
 
-#include "ThemeSupport.h"
+#include <ThemeSupport>
 
 Nedrysoft::RouteAnalyser::LineSyntaxHighlighter::LineSyntaxHighlighter(QTextDocument *parent, SyntaxFunction function) :
         QSyntaxHighlighter(parent),

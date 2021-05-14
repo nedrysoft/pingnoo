@@ -23,7 +23,7 @@
 
 #include "Cache.h"
 
-#include "Core/ICore.h"
+#include <ICore>
 
 #include <QDateTime>
 #include <QDir>
@@ -34,14 +34,14 @@
 #include <QSqlResult>
 #include <spdlog/spdlog.h>
 
-constexpr auto cacheDatabase = "Nedrysoft::HostIPGeoIPProvider::Cache";
+constexpr auto CacheDatabase = "Nedrysoft::HostIPGeoIPProvider::Cache";
 
 Nedrysoft::HostIPGeoIPProvider::Cache::Cache() {
     auto storageLocation = Nedrysoft::Core::ICore::getInstance()->storageFolder();
 
     auto dbFileInfo = QFileInfo(storageLocation, "host-ip-cache.db");
 
-    auto database = QSqlDatabase::addDatabase("QSQLITE", cacheDatabase);
+    auto database = QSqlDatabase::addDatabase("QSQLITE", CacheDatabase);
 
     database.setDatabaseName(dbFileInfo.absoluteFilePath());
 
@@ -81,11 +81,11 @@ Nedrysoft::HostIPGeoIPProvider::Cache::Cache() {
 }
 
 Nedrysoft::HostIPGeoIPProvider::Cache::Cache::~Cache() {
-    QSqlDatabase::removeDatabase(cacheDatabase);
+    QSqlDatabase::removeDatabase(CacheDatabase);
 }
 
 auto Nedrysoft::HostIPGeoIPProvider::Cache::add(QJsonObject object) -> void {
-    QSqlDatabase database = QSqlDatabase::database(cacheDatabase);
+    QSqlDatabase database = QSqlDatabase::database(CacheDatabase);
     QSqlQuery query(database);
 
     query.prepare("INSERT INTO ip (name, creationTime, country, countryCode, city) "
@@ -111,7 +111,7 @@ auto Nedrysoft::HostIPGeoIPProvider::Cache::add(QJsonObject object) -> void {
 }
 
 auto Nedrysoft::HostIPGeoIPProvider::Cache::find(const QString &name, QJsonObject &object) -> bool {
-    QSqlDatabase database = QSqlDatabase::database(cacheDatabase);
+    QSqlDatabase database = QSqlDatabase::database(CacheDatabase);
     QSqlQuery query(database);
     bool queryResult = false;
 

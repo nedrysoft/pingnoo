@@ -34,7 +34,7 @@
 #include <cassert>
 #include <cmath>
 
-constexpr auto lineEditHeightAdjustment = 2;
+constexpr auto LineEditHeightAdjustment = 2;
 
 Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
         QDialog(parent),
@@ -51,14 +51,14 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
     if (!minimumLineHeight) {
         QLineEdit lineEdit;
 
-        minimumLineHeight = lineEdit.minimumSizeHint().height()+lineEditHeightAdjustment;
+        minimumLineHeight = lineEdit.minimumSizeHint().height()+LineEditHeightAdjustment;
     }
 
     ui->setupUi(this);
 
-    auto pingEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IPingEngineFactory>();
+    auto pingEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::IPingEngineFactory>();
 
-    QMultiMap<double, Nedrysoft::Core::IPingEngineFactory *> sortedPingEngines;
+    QMultiMap<double, Nedrysoft::RouteAnalyser::IPingEngineFactory *> sortedPingEngines;
 
     for(auto pingEngine : pingEngines) {
         sortedPingEngines.insert(1-pingEngine->priority(), pingEngine);
@@ -67,7 +67,7 @@ Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
     for (auto pingEngine : sortedPingEngines) {
         ui->engineComboBox->addItem(
                 pingEngine->description(),
-                QVariant::fromValue<Nedrysoft::Core::IPingEngineFactory *>(pingEngine) );
+                QVariant::fromValue<Nedrysoft::RouteAnalyser::IPingEngineFactory *>(pingEngine) );
 
         auto model = dynamic_cast<QStandardItemModel *>(ui->engineComboBox->model());
 
@@ -200,8 +200,8 @@ auto Nedrysoft::RouteAnalyser::NewTargetDialog::updateButtonBoxState() -> void {
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(isValid);
 }
 
-auto Nedrysoft::RouteAnalyser::NewTargetDialog::pingEngineFactory() -> Nedrysoft::Core::IPingEngineFactory * {
-    return ui->engineComboBox->currentData().value<Nedrysoft::Core::IPingEngineFactory *>();
+auto Nedrysoft::RouteAnalyser::NewTargetDialog::pingEngineFactory() -> Nedrysoft::RouteAnalyser::IPingEngineFactory * {
+    return ui->engineComboBox->currentData().value<Nedrysoft::RouteAnalyser::IPingEngineFactory *>();
 }
 
 auto Nedrysoft::RouteAnalyser::NewTargetDialog::pingTarget() -> QString {

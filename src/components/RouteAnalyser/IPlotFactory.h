@@ -24,9 +24,9 @@
 #ifndef NEDRYSOFT_ROUTEANALYSER_IPLOTFACTORY_H
 #define NEDRYSOFT_ROUTEANALYSER_IPLOTFACTORY_H
 
-#include "ComponentSystem/IInterface.h"
-#include "../RouteAnalyserSpec.h"
+#include "RouteAnalyserSpec.h"
 
+#include <IInterface>
 #include <QMargins>
 
 namespace Nedrysoft { namespace RouteAnalyser {

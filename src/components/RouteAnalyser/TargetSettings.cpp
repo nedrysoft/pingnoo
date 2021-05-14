@@ -23,8 +23,7 @@
 
 #include "TargetSettings.h"
 
-#include "ComponentSystem/IComponentManager.h"
-#include "Core/IPingEngineFactory.h"
+#include "IPingEngineFactory.h"
 
 #include <QDir>
 #include <QJsonArray>
@@ -163,7 +162,8 @@ auto Nedrysoft::RouteAnalyser::TargetSettings::setDefaultHost(QString host) -> v
 
 auto Nedrysoft::RouteAnalyser::TargetSettings::defaultHost() -> QString {
     if (m_defaultHostTarget.isEmpty()) {
-        auto pingEngineFactories = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IPingEngineFactory>();
+        auto pingEngineFactories =
+                Nedrysoft::ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::IPingEngineFactory>();
 
         int priority = 0;
         QString engineId;
@@ -189,7 +189,7 @@ auto Nedrysoft::RouteAnalyser::TargetSettings::defaultPingEngine() -> QString {
     QString selectedPingEngine = m_defaultPingEngine;
 
     if (selectedPingEngine.isEmpty()) {
-        auto pingEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IPingEngineFactory>();
+        auto pingEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::IPingEngineFactory>();
 
         if (pingEngines.count()) {
             int priority = pingEngines.at(0)->priority();

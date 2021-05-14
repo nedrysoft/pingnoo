@@ -26,7 +26,6 @@
 #include "ColourManager.h"
 #include "LatencySettings.h"
 #include "PingData.h"
-#include "ThemeSupport.h"
 
 #include <QHeaderView>
 #include <QPainter>
@@ -34,20 +33,21 @@
 #include <QPropertyAnimation>
 #include <QStandardItemModel>
 #include <QTableView>
+#include <ThemeSupport>
 #include <cassert>
 
 using namespace std::chrono_literals;
 
 constexpr auto AverageLatencyRadius = 4;
 constexpr auto CurrentLatencyLength = 3;
-constexpr auto xOffset = (AverageLatencyRadius*2);
+constexpr auto XOffset = (AverageLatencyRadius*2);
 
 constexpr auto DefaultWarningLatency = 200ms;
 constexpr auto DefaultCriticalLatency = 500ms;
 
-constexpr auto roundedRectangleRadius = 10;
-constexpr auto alternateRowFactor = 12.5;
-constexpr auto tinyNumber = 0.00001;                             //! used to adjust a unit number to just under 1
+constexpr auto RoundedRectangleRadius = 10;
+constexpr auto AlternateRowFactor = 12.5;
+constexpr auto TinyNumber = 0.00001;                             //! used to adjust a unit number to just under 1
 
 constexpr auto NormalColourFactor = 100;
 constexpr auto ActiveSelectedColourFactor = 105;
@@ -58,10 +58,10 @@ constexpr auto invalidHopOutlineWidth = 2;
 
 constexpr auto OverrideSelectedColour = 1;
 
-constexpr auto minMaxLatencyLineColour = Qt::black;
+constexpr auto MinMaxLatencyLineColour = Qt::black;
 
-constexpr auto latencyLineBorderWidth = 3;
-constexpr auto latencyLineBorderAlphaLevel = 32;
+constexpr auto LatencyLineBorderWidth = 3;
+constexpr auto LatencyLineBorderAlphaLevel = 32;
 
 Nedrysoft::RouteAnalyser::RouteTableItemDelegate::RouteTableItemDelegate(QWidget *parent) :
         QStyledItemDelegate(parent),
@@ -437,7 +437,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBubble(
 
     pen.setCapStyle(Qt::RoundCap);
 
-    bubbleRect.adjust(xOffset+(pen.width()/2), 0, -(xOffset+(pen.width()/2)), 0);
+    bubbleRect.adjust(XOffset+(pen.width()/2), 0, -(XOffset+(pen.width()/2)), 0);
 
     painter->save();
 
@@ -538,7 +538,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
         const QStyleOptionViewItem &option,
         const QModelIndex &index) const -> void {
 
-    auto thisRect = option.rect.adjusted(xOffset, 0, -xOffset, 0);
+    auto thisRect = option.rect.adjusted(XOffset, 0, -XOffset, 0);
     auto startPoint = QPointF();
     auto endPoint = QPointF();
     auto colourFactor = NormalColourFactor;
@@ -546,7 +546,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
     auto graphMaxLatency = pingData->tableModel()->property("graphMaxLatency").toDouble();
 
     if (index.row() & 1) {
-        colourFactor = NormalColourFactor+alternateRowFactor;
+        colourFactor = NormalColourFactor+AlternateRowFactor;
     }
 
     painter->save();
@@ -569,10 +569,10 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
 
     // adjust the left hand side of the rectangle, our clipping path extends over the whole graph area.
 
-    clippingRect.setLeft(option.rect.left()+xOffset);
-    clippingRect.setRight(clippingRect.right()+roundedRectangleRadius);
+    clippingRect.setLeft(option.rect.left()+XOffset);
+    clippingRect.setRight(clippingRect.right()+RoundedRectangleRadius);
 
-    clippingPath.addRoundedRect(clippingRect, roundedRectangleRadius, roundedRectangleRadius);
+    clippingPath.addRoundedRect(clippingRect, RoundedRectangleRadius, RoundedRectangleRadius);
 
     painter->setClipPath(clippingPath);
 
@@ -627,7 +627,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
                             idealStop,
                             QColor(latencySettings->warningColour()).darker(colourFactor) );
                     graphGradient.setColorAt(
-                            idealStop-tinyNumber,
+                            idealStop-TinyNumber,
                             QColor(latencySettings->idealColour()).darker(colourFactor) );
                 }
             }
@@ -650,11 +650,11 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
 
             if (!m_useGradient) {
                 graphGradient.setColorAt(
-                        idealStop-tinyNumber,
+                        idealStop-TinyNumber,
                         QColor(latencySettings->idealColour()).darker(colourFactor) );
 
                 graphGradient.setColorAt(
-                        warningStop-tinyNumber,
+                        warningStop-TinyNumber,
                         QColor(latencySettings->warningColour()).darker(colourFactor) );
             }
         }
@@ -728,7 +728,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
         if (( minimumLatency >= 0 ) && ( maximumLatency >= 0 )) {
             // draw min/max latency timeline
 
-            painter->setPen(minMaxLatencyLineColour);
+            painter->setPen(MinMaxLatencyLineColour);
 
             startPoint.setX(thisRect.left()+(thisRect.width()*(minimumLatency/graphMaxLatency)));
             startPoint.setY(thisRect.center().y());
@@ -790,7 +790,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
             painter,
             option,
             index,
-            QPen(QColor::fromRgb(0,0,0,latencyLineBorderAlphaLevel), latencyLineBorderWidth, Qt::SolidLine) );
+            QPen(QColor::fromRgb(0,0,0,LatencyLineBorderAlphaLevel), LatencyLineBorderWidth, Qt::SolidLine) );
 
     drawLatencyLine(
             static_cast<int>(PingData::Fields::AverageLatency),
@@ -811,7 +811,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::drawLatencyLine(
         const QModelIndex &index,
         const QPen &pen) const -> void{
 
-    auto thisRect = option.rect.adjusted(xOffset, 0, -xOffset, 0);
+    auto thisRect = option.rect.adjusted(XOffset, 0, -XOffset, 0);
     auto nextRect = thisRect;
     auto previousRect = thisRect;
     auto startPoint = QPointF();
@@ -830,11 +830,11 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::drawLatencyLine(
     painter->save();
 
     if (previousData) {
-        previousRect.adjust(xOffset, 0, -xOffset, 0);
+        previousRect.adjust(XOffset, 0, -XOffset, 0);
     }
 
     if (nextData) {
-        nextRect.adjust(xOffset, 0, -xOffset, 0);
+        nextRect.adjust(XOffset, 0, -XOffset, 0);
     }
 
     if (pingData->hopValid()) {

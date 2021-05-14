@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKERSETTINGSPAGE_H
 #define PINGNOO_COMPONENTS_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKERSETTINGSPAGE_H
 
-#include "Core/IHostMaskerSettingsPage.h"
+#include <IHostMaskerSettingsPage>
 
 namespace Nedrysoft { namespace PublicIPHostMasker {
     class PublicIPHostMaskerSettingsPageWidget;

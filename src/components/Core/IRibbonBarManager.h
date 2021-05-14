@@ -24,8 +24,8 @@
 #ifndef PINGNOO_COMPONENTS_CORE_IRIBBONBARMANAGER_H
 #define PINGNOO_COMPONENTS_CORE_IRIBBONBARMANAGER_H
 
-#include "ComponentSystem/IInterface.h"
-#include "Core/IContextManager.h"
+#include <IInterface>
+#include "IContextManager.h"
 #include "CoreSpec.h"
 
 namespace Nedrysoft { namespace Core {

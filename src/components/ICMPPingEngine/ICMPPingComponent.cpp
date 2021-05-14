@@ -22,9 +22,9 @@
  */
 
 #include "ICMPPingComponent.h"
-
-#include "ComponentSystem/IComponentManager.h"
 #include "ICMPPingEngineFactory.h"
+
+#include <IComponentManager>
 
 ICMPPingComponent::ICMPPingComponent() :
         m_engineFactory(nullptr) {

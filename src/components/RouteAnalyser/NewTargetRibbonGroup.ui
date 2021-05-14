@@ -173,25 +173,25 @@
   <customwidget>
    <class>Nedrysoft::Ribbon::RibbonDropButton</class>
    <extends>QWidget</extends>
-   <header>Ribbon/RibbonDropButton.h</header>
+   <header location="global">RibbonDropButton</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>Nedrysoft::Ribbon::RibbonLineEdit</class>
    <extends>QLineEdit</extends>
-   <header>Ribbon/RibbonLineEdit.h</header>
+   <header location="global">RibbonLineEdit</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>Nedrysoft::Ribbon::RibbonComboBox</class>
    <extends>QComboBox</extends>
-   <header>Ribbon/RibbonComboBox.h</header>
+   <header location="global">RibbonComboBox</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>Nedrysoft::Ribbon::RibbonButton</class>
    <extends>QPushButton</extends>
-   <header>Ribbon/RibbonButton.h</header>
+   <header location="global">RibbonButton</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

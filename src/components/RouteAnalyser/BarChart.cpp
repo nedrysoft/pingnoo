@@ -23,7 +23,7 @@
 
 #include "BarChart.h"
 
-constexpr auto roundedRectangleRadius = 10;
+constexpr auto RoundedRectangleRadius = 10;
 
 Nedrysoft::RouteAnalyser::BarChart::BarChart(QCPAxis *keyAxis, QCPAxis *valueAxis) :
         QCPBars(keyAxis, valueAxis) {
@@ -36,7 +36,7 @@ void Nedrysoft::RouteAnalyser::BarChart::draw(QCPPainter *painter) {
 
     rect.adjust(0,1,0,0);
 
-    clippingPath.addRoundedRect(rect, roundedRectangleRadius, roundedRectangleRadius);
+    clippingPath.addRoundedRect(rect, RoundedRectangleRadius, RoundedRectangleRadius);
 
     painter->save();
     painter->setClipPath(clippingPath);

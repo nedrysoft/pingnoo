@@ -23,13 +23,13 @@
 
 #include "HostMaskerSettingsPageWidget.h"
 
-#include "ComponentSystem/IComponentManager.h"
 #include "Core.h"
+#include "IComponentManager.h"
 #include "IHostMaskerSettingsPage.h"
 
 #include "ui_HostMaskerSettingsPageWidget.h"
 
-auto constexpr treeItemAdjustment = 32;
+auto constexpr TreeItemAdjustment = 32;
 
 Nedrysoft::Core::HostMaskerSettingsPageWidget::HostMaskerSettingsPageWidget(QWidget *parent) :
         QWidget(parent), ui(new Ui::HostMaskerSettingsPageWidget) {
@@ -81,7 +81,7 @@ auto Nedrysoft::Core::HostMaskerSettingsPageWidget::initialise() -> void {
         }
     }
 
-    ui->maskersTreeWidget->setMinimumWidth(listWidth+treeItemAdjustment);
+    ui->maskersTreeWidget->setMinimumWidth(listWidth + TreeItemAdjustment);
 
     this->setMinimumHeight(minimumHeight);
 

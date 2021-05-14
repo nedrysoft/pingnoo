@@ -21,18 +21,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PINGNOO_COMPONENTS_CORE_IPINGENGINE_H
-#define PINGNOO_COMPONENTS_CORE_IPINGENGINE_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_IPINGENGINE_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_IPINGENGINE_H
 
-#include "ComponentSystem/IInterface.h"
-#include "CoreSpec.h"
-#include "IConfiguration.h"
+#include "RouteAnalyserSpec.h"
 #include "PingResult.h"
 
+#include <IConfiguration>
+#include <IInterface>
 #include <QHostAddress>
 #include <chrono>
 
-namespace Nedrysoft { namespace Core {
+namespace Nedrysoft { namespace RouteAnalyser {
     class IPingTarget;
 
     /**
@@ -42,7 +42,7 @@ namespace Nedrysoft { namespace Core {
      *              it then signals when a ping result is available.  The underlying mechanism of handling the pings
      *              is hidden from the application.
      */
-    class NEDRYSOFT_CORE_DLLSPEC IPingEngine :
+    class NEDRYSOFT_ROUTEANALYSER_DLLSPEC IPingEngine :
             public Nedrysoft::ComponentSystem::IInterface,
             public Nedrysoft::Core::IConfiguration {
 
@@ -130,7 +130,7 @@ namespace Nedrysoft { namespace Core {
             virtual auto singleShot(
                     QHostAddress hostAddress,
                     int ttl,
-                    double timeout ) -> Nedrysoft::Core::PingResult = 0;
+                    double timeout ) -> Nedrysoft::RouteAnalyser::PingResult = 0;
 
             /**
              * @brief       Removes a ping target from this engine instance.
@@ -153,17 +153,17 @@ namespace Nedrysoft { namespace Core {
              *
              * @param[in]   result the result of a ping request.
              */
-            Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
+            Q_SIGNAL void result(Nedrysoft::RouteAnalyser::PingResult result);
 
             /**
              * @brief       Returns the list of ping targets for the engine.
              *
              * @returns     a QList containing the list of targets.
              */
-            virtual auto targets() -> QList<Nedrysoft::Core::IPingTarget *> = 0;
+            virtual auto targets() -> QList<Nedrysoft::RouteAnalyser::IPingTarget *> = 0;
     };
 }}
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingEngine, "com.nedrysoft.core.IPingEngine/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::RouteAnalyser::IPingEngine, "com.nedrysoft.routeanalyser.IPingEngine/1.0.0")
 
-#endif // PINGNOO_COMPONENTS_CORE_IPINGENGINE_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_IPINGENGINE_H

@@ -24,12 +24,13 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTEANALYSEREDITOR_H
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTEANALYSEREDITOR_H
 
-#include "ComponentSystem/IInterface.h"
-#include "Core/Core.h"
-#include "Core/IConfiguration.h"
-#include "Core/IEditor.h"
 #include "LatencyRibbonGroup.h"
+#include "IPingEngineFactory.h"
 
+#include <IConfiguration>
+#include <ICore>
+#include <IEditor>
+#include <IInterface>
 #include <QObject>
 
 namespace Nedrysoft { namespace Core {
@@ -70,7 +71,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
              *
              * @param[in]   pingEngineFactory the ping engine factory.
              */
-            auto setPingEngine(Nedrysoft::Core::IPingEngineFactory *pingEngineFactory) -> void;
+            auto setPingEngine(Nedrysoft::RouteAnalyser::IPingEngineFactory *pingEngineFactory) -> void;
 
             /**
              * @brief       Sets the ping target.
@@ -185,7 +186,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
         protected:
 
             int m_contextId;
-            Nedrysoft::Core::IPingEngineFactory *m_pingEngineFactory;
+            Nedrysoft::RouteAnalyser::IPingEngineFactory *m_pingEngineFactory;
             QString m_pingTarget;
             Nedrysoft::Core::IPVersion m_ipVersion;
             double m_interval;

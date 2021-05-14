@@ -21,15 +21,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PINGNOO_COMPONENTS_CORE_IPINGENGINEFACTORY_H
-#define PINGNOO_COMPONENTS_CORE_IPINGENGINEFACTORY_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_IPINGENGINEFACTORY_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_IPINGENGINEFACTORY_H
 
-#include "ComponentSystem/IInterface.h"
-#include "Core.h"
-#include "CoreSpec.h"
-#include "IConfiguration.h"
+#include "RouteAnalyserSpec.h"
 
-namespace Nedrysoft { namespace Core {
+#include <ICore>
+#include <IConfiguration>
+#include <IInterface>
+
+namespace Nedrysoft { namespace RouteAnalyser {
     class IPingEngine;
 
     /**
@@ -37,7 +38,7 @@ namespace Nedrysoft { namespace Core {
      *
      * @details     The ping engine factory is responsible for creating instances of ping engines.
      */
-    class NEDRYSOFT_CORE_DLLSPEC IPingEngineFactory :
+    class NEDRYSOFT_ROUTEANALYSER_DLLSPEC IPingEngineFactory :
             public Nedrysoft::ComponentSystem::IInterface,
             public Nedrysoft::Core::IConfiguration {
 
@@ -60,7 +61,8 @@ namespace Nedrysoft { namespace Core {
              *
              * @returns     the new Nedrysoft::Core::IPingEngine instance.
              */
-            virtual auto createEngine(Nedrysoft::Core::IPVersion version) -> Nedrysoft::Core::IPingEngine * = 0;
+            virtual auto createEngine(Nedrysoft::Core::IPVersion version)
+                -> Nedrysoft::RouteAnalyser::IPingEngine * = 0;
 
             /**
              * @brief       Returns the descriptive name of the factory.
@@ -96,11 +98,11 @@ namespace Nedrysoft { namespace Core {
               *
               * @returns    true if the engine was deleted; otherwise false.
               */
-             virtual auto deleteEngine(Nedrysoft::Core::IPingEngine *engine) -> bool = 0;
+             virtual auto deleteEngine(Nedrysoft::RouteAnalyser::IPingEngine *engine) -> bool = 0;
 
     };
 }}
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingEngineFactory, "com.nedrysoft.core.IPingEngineFactory/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::RouteAnalyser::IPingEngineFactory, "com.nedrysoft.routeanalyser.IPingEngineFactory/1.0.0")
 
 #endif // PINGNOO_COMPONENTS_CORE_IPINGENGINEFACTORY_H

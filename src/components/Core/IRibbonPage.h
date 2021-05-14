@@ -24,11 +24,11 @@
 #ifndef PINGNOO_COMPONENTS_CORE_IRIBBONPAGE_H
 #define PINGNOO_COMPONENTS_CORE_IRIBBONPAGE_H
 
-#include "ComponentSystem/IInterface.h"
 #include "CoreSpec.h"
 #include "IRibbonBarManager.h"
 #include "IRibbonGroup.h"
 
+#include <IInterface>
 #include <QWidget>
 
 namespace Nedrysoft { namespace Core {

@@ -25,9 +25,9 @@
 
 #include "TargetManager.h"
 
-#include "Core/ICore.h"
+#include <ICore>
 #if defined(Q_OS_MACOS)
-#include "MacHelper/MacHelper.h"
+#include <MacHelper>
 #endif
 
 #include <QAbstractButton>

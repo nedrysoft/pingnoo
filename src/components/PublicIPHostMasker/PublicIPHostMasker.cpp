@@ -23,7 +23,7 @@
 
 #include "PublicIPHostMasker.h"
 
-#include "Core/ICore.h"
+#include <ICore>
 
 #include <QDir>
 #include <QEventLoop>

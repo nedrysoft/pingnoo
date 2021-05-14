@@ -23,10 +23,10 @@
 
 #include "RegExHostMaskerComponent.h"
 
-#include "ComponentSystem/IComponentManager.h"
 #include "RegExHostMasker.h"
 #include "RegExHostMaskerSettingsPage.h"
 
+#include <IComponentManager>
 #include <QJsonDocument>
 
 RegExHostMaskerComponent::RegExHostMaskerComponent() :

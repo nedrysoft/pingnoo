@@ -23,16 +23,19 @@
 
 #include "RouteAnalyserEditor.h"
 
-#include "TargetManager.h"
 #include "LatencyRibbonGroup.h"
 #include "RouteAnalyser.h"
 #include "RouteAnalyserWidget.h"
 #include "ViewportRibbonGroup.h"
+#include "TargetManager.h"
 
+
+
+#include <IContextManager>
 #include <QObject>
 
-constexpr auto defaultWindowSize = 10.0*60.0;
-constexpr auto viewportSize = 0.5;
+constexpr auto DefaultWindowSize = 10.0*60.0;
+constexpr auto ViewportSize = 0.5;
 
 Nedrysoft::RouteAnalyser::RouteAnalyserEditor::RouteAnalyserEditor() :
         m_editorWidget(nullptr),
@@ -71,7 +74,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::widget() -> QWidget * {
                 m_pingEngineFactory );
 
         auto viewportWidget = ComponentSystem::getObject<ViewportRibbonGroup>();
-        double newViewportSize = defaultWindowSize;
+        double newViewportSize = DefaultWindowSize;
 
         if (viewportWidget) {
             newViewportSize = viewportWidget->viewportSize();
@@ -88,7 +91,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::widget() -> QWidget * {
 }
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setPingEngine(
-        Nedrysoft::Core::IPingEngineFactory *pingEngineFactory ) -> void {
+        Nedrysoft::RouteAnalyser::IPingEngineFactory *pingEngineFactory ) -> void {
 
     m_pingEngineFactory = pingEngineFactory;
 }
@@ -122,7 +125,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::activated() -> void {
             viewportWidget->setViewport(0.0, 1.0);
             viewportWidget->setViewportEnabled(false);
         } else {
-            viewportWidget->setViewport(1-viewportSize, 1.0);
+            viewportWidget->setViewport(1-ViewportSize, 1.0);
             viewportWidget->setViewportEnabled(true);
         }
 
@@ -191,13 +194,13 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onDatasetChanged(double star
     auto viewportWidget = ComponentSystem::getObject<ViewportRibbonGroup>();
 
     if (end-start<m_editorWidget->viewportSize()) {
-        auto trimmerSize = ((end-start)/m_editorWidget->viewportSize())*viewportSize;
+        auto trimmerSize = ((end-start)/m_editorWidget->viewportSize())*ViewportSize;
 
-        viewportWidget->setViewport(qMin(1.0-viewportSize, trimmerSize), 1.0);
+        viewportWidget->setViewport(qMin(1.0-ViewportSize, trimmerSize), 1.0);
         viewportWidget->setViewportEnabled(false);
     } else {
         if (!viewportWidget->isViewportEnabled()) {
-            viewportWidget->setViewport((1-viewportSize), 1.0);
+            viewportWidget->setViewport((1-ViewportSize), 1.0);
             m_editorWidget->setViewportPosition(1);
         }
 
@@ -223,15 +226,15 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportWindowChanged(doub
         m_editorWidget->setViewportSize(size);
 
         if (m_editorWidget->datasetSize()<m_editorWidget->viewportSize()) {
-            auto trimmerSize = (m_editorWidget->datasetSize()/m_editorWidget->viewportSize())*viewportSize;
+            auto trimmerSize = (m_editorWidget->datasetSize()/m_editorWidget->viewportSize())*ViewportSize;
 
             m_editorWidget->setViewportPosition(0);
-            viewportWidget->setViewport(qMin(1.0-viewportSize, trimmerSize), 1.0);
+            viewportWidget->setViewport(qMin(1.0-ViewportSize, trimmerSize), 1.0);
             viewportWidget->setViewportEnabled(false);
         } else {
             if (!viewportWidget->isViewportEnabled()) {
                 m_editorWidget->setViewportPosition(1.0);
-                viewportWidget->setViewport((1-viewportSize), 1.0);
+                viewportWidget->setViewport((1-ViewportSize), 1.0);
             }
 
             viewportWidget->setViewportEnabled(true);

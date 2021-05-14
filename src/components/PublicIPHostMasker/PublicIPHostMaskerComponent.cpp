@@ -22,10 +22,9 @@
  */
 
 #include "PublicIPHostMaskerComponent.h"
-
 #include "PublicIPHostMaskerSettingsPage.h"
 
-#include "ComponentSystem/IComponentManager.h"
+#include <IComponentManager>
 
 PublicIPHostMaskerComponent::PublicIPHostMaskerComponent() :
         m_hostMasker(nullptr),

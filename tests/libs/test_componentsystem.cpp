@@ -23,12 +23,12 @@
 
 #include "test_componentsystem.h"
 
-#include "ComponentSystem/Component.h"
-#include "ComponentSystem/ComponentLoader.h"
-#include "ComponentSystem/IComponentManager.h"
-#include "Core/CoreComponent.h"
 #include "catch.hpp"
 
+#include <Component>
+#include <ComponentLoader>
+#include <CoreComponent>
+#include <IComponentManager>
 #include <QObject>
 #include <QString>
 

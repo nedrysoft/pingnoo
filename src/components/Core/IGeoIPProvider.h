@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_CORE_IGEOIPPROVIDER_H
 #define PINGNOO_COMPONENTS_CORE_IGEOIPPROVIDER_H
 
-#include "ComponentSystem/IInterface.h"
+#include <IInterface>
 #include "CoreSpec.h"
 
 #include <QHostAddress>

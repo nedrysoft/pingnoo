@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_REGEXHOSTMASKER_REGEXHOSTMASKERSETTINGSPAGE_H
 #define PINGNOO_COMPONENTS_REGEXHOSTMASKER_REGEXHOSTMASKERSETTINGSPAGE_H
 
-#include "Core/IHostMaskerSettingsPage.h"
+#include <IHostMaskerSettingsPage>
 
 namespace Nedrysoft { namespace RegExHostMasker {
     class RegExHostMaskerSettingsPageWidget;

@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGTARGET_H
 #define PINGNOO_COMPONENTS_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGTARGET_H
 
-#include "Core/IPingTarget.h"
+#include <IPingTarget>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
 #include <QThread>
@@ -41,12 +41,12 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
      *              to run.
      */
     class PingCommandPingTarget :
-            public Nedrysoft::Core::IPingTarget {
+            public Nedrysoft::RouteAnalyser::IPingTarget {
 
         private:
             Q_OBJECT
 
-            Q_INTERFACES(Nedrysoft::Core::IPingTarget)
+            Q_INTERFACES(Nedrysoft::RouteAnalyser::IPingTarget)
 
         public:
             /**
@@ -85,18 +85,18 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             auto hostAddress() -> QHostAddress override;
 
             /**
-             * @brief       Returns the Nedrysoft::Core::IPingEngine that created this target.
+             * @brief       Returns the Nedrysoft::RouteAnalyser::IPingEngine that created this target.
              *
-             * @see         Nedrysoft::Core::IPingTarget::engine
+             * @see         Nedrysoft::RouteAnalyser::IPingTarget::engine
              *
-             * @returns     the Nedrysoft::Core::IPingEngine instance.
+             * @returns     the Nedrysoft::RouteAnalyser::IPingEngine instance.
              */
-            auto engine() -> Nedrysoft::Core::IPingEngine * override;
+            auto engine() -> Nedrysoft::RouteAnalyser::IPingEngine * override;
 
             /**
              * @brief       Returns the user data attached to this target.
              *
-             * @see         Nedrysoft::Core::IPingTarget::userData
+             * @see         Nedrysoft::RouteAnalyser::IPingTarget::userData
              *
              * @returns     the user data.
              */
@@ -105,7 +105,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             /**
              * @brief       Sets the user data attached to this target.
              *
-             * @see         Nedrysoft::Core::IPingTarget::setUserData
+             * @see         Nedrysoft::RouteAnalyser::IPingTarget::setUserData
              *
              * @param[in]   data the user data.
              */
@@ -114,7 +114,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             /**
              * @brief       Returns the TTL of this target.
              *
-             * @see         Nedrysoft::Core::IPingTarget::ttl
+             * @see         Nedrysoft::RouteAnalyser::IPingTarget::ttl
              *
              * @returns     the ttl value.
              */

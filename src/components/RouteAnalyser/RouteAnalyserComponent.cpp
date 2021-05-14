@@ -23,23 +23,26 @@
 
 #include "RouteAnalyserComponent.h"
 
-#include "AppNap/AppNap.h"
 #include "ColourDialog.h"
-#include "Core/ICommandManager.h"
-#include "Core/IEditorManager.h"
-#include "Core/IRibbonBarManager.h"
-#include "Core/IRibbonPage.h"
-#include "TargetManager.h"
+#include "IRouteEngine.h"
 #include "LatencyRibbonGroup.h"
 #include "LatencySettings.h"
 #include "LatencySettingsPage.h"
 #include "NewTargetDialog.h"
 #include "NewTargetRibbonGroup.h"
 #include "Pingnoo.h"
+#include "PingResult.h"
 #include "RouteAnalyser.h"
+#include "TargetManager.h"
 #include "TargetSettings.h"
 #include "TargetSettingsPage.h"
 #include "ViewportRibbonGroup.h"
+
+#include <AppNap>
+#include <ICommandManager>
+#include <IEditorManager>
+#include <IRibbonBarManager>
+#include <IRibbonPage>
 
 RouteAnalyserComponent::RouteAnalyserComponent() :
         m_newTargetGroupWidget(nullptr),
@@ -57,7 +60,9 @@ RouteAnalyserComponent::~RouteAnalyserComponent() {
 }
 
 auto RouteAnalyserComponent::initialiseEvent() -> void {
-
+    qRegisterMetaType<Nedrysoft::RouteAnalyser::PingResult>("Nedrysoft::RouteAnalyser::PingResult");
+    qRegisterMetaType<Nedrysoft::RouteAnalyser::RouteList>("Nedrysoft::RouteAnalyser::RouteList");
+    qRegisterMetaType<Nedrysoft::RouteAnalyser::IPingEngineFactory *>("Nedrysoft::RouteAnalyser::IPingEngineFactory *");
 }
 
 auto RouteAnalyserComponent::finaliseEvent() -> void {

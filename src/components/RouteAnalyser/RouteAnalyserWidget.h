@@ -27,10 +27,11 @@
 #pragma warning(push)
 #pragma warning(disable : 4996)
 
-#include "Core/IRouteEngine.h"
-#include "Core/PingResult.h"
+#include "IRouteEngine.h"
 #include "PingData.h"
+#include "PingResult.h"
 #include "QCustomPlot/qcustomplot.h"
+
 #include <QMap>
 #include <QPair>
 #include <QWidget>
@@ -39,8 +40,6 @@
 
 namespace Nedrysoft { namespace Core {
     class IHostMasker;
-    class IPingEngine;
-    class IPingEngineFactory;
 }}
 
 class QTableView;
@@ -51,8 +50,10 @@ class Timer;
 
 namespace Nedrysoft { namespace RouteAnalyser {
     class GraphLatencyLayer;
-    class RouteTableItemDelegate;
+    class IPingEngine;
+    class IPingEngineFactory;
     class PlotScrollArea;
+    class RouteTableItemDelegate;
 
     /**
      * @brief       The RouteAnalyserWidget class provides the main widget for a route analyser.
@@ -83,9 +84,11 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   pingEngineFactory the ping engine factory to use.
              * @param[in]   parent the parent widget.
              */
-            explicit RouteAnalyserWidget(QString targetHost, Nedrysoft::Core::IPVersion ipVersion, double interval,
-                                         Nedrysoft::Core::IPingEngineFactory *pingEngineFactory,
-                                         QWidget *parent = nullptr);
+            explicit RouteAnalyserWidget(QString targetHost,
+                                         Nedrysoft::Core::IPVersion ipVersion,
+                                         double interval,
+                                         Nedrysoft::RouteAnalyser::IPingEngineFactory *pingEngineFactory,
+                                         QWidget *parent = nullptr );
 
             /**
              * @brief       Destroys the RouteAnalyserWidget.
@@ -97,7 +100,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
              *
              * @param[in]   result the PingResult contains the timing information for the ping.
              */
-            Q_SLOT void onPingResult(Nedrysoft::Core::PingResult result);
+            Q_SLOT void onPingResult(Nedrysoft::RouteAnalyser::PingResult result);
 
             /**
              * @brief       Called when a ping route is available.
@@ -107,7 +110,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   routeHostAddress the intended target of the route analysis.
              * @param[in]   route the route that was discovered.
              */
-            Q_SLOT void onRouteResult(const QHostAddress routeHostAddress, const Nedrysoft::Core::RouteList route);
+            Q_SLOT void onRouteResult(const QHostAddress routeHostAddress,
+                                      const Nedrysoft::RouteAnalyser::RouteList route );
 
             /**
              * @brief       This signal is emitted when a watched event on a child fires.
@@ -198,16 +202,16 @@ namespace Nedrysoft { namespace RouteAnalyser {
             QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &headerMap();
 
         private:
-            QMap<Nedrysoft::Core::IPingTarget *, int> m_targetMap;
+            QMap<Nedrysoft::RouteAnalyser::IPingTarget *, int> m_targetMap;
             QList<QCustomPlot *> m_plotList;
             QMap<QCustomPlot *, QCPItemStraightLine *> m_graphLines;
             QMap<QCustomPlot *, QCPBars *> m_barCharts;
-            Nedrysoft::Core::IPingEngine *m_pingEngine = {};
+            Nedrysoft::RouteAnalyser::IPingEngine *m_pingEngine = {};
             QStandardItemModel *m_tableModel;
             QTableView *m_tableView;
             QSplitter *m_splitter;
             PlotScrollArea *m_scrollArea;
-            Nedrysoft::Core::IPingEngineFactory *m_pingEngineFactory;
+            Nedrysoft::RouteAnalyser::IPingEngineFactory *m_pingEngineFactory;
             double m_interval;
             QList<Nedrysoft::RouteAnalyser::GraphLatencyLayer *> m_backgroundLayers;
             Nedrysoft::RouteAnalyser::RouteTableItemDelegate *m_routeGraphDelegate;
