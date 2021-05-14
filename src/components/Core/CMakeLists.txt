@@ -61,15 +61,10 @@ pingnoo_add_sources(
     IHostMaskerSettingsPage.h
     ILogger.h
     IMenu.h
-    IPingEngine.h
-    IPingEngineFactory.h
-    IPingTarget.h
     IRibbonBarManager.h
     IRibbonGroup.h
     IRibbonPage.h
-    IRouteEngine.h
-    IRouteEngineFactory.h
-    IStatusBarManager.h
+    IStatusbarManager.h
     ISystemTrayIconManager.h
     ISystemTrayIconWidget.h
     MainWindow.cpp
@@ -77,16 +72,14 @@ pingnoo_add_sources(
     MainWindow.ui
     Menu.cpp
     Menu.h
-    PingResult.cpp
-    PingResult.h
     RibbonBarManager.cpp
     RibbonBarManager.h
     RibbonGroup.cpp
     RibbonGroup.h
     RibbonPage.cpp
     RibbonPage.h
-    StatusBarManager.cpp
-    StatusBarManager.h
+    StatusbarManager.cpp
+    StatusbarManager.h
     SystemTrayIconManager.cpp
     SystemTrayIconManager.h
     fonts.qrc

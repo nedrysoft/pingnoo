@@ -42,7 +42,7 @@ Nedrysoft::RouteEngine::RouteEngine::RouteEngine() :
 }
 
 auto Nedrysoft::RouteEngine::RouteEngine::findRoute(
-        Nedrysoft::Core::IPingEngineFactory *engineFactory,
+        Nedrysoft::RouteAnalyser::IPingEngineFactory *engineFactory,
         QString host,
         Nedrysoft::Core::IPVersion ipVersion) -> void {
 

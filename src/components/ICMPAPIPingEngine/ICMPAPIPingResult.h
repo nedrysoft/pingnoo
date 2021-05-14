@@ -28,7 +28,7 @@
 
 #include <QObject>
 
-namespace Nedrysoft { namespace Core {
+namespace Nedrysoft { namespace RouteAnalyser {
     class IPingTarget;
 }}
 
@@ -41,7 +41,7 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
      */
     class ICMPAPIPingResult :
             public QObject,
-            public Nedrysoft::Core::PingResult {
+            public Nedrysoft::RouteAnalyser::PingResult {
 
     private:
         Q_OBJECT
@@ -52,7 +52,7 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
          *
          * @param[in]   result the ping result to copy.
          */
-        ICMPAPIPingResult(Nedrysoft::Core::PingResult result);
+        ICMPAPIPingResult(Nedrysoft::RouteAnalyser::PingResult result);
 
         /**
          * @brief       Sets the sample number.
@@ -66,7 +66,7 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
          *
          * @param[in]   target the target.
          */
-        void setTarget(Nedrysoft::Core::IPingTarget *target);
+        void setTarget(Nedrysoft::RouteAnalyser::IPingTarget *target);
     };
 }}
 

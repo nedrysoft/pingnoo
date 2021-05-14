@@ -94,7 +94,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
              *
              * @param[in]   result the result.
              */
-            Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
+            Q_SIGNAL void result(Nedrysoft::RouteAnalyser::PingResult result);
 
             friend class ICMPPingEngine;
 

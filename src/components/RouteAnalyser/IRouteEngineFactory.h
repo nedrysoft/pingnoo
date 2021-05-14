@@ -21,16 +21,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PINGNOO_COMPONENTS_CORE_IROUTEENGINEFACTORY_H
-#define PINGNOO_COMPONENTS_CORE_IROUTEENGINEFACTORY_H
+#ifndef PINGNOO_COMPONENTS_IROUTEANALYSER_IROUTEENGINEFACTORY_H
+#define PINGNOO_COMPONENTS_IROUTEANALYSER_IROUTEENGINEFACTORY_H
 
-#include "Core.h"
-#include "CoreSpec.h"
-#include "IConfiguration.h"
+#include "RouteAnalyserSpec.h"
 
+#include <IConfiguration>
+#include <ICore>
 #include <IInterface>
 
-namespace Nedrysoft { namespace Core {
+namespace Nedrysoft { namespace RouteAnalyser {
     class IRouteEngine;
 
     /**
@@ -40,7 +40,7 @@ namespace Nedrysoft { namespace Core {
      *              application can find all route engine factories and select a route engine factory to create
      *              route engines with.
      */
-    class NEDRYSOFT_CORE_DLLSPEC IRouteEngineFactory :
+    class NEDRYSOFT_ROUTEANALYSER_DLLSPEC IRouteEngineFactory :
             public Nedrysoft::ComponentSystem::IInterface,
             public Nedrysoft::Core::IConfiguration {
 
@@ -64,7 +64,7 @@ namespace Nedrysoft { namespace Core {
              *
              * @returns     the route engine instance.
              */
-            virtual auto createEngine() -> Nedrysoft::Core::IRouteEngine * = 0;
+            virtual auto createEngine() -> Nedrysoft::RouteAnalyser::IRouteEngine * = 0;
 
             /**
              * @brief       Returns the descriptive name of the route engine.
@@ -86,6 +86,6 @@ namespace Nedrysoft { namespace Core {
     };
 }}
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IRouteEngineFactory, "com.nedrysoft.core.IRouteEngineFactory/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::RouteAnalyser::IRouteEngineFactory, "com.nedrysoft.routeanalyser.IRouteEngineFactory/1.0.0")
 
-#endif // PINGNOO_COMPONENTS_CORE_IROUTEENGINEFACTORY_H
+#endif // PINGNOO_COMPONENTS_IROUTEANALYSER_IROUTEENGINEFACTORY_H

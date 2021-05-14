@@ -23,12 +23,15 @@
 
 #include "RouteAnalyserEditor.h"
 
-#include "TargetManager.h"
 #include "LatencyRibbonGroup.h"
 #include "RouteAnalyser.h"
 #include "RouteAnalyserWidget.h"
 #include "ViewportRibbonGroup.h"
+#include "TargetManager.h"
 
+
+
+#include <IContextManager>
 #include <QObject>
 
 constexpr auto DefaultWindowSize = 10.0*60.0;
@@ -88,7 +91,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::widget() -> QWidget * {
 }
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::setPingEngine(
-        Nedrysoft::Core::IPingEngineFactory *pingEngineFactory ) -> void {
+        Nedrysoft::RouteAnalyser::IPingEngineFactory *pingEngineFactory ) -> void {
 
     m_pingEngineFactory = pingEngineFactory;
 }

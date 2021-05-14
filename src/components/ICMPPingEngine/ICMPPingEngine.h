@@ -39,12 +39,12 @@ namespace Nedrysoft { namespace ICMPPingEngine {
      * @brief       THe ICMPPingEngine provides a ICMP socket ping engine implementation.
      */
     class ICMPPingEngine :
-            public Nedrysoft::Core::IPingEngine {
+            public Nedrysoft::RouteAnalyser::IPingEngine {
 
         private:
             Q_OBJECT
 
-            Q_INTERFACES(Nedrysoft::Core::IPingEngine)
+            Q_INTERFACES(Nedrysoft::RouteAnalyser::IPingEngine)
 
         public:
             /**
@@ -60,7 +60,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             /**
              * @brief       Sets the measurement interval for this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::setInterval
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::setInterval
              *
              * @param[in]   interval interval time.
              *
@@ -71,7 +71,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             /**
              * @brief       Returns the interval set on the engine.
              *
-             * @see         Nedrysoft::Core::IPingEngine::interval
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::interval
              *
              * @returns     the interval.
              */
@@ -80,7 +80,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             /**
              * @brief       Sets the reply timeout for this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::setTimeout
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::setTimeout
              *
              * @param[in]   timeout the amount of time before we consider that the packet was lost.
              *
@@ -100,7 +100,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             /**
              * @brief       Stops ping operations for this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::stop
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::stop
              *
              * @returns     true on success; otherwise false.
              */
@@ -109,25 +109,25 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             /**
              * @brief       Adds a ping target to this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::addTarget
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::addTarget
              *
              * @param[in]   hostAddress the host address of the ping target.
              *
              * @returns     returns a pointer to the created ping target.
              */
-            auto addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget * override;
+            auto addTarget(QHostAddress hostAddress) -> Nedrysoft::RouteAnalyser::IPingTarget * override;
 
             /**
              * @brief       Adds a ping target to this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::addTarget
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::addTarget
              *
              * @param[in]   hostAddress the host address of the ping target.
              * @param[in]   ttl the time to live to use.
              *
              * @returns     returns a pointer to the created ping target.
              */
-            auto addTarget(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::IPingTarget * override;
+            auto addTarget(QHostAddress hostAddress, int ttl) -> Nedrysoft::RouteAnalyser::IPingTarget * override;
 
             /**
              * @brief       Transmits a single ping.
@@ -143,23 +143,23 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             auto singleShot(
                     QHostAddress hostAddress,
                     int ttl,
-                    double timeout ) -> Nedrysoft::Core::PingResult override;
+                    double timeout ) -> Nedrysoft::RouteAnalyser::PingResult override;
 
             /**
              * @brief       Removes a ping target from this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::addTarget
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::addTarget
              *
              * @param[in]   target the ping target to remove.
              *
              * @returns     true on success; otherwise false.
              */
-            auto removeTarget(Nedrysoft::Core::IPingTarget *target) -> bool override;
+            auto removeTarget(Nedrysoft::RouteAnalyser::IPingTarget *target) -> bool override;
 
             /**
              * @brief       Gets the epoch for this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::epoch
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::epoch
              *
              * @returns     the time epoch.
              */
@@ -170,7 +170,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
              *
              * @returns     a QList containing the list of targets.
              */
-            auto targets() -> QList<Nedrysoft::Core::IPingTarget *> override;
+            auto targets() -> QList<Nedrysoft::RouteAnalyser::IPingTarget *> override;
 
         public:
             /**
@@ -201,7 +201,9 @@ namespace Nedrysoft { namespace ICMPPingEngine {
              * @param[in]   receiveBuffer the actual packet data.
              * @param[in]   receiveAddress the IP address that the response came from (may be different to target).
              */
-            Q_SLOT void onPacketReceived(std::chrono::time_point<std::chrono::high_resolution_clock> receiveTime, QByteArray receiveBuffer, QHostAddress receiveAddress);
+            Q_SLOT void onPacketReceived(
+                    std::chrono::time_point<std::chrono::high_resolution_clock> receiveTime,
+                    QByteArray receiveBuffer, QHostAddress receiveAddress );
 
         protected:
             /**

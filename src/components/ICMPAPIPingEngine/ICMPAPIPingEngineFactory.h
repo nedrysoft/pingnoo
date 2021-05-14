@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGENGINEFACTORY_H
 #define PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGENGINEFACTORY_H
 
-#include "ComponentSystem/IInterface.h"
+#include <IInterface>
 #include <IPingEngineFactory>
 
 namespace Nedrysoft { namespace ICMPAPIPingEngine {
@@ -36,12 +36,12 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
      * @brief       The ICMPAPIPingEngineFactory creates instances of the windows ICMPAPI ping engine.
      */
     class ICMPAPIPingEngineFactory :
-            public Nedrysoft::Core::IPingEngineFactory {
+            public Nedrysoft::RouteAnalyser::IPingEngineFactory {
 
         private:
             Q_OBJECT
 
-            Q_INTERFACES(Nedrysoft::Core::IPingEngineFactory)
+            Q_INTERFACES(Nedrysoft::RouteAnalyser::IPingEngineFactory)
 
         public:
             /**
@@ -58,13 +58,13 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
             /**
              * @brief       Creates a ICMPAPIPingEngine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngineFactory::createEngine
+             * @see         Nedrysoft::RouteAnalyser::IPingEngineFactory::createEngine
              *
              * @param[in]   version the IP version of the engine.
              *
              * @returns     the new ICMPAPIPingEngine instance.
              */
-            auto createEngine(Nedrysoft::Core::IPVersion version) -> Nedrysoft::Core::IPingEngine * override;
+            auto createEngine(Nedrysoft::Core::IPVersion version) -> Nedrysoft::RouteAnalyser::IPingEngine * override;
 
             /**
              * @brief       Returns the descriptive name of the factory.
@@ -100,7 +100,7 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
              *
              * @returns    true if the engine was deleted; otherwise false.
              */
-            auto deleteEngine(Nedrysoft::Core::IPingEngine *engine) -> bool override;
+            auto deleteEngine(Nedrysoft::RouteAnalyser::IPingEngine *engine) -> bool override;
 
         public:
             /**

@@ -21,23 +21,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #include "RouteAnalyserWidget.h"
 
 #include "BarChart.h"
 #include "CPAxisTickerMS.h"
-#include <IGeoIPProvider>
-#include <IHostMasker>
-#include <IPingEngine>
-#include <IPingEngineFactory>
-#include <IPingTarget>
-#include <IRouteEngineFactory>
-#include "LatencySettings.h"
 #include "GraphLatencyLayer.h"
+#include "IPingEngine.h"
+#include "IPingEngineFactory.h"
+#include "IPingTarget.h"
+#include "IPlot.h"
+#include "IPlotFactory.h"
+#include "IRouteEngineFactory.h"
+#include "LatencySettings.h"
 #include "PlotScrollArea.h"
 #include "RouteTableItemDelegate.h"
-#include "IPlotFactory.h"
-#include "IPlot.h"
 
+#include <IGeoIPProvider>
+#include <IHostMasker>
 #include <QDateTime>
 #include <QHostAddress>
 #include <QHostInfo>
@@ -79,7 +80,7 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
         QString targetHost,
         Nedrysoft::Core::IPVersion ipVersion,
         double interval,
-        Nedrysoft::Core::IPingEngineFactory *pingEngineFactory,
+        Nedrysoft::RouteAnalyser::IPingEngineFactory *pingEngineFactory,
         QWidget *parent) :
 
         QWidget(parent),
@@ -94,13 +95,13 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
 
     assert(latencySettings!=nullptr);
 
-    auto routeEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IRouteEngineFactory>();
+    auto routeEngines = Nedrysoft::ComponentSystem::getObjects<Nedrysoft::RouteAnalyser::IRouteEngineFactory>();
 
     if (routeEngines.empty()) {
         return;
     }
 
-    QMultiMap<double, Nedrysoft::Core::IRouteEngineFactory *> sortedRouteEngines;
+    QMultiMap<double, Nedrysoft::RouteAnalyser::IRouteEngineFactory *> sortedRouteEngines;
 
     for(auto routeEngine : routeEngines) {
         sortedRouteEngines.insert(1-routeEngine->priority(), routeEngine);
@@ -111,7 +112,7 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
     if (routeEngine) {
         connect(
                 routeEngine,
-                &Nedrysoft::Core::IRouteEngine::result,
+                &Nedrysoft::RouteAnalyser::IRouteEngine::result,
                 this,
                 &RouteAnalyserWidget::onRouteResult);
 
@@ -237,7 +238,7 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::~RouteAnalyserWidget() {
     }
 }
 
-auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core::PingResult result) -> void {
+auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::RouteAnalyser::PingResult result) -> void {
     auto pingData = static_cast<PingData *>(result.target()->userData());
 
     if (!pingData) {
@@ -251,8 +252,8 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
     }
 
     switch (result.code()) {
-        case Nedrysoft::Core::PingResult::ResultCode::Ok:
-        case Nedrysoft::Core::PingResult::ResultCode::TimeExceeded: {
+        case Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok:
+        case Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded: {
             QCPRange graphRange = customPlot->yAxis->range();
             auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
 
@@ -308,7 +309,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
             break;
         }
 
-        case Nedrysoft::Core::PingResult::ResultCode::NoReply: {
+        case Nedrysoft::RouteAnalyser::PingResult::ResultCode::NoReply: {
             auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
 
             QCPBars *barChart = m_barCharts[customPlot];
@@ -324,9 +325,11 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Core
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
         const QHostAddress routeHostAddress,
-        const Nedrysoft::Core::RouteList route ) -> void {
+        const Nedrysoft::RouteAnalyser::RouteList route ) -> void {
 
-    Nedrysoft::Core::IRouteEngine *routeEngine = qobject_cast<Nedrysoft::Core::IRouteEngine *>(this->sender());
+    Nedrysoft::RouteAnalyser::IRouteEngine *routeEngine =
+            qobject_cast<Nedrysoft::RouteAnalyser::IRouteEngine *>(this->sender());
+
     auto hop = 1;
     auto geoIP = Nedrysoft::ComponentSystem::getObject<Nedrysoft::Core::IGeoIPProvider>();
 
@@ -339,7 +342,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
     if (routeEngine) {
         disconnect(
                 routeEngine,
-                &Nedrysoft::Core::IRouteEngine::result,
+                &Nedrysoft::RouteAnalyser::IRouteEngine::result,
                 this,
                 &RouteAnalyserWidget::onRouteResult );
     }
@@ -361,7 +364,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
     m_pingEngine->setInterval(std::chrono::duration_cast<std::chrono::milliseconds>(interval));
 
     connect(m_pingEngine,
-            &Nedrysoft::Core::IPingEngine::result,
+            &Nedrysoft::RouteAnalyser::IPingEngine::result,
             this,
             &RouteAnalyserWidget::onPingResult );
 

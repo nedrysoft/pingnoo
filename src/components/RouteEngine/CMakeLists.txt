@@ -42,6 +42,7 @@ pingnoo_set_description("Route detection component")
 pingnoo_use_qt_libraries(Core Network)
 
 pingnoo_use_component(Core)
+pingnoo_use_component(RouteAnalyser)
 
 pingnoo_use_shared_library(ComponentSystem)
 pingnoo_use_shared_library(ICMPPacket)

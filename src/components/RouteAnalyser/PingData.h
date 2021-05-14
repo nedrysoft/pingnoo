@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_PINGDATA_H
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_PINGDATA_H
 
-#include <PingResult>
+#include "PingResult.h"
 
 #include <QPersistentModelIndex>
 #include <QString>
@@ -118,7 +118,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
              *
              * @param[in]   result the ping result for this hop.
              */
-            auto updateItem(Nedrysoft::Core::PingResult result) -> void;
+            auto updateItem(Nedrysoft::RouteAnalyser::PingResult result) -> void;
 
             /**
              * @brief       Sets the hop number for this item.

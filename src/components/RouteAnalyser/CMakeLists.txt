@@ -72,6 +72,8 @@ pingnoo_add_sources(
     OpenFavouriteDialog.ui
     PingData.cpp
     PingData.h
+    PingResult.cpp
+    PingResult.h
     PlotScrollArea.cpp
     PlotScrollArea.h
     RouteAnalyserComponent.cpp
@@ -83,8 +85,13 @@ pingnoo_add_sources(
     RouteAnalyserWidget.h
     RouteTableItemDelegate.cpp
     RouteTableItemDelegate.h
+    IPingEngine.h
+    IPingEngineFactory.h
+    IPingTarget.h
     IPlot.h
     IPlotFactory.h
+    IRouteEngine.h
+    IRouteEngineFactory.h
     TargetSettings.cpp
     TargetSettings.h
     TargetSettingsPage.cpp

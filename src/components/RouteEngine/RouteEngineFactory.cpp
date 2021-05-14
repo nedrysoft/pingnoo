@@ -54,7 +54,7 @@ Nedrysoft::RouteEngine::RouteEngineFactory::~RouteEngineFactory() {
     }
 }
 
-auto Nedrysoft::RouteEngine::RouteEngineFactory::createEngine() -> Nedrysoft::Core::IRouteEngine * {
+auto Nedrysoft::RouteEngine::RouteEngineFactory::createEngine() -> Nedrysoft::RouteAnalyser::IRouteEngine * {
     auto engineInstance = new Nedrysoft::RouteEngine::RouteEngine();
 
     d->m_engineList.append(engineInstance);

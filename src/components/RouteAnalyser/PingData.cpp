@@ -103,10 +103,10 @@ auto Nedrysoft::RouteAnalyser::PingData::packetLoss() -> double {
             static_cast<double>(m_replyPacketCount+m_timeoutPacketCount))*100.0;
 }
 
-auto Nedrysoft::RouteAnalyser::PingData::updateItem(Nedrysoft::Core::PingResult result) -> void {
+auto Nedrysoft::RouteAnalyser::PingData::updateItem(Nedrysoft::RouteAnalyser::PingResult result) -> void {
     m_count = result.sampleNumber();
 
-    if (result.code() == Nedrysoft::Core::PingResult::ResultCode::NoReply) {
+    if (result.code() == Nedrysoft::RouteAnalyser::PingResult::ResultCode::NoReply) {
         m_timeoutPacketCount++;
 
         if (m_tableModel) {

@@ -38,14 +38,12 @@ namespace Nedrysoft { namespace ThemeSupport {
     class ThemeSupport;
 }}
 
-namespace Nedrysoft { namespace Core {
-    class IPingEngineFactory;
-}}
-
 namespace Nedrysoft { namespace RouteAnalyser {
     namespace Ui {
         class NewTargetRibbonGroup;
     }
+
+    class IPingEngineFactory;
 
     /**
      * @brief       The NewTargetRibbonGroup is a Ribbon group that allows a new target to be created.
@@ -143,7 +141,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   parameters the ping target parameters
              * @param[in]   pingEngine the ping engine factory to use.
              */
-            Q_SLOT void openTarget(QVariantMap parameters, Nedrysoft::Core::IPingEngineFactory *pingEngine);
+            Q_SLOT void openTarget(QVariantMap parameters, Nedrysoft::RouteAnalyser::IPingEngineFactory *pingEngine);
 
             /**
              * @brief       Populates the recents menu with the most recently used targets.

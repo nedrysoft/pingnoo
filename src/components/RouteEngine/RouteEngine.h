@@ -48,12 +48,12 @@ namespace Nedrysoft { namespace RouteEngine {
      * @details     Implements the IRouteEngine to determine the list of hops between the source and target.
      */
     class RouteEngine :
-            public Nedrysoft::Core::IRouteEngine {
+            public Nedrysoft::RouteAnalyser::IRouteEngine {
 
         private:
             Q_OBJECT
 
-            Q_INTERFACES(Nedrysoft::Core::IRouteEngine)
+            Q_INTERFACES(Nedrysoft::RouteAnalyser::IRouteEngine)
 
         public:
             /**
@@ -73,7 +73,7 @@ namespace Nedrysoft { namespace RouteEngine {
              * @param[in]   ipVersion the IP version to be used for discovery.
              */
             auto findRoute(
-                    Nedrysoft::Core::IPingEngineFactory *engineFactory,
+                    Nedrysoft::RouteAnalyser::IPingEngineFactory *engineFactory,
                     QString host,
                     Nedrysoft::Core::IPVersion ipVersion = Nedrysoft::Core::IPVersion::V4 ) -> void override;
 

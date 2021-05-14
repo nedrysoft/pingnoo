@@ -50,7 +50,7 @@ namespace Nedrysoft { namespace RouteEngine {
          * @brief       Constructs a RouteEngineWorker.
          */
         RouteEngineWorker(QString target,
-                          Nedrysoft::Core::IPingEngineFactory *pingEngineFactory,
+                          Nedrysoft::RouteAnalyser::IPingEngineFactory *pingEngineFactory,
                           Nedrysoft::Core::IPVersion ipVersion );
 
         /**
@@ -69,10 +69,10 @@ namespace Nedrysoft { namespace RouteEngine {
          * @param[in]   hostAddress the target that was requested.
          * @param[in]   result the route list.
          */
-        Q_SIGNAL void result(const QHostAddress hostAddress, const Nedrysoft::Core::RouteList result);
+        Q_SIGNAL void result(const QHostAddress hostAddress, const Nedrysoft::RouteAnalyser::RouteList result);
 
     private:
-        Nedrysoft::Core::IPingEngineFactory *m_pingEngineFactory;
+        Nedrysoft::RouteAnalyser::IPingEngineFactory *m_pingEngineFactory;
         Nedrysoft::Core::IPVersion m_ipVersion;
         QString m_host;
 

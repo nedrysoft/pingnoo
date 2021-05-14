@@ -71,7 +71,7 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
              *
              * @param[in]   result the ping result.
              */
-            Q_SIGNAL void result(Nedrysoft::Core::PingResult result);
+            Q_SIGNAL void result(Nedrysoft::RouteAnalyser::PingResult result);
 
             /**
              * @brief       Adds a target to be pinged.

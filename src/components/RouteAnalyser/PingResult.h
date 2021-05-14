@@ -21,10 +21,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PINGNOO_COMPONENTS_CORE_PINGRESULT_H
-#define PINGNOO_COMPONENTS_CORE_PINGRESULT_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_PINGRESULT_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_PINGRESULT_H
 
-#include "CoreSpec.h"
+#include "RouteAnalyserSpec.h"
 
 #include <QHostAddress>
 #include <QObject>
@@ -32,13 +32,13 @@
 #include <cmath>
 #include <cstdint>
 
-namespace Nedrysoft { namespace Core {
+namespace Nedrysoft { namespace RouteAnalyser {
     class IPingTarget;
 
     /**
      * @brief       The PingResult class provides information about a ping response.
      */
-    class NEDRYSOFT_CORE_DLLSPEC PingResult {
+    class NEDRYSOFT_ROUTEANALYSER_DLLSPEC PingResult {
 
         public:
 
@@ -76,7 +76,7 @@ namespace Nedrysoft { namespace Core {
                        const QHostAddress &hostAddress,
                        std::chrono::system_clock::time_point requestTime,
                        std::chrono::duration<double> roundTripTime,
-                       Nedrysoft::Core::IPingTarget *target);
+                       Nedrysoft::RouteAnalyser::IPingTarget *target);
 
         public:
 
@@ -126,7 +126,7 @@ namespace Nedrysoft { namespace Core {
              *
              * @returns     the target.
              */
-            auto target() -> Nedrysoft::Core::IPingTarget *;
+            auto target() -> Nedrysoft::RouteAnalyser::IPingTarget *;
 
         protected:
             unsigned long m_sampleNumber;
@@ -134,7 +134,7 @@ namespace Nedrysoft { namespace Core {
             QHostAddress m_hostAddress;
             std::chrono::duration<double> m_roundTripTime = {};
             std::chrono::system_clock::time_point m_requestTime = {};
-            Nedrysoft::Core::IPingTarget *m_target;
+            Nedrysoft::RouteAnalyser::IPingTarget *m_target;
     };
 }}
 

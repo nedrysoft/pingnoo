@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGCOMPONENT_H
 #define PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGCOMPONENT_H
 
-#include "ComponentSystem/IComponent.h"
+#include <IComponent>
 #include "ICMPAPIPingEngineSpec.h"
 
 /**

@@ -21,16 +21,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PINGNOO_COMPONENTS_CORE_IPINGTARGET_H
-#define PINGNOO_COMPONENTS_CORE_IPINGTARGET_H
+#ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_IPINGTARGET_H
+#define PINGNOO_COMPONENTS_ROUTEANALYSER_IPINGTARGET_H
 
-#include "CoreSpec.h"
-#include "IConfiguration.h"
+#include "RouteAnalyserSpec.h"
 
+#include <IConfiguration>
 #include <IInterface>
 #include <QHostAddress>
 
-namespace Nedrysoft { namespace Core {
+namespace Nedrysoft { namespace RouteAnalyser {
     class IPingEngine;
 
     /**
@@ -38,7 +38,7 @@ namespace Nedrysoft { namespace Core {
      *
      * @details     A ping target is used by an Nedrysoft::Core::IPingEngine to keep track of destinations to be pinged.
      */
-    class NEDRYSOFT_CORE_DLLSPEC IPingTarget :
+    class NEDRYSOFT_ROUTEANALYSER_DLLSPEC IPingTarget :
             public Nedrysoft::ComponentSystem::IInterface,
             public Nedrysoft::Core::IConfiguration {
 
@@ -98,6 +98,6 @@ namespace Nedrysoft { namespace Core {
     };
 }}
 
-Q_DECLARE_INTERFACE(Nedrysoft::Core::IPingTarget, "com.nedrysoft.core.IPingTarget/1.0.0")
+Q_DECLARE_INTERFACE(Nedrysoft::RouteAnalyser::IPingTarget, "com.nedrysoft.routeanalyser.IPingTarget/1.0.0")
 
-#endif // PINGNOO_COMPONENTS_CORE_IPINGTARGET_H
+#endif // PINGNOO_COMPONENTS_ROUTEANALYSER_IPINGTARGET_H

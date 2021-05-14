@@ -40,12 +40,12 @@ namespace Nedrysoft { namespace ICMPPingEngine {
      * @details     The factory class for creating instances of the ICMPPingEngine type
      */
     class ICMPPingEngineFactory :
-            public Nedrysoft::Core::IPingEngineFactory {
+            public Nedrysoft::RouteAnalyser::IPingEngineFactory {
 
         private:
             Q_OBJECT
 
-            Q_INTERFACES(Nedrysoft::Core::IPingEngineFactory)
+            Q_INTERFACES(Nedrysoft::RouteAnalyser::IPingEngineFactory)
 
         public:
             /**
@@ -62,13 +62,13 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             /**
              * @brief       Creates a ICMPPingEngine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngineFactory::createEngine
+             * @see         Nedrysoft::RouteAnalyser::IPingEngineFactory::createEngine
              *
              * @param[in]   version the IP version of the engine.
              *
              * @returns     the new ICMPAPIPingEngine instance.
              */
-            auto createEngine(Nedrysoft::Core::IPVersion version) -> Nedrysoft::Core::IPingEngine * override;
+            auto createEngine(Nedrysoft::Core::IPVersion version) -> Nedrysoft::RouteAnalyser::IPingEngine * override;
 
             /**
              * @brief       Returns the descriptive name of the factory.
@@ -104,7 +104,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
              *
              * @returns    true if the engine was deleted; otherwise false.
              */
-            auto deleteEngine(Nedrysoft::Core::IPingEngine *engine) -> bool override;
+            auto deleteEngine(Nedrysoft::RouteAnalyser::IPingEngine *engine) -> bool override;
 
         public:
             /**

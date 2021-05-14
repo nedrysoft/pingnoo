@@ -24,7 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGENGINE_H
 #define PINGNOO_COMPONENTS_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGENGINE_H
 
-#include "ComponentSystem/IInterface.h"
+#include <IInterface>
 #include <IPingEngine>
 #include <IPingEngineFactory>
 
@@ -37,12 +37,12 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
      * @brief       THe PingCommandPingEngine provides a command based ping engine implementation.
      */
     class PingCommandPingEngine :
-            public Nedrysoft::Core::IPingEngine {
+            public Nedrysoft::RouteAnalyser::IPingEngine {
 
         private:
             Q_OBJECT
 
-            Q_INTERFACES(Nedrysoft::Core::IPingEngine)
+            Q_INTERFACES(Nedrysoft::RouteAnalyser::IPingEngine)
 
         public:
             /**
@@ -58,7 +58,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             /**
              * @brief       Sets the measurement interval for this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::setInterval
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::setInterval
              *
              * @param[in]   interval interval time.
              *
@@ -69,7 +69,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             /**
              * @brief       Returns the measurement interval.
              *
-             * @see         Nedrysoft::Core::IPingEngine::interval
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::interval
              *
              * @returns     returns the measurement interval.
              */
@@ -78,7 +78,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             /**
              * @brief       Sets the reply timeout for this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::setTimeout
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::setTimeout
              *
              * @param[in]   timeout the amount of time before we consider that the packet was lost.
              *
@@ -89,7 +89,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             /**
              * @brief       Starts ping operations for this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::start
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::start
              *
              * @returns     true on success; otherwise false.
              */
@@ -98,7 +98,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             /**
              * @brief       Stops ping operations for this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::stop
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::stop
              *
              * @returns     true on success; otherwise false.
              */
@@ -107,41 +107,41 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             /**
              * @brief       Adds a ping target to this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::addTarget
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::addTarget
              *
              * @param[in]   hostAddress the host address of the ping target.
              *
              * @returns     returns a pointer to the created ping target.
              */
-            auto addTarget(QHostAddress hostAddress) -> Nedrysoft::Core::IPingTarget * override;
+            auto addTarget(QHostAddress hostAddress) -> Nedrysoft::RouteAnalyser::IPingTarget * override;
 
             /**
              * @brief       Adds a ping target to this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::addTarget
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::addTarget
              *
              * @param[in]   hostAddress the host address of the ping target.
              * @param[in]   ttl the time to live to use.
              *
              * @returns     returns a pointer to the created ping target.
              */
-            auto addTarget(QHostAddress hostAddress, int ttl) -> Nedrysoft::Core::IPingTarget * override;
+            auto addTarget(QHostAddress hostAddress, int ttl) -> Nedrysoft::RouteAnalyser::IPingTarget * override;
 
             /**
              * @brief       Removes a ping target from this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::addTarget
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::addTarget
              *
              * @param[in]   target the ping target to remove.
              *
              * @returns     true on success; otherwise false.
              */
-            auto removeTarget(Nedrysoft::Core::IPingTarget *target) -> bool override;
+            auto removeTarget(Nedrysoft::RouteAnalyser::IPingTarget *target) -> bool override;
 
             /**
              * @brief       Gets the epoch for this engine instance.
              *
-             * @see         Nedrysoft::Core::IPingEngine::epoch
+             * @see         Nedrysoft::RouteAnalyser::IPingEngine::epoch
              *
              * @returns     the time epoch.
              */
@@ -152,7 +152,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
              *
              * @returns     a QList containing the list of targets.
              */
-            auto targets() -> QList<Nedrysoft::Core::IPingTarget *> override;
+            auto targets() -> QList<Nedrysoft::RouteAnalyser::IPingTarget *> override;
 
             /**
              * @brief       Transmits a single ping.
@@ -168,7 +168,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             auto singleShot(
                     QHostAddress hostAddress,
                     int ttl,
-                    double timeout ) -> Nedrysoft::Core::PingResult override;
+                    double timeout ) -> Nedrysoft::RouteAnalyser::PingResult override;
 
         public:
             /**
@@ -192,7 +192,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         private:
-            auto emitResult(Nedrysoft::Core::PingResult pingResult) -> void;
+            auto emitResult(Nedrysoft::RouteAnalyser::PingResult pingResult) -> void;
 
             friend class PingCommandPingTarget;
 

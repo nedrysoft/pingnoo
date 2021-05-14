@@ -37,12 +37,12 @@ namespace Nedrysoft { namespace RouteEngine {
      * @brief       The RouteEngineFactory class provides a factory for the RouteEngine class.
      */
     class RouteEngineFactory :
-            public Nedrysoft::Core::IRouteEngineFactory {
+            public Nedrysoft::RouteAnalyser::IRouteEngineFactory {
 
         private:
             Q_OBJECT
 
-            Q_INTERFACES(Nedrysoft::Core::IRouteEngineFactory)
+            Q_INTERFACES(Nedrysoft::RouteAnalyser::IRouteEngineFactory)
 
         public:
             /**
@@ -64,7 +64,7 @@ namespace Nedrysoft { namespace RouteEngine {
              *
              * @returns     the route engine instance.
              */
-            auto createEngine() -> Nedrysoft::Core::IRouteEngine * override;
+            auto createEngine() -> Nedrysoft::RouteAnalyser::IRouteEngine * override;
 
             /**
              * @brief       Returns the descriptive name of the route engine.
