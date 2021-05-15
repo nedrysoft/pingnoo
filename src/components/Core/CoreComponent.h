@@ -95,11 +95,15 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
         auto finaliseEvent() -> void override;
 
     private:
+        //! @cond
+
         Nedrysoft::Core::Core *m_core;
         Nedrysoft::Core::ContextManager *m_contextManager;
         Nedrysoft::Core::CommandManager *m_commandManager;
         Nedrysoft::Core::RibbonBarManager *m_ribbonBarManager;
         Nedrysoft::Core::HostMaskerSettingsPage *m_hostMaskerSettingsPage;
+
+        //! @endcond
 };
 
 #endif // PINGNOO_COMPONENTS_CORE_CORECOMPONENT_H

@@ -65,21 +65,26 @@ namespace Nedrysoft { namespace RouteEngine {
             /**
              * @brief       Starts route discovery for a host.
              *
-             * @notes       Route discovery is a asynchronous operation, the result signal is emitted when the
+             * @note        Route discovery is a asynchronous operation, the result signal is emitted when the
              *              discovery is completed.
              *
-             * @param[in]   factory the ping engine to be used for route discovery.
+             * @param[in]   engineFactory the ping engine to be used for route discovery.
              * @param[in]   host the target host name or address.
              * @param[in]   ipVersion the IP version to be used for discovery.
              */
             auto findRoute(
                     Nedrysoft::RouteAnalyser::IPingEngineFactory *engineFactory,
                     QString host,
-                    Nedrysoft::Core::IPVersion ipVersion = Nedrysoft::Core::IPVersion::V4 ) -> void override;
+                    Nedrysoft::Core::IPVersion ipVersion = Nedrysoft::Core::IPVersion::V4
+            ) -> void override;
 
         private:
+            //! @cond
+
             Nedrysoft::RouteEngine::RouteEngineWorker *m_routeWorker;
             QThread *m_routeWorkerThread;
+
+            //! @endcond
     };
 }}
 

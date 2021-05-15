@@ -110,19 +110,22 @@ namespace Nedrysoft { namespace Core {
             /**
              * @brief       Called when a group is added to a page.
              *
-             * @notes       Pages are by default hidden and are only visible when groups are added.
+             * @note        Pages are by default hidden and are only visible when groups are added.
              *
              * @param[in]   page the page that has had a group added.
              */
             auto groupAdded(Nedrysoft::Core::RibbonPage *page) -> void;
 
         private:
+            //! @cond
+
             Nedrysoft::Ribbon::RibbonWidget *m_ribbonWidget;
             QMap<QString, Nedrysoft::Core::RibbonPage *> m_pages;
 
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
             QList<RibbonPageVisibility> m_visibleList;
 #endif
+            //! @endcond
     };
 }}
 

@@ -56,8 +56,12 @@ namespace Nedrysoft { namespace MapWidget {
             ~MapWidget();
 
         private:
+            //! @cond
+
             QQuickWidget *m_mapWidget;
             QGridLayout *m_mapLayout;
+
+            //! @endcond
     };
 }}
 

@@ -138,6 +138,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         private:
+            //! @cond
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
             QThread *m_workerThread;
 #else
@@ -148,6 +149,8 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             PingCommandPingEngine *m_engine;
             int m_ttl;
             QHostAddress m_hostAddress;
+
+            //! @endcond
     };
 }}
 

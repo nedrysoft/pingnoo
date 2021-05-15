@@ -34,9 +34,10 @@ namespace Nedrysoft { namespace RouteAnalyser {
     class IPingEngine;
 
     /**
-     * @brief       The IPingEngineFactory Interface describes a factory for Nedrysoft::Core::IPingEngine instances.
+     * @brief       The IPingEngineFactory Interface describes a factory for Nedrysoft::RouteAnalyser::IPingEngine
+     *              instances.
      *
-     * @details     The ping engine factory is responsible for creating instances of ping engines.
+     * @class       Nedrysoft::RouteAnalyser::IPingEngineFactory IPingEngineFactory.h <IPingEngineFactory>
      */
     class NEDRYSOFT_ROUTEANALYSER_DLLSPEC IPingEngineFactory :
             public Nedrysoft::ComponentSystem::IInterface,
@@ -94,7 +95,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
               *
               * @note       If the ping engine is still running, this function will stop it.
               *
-              * @param[in]  pingEngine the ping engine to be removed.
+              * @param[in]  engine the ping engine to be removed.
               *
               * @returns    true if the engine was deleted; otherwise false.
               */

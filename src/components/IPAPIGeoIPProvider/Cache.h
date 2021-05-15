@@ -45,14 +45,14 @@ namespace Nedrysoft { namespace IPAPIGeoIPProvider {
             /**
              * @brief       Adds a lookup result to the cache.
              *
-             * @param[in]   The cache JSON result object.
+             * @param[in]   object the JSON result object to be added to the cache.
              */
             auto add(QJsonObject object) -> void;
 
             /**
              * @brief       Check if a host has a cache entry.
              *
-             * @param[in]   host the host to check.
+             * @param[in]   name the host (name or ip address string) to search for.
              * @param[out]  object the JSON object containing the host information.
              *
              * @returns     returns true if cached; otherwise false.

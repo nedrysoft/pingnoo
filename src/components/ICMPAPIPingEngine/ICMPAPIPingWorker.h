@@ -61,14 +61,18 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
             /**
              * @brief       Emits the result of the ping.
              *
-             * @param[in]   result the result.
+             * @param[in]   pingResult a PingResult object containing the result.
              */
             Q_SIGNAL void result(Nedrysoft::RouteAnalyser::PingResult pingResult);
 
         private:
+            //! @cond
+
             Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *m_target;
             int m_sampleNumber;
             Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *m_engine;
+
+            //! @endcond
 
     };
 }}

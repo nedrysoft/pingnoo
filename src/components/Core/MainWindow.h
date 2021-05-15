@@ -134,6 +134,8 @@ namespace Nedrysoft { namespace Core {
             auto findMenu(QString menuId) -> Nedrysoft::Core::IMenu *;
 
         private:
+            //! @cond
+
             Ui::MainWindow *ui;
 
             Nedrysoft::Core::RibbonBarManager *m_ribbonBarManager;
@@ -150,6 +152,8 @@ namespace Nedrysoft { namespace Core {
             QLabel *m_hostInfoLabel;
             QLabel *m_timeInfoLabel;
             */
+
+            //! @endcond
     };
 }}
 

@@ -38,6 +38,8 @@ namespace Nedrysoft { namespace Core {
      *
      * @details     A Geo IP provider gives a location for the given IP address, accuracy of the data will vary
      *              from provider to provider.
+     *
+     * @class       Nedrysoft::Core::IGeoIPProvider IGeoIPProvider.h <IGeoIPProvider>
      */
     class NEDRYSOFT_CORE_DLLSPEC IGeoIPProvider :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -77,7 +79,7 @@ namespace Nedrysoft { namespace Core {
             /**
              * @brief       Signals that a result is available.
              *
-             * @notes       The data returned from the GEO IP provider will vary, however, a IGeoIPProvider is expected
+             * @note        The data returned from the GEO IP provider will vary, however, a IGeoIPProvider is expected
              *              to produce a variant map with the following named fields (if available).
              *
              *              * creationTime

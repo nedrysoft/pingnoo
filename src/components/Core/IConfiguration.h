@@ -35,6 +35,8 @@ namespace Nedrysoft { namespace Core {
 
     /**
      * @brief       The IConfiguration interface provides a contract for loading & saving data.
+     *
+     * @class       Nedrysoft::Core::IConfiguration IConfiguration.h <IConfiguration>
      */
     class NEDRYSOFT_CORE_DLLSPEC IConfiguration {
         public:

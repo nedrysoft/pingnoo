@@ -28,8 +28,16 @@
 #include <QHostAddress>
 #include <cassert>
 
+/**
+ * @brief       Private class to store the ping targets instance data.
+ */
 class Nedrysoft::ICMPPingEngine::ICMPPingTargetData {
     public:
+        /**
+         * @brief       Constructs a ICMPPingTargetData.
+         *
+         * @param[in]   parent the ICMPPingTarget instance that this data belongs to.
+         */
         ICMPPingTargetData(Nedrysoft::ICMPPingEngine::ICMPPingTarget *parent) :
                 m_pingTarget(parent),
                 m_engine(nullptr),

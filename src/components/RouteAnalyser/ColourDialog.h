@@ -54,7 +54,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
             /**
              * @brief       Constructs a ColourDialog.
              *
-             * @notes       This is private as it is a singleton, use getInstance to get the instance.
+             * @note        This is private as it is a singleton, use getInstance to get the instance.
              */
             ColourDialog();
 
@@ -66,8 +66,10 @@ namespace Nedrysoft { namespace RouteAnalyser {
         public:
             /**
              * @brief       Opens a non modal colour picker dialog.
+             *
              * @param[in]   initialColour the initial colour that is selected.
              * @param[in]   title the title of the dialog, this is suffixed with "Colour", ie. "Ideal Colour"
+             * @param[in]   colourFunction is a function that is called when the colour selected is changed.
              */
             auto open(QColor initialColour, QString title, ColourFunction colourFunction) -> void;
 
@@ -84,6 +86,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
             static auto getInstance() -> Nedrysoft::RouteAnalyser::ColourDialog *;
 
         private:
+            //! @cond
+
             ColourFunction *m_colourFunction;
 #if defined(__OBJC__)
             id m_observer;
@@ -91,6 +95,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
 #else
             QColorDialog *m_colourDialog;
 #endif
+            //! @endcond
     };
 }}
 

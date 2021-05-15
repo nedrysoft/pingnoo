@@ -40,14 +40,16 @@ constexpr auto DefaultWarningLatency = 200ms;
 constexpr auto DefaultCriticalLatency = 500ms;
 
 constexpr auto RoundedRectangleRadius = 10;
-constexpr auto TinyNumber = 0.0001;                             //! used to adjust a unit number to just under 1
+constexpr auto TinyNumber = 0.0001;
 
 constexpr auto LatencyStopLineColour = Qt::black;
 
 constexpr auto UnusedRemovalTime = 5;
 
+//! @cond
 QMap<QString, QPixmap> Nedrysoft::RouteAnalyser::GraphLatencyLayer::m_buffers;// = QMap<QString, QPixmap>();
 QMap<QString, uint64_t> Nedrysoft::RouteAnalyser::GraphLatencyLayer::m_age;
+//! @endcond
 
 Nedrysoft::RouteAnalyser::GraphLatencyLayer::GraphLatencyLayer(QCustomPlot *customPlot) :
         QCPItemRect(customPlot),

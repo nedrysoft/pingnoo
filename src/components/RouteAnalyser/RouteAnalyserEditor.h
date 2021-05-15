@@ -184,6 +184,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
             void onLatencyValueChanged(LatencyRibbonGroup::LatencyType type, double value);
 
         protected:
+            //! @cond
 
             int m_contextId;
             Nedrysoft::RouteAnalyser::IPingEngineFactory *m_pingEngineFactory;
@@ -194,6 +195,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
             double m_viewportStart;
             double m_viewportEnd;
             QMetaObject::Connection m_dataChangedConnection;
+
+            //! @endcond
     };
 }}
 

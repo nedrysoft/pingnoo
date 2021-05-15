@@ -102,7 +102,11 @@ namespace Nedrysoft { namespace RouteEngine {
             auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         protected:
+            //! @cond
+
             std::shared_ptr<RouteEngineFactoryData> d;
+
+            //! @endcond
     };
 }}
 

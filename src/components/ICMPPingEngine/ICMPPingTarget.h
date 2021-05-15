@@ -159,7 +159,11 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             friend class ICMPPingTransmitter;
 
         protected:
+            //! @cond
+
             std::shared_ptr<ICMPPingTargetData> d;
+
+            //! @endcond
     };
 }}
 

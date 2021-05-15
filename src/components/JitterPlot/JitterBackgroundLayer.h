@@ -60,9 +60,13 @@ namespace Nedrysoft { namespace JitterPlot {
             auto draw(QCPPainter *painter) -> void;
 
         private:
+            //! @cond
+
             double m_targetJitter;
             double m_maximumJitter;
             QPixmap m_bufferedImage;
+
+            //! @endcond
     };
 }}
 

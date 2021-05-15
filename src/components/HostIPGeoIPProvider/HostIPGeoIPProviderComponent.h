@@ -71,14 +71,17 @@ class NEDRYSOFT_HOSTIPGEOIPPROVIDER_DLLSPEC HostIPGeoIPProviderComponent :
         /**
          * @brief       The finaliseEvent method is called before the component is unloaded.
          *
-         * @notes       The event is called in reverse load order for all loaded components, once every component
+         * @note        The event is called in reverse load order for all loaded components, once every component
          *              has been finalised the component manager then unloads all components in thr same order.
          */
         auto finaliseEvent() -> void override;
 
     private:
+        //! @cond
 
         Nedrysoft::HostIPGeoIPProvider::HostIPGeoIPProvider *m_provider;
+
+        //! @endcond
 };
 
 #endif // PINGNOO_COMPONENTS_HOSTIPGEOIPPROVIDER_HOSTIPGEOIPPROVIDERCOMPONENT_H

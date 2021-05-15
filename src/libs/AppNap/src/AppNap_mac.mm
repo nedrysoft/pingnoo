@@ -27,6 +27,8 @@
 
 #import <Foundation/Foundation.h>
 
+#if defined(Q_OS_MACOS)
+
 void Nedrysoft::AppNap::AppNap::mac_init() {
     m_activity = nil;
     m_count = 0;
@@ -61,5 +63,5 @@ void Nedrysoft::AppNap::AppNap::mac_allow() {
     }
 }
 
-
+#endif
 

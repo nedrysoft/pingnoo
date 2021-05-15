@@ -42,9 +42,16 @@ constexpr auto DefaultReplyTimeout = 3s;
 constexpr auto PingPayloadLength = 64;
 constexpr auto NanosecondsInMillisecond = 1.0e6;
 
+/**
+ * @brief       Private class to store the engines instance data.
+ */
 class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData {
-
     public:
+        /**
+         * @brief       Constructs a ICMPAPIPingEngineData.
+         *
+         * @param[in]   parent the ICMPAPIPingEngine instance that this data belongs to.
+         */
         ICMPAPIPingEngineData(Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *parent) :
                 m_pingEngine(parent),
                 m_transmitter(nullptr),

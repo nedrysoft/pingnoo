@@ -65,9 +65,13 @@ namespace Nedrysoft { namespace RouteAnalyser {
             auto map() -> QVariantMap;
 
         private:
+            //! @cond
+
             Ui::FavouriteEditorDialog *ui;
 
             QVariantMap m_parametersMap;
+
+            //! @endcond
     };
 }}
 

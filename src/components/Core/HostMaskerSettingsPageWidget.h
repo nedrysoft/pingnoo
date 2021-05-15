@@ -76,9 +76,13 @@ namespace Nedrysoft { namespace Core {
             auto initialise() -> void;
 
         private:
+            //! @cond
+
             Ui::HostMaskerSettingsPageWidget *ui;
 
             QList<IHostMaskerSettingsPage *> m_maskerSettingsPages;
+
+            //! @endcond
     };
 }}
 

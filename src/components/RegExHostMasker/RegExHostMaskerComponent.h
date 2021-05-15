@@ -84,8 +84,12 @@ class NEDRYSOFT_REGEXHOSTMASKER_DLLSPEC RegExHostMaskerComponent :
         auto initialisationFinishedEvent() -> void override;
 
     private:
+        //! @cond
+
         Nedrysoft::RegExHostMasker::RegExHostMasker *m_hostMasker;
         Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPage *m_settingsPage;
+
+        //! @endcond
 };
 
 #endif // PINGNOO_COMPONENTS_REGEXHOSTMASKER_REGEXHOSTMASKERCOMPONENT_H

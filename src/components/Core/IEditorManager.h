@@ -37,6 +37,8 @@ namespace Nedrysoft { namespace Core {
      * @brief       The IEditorManager Interface defines the contract of an editor manager.
      *
      * @details     The editor manager is used to contain instances of IEditors
+     *
+     * @class       Nedrysoft::Core::IEditorManager IEditorManager.h <IEditorManager>
      */
     class NEDRYSOFT_CORE_DLLSPEC IEditorManager :
             public Nedrysoft::ComponentSystem::IInterface {

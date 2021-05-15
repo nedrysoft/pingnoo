@@ -37,7 +37,9 @@ namespace Nedrysoft { namespace Core {
      *              the status bar to display information about tasks or results that are running.
      *
      *              The status bar is normally context sensitive although components may created fixed entries that
-     *              are shown regardless of the current application context.
+     *              are shown regardless of the current application context
+     *
+     * @class       Nedrysoft::Core::IStatusbarManager IStatusbarManager.h <IStatusbarManager>
      */
     class NEDRYSOFT_CORE_DLLSPEC IStatusbarManager :
             public Nedrysoft::ComponentSystem::IInterface {

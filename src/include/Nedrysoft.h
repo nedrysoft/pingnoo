@@ -28,6 +28,11 @@
 #include <QTextStream>
 
 namespace Nedrysoft {
+    /**
+     * @brief       Returns the system new line string.
+     *
+     * @returns     the new line string.
+     */
     inline QString endl() {
         auto createNewline = []() {
             QString newlineString;

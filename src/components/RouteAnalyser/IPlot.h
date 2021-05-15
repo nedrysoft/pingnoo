@@ -31,6 +31,8 @@
 namespace Nedrysoft { namespace RouteAnalyser {
     /**
      * @brief       The IPlot interface provides additional plots to the main route analyser.
+     *
+     * @class       Nedrysoft::RouteAnalyser::IPlot IPlot.h <IPlot>
      */
     class NEDRYSOFT_ROUTEANALYSER_DLLSPEC IPlot :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -65,7 +67,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
             /**
              * @brief       Sets the jitter range.
              *
-             * @notes       The target value is drawn as a dash on the jitter graph, the maximum displayed
+             * @note        The target value is drawn as a dash on the jitter graph, the maximum displayed
              *              value is set by max.
              *
              * @param[in]   targetJitter the target value in seconds.

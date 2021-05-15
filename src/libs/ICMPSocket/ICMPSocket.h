@@ -115,6 +115,7 @@ namespace Nedrysoft { namespace ICMPSocket {
              * @brief       Creates a socket for writing ICMP packets with the given ttl.
              *
              * @param[in]   ttl the ttl for the socket.
+             * @param[in]   version the IP version of the created socket.
              *
              * @returns     the write socket instance.
              */
@@ -172,10 +173,13 @@ namespace Nedrysoft { namespace ICMPSocket {
             auto version() -> Nedrysoft::ICMPSocket::IPVersion;
 
         private:
+            //! @cond
 
             ICMPSocket::socket_t m_socketDescriptor;
             Nedrysoft::ICMPSocket::IPVersion m_version;
             int m_ttl;
+
+            //! @endcond
     };
 }}
 

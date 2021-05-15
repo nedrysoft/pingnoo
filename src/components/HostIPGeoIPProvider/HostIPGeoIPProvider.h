@@ -80,8 +80,12 @@ namespace Nedrysoft { namespace HostIPGeoIPProvider {
              */
             auto lookup(const QString host, Nedrysoft::Core::GeoFunction function) -> void override;
 
-    private:
+        private:
+            //! @cond
+
             Nedrysoft::HostIPGeoIPProvider::Cache *m_cache;
+
+            //! @endcond
     };
 }}
 

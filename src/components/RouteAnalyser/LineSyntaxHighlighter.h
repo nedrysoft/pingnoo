@@ -59,7 +59,11 @@ namespace Nedrysoft { namespace RouteAnalyser {
             auto updateSyntax() -> void;
 
         private:
+            //! @cond
+
             SyntaxFunction m_syntaxFunction;
+
+            //! @endcond
     };
 }}
 

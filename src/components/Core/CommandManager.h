@@ -88,7 +88,7 @@ namespace Nedrysoft { namespace Core {
              *
              * @param[in]   action the action.
              * @param[in]   command the identifier of the command.
-             * @param[in]   context the contexts this action is valid in.
+             * @param[in]   contexts the list of contexts this action is valid in.
              *
              * @returns     true if the QAction was registered; otherwise false.
              */
@@ -152,9 +152,12 @@ namespace Nedrysoft { namespace Core {
             auto findCommand(const QString &identifier) -> Nedrysoft::Core::ICommand * override;
 
         private:
+            //! @cond
 
-            QMap<QString, Command *> m_commandMap;                           //! Map containing commands registered in this manager
-            QMap<QString, Nedrysoft::Core::Menu *> m_menuMap;                //! Map containing all menus registered in this manager
+            QMap<QString, Command *> m_commandMap;
+            QMap<QString, Nedrysoft::Core::Menu *> m_menuMap;
+
+            //! @endcond
     };
 }}
 

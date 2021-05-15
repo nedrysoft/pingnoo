@@ -55,7 +55,11 @@ namespace Nedrysoft { namespace RouteAnalyser {
             bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
         private:
+            //! @cond
+
             QString m_filterText;
+
+            //! @endcond
     };
 }}
 

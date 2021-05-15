@@ -49,9 +49,16 @@ constexpr auto SecondsToMs(double seconds) {
     return seconds*1000;
 }
 
+/**
+ * @brief       Private class to store the ping engines instance data.
+ */
 class Nedrysoft::ICMPPingEngine::ICMPPingEngineData {
-
     public:
+        /**
+         * @brief       Constructs a ICMPPingEngineData.
+         *
+         * @param[in]   parent the ICMPPingEngine instance that this data belongs to.
+         */
         ICMPPingEngineData(Nedrysoft::ICMPPingEngine::ICMPPingEngine *parent) :
                 m_pingEngine(parent),
                 m_transmitterWorker(nullptr),

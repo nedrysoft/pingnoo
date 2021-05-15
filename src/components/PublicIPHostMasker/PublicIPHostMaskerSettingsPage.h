@@ -76,7 +76,11 @@ namespace Nedrysoft { namespace PublicIPHostMasker {
                 auto acceptSettings() -> void override;
 
         public:
+            //! @cond
+
             PublicIPHostMaskerSettingsPageWidget *m_settingsPageWidget;
+
+            //! @endcond
     };
 }}
 

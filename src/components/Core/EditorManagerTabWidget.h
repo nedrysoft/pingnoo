@@ -58,8 +58,12 @@ namespace Nedrysoft { namespace Core {
             void paintEvent(QPaintEvent *event) override;
 
         private:
+            //! @cond
+
             QString m_text;
             int m_openSansRegular;
+
+            //! @endcond
     };
 }}
 

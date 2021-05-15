@@ -31,6 +31,8 @@ namespace Nedrysoft { namespace Core {
     /**
      * @brief       The ISystemTrayIcon represents a single system tray icon, the application (depending on OS
      *              support may have more than 1 icon.
+     *
+     * @class       Nedrysoft::Core::ISystemTrayIcon ISystemTrayIcon.h <ISystemTrayIcon>
      */
     class NEDRYSOFT_CORE_DLLSPEC ISystemTrayIcon :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -42,7 +44,7 @@ namespace Nedrysoft { namespace Core {
             /**
              * @brief       Sets the colour of the system tray icon.
              *
-             * @notes       The operating system may not honour the colour due to the actual window manager
+             * @note        The operating system may not honour the colour due to the actual window manager
              *              and theming.  Each pixel is mixed with the selected colour, setting the alpha
              *              will set the transparency of the resulting image.
              *

@@ -51,7 +51,7 @@ namespace Nedrysoft { namespace Utils {
      *
      * @details     Handles strings with or without suffixes, 2.0 100ms etc.
      *
-     * @param[in]   string the string to validate.
+     * @param[in]   intervalString the string to validate.
      * @param[out]  intervalValue the interval value in seconds (if valid).
      *
      * @returns     true if interval was valid; otherwise false;
@@ -63,7 +63,7 @@ namespace Nedrysoft { namespace Utils {
      *
      * @details     Handles strings with or without suffixes, 2.0 100ms etc.
      *
-     * @param[in]   string the string to validate.
+     * @param[in]   intervalString the string to validate.
      *
      * @returns     true if interval was valid; otherwise false;
      */

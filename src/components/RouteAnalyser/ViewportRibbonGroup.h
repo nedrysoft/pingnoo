@@ -55,19 +55,22 @@ namespace Nedrysoft { namespace RouteAnalyser {
 
             /**
              * @brief       Sets the viewport start and end
-             * @param[in]   start the start.
-             * @paramp[in]  end the end.
+             *
+             * @param[in]   start sets the start point for the viewport window, 0 is fully left, 1 is fully right.
+             * @param[in]   end sets the end point for the viewport window, 0 is fully left, 1 is fully right.
              */
             auto setViewport(double start, double end) -> void;
 
             /**
              * @brief       Sets whether the viewport trimmer widget is enabled (i.e editable)
+             *
              * @param[in]   enabled true if enabled; otherwise false.
              */
             auto setViewportEnabled(bool enabled) -> void;
 
             /**
              * @brief       Returns whether the trimmer widget is enabled.
+             *
              * @param[in]   enabled true if enabled; otherwise false.
              */
             auto isViewportEnabled() -> bool;
@@ -90,6 +93,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
         public:
             /**
              * @brief       This signal is emitted when the viewport start and/or end has been modified.
+             *
              * @param[in]   start the new start point. (unit value)
              * @param[in]   end the new end point. (unit value)
              */
@@ -97,12 +101,17 @@ namespace Nedrysoft { namespace RouteAnalyser {
 
             /**
              * @brief       This signal is emitted when the viewport size has changed.
+             *
              * @param[in]   size the new size of the viewport.
              */
             Q_SIGNAL void viewportWindowChanged(double size);
 
         private:
+            //! @cond
+
             Ui::ViewportRibbonGroup *ui;
+
+            //! @endcond
     };
 }}
 

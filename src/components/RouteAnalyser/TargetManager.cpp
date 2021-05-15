@@ -289,21 +289,21 @@ auto Nedrysoft::RouteAnalyser::TargetManager::importFavourites(QWidget *parent) 
 #if defined(Q_OS_MACOS)
         auto append = false;
 
-        Nedrysoft::MacHelper::nativeAlert(
+        Nedrysoft::MacHelper::MacHelper::nativeAlert(
             parent,
             tr("Import Favourites"),
             tr("Would you like to append or overwrite the existing favourites?"),
             QStringList() << "Overwrite" << "Append" << "Cancel",
 
-            [=](Nedrysoft::AlertButton::AlertButtonResult result) {
+            [=](Nedrysoft::MacHelper::AlertButton::AlertButtonResult result) {
                 auto append = false;
 
                 switch (result) {
-                    case Nedrysoft::AlertButton::Button(1): {
+                    case Nedrysoft::MacHelper::AlertButton::Button(1): {
                         break;
                     }
 
-                    case Nedrysoft::AlertButton::Button(2): {
+                    case Nedrysoft::MacHelper::AlertButton::Button(2): {
                         append = true;
                         break;
                     }
@@ -322,8 +322,7 @@ auto Nedrysoft::RouteAnalyser::TargetManager::importFavourites(QWidget *parent) 
 
         auto appendButton =
                 reinterpret_cast<QAbstractButton *>(messageBox.addButton(tr("Append"), QMessageBox::YesRole));
-//         auto overwriteButton =
-                reinterpret_cast<QAbstractButton *>(messageBox.addButton(tr("Owerwrite"), QMessageBox::NoRole));
+
         auto cancelButton =
                 reinterpret_cast<QAbstractButton *>(messageBox.addButton(tr("Cancel"), QMessageBox::RejectRole));
 

@@ -97,7 +97,7 @@ namespace Nedrysoft { namespace Core {
             /**
              * @brief       Returns the storage location.
              *
-             * @notes       This is the folder where persistent data should be stored, this is usually
+             * @note        This is the folder where persistent data should be stored, this is usually
              *              provided by the operating system, however, for a portable version of the
              *              application it may be another folder
              *
@@ -106,11 +106,15 @@ namespace Nedrysoft { namespace Core {
             auto storageFolder() -> QString override;
 
         private:
-            QPointer<MainWindow> m_mainWindow;                      //! The QMainWindow smart pointer
+            //! @cond
+
+            QPointer<MainWindow> m_mainWindow;
 
             std::random_device m_randomDevice;
 
             std::mt19937 *m_randomGenerator;
+
+            //! @endcond
     };
 }}
 

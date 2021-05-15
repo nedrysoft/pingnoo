@@ -79,16 +79,21 @@ namespace Nedrysoft { namespace Core {
              *
              * @param[in]   title the title of the group.
              * @param[in]   id the identifier of the group.
+             * @param[in]   widget the widget to embed in the group.
              *
              * @returns     the IRibbonGroup instance of the group.
              */
             auto addGroup(QString title, QString id, QWidget *widget) -> Nedrysoft::Core::IRibbonGroup * override;
 
         private:
+            //! @cond
+
             RibbonBarManager *m_manager;
             QWidget *m_pageWidget;
             QHBoxLayout *m_pageLayout;
             QSpacerItem *m_spacerItem;
+
+            //! @endcond
     };
 }}
 

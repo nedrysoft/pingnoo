@@ -30,8 +30,16 @@
 
 constexpr int TotalTargetSockets = 10;
 
+/**
+ * @brief       Private class to store the targets instance data.
+ */
 class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTargetData {
     public:
+        /**
+         * @brief       Constructs a ICMPAPIPingTargetData.
+         *
+         * @param[in]   parent the ICMPAPIPingTarget instance that this data belongs to.
+         */
         ICMPAPIPingTargetData(Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *parent) :
                 m_pingTarget(parent),
                 m_engine(nullptr),

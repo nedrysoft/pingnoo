@@ -98,7 +98,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
              *
              * @note       If the ping engine is still running, this function will stop it.
              *
-             * @param[in]  pingEngine the ping engine to be removed.
+             * @param[in]  engine the ping engine to be removed.
              *
              * @returns    true if the engine was deleted; otherwise false.
              */

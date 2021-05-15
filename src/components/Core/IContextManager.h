@@ -42,6 +42,8 @@ namespace Nedrysoft { namespace Core {
      *              editor types and each editor will have its own context id.  When an editor becomes active, the
      *              context for that editor is set as active, and the visibility or active state of commands or menus
      *              will be updated.
+     *
+     * @class       Nedrysoft::Core::IContextManager IContextManager.h <IContextManager>
      */
     class NEDRYSOFT_CORE_DLLSPEC IContextManager :
             public Nedrysoft::ComponentSystem::IInterface {

@@ -88,11 +88,15 @@ namespace Nedrysoft { namespace RouteAnalyser {
             Q_SLOT void onTreeviewDoubleClicked(const QModelIndex &index);
 
         private:
+            //! @cond
+
             Ui::OpenFavouriteDialog *ui;
 
             QStandardItemModel m_itemModel;
             FavouritesSortProxyFilterModel m_filterModel;
             QVariantMap m_selectedItem;
+
+            //! @endcond
     };
 }}
 

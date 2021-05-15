@@ -80,7 +80,11 @@ namespace Nedrysoft {
             auto drawContents(QPainter *painter) -> void override;
 
         private:
+            //! @cond
+
             float m_scaleFactor;
+
+            //! @endcond
     };
 }
 

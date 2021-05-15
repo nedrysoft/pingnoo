@@ -100,9 +100,13 @@ namespace Nedrysoft { namespace AppNap {
             void mac_allow();
 
         private:
+            //! @cond
+
             QRecursiveMutex m_mutex;
             NSObject *m_activity = {};
             int m_count = {};
+
+            //! @endcond
 #endif
     };
 }}

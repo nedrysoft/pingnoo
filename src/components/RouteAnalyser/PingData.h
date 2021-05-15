@@ -263,29 +263,33 @@ namespace Nedrysoft { namespace RouteAnalyser {
             friend class RouteTableItemDelegate;
 
         private:
-            QStandardItemModel *m_tableModel;                   //! The table model
-            QCustomPlot *m_customPlot;                          //! The graph
-            QCustomPlot *m_jitterPlot;                          //! The graph
-            QPersistentModelIndex m_modelIndex;                 //! Model index in the route table of this item
+            //! @cond
 
-            unsigned long m_replyPacketCount;                   //! Total number of replies received
-            unsigned long m_timeoutPacketCount;                 //! Total number of timeouts
+            QStandardItemModel *m_tableModel;
+            QCustomPlot *m_customPlot;
+            QCustomPlot *m_jitterPlot;
+            QPersistentModelIndex m_modelIndex;
 
-            int m_hop;                                          //! The hop number
-            bool m_hopValid;                                    //! Whether this hop is valid
-            unsigned long m_count;                              //! Total number of samples sent
+            unsigned long m_replyPacketCount;
+            unsigned long m_timeoutPacketCount;
 
-            QString m_hostAddress;                              //! The displayed ip address
-            QString m_hostName;                                 //! The displayed host name
-            QString m_location;                                 //! The Geo location of the host
+            int m_hop;
+            bool m_hopValid;
+            unsigned long m_count;
 
-            seconds_double m_currentLatency = {};               //! The current (last) received latency value (in seconds)
-            seconds_double m_maximumLatency = {};               //! The maximum latency value (in seconds)
-            seconds_double m_minimumLatency = {};               //! The minimum latency value (in seconds)
-            seconds_double m_averageLatency = {};               //! The average latency value (in seconds)
-            seconds_double m_historicalLatency = {};            //! The historical latency
+            QString m_hostAddress;
+            QString m_hostName;
+            QString m_location;
 
-            QList<Nedrysoft::RouteAnalyser::IPlot *> m_plots;   //! The additional plots
+            seconds_double m_currentLatency = {};
+            seconds_double m_maximumLatency = {};
+            seconds_double m_minimumLatency = {};
+            seconds_double m_averageLatency = {};
+            seconds_double m_historicalLatency = {};
+
+            QList<Nedrysoft::RouteAnalyser::IPlot *> m_plots;
+
+            //! @endcond
     };
 }}
 

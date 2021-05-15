@@ -63,6 +63,7 @@ namespace Nedrysoft { namespace JitterPlot {
 
             /**
              * @brief       Updates the plot with a new result.
+             *
              * @param[in]   time the unix timestamp for this result.
              * @param[in]   value the round trip time.
              */
@@ -78,7 +79,7 @@ namespace Nedrysoft { namespace JitterPlot {
             /**
              * @brief       Sets the jitter range.
              *
-             * @notes       The target value is drawn as a dash on the jitter graph, the maximum displayed
+             * @note        The target value is drawn as a dash on the jitter graph, the maximum displayed
              *              value is set by max.
              *
              * @param[in]   target the target value in seconds.
@@ -87,10 +88,14 @@ namespace Nedrysoft { namespace JitterPlot {
             auto setRange(double target, double max) -> void override;
 
         private:
+            //! @cond
+
             QCustomPlot *m_customPlot;
             double m_previousValue;
             Nedrysoft::JitterPlot::JitterBackgroundLayer *m_backgroundLayer;
             QMargins m_margins;
+
+            //! @endcond
     };
 }}
 

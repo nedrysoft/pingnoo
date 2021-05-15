@@ -105,9 +105,13 @@ namespace Nedrysoft { namespace Core {
             auto context(QString contextName) -> int override;
 
         private:
-            int m_currentContextId;                             //! The currently selected context id
-            int m_nextContextId;                                //! The next available context id available to register
-            QMap<QString, int> m_contextIds;                    //! The list of registered context ids
+            //! @cond
+
+            int m_currentContextId;
+            int m_nextContextId;
+            QMap<QString, int> m_contextIds;
+
+            //! @endcond
     };
 }}
 

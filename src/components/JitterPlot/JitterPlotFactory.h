@@ -62,7 +62,11 @@ namespace Nedrysoft { namespace JitterPlot {
             auto createPlot(const QMargins &margins) -> Nedrysoft::RouteAnalyser::IPlot * override;
 
         private:
+            //! @cond
+
             QList<Nedrysoft::RouteAnalyser::IPlot *> m_plots;
+
+            //! @endcond
     };
 }}
 

@@ -179,8 +179,8 @@ namespace Nedrysoft { namespace Core {
              *
              * @see         Nedrysoft::Core::Menu::addGroupAfter
              *
-             * @param[in]   beforeIdentifier the identifier which this group is to be inserted after.
-             * @param[in]   groupIdentifier the identifier of the group.
+             * @param[in]   afterIdentifier the existing identifier which the new group is to be inserted after.
+             * @param[in]   groupIdentifier the identifier of the new group.
              *
              * @returns     true if added; otherwise false.
              */
@@ -264,9 +264,13 @@ namespace Nedrysoft { namespace Core {
             friend class CommandManager;
 
         private:
+            //! @cond
+
             QMenuBar *m_menuBar;
             QMenu *m_menu;
             QList<GroupItem> m_groupList;
+
+            //! @endcond
     };
 }}
 

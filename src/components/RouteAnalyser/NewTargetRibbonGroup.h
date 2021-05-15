@@ -175,6 +175,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
             Q_SLOT QVariantMap onOpenFavourite(bool checked);
 
         private:
+            //! @cond
+
             Ui::NewTargetRibbonGroup *ui;
 
             LineSyntaxHighlighter *m_targetHighlighter;
@@ -192,6 +194,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
             QAction * m_editFavouritesAction;
             QAction * m_importFavouritesAction;
             QAction * m_exportFavouritesAction;
+
+            //! @endcond
     };
 }}
 

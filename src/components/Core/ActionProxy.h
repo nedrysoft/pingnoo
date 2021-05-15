@@ -65,7 +65,11 @@ namespace Nedrysoft { namespace Core {
             auto disconnectAction() -> void;
 
         private:
-            QPointer<QAction> m_action;                         //! Pointer to active action
+            //! @cond
+
+            QPointer<QAction> m_action;
+
+            //! @endcond
     };
 }}
 

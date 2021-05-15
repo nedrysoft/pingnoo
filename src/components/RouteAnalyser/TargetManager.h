@@ -30,13 +30,6 @@
 #include <QObject>
 
 namespace Nedrysoft { namespace RouteAnalyser {
-    enum class FavouriteField {
-        Host,
-        Name,
-        Description,
-        IPVersion
-    };
-
     /**
      * @brief       The favourites manager controls the manipulation of favourites and storage.
      */
@@ -140,7 +133,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
             /**
              * @brief       Saves the current favourites configuration to disk.
              *
-             * @param[ib]   filename is the name of the file to be saved, if empty then the components data
+             * @param[in]   filename is the name of the file to be saved, if empty then the components data
              *              storage location is used.
              *
              * @return      returns true if saved; otherwise false.
@@ -184,8 +177,12 @@ namespace Nedrysoft { namespace RouteAnalyser {
             Q_SIGNAL void recentsChanged();
 
         private:
+            //! @cond
+
             QList<QVariantMap> m_favouriteList;
             QList<QVariantMap> m_recentsList;
+
+            //! @endcond
     };
 }}
 

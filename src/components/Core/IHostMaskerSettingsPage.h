@@ -31,7 +31,9 @@
 
 namespace Nedrysoft { namespace Core {
     /**
-     * @brief       The ISettingsPage interface defines a settings page.
+     * @brief       The IHostMaskerSettingsPage interface defines a settings page for a host masker.
+     *
+     * @class       Nedrysoft::Core::IHostMaskerSettingsPage IHostMaskerSettingsPage.h <IHostMaskerSettingsPage>
      */
     class NEDRYSOFT_CORE_DLLSPEC IHostMaskerSettingsPage :
             public Nedrysoft::ComponentSystem::IInterface {

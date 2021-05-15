@@ -25,9 +25,16 @@
 #include "ICMPPingEngine.h"
 #include "ICMPPingReceiverWorker.h"
 
+/**
+ * @brief       Private class to store the ping engines instance data.
+ */
 class Nedrysoft::ICMPPingEngine::ICMPPingEngineFactoryData {
-
     public:
+        /**
+         * @brief       Constructs a ICMPPingEngineFactoryData.
+         *
+         * @param[in]   parent the ICMPPingEngineFactory instance that this data belongs to.
+         */
         ICMPPingEngineFactoryData(Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory *parent) :
                 m_factory(parent) {
 

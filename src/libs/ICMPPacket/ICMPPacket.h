@@ -95,7 +95,8 @@ namespace Nedrysoft { namespace ICMPPacket {
             static auto pingPacket(
                     uint16_t id,
                     uint16_t sequence,
-                    int payLoadLength, const QHostAddress &destinationAddress,
+                    int payloadLength,
+                    const QHostAddress &destinationAddress,
                     Nedrysoft::ICMPPacket::IPVersion version ) -> QByteArray;
 
             /**
@@ -205,10 +206,14 @@ namespace Nedrysoft { namespace ICMPPacket {
             }
 
         private:
+            //! @cond
+
             ResultCode m_resultCode;
             uint16_t m_id;
             uint16_t m_sequence;
             IPVersion m_ipVersion;
+
+            //! @endcond
     };
 }}
 

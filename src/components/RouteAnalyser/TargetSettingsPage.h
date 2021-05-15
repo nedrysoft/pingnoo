@@ -32,6 +32,9 @@
 namespace Nedrysoft { namespace RouteAnalyser {
     class TargetSettingsPageWidget;
 
+    /**
+     * @brief       The TargetSettingsPage provides a settings page for configuring the default target.
+     */
     class TargetSettingsPage :
             public Nedrysoft::SettingsDialog::ISettingsPage {
 
@@ -41,8 +44,16 @@ namespace Nedrysoft { namespace RouteAnalyser {
             Q_INTERFACES(Nedrysoft::SettingsDialog::ISettingsPage)
 
         public:
+            /**
+             * @brief       Constructs a new TargetSettingsPage.
+             *
+             * @param[in]   parent is the parent widget of this child.
+             */
             explicit TargetSettingsPage(QWidget *parent = nullptr);
 
+            /**
+             * @brief       Destroys the TargetSettingsPage.
+             */
             ~TargetSettingsPage() override;
 
         public:
@@ -70,7 +81,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
             /**
              * @brief       The icon for this settings page.
              *
-             * @param[in[   isDarkMode set to true to retries the dark mode icon; otherwise false.
+             * @param[in]   isDarkMode set to true to retries the dark mode icon; otherwise false.
              *
              * @returns     a QIcon
              */
@@ -96,7 +107,11 @@ namespace Nedrysoft { namespace RouteAnalyser {
             auto acceptSettings() -> void override;
 
         private:
+            //! @cond
+
             TargetSettingsPageWidget *m_settingsPageWidget;
+
+            //! @endcond
     };
 }}
 

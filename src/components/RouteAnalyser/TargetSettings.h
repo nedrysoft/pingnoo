@@ -106,12 +106,12 @@ namespace Nedrysoft { namespace RouteAnalyser {
             /**
             * @brief       Sets the default interval between pings.
             *
-            * @param[in]   inverval the interval in seconds between pings.
+            * @param[in]   interval the time in seconds between pings.
             */
             auto setDefaultPingInterval(double interval) -> void;
 
             /**
-            * @brief       Returns the default interval between pings.
+            * @brief        Returns the default interval between pings.
             *
             * @returns      the interval in seconds between pings.
             */
@@ -147,10 +147,14 @@ namespace Nedrysoft { namespace RouteAnalyser {
             auto loadConfiguration(QJsonObject configuration) -> bool override;
 
         private:
+            //! @cond
+
             QString m_defaultPingEngine;
             QString m_defaultHostTarget;
             double m_defaultPingInterval;
             Nedrysoft::Core::IPVersion m_defaultIPVersion;
+
+            //! @endcond
 
     };
 }}

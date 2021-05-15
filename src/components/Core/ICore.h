@@ -47,6 +47,8 @@ namespace Nedrysoft { namespace Core {
      *
      * @details     ICore should provide the main window for the application and the general framework of the
      *              application (interfaces) which other components use to extend  functionality.
+     *
+     * @class       Nedrysoft::Core::ICore ICore.h <ICore>
      */
     class NEDRYSOFT_CORE_DLLSPEC ICore :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -96,7 +98,7 @@ namespace Nedrysoft { namespace Core {
             /**
              * @brief       Returns the storage location.
              *
-             * @notes       This is the folder where persistent data should be stored, this is usually
+             * @note        This is the folder where persistent data should be stored, this is usually
              *              provided by the operating system, however, for a portable version of the
              *              application it may be another folder
              *

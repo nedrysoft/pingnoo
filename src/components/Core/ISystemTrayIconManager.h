@@ -31,6 +31,8 @@ namespace Nedrysoft { namespace Core {
     /**
      * @brief       The ISystemTrayIconManager provides access to the system tray icon that some operations
      *              systems provide.
+     *
+     * @class       Nedrysoft::Core::ISystemTrayIconManager ISystemTrayIconManager.h <ISystemTrayIconManager>
      */
     class NEDRYSOFT_CORE_DLLSPEC ISystemTrayIconManager :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -42,7 +44,7 @@ namespace Nedrysoft { namespace Core {
             /**
              * @brief       Sets the colour of the system tray icon.
              *
-             * @notes       The operating system may not honour the colour due to the actual window manager
+             * @note        The operating system may not honour the colour due to the actual window manager
              *              and theming.  Each pixel is mixed with the selected colour, setting the alpha
              *              will set the transparency of the resulting image.
              *

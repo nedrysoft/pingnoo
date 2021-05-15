@@ -90,7 +90,7 @@ namespace Nedrysoft { namespace RegExHostMasker {
             /**
              * @brief       Adds an expression configuration to the list.
              *
-             * @param[in]   item the item to add.
+             * @param[in]   masker the regular expression masker.
              */
             auto addExpression(Nedrysoft::RegExHostMasker::RegExHostMaskerItem masker) -> void;
 

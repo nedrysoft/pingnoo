@@ -157,7 +157,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             /**
              * @brief       Transmits a single ping.
              *
-             * @notes       This is a blocking function.
+             * @note        This is a blocking function.
              *
              * @param[in]   hostAddress the target host address.
              * @param[in]   ttl time to live for this packet.
@@ -197,9 +197,13 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
             friend class PingCommandPingTarget;
 
         private:
+            //! @cond
+
             QList<PingCommandPingTarget *> m_pingTargets;
 
             std::chrono::milliseconds m_interval;
+
+            //! @endcond
     };
 }}
 

@@ -37,6 +37,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
 
     /**
      * @brief       The PingResult class provides information about a ping response.
+     *
+     * @class       Nedrysoft::RouteAnalyser::PingResult PingResult.h <PingResult>
      */
     class NEDRYSOFT_ROUTEANALYSER_DLLSPEC PingResult {
 
@@ -129,12 +131,16 @@ namespace Nedrysoft { namespace RouteAnalyser {
             auto target() -> Nedrysoft::RouteAnalyser::IPingTarget *;
 
         protected:
+            //! @cond
+
             unsigned long m_sampleNumber;
             PingResult::ResultCode m_code;
             QHostAddress m_hostAddress;
             std::chrono::duration<double> m_roundTripTime = {};
             std::chrono::system_clock::time_point m_requestTime = {};
             Nedrysoft::RouteAnalyser::IPingTarget *m_target;
+
+            //! @endcond
     };
 }}
 

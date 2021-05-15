@@ -72,11 +72,15 @@ namespace Nedrysoft { namespace RouteEngine {
         Q_SIGNAL void result(const QHostAddress hostAddress, const Nedrysoft::RouteAnalyser::RouteList result);
 
     private:
+        //! @cond
+
         Nedrysoft::RouteAnalyser::IPingEngineFactory *m_pingEngineFactory;
         Nedrysoft::Core::IPVersion m_ipVersion;
         QString m_host;
 
         bool m_isRunning;
+
+        //! @endcond
     };
 }}
 

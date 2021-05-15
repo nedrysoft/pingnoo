@@ -25,9 +25,17 @@
 
 #include "ICMPAPIPingEngine.h"
 
+/**
+ * @brief       Private class to store the engine factories instance data.
+ */
 class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactoryData {
 
     public:
+        /**
+         * @brief       Constructs a ICMPAPIPingEngineFactoryData.
+         *
+         * @param[in]   parent the ICMPAPIPingEngineFactory instance that this data belongs to.
+         */
         ICMPAPIPingEngineFactoryData(Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory *parent) :
                 m_pingEngineFactory(parent) {
 

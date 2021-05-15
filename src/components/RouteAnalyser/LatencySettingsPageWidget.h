@@ -68,9 +68,13 @@ namespace Nedrysoft { namespace RouteAnalyser {
             auto acceptSettings() -> void;
 
         private:
+            //! @cond
+
             Ui::LatencySettingsPageWidget *ui;
 
             QList<QMetaObject::Connection> m_connections;
+
+            //! @endcond
     };
 }}
 

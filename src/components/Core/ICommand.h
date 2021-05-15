@@ -39,6 +39,8 @@ namespace Nedrysoft { namespace Core {
      *              are bound to QActions for given contexts, this allows the target of
      *              the command to change depending on the current context that the application
      *              is in.
+     *
+     * @class       Nedrysoft::Core::ICommand ICommand.h <ICommand>
      */
     class NEDRYSOFT_CORE_DLLSPEC ICommand :
             public Nedrysoft::ComponentSystem::IInterface {

@@ -41,6 +41,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
      * @details     An engine implements the logic of transmitting, receiving and associating replies to ping requests,
      *              it then signals when a ping result is available.  The underlying mechanism of handling the pings
      *              is hidden from the application.
+     *
+     * @class       Nedrysoft::RouteAnalyser::IPingEngine IPingEngine.h <IPingEngine>
      */
     class NEDRYSOFT_ROUTEANALYSER_DLLSPEC IPingEngine :
             public Nedrysoft::ComponentSystem::IInterface,
@@ -119,7 +121,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
             /**
              * @brief       Transmits a single ping.
              *
-             * @notes       This is a blocking function.
+             * @note        This is a blocking function.
              *
              * @param[in]   hostAddress the target host address.
              * @param[in]   ttl time to live for this packet.

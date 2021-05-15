@@ -102,6 +102,8 @@ class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
         friend class Nedrysoft::RouteAnalyser::RouteAnalyserEditor;
 
     private:
+        //! @cond
+
         int m_editorContextId = 0;
 
         Nedrysoft::RouteAnalyser::NewTargetRibbonGroup *m_newTargetGroupWidget;
@@ -115,6 +117,8 @@ class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
         Nedrysoft::RouteAnalyser::TargetSettings *m_targetSettings;
 
         QAction *m_newTargetAction;
+
+        //! @endcond
 };
 
 #endif // PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTEANALYSERCOMPONENT_H

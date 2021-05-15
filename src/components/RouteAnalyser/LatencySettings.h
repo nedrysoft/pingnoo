@@ -182,7 +182,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
             /**
              * @brief       Called when the state of the gradient fill changes.
              *
-             * @paramin]    useGradient true to use gradient fill; otherwise false.
+             * @param[in]   useGradient true to use gradient fill; otherwise false.
              */
             Q_SIGNAL void gradientChanged(bool useGradient);
 
@@ -214,6 +214,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
             }
 
         private:
+            //! @cond
+
             double m_warningThreshold;
             double m_criticalThreshold;
 
@@ -222,6 +224,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
             QRgb m_criticalColour;
 
             bool m_useGradientFill;
+
+            //! @endcond
     };
 }}
 

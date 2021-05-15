@@ -71,7 +71,11 @@ class NEDRYSOFT_ROUTEENGINE_DLLSPEC RouteEngineComponent :
         auto finaliseEvent() -> void override;
 
     private:
+        //! @cond
+
         Nedrysoft::RouteEngine::RouteEngineFactory *m_routeEngineFactory;
+
+        //! @endcond
 
 };
 

@@ -32,7 +32,7 @@ Nedrysoft::RouteAnalyser::TargetSettingsPage::TargetSettingsPage(QWidget *parent
     Q_UNUSED(parent)
 }
 
-Nedrysoft::RouteAnalyser::TargetSettingsPage::TargetSettingsPage::~TargetSettingsPage() {
+Nedrysoft::RouteAnalyser::TargetSettingsPage::~TargetSettingsPage() {
 
 }
 

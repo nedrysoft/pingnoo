@@ -76,20 +76,20 @@ QMap< Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &Ned
     return map;
 }
 
-Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyserWidget(
+Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget(
         QString targetHost,
         Nedrysoft::Core::IPVersion ipVersion,
         double interval,
         Nedrysoft::RouteAnalyser::IPingEngineFactory *pingEngineFactory,
         QWidget *parent) :
 
-        QWidget(parent),
-        m_routeGraphDelegate(nullptr),
-        m_graphScaleMode(ScaleMode::None),
-        m_viewportSize(DefaultTimeWindow),
-        m_viewportPosition(1),
-        m_startPoint(-1),
-        m_endPoint(0) {
+            QWidget(parent),
+            m_routeGraphDelegate(nullptr),
+            m_graphScaleMode(ScaleMode::None),
+            m_viewportSize(DefaultTimeWindow),
+            m_viewportPosition(1),
+            m_startPoint(-1),
+            m_endPoint(0) {
 
     auto latencySettings = Nedrysoft::RouteAnalyser::LatencySettings::getInstance();
 

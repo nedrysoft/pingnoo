@@ -76,9 +76,12 @@ class NEDRYSOFT_PUBLICIPHOSTMASKER_DLLSPEC PublicIPHostMaskerComponent :
         auto finaliseEvent() -> void override;
 
     private:
+        //! @cond
 
         Nedrysoft::PublicIPHostMasker::PublicIPHostMasker *m_hostMasker;
         Nedrysoft::PublicIPHostMasker::PublicIPHostMaskerSettingsPage *m_settingsPage;
+
+        //! @endcond
 };
 
 #endif // PINGNOO_COMPONENTS_PUBLICIPHOSTMASKER_PUBLICIPHOSTMASKERCOMPONENT_H

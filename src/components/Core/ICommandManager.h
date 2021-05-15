@@ -41,6 +41,8 @@ namespace Nedrysoft { namespace Core {
      *              application context changes.
      *
      * @details     It provides methods for creating menus and locating commands.
+     *
+     * @class       Nedrysoft::Core::ICommandManager ICommandManager.h <ICommandManager>
      */
     class NEDRYSOFT_CORE_DLLSPEC ICommandManager :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -85,7 +87,7 @@ namespace Nedrysoft { namespace Core {
              *
              * @param[in]   action the action.
              * @param[in]   id the identifier of the command.
-             * @param[in]   context the contexts this action is valid in.
+             * @param[in]   contextId the context this action is valid in.
              *
              * @returns     the Nedrysoft::Core::ICommand command.
              *
@@ -93,7 +95,7 @@ namespace Nedrysoft { namespace Core {
             virtual auto registerAction(
                     QAction *action,
                     QString id,
-                    int contextId = Nedrysoft::Core::GlobalContext ) -> Nedrysoft::Core::ICommand * {
+                    int contextId = Nedrysoft::Core::GlobalContext) -> Nedrysoft::Core::ICommand * {
 
                 return registerAction(action, id, Nedrysoft::Core::ContextList() << contextId);
             }
@@ -107,7 +109,7 @@ namespace Nedrysoft { namespace Core {
              *
              * @param[in]   action the action.
              * @param[in]   command the identifier of the command.
-             * @param[in]   context the contexts this action is valid in.
+             * @param[in]   contextId the context this action is valid in.
              *
              * @returns     true if the QAction was registered; otherwise false.
              */
@@ -128,7 +130,7 @@ namespace Nedrysoft { namespace Core {
              *
              * @param[in]   action the action.
              * @param[in]   command the identifier of the command.
-             * @param[in]   context the contexts this action is valid in.
+             * @param[in]   contexts a list of contexts this action is valid in.
              *
              * @returns     true if the QAction was registered; otherwise false.
              */

@@ -31,7 +31,7 @@ Nedrysoft::RouteAnalyser::LatencySettingsPage::LatencySettingsPage(QWidget *pare
     Q_UNUSED(parent)
 }
 
-Nedrysoft::RouteAnalyser::LatencySettingsPage::LatencySettingsPage::~LatencySettingsPage() {
+Nedrysoft::RouteAnalyser::LatencySettingsPage::~LatencySettingsPage() {
 
 }
 

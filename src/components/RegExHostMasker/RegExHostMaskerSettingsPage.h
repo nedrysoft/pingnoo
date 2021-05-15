@@ -76,7 +76,11 @@ namespace Nedrysoft { namespace RegExHostMasker {
                 auto acceptSettings() -> void override;
 
             private:
+                //! @cond
+
                 RegExHostMaskerSettingsPageWidget *m_settingsPageWidget;
+
+                //! @endcond
     };
 }}
 

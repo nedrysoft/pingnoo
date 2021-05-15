@@ -44,6 +44,9 @@
 #include <QtEndian>
 #include <gsl/gsl>
 
+/**
+ * @private
+ */
 struct ipv6_header {
     unsigned int version: 4;
     unsigned int trafficClass: 8;
@@ -55,6 +58,9 @@ struct ipv6_header {
     uint8_t destinationAddress[16];
 };
 
+/**
+ * @private
+ */
 struct icmp_header {
     uint8_t type;
     uint8_t code;
@@ -62,6 +68,9 @@ struct icmp_header {
     uint32_t reserved;
 };
 
+/**
+ * @private
+ */
 struct ipv6_pseudo_header {
     struct in6_addr sourceAddress;
     struct in6_addr destinationAddress;
@@ -70,13 +79,16 @@ struct ipv6_pseudo_header {
     uint8_t nextHeader;
 };
 
+/**
+ * @private
+ */
 struct icmp_v6 {
     ipv6_pseudo_header header;
     struct icmp icmp;
 };
 
 constexpr auto ICMP6_ECHO = 128;
-constexpr auto  ICMP6_ECHO_REPLY = 129;
+constexpr auto ICMP6_ECHO_REPLY = 129;
 
 Nedrysoft::ICMPPacket::ICMPPacket::ICMPPacket() :
         m_resultCode(Invalid),
@@ -223,14 +235,14 @@ auto Nedrysoft::ICMPPacket::ICMPPacket::sequence() -> uint16_t {
 auto Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(
         uint16_t id,
         uint16_t sequence,
-        int payLoadLength,
+        int payloadLength,
         const QHostAddress &destinationAddress,
         Nedrysoft::ICMPPacket::IPVersion version) -> QByteArray {
 
     if (version == Nedrysoft::ICMPPacket::V4) {
-        return pingPacket_v4(id, sequence, payLoadLength, destinationAddress);
+        return pingPacket_v4(id, sequence, payloadLength, destinationAddress);
     } else if (version == Nedrysoft::ICMPPacket::V6) {
-        return pingPacket_v6(id, sequence, payLoadLength, destinationAddress);
+        return pingPacket_v6(id, sequence, payloadLength, destinationAddress);
     } else {
         return QByteArray();
     }
@@ -239,17 +251,17 @@ auto Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(
 auto Nedrysoft::ICMPPacket::ICMPPacket::pingPacket_v6(
         uint16_t id,
         uint16_t sequence,
-        int payLoadLength,
+        int payloadLength,
         const QHostAddress &destinationAddress) -> QByteArray {
 
-    QByteArray echoRequestBuffer(payLoadLength + sizeof(icmp_v6), 0);
+    QByteArray echoRequestBuffer(payloadLength + sizeof(icmp_v6), 0);
     auto echoRequestLength = static_cast<int>(echoRequestBuffer.size());
     auto icmp_v6 = reinterpret_cast<struct icmp_v6 *>(echoRequestBuffer.data());
     auto icmp_request = &icmp_v6->icmp;
 
     memset(echoRequestBuffer.data(), 0, echoRequestBuffer.size());
 
-    icmp_v6->header.packetLength = sizeof(icmp) + payLoadLength;
+    icmp_v6->header.packetLength = sizeof(icmp) + payloadLength;
     icmp_v6->header.nextHeader = IPPROTO_ICMPV6;
 
     icmp_v6->header.sourceAddress.s6_addr[15] = 1;
@@ -272,12 +284,12 @@ auto Nedrysoft::ICMPPacket::ICMPPacket::pingPacket_v6(
 auto Nedrysoft::ICMPPacket::ICMPPacket::pingPacket_v4(
         uint16_t id,
         uint16_t sequence,
-        int payLoadLength,
+        int payloadLength,
         const QHostAddress &destinationAddress) -> QByteArray {
 
     Q_UNUSED(destinationAddress)
 
-    QByteArray echoRequestBuffer(payLoadLength + sizeof(icmp), 0);
+    QByteArray echoRequestBuffer(payloadLength + sizeof(icmp), 0);
     auto echoRequestLength = static_cast<int>(echoRequestBuffer.size());
     auto icmp_request = reinterpret_cast<icmp *>(echoRequestBuffer.data());
 

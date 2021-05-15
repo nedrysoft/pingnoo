@@ -77,7 +77,11 @@ class NEDRYSOFT_PINGCOMMANDPINGENGINE_DLLSPEC PingCommandPingComponent :
         auto finaliseEvent() -> void override;
 
     private:
+        //! @cond
+
         Nedrysoft::PingCommandPingEngine::PingCommandPingEngineFactory *m_engineFactory;
+
+        //! @endcond
 };
 
 #endif // PINGNOO_COMPONENTS_PINGCOMMANDPINGENGINE_PINGCOMMANDPINGCOMPONENT_H

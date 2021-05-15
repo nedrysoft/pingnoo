@@ -34,6 +34,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
 
     /**
      * @brief       The IPlotFactory interface is used to instantiate extra plots which are displayed to the user.
+     *
+     * @class       Nedrysoft::RouteAnalyser::IPlotFactory IPlotFactory.h <IPlotFactory>
      */
     class NEDRYSOFT_ROUTEANALYSER_DLLSPEC IPlotFactory :
             public Nedrysoft::ComponentSystem::IInterface {

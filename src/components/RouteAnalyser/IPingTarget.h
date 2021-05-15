@@ -36,7 +36,10 @@ namespace Nedrysoft { namespace RouteAnalyser {
     /**
      * @brief       The IPingTarget interface describes a host target for a ping engine.
      *
-     * @details     A ping target is used by an Nedrysoft::Core::IPingEngine to keep track of destinations to be pinged.
+     * @details     A ping target is used by an Nedrysoft::RouteAnalyser::IPingEngine to keep track of destinations
+     *              to be pinged.
+     *
+     * @class       Nedrysoft::RouteAnalyser::IPingTarget IPingTarget.h <IPingTarget>
      */
     class NEDRYSOFT_ROUTEANALYSER_DLLSPEC IPingTarget :
             public Nedrysoft::ComponentSystem::IInterface,

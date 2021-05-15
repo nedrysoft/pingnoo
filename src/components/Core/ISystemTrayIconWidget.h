@@ -32,6 +32,8 @@ namespace Nedrysoft { namespace Core {
     /**
      * @brief       The ISystemTrayIconWidget is an item that is displayed the in the popup window of the
      *              operating systems system tray (on macOS this is a menu bar item)
+     *
+     * @class       Nedrysoft::Core::ISystemTrayIconWidget ISystemTrayIconWidget.h <ISystemTrayIconWidget>
      */
     class NEDRYSOFT_CORE_DLLSPEC ISystemTrayIconWidget :
             public Nedrysoft::ComponentSystem::IInterface {

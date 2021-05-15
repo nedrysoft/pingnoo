@@ -68,7 +68,11 @@ namespace Nedrysoft { namespace RouteAnalyser {
             auto acceptSettings() -> void;
 
         private:
+            //! @cond
+
             Ui::TargetSettingsPageWidget *ui;
+
+            //! @endcond
     };
 }}
 

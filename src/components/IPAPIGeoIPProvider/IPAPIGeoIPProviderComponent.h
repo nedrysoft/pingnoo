@@ -65,14 +65,17 @@ class NEDRYSOFT_IPAPIGEOIPPROVIDER_DLLSPEC IPAPIGeoIPProviderComponent :
         /**
          * @brief       The finaliseEvent method is called before the component is unloaded.
          *
-         * @notes       The event is called in reverse load order for all loaded components, once every component
+         * @note        The event is called in reverse load order for all loaded components, once every component
          *              has been finalised the component manager then unloads all components in thr same order.
          */
         auto finaliseEvent() -> void override;
 
     private:
+        //! @cond
 
         Nedrysoft::IPAPIGeoIPProvider::IPAPIGeoIPProvider *m_provider;
+
+        //! @endcond
 };
 
 #endif // PINGNOO_COMPONENTS_IPAPIGEOIPPROVIDER_IPAPIGEOIPROVIDERCOMPONENT_H

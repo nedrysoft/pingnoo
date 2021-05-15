@@ -115,11 +115,14 @@ namespace Nedrysoft { namespace Core {
             friend class CommandManager;
 
         private:
+            //! @cond
 
-            QMap<int, QAction *> m_actions;                        //! Map containing actions stored by context key
+            QMap<int, QAction *> m_actions;
 
-            Nedrysoft::Core::ActionProxy *m_action;                //! The proxy action used by the UI
-            QString m_id;                                          //! Unique identifier for the command
+            Nedrysoft::Core::ActionProxy *m_action;
+            QString m_id;
+
+            //! @endcond
     };
 }}
 

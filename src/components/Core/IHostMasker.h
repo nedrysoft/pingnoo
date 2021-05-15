@@ -39,6 +39,8 @@ namespace Nedrysoft { namespace Core {
      * @details     A host masker is used to mask the displayed host names & ip addresses in the software user
      *              interface (and any outputs), this allows screen captures to be taken without requiring further
      *              editing/redacting.
+     *
+     * @class       Nedrysoft::Core::IHostMasker IHostMasker.h <IHostMasker>
      */
     class NEDRYSOFT_CORE_DLLSPEC IHostMasker :
             public Nedrysoft::ComponentSystem::IInterface,
@@ -55,7 +57,7 @@ namespace Nedrysoft { namespace Core {
             /**
              * @brief       Masks a host name/ip.
              *
-             * @detail      A IHostMasker can redact the hostname and/or host address based of a combination of
+             * @details     A IHostMasker can redact the hostname and/or host address based of a combination of
              *              host name, host address and the hop number.
              *
              *              If there is no match, then the original values are returned.

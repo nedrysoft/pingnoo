@@ -35,6 +35,8 @@ namespace Nedrysoft { namespace Core {
      *
      * @details     An editor is an editor window that contains a widget and is managed
      *              by the application.
+     *
+     * @class       Nedrysoft::Core::IEditor IEditor.h <IEditor>
      */
     class NEDRYSOFT_CORE_DLLSPEC IEditor :
             public Nedrysoft::ComponentSystem::IInterface {

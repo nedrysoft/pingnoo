@@ -44,6 +44,8 @@ namespace Nedrysoft { namespace Core {
      *
      * @details     Represents a menu or menubar, allows commands to be registered in the menu and allows items
      *              to be logically grouped.
+     *
+     * @class       Nedrysoft::Core::IMenu IMenu.h <IMenu>
      */
     class NEDRYSOFT_CORE_DLLSPEC IMenu :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -107,7 +109,7 @@ namespace Nedrysoft { namespace Core {
              * @details     Creates a named grouped section for a menu, allows commands to be grouped by function.
              *              The group will be inserted directly after the given existing identifier.
              *
-             * @param[in]   beforeIdentifier the identifier which this group is to be inserted after.
+             * @param[in]   afterIdentifier the identifier which this group is to be inserted after.
              * @param[in]   groupIdentifier the identifier of the group.
              *
              * @returns     true if added; otherwise false.

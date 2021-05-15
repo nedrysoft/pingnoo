@@ -125,9 +125,13 @@ namespace Nedrysoft { namespace RouteAnalyser {
             auto validateFields() -> void ;
 
         private:
+            //! @cond
+
             Ui::NewTargetDialog *ui;
             LineSyntaxHighlighter *m_targetHighlighter;
             LineSyntaxHighlighter *m_intervalHighlighter;
+
+            //! @endcond
     };
 }}
 

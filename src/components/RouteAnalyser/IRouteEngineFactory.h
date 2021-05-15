@@ -39,6 +39,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
      * @details     Creates instances of route engines.  Route engines are not instantiated directly, instead the
      *              application can find all route engine factories and select a route engine factory to create
      *              route engines with.
+     *
+     * @class       Nedrysoft::RouteAnalyser::IRouteEngineFactory IRouteEngineFactory.h <IRouteEngineFactory>
      */
     class NEDRYSOFT_ROUTEANALYSER_DLLSPEC IRouteEngineFactory :
             public Nedrysoft::ComponentSystem::IInterface,

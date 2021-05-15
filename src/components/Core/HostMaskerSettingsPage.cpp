@@ -31,7 +31,7 @@ Nedrysoft::Core::HostMaskerSettingsPage::HostMaskerSettingsPage(QWidget *parent)
     Q_UNUSED(parent)
 }
 
-Nedrysoft::Core::HostMaskerSettingsPage::HostMaskerSettingsPage::~HostMaskerSettingsPage() {
+Nedrysoft::Core::HostMaskerSettingsPage::~HostMaskerSettingsPage() {
 }
 
 auto Nedrysoft::Core::HostMaskerSettingsPage::section() -> QString {

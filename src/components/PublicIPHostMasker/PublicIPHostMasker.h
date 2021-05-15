@@ -74,7 +74,7 @@ namespace Nedrysoft { namespace PublicIPHostMasker {
             /**
              * @brief       Masks a host name/ip.
              *
-             * @detail      A IHostMasker can redact the hostname and/or host address based of a combination of
+             * @details     A IHostMasker can redact the hostname and/or host address based of a combination of
              *              host name, host address and the hop number.
              *
              *              If there is no match, then the original values are returned.
@@ -127,10 +127,14 @@ namespace Nedrysoft { namespace PublicIPHostMasker {
             friend class PublicIPHostMaskerSettingsPageWidget;
 
         private:
+            //! @cond
+
             QString m_publicIP;
             QEventLoop *m_eventLoop;
             QNetworkAccessManager *m_networkManager;
             bool m_enabled;
+
+            //! @endcond
     };
 }}
 

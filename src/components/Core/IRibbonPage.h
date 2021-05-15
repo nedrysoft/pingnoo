@@ -37,6 +37,8 @@ namespace Nedrysoft { namespace Core {
      *
      * @details     The IRibbonPage is a container for groups.  Pages are added to the ribbon bar and each page
      *              appears as a separate tab in the ribbon bar.
+     *
+     * @class       Nedrysoft::Core::IRibbonPage IRibbonPage.h <IRibbonPage>
      */
     class NEDRYSOFT_CORE_DLLSPEC IRibbonPage :
         public Nedrysoft::ComponentSystem::IInterface {
@@ -49,6 +51,7 @@ namespace Nedrysoft { namespace Core {
                  *
                  * @param[in]   title the title of the group.
                  * @param[in]   id the identifier of the group.
+                 * @param[in]   widget the widget to be used in the group.
                  *
                  * @returns     the IRibbonGroup instance of the group.
                  */

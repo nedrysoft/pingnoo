@@ -47,6 +47,9 @@ namespace Nedrysoft { namespace RouteAnalyser {
             };
 
         public:
+            /**
+             * @brief       The TrimmerFlag determines the behaviour of the trimmer widget.
+             */
             enum TrimmerFlag {
                 FixedStart = 0x1,
                 FixedEnd = 0x2,
@@ -152,13 +155,17 @@ namespace Nedrysoft { namespace RouteAnalyser {
             QSize sizeHint() const override;
 
         private:
+            //! @cond
+
             State m_editingState;
-            double m_viewportPosition;                              //! the start position of the viewport (unit value)
-            double m_viewportSize;                                  //! the end position of the viewport (unit value)
-            double m_origin;                                        //! absolute value for movement, allows a delta to be computed
-            double m_viewportEnd;                                   //! the viewpoint end position at the start of a movement
+            double m_viewportPosition;
+            double m_viewportSize;
+            double m_origin;
+            double m_viewportEnd;
             TrimmerFlags m_flags;
-            bool m_canBeResized;                                    //! whether the viewport can be resized.
+            bool m_canBeResized;
+
+            //! @endcond
     };
 }}
 

@@ -73,16 +73,17 @@ namespace Nedrysoft { namespace Core {
             /**
              * @brief       Sets the colour of the system tray icon.
              *
-             * @notes       The operating system may not honour the colour due to the actual window manager
+             * @note        The operating system may not honour the colour due to the actual window manager
              *              and theming.  Each pixel is mixed with the selected colour, setting the alpha
              *              will set the transparency of the resulting image.
              *
              * @param[in]   newColour the desired colour.
-             * @param[in]   rect the rectangle of the system tray icon
              */
             auto setIconColour(const QColor &newColour) -> void;
 
         private:
+            //! @cond
+
             QIcon m_icon;
             QPixmap m_basePixmap;
             QPixmap m_activePixmap;
@@ -93,6 +94,8 @@ namespace Nedrysoft { namespace Core {
             QSystemTrayIcon *m_systemTrayIcon;
 #endif
             bool m_visible;
+
+            //! @endcond
     };
 }}
 

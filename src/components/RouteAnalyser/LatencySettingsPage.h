@@ -32,6 +32,10 @@
 namespace Nedrysoft { namespace RouteAnalyser {
     class LatencySettingsPageWidget;
 
+    /**
+     * @brief       The LatencySettingsPage implements a settings page for the latency settings. (colour that
+     *              are used to show a latency value and the threshold for different levels.
+     */
     class LatencySettingsPage :
             public Nedrysoft::SettingsDialog::ISettingsPage {
 
@@ -41,8 +45,16 @@ namespace Nedrysoft { namespace RouteAnalyser {
             Q_INTERFACES(Nedrysoft::SettingsDialog::ISettingsPage)
 
         public:
+            /**
+             * @brief       Constructs a new LatencySettingsPage.
+             *
+             * @param[in]   parent the parent widget of this child.
+             */
             explicit LatencySettingsPage(QWidget *parent = nullptr);
 
+            /**
+             * @brief       Destroys the LatencySettingsPage.
+             */
             ~LatencySettingsPage() override;
 
         public:
@@ -70,7 +82,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
             /**
              * @brief       The icon for this settings page.
              *
-             * @param[in[   isDarkMode set to true to retries the dark mode icon; otherwise false.
+             * @param[in]   isDarkMode set to true to retries the dark mode icon; otherwise false.
              *
              * @returns     a QIcon
              */
@@ -96,7 +108,11 @@ namespace Nedrysoft { namespace RouteAnalyser {
             auto acceptSettings() -> void override;
 
         private:
+            //! @cond
+
             LatencySettingsPageWidget *m_settingsPageWidget;
+
+            //! @endcond
 
     };
 }}

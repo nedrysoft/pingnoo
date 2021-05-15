@@ -95,12 +95,16 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             auto doWork() -> void;
 
         private:
+            //! @cond
+
             Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_engine;
             Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker *m_receiveWorker;
             QThread *m_receiverThread;
             Nedrysoft::ICMPSocket::ICMPSocket *m_socket;
 
             bool m_isRunning;
+
+            //! @endcond
     };
 }}
 

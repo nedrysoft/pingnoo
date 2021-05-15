@@ -47,7 +47,7 @@ constexpr auto DefaultCriticalLatency = 500ms;
 
 constexpr auto RoundedRectangleRadius = 10;
 constexpr auto AlternateRowFactor = 12.5;
-constexpr auto TinyNumber = 0.00001;                             //! used to adjust a unit number to just under 1
+constexpr auto TinyNumber = 0.00001;
 
 constexpr auto NormalColourFactor = 100;
 constexpr auto ActiveSelectedColourFactor = 105;

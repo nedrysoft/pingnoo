@@ -34,6 +34,8 @@ namespace Nedrysoft { namespace Core {
      *
      * @details     The IRibbonGroup is a container for widgets.  Ribbon groups are added to the pages of a
      *              ribbon bar and each group contains a set of controls that are relevant to that group.
+     *
+     *  @class       Nedrysoft::Core::IRibbonGroup IRibbonGroup.h <IRibbonGroup>
      */
     class NEDRYSOFT_CORE_DLLSPEC IRibbonGroup :
             public Nedrysoft::ComponentSystem::IInterface {

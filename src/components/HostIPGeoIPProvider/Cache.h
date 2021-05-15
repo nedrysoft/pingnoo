@@ -46,14 +46,14 @@ namespace Nedrysoft { namespace HostIPGeoIPProvider {
             /**
              * @brief       Adds a lookup result to the cache.
              *
-             * @param[in]   The cache JSON result object.
+             * @param[in]   object the JSON formatted object to add to the cache.
              */
             auto add(QJsonObject object) -> void;
 
             /**
              * @brief       Check if a host has a cache entry.
              *
-             * @param[in]   host the host to check.
+             * @param[in]   name the host (name or ip string) to perform the lookup on.
              * @param[out]  object the JSON object containing the host information.
              *
              * @returns     returns true if cached; otherwise false.

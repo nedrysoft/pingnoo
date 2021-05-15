@@ -80,7 +80,7 @@ Nedrysoft::HostIPGeoIPProvider::Cache::Cache() {
     query.finish();
 }
 
-Nedrysoft::HostIPGeoIPProvider::Cache::Cache::~Cache() {
+Nedrysoft::HostIPGeoIPProvider::Cache::~Cache() {
     QSqlDatabase::removeDatabase(CacheDatabase);
 }
 

@@ -40,8 +40,10 @@ using namespace std::chrono_literals;
 
 constexpr auto DefaultTransmitInterval = 10s;
 
+//! @cond
 uint16_t Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::m_sequenceId = 1;
 QMutex Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::m_sequenceMutex;
+//! @endcond
 
 Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::ICMPPingTransmitter(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine) :
         m_interval(DefaultTransmitInterval),

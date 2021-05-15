@@ -128,7 +128,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
             /**
              * @brief       This signal is emitted when the dataset size changes.
              * @param[in]   start the star time point. (seconds from unix epoch)
-             * @paramp[in]  end the end time point. (seconds from unix epoch)
+             * @param[in]  end the end time point. (seconds from unix epoch)
              */
             Q_SIGNAL void datasetChanged(double start, double end);
 
@@ -190,7 +190,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
             /**
              * @brief       Reimplements: QWidget::paintEvent(QPaintEvent *event).
              *
-             * @param[in]   event the event information.
+             * @param[in]   paintEvent the event information.
              */
             auto paintEvent(QPaintEvent *paintEvent) -> void override;
 
@@ -199,9 +199,16 @@ namespace Nedrysoft { namespace RouteAnalyser {
              */
             auto updateRanges() -> void;
 
+            /**
+             * @brief       A map containing the fields that are displayed on the list.
+             *
+             * @returns     the header map.
+             */
             QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &headerMap();
 
         private:
+            //! @cond
+
             QMap<Nedrysoft::RouteAnalyser::IPingTarget *, int> m_targetMap;
             QList<QCustomPlot *> m_plotList;
             QMap<QCustomPlot *, QCPItemStraightLine *> m_graphLines;
@@ -220,11 +227,13 @@ namespace Nedrysoft { namespace RouteAnalyser {
 
             QList<Nedrysoft::RouteAnalyser::IPlot *> m_extraPlots;
 
-            double m_viewportSize;                                  //! size of the viewport in seconds
-            double m_viewportPosition;                              //! unit value specifying the position of the viewport
-            double m_startPoint;                                    //! the unix timestamp of the first ping result
-            double m_endPoint;                                      //! the unix timestamp of the most recent ping result
-            double m_savedDiff;                                     //! the latest calculated span of results in seconds.
+            double m_viewportSize;
+            double m_viewportPosition;
+            double m_startPoint;
+            double m_endPoint;
+            double m_savedDiff;
+
+            //! @endcond
     };
 }}
 

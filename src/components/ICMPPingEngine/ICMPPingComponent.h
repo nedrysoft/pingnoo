@@ -77,7 +77,11 @@ class NEDRYSOFT_ICMPPINGENGINE_DLLSPEC ICMPPingComponent :
         auto finaliseEvent() -> void override;
 
     private:
+        //! @cond
+
         Nedrysoft::ICMPPingEngine::ICMPPingEngineFactory *m_engineFactory;
+
+        //! @endcond
 };
 
 #endif // PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGENGINECOMPONENT_H

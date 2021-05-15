@@ -65,9 +65,13 @@ namespace Nedrysoft { namespace Core {
             auto openEditor(IEditor *editor) -> int override;
 
         private:
+            //! @cond
+
             EditorManagerTabWidget *m_tabWidget;
             int m_previousIndex;
             QMap<QWidget *, IEditor *> m_editorMap;
+
+            //! @endcond
     };
 }}
 

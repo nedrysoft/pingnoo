@@ -165,6 +165,8 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             auto unlock(void) -> void;
 
         private:
+            //! @cond
+
             std::chrono::high_resolution_clock::time_point m_transmitTime;
             std::chrono::system_clock::time_point m_transmitEpoch;
 
@@ -178,6 +180,8 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             unsigned long m_sampleNumber;
 
             QMutex m_mutex;
+
+            //! @endcond
     };
 }}
 

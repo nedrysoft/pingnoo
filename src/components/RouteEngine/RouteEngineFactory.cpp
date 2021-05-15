@@ -28,8 +28,16 @@
 #include "ICMPSocket/ICMPSocket.h"
 #include "RouteEngine.h"
 
+/**
+ * @brief       Private class to store the route engines instance data.
+ */
 class Nedrysoft::RouteEngine::RouteEngineFactoryData {
     public:
+        /**
+         * @brief       Constructs a RouteEngineFactoryData.
+         *
+         * @param[in]   parent the RouteEngineFactory instance that this data belongs to.
+         */
         RouteEngineFactoryData(Nedrysoft::RouteEngine::RouteEngineFactory *parent) :
                 m_factory(parent) {
 

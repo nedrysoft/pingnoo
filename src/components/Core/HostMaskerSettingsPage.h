@@ -82,7 +82,7 @@ namespace Nedrysoft { namespace Core {
             /**
              * @brief       The icon for this settings page.
              *
-             * @param[in[   isDarkMode set to true to retries the dark mode icon; otherwise false.
+             * @param[in]   isDarkMode set to true to retries the dark mode icon; otherwise false.
              *
              * @returns     a QIcon
              */
@@ -108,7 +108,11 @@ namespace Nedrysoft { namespace Core {
             auto acceptSettings() -> void override;
 
         private:
+            //! @cond
+
             HostMaskerSettingsPageWidget *m_settingsWidget;
+
+            //! @endcond
     };
 }}
 

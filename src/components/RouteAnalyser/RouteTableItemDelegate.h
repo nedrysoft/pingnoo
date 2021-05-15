@@ -96,7 +96,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
                     QModelIndex modelIndex,
                     int adjustment,
                     const QTableView *tableView,
-                    QRect &rect) const -> Nedrysoft::RouteAnalyser::PingData *;
+                    QRect &rect
+            ) const -> Nedrysoft::RouteAnalyser::PingData *;
 
             /**
              * @brief       Paints the graph column.
@@ -106,10 +107,12 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   option the painter options.
              * @param[in]   index the model index of the cell.
              */
-            auto paintGraph(Nedrysoft::RouteAnalyser::PingData *pingData,
-                            QPainter *painter,
-                            const QStyleOptionViewItem &option,
-                            const QModelIndex &index) const -> void;
+            auto paintGraph(
+                    Nedrysoft::RouteAnalyser::PingData *pingData,
+                    QPainter *painter,
+                    const QStyleOptionViewItem &option,
+                    const QModelIndex &index
+            ) const -> void;
 
             /**
              * @brief       Paints the background of an item.
@@ -119,10 +122,12 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   option the painter options.
              * @param[in]   index the model index of the cell.
              */
-            auto paintBackground(Nedrysoft::RouteAnalyser::PingData *pingData,
-                                 QPainter *painter,
-                                 const QStyleOptionViewItem &option,
-                                 const QModelIndex &index) const -> void;
+            auto paintBackground(
+                    Nedrysoft::RouteAnalyser::PingData *pingData,
+                    QPainter *painter,
+                    const QStyleOptionViewItem &option,
+                    const QModelIndex &index
+            ) const -> void;
 
             /**
              * @brief       Paints the location column.
@@ -132,10 +137,12 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   option the painter options.
              * @param[in]   index the model index of the cell.
              */
-            auto paintLocation(Nedrysoft::RouteAnalyser::PingData *pingData,
-                               QPainter *painter,
-                               const QStyleOptionViewItem &option,
-                               const QModelIndex &index ) const -> void;
+            auto paintLocation(
+                    Nedrysoft::RouteAnalyser::PingData *pingData,
+                   QPainter *painter,
+                   const QStyleOptionViewItem &option,
+                   const QModelIndex &index
+            ) const -> void;
 
             /**
              * @brief       Paints an invalid hop cell.
@@ -145,10 +152,12 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   option the painter options.
              * @param[in]   index the model index of the cell.
              */
-            auto paintInvalidHop(Nedrysoft::RouteAnalyser::PingData *pingData,
-                                 QPainter *painter,
-                                 const QStyleOptionViewItem &option,
-                                 const QModelIndex &index ) const -> void;
+            auto paintInvalidHop(
+                    Nedrysoft::RouteAnalyser::PingData *pingData,
+                    QPainter *painter,
+                    const QStyleOptionViewItem &option,
+                    const QModelIndex &index
+            ) const -> void;
 
             /**
              * @brief       Paints the bubble for hops.
@@ -157,13 +166,15 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   painter the QPainter to draw to.
              * @param[in]   option the painter options.
              * @param[in]   index the model index of the cell.
-             * @param[in]   bubbleColor the colour to draw in.
+             * @param[in]   bubbleColour the colour to draw in.
              */
-            auto paintBubble(Nedrysoft::RouteAnalyser::PingData *pingData,
-                             QPainter *painter,
-                             const QStyleOptionViewItem &option,
-                             const QModelIndex &index,
-                             QRgb bubbleColour ) const -> void;
+            auto paintBubble(
+                    Nedrysoft::RouteAnalyser::PingData *pingData,
+                    QPainter *painter,
+                    const QStyleOptionViewItem &option,
+                    const QModelIndex &index,
+                    QRgb bubbleColour
+            ) const -> void;
 
             /**
              * @brief       Paints the hop column.
@@ -224,10 +235,14 @@ namespace Nedrysoft { namespace RouteAnalyser {
                                  const QPen &pen) const -> void;
 
         private:
-            std::chrono::duration<double> m_warningLatency = {};            //! The lowest latency seen by this item
-            std::chrono::duration<double> m_criticalLatency = {};            //! The highest latency seen by this item
+            //! @cond
+
+            std::chrono::duration<double> m_warningLatency = {};
+            std::chrono::duration<double> m_criticalLatency = {};
 
             bool m_useGradient;
+
+            //! @endcond
     };
 }}
 

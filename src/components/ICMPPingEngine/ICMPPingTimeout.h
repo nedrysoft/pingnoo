@@ -65,10 +65,14 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             friend class ICMPPingEngine;
 
         private:
-            Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_engine;    //! The engine that owns this timeout worker
+            //! @cond
+
+            Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_engine;
 
         protected:
-            bool m_isRunning;                               //! Thread is running
+            bool m_isRunning;
+
+            //! @endcond
     };
 }}
 

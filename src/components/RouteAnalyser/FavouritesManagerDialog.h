@@ -106,10 +106,14 @@ namespace Nedrysoft { namespace RouteAnalyser {
             Q_SLOT void onOkClicked(bool checked);
 
         private:
+            //! @cond
+
             Ui::FavouritesManagerDialog *ui;
 
             QStandardItemModel *m_itemModel;
             bool m_modelDirty;
+
+            //! @endcond
     };
 }}
 

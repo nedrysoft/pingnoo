@@ -84,6 +84,11 @@ namespace Nedrysoft { namespace RouteAnalyser {
              */
             auto colour() -> QColor;
 
+            /**
+             * @brief       This signal is emitted when the colour selection has been changed.
+             *
+             * @param[in]   colour the selevted colour.
+             */
             Q_SIGNAL void colourChanged(QColor colour);
 
         private:
@@ -115,8 +120,12 @@ namespace Nedrysoft { namespace RouteAnalyser {
             auto mouseDoubleClickEvent(QMouseEvent *event) -> void override;
 
         private:
+            //! @cond
+
             QColor m_colour;
             QString m_text;
+
+            //! @endcond
     };
 }}
 

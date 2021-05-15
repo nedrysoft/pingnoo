@@ -47,6 +47,9 @@ namespace Nedrysoft { namespace RouteAnalyser {
             Q_OBJECT
 
         public:
+            /**
+             * @brief       The types of latency we display.
+             */
             enum class LatencyType {
                 Ideal,
                 Warning,
@@ -69,18 +72,25 @@ namespace Nedrysoft { namespace RouteAnalyser {
             /**
              * @brief       Sets the value of the given field.
              *
-             * @param[in]   type type of field.
-             * @param[ib]   value the value.
+             * @param[in]   type the type of latency to set.
+             * @param[in]   value the latency (in seconds) to change the given type to.
              */
             auto setValue(LatencyType type, double value) -> void;
 
         public:
+            /**
+             * @brief       This signal is emitted when the user changes one of the latency line editors.
+             *
+             * @param[in]   type the type of latency that was edited.
+             * @param[in]   value the value that the editor has been changed to.
+             */
             Q_SIGNAL void valueChanged(LatencyType type, double value);
 
         private:
             /**
              * @brief       Updates a period and makes it effective on editors.
              *
+             * @param[in]   type the latency period type to update.
              * @param[in]   lineEdit the line edit to update.
              */
             auto updatePeriod(LatencyType type, Nedrysoft::Ribbon::RibbonLineEdit *lineEdit) -> void;
@@ -95,10 +105,14 @@ namespace Nedrysoft { namespace RouteAnalyser {
             auto getValueString(LatencyType type) -> QString;
 
         private:
+            //! @cond
+
             Ui::LatencyRibbonGroup *ui;
 
             LineSyntaxHighlighter *m_warningHighlighter;
             LineSyntaxHighlighter *m_criticalHighlighter;
+
+            //! @endcond
     };
 }}
 

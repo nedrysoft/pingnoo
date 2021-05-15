@@ -31,8 +31,14 @@
 #include <QSet>
 
 namespace Nedrysoft { namespace RegExHostMasker {
+    /**
+     * @brief       The RegExHostMaskerItem class holds the required information needed by a regular expression
+     *              substitution of host names/ip address.
+     */
     class RegExHostMaskerItem {
         public:
+            //! @cond
+
             QSet<int> m_hops;
 
             QString m_matchExpression;
@@ -43,6 +49,8 @@ namespace Nedrysoft { namespace RegExHostMasker {
             bool m_enabled;
 
             unsigned int m_matchFlags;
+
+            //! @endcond
     };
 
     /**
@@ -60,6 +68,9 @@ namespace Nedrysoft { namespace RegExHostMasker {
             Q_INTERFACES(Nedrysoft::Core::IHostMasker)
 
         public:
+            /**
+             * @brief       the MatchFlags determine how a match should be made and how the mask should be applied.
+             */
             enum class MatchFlags {
                 MatchHop = ( 1 << 0 ),
                 MatchAddress = ( 1 << 1 ),
@@ -99,6 +110,7 @@ namespace Nedrysoft { namespace RegExHostMasker {
              * @brief       Adds a host name match expression.
              *
              * @param[in]   matchFlags the bit mask of values from MatchFlags to control masking.
+             * @param[in]   description the description displayed for this masker.
              * @param[in]   matchExpression the regular expression used for name matching.
              * @param[in]   replacementString the string to be used for replacement.
              * @param[in]   hopString hop string listing hops this mask is valid for. (optional)
@@ -110,13 +122,14 @@ namespace Nedrysoft { namespace RegExHostMasker {
                     const QString &matchExpression,
                     const QString &replacementString,
                     const QString &hopString,
-                    const bool enabled= true ) -> void;
+                    const bool enabled= true
+            ) -> void;
 
         public:
             /**
              * @brief       Masks a host name/ip using the defined regular expression.
              *
-             * @detail      A IHostMasker can redact the hostname and/or host address based of a combination of
+             * @details     A IHostMasker can redact the hostname and/or host address based of a combination of
              *              host name, host address and the hop number.
              *
              *              If there is no match, then the original values are returned.
@@ -181,7 +194,11 @@ namespace Nedrysoft { namespace RegExHostMasker {
             friend class RegExHostMaskerSettingsPageWidget;
 
         private:
+            //! @cond
+
             QList<RegExHostMaskerItem> m_maskList;
+
+            //! @endcond
 
     };
 }}

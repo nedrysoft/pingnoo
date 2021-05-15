@@ -77,7 +77,11 @@ class NEDRYSOFT_JITTERPLOT_DLLSPEC JitterPlotComponent :
         auto finaliseEvent() -> void override;
 
     private:
+        //! @cond
+
         Nedrysoft::JitterPlot::JitterPlotFactory *m_plotFactory;
+
+        //! @endcond
 };
 
 #endif // NEDRYSOFT_ROUTEANALYSER_JITTERPLOTCOMPONENT_H

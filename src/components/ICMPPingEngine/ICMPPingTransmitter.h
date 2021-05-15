@@ -99,19 +99,23 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             friend class ICMPPingEngine;
 
         private:
-            std::chrono::milliseconds m_interval = {};                        //! The transmission period in milliseconds
-            Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_engine;              //! The engine that owns this transmitter worker
+            //! @cond
 
-            QList<Nedrysoft::ICMPPingEngine::ICMPPingTarget *> m_targets;     //! List of ping targets
-            QMutex m_targetsMutex;                                            //! Mutex to protect the ping target list
+            std::chrono::milliseconds m_interval = {};
+            Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_engine;
 
-            std::chrono::high_resolution_clock::time_point m_epoch;           //! Transmission epoch
+            QList<Nedrysoft::ICMPPingEngine::ICMPPingTarget *> m_targets;
+            QMutex m_targetsMutex;
+
+            std::chrono::high_resolution_clock::time_point m_epoch;
 
             static QMutex m_sequenceMutex;
             static uint16_t m_sequenceId;
 
         protected:
-            bool m_isRunning;                                                 //! Thread is running
+            bool m_isRunning;
+
+            //! @endcond
     };
 }}
 

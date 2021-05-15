@@ -88,7 +88,7 @@ Nedrysoft::IPAPIGeoIPProvider::Cache::Cache() {
     query.finish();
 }
 
-Nedrysoft::IPAPIGeoIPProvider::Cache::Cache::~Cache() {
+Nedrysoft::IPAPIGeoIPProvider::Cache::~Cache() {
     QSqlDatabase::removeDatabase(cacheDatabase);
 }
 

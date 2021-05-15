@@ -27,6 +27,11 @@
 #include <limits.h>
 #include <stdint.h>
 
+// TODO: move the utils to a separate file, for the time being it's wrapped in a cond doxygen directive to
+//       stop doxygen emitting a warning.
+
+//! @cond
+
 namespace Nedrysoft { namespace Utils {
     /**
      * @brief       Convert 16 bit words to 32 bit
@@ -43,5 +48,7 @@ namespace Nedrysoft { namespace Utils {
         return ( static_cast<uint32_t>(( high << ( sizeof(high) * CHAR_BIT ) | low )));
     }
 }}
+
+//! @endcond
 
 #endif // PINGNOO_COMPONENTS_ICMPPINGENGINE_UTILS_H

@@ -32,6 +32,8 @@
 namespace Nedrysoft { namespace Core {
     /**
      * @brief       The ISettingsPage interface defines a settings page.
+     *
+     * @class       Nedrysoft::Core::ISettingsPage ISettingsPage.h <ISettingsPage>
      */
     class NEDRYSOFT_CORE_DLLSPEC ISettingsPage :
             public Nedrysoft::ComponentSystem::IInterface {

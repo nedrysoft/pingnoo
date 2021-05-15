@@ -37,6 +37,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
 
     /**
      * @brief       The IRouteEngine interface describes the mechanism of finding the route to a host.
+     *
+     * @class       Nedrysoft::RouteAnalyser::IRouteEngine IRouteEngine.h <IRouteEngine>
      */
     class NEDRYSOFT_ROUTEANALYSER_DLLSPEC IRouteEngine :
             public Nedrysoft::ComponentSystem::IInterface {
@@ -55,7 +57,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
             /**
              * @brief       Starts route discovery for a host.
              *
-             * @notes       Route discovery is a asynchronous operation, the result signal is emitted when the
+             * @note        Route discovery is a asynchronous operation, the result signal is emitted when the
              *              discovery is completed.
              *
              * @param[in]   engineFactory the ping engine to be used for discovery.
@@ -70,7 +72,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
             /**
              * @brief       Signal emitted when the route discovery is completed.
              *
-             * @param[in]   result the discovered route.
+             * @param[in]   hostAddress the address of the host that was the target.
+             * @param[in]   result the discovered route to the host.
              */
             Q_SIGNAL void result(const QHostAddress hostAddress, const Nedrysoft::RouteAnalyser::RouteList result);
     };

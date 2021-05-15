@@ -69,6 +69,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
             auto draw(QCPPainter *painter) -> void;
 
         private:
+            //! @cond
+
             std::chrono::duration<double> m_warningLatency = {};
             std::chrono::duration<double> m_criticalLatency = {};
 
@@ -76,6 +78,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
 
             static QMap<QString, QPixmap> m_buffers;
             static QMap<QString, uint64_t> m_age;
+
+            //! @endcond
     };
 }}
 

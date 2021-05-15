@@ -36,6 +36,8 @@ namespace Nedrysoft { namespace Core {
      *
      * @details     The IRibbonBarManager handles the management of the ribbon bar, it allows pages to be added
      *              to the ribbon.
+     *
+     * @class       Nedrysoft::Core::IRibbonBarManager IRibbonBarManager.h <IRibbonBarManager>
      */
     class NEDRYSOFT_CORE_DLLSPEC IRibbonBarManager :
             public Nedrysoft::ComponentSystem::IInterface {

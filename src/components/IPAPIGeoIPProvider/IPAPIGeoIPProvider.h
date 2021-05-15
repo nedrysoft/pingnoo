@@ -84,9 +84,12 @@ namespace Nedrysoft { namespace IPAPIGeoIPProvider {
              */
             auto lookup(const QString host, Nedrysoft::Core::GeoFunction function) -> void override;
 
-
         private:
+             //! @cond
+
             Nedrysoft::IPAPIGeoIPProvider::Cache *m_cache;
+
+             //! @endcond
     };
 }}
 
