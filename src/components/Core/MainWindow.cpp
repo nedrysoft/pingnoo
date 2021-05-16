@@ -44,8 +44,8 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <ISettingsPage>
-#include <SettingsDialog>
 #include <QSystemTrayIcon>
+#include <SettingsDialog>
 #include <spdlog/spdlog.h>
 
 Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :

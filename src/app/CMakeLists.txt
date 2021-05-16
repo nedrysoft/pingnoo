@@ -39,6 +39,7 @@ pingnoo_add_sources(
 pingnoo_use_qt_libraries(Core Widgets)
 
 pingnoo_use_shared_library(ComponentSystem)
+pingnoo_use_shared_library(ThemeSupport)
 
 pingnoo_add_optional_command("Linux" SetRawCapabilities "Set RAW SOCKET capabilities" ON POST_BUILD COMMAND sudo -n /usr/sbin/setcap cap_net_raw,cap_net_admin=eip ${PINGNOO_BINARY_ROOT}/${pingnooCurrentProjectName})
 
