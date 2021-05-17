@@ -30,13 +30,17 @@
 #include "IRibbonBarManager.h"
 #include "IRibbonPage.h"
 #include "Pingnoo.h"
+#include "ThemeSettingsPage.h"
+
 #include <QHostAddress>
 
 CoreComponent::CoreComponent() :
         m_core(nullptr),
         m_contextManager(nullptr),
         m_commandManager(nullptr),
-        m_ribbonBarManager(nullptr) {
+        m_ribbonBarManager(nullptr),
+        m_hostMaskerSettingsPage(nullptr),
+        m_themeSettingsPage(nullptr) {
 
 }
 
@@ -52,11 +56,13 @@ auto CoreComponent::initialiseEvent() -> void {
     m_contextManager = new Nedrysoft::Core::ContextManager();
     m_commandManager = new Nedrysoft::Core::CommandManager();
     m_hostMaskerSettingsPage = new Nedrysoft::Core::HostMaskerSettingsPage();
+    m_themeSettingsPage = new Nedrysoft::Core::ThemeSettingsPage();
 
     Nedrysoft::ComponentSystem::addObject(m_core);
     Nedrysoft::ComponentSystem::addObject(m_contextManager);
     Nedrysoft::ComponentSystem::addObject(m_commandManager);
     Nedrysoft::ComponentSystem::addObject(m_hostMaskerSettingsPage);
+    Nedrysoft::ComponentSystem::addObject(m_themeSettingsPage);
 
     auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
 
@@ -84,6 +90,10 @@ auto CoreComponent::initialisationFinishedEvent() -> void {
 auto CoreComponent::finaliseEvent() -> void {
     if (m_hostMaskerSettingsPage) {
         delete m_hostMaskerSettingsPage;
+    }
+
+    if (m_themeSettingsPage) {
+        delete m_themeSettingsPage;
     }
 
     if (m_core) {

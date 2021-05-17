@@ -82,6 +82,8 @@ pingnoo_add_sources(
     StatusbarManager.h
     SystemTrayIconManager.cpp
     SystemTrayIconManager.h
+    ThemeSettingsPage.cpp
+    ThemeSettingsPage.h
     fonts.qrc
     icons.qrc
 )

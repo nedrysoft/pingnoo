@@ -5,6 +5,11 @@
         <file>icons/1x/twotone_security_white_24dp.png</file>
         <file>icons/2x/twotone_security_white_24dp.png</file>
 
+        <file>icons/1x/settings_black_24dp.png</file>
+        <file>icons/2x/settings_black_24dp.png</file>
+        <file>icons/1x/settings_white_24dp.png</file>
+        <file>icons/2x/settings_white_24dp.png</file>
+
         <file>icons/1x/close-button-white.png</file>
         <file>icons/2x/close-button-white@2x.png</file>
         <file>icons/1x/close-button-grey.png</file>

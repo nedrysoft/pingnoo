@@ -26,7 +26,6 @@
 #include "SplashScreen.h"
 
 #include <Component>
-#include <ComponentLoader>
 #include <IComponentManager.h>
 #include <QApplication>
 #include <QDir>
@@ -50,13 +49,10 @@
 auto constexpr SplashscreenTimeout = 3000;
 
 int main(int argc, char **argv) {
-#if defined(Q_OS_LINUX)
-    auto platformTheme = qgetenv("QT_QPA_PLATFORMTHEME");
+    qApp->setApplicationName("Pingnoo");
+    qApp->setOrganizationName("Nedrysoft");
 
-    if (platformTheme.isEmpty()) {
-        qputenv("QT_QPA_PLATFORMTHEME", "gtk2");
-    }
-#endif
+    Nedrysoft::ThemeSupport::ThemeSupport::initialise();
 
 #if (QT_VERSION_MAJOR<6)
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
@@ -74,9 +70,6 @@ int main(int argc, char **argv) {
     CFRelease(appUrlRef);
     CFRelease(macPath);
 #endif
-
-    qApp->setApplicationName("Pingnoo");
-    qApp->setOrganizationName("Nedrysoft");
 
     auto componentLoader = new Nedrysoft::ComponentSystem::ComponentLoader;
     auto applicationInstance = new QApplication(argc, argv);
