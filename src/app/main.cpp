@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
 
     Nedrysoft::ThemeSupport::ThemeSupport::initialise();
 
-    themeSupport.setMode(Nedrysoft::ThemeSupport::ThemeMode::Dark);
+    themeSupport.selectActive(Nedrysoft::ThemeSupport::Theme::System);
 
     QList<QTranslator *> translators;
 
@@ -78,7 +78,6 @@ int main(int argc, char **argv) {
 #endif
 
     auto componentLoader = new Nedrysoft::ComponentSystem::ComponentLoader;
-
 
     auto applicationDir = QDir(qApp->applicationDirPath());
     QString translationsPath;

@@ -44,15 +44,19 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <ISettingsPage>
+#include <MacHelper>
 #include <QSystemTrayIcon>
 #include <SettingsDialog>
+#include <ThemeSupport>
 #include <spdlog/spdlog.h>
+
 
 Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Nedrysoft::Core::Ui::MainWindow),
         m_ribbonBarManager(nullptr),
-        m_settingsDialog(nullptr) {
+        m_settingsDialog(nullptr),
+        m_themeSupport(new Nedrysoft::ThemeSupport::ThemeSupport) {
 
     // TODO: m_ribbonBarManager should be created in the component initialisation
 
@@ -83,6 +87,27 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(QString(tr("Pingnoo %1.%2.%3-%4 (%5)"))
             .arg(PINGNOO_GIT_YEAR, PINGNOO_GIT_MONTH, PINGNOO_GIT_DAY, PINGNOO_GIT_BRANCH, PINGNOO_GIT_HASH));
 
+#if defined(Q_OS_MACOS)
+    Nedrysoft::MacHelper::MacHelper macHelper;
+
+    macHelper.setTitlebarColour(
+            this,
+            ui->ribbonBar->backgroundColor(),
+            Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode());
+
+    connect(m_themeSupport, &Nedrysoft::ThemeSupport::ThemeSupport::themeChanged, [=](bool) {
+        Nedrysoft::MacHelper::MacHelper macHelper;
+
+        macHelper.setTitlebarColour(
+                this,
+                ui->ribbonBar->backgroundColor(),
+                Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode());
+    });
+#endif
+
+    if (Nedrysoft::ThemeSupport::ThemeSupport::isForced()) {
+        ui->statusbar->setStyleSheet("background-color: " + ui->ribbonBar->backgroundColor().name());
+    }
     // QStatusBar *statusBar = new QStatusBar;
 
     /*
@@ -130,6 +155,10 @@ Nedrysoft::Core::MainWindow::~MainWindow() {
 
     if (m_settingsDialog) {
         delete m_settingsDialog;
+    }
+
+    if (m_themeSupport) {
+        delete m_themeSupport;
     }
 }
 
@@ -376,4 +405,6 @@ void Nedrysoft::Core::MainWindow::closeEvent(QCloseEvent *closeEvent) {
 
         m_settingsDialog = nullptr;
     }
+
+    QMainWindow::closeEvent(closeEvent);
 }

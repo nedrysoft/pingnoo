@@ -30,10 +30,6 @@
 Nedrysoft::Core::Core::Core() :
         m_mainWindow(new Nedrysoft::Core::MainWindow) {
 
-    m_mainWindow->show();
-    m_mainWindow->raise();
-    m_mainWindow->activateWindow();
-
     Nedrysoft::ComponentSystem::addObject(m_mainWindow);
 
     m_randomGenerator = new std::mt19937(m_randomDevice());
