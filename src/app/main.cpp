@@ -38,6 +38,7 @@
 #include <QStandardPaths>
 #include <QTimer>
 #include <QTranslator>
+#include <ThemeSupport>
 #include <spdlog/spdlog.h>
 
 #if defined(Q_OS_MAC)
@@ -82,6 +83,13 @@ int main(int argc, char **argv) {
 
     auto applicationDir = QDir(qApp->applicationDirPath());
     QString translationsPath;
+
+    // TODO: themesupport should persist the mode, that way we can create a settings page in the core component
+    //       which can modify the mode that theme support will use.
+
+    Nedrysoft::ThemeSupport::ThemeSupport themeSupport;
+
+    themeSupport.setMode(Nedrysoft::ThemeSupport::ThemeMode::System);
 
 #ifdef Q_OS_MAC
     if (applicationPath.isNull()) {
