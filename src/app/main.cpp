@@ -52,11 +52,17 @@ int main(int argc, char **argv) {
     qApp->setApplicationName("Pingnoo");
     qApp->setOrganizationName("Nedrysoft");
 
-    Nedrysoft::ThemeSupport::ThemeSupport::initialise();
-
 #if (QT_VERSION_MAJOR<6)
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 #endif
+
+    auto applicationInstance = new QApplication(argc, argv);
+
+    Nedrysoft::ThemeSupport::ThemeSupport themeSupport;
+
+    Nedrysoft::ThemeSupport::ThemeSupport::initialise();
+
+    themeSupport.setMode(Nedrysoft::ThemeSupport::ThemeMode::Dark);
 
     QList<QTranslator *> translators;
 
@@ -72,17 +78,10 @@ int main(int argc, char **argv) {
 #endif
 
     auto componentLoader = new Nedrysoft::ComponentSystem::ComponentLoader;
-    auto applicationInstance = new QApplication(argc, argv);
+
 
     auto applicationDir = QDir(qApp->applicationDirPath());
     QString translationsPath;
-
-    // TODO: themesupport should persist the mode, that way we can create a settings page in the core component
-    //       which can modify the mode that theme support will use.
-
-    Nedrysoft::ThemeSupport::ThemeSupport themeSupport;
-
-    themeSupport.setMode(Nedrysoft::ThemeSupport::ThemeMode::System);
 
 #ifdef Q_OS_MAC
     if (applicationPath.isNull()) {
