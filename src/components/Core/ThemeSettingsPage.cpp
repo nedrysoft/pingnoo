@@ -65,14 +65,14 @@ auto Nedrysoft::Core::ThemeSettingsPage::createWidget() -> QWidget * {
         });
     }
 
-    //m_settingsWidget->initialise();
+    m_settingsWidget->initialise();
 
     return m_settingsWidget;
 }
 
 auto Nedrysoft::Core::ThemeSettingsPage::canAcceptSettings() -> bool {
     if (m_settingsWidget) {
-        return new Nedrysoft::ThemeSupport::ThemeSupportConfigurationWidget;
+        return m_settingsWidget->canAcceptSettings();
     }
 
     return true;

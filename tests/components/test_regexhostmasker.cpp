@@ -26,7 +26,6 @@
 #include <ComponentLoader>
 #include <IComponentManager>
 #include <IHostMasker.h>
-#include <QDebug>
 #include <QFile>
 #include <QJsonDocument>
 
