@@ -43,20 +43,19 @@
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QSystemTrayIcon>
+#include <QTimer>
 #include <ISettingsPage>
 #include <MacHelper>
-#include <QSystemTrayIcon>
 #include <SettingsDialog>
 #include <ThemeSupport>
 #include <spdlog/spdlog.h>
-
 
 Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Nedrysoft::Core::Ui::MainWindow),
         m_ribbonBarManager(nullptr),
-        m_settingsDialog(nullptr),
-        m_themeSupport(new Nedrysoft::ThemeSupport::ThemeSupport) {
+        m_settingsDialog(nullptr) {
 
     // TODO: m_ribbonBarManager should be created in the component initialisation
 
@@ -87,25 +86,43 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(QString(tr("Pingnoo %1.%2.%3-%4 (%5)"))
             .arg(PINGNOO_GIT_YEAR, PINGNOO_GIT_MONTH, PINGNOO_GIT_DAY, PINGNOO_GIT_BRANCH, PINGNOO_GIT_HASH));
 
+    auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
+
 #if defined(Q_OS_MACOS)
-    Nedrysoft::MacHelper::MacHelper macHelper;
+    auto setTitlebarColour = [this]() {
+        Nedrysoft::MacHelper::MacHelper macHelper;
 
-    macHelper.setTitlebarColour(
-            this,
-            ui->ribbonBar->backgroundColor(),
-            Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode());
+        auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
 
-    connect(m_themeSupport, &Nedrysoft::ThemeSupport::ThemeSupport::themeChanged, [=](bool) {
+        macHelper.setTitlebarColour(
+                this,
+                ui->ribbonBar->backgroundColor(),
+                themeSupport->isDarkMode());
+    };
+
+    QTimer::singleShot(0, [setTitlebarColour](){
+        setTitlebarColour();
+    });
+
+    setTitlebarColour();
+
+    connect(themeSupport, &Nedrysoft::ThemeSupport::ThemeSupport::themeChanged, [=](bool) {
         Nedrysoft::MacHelper::MacHelper macHelper;
 
         macHelper.setTitlebarColour(
                 this,
                 ui->ribbonBar->backgroundColor(),
-                Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode());
+                themeSupport->isDarkMode());
+
+        if (themeSupport->isForced()) {
+            ui->statusbar->setStyleSheet("background-color: " + ui->ribbonBar->backgroundColor().name());
+        } else {
+            ui->statusbar->setStyleSheet("");
+        }
     });
 #endif
 
-    if (Nedrysoft::ThemeSupport::ThemeSupport::isForced()) {
+    if (themeSupport->isForced()) {
         ui->statusbar->setStyleSheet("background-color: " + ui->ribbonBar->backgroundColor().name());
     }
     // QStatusBar *statusBar = new QStatusBar;
@@ -155,10 +172,6 @@ Nedrysoft::Core::MainWindow::~MainWindow() {
 
     if (m_settingsDialog) {
         delete m_settingsDialog;
-    }
-
-    if (m_themeSupport) {
-        delete m_themeSupport;
     }
 }
 

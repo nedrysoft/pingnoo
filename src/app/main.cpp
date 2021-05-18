@@ -58,9 +58,9 @@ int main(int argc, char **argv) {
 
     auto applicationInstance = new QApplication(argc, argv);
 
-    Nedrysoft::ThemeSupport::ThemeSupport themeSupport;
+    auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
 
-    themeSupport.initialise();
+    themeSupport->initialise();
 
     QList<QTranslator *> translators;
 

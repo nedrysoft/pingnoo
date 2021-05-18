@@ -142,7 +142,6 @@ namespace Nedrysoft { namespace Core {
             Nedrysoft::Core::EditorManager *m_editorManager;
             Nedrysoft::SettingsDialog::SettingsDialog *m_settingsDialog;
             Nedrysoft::Core::SystemTrayIconManager *m_systemTrayIcon;
-            Nedrysoft::ThemeSupport::ThemeSupport *m_themeSupport;
 
             /*
             QLabel *m_pointInfoLabel;
