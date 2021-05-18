@@ -60,9 +60,7 @@ int main(int argc, char **argv) {
 
     Nedrysoft::ThemeSupport::ThemeSupport themeSupport;
 
-    Nedrysoft::ThemeSupport::ThemeSupport::initialise();
-
-    themeSupport.selectActive(Nedrysoft::ThemeSupport::Theme::System);
+    themeSupport.initialise();
 
     QList<QTranslator *> translators;
 

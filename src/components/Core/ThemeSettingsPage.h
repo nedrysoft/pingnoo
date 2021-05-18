@@ -30,6 +30,10 @@
 #include <QString>
 #include <QWidget>
 
+namespace Nedrysoft { namespace ThemeSupport {
+    class ThemeSupportConfigurationWidget;
+}}
+
 namespace Nedrysoft { namespace Core {
     class HostMaskerSettingsPageWidget;
 
@@ -110,7 +114,7 @@ namespace Nedrysoft { namespace Core {
         private:
             //! @cond
 
-            QWidget *m_settingsWidget;
+            Nedrysoft::ThemeSupport::ThemeSupportConfigurationWidget * m_settingsWidget;
 
             //! @endcond
     };

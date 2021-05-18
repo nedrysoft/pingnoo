@@ -25,7 +25,7 @@
 
 #include <QLabel>
 
-//#include "ThemeSettingsPageWidget.h"
+#include <ThemeSupportConfigurationWidget>
 
 Nedrysoft::Core::ThemeSettingsPage::ThemeSettingsPage(QWidget *parent) :
         m_settingsWidget(nullptr) {
@@ -58,7 +58,7 @@ auto Nedrysoft::Core::ThemeSettingsPage::icon(bool isDarkMode) -> QIcon {
 
 auto Nedrysoft::Core::ThemeSettingsPage::createWidget() -> QWidget * {
     if (!m_settingsWidget) {
-        m_settingsWidget = new QLabel("Hello World!");//HostMaskerSettingsPageWidget;
+        m_settingsWidget = new Nedrysoft::ThemeSupport::ThemeSupportConfigurationWidget;
 
         connect(m_settingsWidget, &QWidget::destroyed, [=](QObject *object) {
            m_settingsWidget = nullptr;
@@ -72,7 +72,7 @@ auto Nedrysoft::Core::ThemeSettingsPage::createWidget() -> QWidget * {
 
 auto Nedrysoft::Core::ThemeSettingsPage::canAcceptSettings() -> bool {
     if (m_settingsWidget) {
-        //return m_settingsWidget->canAcceptSettings();
+        return new Nedrysoft::ThemeSupport::ThemeSupportConfigurationWidget;
     }
 
     return true;
@@ -80,6 +80,6 @@ auto Nedrysoft::Core::ThemeSettingsPage::canAcceptSettings() -> bool {
 
 auto Nedrysoft::Core::ThemeSettingsPage::acceptSettings() -> void {
     if (m_settingsWidget) {
-        //m_settingsWidget->acceptSettings();
+        m_settingsWidget->acceptSettings();
     }
 }
