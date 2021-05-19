@@ -46,7 +46,9 @@
 #include <QSystemTrayIcon>
 #include <QTimer>
 #include <ISettingsPage>
+#if defined(Q_OS_MACOS)
 #include <MacHelper>
+#endif
 #include <SettingsDialog>
 #include <ThemeSupport>
 #include <spdlog/spdlog.h>
@@ -105,22 +107,22 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
     });
 
     setTitlebarColour();
-
+#endif
     connect(themeSupport, &Nedrysoft::ThemeSupport::ThemeSupport::themeChanged, [=](bool) {
+#if defined(Q_OS_MACOS)
         Nedrysoft::MacHelper::MacHelper macHelper;
 
         macHelper.setTitlebarColour(
                 this,
                 ui->ribbonBar->backgroundColor(),
                 themeSupport->isDarkMode());
-
+#endif
         if (themeSupport->isForced()) {
             ui->statusbar->setStyleSheet("background-color: " + ui->ribbonBar->backgroundColor().name());
         } else {
             ui->statusbar->setStyleSheet("");
         }
     });
-#endif
 
     if (themeSupport->isForced()) {
         ui->statusbar->setStyleSheet("background-color: " + ui->ribbonBar->backgroundColor().name());
