@@ -197,7 +197,10 @@ auto Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) -> int {
     m_tabWidget->setStyleSheet(WindowsStylesheet);
 #else
     Q_UNUSED(tabIndex);
-    if (Nedrysoft::ThemeSupport::ThemeSupport().isDarkMode()) {
+
+    auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
+
+    if (themeSupport->isDarkMode()) {
         m_tabWidget->setStyleSheet(LinuxDarkStylesheet);
     } else {
         m_tabWidget->setStyleSheet(LinuxLightStylesheet);

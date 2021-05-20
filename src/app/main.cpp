@@ -56,7 +56,11 @@ int main(int argc, char **argv) {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 #endif
 
+    Nedrysoft::ThemeSupport::ThemeSupport::initialisePlatform(true);
+
     auto applicationInstance = new QApplication(argc, argv);
+
+    Nedrysoft::ThemeSupport::ThemeSupport::initialisePlatform(false);
 
     auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
 
@@ -233,7 +237,7 @@ int main(int argc, char **argv) {
 
         exitCode = QApplication::exec();
     } else {
-        qDebug() << QString(QObject::tr("The application does not have a main window, exiting. (please check Components are installed correctly)"));
+        //qDebug() << QString(QObject::tr("The application does not have a main window, exiting. (please check Components are installed correctly)"));
 
         exitCode = 1;
     }
