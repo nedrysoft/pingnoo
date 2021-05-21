@@ -27,6 +27,7 @@
 #include "IPingEngineFactory.h"
 
 #include <QDialog>
+#include <ThemeDialog>
 
 class QTextEdit;
 
@@ -44,7 +45,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
      *              the user to select the target, ping engine, interval etc.
      */
     class NewTargetDialog :
-            public QDialog {
+        public Nedrysoft::ThemeSupport::ThemeDialog {
 
         private:
             Q_OBJECT

@@ -28,6 +28,7 @@
 #include "IComponentManager.h"
 
 #include <IInterface>
+#include <QDebug>
 #include <QMainWindow>
 #include <QObject>
 
@@ -42,6 +43,7 @@ namespace Nedrysoft { namespace Core {
 }}
 
 namespace Nedrysoft { namespace Core {
+
     /**
      * @brief       The ICore interface is the root component for the application.
      *
@@ -104,7 +106,7 @@ namespace Nedrysoft { namespace Core {
              *
              * @returns     the folder where data should be saved.
              */
-             virtual auto storageFolder() -> QString = 0;
+            virtual auto storageFolder() -> QString = 0;
 
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~ICore() = default;

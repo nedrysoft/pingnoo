@@ -133,6 +133,11 @@ namespace Nedrysoft { namespace Core {
              */
             auto findMenu(QString menuId) -> Nedrysoft::Core::IMenu *;
 
+            /**
+             * @brief       Updates the title bar when light/dark mode changes.
+             */
+            auto updateTitlebar() -> void;
+
         private:
             //! @cond
 
@@ -142,6 +147,8 @@ namespace Nedrysoft { namespace Core {
             Nedrysoft::Core::EditorManager *m_editorManager;
             Nedrysoft::SettingsDialog::SettingsDialog *m_settingsDialog;
             Nedrysoft::Core::SystemTrayIconManager *m_systemTrayIcon;
+
+            QMetaObject::Connection m_themeChangedConnection;
 
             /*
             QLabel *m_pointInfoLabel;

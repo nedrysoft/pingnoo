@@ -91,31 +91,19 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
     auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
 
 #if defined(Q_OS_MACOS)
-    auto setTitlebarColour = [this]() {
-        Nedrysoft::MacHelper::MacHelper macHelper;
-
-        auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
-
-        macHelper.setTitlebarColour(
-                this,
-                ui->ribbonBar->backgroundColor(),
-                themeSupport->isDarkMode());
-    };
-
-    QTimer::singleShot(0, [setTitlebarColour](){
-        setTitlebarColour();
+    QTimer::singleShot(0, [=](){
+        updateTitlebar();
     });
 
-    setTitlebarColour();
+    updateTitlebar();
 #endif
-    connect(themeSupport, &Nedrysoft::ThemeSupport::ThemeSupport::themeChanged, [=](bool) {
-#if defined(Q_OS_MACOS)
-        Nedrysoft::MacHelper::MacHelper macHelper;
+    m_themeChangedConnection = connect(
+            themeSupport,
+            &Nedrysoft::ThemeSupport::ThemeSupport::themeChanged,
+            [=](bool) {
 
-        macHelper.setTitlebarColour(
-                this,
-                ui->ribbonBar->backgroundColor(),
-                themeSupport->isDarkMode());
+#if defined(Q_OS_MACOS)
+        updateTitlebar();
 #endif
         if (themeSupport->isForced()) {
             ui->statusbar->setStyleSheet("background-color: " + ui->ribbonBar->backgroundColor().name());
@@ -160,6 +148,8 @@ Nedrysoft::Core::MainWindow::~MainWindow() {
      delete m_hostInfoLabel;
      delete m_tableModel;*/
 
+    disconnect(m_themeChangedConnection);
+
     delete m_systemTrayIcon;
 
     delete ui;
@@ -175,6 +165,19 @@ Nedrysoft::Core::MainWindow::~MainWindow() {
     if (m_settingsDialog) {
         delete m_settingsDialog;
     }
+}
+
+auto Nedrysoft::Core::MainWindow::updateTitlebar() -> void {
+#if defined(Q_OS_MACOS)
+    Nedrysoft::MacHelper::MacHelper macHelper;
+
+    auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
+
+    macHelper.setTitlebarColour(
+            this,
+            ui->ribbonBar->backgroundColor(),
+            themeSupport->isDarkMode());
+#endif
 }
 
 auto Nedrysoft::Core::MainWindow::initialise() -> void {

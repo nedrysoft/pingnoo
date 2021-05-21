@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Nedrysoft::RouteAnalyser::NewTargetDialog</class>
- <widget class="QDialog" name="Nedrysoft::RouteAnalyser::NewTargetDialog">
+ <widget class="Nedrysoft::ThemeSupport::ThemeDialog" name="Nedrysoft::RouteAnalyser::NewTargetDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -148,6 +148,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Nedrysoft::ThemeSupport::ThemeDialog</class>
+   <extends>QDialog</extends>
+   <header location="global">ThemeDialog</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
