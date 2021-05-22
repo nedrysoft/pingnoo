@@ -311,8 +311,9 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::targets() -> QList<Nedryso
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::doStop() -> void {
     if (d->m_transmitterThread->isRunning()) {
         d->m_transmitter->m_isRunning = false;
-
+        qDebug() << "telling it to quit";
         d->m_transmitterThread->wait();
+        qDebug() << "it quit";
 
         delete d->m_transmitterThread;
     }

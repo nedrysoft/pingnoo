@@ -26,6 +26,7 @@
 #include <QApplication>
 #include <QDir>
 #include <QStandardPaths>
+#include "ThemeSupport"
 
 Nedrysoft::Core::Core::Core() :
         m_mainWindow(new Nedrysoft::Core::MainWindow) {
@@ -41,6 +42,8 @@ Nedrysoft::Core::Core::~Core() {
     delete m_randomGenerator;
 
     delete m_mainWindow;
+
+    delete Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
 }
 
 auto Nedrysoft::Core::Core::open() -> void {

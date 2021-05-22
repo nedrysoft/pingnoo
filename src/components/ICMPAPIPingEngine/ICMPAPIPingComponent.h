@@ -24,8 +24,10 @@
 #ifndef PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGCOMPONENT_H
 #define PINGNOO_COMPONENTS_ICMPAPIPINGENGINE_ICMPAPIPINGCOMPONENT_H
 
-#include <IComponent>
+#include "ICMPAPIPingEngineFactory.h"
 #include "ICMPAPIPingEngineSpec.h"
+
+#include <IComponent>
 
 /**
  * @brief       The ICMPAPIPingComponent class provides a ping engine for the Windows ICMPAPI api.
@@ -60,6 +62,9 @@ class NEDRYSOFT_ICMPAPIPINGENGINE_DLLSPEC ICMPAPIPingComponent :
          * @see         Nedrysoft::ComponentSystem::IComponent::initialiseEvent
          */
         auto initialiseEvent() -> void override;
+
+    private:
+        Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory *m_pingEngineFactory;
 
 };
 

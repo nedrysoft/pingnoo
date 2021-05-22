@@ -63,7 +63,9 @@ Nedrysoft::Core::SystemTrayIconManager::SystemTrayIconManager(QObject *parent) :
 }
 
 Nedrysoft::Core::SystemTrayIconManager::~SystemTrayIconManager() {
-
+#if !defined(Q_OS_MACOS)
+    delete m_systemTrayIcon;
+#endif
 }
 
 auto Nedrysoft::Core::SystemTrayIconManager::setVisible(bool visible) -> void {
