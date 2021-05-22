@@ -29,9 +29,18 @@
 #include <windows.h>
 #include <spdlog/spdlog.h>
 
-ICMPAPIPingComponent::ICMPAPIPingComponent() = default;
+ICMPAPIPingComponent::ICMPAPIPingComponent()  :
+        m_pingEngineFactory(nullptr) {
 
-ICMPAPIPingComponent::~ICMPAPIPingComponent() = default;
+}
+
+ICMPAPIPingComponent::~ICMPAPIPingComponent() {
+    if (m_pingEngineFactory) {
+        Nedrysoft::ComponentSystem::removeObject(m_pingEngineFactory);
+
+        delete m_pingEngineFactory;
+    }
+};
 
 auto ICMPAPIPingComponent::initialiseEvent() -> void {
     WSADATA wsaData;
@@ -40,7 +49,9 @@ auto ICMPAPIPingComponent::initialiseEvent() -> void {
         spdlog::warn("error initialising winsock");
     }
 
-    Nedrysoft::ComponentSystem::addObject(new Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory());
+    m_pingEngineFactory = new Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory();
+
+    Nedrysoft::ComponentSystem::addObject(m_pingEngineFactory);
 }
 
 

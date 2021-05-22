@@ -88,9 +88,9 @@ auto Nedrysoft::Core::RibbonBarManager::addPage(QString title, QString id, float
     m_visibleList.insert(tabIndex, page);
 
     m_ribbonWidget->removeTab(tabIndex);
-
-    m_pages[id] = ribbonPage;
 #endif
+    m_pages[id] = ribbonPage;
+
     return ribbonPage;
 }
 
