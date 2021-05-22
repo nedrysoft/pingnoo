@@ -148,8 +148,6 @@ namespace Nedrysoft { namespace Core {
             Nedrysoft::SettingsDialog::SettingsDialog *m_settingsDialog;
             Nedrysoft::Core::SystemTrayIconManager *m_systemTrayIcon;
 
-            QMetaObject::Connection m_themeChangedConnection;
-
             /*
             QLabel *m_pointInfoLabel;
             QLabel *m_hopInfoLabel;

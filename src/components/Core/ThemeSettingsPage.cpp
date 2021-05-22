@@ -60,6 +60,13 @@ auto Nedrysoft::Core::ThemeSettingsPage::createWidget() -> QWidget * {
     if (!m_settingsWidget) {
         m_settingsWidget = new Nedrysoft::ThemeSupport::ThemeSupportConfigurationWidget;
 
+        connect(
+                m_settingsWidget,
+                &Nedrysoft::ThemeSupport::ThemeSupportConfigurationWidget::settingsChanged,
+                this,
+                &Nedrysoft::SettingsDialog::ISettingsPage::settingsChanged
+        );
+
         connect(m_settingsWidget, &QWidget::destroyed, [=](QObject *object) {
            m_settingsWidget = nullptr;
         });

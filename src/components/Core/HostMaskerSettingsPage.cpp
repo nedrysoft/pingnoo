@@ -56,7 +56,7 @@ auto Nedrysoft::Core::HostMaskerSettingsPage::icon(bool isDarkMode) -> QIcon {
 
 auto Nedrysoft::Core::HostMaskerSettingsPage::createWidget() -> QWidget * {
     if (!m_settingsWidget) {
-        m_settingsWidget = new HostMaskerSettingsPageWidget;
+        m_settingsWidget = new HostMaskerSettingsPageWidget(this);
 
         connect(m_settingsWidget, &QWidget::destroyed, [=](QObject *object) {
            m_settingsWidget = nullptr;

@@ -97,7 +97,7 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
 
     updateTitlebar();
 #endif
-    m_themeChangedConnection = connect(
+    auto signal = connect(
             themeSupport,
             &Nedrysoft::ThemeSupport::ThemeSupport::themeChanged,
             [=](bool) {
@@ -110,6 +110,10 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
         } else {
             ui->statusbar->setStyleSheet("");
         }
+    });
+
+    connect(this, &QObject::destroyed, [themeSupport, signal]() {
+        themeSupport->disconnect(signal);
     });
 
     if (themeSupport->isForced()) {
@@ -147,8 +151,6 @@ Nedrysoft::Core::MainWindow::~MainWindow() {
      delete m_hopInfoLabel;
      delete m_hostInfoLabel;
      delete m_tableModel;*/
-
-    disconnect(m_themeChangedConnection);
 
     delete m_systemTrayIcon;
 
