@@ -26,12 +26,17 @@
 
 #include <QWidget>
 
+namespace Nedrysoft { namespace SettingsDialog {
+    class ISettingsPage;
+}}
+
 namespace Nedrysoft { namespace Core {
     namespace Ui {
         class HostMaskerSettingsPageWidget;
     }
 
     class IHostMaskerSettingsPage;
+
 
     /**
      * @brief       The HostMaskerSettingsPageWidget class provides the widget for host maskers.
@@ -47,9 +52,13 @@ namespace Nedrysoft { namespace Core {
             /**
              * @brief       Constructs a new HostMaskerSettingsPageWidget which is a child of the parent.
              *
+             * @param[in]   settingsPage is the settings page that owns this widget.
              * @param[in]   parent the parent of this widget.
              */
-            explicit HostMaskerSettingsPageWidget(QWidget *parent = nullptr);
+            explicit HostMaskerSettingsPageWidget(
+                    Nedrysoft::SettingsDialog::ISettingsPage *settingsPage,
+                    QWidget *parent = nullptr
+            );
 
             /**
              * @brief       Destroys the RegExHostMaskerSettingsPageWidget.
@@ -81,6 +90,8 @@ namespace Nedrysoft { namespace Core {
             Ui::HostMaskerSettingsPageWidget *ui;
 
             QList<IHostMaskerSettingsPage *> m_maskerSettingsPages;
+
+            Nedrysoft::SettingsDialog::ISettingsPage *m_settingsPage;
 
             //! @endcond
     };

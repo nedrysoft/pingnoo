@@ -45,8 +45,10 @@ auto Nedrysoft::RouteAnalyser::LineSyntaxHighlighter::highlightBlock(const QStri
     QTextCharFormat textFormat;
     auto colour = Qt::red;
 
+    auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
+
     if (!m_syntaxFunction(text)) {
-        if (Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode()) {
+        if (themeSupport->isDarkMode()) {
             colour = Qt::yellow;
         }
 

@@ -31,13 +31,14 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QStandardItemModel>
+#include <ThemeDialog>
 #include <cassert>
 #include <cmath>
 
 constexpr auto LineEditHeightAdjustment = 2;
 
 Nedrysoft::RouteAnalyser::NewTargetDialog::NewTargetDialog(QWidget *parent) :
-        QDialog(parent),
+        Nedrysoft::ThemeSupport::ThemeDialog(parent),
         ui(new Ui::NewTargetDialog),
         m_targetHighlighter(nullptr),
         m_intervalHighlighter(nullptr) {

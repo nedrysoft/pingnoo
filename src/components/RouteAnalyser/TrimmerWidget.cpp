@@ -90,11 +90,13 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
     QBrush trimmerBackgroundBrush;
     QBrush gripInnerBrush;
 
+    auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
+
     if (isEnabled()) {
         gripBrush = QBrush(ViewportGripColour);
         gripInnerBrush = QBrush(GripInnerColour);
 
-        if (Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode()) {
+        if (themeSupport->isDarkMode()) {
             viewportBackgroundBrush = QBrush(ViewportBackgroundColourDark);
             trimmerBackgroundBrush = QBrush(TrimmerBackgroundColourDark);
         } else {
@@ -102,7 +104,7 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
             trimmerBackgroundBrush = QBrush(TrimmerBackgroundColourLight);
         }
     } else {
-        if (Nedrysoft::ThemeSupport::ThemeSupport::isDarkMode()) {
+        if (themeSupport->isDarkMode()) {
             gripBrush = QBrush(QColor(Qt::lightGray).darker());
             viewportBackgroundBrush = QBrush(gripBrush.color().darker());
             trimmerBackgroundBrush = QBrush(gripBrush.color().darker(DarkModeTrimmerBackgroundFactor));
@@ -134,7 +136,8 @@ auto Nedrysoft::RouteAnalyser::TrimmerWidget::paintEvent(QPaintEvent *event) -> 
             contentRect.adjusted(0,0,-1,0),
             static_cast<double>(TrimmerCornerRadius)/2.0,
             static_cast<double>(TrimmerCornerRadius)/2.0,
-            Qt::AbsoluteSize );
+            Qt::AbsoluteSize
+    );
 
     painter.translate(m_viewportPosition*contentWidth, 0);
 

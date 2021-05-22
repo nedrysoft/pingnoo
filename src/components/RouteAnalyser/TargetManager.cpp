@@ -40,6 +40,9 @@
 #if !defined(Q_OS_MACOS)
 #include <QMessageBox>
 #endif
+#if defined(Q_OS_LINUX)
+#include <QVariantMap>
+#endif
 
 constexpr auto ConfigurationPath = "Nedrysoft/Pingnoo/Components/RouteAnalyser";
 constexpr auto ConfigurationFilename = "Favourites.json";

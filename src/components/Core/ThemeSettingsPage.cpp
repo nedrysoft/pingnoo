@@ -21,42 +21,51 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "HostMaskerSettingsPage.h"
+#include "ThemeSettingsPage.h"
 
-#include "HostMaskerSettingsPageWidget.h"
+#include <QLabel>
 
-Nedrysoft::Core::HostMaskerSettingsPage::HostMaskerSettingsPage(QWidget *parent) :
+#include <ThemeSupportConfigurationWidget>
+
+Nedrysoft::Core::ThemeSettingsPage::ThemeSettingsPage(QWidget *parent) :
         m_settingsWidget(nullptr) {
 
     Q_UNUSED(parent)
 }
 
-Nedrysoft::Core::HostMaskerSettingsPage::~HostMaskerSettingsPage() {
+Nedrysoft::Core::ThemeSettingsPage::~ThemeSettingsPage() {
 }
 
-auto Nedrysoft::Core::HostMaskerSettingsPage::section() -> QString {
-    return tr("Host Maskers");
+auto Nedrysoft::Core::ThemeSettingsPage::section() -> QString {
+    return tr("General");
 }
 
-auto Nedrysoft::Core::HostMaskerSettingsPage::category() -> QString {
-    return tr("Configuration");
+auto Nedrysoft::Core::ThemeSettingsPage::category() -> QString {
+    return tr("Theme");
 }
 
-auto Nedrysoft::Core::HostMaskerSettingsPage::description() -> QString {
-    return tr("The configuration options for the available host maskers.");
+auto Nedrysoft::Core::ThemeSettingsPage::description() -> QString {
+    return tr("The configuration options for the application theme.");
 }
 
-auto Nedrysoft::Core::HostMaskerSettingsPage::icon(bool isDarkMode) -> QIcon {
+auto Nedrysoft::Core::ThemeSettingsPage::icon(bool isDarkMode) -> QIcon {
     if (isDarkMode) {
-        return QIcon(":/Core/icons/2x/twotone_security_white_24dp.png");
+        return QIcon(":/Core/icons/2x/settings_white_24dp.png");
     } else {
-        return QIcon(":/Core/icons/2x/twotone_security_black_24dp.png");
+        return QIcon(":/Core/icons/2x/settings_black_24dp.png");
     }
 }
 
-auto Nedrysoft::Core::HostMaskerSettingsPage::createWidget() -> QWidget * {
+auto Nedrysoft::Core::ThemeSettingsPage::createWidget() -> QWidget * {
     if (!m_settingsWidget) {
-        m_settingsWidget = new HostMaskerSettingsPageWidget(this);
+        m_settingsWidget = new Nedrysoft::ThemeSupport::ThemeSupportConfigurationWidget;
+
+        connect(
+                m_settingsWidget,
+                &Nedrysoft::ThemeSupport::ThemeSupportConfigurationWidget::settingsChanged,
+                this,
+                &Nedrysoft::SettingsDialog::ISettingsPage::settingsChanged
+        );
 
         connect(m_settingsWidget, &QWidget::destroyed, [=](QObject *object) {
            m_settingsWidget = nullptr;
@@ -68,14 +77,15 @@ auto Nedrysoft::Core::HostMaskerSettingsPage::createWidget() -> QWidget * {
     return m_settingsWidget;
 }
 
-auto Nedrysoft::Core::HostMaskerSettingsPage::canAcceptSettings() -> bool {
+auto Nedrysoft::Core::ThemeSettingsPage::canAcceptSettings() -> bool {
     if (m_settingsWidget) {
         return m_settingsWidget->canAcceptSettings();
     }
+
     return true;
 }
 
-auto Nedrysoft::Core::HostMaskerSettingsPage::acceptSettings() -> void {
+auto Nedrysoft::Core::ThemeSettingsPage::acceptSettings() -> void {
     if (m_settingsWidget) {
         m_settingsWidget->acceptSettings();
     }

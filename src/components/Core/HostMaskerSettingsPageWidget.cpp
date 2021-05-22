@@ -31,10 +31,15 @@
 
 auto constexpr TreeItemAdjustment = 32;
 
-Nedrysoft::Core::HostMaskerSettingsPageWidget::HostMaskerSettingsPageWidget(QWidget *parent) :
-        QWidget(parent), ui(new Ui::HostMaskerSettingsPageWidget) {
+Nedrysoft::Core::HostMaskerSettingsPageWidget::HostMaskerSettingsPageWidget(
+            Nedrysoft::SettingsDialog::ISettingsPage *page,
+            QWidget *parent) :
+        QWidget(parent),
+        ui(new Ui::HostMaskerSettingsPageWidget) {
 
     ui->setupUi(this);
+
+    m_settingsPage = page;
 }
 
 Nedrysoft::Core::HostMaskerSettingsPageWidget::~HostMaskerSettingsPageWidget() {

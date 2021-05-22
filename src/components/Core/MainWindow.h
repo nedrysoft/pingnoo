@@ -30,12 +30,12 @@
 #include <QAction>
 #include <QMainWindow>
 
-namespace Nedrysoft { namespace Core { namespace Ui {
-
-}}}
-
 namespace Nedrysoft { namespace SettingsDialog {
     class SettingsDialog;
+}}
+
+namespace Nedrysoft { namespace ThemeSupport {
+    class ThemeSupport;
 }}
 
 namespace Nedrysoft { namespace Core {
@@ -133,17 +133,19 @@ namespace Nedrysoft { namespace Core {
              */
             auto findMenu(QString menuId) -> Nedrysoft::Core::IMenu *;
 
+            /**
+             * @brief       Updates the title bar when light/dark mode changes.
+             */
+            auto updateTitlebar() -> void;
+
         private:
             //! @cond
 
             Ui::MainWindow *ui;
 
             Nedrysoft::Core::RibbonBarManager *m_ribbonBarManager;
-
             Nedrysoft::Core::EditorManager *m_editorManager;
-
             Nedrysoft::SettingsDialog::SettingsDialog *m_settingsDialog;
-
             Nedrysoft::Core::SystemTrayIconManager *m_systemTrayIcon;
 
             /*

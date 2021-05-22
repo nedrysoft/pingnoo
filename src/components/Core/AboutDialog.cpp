@@ -25,7 +25,6 @@
 
 #include "ui_AboutDialog.h"
 
-#include <QDebug>
 #include <QLibraryInfo>
 #include <QSysInfo>
 

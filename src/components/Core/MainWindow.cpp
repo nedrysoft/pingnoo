@@ -43,9 +43,14 @@
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
-#include <ISettingsPage>
-#include <SettingsDialog>
 #include <QSystemTrayIcon>
+#include <QTimer>
+#include <ISettingsPage>
+#if defined(Q_OS_MACOS)
+#include <MacHelper>
+#endif
+#include <SettingsDialog>
+#include <ThemeSupport>
 #include <spdlog/spdlog.h>
 
 Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
@@ -83,6 +88,37 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(QString(tr("Pingnoo %1.%2.%3-%4 (%5)"))
             .arg(PINGNOO_GIT_YEAR, PINGNOO_GIT_MONTH, PINGNOO_GIT_DAY, PINGNOO_GIT_BRANCH, PINGNOO_GIT_HASH));
 
+    auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
+
+#if defined(Q_OS_MACOS)
+    QTimer::singleShot(0, [=](){
+        updateTitlebar();
+    });
+
+    updateTitlebar();
+#endif
+    auto signal = connect(
+            themeSupport,
+            &Nedrysoft::ThemeSupport::ThemeSupport::themeChanged,
+            [=](bool) {
+
+#if defined(Q_OS_MACOS)
+        updateTitlebar();
+#endif
+        if (themeSupport->isForced()) {
+            ui->statusbar->setStyleSheet("background-color: " + ui->ribbonBar->backgroundColor().name());
+        } else {
+            ui->statusbar->setStyleSheet("");
+        }
+    });
+
+    connect(this, &QObject::destroyed, [themeSupport, signal]() {
+        themeSupport->disconnect(signal);
+    });
+
+    if (themeSupport->isForced()) {
+        ui->statusbar->setStyleSheet("background-color: " + ui->ribbonBar->backgroundColor().name());
+    }
     // QStatusBar *statusBar = new QStatusBar;
 
     /*
@@ -131,6 +167,19 @@ Nedrysoft::Core::MainWindow::~MainWindow() {
     if (m_settingsDialog) {
         delete m_settingsDialog;
     }
+}
+
+auto Nedrysoft::Core::MainWindow::updateTitlebar() -> void {
+#if defined(Q_OS_MACOS)
+    Nedrysoft::MacHelper::MacHelper macHelper;
+
+    auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
+
+    macHelper.setTitlebarColour(
+            this,
+            ui->ribbonBar->backgroundColor(),
+            themeSupport->isDarkMode());
+#endif
 }
 
 auto Nedrysoft::Core::MainWindow::initialise() -> void {
@@ -376,4 +425,6 @@ void Nedrysoft::Core::MainWindow::closeEvent(QCloseEvent *closeEvent) {
 
         m_settingsDialog = nullptr;
     }
+
+    QMainWindow::closeEvent(closeEvent);
 }

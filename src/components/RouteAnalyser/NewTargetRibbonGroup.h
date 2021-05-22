@@ -182,7 +182,6 @@ namespace Nedrysoft { namespace RouteAnalyser {
             LineSyntaxHighlighter *m_targetHighlighter;
             LineSyntaxHighlighter *m_intervalHighlighter;
 
-            Nedrysoft::ThemeSupport::ThemeSupport *m_themeSupport;
             QMenu *m_recentsMenu;
             QMap<QString, QMenu *> m_favouritesMenuMap;
 

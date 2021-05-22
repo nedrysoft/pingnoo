@@ -26,7 +26,6 @@
 #include "SplashScreen.h"
 
 #include <Component>
-#include <ComponentLoader>
 #include <IComponentManager.h>
 #include <QApplication>
 #include <QDir>
@@ -38,6 +37,7 @@
 #include <QStandardPaths>
 #include <QTimer>
 #include <QTranslator>
+#include <ThemeSupport>
 #include <spdlog/spdlog.h>
 
 #if defined(Q_OS_MAC)
@@ -49,17 +49,22 @@
 auto constexpr SplashscreenTimeout = 3000;
 
 int main(int argc, char **argv) {
-#if defined(Q_OS_LINUX)
-    auto platformTheme = qgetenv("QT_QPA_PLATFORMTHEME");
-
-    if (platformTheme.isEmpty()) {
-        qputenv("QT_QPA_PLATFORMTHEME", "gtk2");
-    }
-#endif
+    qApp->setApplicationName("Pingnoo");
+    qApp->setOrganizationName("Nedrysoft");
 
 #if (QT_VERSION_MAJOR<6)
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 #endif
+
+    Nedrysoft::ThemeSupport::ThemeSupport::initialisePlatform(true);
+
+    auto applicationInstance = new QApplication(argc, argv);
+
+    Nedrysoft::ThemeSupport::ThemeSupport::initialisePlatform(false);
+
+    auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
+
+    themeSupport->initialise();
 
     QList<QTranslator *> translators;
 
@@ -74,11 +79,7 @@ int main(int argc, char **argv) {
     CFRelease(macPath);
 #endif
 
-    qApp->setApplicationName("Pingnoo");
-    qApp->setOrganizationName("Nedrysoft");
-
     auto componentLoader = new Nedrysoft::ComponentSystem::ComponentLoader;
-    auto applicationInstance = new QApplication(argc, argv);
 
     auto applicationDir = QDir(qApp->applicationDirPath());
     QString translationsPath;
@@ -236,7 +237,7 @@ int main(int argc, char **argv) {
 
         exitCode = QApplication::exec();
     } else {
-        qDebug() << QString(QObject::tr("The application does not have a main window, exiting. (please check Components are installed correctly)"));
+        //qDebug() << QString(QObject::tr("The application does not have a main window, exiting. (please check Components are installed correctly)"));
 
         exitCode = 1;
     }

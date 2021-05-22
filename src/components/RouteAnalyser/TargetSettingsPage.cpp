@@ -24,7 +24,6 @@
 #include "TargetSettingsPage.h"
 
 #include "TargetSettingsPageWidget.h"
-#include <QDebug>
 
 Nedrysoft::RouteAnalyser::TargetSettingsPage::TargetSettingsPage(QWidget *parent) :
         m_settingsPageWidget(nullptr) {

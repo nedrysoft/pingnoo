@@ -23,7 +23,6 @@
 
 #include "ICMPPingItem.h"
 
-#include <QDebug>
 #include <QTimer>
 
 Nedrysoft::ICMPPingEngine::ICMPPingItem::ICMPPingItem() :
