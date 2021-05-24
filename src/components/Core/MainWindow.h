@@ -46,7 +46,7 @@ namespace Nedrysoft { namespace Core {
     class IMenu;
     class RibbonBarManager;
     class EditorManager;
-    class SystemTrayIconManager;
+    class SystemTrayIcon;
 
     /**
      * @brief       The MainWindow class provides the Main Application window.
@@ -146,7 +146,7 @@ namespace Nedrysoft { namespace Core {
             Nedrysoft::Core::RibbonBarManager *m_ribbonBarManager;
             Nedrysoft::Core::EditorManager *m_editorManager;
             Nedrysoft::SettingsDialog::SettingsDialog *m_settingsDialog;
-            Nedrysoft::Core::SystemTrayIconManager *m_systemTrayIcon;
+            Nedrysoft::Core::SystemTrayIcon *m_systemTrayIcon;
 
             /*
             QLabel *m_pointInfoLabel;

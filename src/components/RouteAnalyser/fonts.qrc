@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/Nedrysoft/RouteAnalyser/">
+        <file>Roboto_Mono/static/RobotoMono-Bold.ttf</file>
+        <file>Roboto_Mono/static/RobotoMono-BoldItalic.ttf</file>
+        <file>Roboto_Mono/static/RobotoMono-ExtraLight.ttf</file>
+        <file>Roboto_Mono/static/RobotoMono-ExtraLightItalic.ttf</file>
+        <file>Roboto_Mono/static/RobotoMono-Italic.ttf</file>
+        <file>Roboto_Mono/static/RobotoMono-Light.ttf</file>
+        <file>Roboto_Mono/static/RobotoMono-LightItalic.ttf</file>
+        <file>Roboto_Mono/static/RobotoMono-Medium.ttf</file>
+        <file>Roboto_Mono/static/RobotoMono-MediumItalic.ttf</file>
+        <file>Roboto_Mono/static/RobotoMono-Regular.ttf</file>
+        <file>Roboto_Mono/static/RobotoMono-SemiBold.ttf</file>
+        <file>Roboto_Mono/static/RobotoMono-SemiBoldItalic.ttf</file>
+        <file>Roboto_Mono/static/RobotoMono-Thin.ttf</file>
+        <file>Roboto_Mono/static/RobotoMono-ThinItalic.ttf</file>
+    </qresource>
+</RCC>

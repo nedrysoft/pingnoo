@@ -65,6 +65,7 @@ pingnoo_add_sources(
     IRibbonGroup.h
     IRibbonPage.h
     IStatusbarManager.h
+    ISystemTrayIcon.h
     ISystemTrayIconManager.h
     ISystemTrayIconWidget.h
     MainWindow.cpp
@@ -80,6 +81,8 @@ pingnoo_add_sources(
     RibbonPage.h
     StatusbarManager.cpp
     StatusbarManager.h
+    SystemTrayIcon.cpp
+    SystemTrayIcon.h
     SystemTrayIconManager.cpp
     SystemTrayIconManager.h
     ThemeSettingsPage.cpp

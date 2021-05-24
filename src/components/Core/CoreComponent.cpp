@@ -30,6 +30,7 @@
 #include "IRibbonBarManager.h"
 #include "IRibbonPage.h"
 #include "Pingnoo.h"
+#include "SystemTrayIconManager.h"
 #include "ThemeSettingsPage.h"
 
 #include <QHostAddress>
@@ -57,12 +58,14 @@ auto CoreComponent::initialiseEvent() -> void {
     m_commandManager = new Nedrysoft::Core::CommandManager();
     m_hostMaskerSettingsPage = new Nedrysoft::Core::HostMaskerSettingsPage();
     m_themeSettingsPage = new Nedrysoft::Core::ThemeSettingsPage();
+    m_systemTrayIconManager = new Nedrysoft::Core::SystemTrayIconManager();
 
     Nedrysoft::ComponentSystem::addObject(m_core);
     Nedrysoft::ComponentSystem::addObject(m_contextManager);
     Nedrysoft::ComponentSystem::addObject(m_commandManager);
     Nedrysoft::ComponentSystem::addObject(m_hostMaskerSettingsPage);
     Nedrysoft::ComponentSystem::addObject(m_themeSettingsPage);
+    Nedrysoft::ComponentSystem::addObject(m_systemTrayIconManager);
 
     auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
 

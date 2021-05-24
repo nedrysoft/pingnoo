@@ -32,7 +32,7 @@
 #include "EditorManager.h"
 #include "Pingnoo.h"
 #include "RibbonBarManager.h"
-#include "SystemTrayIconManager.h"
+#include "SystemTrayIcon.h"
 #include "ui_MainWindow.h"
 
 #include <Component>
@@ -70,9 +70,9 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
 #else
     qApp->setWindowIcon(QIcon(":/app/AppIcon.ico"));
 #endif
-    m_systemTrayIcon = new SystemTrayIconManager(this);
+    m_systemTrayIcon = new SystemTrayIcon(this);
 
-    m_systemTrayIcon->setIconColour(Qt::green);
+    m_systemTrayIcon->setColour(Qt::green);
     m_systemTrayIcon->setVisible(true);
 
     m_ribbonBarManager = new Nedrysoft::Core::RibbonBarManager(ui->ribbonBar);

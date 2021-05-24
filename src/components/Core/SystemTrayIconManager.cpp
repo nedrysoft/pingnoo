@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2021 Adrian Carpenter
+ * Copyright (C) 2020 Adrian Carpenter
  *
  * This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
  *
  * An open-source cross-platform traceroute analyser.
  *
- * Created by Adrian Carpenter on 03/05/2021.
+ * Created by Adrian Carpenter on 10/12/2020.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,89 +23,12 @@
 
 #include "SystemTrayIconManager.h"
 
-#if defined(Q_OS_MACOS)
-#include <MacMenubarIcon>
-#include <MacPopover>
-#else
-#include <QSystemTrayIcon>
-#endif
+#include "SystemTrayIcon.h"
 
-#include <QLabel>
-#include <QVBoxLayout>
-
-constexpr auto TrayPixmap = ":/app/images/appicon/mono/appicon-1024x1024@2x.png";
-
-Nedrysoft::Core::SystemTrayIconManager::SystemTrayIconManager(QObject *parent) :
-        m_basePixmap(TrayPixmap) {
-
-#if defined(Q_OS_MACOS)
-    m_menubarIcon = new Nedrysoft::MacHelper::MacMenubarIcon(QPixmap(TrayPixmap));
-
-    connect(m_menubarIcon, &Nedrysoft::MacHelper::MacMenubarIcon::clicked, [=] {
-        auto popover = new Nedrysoft::MacHelper::MacPopover;
-
-        QWidget *contentWidget = new QWidget;
-
-        auto contentLayout = new QVBoxLayout;
-
-        contentLayout->addWidget(new QLabel("Hello!"));
-
-        contentWidget->setLayout(contentLayout);
-
-        popover->show(m_menubarIcon,
-                      contentWidget,
-                      contentWidget->sizeHint(),
-                      Nedrysoft::MacHelper::MacPopover::Edge::MaxYEdge);
-    });
-#else
-    m_systemTrayIcon = new QSystemTrayIcon;
-#endif
+auto Nedrysoft::Core::SystemTrayIconManager::createIcon() -> Nedrysoft::Core::ISystemTrayIcon * {
+    return new SystemTrayIcon;
 }
 
-Nedrysoft::Core::SystemTrayIconManager::~SystemTrayIconManager() {
-#if !defined(Q_OS_MACOS)
-    delete m_systemTrayIcon;
-#endif
-}
-
-auto Nedrysoft::Core::SystemTrayIconManager::setVisible(bool visible) -> void {
-    m_visible = visible;
-
-#if defined(Q_OS_MACOS)
-    if (m_visible) {
-        m_menubarIcon->show();
-    } else {
-        m_menubarIcon->hide();
-    }
-#else
-    if (m_visible) {
-        m_systemTrayIcon->show();
-    } else {
-        m_systemTrayIcon->hide();
-    }
-#endif
-}
-
-auto Nedrysoft::Core::SystemTrayIconManager::setIconColour(const QColor &iconColour) -> void {
-    QImage temporaryImage = m_basePixmap.toImage();
-
-    for(int y=0;y<temporaryImage.height();y++) {
-        for (int x = 0; x < temporaryImage.width(); x++) {
-            auto pixelColour = temporaryImage.pixelColor(x, y);
-
-            pixelColour.setRedF(( pixelColour.redF() + iconColour.redF()) / 2.0);
-            pixelColour.setGreenF(( pixelColour.greenF() + iconColour.greenF()) / 2.0);
-            pixelColour.setBlueF(( pixelColour.blueF() + iconColour.blueF()) / 2.0);
-
-            pixelColour.setAlphaF(pixelColour.alphaF() * iconColour.alphaF());
-
-            temporaryImage.setPixelColor(x, y, pixelColour);
-        }
-    }
-
-#if defined(Q_OS_MACOS)
-    m_menubarIcon->setPixmap(QPixmap::fromImage(temporaryImage));
-#else
-    m_systemTrayIcon->setIcon(QIcon(QPixmap::fromImage(temporaryImage)));
-#endif
+auto Nedrysoft::Core::SystemTrayIconManager::createIcon(const QPixmap &pixmap) -> Nedrysoft::Core::ISystemTrayIcon * {
+    return new SystemTrayIcon(pixmap);
 }

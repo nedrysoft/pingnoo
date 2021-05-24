@@ -33,6 +33,7 @@
 #include "Pingnoo.h"
 #include "PingResult.h"
 #include "RouteAnalyser.h"
+#include "RouteAnalyserMenuItem.h"
 #include "TargetManager.h"
 #include "TargetSettings.h"
 #include "TargetSettingsPage.h"
@@ -43,6 +44,18 @@
 #include <IEditorManager>
 #include <IRibbonBarManager>
 #include <IRibbonPage>
+#include <ISystemTrayIcon>
+#include <ISystemTrayIconManager>
+#if defined(Q_OS_MACOS)
+#include <MacHelper>
+#include <MacMenubarIcon>
+#include <MacPopover>
+#endif
+#include <QDir>
+#include <QDirIterator>
+#include <QVBoxLayout>
+
+constexpr auto FontBasePath = ":/Nedrysoft/RouteAnalyser/Roboto_Mono/static";
 
 RouteAnalyserComponent::RouteAnalyserComponent() :
         m_newTargetGroupWidget(nullptr),
@@ -114,6 +127,7 @@ auto RouteAnalyserComponent::finaliseEvent() -> void {
 
     delete Nedrysoft::RouteAnalyser::TargetManager::getInstance();
 }
+static int x = 0;
 
 auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
     auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
@@ -240,6 +254,56 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
         Nedrysoft::ComponentSystem::addObject(m_viewportGroupWidget);
         Nedrysoft::ComponentSystem::addObject(m_latencyGroupWidget);
     }
+
+    auto dirIterator = QDirIterator(FontBasePath);
+
+    while(dirIterator.hasNext()) {
+        dirIterator.next();
+
+        QFontDatabase::addApplicationFont(dirIterator.filePath());
+    }
+
+    auto systemTrayIconManager = Nedrysoft::Core::ISystemTrayIconManager::getInstance();
+
+    auto systemtrayIcon = systemTrayIconManager->createIcon();
+
+    connect(
+            systemtrayIcon,
+            &Nedrysoft::Core::ISystemTrayIcon::clicked,
+            [=](Nedrysoft::Core::ISystemTrayIcon::MouseButton button) {
+
+        if (button==Nedrysoft::Core::ISystemTrayIcon::MouseButton::Left) {
+            auto popover = new Nedrysoft::MacHelper::MacPopover;
+
+            QWidget *contentWidget = new QWidget;
+
+            auto contentLayout = new QVBoxLayout;
+
+            for (int i = 0; i < 5; i++) {
+                contentLayout->addWidget(new Nedrysoft::RouteAnalyser::RouteAnalyserMenuItem);
+            }
+
+            contentWidget->setLayout(contentLayout);
+
+            popover->show(
+                    systemtrayIcon->menubarIcon(),
+                    contentWidget,
+                    QSize(contentWidget->minimumWidth(), contentWidget->sizeHint().height()),
+                    Nedrysoft::MacHelper::MacPopover::Edge::MaxYEdge
+            );
+
+            connect(this, &RouteAnalyserComponent::destroyed, [=]() {
+                delete popover;
+            });
+        } else if (button==Nedrysoft::Core::ISystemTrayIcon::MouseButton::Right) {
+            if (x==0) {
+                Nedrysoft::MacHelper::MacHelper::hideApplication();
+            } else {
+                Nedrysoft::MacHelper::MacHelper::showApplication();
+            }
+            x ^= 1;
+        }
+    });
 }
 
 auto RouteAnalyserComponent::contextId() -> int {

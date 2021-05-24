@@ -26,7 +26,7 @@
 #include "SplashScreen.h"
 
 #include <Component>
-#include <IComponentManager.h>
+#include <IComponentManager>
 #include <QApplication>
 #include <QDir>
 #include <QDirIterator>
