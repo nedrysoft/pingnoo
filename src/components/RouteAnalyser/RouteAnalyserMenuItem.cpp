@@ -38,13 +38,10 @@ constexpr auto HeaderString = R"(
 <span style="font-weight: light;">%1%</span>
 )";
 
-#include <QDebug>
-
 int hostIndex = 0;
 
 Nedrysoft::RouteAnalyser::RouteAnalyserMenuItem::RouteAnalyserMenuItem(QWidget *parent) :
         QWidget(parent) {
-
 
     auto mainLayout = new QVBoxLayout;
     auto footerLayout = new QHBoxLayout;
