@@ -21,6 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QtGlobal>
+
 #include "RouteAnalyserMenuItem.h"
 
 #include <ColourManager.h>
@@ -32,11 +34,20 @@
 #include <QSpacerItem>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <random>
 
 constexpr auto HeaderString = R"(
 <span style="font-weight: bold">LOSS: </span>
 <span style="font-weight: light;">%1%</span>
 )";
+
+#if defined(Q_OS_MACOS)
+constexpr auto TitleFontSize = 14;
+constexpr auto DefaultFontSize = 12;
+#else
+constexpr auto TitleFontSize = 10;
+constexpr auto DefaultFontSize = 8;
+#endif
 
 int hostIndex = 0;
 
@@ -57,13 +68,13 @@ Nedrysoft::RouteAnalyser::RouteAnalyserMenuItem::RouteAnalyserMenuItem(QWidget *
     headerLayout->setSpacing(0);
     headerLayout->setContentsMargins(0,0,0,0);
 
-    font.setPointSize(12);
+    font.setPointSize(DefaultFontSize);
 
     lossLabel->setFont(font);
     lossLabel->setText(QString(HeaderString).arg((double)(rand()%100)/30.0, 0, 'f', 2));
     lossLabel->setAlignment(Qt::AlignLeft | Qt::AlignBottom);
 
-    font.setPointSize(14);
+    font.setPointSize(TitleFontSize);
 
     auto targetHosts = QStringList() << "github.com" << "google.com" << "apple.com" << "cloudflare.com" << "qt.io";
 
@@ -97,11 +108,11 @@ Nedrysoft::RouteAnalyser::RouteAnalyserMenuItem::RouteAnalyserMenuItem(QWidget *
     mainLayout->addSpacerItem(new QSpacerItem(0, 2));
     mainLayout->addWidget(graphWidget);
 
-    auto basePoint = random() % 100;
+    auto basePoint = rand() % 100;
 
-    auto minString = QString("%1.%2 ms").arg(basePoint).arg(random()%10, 2, 10, QLatin1Char('0'));
-    auto maxString = QString("%1.%2 ms").arg(60+basePoint).arg(random()%10, 2, 10, QLatin1Char('0'));
-    auto avgString = QString("%1.%2 ms").arg(35+basePoint).arg(random()%10, 2, 10, QLatin1Char('0'));
+    auto minString = QString("%1.%2 ms").arg(basePoint).arg(rand()%10, 2, 10, QLatin1Char('0'));
+    auto maxString = QString("%1.%2 ms").arg(60+basePoint).arg(rand()%10, 2, 10, QLatin1Char('0'));
+    auto avgString = QString("%1.%2 ms").arg(35+basePoint).arg(rand()%10, 2, 10, QLatin1Char('0'));
 
     auto minLabel = new QLabel(
             QString("<span style=\"font-weight: bold\">MIN:</span> <span style=\"font-weight: light\">%1</span>")
@@ -119,7 +130,7 @@ Nedrysoft::RouteAnalyser::RouteAnalyserMenuItem::RouteAnalyserMenuItem(QWidget *
     maxLabel->setAlignment(Qt::AlignLeft);
     avgLabel->setAlignment(Qt::AlignRight);
 
-    font.setPointSize(12);
+    font.setPointSize(DefaultFontSize);
 
     minLabel->setFont(font);
     maxLabel->setFont(font);

@@ -70,6 +70,13 @@ namespace Nedrysoft { namespace Core {
              */
             virtual auto setColour(const QColor &newColour) -> void = 0;
 
+            /**
+             * @brief       Returns the geometry for the system tray icon.
+             *
+             * @returns     the rectangle.
+             */
+            virtual auto geometry() -> QRect = 0;
+
 #if defined(Q_OS_MACOS)
             /**
              * @brief       Returns the menu bar icon.

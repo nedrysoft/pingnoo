@@ -87,7 +87,14 @@ namespace Nedrysoft { namespace Core {
              *
              * @param[in]   newColour the desired colour.
              */
-            auto setColour(const QColor &newColour) -> void;
+            auto setColour(const QColor &newColour) -> void override;
+
+            /**
+             * @brief       Returns the geometry for the system tray icon.
+             *
+             * @returns     the rectangle.
+             */
+            auto geometry() -> QRect override;
 
         protected:
             /**

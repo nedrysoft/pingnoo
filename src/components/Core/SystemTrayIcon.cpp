@@ -75,12 +75,30 @@ auto Nedrysoft::Core::SystemTrayIcon::createIcon() -> void {
     });
 #else
     m_systemTrayIcon = new QSystemTrayIcon;
+
+    m_systemTrayIcon->show();
+
+    connect(m_systemTrayIcon, &QSystemTrayIcon::activated, [=](QSystemTrayIcon::ActivationReason reason) {
+        if (reason==QSystemTrayIcon::Trigger) {
+            Q_EMIT clicked(Nedrysoft::Core::ISystemTrayIcon::MouseButton::Left);
+        } else if (reason==QSystemTrayIcon::Context) {
+            Q_EMIT clicked(Nedrysoft::Core::ISystemTrayIcon::MouseButton::Right);
+        }
+    });
 #endif
 }
 
 Nedrysoft::Core::SystemTrayIcon::~SystemTrayIcon() {
 #if !defined(Q_OS_MACOS)
     delete m_systemTrayIcon;
+#endif
+}
+
+auto Nedrysoft::Core::SystemTrayIcon::geometry() -> QRect {
+#if defined(Q_OS_MACOS)
+    return m_statusbarHelper-buttonRect();
+#else
+    return m_systemTrayIcon->geometry();
 #endif
 }
 

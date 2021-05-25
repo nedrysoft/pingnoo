@@ -76,6 +76,8 @@ pingnoo_add_sources(
     PingResult.h
     PlotScrollArea.cpp
     PlotScrollArea.h
+    PopoverWindow.cpp
+    PopoverWindow.h
     RouteAnalyserComponent.cpp
     RouteAnalyserComponent.h
     RouteAnalyserEditor.cpp
