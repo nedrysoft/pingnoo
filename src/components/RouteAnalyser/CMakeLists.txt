@@ -128,7 +128,6 @@ pingnoo_use_component(Core)
 
 pingnoo_use_shared_library(ComponentSystem)
 pingnoo_use_shared_library(QCustomPlot)
-pingnoo_use_shared_library(AppNap)
 pingnoo_use_shared_library(ThemeSupport)
 
 if(APPLE)
