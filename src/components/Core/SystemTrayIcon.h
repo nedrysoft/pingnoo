@@ -32,6 +32,8 @@
 #include <QPixmap>
 #include <QSystemTrayIcon>
 
+class QMenu;
+
 #if defined(Q_OS_MACOS)
 namespace Nedrysoft { namespace MacHelper {
     class MacMenubarIcon;
@@ -116,6 +118,7 @@ namespace Nedrysoft { namespace Core {
             QIcon m_icon;
             QPixmap m_basePixmap;
             QPixmap m_activePixmap;
+            QMenu *m_contextMenu;
 #if defined(Q_OS_MACOS)
             Nedrysoft::MacHelper::MacMenubarIcon *m_menubarIcon;
             Nedrysoft::MacHelper::MacPopover *m_popover;

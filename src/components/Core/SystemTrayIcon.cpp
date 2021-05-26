@@ -31,12 +31,31 @@
 #endif
 
 #include <QLabel>
+#include <QMenu>
+#include <QGuiApplication>
 #include <QVBoxLayout>
+
+#include <QWidgetAction>
+class MyAction : public QWidgetAction {
+public:
+    MyAction(QWidget *parent) :
+            QWidgetAction(parent) {
+
+    }
+    QWidget *requestWidget(QWidget *parent) {
+        return new QLabel("Hello!", parent);
+    }
+
+    void releaseWidget(QWidget *widget) {
+        widget->deleteLater();
+    }
+};
 
 constexpr auto DefaultTrayPixmap = ":/app/images/appicon/mono/appicon-1024x1024@2x.png";
 
 Nedrysoft::Core::SystemTrayIcon::SystemTrayIcon(QObject *parent) :
-        m_basePixmap(QPixmap(DefaultTrayPixmap)) {
+        m_basePixmap(QPixmap(DefaultTrayPixmap)),
+        m_contextMenu(nullptr) {
 
     createIcon();
 }
@@ -76,6 +95,17 @@ auto Nedrysoft::Core::SystemTrayIcon::createIcon() -> void {
 #else
     m_systemTrayIcon = new QSystemTrayIcon;
 
+    m_contextMenu = new QMenu;
+
+    auto quitAction = new QAction(QString(tr("Quit %1")).arg(qAppName()));
+
+    connect(quitAction, &QAction::triggered, [=]() {
+        QGuiApplication::quit();
+    });
+
+    m_contextMenu->insertAction(nullptr, quitAction);
+
+    m_systemTrayIcon->setContextMenu(m_contextMenu);
     m_systemTrayIcon->show();
 
     connect(m_systemTrayIcon, &QSystemTrayIcon::activated, [=](QSystemTrayIcon::ActivationReason reason) {
@@ -92,6 +122,9 @@ Nedrysoft::Core::SystemTrayIcon::~SystemTrayIcon() {
 #if !defined(Q_OS_MACOS)
     delete m_systemTrayIcon;
 #endif
+    if (m_contextMenu) {
+        delete m_contextMenu;
+    }
 }
 
 auto Nedrysoft::Core::SystemTrayIcon::geometry() -> QRect {

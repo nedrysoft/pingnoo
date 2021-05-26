@@ -275,16 +275,16 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
 
     auto systemTrayIconManager = Nedrysoft::Core::ISystemTrayIconManager::getInstance();
 
-    auto systemtrayIcon = systemTrayIconManager->createIcon();
+    auto systemTrayIcon = systemTrayIconManager->createIcon();
 
-    systemtrayIcon->setColour(Qt::black);
+    systemTrayIcon->setColour(Qt::black);
 
     connect(Nedrysoft::Core::mainWindow(), &QObject::destroyed, [=](QObject *) {
-        delete systemtrayIcon;
+        delete systemTrayIcon;
     });
 
     connect(
-            systemtrayIcon,
+            systemTrayIcon,
             &Nedrysoft::Core::ISystemTrayIcon::clicked,
             [=](Nedrysoft::Core::ISystemTrayIcon::MouseButton button) {
 
@@ -294,7 +294,7 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
 #else
             auto popoverWidget = new Nedrysoft::RouteAnalyser::PopoverWindow(Nedrysoft::Core::mainWindow());
 
-            auto iconRect = systemtrayIcon->geometry();
+            auto iconRect = systemTrayIcon->geometry();
 #endif
             auto contentLayout = new QVBoxLayout;
 

@@ -182,7 +182,6 @@ Nedrysoft::RouteAnalyser::RouteAnalyserMenuItem::RouteAnalyserMenuItem(QWidget *
         p.drawLine(x, lastPoint, x, thisPoint);
     }
 
-
     graphWidget->setPixmap(pixmap);
 
     setMinimumWidth(350);
