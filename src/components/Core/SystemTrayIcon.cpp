@@ -30,26 +30,9 @@
 #include <QSystemTrayIcon>
 #endif
 
-#include <QLabel>
 #include <QMenu>
 #include <QGuiApplication>
 #include <QVBoxLayout>
-
-#include <QWidgetAction>
-class MyAction : public QWidgetAction {
-public:
-    MyAction(QWidget *parent) :
-            QWidgetAction(parent) {
-
-    }
-    QWidget *requestWidget(QWidget *parent) {
-        return new QLabel("Hello!", parent);
-    }
-
-    void releaseWidget(QWidget *widget) {
-        widget->deleteLater();
-    }
-};
 
 constexpr auto DefaultTrayPixmap = ":/app/images/appicon/mono/appicon-1024x1024@2x.png";
 
@@ -129,7 +112,7 @@ Nedrysoft::Core::SystemTrayIcon::~SystemTrayIcon() {
 
 auto Nedrysoft::Core::SystemTrayIcon::geometry() -> QRect {
 #if defined(Q_OS_MACOS)
-    return m_statusbarHelper-buttonRect();
+    return m_menubarIcon->buttonRect();
 #else
     return m_systemTrayIcon->geometry();
 #endif

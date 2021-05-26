@@ -110,7 +110,7 @@ namespace Nedrysoft { namespace Core {
              *
              * @returns     the menubar icon.
              */
-            auto menubarIcon() -> Nedrysoft::MacHelper::MacMenubarIcon *;
+            auto menubarIcon() -> Nedrysoft::MacHelper::MacMenubarIcon * override;
 #endif
         private:
             //! @cond

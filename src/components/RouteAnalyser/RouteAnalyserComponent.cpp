@@ -50,6 +50,7 @@
 #include <MacHelper>
 #include <MacMenubarIcon>
 #include <MacPopover>
+#include <QPointer>
 #endif
 #include <QDir>
 #include <QDirIterator>
@@ -290,7 +291,9 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
 
         if (button==Nedrysoft::Core::ISystemTrayIcon::MouseButton::Left) {
 #if defined(Q_OS_MACOS)
-            auto popoverWidget = new Nedrysoft::MacHelper::MacPopover;
+            auto popover = new Nedrysoft::MacHelper::MacPopover;
+
+            QPointer<QWidget> popoverWidget = new QWidget;
 #else
             auto popoverWidget = new Nedrysoft::RouteAnalyser::PopoverWindow(Nedrysoft::Core::mainWindow());
 
@@ -302,15 +305,18 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
                 contentLayout->addWidget(new Nedrysoft::RouteAnalyser::RouteAnalyserMenuItem);
             }
 
-            popoverWidget->setLayout(contentLayout);
 #if defined(Q_OS_MACOS)
-            popoverWidget->show(
-                    systemtrayIcon->menubarIcon(),
-                    contentWidget,
-                    QSize(contentWidget->minimumWidth(), contentWidget->sizeHint().height()),
+            popoverWidget->setLayout(contentLayout);
+
+            popover->show(
+                    systemTrayIcon->menubarIcon(),
+                    popoverWidget,
+                    QSize(popoverWidget->minimumWidth(), popoverWidget->sizeHint().height()),
                     Nedrysoft::MacHelper::MacPopover::Edge::MaxYEdge
             );
 #elif defined(Q_OS_WINDOWS)
+            popoverWidget->setLayout(contentLayout);
+
             APPBARDATA appbarData;
 
             memset(&appbarData, 0, sizeof(appbarData));
@@ -404,16 +410,12 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
             popoverWidget->show();
 #endif
             connect(this, &RouteAnalyserComponent::destroyed, [=]() {
-                delete popoverWidget;
+                if (popoverWidget) {
+                    delete popoverWidget;
+                }
             });
         } else if (button==Nedrysoft::Core::ISystemTrayIcon::MouseButton::Right) {
-#if defined(Q_OS_MACOS)
-            if (x==0) {
-                Nedrysoft::MacHelper::MacHelper::hideApplication();
-            } else {
-                Nedrysoft::MacHelper::MacHelper::showApplication();
-            }
-#endif
+            // TODO: context menu
         }
     });
 }

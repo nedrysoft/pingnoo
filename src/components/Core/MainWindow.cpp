@@ -299,6 +299,8 @@ auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
         m_settingsDialog->setWindowModality(Qt::ApplicationModal);
 #endif
         m_settingsDialog->show();
+        m_settingsDialog->raise();
+        m_settingsDialog->activateWindow();
 
         connect(m_settingsDialog, &Nedrysoft::SettingsDialog::SettingsDialog::closed, [=]() {
             m_settingsDialog->deleteLater();
