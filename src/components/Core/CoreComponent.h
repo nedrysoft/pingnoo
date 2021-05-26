@@ -34,6 +34,7 @@ namespace Nedrysoft { namespace Core {
     class RibbonBarManager;
     class HostMaskerSettingsPage;
     class ThemeSettingsPage;
+    class SystemTrayIconManager;
 }}
 
 /**
@@ -104,6 +105,7 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
         Nedrysoft::Core::RibbonBarManager *m_ribbonBarManager;
         Nedrysoft::Core::HostMaskerSettingsPage *m_hostMaskerSettingsPage;
         Nedrysoft::Core::ThemeSettingsPage *m_themeSettingsPage;
+        Nedrysoft::Core::SystemTrayIconManager *m_systemTrayIconManager;
 
         //! @endcond
 };

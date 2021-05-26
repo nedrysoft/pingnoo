@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2021 Adrian Carpenter
+ * Copyright (C) 2020 Adrian Carpenter
  *
  * This file is part of Pingnoo (https://github.com/nedrysoft/pingnoo)
  *
  * An open-source cross-platform traceroute analyser.
  *
- * Created by Adrian Carpenter on 03/05/2021.
+ * Created by Adrian Carpenter on 24/05/2021.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,83 +21,54 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEDRYSOFT_SYSTEMTRAYICONMANAGER_H
-#define NEDRYSOFT_SYSTEMTRAYICONMANAGER_H
-
-#include <QtGlobal>
+#ifndef PINGNOO_COMPONENTS_CORE_SYSTEMTRAYICONMANAGER_H
+#define PINGNOO_COMPONENTS_CORE_SYSTEMTRAYICONMANAGER_H
 
 #include "ISystemTrayIconManager.h"
 
-#include <QIcon>
-#include <QPixmap>
-#include <QSystemTrayIcon>
-
-#if defined(Q_OS_MACOS)
-namespace Nedrysoft { namespace MacHelper {
-    class MacMenubarIcon;
-    class MacPopover;
-}}
-#endif
+#include <QMap>
+#include <RibbonWidget>
 
 namespace Nedrysoft { namespace Core {
+
     /**
-     * @brief       The ISystemTrayIconManager provides access to the system tray icon that some operations
-     *              systems provide.
+     * @brief       The SustemTrayIconManager implements ISystemTrayIconManager.
      */
-    class NEDRYSOFT_CORE_DLLSPEC SystemTrayIconManager :
-            public Nedrysoft::ComponentSystem::IInterface {
+    class SystemTrayIconManager :
+            public Nedrysoft::Core::ISystemTrayIconManager {
 
         private:
             Q_OBJECT
 
+            Q_INTERFACES(Nedrysoft::Core::ISystemTrayIconManager)
+
         public:
             /**
-             * @brief       Constructs a new SystemTrayIconManager.
-             *
-             * @param[in]   parent the parent
+             * @brief       Constructs a SustemTrayIconManager.
              */
-            SystemTrayIconManager(QObject *parent=nullptr);
+            SystemTrayIconManager() = default;
 
             /**
-             * @brief       Destroys the SystemTrayIconManager
+             * @brief       Destroys the RibbonBarManager.
              */
-            ~SystemTrayIconManager();
+            ~SystemTrayIconManager() = default;
 
             /**
-             * @brief       Sets whether the system tray icon is visible.
+             * @brief       Creates a new system tray icon
              *
-             * @param[in]   visible if true the icon is shown; otherwise false.
+             * @param[in]   pixmap the pixmap to be used.
+             *
+             * @returns     the system tray icon instance.
              */
-            auto setVisible(bool visible) -> void;
+            auto createIcon(const QPixmap &pixmap = QPixmap()) -> Nedrysoft::Core::ISystemTrayIcon * override;
 
             /**
-             * @brief       Sets the colour of the system tray icon.
+             * @brief       Creates a new system tray icon using the application icon.
              *
-             * @note        The operating system may not honour the colour due to the actual window manager
-             *              and theming.  Each pixel is mixed with the selected colour, setting the alpha
-             *              will set the transparency of the resulting image.
-             *
-             * @param[in]   newColour the desired colour.
+             * @returns     the system tray icon instance.
              */
-            auto setIconColour(const QColor &newColour) -> void;
-
-        private:
-            //! @cond
-
-            QIcon m_icon;
-            QPixmap m_basePixmap;
-            QPixmap m_activePixmap;
-#if defined(Q_OS_MACOS)
-            Nedrysoft::MacHelper::MacMenubarIcon *m_menubarIcon;
-            Nedrysoft::MacHelper::MacPopover *m_popover;
-#else
-            QSystemTrayIcon *m_systemTrayIcon;
-#endif
-            bool m_visible;
-
-            //! @endcond
+            auto createIcon() -> Nedrysoft::Core::ISystemTrayIcon * override;
     };
 }}
 
-
-#endif //NEDRYSOFT_SYSTEMTRAYICONMANAGER_H
+#endif // PINGNOO_COMPONENTS_CORE_SYSTEMTRAYICONMANAGER_H

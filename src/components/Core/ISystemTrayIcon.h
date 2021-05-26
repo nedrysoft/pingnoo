@@ -24,8 +24,13 @@
 #ifndef PINGNOO_COMPONENTS_CORE_ISYSTEMTRAYICON_H
 #define PINGNOO_COMPONENTS_CORE_ISYSTEMTRAYICON_H
 
-#include "ComponentSystem/IInterface.h"
 #include "CoreSpec.h"
+
+#include <IInterface>
+
+namespace Nedrysoft { namespace MacHelper {
+    class MacMenubarIcon;
+}}
 
 namespace Nedrysoft { namespace Core {
     /**
@@ -41,6 +46,19 @@ namespace Nedrysoft { namespace Core {
             Q_OBJECT
 
         public:
+            enum class MouseButton {
+                Left,
+                Right
+            };
+
+        public:
+            /**
+             * @brief       Sets whether the system tray icon is visible.
+             *
+             * @param[in]   visible if true the icon is shown; otherwise false.
+             */
+            auto setVisible(bool visible) -> void;
+
             /**
              * @brief       Sets the colour of the system tray icon.
              *
@@ -51,6 +69,29 @@ namespace Nedrysoft { namespace Core {
              * @param[in]   newColour the desired colour.
              */
             virtual auto setColour(const QColor &newColour) -> void = 0;
+
+            /**
+             * @brief       Returns the geometry for the system tray icon.
+             *
+             * @returns     the rectangle.
+             */
+            virtual auto geometry() -> QRect = 0;
+
+#if defined(Q_OS_MACOS)
+            /**
+             * @brief       Returns the menu bar icon.
+             *
+             * @returns     the menu bar icon.
+             */
+            virtual auto menubarIcon() -> Nedrysoft::MacHelper::MacMenubarIcon * = 0;
+#endif
+
+            /**
+             * @brief       This signal is emitted when the user clicks on the system tray icon.
+             *
+             * @param[in]   button the mouse button that caused the signal.
+             */
+            Q_SIGNAL void clicked(const Nedrysoft::Core::ISystemTrayIcon::MouseButton &button);
     };
 }}
 

@@ -76,10 +76,14 @@ pingnoo_add_sources(
     PingResult.h
     PlotScrollArea.cpp
     PlotScrollArea.h
+    PopoverWindow.cpp
+    PopoverWindow.h
     RouteAnalyserComponent.cpp
     RouteAnalyserComponent.h
     RouteAnalyserEditor.cpp
     RouteAnalyserEditor.h
+    RouteAnalyserMenuItem.cpp
+    RouteAnalyserMenuItem.h
     RouteAnalyserSpec.h
     RouteAnalyserWidget.cpp
     RouteAnalyserWidget.h
@@ -107,6 +111,7 @@ pingnoo_add_sources(
     ViewportRibbonGroup.h
     ViewportRibbonGroup.ui
     icons.qrc
+    fonts.qrc
 )
 
 if(APPLE)

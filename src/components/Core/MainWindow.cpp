@@ -32,7 +32,7 @@
 #include "EditorManager.h"
 #include "Pingnoo.h"
 #include "RibbonBarManager.h"
-#include "SystemTrayIconManager.h"
+#include "SystemTrayIcon.h"
 #include "ui_MainWindow.h"
 
 #include <Component>
@@ -70,11 +70,6 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
 #else
     qApp->setWindowIcon(QIcon(":/app/AppIcon.ico"));
 #endif
-    m_systemTrayIcon = new SystemTrayIconManager(this);
-
-    m_systemTrayIcon->setIconColour(Qt::green);
-    m_systemTrayIcon->setVisible(true);
-
     m_ribbonBarManager = new Nedrysoft::Core::RibbonBarManager(ui->ribbonBar);
 
     Nedrysoft::ComponentSystem::addObject(m_ribbonBarManager);
@@ -151,8 +146,6 @@ Nedrysoft::Core::MainWindow::~MainWindow() {
      delete m_hopInfoLabel;
      delete m_hostInfoLabel;
      delete m_tableModel;*/
-
-    delete m_systemTrayIcon;
 
     delete ui;
 
@@ -306,6 +299,8 @@ auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
         m_settingsDialog->setWindowModality(Qt::ApplicationModal);
 #endif
         m_settingsDialog->show();
+        m_settingsDialog->raise();
+        m_settingsDialog->activateWindow();
 
         connect(m_settingsDialog, &Nedrysoft::SettingsDialog::SettingsDialog::closed, [=]() {
             m_settingsDialog->deleteLater();

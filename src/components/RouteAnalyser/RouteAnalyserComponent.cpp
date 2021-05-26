@@ -33,6 +33,7 @@
 #include "Pingnoo.h"
 #include "PingResult.h"
 #include "RouteAnalyser.h"
+#include "RouteAnalyserMenuItem.h"
 #include "TargetManager.h"
 #include "TargetSettings.h"
 #include "TargetSettingsPage.h"
@@ -43,6 +44,29 @@
 #include <IEditorManager>
 #include <IRibbonBarManager>
 #include <IRibbonPage>
+#include <ISystemTrayIcon>
+#include <ISystemTrayIconManager>
+#if defined(Q_OS_MACOS)
+#include <MacHelper>
+#include <MacMenubarIcon>
+#include <MacPopover>
+#include <QPointer>
+#endif
+#include <QDir>
+#include <QDirIterator>
+#if !defined(Q_OS_MACOS)
+#include <QGuiApplication>
+#include <QScreen>
+#endif
+#include <QVBoxLayout>
+#include <PopoverWindow.h>
+
+#if defined(Q_OS_WINDOWS)
+#include <windows.h>
+#include <Shellapi.h>
+#endif
+
+constexpr auto FontBasePath = ":/Nedrysoft/RouteAnalyser/Roboto_Mono/static";
 
 RouteAnalyserComponent::RouteAnalyserComponent() :
         m_newTargetGroupWidget(nullptr),
@@ -114,6 +138,7 @@ auto RouteAnalyserComponent::finaliseEvent() -> void {
 
     delete Nedrysoft::RouteAnalyser::TargetManager::getInstance();
 }
+static int x = 0;
 
 auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
     auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
@@ -240,6 +265,159 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
         Nedrysoft::ComponentSystem::addObject(m_viewportGroupWidget);
         Nedrysoft::ComponentSystem::addObject(m_latencyGroupWidget);
     }
+
+    auto dirIterator = QDirIterator(FontBasePath);
+
+    while(dirIterator.hasNext()) {
+        dirIterator.next();
+
+        QFontDatabase::addApplicationFont(dirIterator.filePath());
+    }
+
+    auto systemTrayIconManager = Nedrysoft::Core::ISystemTrayIconManager::getInstance();
+
+    auto systemTrayIcon = systemTrayIconManager->createIcon();
+
+    systemTrayIcon->setColour(Qt::black);
+
+    connect(Nedrysoft::Core::mainWindow(), &QObject::destroyed, [=](QObject *) {
+        delete systemTrayIcon;
+    });
+
+    connect(
+            systemTrayIcon,
+            &Nedrysoft::Core::ISystemTrayIcon::clicked,
+            [=](Nedrysoft::Core::ISystemTrayIcon::MouseButton button) {
+
+        if (button==Nedrysoft::Core::ISystemTrayIcon::MouseButton::Left) {
+#if defined(Q_OS_MACOS)
+            auto popover = new Nedrysoft::MacHelper::MacPopover;
+
+            QPointer<QWidget> popoverWidget = new QWidget;
+#else
+            auto popoverWidget = new Nedrysoft::RouteAnalyser::PopoverWindow(Nedrysoft::Core::mainWindow());
+
+            auto iconRect = systemTrayIcon->geometry();
+#endif
+            auto contentLayout = new QVBoxLayout;
+
+            for (int i = 0; i < 5; i++) {
+                contentLayout->addWidget(new Nedrysoft::RouteAnalyser::RouteAnalyserMenuItem);
+            }
+
+#if defined(Q_OS_MACOS)
+            popoverWidget->setLayout(contentLayout);
+
+            popover->show(
+                    systemTrayIcon->menubarIcon(),
+                    popoverWidget,
+                    QSize(popoverWidget->minimumWidth(), popoverWidget->sizeHint().height()),
+                    Nedrysoft::MacHelper::MacPopover::Edge::MaxYEdge
+            );
+#elif defined(Q_OS_WINDOWS)
+            popoverWidget->setLayout(contentLayout);
+
+            APPBARDATA appbarData;
+
+            memset(&appbarData, 0, sizeof(appbarData));
+
+            appbarData.cbSize = sizeof(appbarData);
+
+            SHAppBarMessage(ABM_GETTASKBARPOS, &appbarData);
+
+            for (auto screen : qGuiApp->screens()) {
+                if (screen->geometry().contains(iconRect)) {
+                    QRect popoverRect = QRect(QPoint(0,0), popoverWidget->sizeHint());
+
+                    switch(appbarData.uEdge) {
+                        case ABE_TOP: {
+                            popoverRect.moveTopLeft(
+                                    QPoint(
+                                            iconRect.center().x()-(popoverRect.width()/2),
+                                            iconRect.bottom()
+                                    )
+                            );
+
+                            if (popoverRect.right()>screen->geometry().right()) {
+                                popoverRect.moveRight(screen->geometry().right());
+                            }
+
+                            popoverWidget->move(popoverRect.topLeft());
+
+                            break;
+                        }
+
+                        case ABE_BOTTOM: {
+                            popoverRect.moveBottomRight(
+                                    QPoint(
+                                            iconRect.center().x()+(popoverRect.width()/2),
+                                            iconRect.top()
+                                    )
+                            );
+
+                            if (popoverRect.right()>screen->geometry().right()) {
+                                popoverRect.moveRight(screen->geometry().right());
+                            }
+
+                            popoverWidget->move(popoverRect.topLeft());
+
+                            qDebug() << popoverRect;
+
+                            break;
+                        }
+
+                        case ABE_LEFT: {
+                            popoverRect.moveTopLeft(
+                                    QPoint(
+                                            iconRect.right(),
+                                            iconRect.center().y()-(popoverRect.height()/2)
+
+                                    )
+                            );
+
+                            if (popoverRect.bottom()>screen->geometry().bottom()) {
+                                popoverRect.moveBottom(screen->geometry().bottom());
+                            }
+
+                            popoverWidget->move(popoverRect.topLeft());
+
+                            break;
+                        }
+
+                        case ABE_RIGHT: {
+                            popoverRect.moveTopLeft(
+                                    QPoint(
+                                            iconRect.right(),
+                                            iconRect.center().y()-(popoverRect.height()/2)
+
+                                    )
+                            );
+
+                            if (popoverRect.bottom()>screen->geometry().bottom()) {
+                                popoverRect.moveBottom(screen->geometry().bottom());
+                            }
+
+                            popoverWidget->move(popoverRect.topLeft());
+
+                            break;
+                        }
+                    }
+
+                    break;
+                }
+            }
+
+            popoverWidget->show();
+#endif
+            connect(this, &RouteAnalyserComponent::destroyed, [=]() {
+                if (popoverWidget) {
+                    delete popoverWidget;
+                }
+            });
+        } else if (button==Nedrysoft::Core::ISystemTrayIcon::MouseButton::Right) {
+            // TODO: context menu
+        }
+    });
 }
 
 auto RouteAnalyserComponent::contextId() -> int {
