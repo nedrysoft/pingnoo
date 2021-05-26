@@ -21,6 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QtGlobal>
+
 #include "RouteAnalyserComponent.h"
 
 #include "ColourDialog.h"
@@ -39,7 +41,6 @@
 #include "TargetSettingsPage.h"
 #include "ViewportRibbonGroup.h"
 
-#include <AppNap>
 #include <ICommandManager>
 #include <IEditorManager>
 #include <IRibbonBarManager>
@@ -138,14 +139,14 @@ auto RouteAnalyserComponent::finaliseEvent() -> void {
 
     delete Nedrysoft::RouteAnalyser::TargetManager::getInstance();
 }
-static int x = 0;
 
 auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
     auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
-    auto appNap = Nedrysoft::AppNap::AppNap::getInstance();
-
-    appNap->prevent(QT_TR_NOOP("App Nap has been disabled as it interferes with thread timing."));
-
+#if defined(Q_OS_MACOS)
+    Nedrysoft::MacHelper::MacHelper::disableAppNap(
+            QT_TR_NOOP("App Nap has been disabled as it interferes with thread timing.")
+    );
+#endif
     if (contextManager) {
         m_editorContextId = contextManager->registerContext(Pingnoo::Constants::routeAnalyserContext);
 
