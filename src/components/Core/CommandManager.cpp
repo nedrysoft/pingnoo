@@ -93,13 +93,31 @@ auto Nedrysoft::Core::CommandManager::setContext(int contextId) -> void {
     }
 }
 
-// TODO: also add createPopupMenu
+auto Nedrysoft::Core::CommandManager::createPopupMenu(const QString &identifier) -> Nedrysoft::Core::IMenu * {
+    Nedrysoft::Core::Menu *newMenu;
+
+    if (!identifier.isNull()) {
+        if (m_menuMap.contains(identifier)) {
+            return m_menuMap[identifier];
+        }
+    }
+
+    newMenu = new Nedrysoft::Core::Menu(new QMenu);
+
+    if (!identifier.isNull()) {
+        m_menuMap[identifier] = newMenu;
+
+        connect(newMenu, &QObject::destroyed, [this, identifier]() {
+            m_menuMap.remove(identifier);
+        });
+    }
+
+    return newMenu;
+}
 
 auto Nedrysoft::Core::CommandManager::createMenu(
         const QString &identifier,
         IMenu *parentMenu ) -> Nedrysoft::Core::IMenu * {
-
-    Q_UNUSED(identifier)
 
     Nedrysoft::Core::Menu *newMenu;
 

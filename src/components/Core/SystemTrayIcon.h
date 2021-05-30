@@ -98,6 +98,19 @@ namespace Nedrysoft { namespace Core {
              */
             auto geometry() -> QRect override;
 
+#if defined(Q_OS_MACOS)
+            /**
+             * @brief       Shows the supplied menu.
+             *
+             * @note        This method is intended to be called from a slot connected to the clicked()
+             *              signal of this system tray icon.
+             *
+             * @param[in]   menu the menu to show.
+             */
+            auto showMenu(QMenu *menu) -> void override;
+
+#endif
+
         protected:
             /**
              * @brief       Creates the icon.

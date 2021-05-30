@@ -74,7 +74,7 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
 
     Nedrysoft::ComponentSystem::addObject(m_ribbonBarManager);
 
-    m_ribbonBarManager->addPage(tr("Home"), Pingnoo::Constants::ribbonHomePage);
+    m_ribbonBarManager->addPage(tr("Home"), Pingnoo::Constants::RibbonHomePage);
 
     ui->editorTabWidget->setText(tr("Select New Target from the Menu or Ribbon bar to begin."));
 
@@ -188,39 +188,39 @@ auto Nedrysoft::Core::MainWindow::createDefaultCommands() -> void {
     // create the commands, these are essentially placeholders.  Commands can be added to menus, buttons,
     // shortcut keys etc.
 
-    createCommand(Pingnoo::Constants::fileOpen, nullptr);
-    createCommand(Pingnoo::Constants::helpAbout, nullptr, QAction::ApplicationSpecificRole);
-    createCommand(Pingnoo::Constants::helpAboutComponents, nullptr, QAction::ApplicationSpecificRole);
-    createCommand(Pingnoo::Constants::filePreferences, nullptr, QAction::PreferencesRole);
-    createCommand(Pingnoo::Constants::fileExit, nullptr, QAction::QuitRole);
+    createCommand(Pingnoo::Constants::FileOpen, nullptr);
+    createCommand(Pingnoo::Constants::HelpAbout, nullptr, QAction::ApplicationSpecificRole);
+    createCommand(Pingnoo::Constants::HelpAboutComponents, nullptr, QAction::ApplicationSpecificRole);
+    createCommand(Pingnoo::Constants::FilePreferences, nullptr, QAction::PreferencesRole);
+    createCommand(Pingnoo::Constants::FileQuit, nullptr, QAction::QuitRole);
 
     // create the menus, we create a main menu bar, then sub menus on that (File, Edit, Help etc).  In each
     // menu we then create groups, this allows us to reserve sections of the menu for specific items, components
     // can use these groups to add their commands at specific locations in a menu.
 
-    createMenu(Pingnoo::Constants::applicationMenuBar);
+    createMenu(Pingnoo::Constants::ApplicationMenuBar);
 
-    auto fileMenu = createMenu(Pingnoo::Constants::menuFile, Pingnoo::Constants::applicationMenuBar);
+    auto fileMenu = createMenu(Pingnoo::Constants::MenuFile, Pingnoo::Constants::ApplicationMenuBar);
 
-    fileMenu->addGroupBefore(Pingnoo::Constants::defaultGroupTop, Pingnoo::Constants::fileNewGroup);
-    fileMenu->addGroupAfter(Pingnoo::Constants::fileNewGroup, Pingnoo::Constants::fileOpenGroup);
-    fileMenu->addGroupAfter(Pingnoo::Constants::fileOpenGroup, Pingnoo::Constants::fileSaveGroup);
-    fileMenu->addGroupAfter(Pingnoo::Constants::defaultGroupBottom, Pingnoo::Constants::defaultGroupBottom);
-    fileMenu->addGroupAfter(Pingnoo::Constants::defaultGroupBottom, Pingnoo::Constants::fileExitGroup);
+    fileMenu->addGroupBefore(Pingnoo::Constants::DefaultGroupTop, Pingnoo::Constants::FileNewGroup);
+    fileMenu->addGroupAfter(Pingnoo::Constants::FileNewGroup, Pingnoo::Constants::FileOpenGroup);
+    fileMenu->addGroupAfter(Pingnoo::Constants::FileOpenGroup, Pingnoo::Constants::FileSaveGroup);
+    fileMenu->addGroupAfter(Pingnoo::Constants::DefaultGroupBottom, Pingnoo::Constants::DefaultGroupBottom);
+    fileMenu->addGroupAfter(Pingnoo::Constants::DefaultGroupBottom, Pingnoo::Constants::FileExitGroup);
 
-    createMenu(Pingnoo::Constants::menuEdit, Pingnoo::Constants::applicationMenuBar);
-    createMenu(Pingnoo::Constants::menuHelp, Pingnoo::Constants::applicationMenuBar);
+    createMenu(Pingnoo::Constants::MenuEdit, Pingnoo::Constants::ApplicationMenuBar);
+    createMenu(Pingnoo::Constants::MenuHelp, Pingnoo::Constants::ApplicationMenuBar);
 
-    addMenuCommand(Pingnoo::Constants::fileOpen, Pingnoo::Constants::menuFile);
-    addMenuCommand(Pingnoo::Constants::filePreferences, Pingnoo::Constants::menuFile);
-    addMenuCommand(Pingnoo::Constants::fileExit, Pingnoo::Constants::menuFile);
+    addMenuCommand(Pingnoo::Constants::FileOpen, Pingnoo::Constants::MenuFile);
+    addMenuCommand(Pingnoo::Constants::FilePreferences, Pingnoo::Constants::MenuFile);
+    addMenuCommand(Pingnoo::Constants::FileQuit, Pingnoo::Constants::MenuFile);
 
-    addMenuCommand(Pingnoo::Constants::helpAbout, Pingnoo::Constants::menuHelp);
-    addMenuCommand(Pingnoo::Constants::helpAboutComponents, Pingnoo::Constants::menuHelp);
+    addMenuCommand(Pingnoo::Constants::HelpAbout, Pingnoo::Constants::MenuHelp);
+    addMenuCommand(Pingnoo::Constants::HelpAboutComponents, Pingnoo::Constants::MenuHelp);
 
-    addMenuCommand(Pingnoo::Constants::editCut, Pingnoo::Constants::menuEdit);
-    addMenuCommand(Pingnoo::Constants::editCopy, Pingnoo::Constants::menuEdit);
-    addMenuCommand(Pingnoo::Constants::editPaste, Pingnoo::Constants::menuEdit);
+    addMenuCommand(Pingnoo::Constants::EditCut, Pingnoo::Constants::MenuEdit);
+    addMenuCommand(Pingnoo::Constants::EditCopy, Pingnoo::Constants::MenuEdit);
+    addMenuCommand(Pingnoo::Constants::EditPaste, Pingnoo::Constants::MenuEdit);
 
     if (Nedrysoft::Core::IContextManager::getInstance()) {
         Nedrysoft::Core::IContextManager::getInstance()->setContext(Nedrysoft::Core::GlobalContext);
@@ -230,12 +230,12 @@ auto Nedrysoft::Core::MainWindow::createDefaultCommands() -> void {
 auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
     auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
-    auto aboutComponentsAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::helpAboutComponents));
+    auto aboutComponentsAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::HelpAboutComponents));
 
     aboutComponentsAction->setEnabled(true);
     aboutComponentsAction->setMenuRole(QAction::ApplicationSpecificRole);
 
-    commandManager->registerAction(aboutComponentsAction, Pingnoo::Constants::helpAboutComponents);
+    commandManager->registerAction(aboutComponentsAction, Pingnoo::Constants::HelpAboutComponents);
 
     connect(aboutComponentsAction, &QAction::triggered, [](bool) {
         Nedrysoft::ComponentSystem::ComponentViewerDialog componentViewerDialog(
@@ -272,14 +272,14 @@ auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
         }
     });
 
-    auto settingsAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::filePreferences));
+    m_preferencesAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::FilePreferences));
 
-    settingsAction->setEnabled(true);
-    settingsAction->setMenuRole(QAction::PreferencesRole);
+    m_preferencesAction->setEnabled(true);
+    m_preferencesAction->setMenuRole(QAction::PreferencesRole);
 
-    commandManager->registerAction(settingsAction, Pingnoo::Constants::filePreferences);
+    commandManager->registerAction(m_preferencesAction, Pingnoo::Constants::FilePreferences);
 
-    connect(settingsAction, &QAction::triggered, [this](bool) {
+    connect(m_preferencesAction, &QAction::triggered, [this](bool) {
         if (m_settingsDialog) {
             m_settingsDialog->raise();
             m_settingsDialog->activateWindow();
@@ -309,25 +309,25 @@ auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
         });
     });
 
-    auto exitAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::fileExit));
+    m_quitAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::FileQuit));
 
-    exitAction->setEnabled(true);
-    exitAction->setMenuRole(QAction::QuitRole);
+    m_quitAction->setEnabled(true);
+    m_quitAction->setMenuRole(QAction::QuitRole);
 
-    commandManager->registerAction(exitAction, Pingnoo::Constants::fileExit);
+    commandManager->registerAction(m_quitAction, Pingnoo::Constants::FileQuit);
 
-    connect(exitAction, &QAction::triggered, [this](bool) {
-        close();
+    connect(m_quitAction, &QAction::triggered, [this](bool) {
+        QGuiApplication::quit();
     });
 
-    auto aboutAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::helpAbout));
+    m_aboutAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::HelpAbout));
 
-    aboutAction->setEnabled(true);
-    aboutAction->setMenuRole(QAction::ApplicationSpecificRole);
+    m_aboutAction->setEnabled(true);
+    m_aboutAction->setMenuRole(QAction::ApplicationSpecificRole);
 
-    commandManager->registerAction(aboutAction, Pingnoo::Constants::helpAbout);
+    commandManager->registerAction(m_aboutAction, Pingnoo::Constants::HelpAbout);
 
-    connect(aboutAction, &QAction::triggered, [](bool) {
+    connect(m_aboutAction, &QAction::triggered, [](bool) {
         AboutDialog aboutDialog;
 
         aboutDialog.exec();
@@ -402,7 +402,7 @@ auto Nedrysoft::Core::MainWindow::addMenuCommand(QString commandId, QString menu
     auto command = commandManager->findCommand(commandId);
 
     if (groupId.isNull()) {
-        groupId = Pingnoo::Constants::defaultGroupTop;
+        groupId = Pingnoo::Constants::DefaultGroupTop;
     }
 
     menu->appendCommand(command, groupId);
@@ -422,4 +422,22 @@ void Nedrysoft::Core::MainWindow::closeEvent(QCloseEvent *closeEvent) {
     }
 
     QMainWindow::closeEvent(closeEvent);
+}
+
+void Nedrysoft::Core::MainWindow::actionTriggered(QAction *action) {
+    qDebug() << "Triggerd (slot)";
+}
+
+auto Nedrysoft::Core::MainWindow::applicationContextMenu() -> Nedrysoft::Core::IMenu * {
+    auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
+
+    auto contextMenu = commandManager->createPopupMenu();
+
+    //contextMenu->appendCommand(Pingnoo::Constants::ShowMainWindow, Pingnoo::Constants::DefaultGroupMiddle);
+
+    contextMenu->appendCommand(Pingnoo::Constants::HelpAbout, Pingnoo::Constants::DefaultGroupBottom);
+    contextMenu->appendCommand(Pingnoo::Constants::FilePreferences, Pingnoo::Constants::DefaultGroupBottom);
+    contextMenu->appendCommand(Pingnoo::Constants::FileQuit, Pingnoo::Constants::DefaultGroupBottom);
+
+    return contextMenu;
 }

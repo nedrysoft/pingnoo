@@ -26,8 +26,9 @@
 
 #include "CoreSpec.h"
 #include "IComponentManager.h"
-
+#include "IMenu.h"
 #include <IInterface>
+
 #include <QDebug>
 #include <QMainWindow>
 #include <QObject>
@@ -108,7 +109,16 @@ namespace Nedrysoft { namespace Core {
              */
             virtual auto storageFolder() -> QString = 0;
 
-            // Classes with virtual functions should not have a public non-virtual destructor:
+            /**
+             * @brief       Creates a new instance of the application context menu.
+             *
+             * @returns     the context menu.
+             */
+            virtual auto applicationContextMenu() -> Nedrysoft::Core::IMenu  * = 0;
+
+            /**
+             * Classes with virtual functions should not have a public non-virtual destructor:
+             */
             virtual ~ICore() = default;
     };
 

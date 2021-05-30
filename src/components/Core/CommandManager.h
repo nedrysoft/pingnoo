@@ -125,6 +125,20 @@ namespace Nedrysoft { namespace Core {
                     IMenu *parentMenu = nullptr) -> Nedrysoft::Core::IMenu * override;
 
             /**
+              * @brief       Create a popup menu.
+              *
+              * @details     Creates an IMenu object, the given identifier should be unique.
+              *
+              * @see         Nedrysoft::Core::ICommandManager::createPopupMenu
+              *
+              * @param[in]   identifier the unique identifier for this menu
+              *
+              * @returns     a new IMenu instance for the menu.
+              */
+            auto createPopupMenu(
+                const QString &identifier=QString()) -> Nedrysoft::Core::IMenu * override;
+
+            /**
              * @brief       Find a menu.
              *
              * @details     Finds a menu by the given identifier, application defined constants are located in

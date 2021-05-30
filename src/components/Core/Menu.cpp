@@ -23,26 +23,29 @@
 
 #include "Menu.h"
 #include "ICommand.h"
+#include "ICommandManager.h"
 #include "Pingnoo.h"
 
 Nedrysoft::Core::Menu::Menu() :
         m_menuBar(nullptr),
         m_menu(nullptr) {
 
-    m_groupList.append(GroupItem(Pingnoo::Constants::defaultGroupTop));
-    m_groupList.append(GroupItem(Pingnoo::Constants::defaultGroupMiddle));
-    m_groupList.append(GroupItem(Pingnoo::Constants::defaultGroupBottom));
+    m_groupList.append(GroupItem(Pingnoo::Constants::DefaultGroupTop));
+    m_groupList.append(GroupItem(Pingnoo::Constants::DefaultGroupMiddle));
+    m_groupList.append(GroupItem(Pingnoo::Constants::DefaultGroupBottom));
 }
 
 Nedrysoft::Core::Menu::~Menu() = default;
 
 Nedrysoft::Core::Menu::Menu(QMenuBar *menuBar) :
         Menu() {
+
     m_menuBar = menuBar;
 }
 
 Nedrysoft::Core::Menu::Menu(QMenu *menu) :
         Menu() {
+
     m_menu = menu;
 }
 
@@ -210,7 +213,7 @@ auto Nedrysoft::Core::Menu::addGroupBefore(QString beforeIdentifier, QString gro
     return true;
 }
 
-auto  Nedrysoft::Core::Menu::appendGroup(QString groupIdentifier) -> void {
+auto Nedrysoft::Core::Menu::appendGroup(QString groupIdentifier) -> void {
     m_groupList.append(GroupItem(groupIdentifier));
 }
 
@@ -218,3 +221,22 @@ auto Nedrysoft::Core::Menu::insertGroup(QString groupIdentifier) -> void {
     m_groupList.insert(0, GroupItem(groupIdentifier));
 }
 
+auto Nedrysoft::Core::Menu::appendCommand(QString commandIdentifier, QString groupIdentifier) -> void {
+    auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
+
+    auto command = commandManager->findCommand(commandIdentifier);
+
+    if (command) {
+        appendCommand(command, groupIdentifier);
+    }
+}
+
+auto Nedrysoft::Core::Menu::insertCommand(QString commandIdentifier, QString groupIdentifier) -> void {
+    auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
+
+    auto command = commandManager->findCommand(commandIdentifier);
+
+    if (command) {
+        insertCommand(command, groupIdentifier);
+    }
+}

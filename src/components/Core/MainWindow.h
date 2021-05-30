@@ -75,6 +75,13 @@ namespace Nedrysoft { namespace Core {
              */
             auto initialise() -> void;
 
+            /**
+             * @brief       Creates a new instance of the application context menu.
+             *
+             * @returns     the context menu.
+             */
+            auto applicationContextMenu() -> Nedrysoft::Core::IMenu *;
+
         protected:
             /**
              * @brief       Reimplements QMainWindow::closeEvent(QCloseEvent *event).
@@ -138,6 +145,8 @@ namespace Nedrysoft { namespace Core {
              */
             auto updateTitlebar() -> void;
 
+            Q_SLOT void actionTriggered(QAction *action);
+
         private:
             //! @cond
 
@@ -146,6 +155,10 @@ namespace Nedrysoft { namespace Core {
             Nedrysoft::Core::RibbonBarManager *m_ribbonBarManager;
             Nedrysoft::Core::EditorManager *m_editorManager;
             Nedrysoft::SettingsDialog::SettingsDialog *m_settingsDialog;
+
+            QAction *m_aboutAction;
+            QAction *m_quitAction;
+            QAction *m_preferencesAction;
 
             /*
             QLabel *m_pointInfoLabel;

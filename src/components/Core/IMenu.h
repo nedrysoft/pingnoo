@@ -129,6 +129,18 @@ namespace Nedrysoft { namespace Core {
                     QString groupIdentifier = QString() ) -> void = 0;
 
             /**
+             * @brief       Appends a command to the end of a group.
+             *
+             * @details     The added command will be added to the end of the given group.
+             *
+             * @param[in]   commandIdentifier the identifier of the command.
+             * @param[in]   groupIdentifier the identifier of the group.
+             */
+            virtual auto appendCommand(
+                    QString commandIdentifier,
+                    QString groupIdentifier = QString() ) -> void = 0;
+
+            /**
              * @brief       Inserts a command to the start of a group.
              *
              * @details     The added command will be added to the start of the given group.
@@ -138,6 +150,18 @@ namespace Nedrysoft { namespace Core {
              */
             virtual auto insertCommand(
                     Nedrysoft::Core::ICommand *command,
+                    QString groupIdentifier = QString() ) -> void = 0;
+
+            /**
+             * @brief       Inserts a command to the start of a group.
+             *
+             * @details     The added command will be added to the start of the given group.
+             *
+             * @param[in]   commandIdentifier the identifier of the command.
+             * @param[in]   groupIdentifier the identifier of the group.
+             */
+            virtual auto insertCommand(
+                    QString commandIdentifier,
                     QString groupIdentifier = QString() ) -> void = 0;
 
             /**

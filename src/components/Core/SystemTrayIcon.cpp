@@ -164,4 +164,21 @@ auto Nedrysoft::Core::SystemTrayIcon::setColour(const QColor &iconColour) -> voi
 auto Nedrysoft::Core::SystemTrayIcon::menubarIcon() -> Nedrysoft::MacHelper::MacMenubarIcon * {
     return m_menubarIcon;
 }
+#include <QDebug>
+auto Nedrysoft::Core::SystemTrayIcon::showMenu(QMenu *menu) -> void {
+    auto contextObject = new QObject();
+
+    connect(
+        m_menubarIcon,
+        &Nedrysoft::MacHelper::MacMenubarIcon::menuClosed,
+        contextObject,
+        [this, contextObject](QMenu *menu) {
+            contextObject->deleteLater();
+
+            Q_EMIT menuClosed(menu);
+        });
+
+    m_menubarIcon->showMenu(menu);
+}
+
 #endif

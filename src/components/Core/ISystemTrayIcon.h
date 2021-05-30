@@ -28,6 +28,8 @@
 
 #include <IInterface>
 
+class QMenu;
+
 namespace Nedrysoft { namespace MacHelper {
     class MacMenubarIcon;
 }}
@@ -92,6 +94,25 @@ namespace Nedrysoft { namespace Core {
              * @param[in]   button the mouse button that caused the signal.
              */
             Q_SIGNAL void clicked(const Nedrysoft::Core::ISystemTrayIcon::MouseButton &button);
+
+#if defined(Q_OS_MACOS)
+            /**
+             * @brief       Shows the supplied menu.
+             *
+             * @note        This method is intended to be called from a slot connected to the clicked()
+             *              signal of this system tray icon.
+             *
+             * @param[in]   menu the menu to show.
+             */
+            virtual auto showMenu(QMenu *menu) -> void = 0;
+
+            /**
+             * @brief       THis signal is emitted when the menu is closed.
+             *
+             * @param[in]   menu the menu that was closed.
+             */
+            Q_SIGNAL void menuClosed(QMenu *menu);
+#endif
     };
 }}
 

@@ -25,6 +25,7 @@
 
 #include <QApplication>
 #include <QDir>
+#include <QMenu>
 #include <QStandardPaths>
 #include "ThemeSupport"
 
@@ -71,4 +72,8 @@ auto Nedrysoft::Core::Core::storageFolder() -> QString {
 
     return QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).at(0)
                    + "/" + qApp->organizationName() + "/" + qApp->applicationName();
+}
+
+auto Nedrysoft::Core::Core::applicationContextMenu() -> IMenu * {
+    return m_mainWindow->applicationContextMenu();
 }

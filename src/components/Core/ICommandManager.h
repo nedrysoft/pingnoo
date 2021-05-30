@@ -175,6 +175,18 @@ namespace Nedrysoft { namespace Core {
             virtual auto findMenu(const QString &identifier) -> Nedrysoft::Core::IMenu * = 0;
 
             /**
+             * @brief       Create a popup menu.
+             *
+             * @details     Creates an IMenu object, if an identifier is not given then the menu is a transient
+             *              one; otherwise the identifier should be unique.
+             *
+             * @param[in]   identifier the unique identifier for this menu.
+             *
+             * @returns     a new IMenu instance for the menu.
+             */
+            virtual auto createPopupMenu(const QString &identifier=QString()) -> Nedrysoft::Core::IMenu * = 0;
+
+            /**
              * @brief       Find a command.
              *
              * @details     Finds a registered command by given identifier.

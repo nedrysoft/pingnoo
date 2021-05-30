@@ -199,6 +199,20 @@ namespace Nedrysoft { namespace Core {
             auto appendCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString()) -> void override;
 
             /**
+             * @brief       Appends a command to the end of a group.
+             *
+             * @details     The added command will be added to the end of the given group.
+             *
+             * @see         Nedrysoft::Core::Menu::appendCommand
+             *
+             * @param[in]   commandIdentifier the identifier of the command.
+             * @param[in]   groupIdentifier the identifier of the group.
+             */
+            virtual auto appendCommand(
+                    QString commandIdentifier,
+                    QString groupIdentifier = QString() ) -> void override;
+
+            /**
              * @brief       Inserts a command to the start of a group.
              *
              * @details     The added command will be added to the start of the given group.
@@ -208,7 +222,23 @@ namespace Nedrysoft { namespace Core {
              * @param[in]   command the command to add.
              * @param[in]   groupIdentifier the identifier of the group.
              */
-            auto insertCommand(Nedrysoft::Core::ICommand *command, QString groupIdentifier = QString()) -> void override;
+            auto insertCommand(
+                    Nedrysoft::Core::ICommand *command,
+                    QString groupIdentifier = QString() ) -> void override;
+
+            /**
+             * @brief       Inserts a command to the start of a group.
+             *
+             * @details     The added command will be added to the start of the given group.
+             *
+             * @see         Nedrysoft::Core::Menu::insertCommand
+             *
+             * @param[in]   commandIdentifier the identifier of the command.
+             * @param[in]   groupIdentifier the identifier of the group.
+             */
+            virtual auto insertCommand(
+                    QString commandIdentifier,
+                    QString groupIdentifier = QString() ) -> void override;
 
         private:
             /**

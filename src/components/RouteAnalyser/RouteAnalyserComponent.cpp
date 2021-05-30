@@ -192,13 +192,13 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
 
                 auto command = commandManager->registerAction(m_newTargetAction, "Menu.File.NewTarget");
 
-                auto menu = commandManager->findMenu(Pingnoo::Constants::menuFile);
+                auto menu = commandManager->findMenu(Pingnoo::Constants::MenuFile);
 
-                menu->appendCommand(command, Pingnoo::Constants::fileNewGroup);
+                menu->appendCommand(command, Pingnoo::Constants::FileNewGroup);
 /*
                 // create Edit/Cut action for this context
 
-                action = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::editCut));
+                action = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::EditCut));
 
                 connect(action, &QAction::triggered, [&](bool) {
                     qDebug() << "action triggered (route analyser) !";
@@ -206,7 +206,7 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
 
                 // register Edit/Cut menu option for this context
 
-                commandManager->registerAction(action, Pingnoo::Constants::editCut, m_editorContextId);
+                commandManager->registerAction(action, Pingnoo::Constants::EditCut, m_editorContextId);
 
                 Nedrysoft::Core::IContextManager::getInstance()->setContext(m_editorContextId);
 
@@ -416,7 +416,23 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
                 }
             });
         } else if (button==Nedrysoft::Core::ISystemTrayIcon::MouseButton::Right) {
-            // TODO: context menu
+#if defined(Q_OS_MACOS)
+            auto contentMenu = Nedrysoft::Core::ICore::getInstance()->applicationContextMenu();
+
+            auto contextObject = new QObject(this);
+
+            connect(
+                systemTrayIcon,
+                &Nedrysoft::Core::ISystemTrayIcon::menuClosed,
+                contextObject,
+                [contentMenu, contextObject](QMenu *menu) {
+
+                    contentMenu->deleteLater();
+                    contextObject->deleteLater();
+            });
+
+            systemTrayIcon->showMenu(contentMenu->menu());
+#endif
         }
     });
 }

@@ -70,7 +70,7 @@ auto CoreComponent::initialiseEvent() -> void {
     auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
 
     if (ribbonBarManager) {
-        ribbonBarManager->addPage(tr("Host Masking"), Pingnoo::Constants::ribbonHostMaskingPage);
+        ribbonBarManager->addPage(tr("Host Masking"), Pingnoo::Constants::RibbonHostMaskingPage);
     }
 }
 

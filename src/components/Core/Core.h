@@ -105,6 +105,13 @@ namespace Nedrysoft { namespace Core {
              */
             auto storageFolder() -> QString override;
 
+            /**
+             * @brief       Creates a new instance of the application context menu.
+             *
+             * @returns     the context menu.
+             */
+            auto applicationContextMenu() -> Nedrysoft::Core::IMenu * override;
+
         private:
             //! @cond
 
