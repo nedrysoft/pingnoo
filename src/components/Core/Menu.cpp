@@ -162,7 +162,21 @@ auto Nedrysoft::Core::Menu::appendCommand(Nedrysoft::Core::ICommand *command, QS
 
     auto previousAction = getAppendAction(groupIterator);
 
-    m_menu->insertAction(previousAction, command->action());
+    QList<QAction *> actionList;
+
+    if (!m_groupList[groupIterator - m_groupList.constBegin()].m_items.count()) {
+        m_menu->insertSeparator(previousAction);
+
+        auto separatorAction = new QAction();
+
+        separatorAction->setSeparator(true);
+
+        actionList.append(separatorAction);
+    }
+
+    actionList.append(command->action());
+
+    m_menu->insertActions(previousAction, actionList);
 
     m_groupList[groupIterator - m_groupList.constBegin()].m_items.append(command);
 }
