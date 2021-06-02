@@ -29,7 +29,7 @@
 #include "HostMaskerSettingsPage.h"
 #include "IRibbonBarManager.h"
 #include "IRibbonPage.h"
-#include "Pingnoo.h"
+#include "CoreConstants.h"
 #include "SystemTrayIconManager.h"
 #include "ThemeSettingsPage.h"
 
@@ -70,7 +70,7 @@ auto CoreComponent::initialiseEvent() -> void {
     auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
 
     if (ribbonBarManager) {
-        ribbonBarManager->addPage(tr("Host Masking"), Pingnoo::Constants::RibbonHostMaskingPage);
+        ribbonBarManager->addPage(tr("Host Masking"), Nedrysoft::Core::Constants::RibbonPages::HostMasking);
     }
 }
 

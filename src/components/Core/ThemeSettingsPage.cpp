@@ -61,10 +61,10 @@ auto Nedrysoft::Core::ThemeSettingsPage::createWidget() -> QWidget * {
         m_settingsWidget = new Nedrysoft::ThemeSupport::ThemeSupportConfigurationWidget;
 
         connect(
-                m_settingsWidget,
-                &Nedrysoft::ThemeSupport::ThemeSupportConfigurationWidget::settingsChanged,
-                this,
-                &Nedrysoft::SettingsDialog::ISettingsPage::settingsChanged
+            m_settingsWidget,
+            &Nedrysoft::ThemeSupport::ThemeSupportConfigurationWidget::settingsChanged,
+            this,
+            &Nedrysoft::SettingsDialog::ISettingsPage::settingsChanged
         );
 
         connect(m_settingsWidget, &QWidget::destroyed, [=](QObject *object) {

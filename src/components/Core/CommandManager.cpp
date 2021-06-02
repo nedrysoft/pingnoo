@@ -25,7 +25,7 @@
 
 #include "Command.h"
 #include "ICore.h"
-#include "Pingnoo.h"
+#include "CoreConstants.h"
 
 #include <QMenu>
 #include <QMenuBar>
@@ -140,7 +140,7 @@ auto Nedrysoft::Core::CommandManager::createMenu(
             parentMenuBar = parent->m_menuBar;
         }
 
-        auto menu = new QMenu(Pingnoo::Constants::menuText(identifier), parentMenuBar);
+        auto menu = new QMenu(Nedrysoft::Core::Constants::menuText(identifier), parentMenuBar);
 
         newMenu = new Nedrysoft::Core::Menu(menu);
 

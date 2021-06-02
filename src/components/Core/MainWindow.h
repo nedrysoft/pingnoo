@@ -145,8 +145,6 @@ namespace Nedrysoft { namespace Core {
              */
             auto updateTitlebar() -> void;
 
-            Q_SLOT void actionTriggered(QAction *action);
-
         private:
             //! @cond
 
@@ -159,6 +157,10 @@ namespace Nedrysoft { namespace Core {
             QAction *m_aboutAction;
             QAction *m_quitAction;
             QAction *m_preferencesAction;
+            QAction *m_showApplication;
+            QAction *m_hideApplication;
+
+            bool m_applicationHidden;
 
             /*
             QLabel *m_pointInfoLabel;

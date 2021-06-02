@@ -33,9 +33,10 @@ namespace Nedrysoft { namespace JitterPlot {
 }}
 
 /**
- * @brief       The ICMPPingComponent class provides a socket based ICMP ping engine for all platforms.
+ * @brief       The JitterPlotComponent is the entry point for the providing a factory to create jitter plot
+ *              diagrams that appear in the main viewer.
  */
-class NEDRYSOFT_JITTERPLOT_DLLSPEC JitterPlotComponent :
+class NEDRYSOFT_JITTERPLOT_DLLSPEC SystemTrayComponent :
         public QObject,
         public Nedrysoft::ComponentSystem::IComponent {
 
@@ -50,12 +51,12 @@ class NEDRYSOFT_JITTERPLOT_DLLSPEC JitterPlotComponent :
         /**
          * @brief       Constructs the JitterPlotComponent.
          */
-        JitterPlotComponent();
+        SystemTrayComponent();
 
         /**
          * @brief       Destroys the JitterPlotComponent.
          */
-        ~JitterPlotComponent();
+        ~SystemTrayComponent();
 
     public:
         /**

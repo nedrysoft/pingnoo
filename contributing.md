@@ -4,7 +4,10 @@ The following document contains a set of guidelines for contributing to the proj
 
 ## C++ Version
 
-Code should target the C++17 standard wherever possible. (development tools permitting)
+Code should target the C++17 standard wherever possible (development tools permitting), although there are some caveats due to needing to support older version of Qt.
+
+- Do not use short style nested namespaces, older versions of the Qt moc cannot handle them and the compilation will break on platforms using these versions.
+- Do not use trailing return types for Q_SIGNAL or Q_SLOT functions, again older versions of the moc do not support these.  You should however use them for anything other than signals or slots.
 
 ## Header Files
 
@@ -142,17 +145,41 @@ constexpr auto RibbonPushButtonDefaultFontSize = 10;
 
 ### Line Breaks
 
-Line breaks are permitted when they improve clarity. Use a double indent on the following lines.
+Line breaks are required for lines that are greater that 120 characters  They are also permitted when they improve clarity.
 
 ```c++
 QString filename =
-        fore(AnsiColour::WHITE)+
-        "\""+
-        fore(0xb0,0x85, 0xbe)+
-        fileInfo.fileName()+
-        fore(AnsiColour::WHITE)+
-        "\""+
-        fore(AnsiColour::YELLOW);
+    fore(AnsiColour::WHITE)+
+    "\""+
+    fore(0xb0,0x85, 0xbe)+
+    fileInfo.fileName()+
+    fore(AnsiColour::WHITE)+
+    "\""+
+    fore(AnsiColour::YELLOW);
+```
+
+When splitting lines, it is preferred that each line includes consists of a single item so that the reader onto has to look down, rather than having to look across and down.
+
+The grouping of end brances should match the start braces, if the braces in a lambda are on the same line, then the closing braces must also be on the same line.
+
+An example of a lambda expression where the body of the lambda is split.
+
+```c++
+connect(myObjectInstance, &MyObject::mySignal, [=](int myParameter) {
+    // code block
+});
+```
+
+Another example, this time the parameters to split have been moved to their own lines, the parameters are all indented one level.  When the body is reached, a further indent level is used.
+
+```asm
+connect(
+    myObjectInstance, 
+    &MyObject::mySignal, 
+    [=](int myParameter) {
+        // code block
+    };
+);
 ```
 
 ### Line Wrapping
@@ -763,6 +790,33 @@ for (int i=0;i<j;i++) {
     ...
 }
 ```
+
+## Component SDK's
+
+Components can provide their own SDK's to allow other components to extend the behaviour.  The main interfaces to extend the application are located in the Core component, this has an SDK which exposes the editor manager, ribbon bar manager, command manager etc.
+
+Third party components can hook into the user interface by using the appropriate manager class, each component should expose a constnats file that is prefixed with the name of the component, as an example:
+
+```c++
+#include <CoreConstants>
+```
+
+This will provide consistent access to menus, commands, groups and so on.  You should avoid code that directly references a the content of a constant.
+
+```c++
+auto command = commandManager->registerAction(
+    m_newTargetAction,
+    Nedrysoft::RouteAnalyser::Constants::Commands::NewTarget
+);
+
+auto menu = commandManager->findMenu(Nedrysoft::Core::Constants::Menus::File);
+
+menu->appendCommand(command, Nedrysoft::Core::Constants::MenuGroups::FileNew);
+```
+
+The code snippet above, uses the Core constants to reference the menu and the group inside the menu where the custom command is to be added, by using the constant and not hard coding the menu or group name you can guarantee that if an underlying name change happens in the future that your code will continue to be compatible.
+
+The example also uses it's own constant to reference the custom command, in this case located in the <RouteAnalyserConstants>  header.
 
 ## Commit Messages
 

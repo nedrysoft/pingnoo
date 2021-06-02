@@ -108,7 +108,6 @@ namespace Nedrysoft { namespace Core {
              * @param[in]   menu the menu to show.
              */
             auto showMenu(QMenu *menu) -> void override;
-
 #endif
 
         protected:

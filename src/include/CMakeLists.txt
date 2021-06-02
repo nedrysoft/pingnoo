@@ -22,6 +22,5 @@
 #
 
 add_custom_target(Pingnoo SOURCES
-    Pingnoo.h
     Nedrysoft.h
 )

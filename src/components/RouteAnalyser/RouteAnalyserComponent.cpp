@@ -32,15 +32,16 @@
 #include "LatencySettingsPage.h"
 #include "NewTargetDialog.h"
 #include "NewTargetRibbonGroup.h"
-#include "Pingnoo.h"
 #include "PingResult.h"
 #include "RouteAnalyser.h"
+#include "RouteAnalyserConstants.h"
 #include "RouteAnalyserMenuItem.h"
 #include "TargetManager.h"
 #include "TargetSettings.h"
 #include "TargetSettingsPage.h"
 #include "ViewportRibbonGroup.h"
 
+#include <CoreConstants>
 #include <ICommandManager>
 #include <IEditorManager>
 #include <IRibbonBarManager>
@@ -190,11 +191,14 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
 
                 // register File/New Target... menu option global context
 
-                auto command = commandManager->registerAction(m_newTargetAction, "Menu.File.NewTarget");
+                auto command = commandManager->registerAction(
+                    m_newTargetAction,
+                    Nedrysoft::RouteAnalyser::Constants::Commands::NewTarget
+                );
 
-                auto menu = commandManager->findMenu(Pingnoo::Constants::MenuFile);
+                auto menu = commandManager->findMenu(Nedrysoft::Core::Constants::Menus::File);
 
-                menu->appendCommand(command, Pingnoo::Constants::FileNewGroup);
+                menu->appendCommand(command, Nedrysoft::Core::Constants::MenuGroups::FileNew);
 /*
                 // create Edit/Cut action for this context
 
@@ -286,155 +290,156 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
     });
 
     connect(
-            systemTrayIcon,
-            &Nedrysoft::Core::ISystemTrayIcon::clicked,
-            [=](Nedrysoft::Core::ISystemTrayIcon::MouseButton button) {
+        systemTrayIcon,
+        &Nedrysoft::Core::ISystemTrayIcon::clicked,
+        [=](Nedrysoft::Core::ISystemTrayIcon::MouseButton button) {
 
-        if (button==Nedrysoft::Core::ISystemTrayIcon::MouseButton::Left) {
+            if (button==Nedrysoft::Core::ISystemTrayIcon::MouseButton::Left) {
 #if defined(Q_OS_MACOS)
-            auto popover = new Nedrysoft::MacHelper::MacPopover;
+                auto popover = new Nedrysoft::MacHelper::MacPopover;
 
-            QPointer<QWidget> popoverWidget = new QWidget;
+                QPointer<QWidget> popoverWidget = new QWidget;
 #else
-            auto popoverWidget = new Nedrysoft::RouteAnalyser::PopoverWindow(Nedrysoft::Core::mainWindow());
+                auto popoverWidget = new Nedrysoft::RouteAnalyser::PopoverWindow(Nedrysoft::Core::mainWindow());
 
-            auto iconRect = systemTrayIcon->geometry();
+                auto iconRect = systemTrayIcon->geometry();
 #endif
-            auto contentLayout = new QVBoxLayout;
+                auto contentLayout = new QVBoxLayout;
 
-            for (int i = 0; i < 5; i++) {
-                contentLayout->addWidget(new Nedrysoft::RouteAnalyser::RouteAnalyserMenuItem);
-            }
+                for (int i = 0; i < 5; i++) {
+                    contentLayout->addWidget(new Nedrysoft::RouteAnalyser::RouteAnalyserMenuItem);
+                }
 
 #if defined(Q_OS_MACOS)
-            popoverWidget->setLayout(contentLayout);
+                popoverWidget->setLayout(contentLayout);
 
-            popover->show(
+                popover->show(
                     systemTrayIcon->menubarIcon(),
                     popoverWidget,
                     QSize(popoverWidget->minimumWidth(), popoverWidget->sizeHint().height()),
                     Nedrysoft::MacHelper::MacPopover::Edge::MaxYEdge
-            );
+                );
 #elif defined(Q_OS_WINDOWS)
-            popoverWidget->setLayout(contentLayout);
 
-            APPBARDATA appbarData;
+                popoverWidget->setLayout(contentLayout);
 
-            memset(&appbarData, 0, sizeof(appbarData));
+                APPBARDATA appbarData;
 
-            appbarData.cbSize = sizeof(appbarData);
+                memset(&appbarData, 0, sizeof(appbarData));
 
-            SHAppBarMessage(ABM_GETTASKBARPOS, &appbarData);
+                appbarData.cbSize = sizeof(appbarData);
 
-            for (auto screen : qGuiApp->screens()) {
-                if (screen->geometry().contains(iconRect)) {
-                    QRect popoverRect = QRect(QPoint(0,0), popoverWidget->sizeHint());
+                SHAppBarMessage(ABM_GETTASKBARPOS, &appbarData);
 
-                    switch(appbarData.uEdge) {
-                        case ABE_TOP: {
-                            popoverRect.moveTopLeft(
-                                    QPoint(
-                                            iconRect.center().x()-(popoverRect.width()/2),
-                                            iconRect.bottom()
-                                    )
-                            );
+                for (auto screen : qGuiApp->screens()) {
+                    if (screen->geometry().contains(iconRect)) {
+                        QRect popoverRect = QRect(QPoint(0,0), popoverWidget->sizeHint());
 
-                            if (popoverRect.right()>screen->geometry().right()) {
-                                popoverRect.moveRight(screen->geometry().right());
+                        switch(appbarData.uEdge) {
+                            case ABE_TOP: {
+                                popoverRect.moveTopLeft(
+                                        QPoint(
+                                                iconRect.center().x()-(popoverRect.width()/2),
+                                                iconRect.bottom()
+                                        )
+                                );
+
+                                if (popoverRect.right()>screen->geometry().right()) {
+                                    popoverRect.moveRight(screen->geometry().right());
+                                }
+
+                                popoverWidget->move(popoverRect.topLeft());
+
+                                break;
                             }
 
-                            popoverWidget->move(popoverRect.topLeft());
+                            case ABE_BOTTOM: {
+                                popoverRect.moveBottomRight(
+                                        QPoint(
+                                                iconRect.center().x()+(popoverRect.width()/2),
+                                                iconRect.top()
+                                        )
+                                );
 
-                            break;
-                        }
+                                if (popoverRect.right()>screen->geometry().right()) {
+                                    popoverRect.moveRight(screen->geometry().right());
+                                }
 
-                        case ABE_BOTTOM: {
-                            popoverRect.moveBottomRight(
-                                    QPoint(
-                                            iconRect.center().x()+(popoverRect.width()/2),
-                                            iconRect.top()
-                                    )
-                            );
+                                popoverWidget->move(popoverRect.topLeft());
 
-                            if (popoverRect.right()>screen->geometry().right()) {
-                                popoverRect.moveRight(screen->geometry().right());
+                                break;
                             }
 
-                            popoverWidget->move(popoverRect.topLeft());
+                            case ABE_LEFT: {
+                                popoverRect.moveTopLeft(
+                                        QPoint(
+                                                iconRect.right(),
+                                                iconRect.center().y()-(popoverRect.height()/2)
 
-                            qDebug() << popoverRect;
+                                        )
+                                );
 
-                            break;
-                        }
+                                if (popoverRect.bottom()>screen->geometry().bottom()) {
+                                    popoverRect.moveBottom(screen->geometry().bottom());
+                                }
 
-                        case ABE_LEFT: {
-                            popoverRect.moveTopLeft(
-                                    QPoint(
-                                            iconRect.right(),
-                                            iconRect.center().y()-(popoverRect.height()/2)
+                                popoverWidget->move(popoverRect.topLeft());
 
-                                    )
-                            );
-
-                            if (popoverRect.bottom()>screen->geometry().bottom()) {
-                                popoverRect.moveBottom(screen->geometry().bottom());
+                                break;
                             }
 
-                            popoverWidget->move(popoverRect.topLeft());
+                            case ABE_RIGHT: {
+                                popoverRect.moveTopLeft(
+                                        QPoint(
+                                                iconRect.right(),
+                                                iconRect.center().y()-(popoverRect.height()/2)
 
-                            break;
-                        }
+                                        )
+                                );
 
-                        case ABE_RIGHT: {
-                            popoverRect.moveTopLeft(
-                                    QPoint(
-                                            iconRect.right(),
-                                            iconRect.center().y()-(popoverRect.height()/2)
+                                if (popoverRect.bottom()>screen->geometry().bottom()) {
+                                    popoverRect.moveBottom(screen->geometry().bottom());
+                                }
 
-                                    )
-                            );
+                                popoverWidget->move(popoverRect.topLeft());
 
-                            if (popoverRect.bottom()>screen->geometry().bottom()) {
-                                popoverRect.moveBottom(screen->geometry().bottom());
+                                break;
                             }
-
-                            popoverWidget->move(popoverRect.topLeft());
-
-                            break;
                         }
+
+                        break;
                     }
-
-                    break;
                 }
-            }
 
-            popoverWidget->show();
+                popoverWidget->show();
 #endif
-            connect(this, &RouteAnalyserComponent::destroyed, [=]() {
-                if (popoverWidget) {
-                    delete popoverWidget;
-                }
-            });
-        } else if (button==Nedrysoft::Core::ISystemTrayIcon::MouseButton::Right) {
+                connect(this, &RouteAnalyserComponent::destroyed, [=]() {
+                    if (popoverWidget) {
+                        delete popoverWidget;
+                    }
+                });
+            } else if (button==Nedrysoft::Core::ISystemTrayIcon::MouseButton::Right) {
 #if defined(Q_OS_MACOS)
-            auto contentMenu = Nedrysoft::Core::ICore::getInstance()->applicationContextMenu();
+                auto contentMenu = Nedrysoft::Core::ICore::getInstance()->applicationContextMenu();
 
-            auto contextObject = new QObject(this);
+                auto contextObject = new QObject(this);
 
-            connect(
-                systemTrayIcon,
-                &Nedrysoft::Core::ISystemTrayIcon::menuClosed,
-                contextObject,
-                [contentMenu, contextObject](QMenu *menu) {
+                connect(
+                    systemTrayIcon,
+                    &Nedrysoft::Core::ISystemTrayIcon::menuClosed,
+                    contextObject,
+                    [contentMenu, contextObject](QMenu *menu) {
 
-                    contentMenu->deleteLater();
-                    contextObject->deleteLater();
-            });
+                        contentMenu->deleteLater();
+                        contextObject->deleteLater();
+                    }
+                );
 
-            systemTrayIcon->showMenu(contentMenu->menu());
+                systemTrayIcon->showMenu(contentMenu->menu());
 #endif
+            }
         }
-    });
+    );
 }
 
 auto RouteAnalyserComponent::contextId() -> int {

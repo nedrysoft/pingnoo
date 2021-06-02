@@ -30,7 +30,7 @@
 #include "ICore.h"
 #include "IEditor.h"
 #include "EditorManager.h"
-#include "Pingnoo.h"
+#include "CoreConstants.h"
 #include "RibbonBarManager.h"
 #include "SystemTrayIcon.h"
 #include "ui_MainWindow.h"
@@ -57,7 +57,8 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Nedrysoft::Core::Ui::MainWindow),
         m_ribbonBarManager(nullptr),
-        m_settingsDialog(nullptr) {
+        m_settingsDialog(nullptr),
+        m_applicationHidden(false) {
 
     // TODO: m_ribbonBarManager should be created in the component initialisation
 
@@ -74,14 +75,16 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
 
     Nedrysoft::ComponentSystem::addObject(m_ribbonBarManager);
 
-    m_ribbonBarManager->addPage(tr("Home"), Pingnoo::Constants::RibbonHomePage);
+    m_ribbonBarManager->addPage(tr("Home"), Nedrysoft::Core::Constants::RibbonPages::Home);
 
     ui->editorTabWidget->setText(tr("Select New Target from the Menu or Ribbon bar to begin."));
 
     showMaximized();
 
-    setWindowTitle(QString(tr("Pingnoo %1.%2.%3-%4 (%5)"))
-            .arg(PINGNOO_GIT_YEAR, PINGNOO_GIT_MONTH, PINGNOO_GIT_DAY, PINGNOO_GIT_BRANCH, PINGNOO_GIT_HASH));
+    setWindowTitle(
+        QString(tr("Pingnoo %1.%2.%3-%4 (%5)"))
+            .arg(PINGNOO_GIT_YEAR, PINGNOO_GIT_MONTH, PINGNOO_GIT_DAY, PINGNOO_GIT_BRANCH, PINGNOO_GIT_HASH)
+    );
 
     auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
 
@@ -93,19 +96,20 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
     updateTitlebar();
 #endif
     auto signal = connect(
-            themeSupport,
-            &Nedrysoft::ThemeSupport::ThemeSupport::themeChanged,
-            [=](bool) {
+        themeSupport,
+        &Nedrysoft::ThemeSupport::ThemeSupport::themeChanged,
+        [=](bool) {
 
 #if defined(Q_OS_MACOS)
-        updateTitlebar();
+            updateTitlebar();
 #endif
-        if (themeSupport->isForced()) {
-            ui->statusbar->setStyleSheet("background-color: " + ui->ribbonBar->backgroundColor().name());
-        } else {
-            ui->statusbar->setStyleSheet("");
+            if (themeSupport->isForced()) {
+                ui->statusbar->setStyleSheet("background-color: " + ui->ribbonBar->backgroundColor().name());
+            } else {
+                ui->statusbar->setStyleSheet("");
+            }
         }
-    });
+    );
 
     connect(this, &QObject::destroyed, [themeSupport, signal]() {
         themeSupport->disconnect(signal);
@@ -169,9 +173,10 @@ auto Nedrysoft::Core::MainWindow::updateTitlebar() -> void {
     auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
 
     macHelper.setTitlebarColour(
-            this,
-            ui->ribbonBar->backgroundColor(),
-            themeSupport->isDarkMode());
+        this,
+        ui->ribbonBar->backgroundColor(),
+        themeSupport->isDarkMode()
+    );
 #endif
 }
 
@@ -188,39 +193,61 @@ auto Nedrysoft::Core::MainWindow::createDefaultCommands() -> void {
     // create the commands, these are essentially placeholders.  Commands can be added to menus, buttons,
     // shortcut keys etc.
 
-    createCommand(Pingnoo::Constants::FileOpen, nullptr);
-    createCommand(Pingnoo::Constants::HelpAbout, nullptr, QAction::ApplicationSpecificRole);
-    createCommand(Pingnoo::Constants::HelpAboutComponents, nullptr, QAction::ApplicationSpecificRole);
-    createCommand(Pingnoo::Constants::FilePreferences, nullptr, QAction::PreferencesRole);
-    createCommand(Pingnoo::Constants::FileQuit, nullptr, QAction::QuitRole);
+    createCommand(Nedrysoft::Core::Constants::Commands::Open, nullptr);
+    createCommand(Nedrysoft::Core::Constants::Commands::About, nullptr, QAction::ApplicationSpecificRole);
+    createCommand(Nedrysoft::Core::Constants::Commands::AboutComponents, nullptr, QAction::ApplicationSpecificRole);
+    createCommand(Nedrysoft::Core::Constants::Commands::Preferences, nullptr, QAction::PreferencesRole);
+    createCommand(Nedrysoft::Core::Constants::Commands::Quit, nullptr, QAction::QuitRole);
 
     // create the menus, we create a main menu bar, then sub menus on that (File, Edit, Help etc).  In each
     // menu we then create groups, this allows us to reserve sections of the menu for specific items, components
     // can use these groups to add their commands at specific locations in a menu.
 
-    createMenu(Pingnoo::Constants::ApplicationMenuBar);
+    createMenu(Nedrysoft::Core::Constants::MenuBars::Application);
 
-    auto fileMenu = createMenu(Pingnoo::Constants::MenuFile, Pingnoo::Constants::ApplicationMenuBar);
+    auto fileMenu = createMenu(
+        Nedrysoft::Core::Constants::Menus::File,
+        Nedrysoft::Core::Constants::MenuBars::Application
+    );
 
-    fileMenu->addGroupBefore(Pingnoo::Constants::DefaultGroupTop, Pingnoo::Constants::FileNewGroup);
-    fileMenu->addGroupAfter(Pingnoo::Constants::FileNewGroup, Pingnoo::Constants::FileOpenGroup);
-    fileMenu->addGroupAfter(Pingnoo::Constants::FileOpenGroup, Pingnoo::Constants::FileSaveGroup);
-    fileMenu->addGroupAfter(Pingnoo::Constants::DefaultGroupBottom, Pingnoo::Constants::DefaultGroupBottom);
-    fileMenu->addGroupAfter(Pingnoo::Constants::DefaultGroupBottom, Pingnoo::Constants::FileExitGroup);
+    fileMenu->addGroupBefore(
+        Nedrysoft::Core::Constants::MenuGroups::Top,
+        Nedrysoft::Core::Constants::MenuGroups::FileNew
+    );
 
-    createMenu(Pingnoo::Constants::MenuEdit, Pingnoo::Constants::ApplicationMenuBar);
-    createMenu(Pingnoo::Constants::MenuHelp, Pingnoo::Constants::ApplicationMenuBar);
+    fileMenu->addGroupAfter(
+        Nedrysoft::Core::Constants::MenuGroups::FileNew,
+        Nedrysoft::Core::Constants::MenuGroups::FileOpen
+    );
 
-    addMenuCommand(Pingnoo::Constants::FileOpen, Pingnoo::Constants::MenuFile);
-    addMenuCommand(Pingnoo::Constants::FilePreferences, Pingnoo::Constants::MenuFile);
-    addMenuCommand(Pingnoo::Constants::FileQuit, Pingnoo::Constants::MenuFile);
+    fileMenu->addGroupAfter(
+        Nedrysoft::Core::Constants::MenuGroups::FileOpen,
+        Nedrysoft::Core::Constants::MenuGroups::FileSave
+    );
 
-    addMenuCommand(Pingnoo::Constants::HelpAbout, Pingnoo::Constants::MenuHelp);
-    addMenuCommand(Pingnoo::Constants::HelpAboutComponents, Pingnoo::Constants::MenuHelp);
+    fileMenu->addGroupAfter(
+        Nedrysoft::Core::Constants::MenuGroups::Bottom,
+        Nedrysoft::Core::Constants::MenuGroups::Bottom
+    );
 
-    addMenuCommand(Pingnoo::Constants::EditCut, Pingnoo::Constants::MenuEdit);
-    addMenuCommand(Pingnoo::Constants::EditCopy, Pingnoo::Constants::MenuEdit);
-    addMenuCommand(Pingnoo::Constants::EditPaste, Pingnoo::Constants::MenuEdit);
+    fileMenu->addGroupAfter(
+        Nedrysoft::Core::Constants::MenuGroups::Bottom,
+        Nedrysoft::Core::Constants::MenuGroups::FileExit
+    );
+
+    createMenu(Nedrysoft::Core::Constants::Menus::Edit, Nedrysoft::Core::Constants::MenuBars::Application);
+    createMenu(Nedrysoft::Core::Constants::Menus::Help, Nedrysoft::Core::Constants::MenuBars::Application);
+
+    addMenuCommand(Nedrysoft::Core::Constants::Commands::Open, Nedrysoft::Core::Constants::Menus::File);
+    addMenuCommand(Nedrysoft::Core::Constants::Commands::Preferences, Nedrysoft::Core::Constants::Menus::File);
+    addMenuCommand(Nedrysoft::Core::Constants::Commands::Quit, Nedrysoft::Core::Constants::Menus::File);
+
+    addMenuCommand(Nedrysoft::Core::Constants::Commands::About, Nedrysoft::Core::Constants::Menus::Help);
+    addMenuCommand(Nedrysoft::Core::Constants::Commands::AboutComponents, Nedrysoft::Core::Constants::Menus::Help);
+
+    addMenuCommand(Nedrysoft::Core::Constants::Commands::Cut, Nedrysoft::Core::Constants::Menus::Edit);
+    addMenuCommand(Nedrysoft::Core::Constants::Commands::Copy, Nedrysoft::Core::Constants::Menus::Edit);
+    addMenuCommand(Nedrysoft::Core::Constants::Commands::Paste, Nedrysoft::Core::Constants::Menus::Edit);
 
     if (Nedrysoft::Core::IContextManager::getInstance()) {
         Nedrysoft::Core::IContextManager::getInstance()->setContext(Nedrysoft::Core::GlobalContext);
@@ -230,12 +257,14 @@ auto Nedrysoft::Core::MainWindow::createDefaultCommands() -> void {
 auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
     auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
-    auto aboutComponentsAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::HelpAboutComponents));
+    auto aboutComponentsAction = new QAction(
+        Nedrysoft::Core::Constants::commandText(Nedrysoft::Core::Constants::Commands::AboutComponents)
+    );
 
     aboutComponentsAction->setEnabled(true);
     aboutComponentsAction->setMenuRole(QAction::ApplicationSpecificRole);
 
-    commandManager->registerAction(aboutComponentsAction, Pingnoo::Constants::HelpAboutComponents);
+    commandManager->registerAction(aboutComponentsAction, Nedrysoft::Core::Constants::Commands::AboutComponents);
 
     connect(aboutComponentsAction, &QAction::triggered, [](bool) {
         Nedrysoft::ComponentSystem::ComponentViewerDialog componentViewerDialog(
@@ -272,12 +301,14 @@ auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
         }
     });
 
-    m_preferencesAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::FilePreferences));
+    m_preferencesAction = new QAction(
+        Nedrysoft::Core::Constants::commandText(Nedrysoft::Core::Constants::Commands::Preferences)
+    );
 
     m_preferencesAction->setEnabled(true);
     m_preferencesAction->setMenuRole(QAction::PreferencesRole);
 
-    commandManager->registerAction(m_preferencesAction, Pingnoo::Constants::FilePreferences);
+    commandManager->registerAction(m_preferencesAction, Nedrysoft::Core::Constants::Commands::Preferences);
 
     connect(m_preferencesAction, &QAction::triggered, [this](bool) {
         if (m_settingsDialog) {
@@ -309,28 +340,64 @@ auto Nedrysoft::Core::MainWindow::registerDefaultCommands() -> void {
         });
     });
 
-    m_quitAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::FileQuit));
+    m_quitAction = new QAction(
+        Nedrysoft::Core::Constants::commandText(Nedrysoft::Core::Constants::Commands::Quit)
+    );
 
     m_quitAction->setEnabled(true);
     m_quitAction->setMenuRole(QAction::QuitRole);
 
-    commandManager->registerAction(m_quitAction, Pingnoo::Constants::FileQuit);
+    commandManager->registerAction(m_quitAction, Nedrysoft::Core::Constants::Commands::Quit);
 
     connect(m_quitAction, &QAction::triggered, [this](bool) {
         QGuiApplication::quit();
     });
 
-    m_aboutAction = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::HelpAbout));
+    m_aboutAction = new QAction(
+        Nedrysoft::Core::Constants::commandText(Nedrysoft::Core::Constants::Commands::About)
+    );
 
     m_aboutAction->setEnabled(true);
     m_aboutAction->setMenuRole(QAction::ApplicationSpecificRole);
 
-    commandManager->registerAction(m_aboutAction, Pingnoo::Constants::HelpAbout);
+    commandManager->registerAction(m_aboutAction, Nedrysoft::Core::Constants::Commands::About);
 
     connect(m_aboutAction, &QAction::triggered, [](bool) {
         AboutDialog aboutDialog;
 
         aboutDialog.exec();
+    });
+
+    m_showApplication = new QAction(
+        Nedrysoft::Core::Constants::commandText(Nedrysoft::Core::Constants::Commands::ShowApplication)
+    );
+
+    m_showApplication->setEnabled(true);
+    m_showApplication->setMenuRole(QAction::ApplicationSpecificRole);
+
+    commandManager->registerAction(m_showApplication, Nedrysoft::Core::Constants::Commands::ShowApplication);
+
+    connect(m_showApplication, &QAction::triggered, [=]() {
+#if defined(Q_OS_MACOS)
+        Nedrysoft::MacHelper::MacHelper::showApplication();
+        m_applicationHidden = false;
+#endif
+    });
+
+    m_hideApplication = new QAction(
+        Nedrysoft::Core::Constants::commandText(Nedrysoft::Core::Constants::Commands::HideApplication)
+    );
+
+    m_hideApplication->setEnabled(true);
+    m_hideApplication->setMenuRole(QAction::ApplicationSpecificRole);
+
+    commandManager->registerAction(m_hideApplication, Nedrysoft::Core::Constants::Commands::HideApplication);
+
+    connect(m_hideApplication, &QAction::triggered, [=]() {
+#if defined(Q_OS_MACOS)
+        Nedrysoft::MacHelper::MacHelper::hideApplication();
+        m_applicationHidden = true;
+#endif
     });
 }
 
@@ -345,7 +412,7 @@ auto Nedrysoft::Core::MainWindow::createCommand(
         return nullptr;
     }
 
-    auto action = new QAction(Pingnoo::Constants::commandText(commandId));
+    auto action = new QAction(Nedrysoft::Core::Constants::commandText(commandId));
 
     action->setMenuRole(menuRole);
 
@@ -402,7 +469,7 @@ auto Nedrysoft::Core::MainWindow::addMenuCommand(QString commandId, QString menu
     auto command = commandManager->findCommand(commandId);
 
     if (groupId.isNull()) {
-        groupId = Pingnoo::Constants::DefaultGroupTop;
+        groupId = Nedrysoft::Core::Constants::MenuGroups::Top;
     }
 
     menu->appendCommand(command, groupId);
@@ -424,20 +491,39 @@ void Nedrysoft::Core::MainWindow::closeEvent(QCloseEvent *closeEvent) {
     QMainWindow::closeEvent(closeEvent);
 }
 
-void Nedrysoft::Core::MainWindow::actionTriggered(QAction *action) {
-    qDebug() << "Triggerd (slot)";
-}
-
 auto Nedrysoft::Core::MainWindow::applicationContextMenu() -> Nedrysoft::Core::IMenu * {
     auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
     auto contextMenu = commandManager->createPopupMenu();
 
-    //contextMenu->appendCommand(Pingnoo::Constants::ShowMainWindow, Pingnoo::Constants::DefaultGroupMiddle);
+#if defined(Q_OS_MACOS)
+    if (m_applicationHidden) {
+        contextMenu->appendCommand(
+            Nedrysoft::Core::Constants::Commands::ShowApplication,
+            Nedrysoft::Core::Constants::MenuGroups::Top
+        );
+    } else {
+        contextMenu->appendCommand(
+            Nedrysoft::Core::Constants::Commands::HideApplication,
+            Nedrysoft::Core::Constants::MenuGroups::Top
+        );
+    }
+#endif
 
-    contextMenu->appendCommand(Pingnoo::Constants::HelpAbout, Pingnoo::Constants::DefaultGroupBottom);
-    contextMenu->appendCommand(Pingnoo::Constants::FilePreferences, Pingnoo::Constants::DefaultGroupBottom);
-    contextMenu->appendCommand(Pingnoo::Constants::FileQuit, Pingnoo::Constants::DefaultGroupBottom);
+    contextMenu->appendCommand(
+        Nedrysoft::Core::Constants::Commands::About,
+        Nedrysoft::Core::Constants::MenuGroups::Bottom
+    );
+
+    contextMenu->appendCommand(
+        Nedrysoft::Core::Constants::Commands::Preferences,
+        Nedrysoft::Core::Constants::MenuGroups::Bottom
+    );
+
+    contextMenu->appendCommand(
+        Nedrysoft::Core::Constants::Commands::Quit,
+        Nedrysoft::Core::Constants::MenuGroups::Bottom
+    );
 
     return contextMenu;
 }

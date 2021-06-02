@@ -130,30 +130,34 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::activated() -> void {
         }
 
         connect(
-                m_editorWidget,
-                &RouteAnalyserWidget::datasetChanged,
-                this,
-                &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onDatasetChanged);
+            m_editorWidget,
+            &RouteAnalyserWidget::datasetChanged,
+            this,
+            &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onDatasetChanged
+        );
 
         connect(
-                viewportWidget,
-                &ViewportRibbonGroup::viewportChanged,
-                this,
-                &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportChanged);
+            viewportWidget,
+            &ViewportRibbonGroup::viewportChanged,
+            this,
+            &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportChanged
+        );
 
         connect(
-                viewportWidget,
-                &ViewportRibbonGroup::viewportWindowChanged,
-                this,
-                &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportWindowChanged);
+            viewportWidget,
+            &ViewportRibbonGroup::viewportWindowChanged,
+            this,
+            &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportWindowChanged
+        );
     }
 
     if (latencyWidget)  {
         connect(
-                latencyWidget,
-                &LatencyRibbonGroup::valueChanged,
-                this,
-                &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onLatencyValueChanged);
+            latencyWidget,
+            &LatencyRibbonGroup::valueChanged,
+            this,
+            &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onLatencyValueChanged
+        );
     }
 }
 
@@ -163,31 +167,35 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::deactivated() -> void {
 
     if (latencyWidget) {
         disconnect(
-                latencyWidget,
-                &LatencyRibbonGroup::valueChanged,
-                this,
-                &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onLatencyValueChanged);
+            latencyWidget,
+            &LatencyRibbonGroup::valueChanged,
+            this,
+            &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onLatencyValueChanged
+        );
     }
 
     if (viewportWidget) {
         disconnect(
-                viewportWidget,
-                &ViewportRibbonGroup::viewportChanged,
-                this,
-                &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportChanged);
+            viewportWidget,
+            &ViewportRibbonGroup::viewportChanged,
+            this,
+            &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportChanged
+        );
 
         disconnect(
-                viewportWidget,
-                &ViewportRibbonGroup::viewportWindowChanged,
-                this,
-                &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportWindowChanged);
+            viewportWidget,
+            &ViewportRibbonGroup::viewportWindowChanged,
+            this,
+            &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportWindowChanged
+        );
     }
 
     disconnect(
-            m_editorWidget,
-            &RouteAnalyserWidget::datasetChanged,
-            this,
-            &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onDatasetChanged);
+        m_editorWidget,
+        &RouteAnalyserWidget::datasetChanged,
+        this,
+        &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onDatasetChanged
+    );
 }
 
 void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onDatasetChanged(double start, double end) {

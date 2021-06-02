@@ -27,16 +27,16 @@
 
 #include <IComponentManager>
 
-JitterPlotComponent::JitterPlotComponent() :
+SystemTrayComponent::SystemTrayComponent() :
         m_plotFactory(nullptr) {
 
 }
 
-JitterPlotComponent::~JitterPlotComponent() {
+SystemTrayComponent::~SystemTrayComponent() {
 
 }
 
-auto JitterPlotComponent::finaliseEvent() -> void {
+auto SystemTrayComponent::finaliseEvent() -> void {
     if (m_plotFactory) {
         Nedrysoft::ComponentSystem::removeObject(m_plotFactory);
 
@@ -44,7 +44,7 @@ auto JitterPlotComponent::finaliseEvent() -> void {
     }
 }
 
-auto JitterPlotComponent::initialiseEvent() -> void {
+auto SystemTrayComponent::initialiseEvent() -> void {
     m_plotFactory = new Nedrysoft::JitterPlot::JitterPlotFactory();
 
     Nedrysoft::ComponentSystem::addObject(m_plotFactory);

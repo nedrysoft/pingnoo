@@ -24,15 +24,15 @@
 #include "Menu.h"
 #include "ICommand.h"
 #include "ICommandManager.h"
-#include "Pingnoo.h"
+#include "CoreConstants.h"
 
 Nedrysoft::Core::Menu::Menu() :
         m_menuBar(nullptr),
         m_menu(nullptr) {
 
-    m_groupList.append(GroupItem(Pingnoo::Constants::DefaultGroupTop));
-    m_groupList.append(GroupItem(Pingnoo::Constants::DefaultGroupMiddle));
-    m_groupList.append(GroupItem(Pingnoo::Constants::DefaultGroupBottom));
+    m_groupList.append(GroupItem(Nedrysoft::Core::Constants::MenuGroups::Top));
+    m_groupList.append(GroupItem(Nedrysoft::Core::Constants::MenuGroups::Middle));
+    m_groupList.append(GroupItem(Nedrysoft::Core::Constants::MenuGroups::Bottom));
 }
 
 Nedrysoft::Core::Menu::~Menu() = default;

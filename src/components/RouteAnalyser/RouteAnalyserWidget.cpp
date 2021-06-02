@@ -111,10 +111,11 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget(
 
     if (routeEngine) {
         connect(
-                routeEngine,
-                &Nedrysoft::RouteAnalyser::IRouteEngine::result,
-                this,
-                &RouteAnalyserWidget::onRouteResult);
+            routeEngine,
+            &Nedrysoft::RouteAnalyser::IRouteEngine::result,
+            this,
+            &RouteAnalyserWidget::onRouteResult
+        );
 
         routeEngine->findRoute(pingEngineFactory, targetHost, ipVersion);
     }
@@ -341,10 +342,11 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
     if (routeEngine) {
         disconnect(
-                routeEngine,
-                &Nedrysoft::RouteAnalyser::IRouteEngine::result,
-                this,
-                &RouteAnalyserWidget::onRouteResult );
+            routeEngine,
+            &Nedrysoft::RouteAnalyser::IRouteEngine::result,
+            this,
+            &RouteAnalyserWidget::onRouteResult
+        );
     }
 
     if (!m_pingEngineFactory) {
@@ -395,11 +397,13 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
             latencyLayer->setGradientEnabled(latencySettings->gradientFill());
 
             connect(
-                    latencySettings,
-                    &Nedrysoft::RouteAnalyser::LatencySettings::gradientChanged, [=](bool useGradient) {
+                latencySettings,
+                &Nedrysoft::RouteAnalyser::LatencySettings::gradientChanged,
+                [=](bool useGradient) {
 
-                latencyLayer->setGradientEnabled(useGradient);
-            });
+                    latencyLayer->setGradientEnabled(useGradient);
+                }
+            );
 
             customPlot->setCurrentLayer("main");
 
