@@ -41,9 +41,6 @@ namespace Nedrysoft { namespace RouteAnalyser {
     class RouteItemTableDelegate;
     class IPlot;
 
-    typedef std::chrono::duration<double, std::ratio<1, 1000>> milliseconds_double;
-    typedef std::chrono::duration<double, std::ratio<1, 1>> seconds_double;
-
     /**
      * @brief       The PingData class is used to store data for a table model.
      *
@@ -109,9 +106,9 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @details     This can optionally be drawn on the latency graph when hovering
              *              over a chart.
              *
-             * @param[in]   latency the latency.
+             * @param[in]   latency the latency in seconds.
              */
-            auto setHistoricalLatency(std::chrono::duration<double> latency) -> void;
+            auto setHistoricalLatency(double latency) -> void;
 
             /**
              * @brief       Updates the route table item with the given result.
@@ -281,11 +278,11 @@ namespace Nedrysoft { namespace RouteAnalyser {
             QString m_hostName;
             QString m_location;
 
-            seconds_double m_currentLatency = {};
-            seconds_double m_maximumLatency = {};
-            seconds_double m_minimumLatency = {};
-            seconds_double m_averageLatency = {};
-            seconds_double m_historicalLatency = {};
+            double m_currentLatency;
+            double m_maximumLatency;
+            double m_minimumLatency;
+            double m_averageLatency;
+            double m_historicalLatency;
 
             QList<Nedrysoft::RouteAnalyser::IPlot *> m_plots;
 

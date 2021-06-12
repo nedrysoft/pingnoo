@@ -194,7 +194,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
     int returnValue;
     sockaddr_in6 sourceAddress, targetAddress;
 
-    auto epoch = std::chrono::system_clock::now();
+    auto epoch = QDateTime::currentDateTime();
 
 #if defined(_WIN64)
     IP_OPTION_INFORMATION32 options;
@@ -294,7 +294,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
            resultCode,
            replyHost,
            epoch,
-           std::chrono::duration<double, std::milli>(roundTripTime),
+           roundTripTime/1000.0,
            nullptr);
 }
 

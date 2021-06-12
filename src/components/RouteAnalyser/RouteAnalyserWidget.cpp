@@ -256,20 +256,20 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Rout
         case Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok:
         case Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded: {
             QCPRange graphRange = customPlot->yAxis->range();
-            auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
+            auto requestTime = static_cast<double>(result.requestTime().toSecsSinceEpoch());
 
-            customPlot->graph(RoundTripGraph)->addData(requestTime.count(), result.roundTripTime().count());
+            customPlot->graph(RoundTripGraph)->addData(requestTime, result.roundTripTime());
 
             if (m_startPoint == -1) {
-                m_startPoint = requestTime.count();
+                m_startPoint = requestTime;
             } else {
-                if (requestTime.count() < m_startPoint) {
-                    m_startPoint = requestTime.count();
+                if (requestTime < m_startPoint) {
+                    m_startPoint = requestTime;
                 }
             }
 
-            if (requestTime.count() > m_endPoint) {
-                m_endPoint = requestTime.count();
+            if (requestTime > m_endPoint) {
+                m_endPoint = requestTime;
             }
 
             updateRanges();
@@ -280,8 +280,8 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Rout
 
             switch(m_graphScaleMode) {
                 case ScaleMode::None: {
-                    if (result.roundTripTime().count() > graphRange.upper) {
-                        customPlot->yAxis->setRange(0, result.roundTripTime().count());
+                    if (result.roundTripTime()> graphRange.upper) {
+                        customPlot->yAxis->setRange(0, result.roundTripTime());
                     }
 
                     break;
@@ -311,11 +311,11 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Rout
         }
 
         case Nedrysoft::RouteAnalyser::PingResult::ResultCode::NoReply: {
-            auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
+            auto requestTime = static_cast<double>(result.requestTime().toSecsSinceEpoch());
 
             QCPBars *barChart = m_barCharts[customPlot];
 
-            barChart->addData(requestTime.count(), 1);
+            barChart->addData(requestTime, 1);
 
             pingData->updateItem(result);
 
@@ -514,11 +514,9 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
                                     auto tempResultRange = pingData->customPlot()->graph(
                                             RoundTripGraph)->data()->valueRange(foundRange, QCP::sdBoth, valueRange);
 
-                                    auto seconds = std::chrono::duration<double>(tempResultRange.upper);
-
-                                    pingData->setHistoricalLatency(seconds);
+                                    pingData->setHistoricalLatency(tempResultRange.upper);
                                 } else {
-                                    pingData->setHistoricalLatency(std::chrono::duration<double>(-1));
+                                    pingData->setHistoricalLatency(-1);
 
                                     auto topLeft = m_tableModel->index(0, 0);
                                     auto bottomRight = topLeft.sibling(m_tableModel->rowCount() - 1,

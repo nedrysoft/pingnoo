@@ -41,11 +41,11 @@ Nedrysoft::RouteAnalyser::PingData::PingData(QStandardItemModel *tableModel, int
         m_hop(hop),
         m_hopValid(hopValid),
         m_count(0),
-        m_currentLatency(seconds_double(-1)),
-        m_maximumLatency(seconds_double(-1)),
-        m_minimumLatency(seconds_double(-1)),
-        m_averageLatency(seconds_double(-1)),
-        m_historicalLatency(seconds_double(-1)) {
+        m_currentLatency(-1),
+        m_maximumLatency(-1),
+        m_minimumLatency(-1),
+        m_averageLatency(-1),
+        m_historicalLatency(-1) {
 
 }
 
@@ -118,11 +118,11 @@ auto Nedrysoft::RouteAnalyser::PingData::updateItem(Nedrysoft::RouteAnalyser::Pi
 
     m_currentLatency = result.roundTripTime();
 
-    if (m_minimumLatency < seconds_double(0)) {
+    if (m_minimumLatency < 0) {
         m_minimumLatency = m_currentLatency;
     }
 
-    if (m_maximumLatency < seconds_double(0)) {
+    if (m_maximumLatency < 0) {
         m_maximumLatency = m_currentLatency;
     }
 
@@ -134,33 +134,32 @@ auto Nedrysoft::RouteAnalyser::PingData::updateItem(Nedrysoft::RouteAnalyser::Pi
         m_maximumLatency = m_currentLatency;
     }
 
-    if (m_maximumLatency.count() > m_tableModel->property("graphMaxLatency").toDouble()) {
+    if (m_maximumLatency > m_tableModel->property("graphMaxLatency").toDouble()) {
         if (m_tableModel) {
-            m_tableModel->setProperty("graphMaxLatency", QVariant(m_maximumLatency.count()));
+            m_tableModel->setProperty("graphMaxLatency", QVariant(m_maximumLatency));
         }
 
         auto headerItem = m_tableModel->horizontalHeaderItem(static_cast<int>(Fields::Graph));
 
         headerItem->setTextAlignment(Qt::AlignRight);
 
-        headerItem->setText(QString(QObject::tr("%1 ms")).arg(
-                std::chrono::duration_cast<std::chrono::milliseconds>(m_currentLatency).count()));
+        headerItem->setText(QString(QObject::tr("%1 ms")).arg((m_currentLatency/1000.0)));
     }
 
-    if (m_minimumLatency.count() < m_tableModel->property("graphMinLatency").toDouble()) {
+    if (m_minimumLatency < m_tableModel->property("graphMinLatency").toDouble()) {
         if (m_tableModel) {
-            m_tableModel->setProperty("graphMinLatency", QVariant(m_minimumLatency.count()));
+            m_tableModel->setProperty("graphMinLatency", QVariant(m_minimumLatency/1000.0));
         }
     }
 
-    if (m_averageLatency < seconds_double(0)) {
+    if (m_averageLatency < 0) {
         m_averageLatency = m_currentLatency;
     } else {
-        m_averageLatency = seconds_double(
-                runningAverage(
-                        m_averageLatency.count(),
-                        m_currentLatency.count(),
-                        static_cast<double>(m_replyPacketCount) + 1.0) );
+        m_averageLatency = runningAverage(
+                m_averageLatency,
+                m_currentLatency,
+                static_cast<double>(m_replyPacketCount) + 1.0
+        );
     }
 
     m_replyPacketCount++;
@@ -169,9 +168,7 @@ auto Nedrysoft::RouteAnalyser::PingData::updateItem(Nedrysoft::RouteAnalyser::Pi
                 static_cast<double>(m_replyPacketCount+m_timeoutPacketCount))*100.0;*/
 
     for (auto plot : m_plots) {
-        auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
-
-        plot->update(requestTime.count(), result.roundTripTime().count());
+        plot->update(result.requestTime().toMSecsSinceEpoch(), result.roundTripTime());
     }
 
     if (m_tableModel) {
@@ -211,7 +208,7 @@ auto Nedrysoft::RouteAnalyser::PingData::setHopValid(bool hopValid) -> void {
     }
 }
 
-auto Nedrysoft::RouteAnalyser::PingData::setHistoricalLatency(std::chrono::duration<double> latency) -> void {
+auto Nedrysoft::RouteAnalyser::PingData::setHistoricalLatency(double latency) -> void {
     m_historicalLatency = latency;
 
     if (m_tableModel) {
@@ -222,23 +219,23 @@ auto Nedrysoft::RouteAnalyser::PingData::setHistoricalLatency(std::chrono::durat
 auto Nedrysoft::RouteAnalyser::PingData::latency(int field) -> double {
     switch (static_cast<Fields>(field)) {
         case Fields::MinimumLatency: {
-            return m_minimumLatency.count();
+            return m_minimumLatency;
         }
 
         case Fields::MaximumLatency: {
-            return m_maximumLatency.count();
+            return m_maximumLatency;
         }
 
         case Fields::CurrentLatency: {
-            return m_currentLatency.count();
+            return m_currentLatency;
         }
 
         case Fields::AverageLatency: {
-            return m_averageLatency.count();
+            return m_averageLatency;
         }
 
         case Fields::HistoricalLatency: {
-            return m_historicalLatency.count();
+            return m_historicalLatency;
         }
 
         default: {

@@ -24,6 +24,7 @@
 #ifndef PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGITEM_H
 #define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGITEM_H
 
+#include <QDateTime>
 #include <QMutex>
 #include <QObject>
 #include <chrono>
@@ -136,7 +137,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
              */
             auto setTransmitTime(
                     std::chrono::high_resolution_clock::time_point time,
-                    std::chrono::system_clock::time_point epoch ) -> void;
+                    QDateTime epoch ) -> void;
 
             /**
              * @brief       Returns the time at which the request was transmitted.
@@ -150,7 +151,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
              *
              * @returns     the epoch when the request was sent.
              */
-            auto transmitEpoch() -> std::chrono::system_clock::time_point;
+            auto transmitEpoch() -> QDateTime;
 
             /**
              * @brief       Locks the item for exclusive access.
@@ -168,7 +169,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             //! @cond
 
             std::chrono::high_resolution_clock::time_point m_transmitTime;
-            std::chrono::system_clock::time_point m_transmitEpoch;
+            QDateTime m_transmitEpoch;
 
             uint16_t m_id;
             uint16_t m_sequenceId;

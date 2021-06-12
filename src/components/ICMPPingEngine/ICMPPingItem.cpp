@@ -52,7 +52,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingItem::sequenceId() -> uint16_t {
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingItem::setTransmitTime(
         std::chrono::high_resolution_clock::time_point time,
-        std::chrono::system_clock::time_point epoch) -> void {
+        QDateTime epoch) -> void {
 
     m_transmitTime = time;
     m_transmitEpoch = epoch;
@@ -82,7 +82,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingItem::transmitTime() -> std::chrono::hig
     return m_transmitTime;
 }
 
-auto Nedrysoft::ICMPPingEngine::ICMPPingItem::transmitEpoch() -> std::chrono::system_clock::time_point {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::transmitEpoch() -> QDateTime {
     return m_transmitEpoch;
 }
 

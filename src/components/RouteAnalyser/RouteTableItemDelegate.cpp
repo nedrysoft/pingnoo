@@ -137,7 +137,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             paintBackground(pingData, painter, option, index);
 
             paintText(QString("%1").arg(
-                    std::chrono::duration_cast<milliseconds_double>(pingData->m_minimumLatency).count(), 2, 'f', 2),
+                    pingData->m_minimumLatency*1000.0, 2, 'f', 2),
                     painter,
                     option,
                     index,
@@ -150,7 +150,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             paintBackground(pingData, painter, option, index);
 
             paintText(QString("%1").arg(
-                    std::chrono::duration_cast<milliseconds_double>(pingData->m_maximumLatency).count(), 2, 'f', 2),
+                    pingData->m_maximumLatency*1000.0, 2, 'f', 2),
                     painter,
                     option,
                     index,
@@ -163,7 +163,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             paintBackground(pingData, painter, option, index);
 
             paintText(QString("%1").arg(
-                    std::chrono::duration_cast<milliseconds_double>(pingData->m_averageLatency).count(), 2, 'f', 2),
+                    pingData->m_averageLatency*1000.0, 2, 'f', 2),
                     painter,
                     option,
                     index,
@@ -176,7 +176,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             paintBackground(pingData, painter, option, index);
 
             paintText(QString("%1").arg(
-                    std::chrono::duration_cast<milliseconds_double>(pingData->m_currentLatency).count(), 2, 'f', 2),
+                    pingData->m_currentLatency*1000.0, 2, 'f', 2),
                     painter,
                     option,
                     index,

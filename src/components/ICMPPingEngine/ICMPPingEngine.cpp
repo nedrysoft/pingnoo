@@ -315,13 +315,13 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::timeoutRequests() -> void {
 
                     pingItem->setServiced(true);
                     pingItem->unlock();
-
+#pragma message("should this /1000?")
                     Nedrysoft::RouteAnalyser::PingResult pingResult(
                             pingItem->sampleNumber(),
                             Nedrysoft::RouteAnalyser::PingResult::ResultCode::NoReply,
                             hostAddress,
                             pingItem->transmitEpoch(),
-                            diff,
+                            diff.count()/1000.0,
                             pingItem->target());
 
                     Q_EMIT result(pingResult);
@@ -388,12 +388,14 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
 
         if (!pingItem->serviced()) {
             std::chrono::duration<double> diff = receiveTime - pingItem->transmitTime();
-
+#pragma message("check /1000")
             auto pingResult = Nedrysoft::RouteAnalyser::PingResult(
                     pingItem->sampleNumber(),
                     resultCode,
                     receiveAddress,
-                    pingItem->transmitEpoch(), diff, pingItem->target() );
+                    pingItem->transmitEpoch(),
+                    diff.count()/1000.0,
+                    pingItem->target() );
 
             Q_EMIT Nedrysoft::ICMPPingEngine::ICMPPingEngine::result(pingResult);
 
@@ -456,7 +458,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::singleShot(
             static_cast<Nedrysoft::ICMPPacket::IPVersion>(version()));
 
     auto requestTime = std::chrono::high_resolution_clock::now();
-    auto transmitEpoch = std::chrono::system_clock::now();
+    auto transmitEpoch = QDateTime::currentDateTime();
 
     writeSocket->sendto(buffer, hostAddress);
 
@@ -483,8 +485,9 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::singleShot(
             }
 
             auto responsePacket = Nedrysoft::ICMPPacket::ICMPPacket::fromData(
-                    receiveBuffer,
-                    static_cast<Nedrysoft::ICMPPacket::IPVersion>(this->version()) );
+                receiveBuffer,
+                static_cast<Nedrysoft::ICMPPacket::IPVersion>(this->version())
+            );
 
             if ((responsePacket.id()!=id) || (responsePacket.sequence()!=sequenceId)) {
                 continue;
@@ -509,8 +512,9 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::singleShot(
                 resultCode,
                 receiveAddress,
                 transmitEpoch,
-                roundTripTime,
-                nullptr );
+                roundTripTime.count()/1000.0,
+                nullptr
+            );
 
             break;
         }

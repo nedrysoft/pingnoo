@@ -88,7 +88,7 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
 
             m_engine->addRequest(pingItem);
 
-            pingItem->setTransmitTime(std::chrono::high_resolution_clock::now(), std::chrono::system_clock::now());
+            pingItem->setTransmitTime(std::chrono::high_resolution_clock::now(), QDateTime::currentDateTime());
 
             auto buffer = Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(
                     target->id(),
