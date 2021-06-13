@@ -43,6 +43,11 @@ Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::ICMPAPIPingTransmitter(
 
 }
 
+Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::~ICMPAPIPingTransmitter() {
+    qDeleteAll(m_targets);
+}
+
+
 void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::addTarget(
         Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *target) {
 
@@ -55,10 +60,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
 
     m_isRunning = true;
 
-    qDebug() << "ICMPAPIPingTransmitter started" << ((uint64_t) this);
-
     while (m_isRunning) {
-        //qDebug() << "m_isRunning" << m_isRunning << ((uint64_t) &m_isRunning);
         timer.restart();
 
         m_targetsMutex.lock();
@@ -70,9 +72,11 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
 
             pingWorker->moveToThread(pingThread);
 
-            connect(pingThread, &QThread::started, pingWorker, &ICMPAPIPingWorker::doWork);
             connect(pingThread, &QThread::finished, pingThread, &QThread::deleteLater);
-            connect(pingThread, &QThread::finished, pingWorker, &ICMPAPIPingWorker::deleteLater);
+
+            connect(pingThread, &QThread::started, pingWorker, &ICMPAPIPingWorker::doWork);
+            //connect(pingThread, &QThread::finished, pingThread, &QThread::deleteLater);
+            //connect(pingThread, &QThread::finished, pingWorker, &ICMPAPIPingWorker::deleteLater);
 
             connect(pingWorker,
                 &ICMPAPIPingWorker::result,
@@ -94,8 +98,6 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
 
         sampleNumber++;
     }
-
-    qDebug() << "ICMPAPIPingTransmitter exiting" << ((uint64_t) this);
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::setInterval(int interval) -> bool {

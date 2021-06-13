@@ -429,7 +429,8 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintBubble(
         Nedrysoft::RouteAnalyser::PingData *pingData,
         QPainter *painter,
         const QStyleOptionViewItem &option,
-        const QModelIndex &index, QRgb bubbleColour) const -> void {
+        const QModelIndex &index,
+        QRgb bubbleColour) const -> void {
 
     Q_UNUSED(index)
     Q_UNUSED(pingData)
@@ -477,9 +478,9 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintHop(
 
     gradientMap[0] = latencySettings->idealColour();
 
-    gradientMap[latencySettings->warningValue()/interpolationTime] = latencySettings->warningColour();
+    gradientMap[latencySettings->warningValue()*interpolationTime] = latencySettings->warningColour();
 
-    gradientMap[latencySettings->criticalValue()/interpolationTime] = latencySettings->criticalColour();
+    gradientMap[latencySettings->criticalValue()*interpolationTime] = latencySettings->criticalColour();
 
     gradientMap[1] = latencySettings->criticalColour();
 

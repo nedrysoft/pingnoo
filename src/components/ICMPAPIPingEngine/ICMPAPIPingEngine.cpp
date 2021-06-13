@@ -79,18 +79,11 @@ class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData {
 Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::ICMPAPIPingEngine(Nedrysoft::Core::IPVersion version) :
         d(std::make_shared<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData>(this)) {
 
-    qDebug() << "created ICMPAPIPingEngine" << ((uint64_t) this);
-
     d->m_ipVersion = version;
-
 }
 
 Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::~ICMPAPIPingEngine() {
     doStop();
-
-    if (d->m_transmitter) {
-        delete d->m_transmitter;
-    }
 
     d.reset();
 }
@@ -122,10 +115,6 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::removeTarget(
         Nedrysoft::RouteAnalyser::IPingTarget *pingTarget) -> bool {
 
     Q_UNUSED(pingTarget)
-
-    if (d->m_transmitter) {
-        d->m_transmitter->removeTarget(pingTarget);
-    }
 
     return true;
 }
@@ -248,7 +237,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
             pipOptions,
             replyBuffer.data(),
             static_cast<DWORD>(replyBuffer.length()),
-            timeout*3000
+            timeout*1000
         ); // NOLINT(cppcoreguidelines-pro-type-union-access)
     } else {
         returnValue = Icmp6SendEcho2(
@@ -300,8 +289,6 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
         }
     }
 
-    qDebug() << ttl << returnValue;
-
     IcmpCloseHandle(icmpHandle);
 
     return Nedrysoft::RouteAnalyser::PingResult(
@@ -331,21 +318,17 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::doStop() -> void {
 
     if (d->m_transmitterThread) {
         d->m_transmitterThread->quit();
+
+        d->m_transmitterThread->wait();
+
+        delete d->m_transmitterThread;
+
+        d->m_transmitterThread = nullptr;
     }
 
-    /*if (d->m_transmitterThread) {
-        if (d->m_transmitterThread->isRunning()) {
-            qDebug() << "shutting down transmitter" << ((uint64_t) this);
+    if (d->m_transmitter) {
+        delete d->m_transmitter;
 
-            d->m_transmitter->m_isRunning = false;
-
-            d->m_transmitterThread->wait();
-
-            delete d->m_transmitterThread;
-
-            qDebug() << "transmitter destroyed" << ((uint64_t) this);
-        }
-    } else {
-        qDebug() << "transmitter not running, nothing to do." << ((uint64_t) this);;
-    }*/
+        d->m_transmitter = nullptr;
+    }
 }

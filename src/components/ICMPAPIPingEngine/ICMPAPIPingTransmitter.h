@@ -55,6 +55,11 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
             explicit ICMPAPIPingTransmitter(Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *engine);
 
             /**
+             * "brief       Destroys the ICMPAPIPingTransmitter.
+             */
+            ~ICMPAPIPingTransmitter();
+
+            /**
              * @brief       Sets the interval between a set of pings.
              *
              * @param[in]   interval the interval between pings in milliseconds.
