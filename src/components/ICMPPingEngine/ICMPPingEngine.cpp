@@ -162,7 +162,8 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::start() -> bool {
     connect(d->m_receiverWorker,
             &Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::packetReceived,
             this,
-            &Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived
+            &Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived,
+            Qt::DirectConnection
     );
 
     // transmitter thread

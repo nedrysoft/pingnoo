@@ -57,9 +57,10 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
              * @param[in]   ttl the TTL to be used in the ping.
              */
             PingCommandPingTarget(
-                    Nedrysoft::PingCommandPingEngine::PingCommandPingEngine *engine,
-                    QHostAddress hostAddress,
-                    int ttl = 0 );
+                Nedrysoft::PingCommandPingEngine::PingCommandPingEngine *engine,
+                QHostAddress hostAddress,
+                int ttl = 0
+            );
 
             /**
              * @brief       Destroys the PingCommandPingTarget.

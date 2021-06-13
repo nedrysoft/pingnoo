@@ -30,12 +30,9 @@
 #include <QProcess>
 #include <QRegularExpression>
 #include <QThread>
-#include <chrono>
 
-using namespace std::chrono_literals;
-
-constexpr auto DefaultReceiveTimeout = 1s;
-constexpr auto DefaultTerminateThreadTimeout = 5s;
+constexpr auto DefaultReceiveTimeout = 1000;
+constexpr auto DefaultTerminateThreadTimeout = 5000;
 constexpr auto DefaultTTL = 64;
 
 constexpr auto NanosecondsInMillisecond = 1.0e6;
@@ -62,9 +59,10 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::addTarget(
         int ttl ) -> Nedrysoft::RouteAnalyser::IPingTarget * {
 
     auto newTarget = new Nedrysoft::PingCommandPingEngine::PingCommandPingTarget(
-            this,
-            hostAddress,
-            ttl );
+        this,
+        hostAddress,
+        ttl
+    );
 
     m_pingTargets.append(newTarget);
 
@@ -87,24 +85,24 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::stop() -> bool {
     return true;
 }
 
-auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::setInterval(std::chrono::milliseconds interval) -> bool {
+auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::setInterval(int interval) -> bool {
     m_interval = interval;
 
     return true;
 }
 
-auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::interval() -> std::chrono::milliseconds {
+auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::interval() -> int {
     return m_interval;
 }
 
-auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::setTimeout(std::chrono::milliseconds timeout) -> bool {
+auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::setTimeout(int timeout) -> bool {
     Q_UNUSED(timeout)
 
     return true;
 }
 
-auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::epoch() -> std::chrono::system_clock::time_point {
-    return std::chrono::system_clock::now();
+auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::epoch() -> QDateTime {
+    return QDateTime::currentSystemTime();
 }
 
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::saveConfiguration() -> QJsonObject {
@@ -141,10 +139,8 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::singleShot(
         double timeout) -> Nedrysoft::RouteAnalyser::PingResult {
 
     QProcess pingProcess;
-    qint64 started, finished;
     QElapsedTimer timer;
-
-    std::chrono::system_clock::time_point epoch;
+    QDateTime epoch;
 
     auto pingArguments = QStringList() <<
                                        "-W" << QString("%1").arg(timeout) <<
@@ -157,15 +153,13 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::singleShot(
 
     pingProcess.waitForStarted();
 
-    started = timer.nsecsElapsed();
+    timer.restart();
 
-    epoch = std::chrono::system_clock::now();
+    epoch = QDateTime::currentDateTime();
 
     pingProcess.waitForFinished();
 
-    finished = timer.nsecsElapsed();
-
-    auto roundTripTime = static_cast<double>(finished - started) / NanosecondsInMillisecond;
+    auto roundTripTime = static_cast<double>(time.nsecsElapsed()) / NanosecondsInMillisecond;
 
     auto commandOutput = pingProcess.readAll();
 
@@ -176,12 +170,13 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::singleShot(
 
     if (pingProcess.exitCode() == 0) {
         pingResult = Nedrysoft::RouteAnalyser::PingResult(
-                0,
-                Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok,
-                hostAddress,
-                epoch,
-                std::chrono::duration<double, std::milli>(roundTripTime),
-                nullptr);
+            0,
+            Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok,
+            hostAddress,
+            epoch,
+            roundTripTime,
+            nullptr
+        );
 
     } else {
         auto ttlExceededMatch = ttlExceededRegEx.match(commandOutput);
@@ -189,20 +184,22 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::singleShot(
 
         if (ttlExceededMatch.hasMatch()) {
             pingResult = Nedrysoft::RouteAnalyser::PingResult(
-                    0,
-                    Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded,
-                    QHostAddress(ttlExceededMatch.captured("ip")),
-                    epoch,
-                    std::chrono::duration<double, std::milli>(roundTripTime),
-                    nullptr);
+                0,
+                Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded,
+                QHostAddress(ttlExceededMatch.captured("ip")),
+                epoch,
+                roundTripTime,
+                nullptr
+            );
         } else if (packetLostMatch.hasMatch()) {
             pingResult = Nedrysoft::RouteAnalyser::PingResult(
-                    0,
-                    Nedrysoft::RouteAnalyser::PingResult::ResultCode::NoReply,
-                    QHostAddress(packetLostMatch.captured("ip")),
-                    epoch,
-                    std::chrono::duration<double, std::milli>(roundTripTime),
-                    nullptr);
+                0,
+                Nedrysoft::RouteAnalyser::PingResult::ResultCode::NoReply,
+                QHostAddress(packetLostMatch.captured("ip")),
+                epoch,
+                roundTripTime,
+                nullptr
+            );
         } else {
             // some other error
         }

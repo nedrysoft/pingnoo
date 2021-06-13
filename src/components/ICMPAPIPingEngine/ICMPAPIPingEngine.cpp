@@ -225,28 +225,28 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
 
     if (hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
         returnValue = IcmpSendEcho(
-                icmpHandle,
-                hostAddress.toIPv4Address(),
-                dataBuffer.data(),
-                static_cast<WORD>(dataBuffer.length()), pipOptions,
-                replyBuffer.data(),
-                static_cast<DWORD>(replyBuffer.length()),
-                std::chrono::duration<DWORD, std::milli>(
-                        DefaultTransmitTimeout).count() ); // NOLINT(cppcoreguidelines-pro-type-union-access)
+            icmpHandle,
+            hostAddress.toIPv4Address(),
+            dataBuffer.data(),
+            static_cast<WORD>(dataBuffer.length()), pipOptions,
+            replyBuffer.data(),
+            static_cast<DWORD>(replyBuffer.length()),
+            DefaultTransmitTimeout
+        ); // NOLINT(cppcoreguidelines-pro-type-union-access)
     } else {
         returnValue = Icmp6SendEcho2(
-                icmpHandle,
-                nullptr,
-                nullptr,
-                nullptr,
-                &sourceAddress,
-                &targetAddress,
-                dataBuffer.data(),
-                static_cast<WORD>(dataBuffer.length()),
-                pipOptions,
-                replyBuffer.data(), static_cast<DWORD>(replyBuffer.length()),
-                std::chrono::duration<DWORD, std::milli>(
-                        DefaultTransmitTimeout).count() );  // NOLINT(cppcoreguidelines-pro-type-union-access)
+            icmpHandle,
+            nullptr,
+            nullptr,
+            nullptr,
+            &sourceAddress,
+            &targetAddress,
+            dataBuffer.data(),
+            static_cast<WORD>(dataBuffer.length()),
+            pipOptions,
+            replyBuffer.data(), static_cast<DWORD>(replyBuffer.length()),
+            DefaultTransmitTimeout
+        );  // NOLINT(cppcoreguidelines-pro-type-union-access)
     }
 
     auto roundTripTime = timer.nsecsElapsed();
@@ -290,7 +290,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
            resultCode,
            replyHost,
            epoch,
-           roundTripTime/1e9,
+           roundTripTime/NanosecondsInMillisecond,
            nullptr);
 }
 

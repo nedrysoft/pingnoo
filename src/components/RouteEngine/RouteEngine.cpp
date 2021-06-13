@@ -33,8 +33,6 @@
 
 #include <cassert>
 
-using namespace std::chrono_literals;
-
 Nedrysoft::RouteEngine::RouteEngine::RouteEngine() :
         m_routeWorkerThread(nullptr),
         m_routeWorker(nullptr) {
@@ -53,14 +51,16 @@ auto Nedrysoft::RouteEngine::RouteEngine::findRoute(
     m_routeWorker->moveToThread(m_routeWorkerThread);
 
     connect(m_routeWorkerThread,
-            &QThread::started,
-            m_routeWorker,
-            &Nedrysoft::RouteEngine::RouteEngineWorker::doWork );
+        &QThread::started,
+        m_routeWorker,
+        &Nedrysoft::RouteEngine::RouteEngineWorker::doWork
+    );
 
-    connect(m_routeWorkerThread,
-            &QThread::finished,
-            [=]() {
-                m_routeWorkerThread->deleteLater();
+    connect(
+        m_routeWorkerThread,
+        &QThread::finished,
+        [=]() {
+            m_routeWorkerThread->deleteLater();
     });
 
     connect(m_routeWorker,

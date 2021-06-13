@@ -284,6 +284,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
 
             friend class ICMPPingTransmitter;
             friend class ICMPPingTimeout;
+            friend class ICMPPingReceiverWorker;
 
         protected:
             //! @cond

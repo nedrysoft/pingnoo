@@ -104,10 +104,9 @@ void Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::doWork() {
     while (QThread::currentThread()->isRunning() && (m_isRunning)) {
         QElapsedTimer receiveTimer;
 
-        receiveTimer.restart();
         auto result = m_socket->recvfrom(receiveBuffer, receiveAddress, DefaultReplyTimeout);
 
-
+        receiveTimer.restart();
 
         if (result!=-1) {
             SPDLOG_TRACE("ICMP Packet Received");
