@@ -57,9 +57,9 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
             /**
              * @brief       Sets the interval between a set of pings.
              *
-             * @param[in]   interval the interval.
+             * @param[in]   interval the interval between pings in milliseconds.
              */
-            auto setInterval(std::chrono::milliseconds interval) -> bool;
+            auto setInterval(int interval) -> bool;
 
             /**
              * @brief       The transmitter thread worker.
@@ -85,7 +85,7 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
         private:
             //! @cond
 
-            std::chrono::milliseconds m_interval = {};
+            int m_interval;
             Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *m_engine;
 
             QList<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *> m_targets;

@@ -44,7 +44,6 @@
 #include <QHostInfo>
 #include <QTimer>
 #include <cassert>
-#include <chrono>
 #include <spdlog/spdlog.h>
 
 constexpr auto RoundTripGraph = 0;

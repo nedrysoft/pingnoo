@@ -25,7 +25,6 @@
 #define NEDRYSOFT_JITTERPLOT_JITTERBACKGROUNDLAYER_H
 
 #include "QCustomPlot/qcustomplot.h"
-#include "chrono"
 
 namespace Nedrysoft { namespace JitterPlot {
     /**

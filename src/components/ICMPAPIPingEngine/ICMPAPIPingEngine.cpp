@@ -33,6 +33,7 @@
 #include <WinSock2.h>
 #include <iphlpapi.h>
 #include <IcmpAPI.h>
+#include <iostream>
 
 constexpr auto DefaultTransmitTimeout = 1000;
 constexpr auto DefaultReplyTimeout = 3000;
@@ -233,7 +234,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
             replyBuffer.data(),
             static_cast<DWORD>(replyBuffer.length()),
             timeout*1000
-        ); // NOLINT(cppcoreguidelines-pro-type-union-access)
+        ); // NOLINT(cppcoreguidelines-pro-type-union-access)*/
     } else {
         returnValue = Icmp6SendEcho2(
             icmpHandle,
@@ -288,7 +289,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
         }
     }
 
-    IcmpCloseHandle(icmpHandle);
+    //IcmpCloseHandle(icmpHandle);
 
     return Nedrysoft::RouteAnalyser::PingResult(
         0,

@@ -30,7 +30,6 @@
 #include <QHeaderView>
 #include <QStandardItemModel>
 #include <QTableWidget>
-#include <chrono>
 
 Nedrysoft::RouteAnalyser::PingData::PingData(QStandardItemModel *tableModel, int hop, bool hopValid) :
         m_tableModel(tableModel),
