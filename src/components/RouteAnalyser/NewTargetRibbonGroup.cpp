@@ -455,7 +455,7 @@ void Nedrysoft::RouteAnalyser::NewTargetRibbonGroup::openTarget(
 
     if (editorManager) {
         auto target = parameters["host"].toString() ;
-        auto intervalTime = parameters["interval"].toDouble();
+        auto intervalTime = parameters["interval"].toDouble()*1000;
         auto ipVersion = parameters["ipversion"].value<Nedrysoft::Core::IPVersion>();
 
         RouteAnalyserEditor *editor = new RouteAnalyserEditor;

@@ -31,14 +31,10 @@
 
 #include <QThread>
 #include <QtEndian>
-#include <chrono>
 #include <cstdint>
 #include <spdlog/spdlog.h>
-#include <thread>
 
-using namespace std::chrono_literals;
-
-constexpr auto DefaultTransmitInterval = 10s;
+constexpr auto DefaultTransmitInterval = 10000;
 
 //! @cond
 uint16_t Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::m_sequenceId = 1;
@@ -57,18 +53,19 @@ Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::~ICMPPingTransmitter() {
 }
 
 void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
+    QElapsedTimer elapsedTimer;
     unsigned long sampleNumber = 0;
 
     m_isRunning = true;
 
-    m_engine->setEpoch(std::chrono::system_clock::now());
+    m_engine->setEpoch(QDateTime::currentDateTime());
 
     while (m_isRunning) {
         if (!m_targets.isEmpty()) {
             SPDLOG_TRACE("Preparing ping set to " + m_targets.last()->hostAddress().toString().toStdString());
         }
 
-        auto startTime = std::chrono::high_resolution_clock::now();
+        elapsedTimer.restart();
 
         m_targetsMutex.lock();
 
@@ -88,14 +85,14 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
 
             m_engine->addRequest(pingItem);
 
-            pingItem->setTransmitTime(std::chrono::high_resolution_clock::now(), QDateTime::currentDateTime());
-
             auto buffer = Nedrysoft::ICMPPacket::ICMPPacket::pingPacket(
                     target->id(),
                     currentSequenceId,
                     52,
                     target->hostAddress(),
                     static_cast<Nedrysoft::ICMPPacket::IPVersion>(m_engine->version()) );
+
+            pingItem->startTimer();
 
             auto result = socket->sendto(buffer, target->hostAddress());
 
@@ -112,17 +109,18 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
 
         m_targetsMutex.unlock();
 
-        auto diff = std::chrono::high_resolution_clock::now() - startTime;
+        auto elapsedTime = elapsedTimer.elapsed();
 
-        if (diff < m_interval) {
-            std::this_thread::sleep_for(m_interval - diff);
+        if (elapsedTime < m_interval) {
+            qDebug() << "sleepy" << elapsedTime << m_interval;
+            QThread::msleep(m_interval - elapsedTime);
         }
 
         sampleNumber++;
     }
 }
 
-auto Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::setInterval(std::chrono::milliseconds interval) -> bool {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::setInterval(int interval) -> bool {
     m_interval = interval;
 
     return true;
@@ -134,6 +132,6 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::addTarget(Nedrysoft::ICMPPi
     m_targets.append(target);
 }
 
-auto Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::interval() -> std::chrono::milliseconds {
+auto Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::interval() -> int {
     return m_interval;
 }

@@ -81,9 +81,10 @@ namespace Nedrysoft { namespace ICMPPingEngine {
              * @param[in]   receiveAddress the address the packet was received from (this may differ from the target).
              */
             Q_SIGNAL void packetReceived(
-                    std::chrono::time_point < std::chrono::high_resolution_clock > receiveTime,
-                    QByteArray receiveBuffer,
-                    QHostAddress receiveAddress);
+                QDateTime receiveTime,
+                QByteArray receiveBuffer,
+                QHostAddress receiveAddress
+            );
 
             friend class ICMPPingEngine;
             friend class ICMPPingEngineFactory;

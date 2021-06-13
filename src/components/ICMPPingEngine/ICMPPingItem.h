@@ -25,9 +25,9 @@
 #define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGITEM_H
 
 #include <QDateTime>
+#include <QElapsedTimer>
 #include <QMutex>
 #include <QObject>
-#include <chrono>
 
 namespace Nedrysoft { namespace ICMPPingEngine {
     class ICMPPingTarget;
@@ -130,21 +130,31 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             auto target() -> Nedrysoft::ICMPPingEngine::ICMPPingTarget *;
 
             /**
-             * @brief       Sets the time at which the request was transmitted.
-             *
-             * @param[in]   time the high resolution clock time.
-             * @param[in]   epoch the epoch for transmission.
+             * @brief       Records the transmission date/time and starts the round trip timer.
              */
-            auto setTransmitTime(
-                    std::chrono::high_resolution_clock::time_point time,
-                    QDateTime epoch ) -> void;
+            auto startTimer() -> void;
 
             /**
-             * @brief       Returns the time at which the request was transmitted.
+             * @brief       Records the current elapsed time.
              *
-             * @returns     the high resolution clock time when the request was sent.
+             * @note        This doesn't actually stop the timer, that is not possible with QElapsedTimer, instead
+             *              it just records the current elapsed time in a variable.
              */
-            auto transmitTime(void) -> std::chrono::high_resolution_clock::time_point;
+            auto stopTimer()-> void;
+
+            /**
+             * @brief       Returns the current time elapsed from transmission.
+             *
+             * @returns     the time in milliseconds.
+             */
+            auto elapsedTime(void) -> double;
+
+            /**
+             * @brief       Returns the the round trip time from the request to response.
+             *
+             * @returns     the time in seconds.
+             */
+            auto roundTripTime() -> double;
 
             /**
              * @brief       Returns the epoch at which the request was transmitted.
@@ -168,8 +178,10 @@ namespace Nedrysoft { namespace ICMPPingEngine {
         private:
             //! @cond
 
-            std::chrono::high_resolution_clock::time_point m_transmitTime;
+            QElapsedTimer m_elapsedTimer;
             QDateTime m_transmitEpoch;
+
+            int64_t m_elapsedTime;
 
             uint16_t m_id;
             uint16_t m_sequenceId;

@@ -27,7 +27,8 @@ Nedrysoft::RouteAnalyser::PingResult::PingResult() :
     m_sampleNumber(0),
     m_code(PingResult::ResultCode::NoReply),
     m_hostAddress(QHostAddress()),
-    m_target(nullptr) {
+    m_target(nullptr),
+    m_roundTripTime(-1) {
 
 }
 

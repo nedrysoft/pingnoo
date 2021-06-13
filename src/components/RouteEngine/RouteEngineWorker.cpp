@@ -79,6 +79,8 @@ auto Nedrysoft::RouteEngine::RouteEngineWorker::doWork() -> void {
 
         auto result = pingEngine->singleShot(targetAddresses.at(0), hop, DefaultDiscoveryTimeout);
 
+        qDebug() << hop << ((int)result.code()) << result.roundTripTime();
+
         if (result.code()==Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok) {
             route.append(result.hostAddress());
             break;

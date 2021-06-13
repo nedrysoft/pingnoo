@@ -233,7 +233,7 @@ auto Nedrysoft::ICMPSocket::ICMPSocket::createWriteSocket(
 auto Nedrysoft::ICMPSocket::ICMPSocket::recvfrom(
         QByteArray &buffer,
         QHostAddress &receiveAddress,
-        std::chrono::milliseconds timeout) -> int {
+        int timeout) -> int {
 
 #if defined(Q_OS_UNIX)
     socklen_t addressLength;
@@ -251,17 +251,18 @@ auto Nedrysoft::ICMPSocket::ICMPSocket::recvfrom(
     descriptorSet.fd = m_socketDescriptor;
     descriptorSet.events = POLLIN;
 
-    auto numberOfReadyDescriptors = poll(&descriptorSet, 1, static_cast<int>(timeout.count()));
+    auto numberOfReadyDescriptors = poll(&descriptorSet, 1, timeout);
 
     if (numberOfReadyDescriptors > 0) {
         if (descriptorSet.events & POLLIN) {
             socketErrorLength = sizeof(socketError);
 
             getsockopt(
-                    m_socketDescriptor,
-                    SOL_SOCKET, SO_ERROR,
-                    reinterpret_cast<char *>(&socketError),
-                    &socketErrorLength );
+                m_socketDescriptor,
+                SOL_SOCKET, SO_ERROR,
+                reinterpret_cast<char *>(&socketError),
+                &socketErrorLength
+            );
 
             memset(&fromAddress, 0, sizeof(fromAddress));
 
@@ -270,12 +271,13 @@ auto Nedrysoft::ICMPSocket::ICMPSocket::recvfrom(
             buffer.resize(ReceiveBufferSize);
 
             auto result = ::recvfrom(
-                                    m_socketDescriptor,
-                                    buffer.data(),
-                                    buffer.length(),
-                                    0,
-                                    reinterpret_cast<sockaddr *>(&fromAddress),
-                                    &addressLength );
+                m_socketDescriptor,
+                buffer.data(),
+                buffer.length(),
+                0,
+                reinterpret_cast<sockaddr *>(&fromAddress),
+                &addressLength
+            );
 
             if (result >= 0) {
                 receiveAddress = QHostAddress(reinterpret_cast<sockaddr *>(&fromAddress));

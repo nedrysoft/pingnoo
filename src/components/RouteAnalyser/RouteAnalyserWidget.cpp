@@ -47,10 +47,8 @@
 #include <chrono>
 #include <spdlog/spdlog.h>
 
-using namespace std::chrono_literals;
-
 constexpr auto RoundTripGraph = 0;
-constexpr std::chrono::duration<double> DefaultMaxLatency = 0.01s;
+constexpr auto DefaultMaxLatency = 10;
 constexpr auto DefaultTimeWindow = 60.0*10;
 constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
@@ -79,7 +77,7 @@ QMap< Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &Ned
 Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget(
         QString targetHost,
         Nedrysoft::Core::IPVersion ipVersion,
-        double interval,
+        int interval,
         Nedrysoft::RouteAnalyser::IPingEngineFactory *pingEngineFactory,
         QWidget *parent) :
 
@@ -89,7 +87,8 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget(
             m_viewportSize(DefaultTimeWindow),
             m_viewportPosition(1),
             m_startPoint(-1),
-            m_endPoint(0) {
+            m_endPoint(0),
+            m_interval(1000) {
 
     auto latencySettings = Nedrysoft::RouteAnalyser::LatencySettings::getInstance();
 
@@ -259,7 +258,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Rout
             auto requestTime = static_cast<double>(result.requestTime().toSecsSinceEpoch());
 
             customPlot->graph(RoundTripGraph)->addData(requestTime, result.roundTripTime());
-
+            
             if (m_startPoint == -1) {
                 m_startPoint = requestTime;
             } else {
@@ -361,14 +360,13 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
         return;
     }
 
-    auto interval = std::chrono::duration<double, std::ratio<1, 1> >(m_interval);
-
-    m_pingEngine->setInterval(std::chrono::duration_cast<std::chrono::milliseconds>(interval));
+    m_pingEngine->setInterval(m_interval);
 
     connect(m_pingEngine,
-            &Nedrysoft::RouteAnalyser::IPingEngine::result,
-            this,
-            &RouteAnalyserWidget::onPingResult );
+        &Nedrysoft::RouteAnalyser::IPingEngine::result,
+        this,
+        &RouteAnalyserWidget::onPingResult
+    );
 
     auto verticalLayout = new QVBoxLayout();
 
@@ -431,7 +429,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             customPlot->yAxis->setTicker(msTicker);
             customPlot->yAxis->setLabel(tr("Latency (ms)"));
-            customPlot->yAxis->setRange(0, DefaultMaxLatency.count());
+            customPlot->yAxis->setRange(0, DefaultMaxLatency);
 
             QSharedPointer<QCPAxisTickerDateTime> dateTicker(new QCPAxisTickerDateTime);
 

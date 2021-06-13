@@ -59,31 +59,31 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
             *
             * @see         Nedrysoft::RouteAnalyser::IPingEngine::setInterval
             *
-            * @param[in]   interval interval time.
+            * @param[in]   interval the time between successive pings in milliseconds.
             *
             * @returns     returns true on success; otherwise false.
             */
-            auto setInterval(std::chrono::milliseconds interval) -> bool override;
+            auto setInterval(int interval) -> bool override;
 
             /**
              * @brief       Returns the interval set on the engine.
              *
              * @see         Nedrysoft::RouteAnalyser::IPingEngine::interval
              *
-             * @returns     the interval.
+             * @returns     the interval between successive pings in milliseconds.
              */
-            auto interval() -> std::chrono::milliseconds override;
+            auto interval() -> int override;
 
             /**
              * @brief       Sets the reply timeout for this engine instance.
              *
              * @see         Nedrysoft::RouteAnalyser::IPingEngine::setTimeout
              *
-             * @param[in]   timeout the amount of time before we consider that the packet was lost.
+             * @param[in]   timeout the number of milliseconds to wait for a reply.
              *
              * @returns     true on success; otherwise false.
              */
-            auto setTimeout(std::chrono::milliseconds timeout) -> bool override;
+            auto setTimeout(int timeout) -> bool override;
 
             /**
              * @brief       Starts ping operations for this engine instance.
@@ -160,7 +160,7 @@ namespace Nedrysoft { namespace ICMPAPIPingEngine {
              *
              * @returns     the time epoch.
              */
-            auto epoch() -> std::chrono::system_clock::time_point override;
+            auto epoch() -> QDateTime override;
 
             /**
              * @brief       Returns the list of ping targets for the engine.

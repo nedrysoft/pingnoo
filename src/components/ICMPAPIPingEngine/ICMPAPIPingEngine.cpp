@@ -28,17 +28,14 @@
 
 #include <QMutex>
 #include <QThread>
-#include <chrono>
 #include <WS2tcpip.h>
 
 #include <WinSock2.h>
 #include <iphlpapi.h>
 #include <IcmpAPI.h>
 
-using namespace std::chrono_literals;
-
-constexpr auto DefaultTransmitTimeout = 1s;
-constexpr auto DefaultReplyTimeout = 3s;
+constexpr auto DefaultTransmitTimeout = 1000;
+constexpr auto DefaultReplyTimeout = 3000;
 constexpr auto PingPayloadLength = 64;
 constexpr auto NanosecondsInMillisecond = 1.0e6;
 
@@ -56,7 +53,7 @@ class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData {
                 m_pingEngine(parent),
                 m_transmitter(nullptr),
                 m_transmitterThread(nullptr),
-                m_timeout(std::chrono::milliseconds(0)),
+                m_timeout(0),
                 m_ipVersion(Nedrysoft::Core::IPVersion::V4) {
 
         }
@@ -73,8 +70,8 @@ class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData {
         QList<Nedrysoft::RouteAnalyser::IPingTarget *> m_pingTargets;
         Nedrysoft::Core::IPVersion m_ipVersion;
 
-        std::chrono::milliseconds m_timeout = {};
-        std::chrono::milliseconds m_interval = {};
+        int m_timeout;
+        int m_interval;
 };
 
 Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::ICMPAPIPingEngine(Nedrysoft::Core::IPVersion version) :
@@ -146,17 +143,17 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::stop() -> bool {
     return true;
 }
 
-auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::setInterval(std::chrono::milliseconds interval) -> bool {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::setInterval(int interval) -> bool {
     d->m_interval = interval;
 
     return true;
 }
 
-auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::interval() -> std::chrono::milliseconds {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::interval() -> int {
     return d->m_interval;
 }
 
-auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::setTimeout(std::chrono::milliseconds timeout) -> bool {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::setTimeout(int timeout) -> bool {
     d->m_timeout = timeout;
 
     return true;
@@ -172,8 +169,8 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::loadConfiguration(QJsonObj
     return false;
 }
 
-auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::epoch() -> std::chrono::system_clock::time_point {
-    return std::chrono::system_clock::now();
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::epoch() -> QDateTime {
+    return QDateTime::currentDateTime();
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
@@ -190,7 +187,6 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
     Nedrysoft::RouteAnalyser::PingResult pingResult;
     QHostAddress replyHost;
     QElapsedTimer timer;
-    qint64 started, finished;
     int returnValue;
     sockaddr_in6 sourceAddress, targetAddress;
 
@@ -225,7 +221,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
         memcpy(targetAddress.sin6_addr.u.Word, hostAddress.toIPv6Address().c, sizeof(targetAddress.sin6_addr));
     }
 
-    started = timer.nsecsElapsed();
+    timer.restart();
 
     if (hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
         returnValue = IcmpSendEcho(
@@ -253,9 +249,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
                         DefaultTransmitTimeout).count() );  // NOLINT(cppcoreguidelines-pro-type-union-access)
     }
 
-    finished = timer.nsecsElapsed();
-
-    auto roundTripTime = static_cast<double>(finished - started) / NanosecondsInMillisecond;
+    auto roundTripTime = timer.nsecsElapsed();
 
     if (returnValue) {
         if (hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
@@ -273,9 +267,11 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
 
             sockaddr_in6 replySocketAddress;
 
-            memcpy(replySocketAddress.sin6_addr.u.Word,
-                   pEchoReply->Address.sin6_addr,
-                   sizeof(pEchoReply->Address.sin6_addr) );
+            memcpy(
+                replySocketAddress.sin6_addr.u.Word,
+                pEchoReply->Address.sin6_addr,
+                sizeof(pEchoReply->Address.sin6_addr)
+            );
 
             replyHost.setAddress(replySocketAddress.sin6_addr.u.Byte);
 
@@ -294,7 +290,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
            resultCode,
            replyHost,
            epoch,
-           roundTripTime/1000.0,
+           roundTripTime/1e9,
            nullptr);
 }
 

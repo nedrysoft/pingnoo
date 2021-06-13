@@ -25,7 +25,6 @@
 #define NEDRYSOFT_ICMPSOCKET_ICMPSOCKET_H
 
 #include <QtGlobal>
-#include <chrono>
 
 #if defined(Q_OS_UNIX)
 #include <arpa/inet.h>
@@ -120,19 +119,20 @@ namespace Nedrysoft { namespace ICMPSocket {
              * @returns     the write socket instance.
              */
             static auto createWriteSocket(
-                    int ttl = 0,
-                    Nedrysoft::ICMPSocket::IPVersion version = Nedrysoft::ICMPSocket::V4 ) -> ICMPSocket *;
+                int ttl = 0,
+                Nedrysoft::ICMPSocket::IPVersion version = Nedrysoft::ICMPSocket::V4
+             ) -> ICMPSocket *;
 
             /**
              * @brief       Receives data from a read or write socket.
              *
              * @param[in]   buffer the buffer to receive data.
              * @param[out]  receiveAddress the address that the packet was received from.
-             * @param[in]   timeout read timeout.
+             * @param[in]   timeout read timeout in milliseconds.
              *
              * @returns     -1 on timeout or error; otherwise the number of bytes read.
              */
-            auto recvfrom(QByteArray &buffer, QHostAddress &receiveAddress, std::chrono::milliseconds timeout) -> int;
+            auto recvfrom(QByteArray &buffer, QHostAddress &receiveAddress, int timeout) -> int;
 
             /**
              * @brief       Sends data to a write socket.

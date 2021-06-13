@@ -86,7 +86,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
              */
             explicit RouteAnalyserWidget(QString targetHost,
                                          Nedrysoft::Core::IPVersion ipVersion,
-                                         double interval,
+                                         int interval,
                                          Nedrysoft::RouteAnalyser::IPingEngineFactory *pingEngineFactory,
                                          QWidget *parent = nullptr );
 
@@ -219,7 +219,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
             QSplitter *m_splitter;
             PlotScrollArea *m_scrollArea;
             Nedrysoft::RouteAnalyser::IPingEngineFactory *m_pingEngineFactory;
-            double m_interval;
+            int m_interval;
             QList<Nedrysoft::RouteAnalyser::GraphLatencyLayer *> m_backgroundLayers;
             Nedrysoft::RouteAnalyser::RouteTableItemDelegate *m_routeGraphDelegate;
             ScaleMode m_graphScaleMode;

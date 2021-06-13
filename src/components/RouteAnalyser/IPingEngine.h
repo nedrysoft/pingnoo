@@ -63,27 +63,27 @@ namespace Nedrysoft { namespace RouteAnalyser {
             /**
              * @brief       Sets the measurement interval for this engine instance.
              *
-             * @param[in]   interval interval time.
+             * @param[in]   interval the time between successive pings in milliseconds.
              *
              * @returns     returns true on success; otherwise false.
              */
-            virtual auto setInterval(std::chrono::milliseconds interval) -> bool = 0;
+            virtual auto setInterval(int interval) -> bool = 0;
 
             /**
              * @brief       Returns the interval set on the engine.
              *
-             * @returns     the interval.
+             * @returns     the interval between pings in milliseconds.
              */
-            virtual auto interval() -> std::chrono::milliseconds = 0;
+            virtual auto interval() -> int = 0;
 
             /**
              * @brief       Sets the reply timeout for this engine instance.
              *
-             * @param[in]   timeout the amount of time before we consider that the packet was lost.
+             * @param[in]   timeout the number of milliseconds to wait for a response.
              *
              * @returns     true on success; otherwise false.
              */
-            virtual auto setTimeout(std::chrono::milliseconds timeout) -> bool = 0;
+            virtual auto setTimeout(int timeout) -> bool = 0;
 
             /**
              * @brief       Starts ping operations for this engine instance.
@@ -130,9 +130,10 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @returns     the result of the ping.
              */
             virtual auto singleShot(
-                    QHostAddress hostAddress,
-                    int ttl,
-                    double timeout ) -> Nedrysoft::RouteAnalyser::PingResult = 0;
+                QHostAddress hostAddress,
+                int ttl,
+                double timeout
+            ) -> Nedrysoft::RouteAnalyser::PingResult = 0;
 
             /**
              * @brief       Removes a ping target from this engine instance.
@@ -148,7 +149,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
              *
              * @returns     the time epoch
              */
-            virtual auto epoch() -> std::chrono::system_clock::time_point = 0;
+            virtual auto epoch() -> QDateTime = 0;
 
             /**
              * @brief       Signal emitted to indicate the state of a ping request.

@@ -27,8 +27,9 @@
 #include <IInterface>
 #include <IPingEngine>
 #include <IPingEngineFactory>
+#include <QElapsedTimer>
+#include <QDateTime>
 #include <memory>
-#include <chrono>
 
 namespace Nedrysoft { namespace ICMPPingEngine {
     class ICMPPingEngineData;
@@ -62,31 +63,31 @@ namespace Nedrysoft { namespace ICMPPingEngine {
              *
              * @see         Nedrysoft::RouteAnalyser::IPingEngine::setInterval
              *
-             * @param[in]   interval interval time.
+             * @param[in]   interval interval time in milliseconds.
              *
              * @returns     returns true on success; otherwise false.
              */
-            auto setInterval(std::chrono::milliseconds interval) -> bool override;
+            auto setInterval(int interval) -> bool override;
 
             /**
              * @brief       Returns the interval set on the engine.
              *
              * @see         Nedrysoft::RouteAnalyser::IPingEngine::interval
              *
-             * @returns     the interval.
+             * @returns     the interval time in milliseconds.
              */
-            auto interval() -> std::chrono::milliseconds override;
+            auto interval() -> int override;
 
             /**
              * @brief       Sets the reply timeout for this engine instance.
              *
              * @see         Nedrysoft::RouteAnalyser::IPingEngine::setTimeout
              *
-             * @param[in]   timeout the amount of time before we consider that the packet was lost.
+             * @param[in]   timeout the number of milliseconds before we consider that the packet was lost.
              *
              * @returns     true on success; otherwise false.
              */
-            auto setTimeout(std::chrono::milliseconds timeout) -> bool override;
+            auto setTimeout(int timeout) -> bool override;
 
             /**
              * @brief       Starts ping operations for this engine instance.
@@ -163,7 +164,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
              *
              * @returns     the time epoch.
              */
-            auto epoch() -> std::chrono::system_clock::time_point override;
+            auto epoch() -> QDateTime override;
 
             /**
              * @brief       Returns the list of ping targets for the engine.
@@ -202,7 +203,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
              * @param[in]   receiveAddress the IP address that the response came from (may be different to target).
              */
             Q_SLOT void onPacketReceived(
-                    std::chrono::time_point<std::chrono::high_resolution_clock> receiveTime,
+                    QDateTime receiveTime,
                     QByteArray receiveBuffer, QHostAddress receiveAddress );
 
         protected:
@@ -256,7 +257,7 @@ namespace Nedrysoft { namespace ICMPPingEngine {
              *
              * @param[in]   epoch is the epoch.
              */
-            auto setEpoch(std::chrono::system_clock::time_point epoch) -> void;
+            auto setEpoch(QDateTime epoch) -> void;
 
             /**
              * @brief       Returns the IP version of the engine.
