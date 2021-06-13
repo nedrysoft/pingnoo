@@ -55,7 +55,10 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
 
     m_isRunning = true;
 
+    qDebug() << "ICMPAPIPingTransmitter started" << ((uint64_t) this);
+
     while (m_isRunning) {
+        //qDebug() << "m_isRunning" << m_isRunning << ((uint64_t) &m_isRunning);
         timer.restart();
 
         m_targetsMutex.lock();
@@ -91,6 +94,8 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
 
         sampleNumber++;
     }
+
+    qDebug() << "ICMPAPIPingTransmitter exiting" << ((uint64_t) this);
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::setInterval(int interval) -> bool {

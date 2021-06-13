@@ -477,89 +477,92 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             m_graphLines[customPlot] = graphLine;
 
-            connect(customPlot, &QCustomPlot::mouseMove,
-                    [this, customPlot, graphLine, maskedHostName](QMouseEvent *event) {
-                        auto x = customPlot->xAxis->pixelToCoord(event->pos().x());
-                        auto foundRange = false;
-                        auto dataRange = customPlot->graph(RoundTripGraph)->data()->keyRange(foundRange);
+            connect(
+                customPlot,
+                &QCustomPlot::mouseMove,
+                [this, customPlot, graphLine, maskedHostName](QMouseEvent *event) {
+                    auto x = customPlot->xAxis->pixelToCoord(event->pos().x());
+                    auto foundRange = false;
+                    auto dataRange = customPlot->graph(RoundTripGraph)->data()->keyRange(foundRange);
 
-                        graphLine->point1->setCoords(x, 0);
-                        graphLine->point2->setCoords(x, 1);
+                    graphLine->point1->setCoords(x, 0);
+                    graphLine->point2->setCoords(x, 1);
 
-                        customPlot->replot();
+                    customPlot->replot();
 
-                        if (( foundRange ) &&
-                            ( x >= dataRange.lower ) &&
-                            ( x <= dataRange.upper )) {
-                            auto valueString = QString();
-                            /*auto valueResultRange = customPlot->graph(RoundTripGraph)->data()->valueRange(
-                                    foundRange,
-                                    QCP::sdBoth,
-                                    QCPRange(x - 1, x +1) );*/
+                    if (( foundRange ) &&
+                        ( x >= dataRange.lower ) &&
+                        ( x <= dataRange.upper )) {
+                        auto valueString = QString();
+                        /*auto valueResultRange = customPlot->graph(RoundTripGraph)->data()->valueRange(
+                                foundRange,
+                                QCP::sdBoth,
+                                QCPRange(x - 1, x +1) );*/
 
-                            for (auto currentItem = 0; currentItem < m_tableModel->rowCount(); currentItem++) {
-                                auto pingData = m_tableModel->item(
-                                        currentItem,
-                                        0
-                                )->data().value<Nedrysoft::RouteAnalyser::PingData *>();
+                        for (auto currentItem = 0; currentItem < m_tableModel->rowCount(); currentItem++) {
+                            auto pingData = m_tableModel->item(
+                                    currentItem,
+                                    0
+                            )->data().value<Nedrysoft::RouteAnalyser::PingData *>();
 
-                                auto valueRange = QCPRange(x - 1, x + 1);
+                            auto valueRange = QCPRange(x - 1, x + 1);
 
-                                if (pingData->customPlot()) {
-                                    auto tempResultRange = pingData->customPlot()->graph(
-                                            RoundTripGraph)->data()->valueRange(foundRange, QCP::sdBoth, valueRange);
+                            if (pingData->customPlot()) {
+                                auto tempResultRange = pingData->customPlot()->graph(
+                                        RoundTripGraph)->data()->valueRange(foundRange, QCP::sdBoth, valueRange);
 
-                                    pingData->setHistoricalLatency(tempResultRange.upper);
-                                } else {
-                                    pingData->setHistoricalLatency(-1);
-
-                                    auto topLeft = m_tableModel->index(0, 0);
-                                    auto bottomRight = topLeft.sibling(m_tableModel->rowCount() - 1,
-                                                                       m_tableModel->columnCount() - 1);
-
-                                    m_tableModel->dataChanged(topLeft, bottomRight);
-                                }
-                            }
-
-                            this->m_tableModel->setProperty("showHistorical", true);
-
-                            /*
-                            auto seconds = std::chrono::duration<double>(valueResultRange.upper);
-
-                            if (seconds < std::chrono::seconds(1)) {
-                                auto milliseconds =
-                                    std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(seconds);
-
-                                valueString = QString(tr("%1ms")).arg(milliseconds.count(), 0, 'f', 2);
+                                pingData->setHistoricalLatency(tempResultRange.upper);
                             } else {
-                                valueString = QString(tr("%1s")).arg(seconds.count(), 0, 'f', 2);
+                                pingData->setHistoricalLatency(-1);
+
+                                auto topLeft = m_tableModel->index(0, 0);
+                                auto bottomRight = topLeft.sibling(m_tableModel->rowCount() - 1,
+                                                                   m_tableModel->columnCount() - 1);
+
+                                m_tableModel->dataChanged(topLeft, bottomRight);
                             }
-
-                            auto dateTime = QDateTime::fromSecsSinceEpoch(static_cast<qint64>(x));
-
-                            m_pointInfoLabel->setText(FontAwesome::richText(QString("[fas fa-stopwatch] %1").arg(valueString)));
-                            m_hopInfoLabel->setText(FontAwesome::richText(QString("[fas fa-project-diagram] %1 %2").arg(tr("hop")).arg(hop)));
-                            m_hostInfoLabel->setText(FontAwesome::richText(QString("[fas fa-server] %1").arg(maskedHostName)));
-                            m_timeInfoLabel->setText(FontAwesome::richText(QString("[far fa-calendar-alt] %1").arg(dateTime.toString())));
-                            */
-                        } else {
-                            /*
-                            m_pointInfoLabel->setText("");
-                            m_hopInfoLabel->setText("");
-                            m_hostInfoLabel->setText("");
-                            m_timeInfoLabel->setText("");
-                            */
-
-                            this->m_tableModel->setProperty("showHistorical", false);
-
-                            auto topLeft = m_tableModel->index(0, 0);
-                            auto bottomRight = topLeft.sibling(
-                                    m_tableModel->rowCount() - 1,
-                                    m_tableModel->columnCount() - 1 );
-
-                            m_tableModel->dataChanged(topLeft, bottomRight);
                         }
-                    });
+
+                        this->m_tableModel->setProperty("showHistorical", true);
+
+                        /*
+                        auto seconds = std::chrono::duration<double>(valueResultRange.upper);
+
+                        if (seconds < std::chrono::seconds(1)) {
+                            auto milliseconds =
+                                std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(seconds);
+
+                            valueString = QString(tr("%1ms")).arg(milliseconds.count(), 0, 'f', 2);
+                        } else {
+                            valueString = QString(tr("%1s")).arg(seconds.count(), 0, 'f', 2);
+                        }
+
+                        auto dateTime = QDateTime::fromSecsSinceEpoch(static_cast<qint64>(x));
+
+                        m_pointInfoLabel->setText(FontAwesome::richText(QString("[fas fa-stopwatch] %1").arg(valueString)));
+                        m_hopInfoLabel->setText(FontAwesome::richText(QString("[fas fa-project-diagram] %1 %2").arg(tr("hop")).arg(hop)));
+                        m_hostInfoLabel->setText(FontAwesome::richText(QString("[fas fa-server] %1").arg(maskedHostName)));
+                        m_timeInfoLabel->setText(FontAwesome::richText(QString("[far fa-calendar-alt] %1").arg(dateTime.toString())));
+                        */
+                    } else {
+                        /*
+                        m_pointInfoLabel->setText("");
+                        m_hopInfoLabel->setText("");
+                        m_hostInfoLabel->setText("");
+                        m_timeInfoLabel->setText("");
+                        */
+
+                        this->m_tableModel->setProperty("showHistorical", false);
+
+                        auto topLeft = m_tableModel->index(0, 0);
+                        auto bottomRight = topLeft.sibling(
+                                m_tableModel->rowCount() - 1,
+                                m_tableModel->columnCount() - 1 );
+
+                        m_tableModel->dataChanged(topLeft, bottomRight);
+                    }
+                }
+            );
 
             customPlot->installEventFilter(this);
 

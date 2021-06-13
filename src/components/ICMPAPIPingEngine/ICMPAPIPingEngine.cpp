@@ -68,8 +68,9 @@ class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData {
 
         QThread *m_transmitterThread;
 
-        QList<Nedrysoft::RouteAnalyser::IPingTarget *> m_pingTargets;
         Nedrysoft::Core::IPVersion m_ipVersion;
+
+        QList<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *> m_targetList;
 
         int m_timeout;
         int m_interval;
@@ -78,23 +79,18 @@ class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData {
 Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::ICMPAPIPingEngine(Nedrysoft::Core::IPVersion version) :
         d(std::make_shared<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData>(this)) {
 
+    qDebug() << "created ICMPAPIPingEngine" << ((uint64_t) this);
+
     d->m_ipVersion = version;
 
-    d->m_transmitter = new Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter(this);
-
-    d->m_transmitterThread = new QThread();
-
-    d->m_transmitter->moveToThread(d->m_transmitterThread);
-
-    connect(d->m_transmitterThread, &QThread::started, d->m_transmitter, &ICMPAPIPingTransmitter::doWork);
-
-    connect(d->m_transmitter, &ICMPAPIPingTransmitter::result, this, &ICMPAPIPingEngine::result);
-
-    d->m_transmitterThread->start();
 }
 
 Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::~ICMPAPIPingEngine() {
     doStop();
+
+    if (d->m_transmitter) {
+        delete d->m_transmitter;
+    }
 
     d.reset();
 }
@@ -106,9 +102,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::addTarget(
 
     ICMPAPIPingTarget *pingTarget = new ICMPAPIPingTarget(this, hostAddress);
 
-    d->m_transmitter->addTarget(pingTarget);
-
-    d->m_pingTargets.append(pingTarget);
+    d->m_targetList.append(pingTarget);
 
     return(pingTarget);
 }
@@ -119,9 +113,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::addTarget(
 
     ICMPAPIPingTarget *pingTarget = new ICMPAPIPingTarget(this, hostAddress, ttl);
 
-    d->m_transmitter->addTarget(pingTarget);
-
-    d->m_pingTargets.append(pingTarget);
+    d->m_targetList.append(pingTarget);
 
     return(pingTarget);
 }
@@ -131,10 +123,30 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::removeTarget(
 
     Q_UNUSED(pingTarget)
 
+    if (d->m_transmitter) {
+        d->m_transmitter->removeTarget(pingTarget);
+    }
+
     return true;
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::start() -> bool {
+    d->m_transmitter = new Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter(this);
+
+    d->m_transmitterThread = new QThread();
+
+    d->m_transmitter->moveToThread(d->m_transmitterThread);
+
+    connect(d->m_transmitterThread, &QThread::started, d->m_transmitter, &ICMPAPIPingTransmitter::doWork);
+
+    connect(d->m_transmitter, &ICMPAPIPingTransmitter::result, this, &ICMPAPIPingEngine::result);
+
+    for (auto target : d->m_targetList) {
+        d->m_transmitter->addTarget(target);
+    }
+
+    d->m_transmitterThread->start();
+
     return true;
 }
 
@@ -225,16 +237,19 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
     timer.restart();
 
     if (hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
-        returnValue = IcmpSendEcho(
+        returnValue = IcmpSendEcho2(
             icmpHandle,
+            nullptr,
+            nullptr,
+            nullptr,
             hostAddress.toIPv4Address(),
             dataBuffer.data(),
             static_cast<WORD>(dataBuffer.length()),
             pipOptions,
             replyBuffer.data(),
             static_cast<DWORD>(replyBuffer.length()),
-            timeout*1000
-        ); // NOLINT(cppcoreguidelines-pro-type-union-access)*/
+            timeout*3000
+        ); // NOLINT(cppcoreguidelines-pro-type-union-access)
     } else {
         returnValue = Icmp6SendEcho2(
             icmpHandle,
@@ -253,8 +268,6 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
 
     auto roundTripTime = timer.nsecsElapsed();
 
-    qDebug() << "ping" << returnValue << hostAddress << ttl << timeout << icmpHandle << hostAddress.toIPv4Address();
-
     if (returnValue) {
         if (hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
             PICMP_ECHO_REPLY pEchoReply = (PICMP_ECHO_REPLY) replyBuffer.data();
@@ -263,10 +276,8 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
 
             if (pEchoReply->Status == IP_SUCCESS) {
                 resultCode = Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok;
-                qDebug() << "resultcode ok" << replyHost;
             } else if (pEchoReply->Status == IP_TTL_EXPIRED_TRANSIT) {
                 resultCode = Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded;
-                qDebug() << "resultcode ttl exceeded" << replyHost;
             }
         } else {
             PICMPV6_ECHO_REPLY pEchoReply = (PICMPV6_ECHO_REPLY) replyBuffer.data();
@@ -289,14 +300,16 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
         }
     }
 
-    //IcmpCloseHandle(icmpHandle);
+    qDebug() << ttl << returnValue;
+
+    IcmpCloseHandle(icmpHandle);
 
     return Nedrysoft::RouteAnalyser::PingResult(
         0,
         resultCode,
         replyHost,
         epoch,
-        roundTripTime/NanosecondsInMillisecond,
+        roundTripTime/1e9,
         nullptr
     );
 }
@@ -304,7 +317,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::targets() -> QList<Nedrysoft::RouteAnalyser::IPingTarget *> {
     QList<Nedrysoft::RouteAnalyser::IPingTarget *> list;
 
-    for (auto target : d->m_pingTargets) {
+    for (auto target : d->m_targetList) {
         list.append(target);
     }
 
@@ -312,11 +325,27 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::targets() -> QList<Nedryso
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::doStop() -> void {
-    if (d->m_transmitterThread->isRunning()) {
+    if (d->m_transmitter) {
         d->m_transmitter->m_isRunning = false;
-
-        d->m_transmitterThread->wait();
-
-        delete d->m_transmitterThread;
     }
+
+    if (d->m_transmitterThread) {
+        d->m_transmitterThread->quit();
+    }
+
+    /*if (d->m_transmitterThread) {
+        if (d->m_transmitterThread->isRunning()) {
+            qDebug() << "shutting down transmitter" << ((uint64_t) this);
+
+            d->m_transmitter->m_isRunning = false;
+
+            d->m_transmitterThread->wait();
+
+            delete d->m_transmitterThread;
+
+            qDebug() << "transmitter destroyed" << ((uint64_t) this);
+        }
+    } else {
+        qDebug() << "transmitter not running, nothing to do." << ((uint64_t) this);;
+    }*/
 }
