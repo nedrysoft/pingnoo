@@ -55,13 +55,6 @@ namespace Nedrysoft { namespace RouteAnalyser {
              */
             auto paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const -> void;
 
-            /**
-             * @brief       Set whether to draw the background as a smooth gradient or steps.
-             *
-             * @param[in]   useGradient true if smooth gradient; otherwise false.
-             */
-            auto setGradientEnabled(bool useGradient) -> void;
-
         private:
 
             /**
@@ -236,16 +229,6 @@ namespace Nedrysoft { namespace RouteAnalyser {
                 const QModelIndex &index,
                 const QPen &pen
             ) const -> void;
-
-        private:
-            //! @cond
-
-            double m_warningLatency;
-            double m_criticalLatency;
-
-            bool m_useGradient;
-
-            //! @endcond
     };
 }}
 

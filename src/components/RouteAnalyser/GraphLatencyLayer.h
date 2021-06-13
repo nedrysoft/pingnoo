@@ -43,13 +43,6 @@ namespace Nedrysoft { namespace RouteAnalyser {
             explicit GraphLatencyLayer(QCustomPlot *customPlot);
 
             /**
-             * @brief       Set whether to draw the background as a smooth gradient or steps.
-             *
-             * @param[in]   useGradient true if smooth gradient; otherwise false.
-             */
-            auto setGradientEnabled(bool useGradient) -> void;
-
-            /**
              * @brief       Removes buffered offscreen background Pixmaps.
              */
             static auto removeUnused() -> void;
@@ -69,11 +62,6 @@ namespace Nedrysoft { namespace RouteAnalyser {
 
         private:
             //! @cond
-
-            double m_warningLatency;
-            double m_criticalLatency;
-
-            bool m_useGradient;
 
             static QMap<QString, QPixmap> m_buffers;
             static QMap<QString, uint64_t> m_age;

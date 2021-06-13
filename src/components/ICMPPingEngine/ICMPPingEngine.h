@@ -142,9 +142,10 @@ namespace Nedrysoft { namespace ICMPPingEngine {
              * @returns     the result of the ping.
              */
             auto singleShot(
-                    QHostAddress hostAddress,
-                    int ttl,
-                    double timeout ) -> Nedrysoft::RouteAnalyser::PingResult override;
+                QHostAddress hostAddress,
+                int ttl,
+                double timeout
+            ) -> Nedrysoft::RouteAnalyser::PingResult override;
 
             /**
              * @brief       Removes a ping target from this engine instance.

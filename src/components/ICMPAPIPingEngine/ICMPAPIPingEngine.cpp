@@ -53,7 +53,7 @@ class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData {
                 m_pingEngine(parent),
                 m_transmitter(nullptr),
                 m_transmitterThread(nullptr),
-                m_timeout(0),
+                m_timeout(DefaultReplyTimeout),
                 m_ipVersion(Nedrysoft::Core::IPVersion::V4) {
 
         }
@@ -228,10 +228,11 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
             icmpHandle,
             hostAddress.toIPv4Address(),
             dataBuffer.data(),
-            static_cast<WORD>(dataBuffer.length()), pipOptions,
+            static_cast<WORD>(dataBuffer.length()),
+            pipOptions,
             replyBuffer.data(),
             static_cast<DWORD>(replyBuffer.length()),
-            DefaultTransmitTimeout
+            timeout*1000
         ); // NOLINT(cppcoreguidelines-pro-type-union-access)
     } else {
         returnValue = Icmp6SendEcho2(
@@ -245,11 +246,13 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
             static_cast<WORD>(dataBuffer.length()),
             pipOptions,
             replyBuffer.data(), static_cast<DWORD>(replyBuffer.length()),
-            DefaultTransmitTimeout
+            timeout*1000
         );  // NOLINT(cppcoreguidelines-pro-type-union-access)
     }
 
     auto roundTripTime = timer.nsecsElapsed();
+
+    qDebug() << "ping" << returnValue << hostAddress << ttl << timeout << icmpHandle << hostAddress.toIPv4Address();
 
     if (returnValue) {
         if (hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
@@ -259,8 +262,10 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
 
             if (pEchoReply->Status == IP_SUCCESS) {
                 resultCode = Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok;
+                qDebug() << "resultcode ok" << replyHost;
             } else if (pEchoReply->Status == IP_TTL_EXPIRED_TRANSIT) {
                 resultCode = Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded;
+                qDebug() << "resultcode ttl exceeded" << replyHost;
             }
         } else {
             PICMPV6_ECHO_REPLY pEchoReply = (PICMPV6_ECHO_REPLY) replyBuffer.data();
@@ -286,12 +291,13 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
     IcmpCloseHandle(icmpHandle);
 
     return Nedrysoft::RouteAnalyser::PingResult(
-           0,
-           resultCode,
-           replyHost,
-           epoch,
-           roundTripTime/NanosecondsInMillisecond,
-           nullptr);
+        0,
+        resultCode,
+        replyHost,
+        epoch,
+        roundTripTime/NanosecondsInMillisecond,
+        nullptr
+    );
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::targets() -> QList<Nedrysoft::RouteAnalyser::IPingTarget *> {
