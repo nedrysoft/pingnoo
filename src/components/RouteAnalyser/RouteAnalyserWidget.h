@@ -84,11 +84,13 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   pingEngineFactory the ping engine factory to use.
              * @param[in]   parent the parent widget.
              */
-            explicit RouteAnalyserWidget(QString targetHost,
-                                         Nedrysoft::Core::IPVersion ipVersion,
-                                         int interval,
-                                         Nedrysoft::RouteAnalyser::IPingEngineFactory *pingEngineFactory,
-                                         QWidget *parent = nullptr );
+            explicit RouteAnalyserWidget(
+                QString targetHost,
+                Nedrysoft::Core::IPVersion ipVersion,
+                int interval,
+                Nedrysoft::RouteAnalyser::IPingEngineFactory *pingEngineFactory,
+                QWidget *parent = nullptr
+            );
 
             /**
              * @brief       Destroys the RouteAnalyserWidget.

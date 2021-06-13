@@ -25,7 +25,6 @@
 #define PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGRECEIVERWORKER_H
 
 #include <QObject>
-#include <chrono>
 #include <QByteArray>
 #include <QHostAddress>
 #include <QThread>
@@ -76,12 +75,12 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             /**
              * @brief       This signal is emitted when an ICMP packet has been received.
              *
-             * @param[in]   receiveTime the time at which the reception occurred.
+             * @param[in]   receiveTimer a timer started from when the packet was received.
              * @param[in]   receiveBuffer the packet data.
              * @param[in]   receiveAddress the address the packet was received from (this may differ from the target).
              */
             Q_SIGNAL void packetReceived(
-                QDateTime receiveTime,
+                QElapsedTimer receiveTimer,
                 QByteArray receiveBuffer,
                 QHostAddress receiveAddress
             );
@@ -108,9 +107,5 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             //! @endcond
     };
 }}
-
-#if (QT_VERSION_MAJOR<6)
-Q_DECLARE_METATYPE(std::chrono::time_point<std::chrono::high_resolution_clock>)
-#endif
 
 #endif // PINGNOO_COMPONENTS_ICMPPINGENGINE_ICMPPINGRECEIVERWORKER_H

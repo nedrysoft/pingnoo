@@ -79,8 +79,6 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::getInstance(bool returnN
 
     instance->m_receiverThread = new QThread;
 
-    qRegisterMetaType<std::chrono::time_point<std::chrono::high_resolution_clock>>();
-
     instance->moveToThread(instance->m_receiverThread);
 
     connect(instance->m_receiverThread, &QThread::started, instance, &Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::doWork);
@@ -104,12 +102,17 @@ void Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::doWork() {
     m_isRunning = true;
 
     while (QThread::currentThread()->isRunning() && (m_isRunning)) {
+        QElapsedTimer receiveTimer;
+
+        receiveTimer.restart();
         auto result = m_socket->recvfrom(receiveBuffer, receiveAddress, DefaultReplyTimeout);
+
+
 
         if (result!=-1) {
             SPDLOG_TRACE("ICMP Packet Received");
 
-            Q_EMIT packetReceived(QDateTime::currentDateTime(), receiveBuffer, receiveAddress);
+            Q_EMIT packetReceived(receiveTimer, receiveBuffer, receiveAddress);
         }
     }
 }

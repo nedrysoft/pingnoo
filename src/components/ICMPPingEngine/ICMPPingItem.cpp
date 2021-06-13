@@ -81,7 +81,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingItem::target() -> Nedrysoft::ICMPPingEng
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingItem::elapsedTime() -> double {
-    return static_cast<double>(m_elapsedTimer.nsecsElapsed())/1e9;
+    return static_cast<double>(m_elapsedTimer.nsecsElapsed())/static_cast<double>(1e9);
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingItem::transmitEpoch() -> QDateTime {

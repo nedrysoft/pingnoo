@@ -143,12 +143,12 @@ auto Nedrysoft::RouteAnalyser::PingData::updateItem(Nedrysoft::RouteAnalyser::Pi
 
         headerItem->setTextAlignment(Qt::AlignRight);
 
-        headerItem->setText(QString(QObject::tr("%1 ms")).arg((m_currentLatency/1000.0)));
+        headerItem->setText(QString(QObject::tr("%1 ms")).arg((m_currentLatency*1000)));
     }
 
     if (m_minimumLatency < m_tableModel->property("graphMinLatency").toDouble()) {
         if (m_tableModel) {
-            m_tableModel->setProperty("graphMinLatency", QVariant(m_minimumLatency/1000.0));
+            m_tableModel->setProperty("graphMinLatency", QVariant(m_minimumLatency));
         }
     }
 

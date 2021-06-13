@@ -92,9 +92,9 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
                     target->hostAddress(),
                     static_cast<Nedrysoft::ICMPPacket::IPVersion>(m_engine->version()) );
 
-            pingItem->startTimer();
-
             auto result = socket->sendto(buffer, target->hostAddress());
+
+            pingItem->startTimer();
 
             SPDLOG_TRACE(
                     QString("Sent ping to %1 (TTL=%2, Result=%3)")
@@ -112,7 +112,6 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTransmitter::doWork() {
         auto elapsedTime = elapsedTimer.elapsed();
 
         if (elapsedTime < m_interval) {
-            qDebug() << "sleepy" << elapsedTime << m_interval;
             QThread::msleep(m_interval - elapsedTime);
         }
 

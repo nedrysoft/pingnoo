@@ -198,13 +198,15 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             /**
              * @brief       Called when a ICMP packet is available for processing.
              *
-             * @param[in]   receiveTime the time at which the packet was received.
+             * @param[in]   receiveTimer a timer started when the packet was received.
              * @param[in]   receiveBuffer the actual packet data.
              * @param[in]   receiveAddress the IP address that the response came from (may be different to target).
              */
             Q_SLOT void onPacketReceived(
-                    QDateTime receiveTime,
-                    QByteArray receiveBuffer, QHostAddress receiveAddress );
+                QElapsedTimer receiveTimer,
+                QByteArray receiveBuffer,
+                QHostAddress receiveAddress
+            );
 
         protected:
             /**

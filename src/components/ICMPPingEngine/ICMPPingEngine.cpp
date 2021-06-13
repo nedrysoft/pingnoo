@@ -101,6 +101,8 @@ Nedrysoft::ICMPPingEngine::ICMPPingEngine::ICMPPingEngine(Nedrysoft::Core::IPVer
         d(std::make_shared<Nedrysoft::ICMPPingEngine::ICMPPingEngineData>(this)) {
 
     d->m_version = version;
+
+    qRegisterMetaType<QElapsedTimer>("QElapsedTimer");
 }
 
 Nedrysoft::ICMPPingEngine::ICMPPingEngine::~ICMPPingEngine() {
@@ -160,7 +162,8 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::start() -> bool {
     connect(d->m_receiverWorker,
             &Nedrysoft::ICMPPingEngine::ICMPPingReceiverWorker::packetReceived,
             this,
-            &Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived);
+            &Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived
+    );
 
     // transmitter thread
 
@@ -352,7 +355,7 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::version() -> Nedrysoft::Core::IP
 }
 
 void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
-        QDateTime receiveTime,
+        QElapsedTimer receiveTimer,
         QByteArray receiveBuffer,
         QHostAddress receiveAddress ) {
 
@@ -379,16 +382,17 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
     auto pingItem = this->getRequest(Nedrysoft::Utils::fzMake32(responsePacket.id(), responsePacket.sequence()));
 
     if (pingItem) {
+        auto elapsedTime = pingItem->elapsedTime();
+
         pingItem->lock();
 
         if (!pingItem->serviced()) {
-#pragma message("check /1000")
             auto pingResult = Nedrysoft::RouteAnalyser::PingResult(
                 pingItem->sampleNumber(),
                 resultCode,
                 receiveAddress,
                 pingItem->transmitEpoch(),
-                pingItem->elapsedTime(),
+                elapsedTime,
                 pingItem->target()
             );
 

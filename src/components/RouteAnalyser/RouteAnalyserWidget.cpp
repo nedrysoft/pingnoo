@@ -48,7 +48,7 @@
 #include <spdlog/spdlog.h>
 
 constexpr auto RoundTripGraph = 0;
-constexpr auto DefaultMaxLatency = 10;
+constexpr auto DefaultMaxLatency = 0.01;
 constexpr auto DefaultTimeWindow = 60.0*10;
 constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
@@ -186,8 +186,9 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget(
                 m_tableView->fontMetrics().boundingRect(pair.second).width() );
 #else
         auto maxWidth = qMax(
-                m_tableView->fontMetrics().horizontalAdvance(pair.first),
-                m_tableView->fontMetrics().horizontalAdvance(pair.second) );
+            m_tableView->fontMetrics().horizontalAdvance(pair.first),
+            m_tableView->fontMetrics().horizontalAdvance(pair.second)
+        );
 #endif
 
         m_tableModel->setHorizontalHeaderItem(static_cast<int>(headerIterator.key()), headerItem);
@@ -258,7 +259,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Rout
             auto requestTime = static_cast<double>(result.requestTime().toSecsSinceEpoch());
 
             customPlot->graph(RoundTripGraph)->addData(requestTime, result.roundTripTime());
-            
+
             if (m_startPoint == -1) {
                 m_startPoint = requestTime;
             } else {
@@ -448,8 +449,9 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             customPlot->xAxis->setTicker(dateTicker);
             customPlot->xAxis->setRange(
-                    static_cast<double>(secondsSinceEpoch),
-                    static_cast<double>(secondsSinceEpoch + m_viewportSize) );
+                static_cast<double>(secondsSinceEpoch),
+                static_cast<double>(secondsSinceEpoch + m_viewportSize)
+            );
 
             customPlot->graph(RoundTripGraph)->setLineStyle(QCPGraph::lsStepCenter);
 
@@ -504,7 +506,8 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
                             for (auto currentItem = 0; currentItem < m_tableModel->rowCount(); currentItem++) {
                                 auto pingData = m_tableModel->item(
                                         currentItem,
-                                        0 )->data().value<Nedrysoft::RouteAnalyser::PingData *>();
+                                        0
+                                )->data().value<Nedrysoft::RouteAnalyser::PingData *>();
 
                                 auto valueRange = QCPRange(x - 1, x + 1);
 
