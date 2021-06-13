@@ -41,6 +41,6 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTimeout::doWork() {
     while (m_isRunning) {
         m_engine->timeoutRequests();
 
-        QThread::msleeo(DefaultSleepTime);
+        QThread::msleep(DefaultSleepTime);
     }
 }

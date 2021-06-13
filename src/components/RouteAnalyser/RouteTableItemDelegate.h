@@ -25,7 +25,6 @@
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTETABLEITEMDELEGATE_H
 
 #include <QStyledItemDelegate>
-#include <chrono>
 #include <cmath>
 
 class QTableView;
@@ -93,10 +92,10 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @returns     The ping data for the next/previous item. (or invalid)
              */
             auto getSiblingData(
-                    QModelIndex modelIndex,
-                    int adjustment,
-                    const QTableView *tableView,
-                    QRect &rect
+                QModelIndex modelIndex,
+                int adjustment,
+                const QTableView *tableView,
+                QRect &rect
             ) const -> Nedrysoft::RouteAnalyser::PingData *;
 
             /**
@@ -108,10 +107,10 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   index the model index of the cell.
              */
             auto paintGraph(
-                    Nedrysoft::RouteAnalyser::PingData *pingData,
-                    QPainter *painter,
-                    const QStyleOptionViewItem &option,
-                    const QModelIndex &index
+                Nedrysoft::RouteAnalyser::PingData *pingData,
+                QPainter *painter,
+                const QStyleOptionViewItem &option,
+                const QModelIndex &index
             ) const -> void;
 
             /**
@@ -123,10 +122,10 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   index the model index of the cell.
              */
             auto paintBackground(
-                    Nedrysoft::RouteAnalyser::PingData *pingData,
-                    QPainter *painter,
-                    const QStyleOptionViewItem &option,
-                    const QModelIndex &index
+                Nedrysoft::RouteAnalyser::PingData *pingData,
+                QPainter *painter,
+                const QStyleOptionViewItem &option,
+                const QModelIndex &index
             ) const -> void;
 
             /**
@@ -138,10 +137,10 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   index the model index of the cell.
              */
             auto paintLocation(
-                    Nedrysoft::RouteAnalyser::PingData *pingData,
-                   QPainter *painter,
-                   const QStyleOptionViewItem &option,
-                   const QModelIndex &index
+                Nedrysoft::RouteAnalyser::PingData *pingData,
+                QPainter *painter,
+                const QStyleOptionViewItem &option,
+                const QModelIndex &index
             ) const -> void;
 
             /**
@@ -153,10 +152,10 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   index the model index of the cell.
              */
             auto paintInvalidHop(
-                    Nedrysoft::RouteAnalyser::PingData *pingData,
-                    QPainter *painter,
-                    const QStyleOptionViewItem &option,
-                    const QModelIndex &index
+                Nedrysoft::RouteAnalyser::PingData *pingData,
+                QPainter *painter,
+                const QStyleOptionViewItem &option,
+                const QModelIndex &index
             ) const -> void;
 
             /**
@@ -169,11 +168,11 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   bubbleColour the colour to draw in.
              */
             auto paintBubble(
-                    Nedrysoft::RouteAnalyser::PingData *pingData,
-                    QPainter *painter,
-                    const QStyleOptionViewItem &option,
-                    const QModelIndex &index,
-                    QRgb bubbleColour
+                Nedrysoft::RouteAnalyser::PingData *pingData,
+                QPainter *painter,
+                const QStyleOptionViewItem &option,
+                const QModelIndex &index,
+                QRgb bubbleColour
             ) const -> void;
 
             /**
@@ -185,9 +184,10 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   index the model index of the cell.
              */
             auto paintHop(Nedrysoft::RouteAnalyser::PingData *pingData,
-                          QPainter *painter,
-                          const QStyleOptionViewItem &option,
-                          const QModelIndex &index ) const -> void;
+                QPainter *painter,
+                const QStyleOptionViewItem &option,
+                const QModelIndex &index
+            ) const -> void;
 
             /**
              * @brief       Returns an interpolated colour.
@@ -212,11 +212,12 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   flags controls how the text is drawn.
              */
             auto paintText(const QString &text,
-                           QPainter *painter,
-                           const QStyleOptionViewItem &option,
-                           const QModelIndex &index,
-                           int alignment = Qt::AlignLeft | Qt::AlignVCenter,
-                           int flags = 0) const -> void;
+                QPainter *painter,
+                const QStyleOptionViewItem &option,
+                const QModelIndex &index,
+                int alignment = Qt::AlignLeft | Qt::AlignVCenter,
+                int flags = 0
+            ) const -> void;
 
             /**
              * @brief       Draws a latency line on the graph for the given data points in the given colour.
@@ -228,17 +229,19 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   index the model index of the cell.
              * @param[in]   pen  the pen to use to draw the line.
              */
-            auto drawLatencyLine(int field, Nedrysoft::RouteAnalyser::PingData *pingData,
-                                 QPainter *painter,
-                                 const QStyleOptionViewItem &option,
-                                 const QModelIndex &index,
-                                 const QPen &pen) const -> void;
+            auto drawLatencyLine(
+                int field, Nedrysoft::RouteAnalyser::PingData *pingData,
+                QPainter *painter,
+                const QStyleOptionViewItem &option,
+                const QModelIndex &index,
+                const QPen &pen
+            ) const -> void;
 
         private:
             //! @cond
 
-            std::chrono::duration<double> m_warningLatency = {};
-            std::chrono::duration<double> m_criticalLatency = {};
+            double m_warningLatency;
+            double m_criticalLatency;
 
             bool m_useGradient;
 

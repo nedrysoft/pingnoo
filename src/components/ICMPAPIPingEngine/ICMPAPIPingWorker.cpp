@@ -47,7 +47,7 @@ void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker::doWork() {
     Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingResult pingResult = m_engine->singleShot(
         m_target->hostAddress(),
         m_target->ttl(),
-        DefaultTransmitTimeout)
+        DefaultTransmitTimeout
     );
 
     pingResult.setSampleNumber(m_sampleNumber);

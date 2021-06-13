@@ -36,14 +36,12 @@
 #include <ThemeSupport>
 #include <cassert>
 
-using namespace std::chrono_literals;
-
 constexpr auto AverageLatencyRadius = 4;
 constexpr auto CurrentLatencyLength = 3;
 constexpr auto XOffset = (AverageLatencyRadius*2);
 
-constexpr auto DefaultWarningLatency = 200ms;
-constexpr auto DefaultCriticalLatency = 500ms;
+constexpr auto DefaultWarningLatency = 200.0;
+constexpr auto DefaultCriticalLatency = 500.0;
 
 constexpr auto RoundedRectangleRadius = 10;
 constexpr auto AlternateRowFactor = 12.5;
@@ -475,11 +473,9 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintHop(
 
     gradientMap[0] = latencySettings->idealColour();
 
-    gradientMap[std::chrono::duration<double, std::milli>(m_warningLatency).count() /
-                interpolationTime] = latencySettings->warningColour();
+    gradientMap[m_warningLatency/interpolationTime] = latencySettings->warningColour();
 
-    gradientMap[std::chrono::duration<double, std::milli>(m_criticalLatency).count() /
-                interpolationTime] = latencySettings->criticalColour();
+    gradientMap[m_criticalLatency/interpolationTime] = latencySettings->criticalColour();
 
     gradientMap[1] = latencySettings->criticalColour();
 
@@ -578,8 +574,8 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
 
     painter->setClipPath(clippingPath);
 
-    auto idealStop = m_warningLatency.count() / graphMaxLatency;
-    auto warningStop = m_criticalLatency.count() / graphMaxLatency;
+    auto idealStop = m_warningLatency / graphMaxLatency;
+    auto warningStop = m_criticalLatency / graphMaxLatency;
 
     auto blankRect = option.rect;
 
@@ -607,57 +603,70 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
 
     if (idealStop > 1) {
         graphGradient.setColorAt(
-                0,
-                QColor(latencySettings->idealColour()).darker(colourFactor) );
+            0,
+            QColor(latencySettings->idealColour()).darker(colourFactor)
+        );
 
         graphGradient.setColorAt(
-                1,
-                QColor(latencySettings->idealColour()).darker(colourFactor) );
+            1,
+            QColor(latencySettings->idealColour()).darker(colourFactor)
+        );
     } else {
         if (warningStop > 1) {
             if (idealStop < 1) {
                 graphGradient.setColorAt(
-                        0,
-                        QColor(latencySettings->idealColour()).darker(colourFactor) );
+                    0,
+                    QColor(latencySettings->idealColour()).darker(colourFactor)
+                );
 
                 graphGradient.setColorAt(
-                        1,
-                        QColor(latencySettings->warningColour()).darker(colourFactor) );
+                    1,
+                    QColor(latencySettings->warningColour()).darker(colourFactor)
+                );
 
                 if (!m_useGradient) {
                     graphGradient.setColorAt(
-                            idealStop,
-                            QColor(latencySettings->warningColour()).darker(colourFactor) );
+                        idealStop,
+                        QColor(latencySettings->warningColour()).darker(colourFactor)
+                    );
+
                     graphGradient.setColorAt(
-                            idealStop-TinyNumber,
-                            QColor(latencySettings->idealColour()).darker(colourFactor) );
+                        idealStop-TinyNumber,
+                        QColor(latencySettings->idealColour()).darker(colourFactor)
+                    );
                 }
             }
         } else {
             graphGradient.setColorAt(
-                    0,
-                    QColor(latencySettings->idealColour()).darker(colourFactor) );
+                0,
+                QColor(latencySettings->idealColour()).darker(colourFactor)
+            );
 
             graphGradient.setColorAt(
-                    idealStop,
-                    QColor(latencySettings->warningColour()).darker(colourFactor) );
+                idealStop,
+                QColor(latencySettings->warningColour()).darker(colourFactor)
+            );
 
             graphGradient.setColorAt(
-                    warningStop,
-                    QColor(latencySettings->criticalColour()).darker(colourFactor) );
+                warningStop,
+                QColor(latencySettings->criticalColour()).darker(colourFactor)
+            );
 
             graphGradient.setColorAt(
-                    1,
-                    QColor(latencySettings->criticalColour()).darker(colourFactor) );
+                1,
+                QColor(latencySettings->criticalColour()).darker(colourFactor)
+            );
 
             if (!m_useGradient) {
                 graphGradient.setColorAt(
-                        idealStop-TinyNumber,
-                        QColor(latencySettings->idealColour()).darker(colourFactor) );
+                    idealStop-TinyNumber,
+                    QColor(latencySettings->idealColour()).darker(colourFactor)
+                );
 
                 graphGradient.setColorAt(
-                        warningStop-TinyNumber,
-                        QColor(latencySettings->warningColour()).darker(colourFactor) );
+                    warningStop-TinyNumber,
+                    QColor(latencySettings->warningColour()).darker(colourFactor)
+                );
             }
         }
     }

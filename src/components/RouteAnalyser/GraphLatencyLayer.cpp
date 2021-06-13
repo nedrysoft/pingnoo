@@ -36,8 +36,8 @@
 
 using namespace std::chrono_literals;
 
-constexpr auto DefaultWarningLatency = 200ms;
-constexpr auto DefaultCriticalLatency = 500ms;
+constexpr auto DefaultWarningLatency = 200.0;
+constexpr auto DefaultCriticalLatency = 500.0;
 
 constexpr auto RoundedRectangleRadius = 10;
 constexpr auto TinyNumber = 0.0001;
@@ -92,9 +92,11 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
     auto rect = parentPlot()->axisRect()->rect();
     auto topLeft = rect.topLeft();
 
-    auto idealStop = m_warningLatency.count()/graphMaxLatency;
-    auto warningStop = m_criticalLatency.count()/graphMaxLatency;
+    auto idealStop = m_warningLatency/(graphMaxLatency*1000.0);
+    auto warningStop = m_criticalLatency/(graphMaxLatency*1000.0);
 
+
+    qDebug() << idealStop << m_warningLatency << graphMaxLatency;
     auto latencySettings = Nedrysoft::RouteAnalyser::LatencySettings::getInstance();
 
     assert(latencySettings!=nullptr);

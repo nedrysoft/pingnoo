@@ -25,7 +25,6 @@
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_GRAPHLATENCYLAYER_H
 
 #include "QCustomPlot/qcustomplot.h"
-#include "chrono"
 
 namespace Nedrysoft { namespace RouteAnalyser {
     /**
@@ -71,8 +70,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
         private:
             //! @cond
 
-            std::chrono::duration<double> m_warningLatency = {};
-            std::chrono::duration<double> m_criticalLatency = {};
+            double m_warningLatency;
+            double m_criticalLatency;
 
             bool m_useGradient;
 
