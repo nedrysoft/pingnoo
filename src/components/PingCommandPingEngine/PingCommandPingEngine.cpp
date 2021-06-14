@@ -35,7 +35,6 @@ constexpr auto DefaultReceiveTimeout = 1000;
 constexpr auto DefaultTerminateThreadTimeout = 5000;
 constexpr auto DefaultTTL = 64;
 
-constexpr auto NanosecondsInMillisecond = 1.0e6;
 constexpr auto PacketLostRegularExpression = R"(100% packet loss)";
 constexpr auto TtlExceededRegularExpression = R"(From\ (?<ip>[\d\.]*)\ .*exceeded)";
 
@@ -102,7 +101,7 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::setTimeout(int tim
 }
 
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::epoch() -> QDateTime {
-    return QDateTime::currentSystemTime();
+    return QDateTime::currentDateTime();
 }
 
 auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::saveConfiguration() -> QJsonObject {
@@ -159,7 +158,7 @@ auto Nedrysoft::PingCommandPingEngine::PingCommandPingEngine::singleShot(
 
     pingProcess.waitForFinished();
 
-    auto roundTripTime = static_cast<double>(time.nsecsElapsed()) / NanosecondsInMillisecond;
+    auto roundTripTime = timer.elapsed()/1e9;
 
     auto commandOutput = pingProcess.readAll();
 

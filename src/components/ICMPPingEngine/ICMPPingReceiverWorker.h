@@ -26,6 +26,7 @@
 
 #include <QObject>
 #include <QByteArray>
+#include <QElapsedTimer>
 #include <QHostAddress>
 #include <QThread>
 

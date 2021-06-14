@@ -75,8 +75,7 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
                 QProcess pingProcess;
                 qint64 started, finished;
                 QElapsedTimer timer;
-
-                std::chrono::system_clock::time_point epoch;
+                QDateTime epoch;
 
                // pingProcess = new QProcess();
 
@@ -84,15 +83,15 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
 
                 pingProcess.waitForStarted();
 
-                started = timer.nsecsElapsed();
+                timer.restart();
 
-                epoch = std::chrono::system_clock::now();
+                epoch = QDateTime::currentDateTime();
 
                 pingProcess.waitForFinished();
 
                 finished = timer.nsecsElapsed();
 
-                auto roundTripTime = static_cast<double>(finished - started) / NanosecondsInMillisecond;
+                auto roundTripTime = timer.nsecsElapsed()/1e9;
 
                 auto commandOutput = pingProcess.readAll();
 
@@ -101,12 +100,13 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
 
                 if (pingProcess.exitCode() == 0) {
                     auto pingResult = Nedrysoft::RouteAnalyser::PingResult(
-                            sampleNumber,
-                            Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok,
-                            m_hostAddress,
-                            epoch,
-                            std::chrono::duration<double, std::milli>(roundTripTime),
-                            this);
+                        sampleNumber,
+                        Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok,
+                        m_hostAddress,
+                        epoch,
+                        roundTripTime,
+                        this
+                    );
 
                     engine->emitResult(pingResult);
                 } else {
@@ -115,22 +115,24 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
 
                     if (ttlExceededMatch.hasMatch()) {
                         auto pingResult = Nedrysoft::RouteAnalyser::PingResult(
-                                sampleNumber,
-                                Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded,
-                                QHostAddress(ttlExceededMatch.captured("ip")),
-                                epoch,
-                                std::chrono::duration<double, std::milli>(roundTripTime),
-                                this);
+                            sampleNumber,
+                            Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded,
+                            QHostAddress(ttlExceededMatch.captured("ip")),
+                            epoch,
+                            roundTripTime,
+                            this
+                        );
 
                         engine->emitResult(pingResult);
                     } else if (packetLostMatch.hasMatch()) {
                         auto pingResult = Nedrysoft::RouteAnalyser::PingResult(
-                                sampleNumber,
-                                Nedrysoft::RouteAnalyser::PingResult::ResultCode::NoReply,
-                                QHostAddress(packetLostMatch.captured("ip")),
-                                epoch,
-                                std::chrono::duration<double, std::milli>(roundTripTime),
-                                this);
+                            sampleNumber,
+                            Nedrysoft::RouteAnalyser::PingResult::ResultCode::NoReply,
+                            QHostAddress(packetLostMatch.captured("ip")),
+                            epoch,
+                            roundTripTime,
+                            this
+                        );
 
                         engine->emitResult(pingResult);
                     } else {
@@ -150,7 +152,7 @@ Nedrysoft::PingCommandPingEngine::PingCommandPingTarget::PingCommandPingTarget(
 
             QThread::msleep(engine->interval().count());
 #else
-            std::this_thread::sleep_for(engine->interval());
+            std::this_thread::sleep_for(std::chrono::milliseconds(engine->interval()));
 #endif
             sampleNumber++;
         }
