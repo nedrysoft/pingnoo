@@ -50,12 +50,14 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingItem::sequenceId() -> uint16_t {
     return m_sequenceId;
 }
 
-auto Nedrysoft::ICMPPingEngine::ICMPPingItem::setTransmitTime(
-        std::chrono::high_resolution_clock::time_point time,
-        std::chrono::system_clock::time_point epoch) -> void {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::startTimer() -> void {
+    m_elapsedTimer.restart();
+    m_transmitEpoch = QDateTime::currentDateTime();
+}
 
-    m_transmitTime = time;
-    m_transmitEpoch = epoch;
+#pragma message("not noEDE")
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::stopTimer() -> void {
+    m_elapsedTime = m_elapsedTimer.nsecsElapsed();
 }
 
 auto Nedrysoft::ICMPPingEngine::ICMPPingItem::setServiced(bool serviced) -> void {
@@ -78,11 +80,11 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingItem::target() -> Nedrysoft::ICMPPingEng
     return m_target;
 }
 
-auto Nedrysoft::ICMPPingEngine::ICMPPingItem::transmitTime() -> std::chrono::high_resolution_clock::time_point {
-    return m_transmitTime;
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::elapsedTime() -> double {
+    return static_cast<double>(m_elapsedTimer.nsecsElapsed())/static_cast<double>(1e9);
 }
 
-auto Nedrysoft::ICMPPingEngine::ICMPPingItem::transmitEpoch() -> std::chrono::system_clock::time_point {
+auto Nedrysoft::ICMPPingEngine::ICMPPingItem::transmitEpoch() -> QDateTime {
     return m_transmitEpoch;
 }
 

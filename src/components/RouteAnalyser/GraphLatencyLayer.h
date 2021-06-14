@@ -25,7 +25,6 @@
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_GRAPHLATENCYLAYER_H
 
 #include "QCustomPlot/qcustomplot.h"
-#include "chrono"
 
 namespace Nedrysoft { namespace RouteAnalyser {
     /**
@@ -42,13 +41,6 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @brief       Constructs a new GraphLatencyLayer.
              */
             explicit GraphLatencyLayer(QCustomPlot *customPlot);
-
-            /**
-             * @brief       Set whether to draw the background as a smooth gradient or steps.
-             *
-             * @param[in]   useGradient true if smooth gradient; otherwise false.
-             */
-            auto setGradientEnabled(bool useGradient) -> void;
 
             /**
              * @brief       Removes buffered offscreen background Pixmaps.
@@ -70,11 +62,6 @@ namespace Nedrysoft { namespace RouteAnalyser {
 
         private:
             //! @cond
-
-            std::chrono::duration<double> m_warningLatency = {};
-            std::chrono::duration<double> m_criticalLatency = {};
-
-            bool m_useGradient;
 
             static QMap<QString, QPixmap> m_buffers;
             static QMap<QString, uint64_t> m_age;

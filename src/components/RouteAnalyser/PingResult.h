@@ -26,9 +26,10 @@
 
 #include "RouteAnalyserSpec.h"
 
+#include <QDateTime>
+#include <QElapsedTimer>
 #include <QHostAddress>
 #include <QObject>
-#include <chrono>
 #include <cmath>
 #include <cstdint>
 
@@ -73,12 +74,14 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   roundTripTime the time taken for the hop to respond.
              * @param[in]   target the target that was pinged.
              */
-            PingResult(unsigned long sampleNumber,
-                       ResultCode code,
-                       const QHostAddress &hostAddress,
-                       std::chrono::system_clock::time_point requestTime,
-                       std::chrono::duration<double> roundTripTime,
-                       Nedrysoft::RouteAnalyser::IPingTarget *target);
+            PingResult(
+                unsigned long sampleNumber,
+                ResultCode code,
+                const QHostAddress &hostAddress,
+                QDateTime requestTime,
+                double roundTripTime,
+                Nedrysoft::RouteAnalyser::IPingTarget *target
+            );
 
         public:
 
@@ -94,7 +97,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
              *
              * @returns     the request time.
              */
-            auto requestTime() -> std::chrono::system_clock::time_point;
+            auto requestTime() -> QDateTime;
 
             /**
              * @brief       The result code for the request (Echo Reply, Timeout).
@@ -119,9 +122,9 @@ namespace Nedrysoft { namespace RouteAnalyser {
              *
              * @details     The round trip time is the elapsed time from the packet being sent to the response.
              *
-             * @returns     the round trip time.
+             * @returns     the round trip time in seconds.
              */
-            auto roundTripTime() -> std::chrono::duration<double>;
+            auto roundTripTime() -> double;
 
             /**
              * @brief       The target associated with this result.
@@ -136,8 +139,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
             unsigned long m_sampleNumber;
             PingResult::ResultCode m_code;
             QHostAddress m_hostAddress;
-            std::chrono::duration<double> m_roundTripTime = {};
-            std::chrono::system_clock::time_point m_requestTime = {};
+            double m_roundTripTime;
+            QDateTime m_requestTime;
             Nedrysoft::RouteAnalyser::IPingTarget *m_target;
 
             //! @endcond

@@ -28,14 +28,11 @@
 #include "ICMPAPIPingWorker.h"
 
 #include <QThread>
-#include <chrono>
 #include <cstdint>
 
-using namespace std::chrono_literals;
-
-constexpr auto DefaultTransmitInterval = 1s;
-constexpr auto DefaultReplyTimeout = 3s;
-constexpr auto DefaultTransmitTimeout = 3s;
+constexpr auto DefaultTransmitInterval = 1000;
+constexpr auto DefaultReplyTimeout = 3000;
+constexpr auto DefaultTransmitTimeout = 3000;
 
 Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::ICMPAPIPingTransmitter(
         Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *engine) :
@@ -46,6 +43,11 @@ Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::ICMPAPIPingTransmitter(
 
 }
 
+Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::~ICMPAPIPingTransmitter() {
+    qDeleteAll(m_targets);
+}
+
+
 void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::addTarget(
         Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *target) {
 
@@ -53,13 +55,13 @@ void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::addTarget(
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
-    std::chrono::high_resolution_clock::time_point startTime;
     unsigned long sampleNumber = 0;
+    QElapsedTimer timer;
 
     m_isRunning = true;
 
     while (m_isRunning) {
-        startTime = std::chrono::high_resolution_clock::now();
+        timer.restart();
 
         m_targetsMutex.lock();
 
@@ -68,34 +70,39 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
 
             auto pingThread = new QThread();
 
+            connect(pingThread, &QThread::started, pingWorker, &ICMPAPIPingWorker::doWork);
+
             pingWorker->moveToThread(pingThread);
 
-            connect(pingThread, &QThread::started, pingWorker, &ICMPAPIPingWorker::doWork);
-            connect(pingThread, &QThread::finished, pingThread, &QThread::deleteLater);
-            connect(pingThread, &QThread::finished, pingWorker, &ICMPAPIPingWorker::deleteLater);
+            connect(pingWorker, &ICMPAPIPingWorker::destroyed, [=]() {
+                pingThread->quit();
+            });
+
+            connect(pingThread, &QThread::finished, pingThread, &QThread::deleteLater, Qt::DirectConnection);
 
             connect(pingWorker,
-                    &ICMPAPIPingWorker::result,
-                    this,
-                    &ICMPAPIPingTransmitter::result,
-                    Qt::DirectConnection);
+                &ICMPAPIPingWorker::result,
+                this,
+                &ICMPAPIPingTransmitter::result,
+                Qt::DirectConnection
+            );
 
             pingThread->start();
         }
 
         m_targetsMutex.unlock();
 
-        auto diff = std::chrono::high_resolution_clock::now() - startTime;
+        auto duration = timer.elapsed();
 
-        if (diff < m_interval) {
-            std::this_thread::sleep_for(m_interval - diff);
+        if (duration < m_interval) {
+            QThread::msleep(m_interval - duration);
         }
 
         sampleNumber++;
     }
 }
 
-auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::setInterval(std::chrono::milliseconds interval) -> bool {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::setInterval(int interval) -> bool {
     m_interval = interval;
 
     return true;

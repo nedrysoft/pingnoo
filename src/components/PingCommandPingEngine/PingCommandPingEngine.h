@@ -28,8 +28,6 @@
 #include <IPingEngine>
 #include <IPingEngineFactory>
 
-#include <chrono>
-
 namespace Nedrysoft { namespace PingCommandPingEngine {
     class PingCommandPingTarget;
 
@@ -60,11 +58,11 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
              *
              * @see         Nedrysoft::RouteAnalyser::IPingEngine::setInterval
              *
-             * @param[in]   interval interval time.
+             * @param[in]   interval the interval between pings in milliseconds.
              *
              * @returns     returns true on success; otherwise false.
              */
-            auto setInterval(std::chrono::milliseconds interval) -> bool override;
+            auto setInterval(int interval) -> bool override;
 
             /**
              * @brief       Returns the measurement interval.
@@ -73,18 +71,18 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
              *
              * @returns     returns the measurement interval.
              */
-            auto interval() -> std::chrono::milliseconds override;
+            auto interval() -> int override;
 
             /**
              * @brief       Sets the reply timeout for this engine instance.
              *
              * @see         Nedrysoft::RouteAnalyser::IPingEngine::setTimeout
              *
-             * @param[in]   timeout the amount of time before we consider that the packet was lost.
+             * @param[in]   timeout the time in milliseconds to wait for a reply.
              *
              * @returns     true on success; otherwise false.
              */
-            auto setTimeout(std::chrono::milliseconds timeout) -> bool override;
+            auto setTimeout(int timeout) -> bool override;
 
             /**
              * @brief       Starts ping operations for this engine instance.
@@ -145,7 +143,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
              *
              * @returns     the time epoch.
              */
-            auto epoch() -> std::chrono::system_clock::time_point override;
+            auto epoch() -> QDateTime;
 
             /**
              * @brief       Returns the list of ping targets for the engine.
@@ -166,9 +164,10 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
              * @returns     the result of the ping.
              */
             auto singleShot(
-                    QHostAddress hostAddress,
-                    int ttl,
-                    double timeout ) -> Nedrysoft::RouteAnalyser::PingResult override;
+                QHostAddress hostAddress,
+                int ttl,
+                double timeout
+            ) -> Nedrysoft::RouteAnalyser::PingResult override;
 
         public:
             /**
@@ -201,7 +200,7 @@ namespace Nedrysoft { namespace PingCommandPingEngine {
 
             QList<PingCommandPingTarget *> m_pingTargets;
 
-            std::chrono::milliseconds m_interval;
+            int m_interval;
 
             //! @endcond
     };

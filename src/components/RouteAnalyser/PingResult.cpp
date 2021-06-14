@@ -27,9 +27,8 @@ Nedrysoft::RouteAnalyser::PingResult::PingResult() :
     m_sampleNumber(0),
     m_code(PingResult::ResultCode::NoReply),
     m_hostAddress(QHostAddress()),
-    m_roundTripTime(std::chrono::duration<double>(0)),
-    m_requestTime(std::chrono::system_clock::now()),
-    m_target(nullptr) {
+    m_target(nullptr),
+    m_roundTripTime(-1) {
 
 }
 
@@ -39,8 +38,8 @@ Nedrysoft::RouteAnalyser::PingResult::PingResult(
         unsigned long sampleNumber,
         PingResult::ResultCode code,
         const QHostAddress &hostAddress,
-        std::chrono::system_clock::time_point requestTime,
-        std::chrono::duration<double> roundTripTime,
+        QDateTime requestTime,
+        double roundTripTime,
         Nedrysoft::RouteAnalyser::IPingTarget *target) :
 
             m_sampleNumber(sampleNumber),
@@ -56,7 +55,7 @@ auto Nedrysoft::RouteAnalyser::PingResult::sampleNumber() -> unsigned long {
     return m_sampleNumber;
 }
 
-auto Nedrysoft::RouteAnalyser::PingResult::requestTime() -> std::chrono::system_clock::time_point {
+auto Nedrysoft::RouteAnalyser::PingResult::requestTime() -> QDateTime {
     return m_requestTime;
 }
 
@@ -68,7 +67,7 @@ auto Nedrysoft::RouteAnalyser::PingResult::hostAddress() -> QHostAddress {
     return m_hostAddress;
 }
 
-auto Nedrysoft::RouteAnalyser::PingResult::roundTripTime() -> std::chrono::duration<double> {
+auto Nedrysoft::RouteAnalyser::PingResult::roundTripTime() -> double {
     return m_roundTripTime;
 }
 

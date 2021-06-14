@@ -26,11 +26,8 @@
 #include "ICMPPingEngine.h"
 
 #include <QThread>
-#include <thread>
 
-using namespace std::chrono_literals;
-
-constexpr auto DefaultSleepTime = 1s;
+constexpr auto DefaultSleepTime = 1000;
 
 Nedrysoft::ICMPPingEngine::ICMPPingTimeout::ICMPPingTimeout(Nedrysoft::ICMPPingEngine::ICMPPingEngine *engine) :
         m_engine(engine),
@@ -44,6 +41,6 @@ void Nedrysoft::ICMPPingEngine::ICMPPingTimeout::doWork() {
     while (m_isRunning) {
         m_engine->timeoutRequests();
 
-        std::this_thread::sleep_for(DefaultSleepTime);
+        QThread::msleep(DefaultSleepTime);
     }
 }

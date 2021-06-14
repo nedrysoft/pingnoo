@@ -28,7 +28,6 @@
 
 #include <QMutex>
 #include <QObject>
-#include <chrono>
 
 namespace Nedrysoft { namespace ICMPPingEngine {
     class ICMPPingEngine;
@@ -62,16 +61,16 @@ namespace Nedrysoft { namespace ICMPPingEngine {
             /**
              * @brief       Sets the interval between a set of pings.
              *
-             * @param[in]   interval the interval.
+             * @param[in]   interval the interval in milliseconds.
              */
-            auto setInterval(std::chrono::milliseconds interval) -> bool;
+            auto setInterval(int interval) -> bool;
 
             /**
              * @brief       Returns the ping interval.
              *
-             * @returns     the interval.
+             * @returns     the interval in milliseconds.
              */
-            auto interval() -> std::chrono::milliseconds;
+            auto interval() -> int;
 
             /**
              * @brief       Adds a ping target to the transmitter.
@@ -101,13 +100,13 @@ namespace Nedrysoft { namespace ICMPPingEngine {
         private:
             //! @cond
 
-            std::chrono::milliseconds m_interval = {};
+            int m_interval;
             Nedrysoft::ICMPPingEngine::ICMPPingEngine *m_engine;
 
             QList<Nedrysoft::ICMPPingEngine::ICMPPingTarget *> m_targets;
             QMutex m_targetsMutex;
 
-            std::chrono::high_resolution_clock::time_point m_epoch;
+            QDateTime m_epoch;
 
             static QMutex m_sequenceMutex;
             static uint16_t m_sequenceId;

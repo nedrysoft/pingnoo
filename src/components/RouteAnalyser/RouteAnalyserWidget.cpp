@@ -44,13 +44,10 @@
 #include <QHostInfo>
 #include <QTimer>
 #include <cassert>
-#include <chrono>
 #include <spdlog/spdlog.h>
 
-using namespace std::chrono_literals;
-
 constexpr auto RoundTripGraph = 0;
-constexpr std::chrono::duration<double> DefaultMaxLatency = 0.01s;
+constexpr auto DefaultMaxLatency = 0.01;
 constexpr auto DefaultTimeWindow = 60.0*10;
 constexpr auto DefaultGraphHeight = 300;
 constexpr auto TableRowHeight = 20;
@@ -79,7 +76,7 @@ QMap< Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &Ned
 Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget(
         QString targetHost,
         Nedrysoft::Core::IPVersion ipVersion,
-        double interval,
+        int interval,
         Nedrysoft::RouteAnalyser::IPingEngineFactory *pingEngineFactory,
         QWidget *parent) :
 
@@ -89,7 +86,8 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget(
             m_viewportSize(DefaultTimeWindow),
             m_viewportPosition(1),
             m_startPoint(-1),
-            m_endPoint(0) {
+            m_endPoint(0),
+            m_interval(1000) {
 
     auto latencySettings = Nedrysoft::RouteAnalyser::LatencySettings::getInstance();
 
@@ -123,10 +121,8 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget(
     m_routeGraphDelegate = new RouteTableItemDelegate;
 
     connect(latencySettings, &Nedrysoft::RouteAnalyser::LatencySettings::gradientChanged, [=](bool useGradient) {
-        m_routeGraphDelegate->setGradientEnabled(useGradient);
+#pragma message("here to change")
     });
-
-    m_routeGraphDelegate->setGradientEnabled(latencySettings->gradientFill());
 
     connect(this, &QObject::destroyed, m_routeGraphDelegate, [this](QObject *) {
         delete m_routeGraphDelegate;
@@ -187,8 +183,9 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget(
                 m_tableView->fontMetrics().boundingRect(pair.second).width() );
 #else
         auto maxWidth = qMax(
-                m_tableView->fontMetrics().horizontalAdvance(pair.first),
-                m_tableView->fontMetrics().horizontalAdvance(pair.second) );
+            m_tableView->fontMetrics().horizontalAdvance(pair.first),
+            m_tableView->fontMetrics().horizontalAdvance(pair.second)
+        );
 #endif
 
         m_tableModel->setHorizontalHeaderItem(static_cast<int>(headerIterator.key()), headerItem);
@@ -256,20 +253,20 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Rout
         case Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok:
         case Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded: {
             QCPRange graphRange = customPlot->yAxis->range();
-            auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
+            auto requestTime = static_cast<double>(result.requestTime().toSecsSinceEpoch());
 
-            customPlot->graph(RoundTripGraph)->addData(requestTime.count(), result.roundTripTime().count());
+            customPlot->graph(RoundTripGraph)->addData(requestTime, result.roundTripTime());
 
             if (m_startPoint == -1) {
-                m_startPoint = requestTime.count();
+                m_startPoint = requestTime;
             } else {
-                if (requestTime.count() < m_startPoint) {
-                    m_startPoint = requestTime.count();
+                if (requestTime < m_startPoint) {
+                    m_startPoint = requestTime;
                 }
             }
 
-            if (requestTime.count() > m_endPoint) {
-                m_endPoint = requestTime.count();
+            if (requestTime > m_endPoint) {
+                m_endPoint = requestTime;
             }
 
             updateRanges();
@@ -280,8 +277,8 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Rout
 
             switch(m_graphScaleMode) {
                 case ScaleMode::None: {
-                    if (result.roundTripTime().count() > graphRange.upper) {
-                        customPlot->yAxis->setRange(0, result.roundTripTime().count());
+                    if (result.roundTripTime()> graphRange.upper) {
+                        customPlot->yAxis->setRange(0, result.roundTripTime());
                     }
 
                     break;
@@ -311,11 +308,11 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Rout
         }
 
         case Nedrysoft::RouteAnalyser::PingResult::ResultCode::NoReply: {
-            auto requestTime = std::chrono::duration<double>(result.requestTime().time_since_epoch());
+            auto requestTime = static_cast<double>(result.requestTime().toSecsSinceEpoch());
 
             QCPBars *barChart = m_barCharts[customPlot];
 
-            barChart->addData(requestTime.count(), 1);
+            barChart->addData(requestTime, 1);
 
             pingData->updateItem(result);
 
@@ -361,14 +358,13 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
         return;
     }
 
-    auto interval = std::chrono::duration<double, std::ratio<1, 1> >(m_interval);
-
-    m_pingEngine->setInterval(std::chrono::duration_cast<std::chrono::milliseconds>(interval));
+    m_pingEngine->setInterval(m_interval);
 
     connect(m_pingEngine,
-            &Nedrysoft::RouteAnalyser::IPingEngine::result,
-            this,
-            &RouteAnalyserWidget::onPingResult );
+        &Nedrysoft::RouteAnalyser::IPingEngine::result,
+        this,
+        &RouteAnalyserWidget::onPingResult
+    );
 
     auto verticalLayout = new QVBoxLayout();
 
@@ -394,14 +390,11 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             m_backgroundLayers.append(latencyLayer);
 
-            latencyLayer->setGradientEnabled(latencySettings->gradientFill());
-
             connect(
                 latencySettings,
                 &Nedrysoft::RouteAnalyser::LatencySettings::gradientChanged,
-                [=](bool useGradient) {
-
-                    latencyLayer->setGradientEnabled(useGradient);
+                [=](bool /*useGradient*/) {
+                    latencyLayer->invalidate();
                 }
             );
 
@@ -431,7 +424,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             customPlot->yAxis->setTicker(msTicker);
             customPlot->yAxis->setLabel(tr("Latency (ms)"));
-            customPlot->yAxis->setRange(0, DefaultMaxLatency.count());
+            customPlot->yAxis->setRange(0, DefaultMaxLatency);
 
             QSharedPointer<QCPAxisTickerDateTime> dateTicker(new QCPAxisTickerDateTime);
 
@@ -450,8 +443,9 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             customPlot->xAxis->setTicker(dateTicker);
             customPlot->xAxis->setRange(
-                    static_cast<double>(secondsSinceEpoch),
-                    static_cast<double>(secondsSinceEpoch + m_viewportSize) );
+                static_cast<double>(secondsSinceEpoch),
+                static_cast<double>(secondsSinceEpoch + m_viewportSize)
+            );
 
             customPlot->graph(RoundTripGraph)->setLineStyle(QCPGraph::lsStepCenter);
 
@@ -483,90 +477,92 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
             m_graphLines[customPlot] = graphLine;
 
-            connect(customPlot, &QCustomPlot::mouseMove,
-                    [this, customPlot, graphLine, maskedHostName](QMouseEvent *event) {
-                        auto x = customPlot->xAxis->pixelToCoord(event->pos().x());
-                        auto foundRange = false;
-                        auto dataRange = customPlot->graph(RoundTripGraph)->data()->keyRange(foundRange);
+            connect(
+                customPlot,
+                &QCustomPlot::mouseMove,
+                [this, customPlot, graphLine, maskedHostName](QMouseEvent *event) {
+                    auto x = customPlot->xAxis->pixelToCoord(event->pos().x());
+                    auto foundRange = false;
+                    auto dataRange = customPlot->graph(RoundTripGraph)->data()->keyRange(foundRange);
 
-                        graphLine->point1->setCoords(x, 0);
-                        graphLine->point2->setCoords(x, 1);
+                    graphLine->point1->setCoords(x, 0);
+                    graphLine->point2->setCoords(x, 1);
 
-                        customPlot->replot();
+                    customPlot->replot();
 
-                        if (( foundRange ) &&
-                            ( x >= dataRange.lower ) &&
-                            ( x <= dataRange.upper )) {
-                            auto valueString = QString();
-                            /*auto valueResultRange = customPlot->graph(RoundTripGraph)->data()->valueRange(
-                                    foundRange,
-                                    QCP::sdBoth,
-                                    QCPRange(x - 1, x +1) );*/
+                    if (( foundRange ) &&
+                        ( x >= dataRange.lower ) &&
+                        ( x <= dataRange.upper )) {
+                        auto valueString = QString();
+                        /*auto valueResultRange = customPlot->graph(RoundTripGraph)->data()->valueRange(
+                                foundRange,
+                                QCP::sdBoth,
+                                QCPRange(x - 1, x +1) );*/
 
-                            for (auto currentItem = 0; currentItem < m_tableModel->rowCount(); currentItem++) {
-                                auto pingData = m_tableModel->item(
-                                        currentItem,
-                                        0 )->data().value<Nedrysoft::RouteAnalyser::PingData *>();
+                        for (auto currentItem = 0; currentItem < m_tableModel->rowCount(); currentItem++) {
+                            auto pingData = m_tableModel->item(
+                                    currentItem,
+                                    0
+                            )->data().value<Nedrysoft::RouteAnalyser::PingData *>();
 
-                                auto valueRange = QCPRange(x - 1, x + 1);
+                            auto valueRange = QCPRange(x - 1, x + 1);
 
-                                if (pingData->customPlot()) {
-                                    auto tempResultRange = pingData->customPlot()->graph(
-                                            RoundTripGraph)->data()->valueRange(foundRange, QCP::sdBoth, valueRange);
+                            if (pingData->customPlot()) {
+                                auto tempResultRange = pingData->customPlot()->graph(
+                                        RoundTripGraph)->data()->valueRange(foundRange, QCP::sdBoth, valueRange);
 
-                                    auto seconds = std::chrono::duration<double>(tempResultRange.upper);
-
-                                    pingData->setHistoricalLatency(seconds);
-                                } else {
-                                    pingData->setHistoricalLatency(std::chrono::duration<double>(-1));
-
-                                    auto topLeft = m_tableModel->index(0, 0);
-                                    auto bottomRight = topLeft.sibling(m_tableModel->rowCount() - 1,
-                                                                       m_tableModel->columnCount() - 1);
-
-                                    m_tableModel->dataChanged(topLeft, bottomRight);
-                                }
-                            }
-
-                            this->m_tableModel->setProperty("showHistorical", true);
-
-                            /*
-                            auto seconds = std::chrono::duration<double>(valueResultRange.upper);
-
-                            if (seconds < std::chrono::seconds(1)) {
-                                auto milliseconds =
-                                    std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(seconds);
-
-                                valueString = QString(tr("%1ms")).arg(milliseconds.count(), 0, 'f', 2);
+                                pingData->setHistoricalLatency(tempResultRange.upper);
                             } else {
-                                valueString = QString(tr("%1s")).arg(seconds.count(), 0, 'f', 2);
+                                pingData->setHistoricalLatency(-1);
+
+                                auto topLeft = m_tableModel->index(0, 0);
+                                auto bottomRight = topLeft.sibling(m_tableModel->rowCount() - 1,
+                                                                   m_tableModel->columnCount() - 1);
+
+                                m_tableModel->dataChanged(topLeft, bottomRight);
                             }
-
-                            auto dateTime = QDateTime::fromSecsSinceEpoch(static_cast<qint64>(x));
-
-                            m_pointInfoLabel->setText(FontAwesome::richText(QString("[fas fa-stopwatch] %1").arg(valueString)));
-                            m_hopInfoLabel->setText(FontAwesome::richText(QString("[fas fa-project-diagram] %1 %2").arg(tr("hop")).arg(hop)));
-                            m_hostInfoLabel->setText(FontAwesome::richText(QString("[fas fa-server] %1").arg(maskedHostName)));
-                            m_timeInfoLabel->setText(FontAwesome::richText(QString("[far fa-calendar-alt] %1").arg(dateTime.toString())));
-                            */
-                        } else {
-                            /*
-                            m_pointInfoLabel->setText("");
-                            m_hopInfoLabel->setText("");
-                            m_hostInfoLabel->setText("");
-                            m_timeInfoLabel->setText("");
-                            */
-
-                            this->m_tableModel->setProperty("showHistorical", false);
-
-                            auto topLeft = m_tableModel->index(0, 0);
-                            auto bottomRight = topLeft.sibling(
-                                    m_tableModel->rowCount() - 1,
-                                    m_tableModel->columnCount() - 1 );
-
-                            m_tableModel->dataChanged(topLeft, bottomRight);
                         }
-                    });
+
+                        this->m_tableModel->setProperty("showHistorical", true);
+
+                        /*
+                        auto seconds = std::chrono::duration<double>(valueResultRange.upper);
+
+                        if (seconds < std::chrono::seconds(1)) {
+                            auto milliseconds =
+                                std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(seconds);
+
+                            valueString = QString(tr("%1ms")).arg(milliseconds.count(), 0, 'f', 2);
+                        } else {
+                            valueString = QString(tr("%1s")).arg(seconds.count(), 0, 'f', 2);
+                        }
+
+                        auto dateTime = QDateTime::fromSecsSinceEpoch(static_cast<qint64>(x));
+
+                        m_pointInfoLabel->setText(FontAwesome::richText(QString("[fas fa-stopwatch] %1").arg(valueString)));
+                        m_hopInfoLabel->setText(FontAwesome::richText(QString("[fas fa-project-diagram] %1 %2").arg(tr("hop")).arg(hop)));
+                        m_hostInfoLabel->setText(FontAwesome::richText(QString("[fas fa-server] %1").arg(maskedHostName)));
+                        m_timeInfoLabel->setText(FontAwesome::richText(QString("[far fa-calendar-alt] %1").arg(dateTime.toString())));
+                        */
+                    } else {
+                        /*
+                        m_pointInfoLabel->setText("");
+                        m_hopInfoLabel->setText("");
+                        m_hostInfoLabel->setText("");
+                        m_timeInfoLabel->setText("");
+                        */
+
+                        this->m_tableModel->setProperty("showHistorical", false);
+
+                        auto topLeft = m_tableModel->index(0, 0);
+                        auto bottomRight = topLeft.sibling(
+                                m_tableModel->rowCount() - 1,
+                                m_tableModel->columnCount() - 1 );
+
+                        m_tableModel->dataChanged(topLeft, bottomRight);
+                    }
+                }
+            );
 
             customPlot->installEventFilter(this);
 
@@ -720,11 +716,11 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::paintEvent(QPaintEvent *pain
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setGradientEnabled(bool smoothGradient) -> void {
     for(auto layer : m_backgroundLayers) {
-        layer->setGradientEnabled(smoothGradient);
+        layer->invalidate();
     }
 
     if (m_routeGraphDelegate) {
-        m_routeGraphDelegate->setGradientEnabled(smoothGradient);
+        m_tableView->update();
     }
 }
 

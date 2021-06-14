@@ -28,17 +28,15 @@
 
 #include <QMutex>
 #include <QThread>
-#include <chrono>
 #include <WS2tcpip.h>
 
 #include <WinSock2.h>
 #include <iphlpapi.h>
 #include <IcmpAPI.h>
+#include <iostream>
 
-using namespace std::chrono_literals;
-
-constexpr auto DefaultTransmitTimeout = 1s;
-constexpr auto DefaultReplyTimeout = 3s;
+constexpr auto DefaultTransmitTimeout = 1000;
+constexpr auto DefaultReplyTimeout = 3000;
 constexpr auto PingPayloadLength = 64;
 constexpr auto NanosecondsInMillisecond = 1.0e6;
 
@@ -56,7 +54,7 @@ class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData {
                 m_pingEngine(parent),
                 m_transmitter(nullptr),
                 m_transmitterThread(nullptr),
-                m_timeout(std::chrono::milliseconds(0)),
+                m_timeout(DefaultReplyTimeout),
                 m_ipVersion(Nedrysoft::Core::IPVersion::V4) {
 
         }
@@ -70,29 +68,18 @@ class Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData {
 
         QThread *m_transmitterThread;
 
-        QList<Nedrysoft::RouteAnalyser::IPingTarget *> m_pingTargets;
         Nedrysoft::Core::IPVersion m_ipVersion;
 
-        std::chrono::milliseconds m_timeout = {};
-        std::chrono::milliseconds m_interval = {};
+        QList<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTarget *> m_targetList;
+
+        int m_timeout;
+        int m_interval;
 };
 
 Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::ICMPAPIPingEngine(Nedrysoft::Core::IPVersion version) :
         d(std::make_shared<Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineData>(this)) {
 
     d->m_ipVersion = version;
-
-    d->m_transmitter = new Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter(this);
-
-    d->m_transmitterThread = new QThread();
-
-    d->m_transmitter->moveToThread(d->m_transmitterThread);
-
-    connect(d->m_transmitterThread, &QThread::started, d->m_transmitter, &ICMPAPIPingTransmitter::doWork);
-
-    connect(d->m_transmitter, &ICMPAPIPingTransmitter::result, this, &ICMPAPIPingEngine::result);
-
-    d->m_transmitterThread->start();
 }
 
 Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::~ICMPAPIPingEngine() {
@@ -108,9 +95,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::addTarget(
 
     ICMPAPIPingTarget *pingTarget = new ICMPAPIPingTarget(this, hostAddress);
 
-    d->m_transmitter->addTarget(pingTarget);
-
-    d->m_pingTargets.append(pingTarget);
+    d->m_targetList.append(pingTarget);
 
     return(pingTarget);
 }
@@ -121,9 +106,7 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::addTarget(
 
     ICMPAPIPingTarget *pingTarget = new ICMPAPIPingTarget(this, hostAddress, ttl);
 
-    d->m_transmitter->addTarget(pingTarget);
-
-    d->m_pingTargets.append(pingTarget);
+    d->m_targetList.append(pingTarget);
 
     return(pingTarget);
 }
@@ -137,6 +120,22 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::removeTarget(
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::start() -> bool {
+    d->m_transmitter = new Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter(this);
+
+    d->m_transmitterThread = new QThread();
+
+    d->m_transmitter->moveToThread(d->m_transmitterThread);
+
+    connect(d->m_transmitterThread, &QThread::started, d->m_transmitter, &ICMPAPIPingTransmitter::doWork);
+
+    connect(d->m_transmitter, &ICMPAPIPingTransmitter::result, this, &ICMPAPIPingEngine::result);
+
+    for (auto target : d->m_targetList) {
+        d->m_transmitter->addTarget(target);
+    }
+
+    d->m_transmitterThread->start();
+
     return true;
 }
 
@@ -146,17 +145,17 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::stop() -> bool {
     return true;
 }
 
-auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::setInterval(std::chrono::milliseconds interval) -> bool {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::setInterval(int interval) -> bool {
     d->m_interval = interval;
 
     return true;
 }
 
-auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::interval() -> std::chrono::milliseconds {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::interval() -> int {
     return d->m_interval;
 }
 
-auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::setTimeout(std::chrono::milliseconds timeout) -> bool {
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::setTimeout(int timeout) -> bool {
     d->m_timeout = timeout;
 
     return true;
@@ -172,8 +171,8 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::loadConfiguration(QJsonObj
     return false;
 }
 
-auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::epoch() -> std::chrono::system_clock::time_point {
-    return std::chrono::system_clock::now();
+auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::epoch() -> QDateTime {
+    return QDateTime::currentDateTime();
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
@@ -190,11 +189,10 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
     Nedrysoft::RouteAnalyser::PingResult pingResult;
     QHostAddress replyHost;
     QElapsedTimer timer;
-    qint64 started, finished;
     int returnValue;
     sockaddr_in6 sourceAddress, targetAddress;
 
-    auto epoch = std::chrono::system_clock::now();
+    auto epoch = QDateTime::currentDateTime();
 
 #if defined(_WIN64)
     IP_OPTION_INFORMATION32 options;
@@ -225,37 +223,39 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
         memcpy(targetAddress.sin6_addr.u.Word, hostAddress.toIPv6Address().c, sizeof(targetAddress.sin6_addr));
     }
 
-    started = timer.nsecsElapsed();
+    timer.restart();
 
     if (hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
-        returnValue = IcmpSendEcho(
-                icmpHandle,
-                hostAddress.toIPv4Address(),
-                dataBuffer.data(),
-                static_cast<WORD>(dataBuffer.length()), pipOptions,
-                replyBuffer.data(),
-                static_cast<DWORD>(replyBuffer.length()),
-                std::chrono::duration<DWORD, std::milli>(
-                        DefaultTransmitTimeout).count() ); // NOLINT(cppcoreguidelines-pro-type-union-access)
+        returnValue = IcmpSendEcho2(
+            icmpHandle,
+            nullptr,
+            nullptr,
+            nullptr,
+            hostAddress.toIPv4Address(),
+            dataBuffer.data(),
+            static_cast<WORD>(dataBuffer.length()),
+            pipOptions,
+            replyBuffer.data(),
+            static_cast<DWORD>(replyBuffer.length()),
+            timeout*1000
+        ); // NOLINT(cppcoreguidelines-pro-type-union-access)
     } else {
         returnValue = Icmp6SendEcho2(
-                icmpHandle,
-                nullptr,
-                nullptr,
-                nullptr,
-                &sourceAddress,
-                &targetAddress,
-                dataBuffer.data(),
-                static_cast<WORD>(dataBuffer.length()),
-                pipOptions,
-                replyBuffer.data(), static_cast<DWORD>(replyBuffer.length()),
-                std::chrono::duration<DWORD, std::milli>(
-                        DefaultTransmitTimeout).count() );  // NOLINT(cppcoreguidelines-pro-type-union-access)
+            icmpHandle,
+            nullptr,
+            nullptr,
+            nullptr,
+            &sourceAddress,
+            &targetAddress,
+            dataBuffer.data(),
+            static_cast<WORD>(dataBuffer.length()),
+            pipOptions,
+            replyBuffer.data(), static_cast<DWORD>(replyBuffer.length()),
+            timeout*1000
+        );  // NOLINT(cppcoreguidelines-pro-type-union-access)
     }
 
-    finished = timer.nsecsElapsed();
-
-    auto roundTripTime = static_cast<double>(finished - started) / NanosecondsInMillisecond;
+    auto roundTripTime = timer.nsecsElapsed();
 
     if (returnValue) {
         if (hostAddress.protocol() == QAbstractSocket::IPv4Protocol) {
@@ -273,9 +273,11 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
 
             sockaddr_in6 replySocketAddress;
 
-            memcpy(replySocketAddress.sin6_addr.u.Word,
-                   pEchoReply->Address.sin6_addr,
-                   sizeof(pEchoReply->Address.sin6_addr) );
+            memcpy(
+                replySocketAddress.sin6_addr.u.Word,
+                pEchoReply->Address.sin6_addr,
+                sizeof(pEchoReply->Address.sin6_addr)
+            );
 
             replyHost.setAddress(replySocketAddress.sin6_addr.u.Byte);
 
@@ -290,18 +292,19 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
     IcmpCloseHandle(icmpHandle);
 
     return Nedrysoft::RouteAnalyser::PingResult(
-           0,
-           resultCode,
-           replyHost,
-           epoch,
-           std::chrono::duration<double, std::milli>(roundTripTime),
-           nullptr);
+        0,
+        resultCode,
+        replyHost,
+        epoch,
+        roundTripTime/1e9,
+        nullptr
+    );
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::targets() -> QList<Nedrysoft::RouteAnalyser::IPingTarget *> {
     QList<Nedrysoft::RouteAnalyser::IPingTarget *> list;
 
-    for (auto target : d->m_pingTargets) {
+    for (auto target : d->m_targetList) {
         list.append(target);
     }
 
@@ -309,11 +312,23 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::targets() -> QList<Nedryso
 }
 
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::doStop() -> void {
-    if (d->m_transmitterThread->isRunning()) {
+    if (d->m_transmitter) {
         d->m_transmitter->m_isRunning = false;
+    }
+
+    if (d->m_transmitterThread) {
+        d->m_transmitterThread->quit();
 
         d->m_transmitterThread->wait();
 
         delete d->m_transmitterThread;
+
+        d->m_transmitterThread = nullptr;
+    }
+
+    if (d->m_transmitter) {
+        delete d->m_transmitter;
+
+        d->m_transmitter = nullptr;
     }
 }

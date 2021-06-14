@@ -28,12 +28,9 @@
 #include "ICMPAPIPingTarget.h"
 
 #include <QThread>
-#include <chrono>
 #include <windows.h>
 
-using namespace std::chrono_literals;
-
-constexpr auto DefaultTransmitTimeout = 3s;
+constexpr auto DefaultTransmitTimeout = 3000;
 
 Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker::ICMPAPIPingWorker(
         Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine *engine,
@@ -48,14 +45,17 @@ Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker::ICMPAPIPingWorker(
 
 void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker::doWork() {
     Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingResult pingResult = m_engine->singleShot(
-            m_target->hostAddress(),
-            m_target->ttl(),
-            std::chrono::duration<DWORD, std::milli>(DefaultTransmitTimeout).count());
+        m_target->hostAddress(),
+        m_target->ttl(),
+        DefaultTransmitTimeout
+    );
 
     pingResult.setSampleNumber(m_sampleNumber);
     pingResult.setTarget(m_target);
 
     Q_EMIT result(pingResult);
+
+    deleteLater();
 }
 
 
