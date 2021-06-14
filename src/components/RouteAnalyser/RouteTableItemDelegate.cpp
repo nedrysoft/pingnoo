@@ -478,9 +478,9 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintHop(
 
     gradientMap[0] = latencySettings->idealColour();
 
-    gradientMap[latencySettings->warningValue()*interpolationTime] = latencySettings->warningColour();
+    gradientMap[latencySettings->warningValue()] = latencySettings->warningColour();
 
-    gradientMap[latencySettings->criticalValue()*interpolationTime] = latencySettings->criticalColour();
+    gradientMap[latencySettings->criticalValue()] = latencySettings->criticalColour();
 
     gradientMap[1] = latencySettings->criticalColour();
 

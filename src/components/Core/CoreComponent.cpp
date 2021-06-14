@@ -92,6 +92,10 @@ auto CoreComponent::finaliseEvent() -> void {
         delete m_hostMaskerSettingsPage;
     }
 
+    if (m_systemTrayIconManager) {
+        delete  m_systemTrayIconManager;
+    }
+
     if (m_themeSettingsPage) {
         delete m_themeSettingsPage;
     }

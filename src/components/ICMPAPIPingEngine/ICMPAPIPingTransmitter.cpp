@@ -70,13 +70,15 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingTransmitter::doWork() -> void {
 
             auto pingThread = new QThread();
 
+            connect(pingThread, &QThread::started, pingWorker, &ICMPAPIPingWorker::doWork);
+
             pingWorker->moveToThread(pingThread);
 
-            connect(pingThread, &QThread::finished, pingThread, &QThread::deleteLater);
+            connect(pingWorker, &ICMPAPIPingWorker::destroyed, [=]() {
+                pingThread->quit();
+            });
 
-            connect(pingThread, &QThread::started, pingWorker, &ICMPAPIPingWorker::doWork);
-            //connect(pingThread, &QThread::finished, pingThread, &QThread::deleteLater);
-            //connect(pingThread, &QThread::finished, pingWorker, &ICMPAPIPingWorker::deleteLater);
+            connect(pingThread, &QThread::finished, pingThread, &QThread::deleteLater, Qt::DirectConnection);
 
             connect(pingWorker,
                 &ICMPAPIPingWorker::result,

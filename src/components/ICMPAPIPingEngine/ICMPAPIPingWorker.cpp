@@ -54,6 +54,8 @@ void Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingWorker::doWork() {
     pingResult.setTarget(m_target);
 
     Q_EMIT result(pingResult);
+
+    deleteLater();
 }
 
 
