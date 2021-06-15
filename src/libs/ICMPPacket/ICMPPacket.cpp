@@ -94,15 +94,22 @@ Nedrysoft::ICMPPacket::ICMPPacket::ICMPPacket() :
         m_resultCode(Invalid),
         m_id(0),
         m_sequence(0),
-        m_ipVersion(Unknown) {
+        m_ipVersion(Unknown),
+        m_ttl(-1) {
 
 }
 
-Nedrysoft::ICMPPacket::ICMPPacket::ICMPPacket(uint16_t id, uint16_t sequence, ResultCode resultCode, IPVersion ipVersion) :
-        m_resultCode(resultCode),
-        m_id(id),
-        m_sequence(sequence),
-        m_ipVersion(ipVersion) {
+Nedrysoft::ICMPPacket::ICMPPacket::ICMPPacket(
+        uint16_t id,
+        uint16_t sequence,
+        ResultCode resultCode,
+        IPVersion ipVersion,
+        int ttl ) :
+            m_resultCode(resultCode),
+            m_id(id),
+            m_sequence(sequence),
+            m_ipVersion(ipVersion),
+            m_ttl(ttl) {
 
 }
 
@@ -141,10 +148,12 @@ auto Nedrysoft::ICMPPacket::ICMPPacket::fromData_v4(const QByteArray &dataBuffer
 
     if (icmp_response->icmp_code == ICMP_ECHOREPLY) {
         if (icmp_response->icmp_type == ICMP_ECHOREPLY) {
+            auto ip_response = reinterpret_cast<const struct ip *>(dataBuffer.data());
+
             received_id = qFromBigEndian<uint16_t>(icmp_response->icmp_hun.ih_idseq.icd_id);
             received_sequence = qFromBigEndian<uint16_t>(icmp_response->icmp_hun.ih_idseq.icd_seq);
 
-            return ICMPPacket(received_id, received_sequence, EchoReply, V4);
+            return ICMPPacket(received_id, received_sequence, EchoReply, V4, ip_response->ip_ttl);
         }
 
         if (icmp_response->icmp_type == ICMP_TIMXCEED) {
@@ -161,7 +170,7 @@ auto Nedrysoft::ICMPPacket::ICMPPacket::fromData_v4(const QByteArray &dataBuffer
 
             received_sequence = qFromBigEndian<uint16_t>(received_icmp_request->icmp_hun.ih_idseq.icd_seq);
 
-            return ICMPPacket(received_id, received_sequence, TimeExceeded, V4);
+            return ICMPPacket(received_id, received_sequence, TimeExceeded, V4, -1);
         }
     }
 
@@ -183,10 +192,11 @@ auto Nedrysoft::ICMPPacket::ICMPPacket::fromData_v6(const QByteArray &dataBuffer
             received_id = qFromBigEndian<uint16_t>(icmp_response->icmp_hun.ih_idseq.icd_id);
             received_sequence = qFromBigEndian<uint16_t>(icmp_response->icmp_hun.ih_idseq.icd_seq);
 
-            return ICMPPacket(received_id, received_sequence, EchoReply, V6);
+            return ICMPPacket(received_id, received_sequence, EchoReply, V6, -1);
         }
 
         if (icmp_response->icmp_type == 3) {
+            auto ip_response = reinterpret_cast<const struct ipv6_header *>(dataBuffer.data());
             auto request_icmp_header = responseSpan.subspan(sizeof(icmp_header) + sizeof(ipv6_header));
 
             auto rx_icmp_request = reinterpret_cast<const struct icmp *>(request_icmp_header.data());
@@ -194,7 +204,7 @@ auto Nedrysoft::ICMPPacket::ICMPPacket::fromData_v6(const QByteArray &dataBuffer
             received_id = qFromBigEndian<uint16_t>(rx_icmp_request->icmp_hun.ih_idseq.icd_id);
             received_sequence = qFromBigEndian<uint16_t>(rx_icmp_request->icmp_hun.ih_idseq.icd_seq);
 
-            return ICMPPacket(received_id, received_sequence, TimeExceeded, V6);
+            return ICMPPacket(received_id, received_sequence, TimeExceeded, V6, ip_response->hopLimit);
         }
     }
 
@@ -355,3 +365,6 @@ Nedrysoft::ICMPPacket::ICMPPacket::operator std::string() {
     return returnString.toStdString();
 }
 
+auto Nedrysoft::ICMPPacket::ICMPPacket::ttl() -> int {
+    return m_ttl;
+}

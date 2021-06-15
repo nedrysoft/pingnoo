@@ -68,8 +68,18 @@ namespace Nedrysoft { namespace RouteEngine {
          *
          * @param[in]   hostAddress the target that was requested.
          * @param[in]   result the route list.
+         * @param[in]   completed true if the route has been fully discovered; otherwise false.
+         * @param[in]   totalHops is the total number of hops to the target is available; otherwise -1.
+         * @param[in]   maximumHops is the maximum number of hops to consider, if the TTL exceeds this then
+         *              the route has failed.
          */
-        Q_SIGNAL void result(const QHostAddress hostAddress, const Nedrysoft::RouteAnalyser::RouteList result);
+        Q_SIGNAL void result(
+            const QHostAddress hostAddress,
+            const Nedrysoft::RouteAnalyser::RouteList result,
+            const bool completed,
+            const int totalHops,
+            const int maximumHops
+        );
 
     private:
         //! @cond
@@ -78,6 +88,7 @@ namespace Nedrysoft { namespace RouteEngine {
         Nedrysoft::Core::IPVersion m_ipVersion;
         QString m_host;
 
+        int m_maximumHops;
         bool m_isRunning;
 
         //! @endcond

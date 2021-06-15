@@ -73,6 +73,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   requestTime the time the request was sent.
              * @param[in]   roundTripTime the time taken for the hop to respond.
              * @param[in]   target the target that was pinged.
+             * @param[in]   hops the number of hops to the target if available; otherwise false.
              */
             PingResult(
                 unsigned long sampleNumber,
@@ -80,7 +81,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
                 const QHostAddress &hostAddress,
                 QDateTime requestTime,
                 double roundTripTime,
-                Nedrysoft::RouteAnalyser::IPingTarget *target
+                Nedrysoft::RouteAnalyser::IPingTarget *target,
+                int hops
             );
 
         public:
@@ -133,6 +135,13 @@ namespace Nedrysoft { namespace RouteAnalyser {
              */
             auto target() -> Nedrysoft::RouteAnalyser::IPingTarget *;
 
+            /**
+             * @brief       The number of hops to the target.
+             *
+             * @returns     The number of hops to the target if available; otherwise -1.
+             */
+            auto hops() -> int;
+
         protected:
             //! @cond
 
@@ -142,6 +151,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
             double m_roundTripTime;
             QDateTime m_requestTime;
             Nedrysoft::RouteAnalyser::IPingTarget *m_target;
+            int m_hops;
 
             //! @endcond
     };

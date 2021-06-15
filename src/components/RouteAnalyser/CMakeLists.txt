@@ -87,6 +87,8 @@ pingnoo_add_sources(
     RouteAnalyserSpec.h
     RouteAnalyserWidget.cpp
     RouteAnalyserWidget.h
+    RouteDiscoveryWidget.cpp
+    RouteDiscoveryWidget.h
     RouteTableItemDelegate.cpp
     RouteTableItemDelegate.h
     IPingEngine.h

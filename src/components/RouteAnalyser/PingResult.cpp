@@ -28,7 +28,8 @@ Nedrysoft::RouteAnalyser::PingResult::PingResult() :
     m_code(PingResult::ResultCode::NoReply),
     m_hostAddress(QHostAddress()),
     m_target(nullptr),
-    m_roundTripTime(-1) {
+    m_roundTripTime(-1),
+    m_hops(-1) {
 
 }
 
@@ -40,14 +41,16 @@ Nedrysoft::RouteAnalyser::PingResult::PingResult(
         const QHostAddress &hostAddress,
         QDateTime requestTime,
         double roundTripTime,
-        Nedrysoft::RouteAnalyser::IPingTarget *target) :
+        Nedrysoft::RouteAnalyser::IPingTarget *target,
+        int hops) :
 
             m_sampleNumber(sampleNumber),
             m_code(code),
             m_hostAddress(hostAddress),
             m_roundTripTime(roundTripTime),
             m_requestTime(requestTime),
-            m_target(target) {
+            m_target(target),
+            m_hops(hops) {
 
 }
 
@@ -73,4 +76,8 @@ auto Nedrysoft::RouteAnalyser::PingResult::roundTripTime() -> double {
 
 auto Nedrysoft::RouteAnalyser::PingResult::target() -> Nedrysoft::RouteAnalyser::IPingTarget * {
     return m_target;
+}
+
+auto Nedrysoft::RouteAnalyser::PingResult::hops() -> int {
+    return m_hops;
 }
