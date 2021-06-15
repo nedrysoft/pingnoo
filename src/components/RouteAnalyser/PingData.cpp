@@ -140,9 +140,11 @@ auto Nedrysoft::RouteAnalyser::PingData::updateItem(Nedrysoft::RouteAnalyser::Pi
 
         auto headerItem = m_tableModel->horizontalHeaderItem(static_cast<int>(Fields::Graph));
 
-        headerItem->setTextAlignment(Qt::AlignRight);
+        if (headerItem) {
+            headerItem->setTextAlignment(Qt::AlignRight);
 
-        headerItem->setText(QString(QObject::tr("%1 ms")).arg((m_currentLatency*1000)));
+            headerItem->setText(QString(QObject::tr("%1 ms")).arg((m_currentLatency*1000)));
+        }
     }
 
     if (m_minimumLatency < m_tableModel->property("graphMinLatency").toDouble()) {

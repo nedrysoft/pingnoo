@@ -74,8 +74,18 @@ namespace Nedrysoft { namespace RouteAnalyser {
              *
              * @param[in]   hostAddress the address of the host that was the target.
              * @param[in]   result the discovered route to the host.
+             * @param[in]   completed is true if the route has been discovered; otherwise false.
+             * @param[in]   totalHops is the number of hops to the target if available; otheerwise false.
+             * @param[in]   maximumHops is the maximum number of hops to consider, if the TTL exceeds this then
+             *              the route has failed.
              */
-            Q_SIGNAL void result(const QHostAddress hostAddress, const Nedrysoft::RouteAnalyser::RouteList result);
+            Q_SIGNAL void result(
+                const QHostAddress hostAddress,
+                const Nedrysoft::RouteAnalyser::RouteList result,
+                const bool completed,
+                const int totalHops,
+                const int maximumHops
+            );
     };
 }}
 

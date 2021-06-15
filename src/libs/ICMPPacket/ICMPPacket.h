@@ -93,11 +93,12 @@ namespace Nedrysoft { namespace ICMPPacket {
              * @returns     a QByteArray containing the created raw packet.
              */
             static auto pingPacket(
-                    uint16_t id,
-                    uint16_t sequence,
-                    int payloadLength,
-                    const QHostAddress &destinationAddress,
-                    Nedrysoft::ICMPPacket::IPVersion version ) -> QByteArray;
+                uint16_t id,
+                uint16_t sequence,
+                int payloadLength,
+                const QHostAddress &destinationAddress,
+                Nedrysoft::ICMPPacket::IPVersion version
+            ) -> QByteArray;
 
             /**
              * @brief       Returns the result of a packet decode.
@@ -121,6 +122,13 @@ namespace Nedrysoft { namespace ICMPPacket {
             auto sequence() -> uint16_t;
 
             /**
+             * @brief       The TTL of the response packet.
+             *
+             * @returns     the ttl value if available; otherwise false.
+             */
+            auto ttl() -> int;
+
+            /**
              * @brief       Cast to std::string operator.
              *
              * @returns     a formatted string showing the packet information.
@@ -140,8 +148,9 @@ namespace Nedrysoft { namespace ICMPPacket {
              * @param[in]   sequence the initial sequence to be used in the packet.
              * @param[in]   resultCode the initial result code.
              * @param[in]   ipVersion the IP version of the packet.
+             * @param[in]   ttl the ttl of the response packet if available; otherwise false.
              */
-            ICMPPacket(uint16_t id, uint16_t sequence, ResultCode resultCode, IPVersion ipVersion);
+            ICMPPacket(uint16_t id, uint16_t sequence, ResultCode resultCode, IPVersion ipVersion, int ttl);
 
             /**
              * @brief       Decodes an ipv4 icmp packet for from raw data.
@@ -172,10 +181,11 @@ namespace Nedrysoft { namespace ICMPPacket {
              * @returns     a QByteArray containing the raw ipv4 icmp packet.
              */
             static auto pingPacket_v6(
-                    uint16_t id,
-                    uint16_t sequence,
-                    int payLoadLength,
-                    const QHostAddress &destinationAddress ) -> QByteArray;
+                uint16_t id,
+                uint16_t sequence,
+                int payLoadLength,
+                const QHostAddress &destinationAddress
+            ) -> QByteArray;
 
             /**
              * @brief       Creates an ipv4 icmp packet.
@@ -188,10 +198,11 @@ namespace Nedrysoft { namespace ICMPPacket {
              * @returns     a QByteArray containing the raw ipv6 icmp packet.
              */
             static auto  pingPacket_v4(
-                    uint16_t id,
-                    uint16_t sequence,
-                    int payLoadLength,
-                    const QHostAddress &destinationAddress ) -> QByteArray;
+                uint16_t id,
+                uint16_t sequence,
+                int payLoadLength,
+                const QHostAddress &destinationAddress
+            ) -> QByteArray;
 
             /**
              * @brief       Template to read raw data from a data stream.
@@ -212,6 +223,7 @@ namespace Nedrysoft { namespace ICMPPacket {
             uint16_t m_id;
             uint16_t m_sequence;
             IPVersion m_ipVersion;
+            int m_ttl;
 
             //! @endcond
     };

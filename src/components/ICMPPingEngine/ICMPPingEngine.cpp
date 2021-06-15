@@ -320,7 +320,8 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::timeoutRequests() -> void {
                             hostAddress,
                             pingItem->transmitEpoch(),
                             pingItem->elapsedTime()/1e9,
-                            pingItem->target());
+                            pingItem->target(),
+                            -1);
 
                     Q_EMIT result(pingResult);
 
@@ -394,7 +395,8 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
                 receiveAddress,
                 pingItem->transmitEpoch(),
                 elapsedTime,
-                pingItem->target()
+                pingItem->target(),
+                -1
             );
 
             Q_EMIT Nedrysoft::ICMPPingEngine::ICMPPingEngine::result(pingResult);
@@ -506,13 +508,20 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::singleShot(
                 resultCode = Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded;
             }
 
+            int hopsToTarget = -1;
+
+            if (responsePacket.ttl()!=-1) {
+                hopsToTarget = ttl-responsePacket.ttl();
+            }
+
             pingResult = Nedrysoft::RouteAnalyser::PingResult(
                 0,
                 resultCode,
                 receiveAddress,
                 transmitEpoch,
                 roundTripTime/1e9,
-                nullptr
+                nullptr,
+                hopsToTarget
             );
 
             break;

@@ -39,7 +39,8 @@ Nedrysoft::RouteEngine::RouteEngineWorker::RouteEngineWorker(
             m_host(host),
             m_ipVersion(ipVersion),
             m_pingEngineFactory(pingEngineFactory),
-            m_isRunning(false) {
+            m_isRunning(false),
+            m_maximumHops(MaxRouteHops) {
 
 }
 
@@ -52,6 +53,7 @@ Nedrysoft::RouteEngine::RouteEngineWorker::~RouteEngineWorker() {
 }
 
 auto Nedrysoft::RouteEngine::RouteEngineWorker::doWork() -> void {
+    int totalHops = -1;
     m_isRunning = true;
 
     auto pingEngine = m_pingEngineFactory->createEngine(m_ipVersion);
@@ -59,7 +61,7 @@ auto Nedrysoft::RouteEngine::RouteEngineWorker::doWork() -> void {
     auto targetAddresses = QHostInfo::fromName(m_host).addresses();
 
     if (!targetAddresses.count()) {
-        Q_EMIT result(QHostAddress(), Nedrysoft::RouteAnalyser::RouteList());
+        Q_EMIT result(QHostAddress(), Nedrysoft::RouteAnalyser::RouteList(), true, -1, m_maximumHops);
 
         SPDLOG_ERROR(QString("Failed to find address for %1.").arg(m_host).toStdString());
 
@@ -70,6 +72,16 @@ auto Nedrysoft::RouteEngine::RouteEngineWorker::doWork() -> void {
 
     auto route = Nedrysoft::RouteAnalyser::RouteList();
 
+    auto pingResult = pingEngine->singleShot(
+        targetAddresses.at(0),
+        m_maximumHops,
+        DefaultDiscoveryTimeout
+    );
+
+    if (pingResult.code()==Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok) {
+        totalHops = pingResult.hops();
+    }
+
     for (int hop=1;hop<MaxRouteHops;hop++) {
         if (!m_isRunning) {
             m_pingEngineFactory->deleteEngine(pingEngine);
@@ -77,16 +89,18 @@ auto Nedrysoft::RouteEngine::RouteEngineWorker::doWork() -> void {
             return;
         }
 
-        auto result = pingEngine->singleShot(targetAddresses.at(0), hop, DefaultDiscoveryTimeout);
+        pingResult = pingEngine->singleShot(targetAddresses.at(0), hop, DefaultDiscoveryTimeout);
 
-        if (result.code()==Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok) {
-            route.append(result.hostAddress());
+        if (pingResult.code()==Nedrysoft::RouteAnalyser::PingResult::ResultCode::Ok) {
+            route.append(pingResult.hostAddress());
             break;
-        } else  if (result.code()==Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded) {
-            route.append(result.hostAddress());
+        } else  if (pingResult.code()==Nedrysoft::RouteAnalyser::PingResult::ResultCode::TimeExceeded) {
+            route.append(pingResult.hostAddress());
         } else  {
             route.append(QHostAddress());
         }
+
+        Q_EMIT result(targetAddresses[0], route, false, totalHops, m_maximumHops);
     };
 
     SPDLOG_TRACE(QString("Route to %1 (%2) completed, total of %3 hops.")
@@ -95,7 +109,14 @@ auto Nedrysoft::RouteEngine::RouteEngineWorker::doWork() -> void {
                          .arg(route.length())
                          .toStdString() );
 
-    Q_EMIT result(targetAddresses[0], route);
+    /**
+     * we emit the final hop twice, oncce with completed set to false then true, this ensures that the
+     * behaviour to listeners is the same for each hop, i.e every hop gets a result signal with completed
+     * set to false, without the extra emit the final hop would behave differently.
+     */
+
+    Q_EMIT result(targetAddresses[0], route, false, totalHops, m_maximumHops);
+    Q_EMIT result(targetAddresses[0], route, true, totalHops, m_maximumHops);
 
     m_pingEngineFactory->deleteEngine(pingEngine);
 

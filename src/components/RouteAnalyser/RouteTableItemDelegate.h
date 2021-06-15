@@ -159,13 +159,15 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   option the painter options.
              * @param[in]   index the model index of the cell.
              * @param[in]   bubbleColour the colour to draw in.
+             * @param[in]   bubbleWidth if non-zero, then this value is used as the width of the bubble.
              */
             auto paintBubble(
                 Nedrysoft::RouteAnalyser::PingData *pingData,
                 QPainter *painter,
                 const QStyleOptionViewItem &option,
                 const QModelIndex &index,
-                QRgb bubbleColour
+                QRgb bubbleColour,
+                int bubbleWidth=0
             ) const -> void;
 
             /**

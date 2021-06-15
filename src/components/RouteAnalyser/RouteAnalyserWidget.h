@@ -54,6 +54,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
     class IPingEngineFactory;
     class PlotScrollArea;
     class RouteTableItemDelegate;
+    class RouteDiscoveryWidget;
 
     /**
      * @brief       The RouteAnalyserWidget class provides the main widget for a route analyser.
@@ -111,9 +112,18 @@ namespace Nedrysoft { namespace RouteAnalyser {
              *
              * @param[in]   routeHostAddress the intended target of the route analysis.
              * @param[in]   route the route that was discovered.
+             * @param[in]   completed whether the route is complete or still being discovered.
+             * @param[in]   totalHops the total number of hops to the target if available; otherwise false.
+             * @param[in]   maximumHops is the maximum number of hops to consider, if the TTL exceeds this then
+             *              the route has failed.
              */
-            Q_SLOT void onRouteResult(const QHostAddress routeHostAddress,
-                                      const Nedrysoft::RouteAnalyser::RouteList route );
+            Q_SLOT void onRouteResult(
+                const QHostAddress routeHostAddress,
+                const Nedrysoft::RouteAnalyser::RouteList route,
+                const bool completed,
+                const int totalHops,
+                const int maximumHops
+            );
 
             /**
              * @brief       This signal is emitted when a watched event on a child fires.
@@ -220,12 +230,14 @@ namespace Nedrysoft { namespace RouteAnalyser {
             QTableView *m_tableView;
             QSplitter *m_splitter;
             PlotScrollArea *m_scrollArea;
+            Nedrysoft::RouteAnalyser::RouteDiscoveryWidget *m_routeDiscoveryWidget;
             Nedrysoft::RouteAnalyser::IPingEngineFactory *m_pingEngineFactory;
             int m_interval;
             QList<Nedrysoft::RouteAnalyser::GraphLatencyLayer *> m_backgroundLayers;
             Nedrysoft::RouteAnalyser::RouteTableItemDelegate *m_routeGraphDelegate;
             ScaleMode m_graphScaleMode;
             QTimer *m_layerCleanupTimer;
+            QList<PingData *> m_pingData;
 
             QList<Nedrysoft::RouteAnalyser::IPlot *> m_extraPlots;
 
