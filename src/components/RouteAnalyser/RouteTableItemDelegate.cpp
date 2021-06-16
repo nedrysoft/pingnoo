@@ -61,6 +61,8 @@ constexpr auto MinMaxLatencyLineColour = Qt::black;
 constexpr auto LatencyLineBorderWidth = 3;
 constexpr auto LatencyLineBorderAlphaLevel = 32;
 
+constexpr auto DiscoveryBubbleColour = qRgb(0x80, 0x80, 0x80);
+
 Nedrysoft::RouteAnalyser::RouteTableItemDelegate::RouteTableItemDelegate(QWidget *parent) :
         QStyledItemDelegate(parent) {
 
@@ -136,7 +138,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             paintBackground(pingData, painter, option, index);
 
             if (pingData->m_minimumLatency==-1) {
-                paintBubble(pingData, painter, option, index, latencySettings->criticalColour(), InvalidHopLineWidth);
+                paintBubble(pingData, painter, option, index, DiscoveryBubbleColour, InvalidHopLineWidth);
             } else {
                 paintText(QString("%1").arg(
                     pingData->m_minimumLatency*1000.0, 2, 'f', 2),
@@ -152,7 +154,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
 
         case PingData::Fields::MaximumLatency: {
             if (pingData->m_maximumLatency==-1) {
-                paintBubble(pingData, painter, option, index, latencySettings->criticalColour(), InvalidHopLineWidth);
+                paintBubble(pingData, painter, option, index, DiscoveryBubbleColour, InvalidHopLineWidth);
             } else {
                 paintBackground(pingData, painter, option, index);
 
@@ -172,7 +174,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             paintBackground(pingData, painter, option, index);
 
             if (pingData->m_averageLatency==-1) {
-                paintBubble(pingData, painter, option, index, latencySettings->criticalColour(), InvalidHopLineWidth);
+                paintBubble(pingData, painter, option, index, DiscoveryBubbleColour, InvalidHopLineWidth);
             } else {
                 paintText(QString("%1").arg(
                     pingData->m_averageLatency*1000.0, 2, 'f', 6),
@@ -190,7 +192,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             paintBackground(pingData, painter, option, index);
 
             if (pingData->m_currentLatency==-1) {
-                paintBubble(pingData, painter, option, index, latencySettings->criticalColour(), InvalidHopLineWidth);
+                paintBubble(pingData, painter, option, index, DiscoveryBubbleColour, InvalidHopLineWidth);
             } else {
                 paintText(QString("%1").arg(
                     pingData->m_currentLatency*1000.0, 2, 'f', 2),
@@ -207,13 +209,17 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
         case PingData::Fields::PacketLoss: {
             paintBackground(pingData, painter, option, index);
 
-            paintText(
-                QString("%1").arg(pingData->packetLoss(), 2, 'f', 2),
-                painter,
-                option,
-                index,
-                Qt::AlignRight | Qt::AlignVCenter
-            );
+            if (pingData->packetLoss()==-1) {
+                paintBubble(pingData, painter, option, index, DiscoveryBubbleColour, InvalidHopLineWidth);
+            } else {
+                paintText(
+                    QString("%1").arg(pingData->packetLoss(), 2, 'f', 2),
+                    painter,
+                    option,
+                    index,
+                    Qt::AlignRight | Qt::AlignVCenter
+                );
+            }
 
             break;
         }
@@ -221,13 +227,17 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
         case PingData::Fields::Count: {
             paintBackground(pingData, painter, option, index);
 
-            paintText(
-                QString("%1").arg(pingData->count()),
-                painter,
-                option,
-                index,
-                Qt::AlignRight | Qt::AlignVCenter
-            );
+            if (pingData->count()==0) {
+                paintBubble(pingData, painter, option, index, DiscoveryBubbleColour, InvalidHopLineWidth);
+            } else {
+                paintText(
+                    QString("%1").arg(pingData->count()),
+                    painter,
+                    option,
+                    index,
+                    Qt::AlignRight | Qt::AlignVCenter
+                );
+            }
 
             break;
         }

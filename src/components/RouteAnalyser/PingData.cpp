@@ -45,7 +45,6 @@ Nedrysoft::RouteAnalyser::PingData::PingData(QStandardItemModel *tableModel, int
         m_minimumLatency(-1),
         m_averageLatency(-1),
         m_historicalLatency(-1) {
-
 }
 
 auto Nedrysoft::RouteAnalyser::PingData::runningAverage(double previousAverage, double value, double n) -> double {
@@ -98,6 +97,10 @@ auto Nedrysoft::RouteAnalyser::PingData::hostName() -> QString {
 }
 
 auto Nedrysoft::RouteAnalyser::PingData::packetLoss() -> double {
+    if (m_replyPacketCount+m_timeoutPacketCount==0) {
+        return -1;
+    }
+
     return (static_cast<double>(m_timeoutPacketCount)/
             static_cast<double>(m_replyPacketCount+m_timeoutPacketCount))*100.0;
 }
