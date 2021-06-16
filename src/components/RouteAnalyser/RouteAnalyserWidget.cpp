@@ -246,6 +246,8 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::~RouteAnalyserWidget() {
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::RouteAnalyser::PingResult result) -> void {
     auto pingData = static_cast<PingData *>(result.target()->userData());
 
+    static QMap<Nedrysoft::RouteAnalyser::PingData::Fields, PingData *> m_maximumMap;
+
     if (!pingData) {
         return;
     }
@@ -306,6 +308,32 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Rout
                 case ScaleMode::Fixed: {
                     // TODO: Fixed scaling, user sets the max value.
                     break;
+                }
+            }
+
+            auto fields = QList<PingData::Fields>() <<
+                PingData::Fields::MinimumLatency <<
+                PingData::Fields::MaximumLatency <<
+                PingData::Fields::AverageLatency <<
+                PingData::Fields::CurrentLatency;
+
+
+            for (auto field : fields) {
+                if (m_maximumMap.contains(field)) {
+                    auto currentMax = m_maximumMap[field];
+
+                    if (pingData->latency(static_cast<int>(field)) >
+                        currentMax->latency(static_cast<int>(field)) ) {
+                        currentMax->setMaximum(field, false);
+
+                        m_maximumMap[field] = pingData;
+
+                        pingData->setMaximum(field, true);
+                    }
+                } else {
+                    m_maximumMap[field] = pingData;
+
+                    pingData->setMaximum(field, true);
                 }
             }
 

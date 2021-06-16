@@ -24,9 +24,12 @@
 #ifndef PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTETABLEITEMDELEGATE_H
 #define PINGNOO_COMPONENTS_ROUTEANALYSER_ROUTETABLEITEMDELEGATE_H
 
+#include "PingData.h"
+#include <QMap>
 #include <QStyledItemDelegate>
 #include <cmath>
 
+class QStandardItem;
 class QTableView;
 
 namespace Nedrysoft { namespace RouteAnalyser {
@@ -37,6 +40,13 @@ namespace Nedrysoft { namespace RouteAnalyser {
      */
     class RouteTableItemDelegate :
             public QStyledItemDelegate {
+
+        private:
+            class MaximumValue {
+                public:
+                    PingData *m_currentData;
+            };
+
 
         public:
             /**
@@ -203,6 +213,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   painter the QPainter to draw to.
              * @param[in]   option the painter options.
              * @param[in]   index the model index of the cell.
+             * @param[in]   bold controls whether the text is drawn in bold.
              * @param[in]   alignment the text alignment flags.
              * @param[in]   flags controls how the text is drawn.
              */
@@ -210,6 +221,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
                 QPainter *painter,
                 const QStyleOptionViewItem &option,
                 const QModelIndex &index,
+                bool bold = false,
                 int alignment = Qt::AlignLeft | Qt::AlignVCenter,
                 int flags = 0
             ) const -> void;
@@ -231,6 +243,10 @@ namespace Nedrysoft { namespace RouteAnalyser {
                 const QModelIndex &index,
                 const QPen &pen
             ) const -> void;
+
+        private:
+            QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPersistentModelIndex *> m_maximumMap;
+
     };
 }}
 

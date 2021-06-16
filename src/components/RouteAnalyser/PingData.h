@@ -224,6 +224,21 @@ namespace Nedrysoft { namespace RouteAnalyser {
              */
             auto setPlots(QList<Nedrysoft::RouteAnalyser::IPlot *> plots) -> void;
 
+            /**
+             * @brief       Returns whether this item for the given field is the maximum value.
+             *
+             * @returns     true if the field is maximum; otherwise false.
+             */
+            auto isMaximum(Nedrysoft::RouteAnalyser::PingData::Fields field) -> bool;
+
+            /**
+             * @brief       Sets whether this item the given field is the maximum value.
+             *
+             * @param[in]   field the field to set.
+             * @param[in]   isMaximum true if the field is maximum; otherwise false.
+             */
+            auto setMaximum(Nedrysoft::RouteAnalyser::PingData::Fields field, bool isMaximum) -> void;
+
         protected:
             /**
              * @brief       Calculates a running average.
@@ -283,6 +298,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
             double m_minimumLatency;
             double m_averageLatency;
             double m_historicalLatency;
+
+            QMap<Fields, bool> m_isMaximum;
 
             QList<Nedrysoft::RouteAnalyser::IPlot *> m_plots;
 

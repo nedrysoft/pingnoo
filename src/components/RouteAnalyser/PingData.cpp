@@ -261,3 +261,18 @@ auto Nedrysoft::RouteAnalyser::PingData::count() -> unsigned long  {
 auto Nedrysoft::RouteAnalyser::PingData::setPlots(QList<Nedrysoft::RouteAnalyser::IPlot *> plots) -> void {
     m_plots = plots;
 }
+
+auto Nedrysoft::RouteAnalyser::PingData::setMaximum(
+        Nedrysoft::RouteAnalyser::PingData::Fields field,
+        bool isMaximum ) -> void {
+
+    m_isMaximum[field] = isMaximum;
+}
+
+auto Nedrysoft::RouteAnalyser::PingData::isMaximum(Nedrysoft::RouteAnalyser::PingData::Fields field) -> bool {
+    if (m_isMaximum.contains(field)) {
+        return m_isMaximum[field];
+    }
+
+    return false;
+}
