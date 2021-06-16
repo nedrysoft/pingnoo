@@ -121,7 +121,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
         case PingData::Fields::IP: {
             paintBackground(pingData, painter, option, index);
 
-            paintText(pingData->hostAddress(), painter, option, index);
+            paintText(pingData->hostAddress(), painter, option, index, false);
 
             break;
         }
@@ -129,7 +129,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
         case PingData::Fields::HostName: {
             paintBackground(pingData, painter, option, index);
 
-            paintText(pingData->hostName(), painter, option, index);
+            paintText(pingData->hostName(), painter, option, index, false);
 
             break;
         }
@@ -145,6 +145,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
                     painter,
                     option,
                     index,
+                    pingData->isMaximum(PingData::Fields::MinimumLatency),
                     Qt::AlignRight | Qt::AlignVCenter
                 );
             }
@@ -163,6 +164,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
                     painter,
                     option,
                     index,
+                    pingData->isMaximum(PingData::Fields::MaximumLatency),
                     Qt::AlignRight | Qt::AlignVCenter
                 );
             }
@@ -181,6 +183,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
                     painter,
                     option,
                     index,
+                    pingData->isMaximum(PingData::Fields::AverageLatency),
                     Qt::AlignRight | Qt::AlignVCenter
                 );
             }
@@ -199,6 +202,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
                     painter,
                     option,
                     index,
+                    pingData->isMaximum(PingData::Fields::CurrentLatency),
                     Qt::AlignRight | Qt::AlignVCenter
                 );
             }
@@ -217,6 +221,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
                     painter,
                     option,
                     index,
+                    false,
                     Qt::AlignRight | Qt::AlignVCenter
                 );
             }
@@ -235,6 +240,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
                     painter,
                     option,
                     index,
+                    false,
                     Qt::AlignRight | Qt::AlignVCenter
                 );
             }
@@ -262,8 +268,9 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintText(
         const QString &text, QPainter *painter,
         const QStyleOptionViewItem &option,
         const QModelIndex &index,
+        bool bold,
         int alignment,
-        int flags) const -> void {
+        int flags ) const -> void {
 
     Q_UNUSED(index)
 
@@ -273,6 +280,15 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintText(
     auto textRect = option.rect.adjusted(TextMargin, 0, -TextMargin, 0);
 
     painter->save();
+
+    if (bold) {
+        QFont boldFont = painter->font();
+
+        boldFont.setBold(true);
+        boldFont.setUnderline(true);
+
+        painter->setFont(boldFont);
+    }
 
     auto themeSupport = Nedrysoft::ThemeSupport::ThemeSupport::getInstance();
 
@@ -346,7 +362,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintLocation(
     paintBackground(pingData, painter, option, index);
 
     if (!pingData->location().isEmpty()) {
-        paintText(pingData->location(), painter, option, index);
+        paintText(pingData->location(), painter, option, index, false);
     } else {
         auto rc = option.rect;
 
@@ -362,7 +378,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintLocation(
 
         painter->restore();
 
-        paintText(pingData->location(), painter, option, index);
+        paintText(pingData->location(), painter, option, index, false);
     }
 }
 
@@ -449,6 +465,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintInvalidHop(
             painter,
             option,
             index,
+            false,
             Qt::AlignHCenter | Qt::AlignVCenter,
             OverrideSelectedColour
         );
@@ -543,6 +560,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintHop(
         painter,
         option,
         index,
+        false,
         Qt::AlignHCenter | Qt::AlignVCenter,
         OverrideSelectedColour
     );
