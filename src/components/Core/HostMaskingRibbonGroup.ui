@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Nedrysoft::Core::HostMaskingRibbonGroup</class>
+ <widget class="QWidget" name="Nedrysoft::Core::HostMaskingRibbonGroup">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>182</width>
+    <height>83</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>HostMaskingRibbonGroup</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="Nedrysoft::Ribbon::RibbonDropButton" name="ribbonDropButton">
+       <property name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/Core/icons/2x/twotone_security_white_24dp.png</normaloff>:/Core/icons/2x/twotone_security_white_24dp.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="Nedrysoft::Ribbon::RibbonCheckBox" name="maskScreenCheckBox">
+         <property name="text">
+          <string>Mask Screen</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Nedrysoft::Ribbon::RibbonCheckBox" name="maskOutputCheckBox">
+         <property name="text">
+          <string>Mask Output</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Nedrysoft::Ribbon::RibbonCheckBox" name="maskClipboardCheckBox">
+         <property name="text">
+          <string>Mask Clipboard</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Nedrysoft::Ribbon::RibbonDropButton</class>
+   <extends>QWidget</extends>
+   <header location="global">RibbonDropButton</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Nedrysoft::Ribbon::RibbonCheckBox</class>
+   <extends>QCheckBox</extends>
+   <header location="global">RibbonCheckBox</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>

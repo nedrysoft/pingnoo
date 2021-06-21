@@ -28,13 +28,16 @@
 #include "CoreSpec.h"
 
 namespace Nedrysoft { namespace Core {
-    class Core;
-    class ContextManager;
+    class ClipboardRibbonGroup;
     class CommandManager;
-    class RibbonBarManager;
+    class ContextManager;
+    class Core;
+    class HostMaskerManager;
+    class HostMaskingRibbonGroup;
     class HostMaskerSettingsPage;
-    class ThemeSettingsPage;
+    class RibbonBarManager;
     class SystemTrayIconManager;
+    class ThemeSettingsPage;
 }}
 
 /**
@@ -106,6 +109,9 @@ class NEDRYSOFT_CORE_DLLSPEC CoreComponent :
         Nedrysoft::Core::HostMaskerSettingsPage *m_hostMaskerSettingsPage;
         Nedrysoft::Core::ThemeSettingsPage *m_themeSettingsPage;
         Nedrysoft::Core::SystemTrayIconManager *m_systemTrayIconManager;
+        Nedrysoft::Core::HostMaskingRibbonGroup *m_hostMaskingRibbonGroupWidget;
+        Nedrysoft::Core::ClipboardRibbonGroup *m_clipboardRibbonGroupWidget;
+        Nedrysoft::Core::HostMaskerManager *m_hostMaskerManager;
 
         //! @endcond
 };

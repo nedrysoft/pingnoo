@@ -27,6 +27,9 @@
 #include "IPlotFactory.h"
 #include "RouteTableItemDelegate.h"
 
+#include <IComponentManager>
+#include <IHostMasker>
+#include <IHostMaskerManager>
 #include <QHeaderView>
 #include <QStandardItemModel>
 #include <QTableWidget>
@@ -52,12 +55,39 @@ auto Nedrysoft::RouteAnalyser::PingData::runningAverage(double previousAverage, 
 }
 
 auto Nedrysoft::RouteAnalyser::PingData::updateModel() -> void {
+    auto hostMaskerManager = Nedrysoft::Core::IHostMaskerManager::getInstance();
+
+    if (hostMaskerManager) {
+        for (auto masker : hostMaskerManager->maskers()) {
+            QString maskedHostName;
+            QString maskedHostAddress;
+
+            if (masker->mask(m_hop, m_hostName, m_hostAddress, m_maskedHostName, m_maskedHostAddress)) {
+                break;
+            }
+        }
+    }
+
     if (m_tableModel) {
         auto topLeft = m_tableModel->index(0, 0);
         auto bottomRight = topLeft.sibling(m_tableModel->rowCount() - 1, m_tableModel->columnCount() - 1);
 
         m_tableModel->dataChanged(topLeft, bottomRight);
     }
+}
+
+auto Nedrysoft::RouteAnalyser::PingData::plotTitle() -> QString {
+    auto hostMaskerManager = Nedrysoft::Core::IHostMaskerManager::getInstance();
+
+    QString titleString;
+
+    if ((hostMaskerManager) && (hostMaskerManager->enabled(Nedrysoft::Core::HostMaskType::Screen))) {
+        titleString = QString(QObject::tr("Hop %1")).arg(m_hop) + " " + m_maskedHostName + " (" + m_maskedHostAddress + ")";
+    } else {
+        titleString = QString(QObject::tr("Hop %1")).arg(m_hop) + " " + m_hostName + " (" + m_hostAddress + ")";
+    }
+
+    return titleString;
 }
 
 auto Nedrysoft::RouteAnalyser::PingData::setHop(int hop) -> void {
@@ -275,4 +305,28 @@ auto Nedrysoft::RouteAnalyser::PingData::isMaximum(Nedrysoft::RouteAnalyser::Pin
     }
 
     return false;
+}
+
+auto Nedrysoft::RouteAnalyser::PingData::setMaskedHostAddress(const QString &maskedHostAddress) -> void {
+    m_maskedHostAddress = maskedHostAddress;
+
+    if (m_tableModel) {
+        updateModel();
+    }
+}
+
+auto Nedrysoft::RouteAnalyser::PingData::maskedHostAddress() -> QString {
+    return m_maskedHostAddress;
+}
+
+auto Nedrysoft::RouteAnalyser::PingData::setMaskedHostName(const QString &maskedHostName) -> void {
+    m_maskedHostName = maskedHostName;
+
+    if (m_tableModel) {
+        updateModel();
+    }
+}
+
+auto Nedrysoft::RouteAnalyser::PingData::maskedHostName() -> QString {
+    return m_maskedHostName;
 }

@@ -36,17 +36,33 @@ constexpr auto ConfigurationPath = "Components";
 constexpr auto ConfigurationFilename = "PublicIPHostMasker.json";
 
 Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::PublicIPHostMasker() :
-        m_eventLoop(nullptr),
         m_networkManager(nullptr) {
 
     loadFromFile();
+
+    m_networkManager = new QNetworkAccessManager();
+
+    QNetworkRequest request;
+
+    connect(m_networkManager, &QNetworkAccessManager::finished, [=](QNetworkReply *reply) {
+        auto responseTest(reply->readAll());
+
+        auto matchExpression = QRegularExpression(
+                R"(Current IP Address: (?<ip>([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})))");
+
+        auto expressionMatch = matchExpression.match(responseTest);
+
+        if (expressionMatch.hasMatch()) {
+            m_publicIP = expressionMatch.captured("ip");
+        }
+    });
+
+    request.setUrl(QUrl("http://checkip.dyndns.com"));
+
+    m_networkManager->get(request);
 }
 
 Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::~PublicIPHostMasker() {
-    if (m_eventLoop) {
-        delete m_eventLoop;
-    }
-
     if (m_networkManager) {
         delete m_networkManager;
     }
@@ -124,31 +140,6 @@ auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::mask(
 }
 
 auto Nedrysoft::PublicIPHostMasker::PublicIPHostMasker::getPublicIP() -> QString {
-    m_eventLoop = new QEventLoop;
-    m_networkManager = new QNetworkAccessManager();
-    QNetworkRequest request;
-
-    connect(m_networkManager, &QNetworkAccessManager::finished, [=](QNetworkReply *) {
-        m_eventLoop->quit();
-    });
-
-    request.setUrl(QUrl("http://checkip.dyndns.com"));
-
-    auto reply = m_networkManager->get(request);
-
-    m_eventLoop->exec();
-
-    auto responseTest(reply->readAll());
-
-    auto matchExpression = QRegularExpression(
-            R"(Current IP Address: (?<ip>([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})))");
-
-    auto expressionMatch = matchExpression.match(responseTest);
-
-    if (expressionMatch.hasMatch()) {
-        m_publicIP = expressionMatch.captured("ip");
-    }
-
     return m_publicIP;
 }
 

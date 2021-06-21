@@ -130,7 +130,6 @@ namespace Nedrysoft { namespace PublicIPHostMasker {
             //! @cond
 
             QString m_publicIP;
-            QEventLoop *m_eventLoop;
             QNetworkAccessManager *m_networkManager;
             bool m_enabled;
 

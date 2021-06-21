@@ -23,10 +23,13 @@
 
 #include "CoreComponent.h"
 
+#include "ClipboardRibbonGroup.h"
 #include "CommandManager.h"
 #include "ContextManager.h"
 #include "Core.h"
+#include "HostMaskerManager.h"
 #include "HostMaskerSettingsPage.h"
+#include "HostMaskingRibbonGroup.h"
 #include "IRibbonBarManager.h"
 #include "IRibbonPage.h"
 #include "CoreConstants.h"
@@ -41,7 +44,8 @@ CoreComponent::CoreComponent() :
         m_commandManager(nullptr),
         m_ribbonBarManager(nullptr),
         m_hostMaskerSettingsPage(nullptr),
-        m_themeSettingsPage(nullptr) {
+        m_themeSettingsPage(nullptr),
+        m_hostMaskerManager(nullptr) {
 
 }
 
@@ -59,6 +63,7 @@ auto CoreComponent::initialiseEvent() -> void {
     m_hostMaskerSettingsPage = new Nedrysoft::Core::HostMaskerSettingsPage();
     m_themeSettingsPage = new Nedrysoft::Core::ThemeSettingsPage();
     m_systemTrayIconManager = new Nedrysoft::Core::SystemTrayIconManager();
+    m_hostMaskerManager = new Nedrysoft::Core::HostMaskerManager();
 
     Nedrysoft::ComponentSystem::addObject(m_core);
     Nedrysoft::ComponentSystem::addObject(m_contextManager);
@@ -66,11 +71,31 @@ auto CoreComponent::initialiseEvent() -> void {
     Nedrysoft::ComponentSystem::addObject(m_hostMaskerSettingsPage);
     Nedrysoft::ComponentSystem::addObject(m_themeSettingsPage);
     Nedrysoft::ComponentSystem::addObject(m_systemTrayIconManager);
+    Nedrysoft::ComponentSystem::addObject(m_hostMaskerManager);
 
     auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
 
     if (ribbonBarManager) {
-        ribbonBarManager->addPage(tr("Host Masking"), Nedrysoft::Core::Constants::RibbonPages::HostMasking);
+        auto homePage = ribbonBarManager->addPage(tr("Home"), Nedrysoft::Core::Constants::RibbonPages::Home, 0);
+
+        m_hostMaskingRibbonGroupWidget = new Nedrysoft::Core::HostMaskingRibbonGroup;
+        m_clipboardRibbonGroupWidget = new Nedrysoft::Core::ClipboardRibbonGroup;
+
+        /*m_newTargetGroupWidget = new Nedrysoft::RouteAnalyser::NewTargetRibbonGroup;
+            m_latencyGroupWidget = new Nedrysoft::RouteAnalyser::LatencyRibbonGroup;
+            m_viewportGroupWidget = new Nedrysoft::RouteAnalyser::ViewportRibbonGroup;*/
+
+        homePage->addGroup(
+            tr("Host Masking"),
+            Nedrysoft::Core::Constants::RibbonGroups::Home,
+            m_hostMaskingRibbonGroupWidget
+        );
+
+        homePage->addGroup(
+            tr("Clipboard"),
+            Nedrysoft::Core::Constants::RibbonGroups::Home,
+            m_clipboardRibbonGroupWidget
+        );
     }
 }
 
@@ -88,6 +113,10 @@ auto CoreComponent::initialisationFinishedEvent() -> void {
 }
 
 auto CoreComponent::finaliseEvent() -> void {
+    if (m_hostMaskerManager) {
+        delete m_hostMaskerManager;
+    }
+
     if (m_hostMaskerSettingsPage) {
         delete m_hostMaskerSettingsPage;
     }

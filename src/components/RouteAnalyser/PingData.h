@@ -160,6 +160,34 @@ namespace Nedrysoft { namespace RouteAnalyser {
             auto hostName() -> QString;
 
             /**
+             * @brief       Sets the masked ip address for this route item.
+             *
+             * @param[in]   maskedHostAddress masked address for this hop.
+             */
+            auto setMaskedHostAddress(const QString &maskedHostAddress) -> void;
+
+            /**
+             * @brief       Returns the masked ip address for this route item.
+             *
+             * @returns     the masked address for this hop.
+             */
+            auto maskedHostAddress() -> QString;
+
+            /**
+             * @brief       Sets the masked host name for this route item.
+             *
+             * @param[in]   maskedHostName the masked host name.
+             */
+            auto setMaskedHostName(const QString &maskedHostName) -> void;
+
+            /**
+             * @brief       Returns the masked host name for this route item.
+             *
+             * @returns     the host name.
+             */
+            auto maskedHostName() -> QString;
+
+            /**
              * @brief       Sets the location position.
              *
              * @param[in]   location the location.
@@ -239,6 +267,18 @@ namespace Nedrysoft { namespace RouteAnalyser {
              */
             auto setMaximum(Nedrysoft::RouteAnalyser::PingData::Fields field, bool isMaximum) -> void;
 
+            /**
+             * @brief       Updates the model so that views refresh.
+             */
+            auto updateModel() -> void;
+
+            /**
+             * @brief       Returns the title string of the associated plot.
+             *
+             * @returns     the plot title.
+             */
+            auto plotTitle() -> QString;
+
         protected:
             /**
              * @brief       Calculates a running average.
@@ -252,11 +292,6 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @returns     the average.
              */
             static auto runningAverage(double previousAverage, double value, double n) -> double;
-
-            /**
-             * @brief       Updates the model so that views refresh.
-             */
-            auto updateModel() -> void;
 
             /**
              * @brief       Returns the table model associated with this item.
@@ -291,6 +326,8 @@ namespace Nedrysoft { namespace RouteAnalyser {
 
             QString m_hostAddress;
             QString m_hostName;
+            QString m_maskedHostAddress;
+            QString m_maskedHostName;
             QString m_location;
 
             double m_currentLatency;
