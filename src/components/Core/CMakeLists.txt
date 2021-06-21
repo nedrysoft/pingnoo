@@ -29,6 +29,9 @@ pingnoo_add_sources(
     AboutDialog.ui
     ActionProxy.cpp
     ActionProxy.h
+    ClipboardRibbonGroup.cpp
+    ClipboardRibbonGroup.h
+    ClipboardRibbonGroup.ui
     Command.cpp
     Command.h
     CommandManager.cpp
@@ -44,11 +47,16 @@ pingnoo_add_sources(
     EditorManager.h
     EditorManagerTabWidget.cpp
     EditorManagerTabWidget.h
+    HostMaskerManager.cpp
+    HostMaskerManager.h
     HostMaskerSettingsPage.cpp
     HostMaskerSettingsPage.h
     HostMaskerSettingsPageWidget.cpp
     HostMaskerSettingsPageWidget.h
     HostMaskerSettingsPageWidget.ui
+    HostMaskingRibbonGroup.cpp
+    HostMaskingRibbonGroup.h
+    HostMaskingRibbonGroup.ui
     ICommand.h
     ICommandManager.h
     IConfiguration.h
@@ -58,6 +66,7 @@ pingnoo_add_sources(
     IEditorManager.h
     IGeoIPProvider.h
     IHostMasker.h
+    IHostMaskerManager.h
     IHostMaskerSettingsPage.h
     ILogger.h
     IMenu.h

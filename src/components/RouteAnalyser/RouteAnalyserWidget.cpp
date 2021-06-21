@@ -39,6 +39,7 @@
 
 #include <IGeoIPProvider>
 #include <IHostMasker>
+#include "IHostMaskerManager"
 #include <QDateTime>
 #include <QHostAddress>
 #include <QHostInfo>
@@ -398,25 +399,29 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
             auto maskedHostName = hostName;
             auto maskedHostAddress = hostAddress;
 
+            auto pingData = new Nedrysoft::RouteAnalyser::PingData(m_tableModel, hop+1, !host.isNull());
+
+            m_pingData.append(pingData);
+
             for (auto masker : Nedrysoft::ComponentSystem::getObjects<Nedrysoft::Core::IHostMasker>()) {
                 masker->mask(hop, hostName, hostAddress, maskedHostName, maskedHostAddress);
             }
 
             auto tableItem = new QStandardItem(1, headerMap().count());
 
-            auto pingData = new Nedrysoft::RouteAnalyser::PingData(m_tableModel, hop+1, host.isNull()!=true);
+            tableItem->setData(QVariant::fromValue<Nedrysoft::RouteAnalyser::PingData *>(pingData));
 
             if (host.isNull()) {
                 pingData->setHostAddress("*");
                 pingData->setHostName("*");
+                pingData->setMaskedHostAddress("*");
+                pingData->setMaskedHostName("*");
             } else {
                 pingData->setHostName(hostName);
                 pingData->setHostAddress(hostAddress);
+                pingData->setMaskedHostName(maskedHostName);
+                pingData->setMaskedHostAddress(maskedHostAddress);
             }
-
-            m_pingData.append(pingData);
-
-            tableItem->setData(QVariant::fromValue<Nedrysoft::RouteAnalyser::PingData *>(pingData));
 
             if (geoIP) {
                 geoIP->lookup(hostAddress, [pingData](const QString &, const QVariantMap &result) mutable {
@@ -671,9 +676,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
 
         m_plotList.append(customPlot);
 
-        // add plot title.
-
-        auto plotTitleLabel = new QLabel(QString(tr("Hop %1")).arg(hop) + " " + maskedHostName + " (" + maskedHostAddress + ")");
+        auto plotTitleLabel = new QLabel;
 
         QFont labelFont = plotTitleLabel->font();
 
@@ -715,8 +718,6 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
         pingData->setHopValid(true);
         pingData->setPlots(plots);
         pingData->setCustomPlot(customPlot);
-        pingData->setHostAddress(maskedHostAddress);
-        pingData->setHostName(maskedHostName);
 
         pingTarget->setUserData(pingData);
 
@@ -725,6 +726,20 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
                 pingData->setLocation(result["country"].toString());
             });
         }
+
+        auto hostMaskerManager = Nedrysoft::Core::IHostMaskerManager::getInstance();
+
+        if (hostMaskerManager) {
+            connect(
+                hostMaskerManager,
+                &Nedrysoft::Core::IHostMaskerManager::maskStateChanged,
+                [pingData, plotTitleLabel](Nedrysoft::Core::HostMaskType type, bool state) {
+                    pingData->updateModel();
+                    plotTitleLabel->setText(pingData->plotTitle());
+            });
+        }
+
+        plotTitleLabel->setText(pingData->plotTitle());
     }
 
     connect(

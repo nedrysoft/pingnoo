@@ -78,7 +78,7 @@ namespace Nedrysoft { namespace Core { namespace Constants {
         constexpr auto HideApplication = "Pingnoo.HideApplication";
 
         const QMap<QString, QString> MAP = {
-            {Cut, QT_TR_NOOP("Preferences")},
+            {Preferences, QT_TR_NOOP("Preferences")},
 
             {Cut, QT_TR_NOOP("Cut")},
             {Copy, QT_TR_NOOP("Copy")},
@@ -97,8 +97,11 @@ namespace Nedrysoft { namespace Core { namespace Constants {
 
     namespace RibbonPages {
         constexpr auto Home = "Pingnoo.Home";
-        constexpr auto HostMasking = "Pingnoo.HostMasking";
     };
+
+    namespace RibbonGroups {
+        constexpr auto Home = "Pingnoo.HostMasking";
+    }
 
     inline QString menuText(const QString &string) {
         if (Menus::MAP.contains(string))

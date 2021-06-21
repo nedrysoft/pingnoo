@@ -27,6 +27,7 @@
 #include "LatencySettings.h"
 #include "PingData.h"
 
+#include <IHostMaskerManager>
 #include <QHeaderView>
 #include <QPainter>
 #include <QPainterPath>
@@ -119,17 +120,29 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
         }
 
         case PingData::Fields::IP: {
+            auto hostMaskerManager = Nedrysoft::Core::IHostMaskerManager::getInstance();
+
             paintBackground(pingData, painter, option, index);
 
-            paintText(pingData->hostAddress(), painter, option, index, false);
+            if ((hostMaskerManager) && (hostMaskerManager->enabled(Nedrysoft::Core::HostMaskType::Screen))) {
+                paintText(pingData->maskedHostAddress(), painter, option, index, false);
+            } else {
+                paintText(pingData->hostAddress(), painter, option, index, false);
+            }
 
             break;
         }
 
         case PingData::Fields::HostName: {
+            auto hostMaskerManager = Nedrysoft::Core::IHostMaskerManager::getInstance();
+
             paintBackground(pingData, painter, option, index);
 
-            paintText(pingData->hostName(), painter, option, index, false);
+            if ((hostMaskerManager) && (hostMaskerManager->enabled(Nedrysoft::Core::HostMaskType::Screen))) {
+                paintText(pingData->maskedHostName(), painter, option, index, false);
+            } else {
+                paintText(pingData->hostName(), painter, option, index, false);
+            }
 
             break;
         }
@@ -160,7 +173,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
                 paintBackground(pingData, painter, option, index);
 
                 paintText(QString("%1").arg(
-                    pingData->m_maximumLatency*1000.0, 2, 'f', 2),
+                    pingData->m_maximumLatency*1000.0, 0, 'f', 2),
                     painter,
                     option,
                     index,
@@ -179,7 +192,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
                 paintBubble(pingData, painter, option, index, DiscoveryBubbleColour, InvalidHopLineWidth);
             } else {
                 paintText(QString("%1").arg(
-                    pingData->m_averageLatency*1000.0, 2, 'f', 6),
+                    pingData->m_averageLatency*1000.0, 0, 'f', 2),
                     painter,
                     option,
                     index,
@@ -198,7 +211,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
                 paintBubble(pingData, painter, option, index, DiscoveryBubbleColour, InvalidHopLineWidth);
             } else {
                 paintText(QString("%1").arg(
-                    pingData->m_currentLatency*1000.0, 2, 'f', 2),
+                    pingData->m_currentLatency*1000.0, 0, 'f', 2),
                     painter,
                     option,
                     index,

@@ -27,6 +27,7 @@
 #include "RegExHostMaskerSettingsPage.h"
 
 #include <IComponentManager>
+#include <IHostMaskerManager>
 #include <QJsonDocument>
 
 RegExHostMaskerComponent::RegExHostMaskerComponent() :
@@ -43,6 +44,12 @@ RegExHostMaskerComponent::~RegExHostMaskerComponent() {
 auto RegExHostMaskerComponent::initialiseEvent() -> void {
     m_hostMasker = new Nedrysoft::RegExHostMasker::RegExHostMasker();
     m_settingsPage = new Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPage();
+
+    auto hostMaskerManager = Nedrysoft::Core::IHostMaskerManager::getInstance();
+
+    if (hostMaskerManager) {
+        hostMaskerManager->add(m_hostMasker);
+    }
 
     Nedrysoft::ComponentSystem::addObject(m_hostMasker);
     Nedrysoft::ComponentSystem::addObject(m_settingsPage);
@@ -62,5 +69,11 @@ auto RegExHostMaskerComponent::finaliseEvent() -> void {
         Nedrysoft::ComponentSystem::removeObject(m_hostMasker);
 
         delete m_hostMasker;
+    }
+
+     auto hostMaskerManager = Nedrysoft::Core::IHostMaskerManager::getInstance();
+
+    if (hostMaskerManager) {
+        hostMaskerManager->add(m_hostMasker);
     }
 }

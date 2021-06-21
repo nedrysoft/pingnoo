@@ -10,6 +10,11 @@
         <file>icons/1x/settings_white_24dp.png</file>
         <file>icons/2x/settings_white_24dp.png</file>
 
+        <file>icons/1x/baseline_photo_camera_black_24dp.png</file>
+        <file>icons/2x/baseline_photo_camera_black_24dp.png</file>
+        <file>icons/1x/baseline_photo_camera_white_24dp.png</file>
+        <file>icons/2x/baseline_photo_camera_white_24dp.png</file>
+
         <file>icons/1x/close-button-white.png</file>
         <file>icons/2x/close-button-white@2x.png</file>
         <file>icons/1x/close-button-grey.png</file>
