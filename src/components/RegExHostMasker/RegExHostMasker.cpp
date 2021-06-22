@@ -119,6 +119,8 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(
     maskedHostName = hostName;
     maskedHostAddress = hostAddress;
 
+    auto maskFlags = QList<MatchFlags>() << MatchFlags::MaskHost << MatchFlags::MaskAddress;
+
     for (auto matchFlag : searchList) {
         for (const auto &maskItem : m_maskList) {
             if (!maskItem.m_enabled) {
@@ -131,56 +133,66 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(
 
             auto matchExpression = QRegularExpression(maskItem.m_matchExpression);
 
-            if (static_cast<MatchFlags>(matchFlag) == MatchFlags::MatchHost) {
+            if (!(static_cast<int>(maskItem.m_matchFlags) & static_cast<int>(matchFlag))) {
+                continue;
+            }
+
+            if (matchFlag==static_cast<int>(MatchFlags::MatchHost)) {
                 expressionMatch = matchExpression.match(hostName);
             } else {
-                if (static_cast<MatchFlags>(matchFlag) == MatchFlags::MatchAddress) {
-                    expressionMatch = matchExpression.match(hostAddress);
-                } else {
-                    continue;
-                }
+                expressionMatch = matchExpression.match(hostAddress);
             }
 
-            if (maskItem.m_matchFlags & static_cast<int>(MatchFlags::MaskHost)) {
-                outputString = &maskedHostName;
-            } else {
-                if (maskItem.m_matchFlags & static_cast<int>(MatchFlags::MaskAddress)) {
+            QString replacementString;
+
+            for (auto maskFlag : maskFlags) {
+                if (maskFlag == MatchFlags::MaskHost) {
+                    outputString = &maskedHostName;
+                    replacementString = maskItem.m_hostReplacementString;
+                } else if (maskFlag==MatchFlags::MaskAddress) {
                     outputString = &maskedHostAddress;
+                    replacementString = maskItem.m_addressReplacementString;
                 } else {
                     continue;
                 }
-            }
 
-            if (expressionMatch.hasMatch()) {
-                auto tokenIterator = tokenExpression.globalMatch(maskItem.m_replacementString);
+                if (replacementString.isEmpty()) {
+                    continue;
+                }
 
-                if (!tokenIterator.hasNext()) {
-                    *outputString = maskItem.m_replacementString;
+                if (expressionMatch.hasMatch()) {
+                    auto tokenIterator = tokenExpression.globalMatch(replacementString);
+
+                    qDebug() << ((int) maskFlag) << hostName << hostAddress;
+
+                    if (!tokenIterator.hasNext()) {
+                        *outputString = replacementString;
+
+                        returnValue = true;
+
+                        continue;
+                    }
+
+                    tokenList.clear();
+
+                    while (tokenIterator.hasNext()) {
+                        auto match = tokenIterator.next();
+
+                        if (match.hasMatch()) {
+                            tokenList.append(match.capturedTexts());
+                        }
+                    }
+
+                    *outputString = replacementString;
+
+                    for (const auto &token : tokenList) {
+                        auto searchToken = QString(token).replace(QRegularExpression(R"((\[|\]))"), "");
+
+                        ( *outputString ).replace(token, expressionMatch.captured(searchToken));
+                    }
 
                     returnValue = true;
-
-                    continue;
                 }
-
-                tokenList.clear();
-
-                while (tokenIterator.hasNext()) {
-                    auto match = tokenIterator.next();
-
-                    if (match.hasMatch()) {
-                        tokenList.append(match.capturedTexts());
-                    }
-                }
-
-                *outputString = maskItem.m_replacementString;
-
-                for (const auto &token : tokenList) {
-                    auto searchToken = QString(token).replace(QRegularExpression(R"((\[|\]))"), "");
-
-                    ( *outputString ).replace(token, expressionMatch.captured(searchToken));
-                }
-
-                returnValue = true;
             }
         }
     }
@@ -201,7 +213,8 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::add(
         unsigned int matchFlags,
         const QString &description,
         const QString &matchExpression,
-        const QString &replacementString,
+        const QString &hostReplacementString,
+        const QString &addressReplacementString,
         const QString &hopString,
         const bool enabled ) -> void {
 
@@ -209,7 +222,8 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::add(
 
     item.m_matchFlags = matchFlags;
     item.m_matchExpression = matchExpression;
-    item.m_replacementString = std::move(replacementString);
+    item.m_hostReplacementString = std::move(hostReplacementString);
+    item.m_addressReplacementString = std::move(addressReplacementString);
     item.m_hopString = hopString;
     item.m_description = description;
     item.m_enabled = enabled;
@@ -228,7 +242,8 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::saveConfiguration() -> QJsonOb
 
         object.insert("matchFlags", static_cast<int>(item.m_matchFlags));
         object.insert("matchExpression", item.m_matchExpression);
-        object.insert("matchReplacementString", item.m_replacementString);
+        object.insert("hostReplacementString", item.m_hostReplacementString);
+        object.insert("addressReplacementString", item.m_addressReplacementString);
         object.insert("matchHopString", item.m_hopString);
         object.insert("description", item.m_description);
         object.insert("enabled", item.m_enabled);
@@ -254,7 +269,8 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::loadConfiguration(QJsonObject 
         add(item["matchFlags"].toVariant().toUInt(),
             item["description"].toString(),
             item["matchExpression"].toString(),
-            item["matchReplacementString"].toString(),
+            item["hostReplacementString"].toString(),
+            item["addressReplacementString"].toString(),
             item["matchHopString"].toString(),
             item["enabled"].toBool(true) );
     }

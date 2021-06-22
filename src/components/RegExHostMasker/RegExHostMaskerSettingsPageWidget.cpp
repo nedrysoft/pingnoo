@@ -89,10 +89,10 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSe
                 m_loadingConfiguration = false;
             }
 
-            ui->exportButton->setEnabled(hostMasker->m_maskList.count() ? true : false);
+            ui->exportButton->setEnabled(hostMasker->m_maskList.count()==true);
 
             delete messageBox;
-        };
+        }
     });
 
     connect(ui->exportButton, &QPushButton::clicked, [=](bool checked) {
@@ -121,7 +121,7 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSe
         addExpression(masker);
     }
 
-    ui->exportButton->setEnabled(hostMasker->m_maskList.count() ? true : false);
+    ui->exportButton->setEnabled(hostMasker->m_maskList.count()==true);
 
     // resize the checkbox columns and resize the first column to be the remaining space
 
@@ -254,7 +254,7 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSe
     connect(ui->substitutionLineEdit, &QLineEdit::textChanged, [=](const QString &newString) {
         auto maskerItem = getMaskerItem(ui->expressionsTreeWidget->currentItem());
 
-        maskerItem.m_replacementString = newString;
+        maskerItem.m_hostReplacementString = newString;
 
         setMaskerItem(ui->expressionsTreeWidget->currentItem(), maskerItem);
 
@@ -296,7 +296,7 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSe
 
         masker.m_enabled = true;
         masker.m_matchFlags = 0;
-        masker.m_replacementString = "";
+        masker.m_hostReplacementString = "";
         masker.m_matchExpression = "";
         masker.m_description = tr("New Masker");
         masker.m_hopString = "";
@@ -307,6 +307,8 @@ Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::RegExHostMaskerSe
 
         updateSettings();
     });
+
+    updateWidgets(ui->expressionsTreeWidget->currentItem());
 
     m_loadingConfiguration = false;
 }
@@ -359,7 +361,7 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::updateWidget
 
     ui->descriptionLineEdit->setText(regexItem.m_description);
     ui->regularExpressionLineEdit->setText(regexItem.m_matchExpression);
-    ui->substitutionLineEdit->setText(regexItem.m_replacementString);
+    ui->substitutionLineEdit->setText(regexItem.m_hostReplacementString);
     ui->addressSubstitutionLineEdit->setText(regexItem.m_addressReplacementString);
 
     int flags = static_cast<int>(regexItem.m_matchFlags);
@@ -378,7 +380,7 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::updateSettin
 
     assert(hostMasker!=nullptr);
 
-    ui->exportButton->setEnabled(hostMasker->m_maskList.count() ? true : false);
+    ui->exportButton->setEnabled(hostMasker->m_maskList.count()==true);
 
 #if !defined(Q_OS_MACOS)
     return;
@@ -391,9 +393,10 @@ auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::updateSettin
 auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::canAcceptSettings() -> bool {
 #if defined(Q_OS_MACOS)
     return true;
-#endif
+#else
     //TODO: this needs to check the settings configured in the dialog to ensure they are valid
     return true;
+#endif
 }
 
 auto Nedrysoft::RegExHostMasker::RegExHostMaskerSettingsPageWidget::acceptSettings() -> void {
