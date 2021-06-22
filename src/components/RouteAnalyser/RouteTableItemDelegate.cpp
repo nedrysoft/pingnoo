@@ -137,7 +137,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paint(
             auto hostMaskerManager = Nedrysoft::Core::IHostMaskerManager::getInstance();
 
             paintBackground(pingData, painter, option, index);
-#pragma warning("this isn't quite right, it also needs to check if the host matched the masker")
+
             if ((hostMaskerManager) && (hostMaskerManager->enabled(Nedrysoft::Core::HostMaskType::Screen))) {
                 paintText(pingData->maskedHostName(), painter, option, index, false);
             } else {

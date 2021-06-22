@@ -110,8 +110,8 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(
     Q_UNUSED(hop)
 
     auto expressionMatch = QRegularExpressionMatch();
-    auto tokenExpression = QRegularExpression(R"(\[\w+\])");
-    auto tokenList = QList<QString>();
+    auto tokenExpression = QRegularExpression(R"(\$\{\s*(?<named>.*)\s*\}|(?<dollar>\$\$)|\$(?<number>\d+))");
+    auto tokenTypes = QStringList() << "named" << "dollar" << "number";
     auto searchList = QList<unsigned int>() << static_cast<int>(MatchFlags::MatchHost) << static_cast<int>(MatchFlags::MatchAddress);
     QString *outputString = nullptr;
     bool returnValue = false;
@@ -162,8 +162,7 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(
 
                 if (expressionMatch.hasMatch()) {
                     auto tokenIterator = tokenExpression.globalMatch(replacementString);
-
-                    qDebug() << ((int) maskFlag) << hostName << hostAddress;
+                    QList<TokenReplacement> tokenReplacementList;
 
                     if (!tokenIterator.hasNext()) {
                         *outputString = replacementString;
@@ -173,23 +172,46 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::applyMask(
                         continue;
                     }
 
-                    tokenList.clear();
-
                     while (tokenIterator.hasNext()) {
                         auto match = tokenIterator.next();
 
                         if (match.hasMatch()) {
-                            tokenList.append(match.capturedTexts());
+                            for (auto tokenType : tokenTypes) {
+                                auto identifier = match.captured(tokenType);
+
+                                if (!identifier.isNull()) {
+                                    TokenReplacement tokenReplacement;
+
+                                    tokenReplacement.type = tokenType;
+                                    tokenReplacement.identifier = identifier;
+
+                                    if (tokenType=="named") {
+                                        tokenReplacement.value = expressionMatch.captured(identifier);
+                                        tokenReplacement.format = "${%1}";
+                                    } else if (tokenType=="number") {
+                                        tokenReplacement.value  = expressionMatch.captured(identifier.toInt());
+                                        tokenReplacement.format = "$%1";
+                                    } else if (tokenType=="dollar") {
+                                        // we catch $$ regardless, so just ignore it here.
+                                        continue;
+                                    } else {
+                                        // ruh roh!
+                                        continue;
+                                    }
+
+                                    tokenReplacementList.append(tokenReplacement);
+                                }
+                            }
                         }
                     }
 
                     *outputString = replacementString;
 
-                    for (const auto &token : tokenList) {
-                        auto searchToken = QString(token).replace(QRegularExpression(R"((\[|\]))"), "");
-
-                        ( *outputString ).replace(token, expressionMatch.captured(searchToken));
+                    for (const auto &token : tokenReplacementList) {
+                        (*outputString).replace(token.format.arg(token.identifier), token.value);
                     }
+
+                    (*outputString).replace("$$", "$");
 
                     returnValue = true;
                 }
@@ -263,8 +285,8 @@ auto Nedrysoft::RegExHostMasker::RegExHostMasker::loadConfiguration(QJsonObject 
 
     auto array = configuration["matchItems"].toArray();
 
-    for (auto v : array) {
-        auto item = v.toObject();
+    for (auto variantItem : array) {
+        auto item = variantItem.toObject();
 
         add(item["matchFlags"].toVariant().toUInt(),
             item["description"].toString(),

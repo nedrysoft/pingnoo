@@ -481,8 +481,6 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
             masker->mask(hop, hostName, hostAddress, maskedHostName, maskedHostAddress);
         }
 
-        qDebug() << "hop" << hop << hostName << hostAddress << maskedHostName << maskedHostAddress;
-
         auto customPlot = new QCustomPlot();
 
         customPlot->addLayer("newBackground", customPlot->layer("grid"), QCustomPlot::limBelow);

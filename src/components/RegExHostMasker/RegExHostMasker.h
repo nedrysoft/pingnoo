@@ -54,6 +54,22 @@ namespace Nedrysoft { namespace RegExHostMasker {
     };
 
     /**
+     * @brief       The TokenReplacement class is used internally by the masker to provide substitution of
+     *              capture groups.
+     */
+    class TokenReplacement {
+        public:
+            //! @cond
+
+            QString type;
+            QString identifier;
+            QString value;
+            QString format;
+
+            //! @endcond
+    };
+
+    /**
      * @brief       The RegExHostMasker class provides a host masker that redacts using a regular expression.
      *
      * @details     This host marker accepts a regular expression to match the host name or address and allows the
