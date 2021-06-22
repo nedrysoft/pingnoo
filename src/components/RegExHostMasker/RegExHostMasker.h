@@ -42,13 +42,29 @@ namespace Nedrysoft { namespace RegExHostMasker {
             QSet<int> m_hops;
 
             QString m_matchExpression;
-            QString m_replacementString;
+            QString m_hostReplacementString;
             QString m_addressReplacementString;
             QString m_hopString;
             QString m_description;
             bool m_enabled;
 
             unsigned int m_matchFlags;
+
+            //! @endcond
+    };
+
+    /**
+     * @brief       The TokenReplacement class is used internally by the masker to provide substitution of
+     *              capture groups.
+     */
+    class TokenReplacement {
+        public:
+            //! @cond
+
+            QString type;
+            QString identifier;
+            QString value;
+            QString format;
 
             //! @endcond
     };
@@ -112,7 +128,8 @@ namespace Nedrysoft { namespace RegExHostMasker {
              * @param[in]   matchFlags the bit mask of values from MatchFlags to control masking.
              * @param[in]   description the description displayed for this masker.
              * @param[in]   matchExpression the regular expression used for name matching.
-             * @param[in]   replacementString the string to be used for replacement.
+             * @param[in]   hostReplacementString the string to be used for host name replacement.
+             * @param[in]   addressReplacementString the string to be used for host address replacement.
              * @param[in]   hopString hop string listing hops this mask is valid for. (optional)
              * @param[in]   enabled whether this entry is enabled.
              */
@@ -120,7 +137,8 @@ namespace Nedrysoft { namespace RegExHostMasker {
                     unsigned int matchFlags,
                     const QString &description,
                     const QString &matchExpression,
-                    const QString &replacementString,
+                    const QString &hostReplacementString,
+                    const QString &addressReplacementString,
                     const QString &hopString,
                     const bool enabled= true
             ) -> void;
