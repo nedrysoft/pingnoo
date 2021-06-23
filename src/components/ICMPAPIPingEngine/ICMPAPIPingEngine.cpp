@@ -297,7 +297,8 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngine::singleShot(
         replyHost,
         epoch,
         roundTripTime/1e9,
-        nullptr
+        nullptr,
+        -1
     );
 }
 

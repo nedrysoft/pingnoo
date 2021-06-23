@@ -31,7 +31,7 @@
 #include <QObject>
 
 namespace Nedrysoft { namespace Core {
-    Q_NAMESPACE
+    NEDRYSOFT_CORE_DLLSPEC Q_NAMESPACE
 
     class IHostMasker;
 
