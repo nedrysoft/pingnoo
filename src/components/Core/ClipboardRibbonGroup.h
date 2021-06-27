@@ -58,6 +58,8 @@ namespace Nedrysoft { namespace Core {
 
             Ui::ClipboardRibbonGroup *ui;
 
+            QAction *m_copyCommand;
+
             //! @endcond
     };
 }}

@@ -25,6 +25,7 @@
 
 #include "EditorManager.h"
 
+#include "IContextManager.h"
 #include "IEditor.h"
 
 #include <QCheckBox>
@@ -178,6 +179,12 @@ Nedrysoft::Core::EditorManager::EditorManager(EditorManagerTabWidget *tabWidget)
 
         if (newEditor) {
             newEditor->activated();
+        }
+
+        auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
+
+        if (contextManager) {
+            contextManager->setContext(newEditor->contextId());
         }
 
         previousEditor = newEditor;

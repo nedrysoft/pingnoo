@@ -75,9 +75,10 @@ namespace Nedrysoft { namespace Core {
              * @returns     a pointer to the ICommand
              */
             auto registerAction(
-                    QAction *action,
-                    QString id,
-                    const Nedrysoft::Core::ContextList &contexts ) -> Nedrysoft::Core::ICommand * override;
+                QAction *action,
+                QString id,
+                const Nedrysoft::Core::ContextList &contexts
+            ) -> Nedrysoft::Core::ICommand * override;
 
             /**
              * @brief       Registers a QAction with a command for a given context.
@@ -93,9 +94,10 @@ namespace Nedrysoft { namespace Core {
              * @returns     true if the QAction was registered; otherwise false.
              */
             auto registerAction(
-                    QAction *action,
-                    Nedrysoft::Core::ICommand *command,
-                    const Nedrysoft::Core::ContextList &contexts ) -> bool override;
+                QAction *action,
+                Nedrysoft::Core::ICommand *command,
+                const Nedrysoft::Core::ContextList &contexts
+            ) -> bool override;
 
             /**
              * @brief       Sets the currently active context.
@@ -121,8 +123,9 @@ namespace Nedrysoft { namespace Core {
               * @returns     a new IMenu instance for the menu.
               */
             auto createMenu(
-                    const QString &identifier,
-                    IMenu *parentMenu = nullptr) -> Nedrysoft::Core::IMenu * override;
+                const QString &identifier,
+                IMenu *parentMenu = nullptr
+            ) -> Nedrysoft::Core::IMenu * override;
 
             /**
               * @brief       Create a popup menu.
@@ -136,7 +139,8 @@ namespace Nedrysoft { namespace Core {
               * @returns     a new IMenu instance for the menu.
               */
             auto createPopupMenu(
-                const QString &identifier=QString()) -> Nedrysoft::Core::IMenu * override;
+                const QString &identifier=QString()
+            ) -> Nedrysoft::Core::IMenu * override;
 
             /**
              * @brief       Find a menu.

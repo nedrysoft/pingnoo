@@ -255,3 +255,7 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onLatencyValueChanged(
         double value) {
 
 }
+
+auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::contextId() -> int {
+    return m_contextId;
+}

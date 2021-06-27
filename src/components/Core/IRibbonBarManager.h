@@ -24,12 +24,20 @@
 #ifndef PINGNOO_COMPONENTS_CORE_IRIBBONBARMANAGER_H
 #define PINGNOO_COMPONENTS_CORE_IRIBBONBARMANAGER_H
 
-#include <IInterface>
-#include "IContextManager.h"
 #include "CoreSpec.h"
+#include "ICommand.h"
+#include "IContextManager.h"
+
+#include <IInterface>
+
+namespace Nedrysoft { namespace Ribbon {
+    class RibbonDropButton;
+    class RibbonWidget;
+}}
 
 namespace Nedrysoft { namespace Core {
     class IRibbonPage;
+    class RibbonDropButtonAction;
 
     /**
      * @brief       The IRibbonBarManager interface describes an object that handles the creation of ribbon bars.
@@ -87,6 +95,32 @@ namespace Nedrysoft { namespace Core {
              * @returns     true if page was switched; otherwise false.
              */
             virtual auto selectPage(QString id) -> bool = 0;
+
+            /**
+             * @brief       Registers a Drop Button with the manager.
+             *
+             * @note        This is an overloaded function, for each type of ribbon widget there should be
+             *              a corresponding function to register the widget.
+             *
+             * @param[in]   widget the drop button widget.
+             * @param[in]   commandId the command identifier for this button.
+             */
+            virtual auto registerWidget(
+                Nedrysoft::Ribbon::RibbonDropButton *widget,
+                QString commandId
+            ) -> void = 0;
+
+            virtual auto registerAction(
+                RibbonDropButtonAction *action,
+                QString commandId,
+                const Nedrysoft::Core::ContextList &contexts) -> void = 0;
+
+            virtual auto registerAction(
+                RibbonDropButtonAction *action,
+                QString commandId,
+                int contextId = Nedrysoft::Core::GlobalContext) -> void = 0;
+
+            virtual auto setRibbonBar(Nedrysoft::Ribbon::RibbonWidget *widget) -> void = 0;
 
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~IRibbonBarManager() = default;
