@@ -26,7 +26,7 @@
 
 #include "Command.h"
 #include "IRibbonBarManager.h"
-#include "RibbonDropButtonAction.h"
+#include "RibbonAction.h"
 
 #include <QMap>
 
@@ -34,6 +34,7 @@
 
 namespace Nedrysoft { namespace Core {
     class RibbonPage;
+    class RibbonActionProxy;
 
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     struct RibbonPageVisibility {
@@ -101,35 +102,27 @@ namespace Nedrysoft { namespace Core {
             auto selectPage(QString id) -> bool override;
 
             /**
-             * @brief       Registers a Drop Button with the manager.
+             * @brief       Registers a ribbon action with the manager.
              *
-             * @note        This is an overloaded function, for each type of ribbon widget there should be
-             *              a corresponding function to register the widget.
+             * @param[in]   action the action to register.
+             * @param[in]   commandId the command identifier for this action.
+             * @param[in]   contextId the identifier of the command.
              *
-             * @param[in]   widget the drop button widget.
-             * @param[in]   commandId the command identifier for this button.
+             * @returns     the command instance.
              */
-            auto registerWidget(
-                Nedrysoft::Ribbon::RibbonDropButton *widget,
-                QString commandId
-            ) -> void override;
-
             auto registerAction(
-                RibbonDropButtonAction *action,
+                RibbonAction *action,
                 QString commandId,
-                const Nedrysoft::Core::ContextList &contexts) -> void override;
+                int contextId = Nedrysoft::Core::GlobalContext
+            ) -> Nedrysoft::Core::ICommand * override;
 
-            auto registerAction(
-                RibbonDropButtonAction *action,
-                QString commandId,
-                int contextId = Nedrysoft::Core::GlobalContext) -> void override;
         public:
             /**
              * @brief       Attaches the ribbon widget to this instance.
              *
              * @param[in]   ribbonWidget the ribbon widget.
              */
-            auto  setRibbonBar(Nedrysoft::Ribbon::RibbonWidget *widget) -> void;
+            auto setRibbonBar(Nedrysoft::Ribbon::RibbonWidget *widget) -> void override;
 
             /**
              * @brief       Called when a group is added to a page.
@@ -140,13 +133,15 @@ namespace Nedrysoft { namespace Core {
              */
             auto groupAdded(Nedrysoft::Core::RibbonPage *page) -> void;
 
-
         private:
             //! @cond
 
             Nedrysoft::Ribbon::RibbonWidget *m_ribbonWidget;
             QMap<QString, Nedrysoft::Core::RibbonPage *> m_pages;
-            QMap<QString, Nedrysoft::Ribbon::RibbonDropButton *> m_dropDownWidgets;
+
+            QMap<QString, Nedrysoft::Core::RibbonActionProxy *> m_proxyActions;
+            QMap<int, Nedrysoft::Core::RibbonAction *> m_actions;
+            QMap<QString, QWidget*> m_widgets;
 
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
             QList<RibbonPageVisibility> m_visibleList;

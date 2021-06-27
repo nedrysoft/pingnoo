@@ -27,7 +27,7 @@
 #include "CoreConstants.h"
 #include "ICommandManager.h"
 #include "RibbonBarManager.h"
-#include "RibbonDropButtonAction.h"
+#include "RibbonAction.h"
 
 #include "ui_ClipboardRibbonGroup.h"
 
@@ -53,29 +53,18 @@ Nedrysoft::Core::ClipboardRibbonGroup::ClipboardRibbonGroup(QWidget *parent) :
     auto ribbonBarManager = Nedrysoft::Core::RibbonBarManager::getInstance();
 
     if (ribbonBarManager) {
-        ribbonBarManager->registerWidget(
-            ui->copyButton,
-            Nedrysoft::Core::Constants::RibbonCommands::ClipboardCopy
-        );
-
-        auto clipboardCopyAction = new RibbonDropButtonAction;
+        auto clipboardCopyAction = new RibbonAction;
 
         clipboardCopyAction->setEnabled(true);
         clipboardCopyAction->setMenuRole(QAction::ApplicationSpecificRole);
 
-        /*auto commandAction = */ribbonBarManager->registerAction(
+        auto clipboardCopyCommand = ribbonBarManager->registerAction(
             clipboardCopyAction,
             Nedrysoft::Core::Constants::RibbonCommands::ClipboardCopy
         );
 
         connect(ui->copyButton, &Nedrysoft::Ribbon::RibbonDropButton::clicked, [=](bool dropdown) {
-
-            //auto command = qobject_cast<Nedrysoft::Core::RibbonDropButtonAction *>(commandAction->action());
-
-
-            qDebug() << "Triggered!";
-
-            Q_EMIT clipboardCopyAction->triggered(dropdown);
+#warning("HERE: we need to handle the action.  Add COmmandManager and ICommmand style objects?")
         });
     }
 

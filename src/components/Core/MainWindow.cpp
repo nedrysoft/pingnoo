@@ -112,13 +112,6 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
     if (themeSupport->isForced()) {
         ui->statusbar->setStyleSheet("background-color: " + ui->ribbonBar->backgroundColor().name());
     }
-}
-#if 0
-void Nedrysoft::Core::MainWindow::initialise() {
-    // TODO: m_ribbonBarManager should be created in the component initialisation
-
-
-
 
     // QStatusBar *statusBar = new QStatusBar;
 
@@ -146,7 +139,7 @@ void Nedrysoft::Core::MainWindow::initialise() {
     ui->statusbar->addWidget(m_hostInfoLabel);
     */
 }
-#endif
+
 Nedrysoft::Core::MainWindow::~MainWindow() {
     /* delete m_pointInfoLabel;
      delete m_hopInfoLabel;
