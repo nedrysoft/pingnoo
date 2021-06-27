@@ -21,21 +21,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PINGNOO_COMPONENTS_CORE_RIBBONDROPBUTTONACTION_H
-#define PINGNOO_COMPONENTS_CORE_RIBBONDROPBUTTONACTION_H
+#ifndef PINGNOO_COMPONENTS_CORE_RIBBONACTION_H
+#define PINGNOO_COMPONENTS_CORE_RIBBONACTION_H
 
 #include <QAction>
 
 namespace Nedrysoft { namespace Core {
-    class RibbonDropButtonAction :
+    class RibbonEvent {
+    };
+
+    class RibbonAction :
             public QAction {
 
         private:
             Q_OBJECT
 
         public:
-            Q_SIGNAL void triggered(bool dropdown);
+            Q_SIGNAL void triggered(Nedrysoft::Core::RibbonEvent *event);
     };
 }}
 
-#endif // PINGNOO_COMPONENTS_CORE_RIBBONDROPBUTTONACTION_H
+#endif // PINGNOO_COMPONENTS_CORE_RIBBONACTION_H

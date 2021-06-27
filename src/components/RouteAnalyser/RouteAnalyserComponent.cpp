@@ -203,73 +203,46 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
 
                 menu->appendCommand(command, Nedrysoft::Core::Constants::MenuGroups::FileNew);
 
-                auto clipboardCopyAction = new Nedrysoft::Core::RibbonDropButtonAction;
+                auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
 
-                connect(
-                    clipboardCopyAction,
-                    &Nedrysoft::Core::RibbonDropButtonAction::triggered,
-                    [=](bool dropdown) {
-                        qDebug() << "Route Analyser Triggered!" << dropdown;
-                    }
-                );
+                if (ribbonBarManager) {
+                    auto clipboardCopyAction = new Nedrysoft::Core::RibbonAction;
 
+                    auto command = ribbonBarManager->registerAction(
+                        clipboardCopyAction,
+                        Nedrysoft::Core::Constants::RibbonCommands::ClipboardCopy,
+                        m_editorContextId
+                    );
 
-/*
-connect(ui->copyButton, &Nedrysoft::Ribbon::RibbonDropButton::clicked, [=](bool dropdown) {
-            if (!dropdown) {
-                return;
-            }
+#warning("HERE: we need to register our command handler for the command id for our context.");
+#warning("HERE: we need to implement IRibbonCommand and all other equivilent objects for this");
+#if 0
+                    QMenu menu;
+                    QPoint menuPosition = ui->copyButton->rect().bottomLeft();
 
-            QMenu menu;
-            QPoint menuPosition = ui->copyButton->rect().bottomLeft();
+                    menuPosition = mapToGlobal(menuPosition);
 
-            menuPosition = mapToGlobal(menuPosition);
+                    auto copyTableAsText = menu.addAction(tr("Copy Table as Text"));
+                    auto copyTableAsPDG = menu.addAction(tr("Copy Table as PDF"));
+                    auto copyTableAsImage = menu.addAction(tr("Copy Table as Image"));
+                    auto copyTableAsCSV = menu.addAction(tr("Copy Table as CSV"));
+                    auto copyGraphsAsImage = menu.addAction(tr("Copy Graphs as Image"));
+                    auto copyGraphsAsPDF = menu.addAction(tr("Copy Graphs as PDF"));
+                    auto CopyTableAndGraphsAsImage = menu.addAction(tr("Copy Table and Graphs as Image"));
+                    auto CopyTableAndGraphsAsPDF = menu.addAction(tr("Copy Table and Graphs as PDF"));
 
-            auto copyTableAsText = menu.addAction(tr("Copy Table as Text"));
-            auto copyTableAsPDG = menu.addAction(tr("Copy Table as PDF"));
-            auto copyTableAsImage = menu.addAction(tr("Copy Table as Image"));
-            auto copyTableAsCSV = menu.addAction(tr("Copy Table as CSV"));
-            auto copyGraphsAsImage = menu.addAction(tr("Copy Graphs as Image"));
-            auto copyGraphsAsPDF = menu.addAction(tr("Copy Graphs as PDF"));
-            auto CopyTableAndGraphsAsImage = menu.addAction(tr("Copy Table and Graphs as Image"));
-            auto CopyTableAndGraphsAsPDF = menu.addAction(tr("Copy Table and Graphs as PDF"));
+                    menu.addAction(copyTableAsText);
+                    menu.addAction(copyTableAsPDG);
+                    menu.addAction(copyTableAsImage);
+                    menu.addAction(copyTableAsCSV);
+                    menu.addAction(copyGraphsAsImage);
+                    menu.addAction(copyGraphsAsPDF);
+                    menu.addAction(CopyTableAndGraphsAsImage);
+                    menu.addAction(CopyTableAndGraphsAsPDF);
 
-            menu.addAction(copyTableAsText);
-            menu.addAction(copyTableAsPDG);
-            menu.addAction(copyTableAsImage);
-            menu.addAction(copyTableAsCSV);
-            menu.addAction(copyGraphsAsImage);
-            menu.addAction(copyGraphsAsPDF);
-            menu.addAction(CopyTableAndGraphsAsImage);
-            menu.addAction(CopyTableAndGraphsAsPDF);
-
-            menu.exec(menuPosition);
-        });*/
-
-                /*ribbonBarManager->registerWidget(
-                    Nedrysoft::Core::Constants::RibbonCommands::ClipboardCopy,
-                    [=](bool dropdown) {
-                        qDebug() << "drop down called!";
-                    },
-                    m_editorContextId
-                );*/
-/*
-                // create Edit/Cut action for this context
-
-                action = new QAction(Pingnoo::Constants::commandText(Pingnoo::Constants::EditCut));
-
-                connect(action, &QAction::triggered, [&](bool) {
-                    qDebug() << "action triggered (route analyser) !";
-                });
-
-                // register Edit/Cut menu option for this context
-
-                commandManager->registerAction(action, Pingnoo::Constants::EditCut, m_editorContextId);
-
-                Nedrysoft::Core::IContextManager::getInstance()->setContext(m_editorContextId);
-
-                action->setEnabled(true);
-*/
+                    menu.exec(menuPosition);
+#endif
+                }
             }
         });
 

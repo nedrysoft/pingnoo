@@ -48,8 +48,6 @@ Nedrysoft::Core::Core::~Core() {
 }
 
 auto Nedrysoft::Core::Core::open() -> void {
-    //m_mainWindow->initialise();
-
     Q_EMIT coreOpened();
 }
 
@@ -70,8 +68,9 @@ auto Nedrysoft::Core::Core::storageFolder() -> QString {
         return QDir::cleanPath(applicationDir.absolutePath()+"/data");
     }
 
-    return QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).at(0)
-                   + "/" + qApp->organizationName() + "/" + qApp->applicationName();
+    return QStandardPaths::standardLocations(
+        QStandardPaths::GenericDataLocation
+    ).at(0) + "/" + qApp->organizationName() + "/" + qApp->applicationName();
 }
 
 auto Nedrysoft::Core::Core::applicationContextMenu() -> IMenu * {

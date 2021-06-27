@@ -26,6 +26,7 @@
 #include "ICommand.h"
 #include "ICommandManager.h"
 #include "ICore.h"
+#include "RibbonActionProxy.h"
 #include "RibbonPage.h"
 
 #include <RibbonDropButton>
@@ -139,32 +140,12 @@ auto Nedrysoft::Core::RibbonBarManager::selectPage(QString id) -> bool {
     return false;
 }
 
-auto Nedrysoft::Core::RibbonBarManager::registerWidget(
-        Nedrysoft::Ribbon::RibbonDropButton *widget,
-        QString commandId ) -> void {
-
-    m_dropDownWidgets[commandId] = widget;
-
-    connect(widget, &Nedrysoft::Ribbon::RibbonDropButton::clicked, [=](bool dropdown) {
-        auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
-
-        assert(contextManager!=nullptr);
-
-    });
-}
-
 auto Nedrysoft::Core::RibbonBarManager::registerAction(
-        RibbonDropButtonAction *action,
+        RibbonAction *action,
         QString commandId,
-        const Nedrysoft::Core::ContextList &contexts) -> void {
+        int contextId) -> Nedrysoft::Core::ICommand * {
 
- }
-
-auto Nedrysoft::Core::RibbonBarManager::registerAction(
-        RibbonDropButtonAction *action,
-        QString commandId,
-        int contextId) -> void {
-
+    return nullptr;
 }
 
 auto  Nedrysoft::Core::RibbonBarManager::setRibbonBar(Nedrysoft::Ribbon::RibbonWidget *widget) -> void {

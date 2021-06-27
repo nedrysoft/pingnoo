@@ -37,7 +37,7 @@ namespace Nedrysoft { namespace Ribbon {
 
 namespace Nedrysoft { namespace Core {
     class IRibbonPage;
-    class RibbonDropButtonAction;
+    class RibbonAction;
 
     /**
      * @brief       The IRibbonBarManager interface describes an object that handles the creation of ribbon bars.
@@ -105,20 +105,16 @@ namespace Nedrysoft { namespace Core {
              * @param[in]   widget the drop button widget.
              * @param[in]   commandId the command identifier for this button.
              */
-            virtual auto registerWidget(
+            /*virtual auto registerWidget(
                 Nedrysoft::Ribbon::RibbonDropButton *widget,
                 QString commandId
-            ) -> void = 0;
+            ) -> void = 0;*/
 
             virtual auto registerAction(
-                RibbonDropButtonAction *action,
+                RibbonAction *action,
                 QString commandId,
-                const Nedrysoft::Core::ContextList &contexts) -> void = 0;
-
-            virtual auto registerAction(
-                RibbonDropButtonAction *action,
-                QString commandId,
-                int contextId = Nedrysoft::Core::GlobalContext) -> void = 0;
+                int contextId = Nedrysoft::Core::GlobalContext
+            ) -> Nedrysoft::Core::ICommand * = 0;
 
             virtual auto setRibbonBar(Nedrysoft::Ribbon::RibbonWidget *widget) -> void = 0;
 
