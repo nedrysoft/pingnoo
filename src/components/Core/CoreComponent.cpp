@@ -27,12 +27,13 @@
 #include "CommandManager.h"
 #include "ContextManager.h"
 #include "Core.h"
+#include "CoreConstants.h"
 #include "HostMaskerManager.h"
 #include "HostMaskerSettingsPage.h"
 #include "HostMaskingRibbonGroup.h"
-#include "IRibbonBarManager.h"
 #include "IRibbonPage.h"
-#include "CoreConstants.h"
+#include "MainWindow.h"
+#include "RibbonBarManager.h"
 #include "SystemTrayIconManager.h"
 #include "ThemeSettingsPage.h"
 
@@ -58,61 +59,56 @@ auto CoreComponent::initialiseEvent() -> void {
     qRegisterMetaType<Nedrysoft::Core::IPVersion>("Nedrysoft::Core::IPVersion");
 
     m_core = new Nedrysoft::Core::Core();
-    m_contextManager = new Nedrysoft::Core::ContextManager();
-    m_commandManager = new Nedrysoft::Core::CommandManager();
-    m_hostMaskerSettingsPage = new Nedrysoft::Core::HostMaskerSettingsPage();
-    m_themeSettingsPage = new Nedrysoft::Core::ThemeSettingsPage();
-    m_systemTrayIconManager = new Nedrysoft::Core::SystemTrayIconManager();
-    m_hostMaskerManager = new Nedrysoft::Core::HostMaskerManager();
-
     Nedrysoft::ComponentSystem::addObject(m_core);
+
+    m_contextManager = new Nedrysoft::Core::ContextManager();
     Nedrysoft::ComponentSystem::addObject(m_contextManager);
+
+    m_commandManager = new Nedrysoft::Core::CommandManager();
     Nedrysoft::ComponentSystem::addObject(m_commandManager);
+
+    m_hostMaskerSettingsPage = new Nedrysoft::Core::HostMaskerSettingsPage();
     Nedrysoft::ComponentSystem::addObject(m_hostMaskerSettingsPage);
+
+    m_themeSettingsPage = new Nedrysoft::Core::ThemeSettingsPage();
     Nedrysoft::ComponentSystem::addObject(m_themeSettingsPage);
+
+    m_systemTrayIconManager = new Nedrysoft::Core::SystemTrayIconManager();
     Nedrysoft::ComponentSystem::addObject(m_systemTrayIconManager);
+
+    m_hostMaskerManager = new Nedrysoft::Core::HostMaskerManager();
     Nedrysoft::ComponentSystem::addObject(m_hostMaskerManager);
 
-    auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
+    m_ribbonBarManager = new Nedrysoft::Core::RibbonBarManager();
+    Nedrysoft::ComponentSystem::addObject(m_ribbonBarManager);
 
-    if (ribbonBarManager) {
-        auto homePage = ribbonBarManager->addPage(tr("Home"), Nedrysoft::Core::Constants::RibbonPages::Home, 0);
+    auto mainWindow =
+        qobject_cast<Nedrysoft::Core::MainWindow *>(Nedrysoft::Core::ICore::getInstance()->mainWindow());
 
-        m_hostMaskingRibbonGroupWidget = new Nedrysoft::Core::HostMaskingRibbonGroup;
-        m_clipboardRibbonGroupWidget = new Nedrysoft::Core::ClipboardRibbonGroup;
-
-        /*m_newTargetGroupWidget = new Nedrysoft::RouteAnalyser::NewTargetRibbonGroup;
-            m_latencyGroupWidget = new Nedrysoft::RouteAnalyser::LatencyRibbonGroup;
-            m_viewportGroupWidget = new Nedrysoft::RouteAnalyser::ViewportRibbonGroup;*/
-
-        homePage->addGroup(
-            tr("Host Masking"),
-            Nedrysoft::Core::Constants::RibbonGroups::Home,
-            m_hostMaskingRibbonGroupWidget
-        );
-
-        homePage->addGroup(
-            tr("Clipboard"),
-            Nedrysoft::Core::Constants::RibbonGroups::Home,
-            m_clipboardRibbonGroupWidget
-        );
-    }
+    mainWindow->initialise();
 }
 
 auto CoreComponent::initialisationFinishedEvent() -> void {
     auto core = Nedrysoft::ComponentSystem::getObject<Nedrysoft::Core::Core>();
 
-    connect(Nedrysoft::Core::IContextManager::getInstance(), &Nedrysoft::Core::IContextManager::contextChanged,
-            [&](int newContext, int oldContext) {
-                Q_UNUSED(oldContext)
+    connect(
+        Nedrysoft::Core::IContextManager::getInstance(),
+        &Nedrysoft::Core::IContextManager::contextChanged,
+        [&](int newContext, int oldContext) {
+            Q_UNUSED(oldContext)
 
-                Nedrysoft::Core::ICommandManager::getInstance()->setContext(newContext);
-            });
+            Nedrysoft::Core::ICommandManager::getInstance()->setContext(newContext);
+        }
+    );
 
     core->open();
 }
 
 auto CoreComponent::finaliseEvent() -> void {
+    if (m_ribbonBarManager) {
+        delete m_ribbonBarManager;
+    }
+
     if (m_hostMaskerManager) {
         delete m_hostMaskerManager;
     }

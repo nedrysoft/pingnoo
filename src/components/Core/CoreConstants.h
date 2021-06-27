@@ -60,6 +60,10 @@ namespace Nedrysoft { namespace Core { namespace Constants {
         constexpr auto FileExit = "File.Exit";
     }
 
+    namespace RibbonCommands {
+        constexpr auto ClipboardCopy = "Pingnoo.Clipboard.Copy";
+    }
+
     namespace Commands {
         constexpr auto Preferences = "Pingnoo.Preferences";
 

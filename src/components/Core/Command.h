@@ -113,6 +113,7 @@ namespace Nedrysoft { namespace Core {
             auto setContext(int contextId) -> void;
 
             friend class CommandManager;
+            friend class RibbonBarManager;
 
         private:
             //! @cond

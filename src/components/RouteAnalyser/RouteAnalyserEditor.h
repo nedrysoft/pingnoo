@@ -128,6 +128,13 @@ namespace Nedrysoft { namespace RouteAnalyser {
              */
             auto deactivated() -> void override;
 
+            /**
+             * @brief       Returns the context id for this editor
+             *
+             * @returns     the context id
+             */
+            auto contextId() -> int override;
+
         public:
             /**
              * @brief       Saves the configuration to a JSON object.

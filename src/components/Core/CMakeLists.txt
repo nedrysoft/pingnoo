@@ -84,6 +84,7 @@ pingnoo_add_sources(
     Menu.h
     RibbonBarManager.cpp
     RibbonBarManager.h
+    RibbonDropButtonAction.h
     RibbonGroup.cpp
     RibbonGroup.h
     RibbonPage.cpp

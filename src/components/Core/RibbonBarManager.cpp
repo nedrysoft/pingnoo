@@ -23,16 +23,21 @@
 
 #include "RibbonBarManager.h"
 
+#include "ICommand.h"
+#include "ICommandManager.h"
+#include "ICore.h"
 #include "RibbonPage.h"
 
-constexpr auto RibbonOrderProperty = "nedrysoft.ribbon.order";
+#include <RibbonDropButton>
 
+constexpr auto RibbonOrderProperty = "nedrysoft.ribbon.order";
+#include <QDebug>
 Nedrysoft::Core::RibbonBarManager::~RibbonBarManager() {
     qDeleteAll(m_pages);
 }
 
-Nedrysoft::Core::RibbonBarManager::RibbonBarManager(Nedrysoft::Ribbon::RibbonWidget *ribbonWidget) :
-        m_ribbonWidget(ribbonWidget) {
+Nedrysoft::Core::RibbonBarManager::RibbonBarManager() :
+        m_ribbonWidget(nullptr) {
 
 }
 
@@ -102,10 +107,6 @@ auto Nedrysoft::Core::RibbonBarManager::page(QString id) -> Nedrysoft::Core::IRi
     return nullptr;
 }
 
-auto Nedrysoft::Core::RibbonBarManager::setRibbonWidget(Nedrysoft::Ribbon::RibbonWidget *ribbonWidget) -> void {
-    m_ribbonWidget = ribbonWidget;
-}
-
 auto Nedrysoft::Core::RibbonBarManager::groupAdded(Nedrysoft::Core::RibbonPage *page) -> void {
 #if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
     for(auto currentIndex=0;currentIndex<m_ribbonWidget->count();currentIndex++) {
@@ -137,3 +138,36 @@ auto Nedrysoft::Core::RibbonBarManager::selectPage(QString id) -> bool {
 
     return false;
 }
+
+auto Nedrysoft::Core::RibbonBarManager::registerWidget(
+        Nedrysoft::Ribbon::RibbonDropButton *widget,
+        QString commandId ) -> void {
+
+    m_dropDownWidgets[commandId] = widget;
+
+    connect(widget, &Nedrysoft::Ribbon::RibbonDropButton::clicked, [=](bool dropdown) {
+        auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
+
+        assert(contextManager!=nullptr);
+
+    });
+}
+
+auto Nedrysoft::Core::RibbonBarManager::registerAction(
+        RibbonDropButtonAction *action,
+        QString commandId,
+        const Nedrysoft::Core::ContextList &contexts) -> void {
+
+ }
+
+auto Nedrysoft::Core::RibbonBarManager::registerAction(
+        RibbonDropButtonAction *action,
+        QString commandId,
+        int contextId) -> void {
+
+}
+
+auto  Nedrysoft::Core::RibbonBarManager::setRibbonBar(Nedrysoft::Ribbon::RibbonWidget *widget) -> void {
+    m_ribbonWidget = widget;
+}
+

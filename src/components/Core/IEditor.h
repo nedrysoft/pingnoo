@@ -60,6 +60,13 @@ namespace Nedrysoft { namespace Core {
             virtual auto widget() -> QWidget * = 0;
 
             /**
+             * @brief       Returns the context id for this editor
+             *
+             * @returns     the context id
+             */
+            virtual auto contextId() -> int = 0;
+
+            /**
              * @brief       Returns the display name for the editor.
              *
              * @details     Returns the user displayable name of the editor, this is usually used by the
