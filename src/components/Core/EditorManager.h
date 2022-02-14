@@ -62,7 +62,14 @@ namespace Nedrysoft { namespace Core {
              *
              * @returns     zero if editor successfully opened; otherwise non-zero.
              */
-            auto openEditor(IEditor *editor) -> int override;
+            auto openEditor(Nedrysoft::Core::IEditor *editor) -> int override;
+
+            /**
+             * @brief       Gets the currently active editor.
+             *
+             * @returns     the current editor or nullptr if no editor is open.
+             */
+            virtual auto currentEditor() -> Nedrysoft::Core::IEditor * override;
 
         private:
             //! @cond

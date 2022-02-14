@@ -24,9 +24,17 @@
 #ifndef PINGNOO_COMPONENTS_CORE_IRIBBONBARMANAGER_H
 #define PINGNOO_COMPONENTS_CORE_IRIBBONBARMANAGER_H
 
-#include <IInterface>
-#include "IContextManager.h"
 #include "CoreSpec.h"
+#include "ICommand.h"
+#include "IContextManager.h"
+
+#include <IInterface>
+
+namespace Nedrysoft { namespace Ribbon {
+    class RibbonDropButton;
+    class RibbonWidget;
+    class RibbonAction;
+}}
 
 namespace Nedrysoft { namespace Core {
     class IRibbonPage;
@@ -87,6 +95,30 @@ namespace Nedrysoft { namespace Core {
              * @returns     true if page was switched; otherwise false.
              */
             virtual auto selectPage(QString id) -> bool = 0;
+
+            /**
+             * @brief       Registers a Drop Button with the manager.
+             *
+             * @note        This is an overloaded function, for each type of ribbon widget there should be
+             *              a corresponding function to register the widget.
+             *
+             * @param[in]   widget the drop button widget.
+             * @param[in]   commandId the command identifier for this button.
+             *
+             * @returns     the created action.
+             */
+            virtual auto registerAction(
+                Nedrysoft::Ribbon::RibbonAction *action,
+                QString commandId,
+                int contextId = Nedrysoft::Core::GlobalContext
+            ) -> Nedrysoft::Ribbon::RibbonAction * = 0;
+
+            /**
+             * @brief       Sets the ribbon windget that is managed by this instance.
+             *
+             * @param[in]   widget the ribbon widget instance.
+             */
+            virtual auto setRibbonBar(Nedrysoft::Ribbon::RibbonWidget *widget) -> void = 0;
 
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~IRibbonBarManager() = default;

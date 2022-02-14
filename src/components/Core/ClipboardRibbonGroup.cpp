@@ -23,6 +23,11 @@
 
 #include "ClipboardRibbonGroup.h"
 
+#include "CoreConstants.h"
+#include "ICommandManager.h"
+#include "RibbonBarManager.h"
+#include "RibbonAction"
+
 #include "ui_ClipboardRibbonGroup.h"
 
 #include <QMenu>
@@ -42,37 +47,26 @@ Nedrysoft::Core::ClipboardRibbonGroup::ClipboardRibbonGroup(QWidget *parent) :
     ui->copyButton->setIcon(icon);
     ui->copyButton->setIconSize(QSize(16, 16));
 
-    connect(ui->copyButton, &Nedrysoft::Ribbon::RibbonDropButton::clicked, [=](bool dropdown) {
-        if (!dropdown) {
-            return;
-        }
+    auto ribbonBarManager = Nedrysoft::Core::RibbonBarManager::getInstance();
 
-        QMenu menu;
-        QPoint menuPosition = ui->copyButton->rect().bottomLeft();
+    if (ribbonBarManager) {
+        auto clipboardCopyAction = new Nedrysoft::Ribbon::RibbonAction;
 
-        menuPosition = mapToGlobal(menuPosition);
+        auto proxyAction = ribbonBarManager->registerAction(
+            clipboardCopyAction,
+            Nedrysoft::Core::Constants::RibbonCommands::ClipboardCopy
+        );
 
-        auto copyTableAxText = menu.addAction(tr("Copy Table as Text"));
-        auto copyTableAxPDG = menu.addAction(tr("Copy Table as PDF"));
-        auto copyTableAxImage = menu.addAction(tr("Copy Table as Image"));
-        auto copyTableAxCSV = menu.addAction(tr("Copy Table as CSV"));
-        auto copyGraphsAsImage = menu.addAction(tr("Copy Graphs as Image"));
-        auto copyGraphsAsPDF = menu.addAction(tr("Copy Graphs as PDF"));
-        auto CopyTableAndGraphsAsImage = menu.addAction(tr("Copy Table and Graphs as Image"));
-        auto CopyTableAndGraphsAsPDF = menu.addAction(tr("Copy Table and Graphs as PDF"));
+        connect(
+            clipboardCopyAction,
+            &Nedrysoft::Ribbon::RibbonAction::ribbonEvent,
+            [=](Nedrysoft::Ribbon::Event *event) {
+                // do nothing for now in the global context.
+            }
+        );
 
-        menu.addAction(copyTableAxText);
-        menu.addAction(copyTableAxPDG);
-        menu.addAction(copyTableAxImage);
-        menu.addAction(copyTableAxCSV);
-        menu.addAction(copyGraphsAsImage);
-        menu.addAction(copyGraphsAsPDF);
-        menu.addAction(CopyTableAndGraphsAsImage);
-        menu.addAction(CopyTableAndGraphsAsPDF);
-
-        menu.exec(menuPosition);
-    });
-
+        ui->copyButton->setAction(proxyAction);
+    }
 }
 
 Nedrysoft::Core::ClipboardRibbonGroup::~ClipboardRibbonGroup() {

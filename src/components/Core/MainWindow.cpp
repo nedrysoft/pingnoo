@@ -30,7 +30,10 @@
 #include "ICore.h"
 #include "IEditor.h"
 #include "EditorManager.h"
+#include "ClipboardRibbonGroup.h"
 #include "CoreConstants.h"
+#include "HostMaskingRibbonGroup.h"
+#include "IRibbonPage.h"
 #include "RibbonBarManager.h"
 #include "SystemTrayIcon.h"
 #include "ui_MainWindow.h"
@@ -60,8 +63,6 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
         m_settingsDialog(nullptr),
         m_applicationHidden(false) {
 
-    // TODO: m_ribbonBarManager should be created in the component initialisation
-
     spdlog::set_level(spdlog::level::trace);
 
     ui->setupUi(this);
@@ -71,13 +72,6 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
 #else
     qApp->setWindowIcon(QIcon(":/app/AppIcon.ico"));
 #endif
-    m_ribbonBarManager = new Nedrysoft::Core::RibbonBarManager(ui->ribbonBar);
-
-    Nedrysoft::ComponentSystem::addObject(m_ribbonBarManager);
-
-    m_ribbonBarManager->addPage(tr("Home"), Nedrysoft::Core::Constants::RibbonPages::Home);
-
-    ui->editorTabWidget->setText(tr("Select New Target from the Menu or Ribbon bar to begin."));
 
     showMaximized();
 
@@ -118,6 +112,7 @@ Nedrysoft::Core::MainWindow::MainWindow(QWidget *parent) :
     if (themeSupport->isForced()) {
         ui->statusbar->setStyleSheet("background-color: " + ui->ribbonBar->backgroundColor().name());
     }
+
     // QStatusBar *statusBar = new QStatusBar;
 
     /*
@@ -181,12 +176,35 @@ auto Nedrysoft::Core::MainWindow::updateTitlebar() -> void {
 }
 
 auto Nedrysoft::Core::MainWindow::initialise() -> void {
+    auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
+
+    ribbonBarManager->setRibbonBar(ui->ribbonBar);
+
+    auto homePage = ribbonBarManager->addPage(tr("Home"), Nedrysoft::Core::Constants::RibbonPages::Home);
+
+    auto hostMaskingRibbonGroupWidget = new Nedrysoft::Core::HostMaskingRibbonGroup;
+    auto clipboardRibbonGroupWidget = new Nedrysoft::Core::ClipboardRibbonGroup;
+
+    homePage->addGroup(
+        tr("Host Masking"),
+        Nedrysoft::Core::Constants::RibbonGroups::Home,
+        hostMaskingRibbonGroupWidget
+    );
+
+    homePage->addGroup(
+        tr("Clipboard"),
+        Nedrysoft::Core::Constants::RibbonGroups::Home,
+        clipboardRibbonGroupWidget
+    );
+
     createDefaultCommands();
     registerDefaultCommands();
 
     m_editorManager = new Nedrysoft::Core::EditorManager(ui->editorTabWidget);
 
     Nedrysoft::ComponentSystem::addObject(m_editorManager);
+
+    ui->editorTabWidget->setText(tr("Select New Target from the Menu or Ribbon bar to begin."));
 }
 
 auto Nedrysoft::Core::MainWindow::createDefaultCommands() -> void {

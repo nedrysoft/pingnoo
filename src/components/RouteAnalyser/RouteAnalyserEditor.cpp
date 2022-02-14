@@ -24,12 +24,11 @@
 #include "RouteAnalyserEditor.h"
 
 #include "LatencyRibbonGroup.h"
+#include "PlotScrollArea.h"
 #include "RouteAnalyser.h"
 #include "RouteAnalyserWidget.h"
-#include "ViewportRibbonGroup.h"
 #include "TargetManager.h"
-
-
+#include "ViewportRibbonGroup.h"
 
 #include <IContextManager>
 #include <QObject>
@@ -68,10 +67,11 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::loadConfiguration(QJsonObjec
 auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::widget() -> QWidget * {
     if (!m_editorWidget) {
         m_editorWidget = new RouteAnalyserWidget(
-                m_pingTarget,
-                m_ipVersion,
-                m_interval,
-                m_pingEngineFactory );
+            m_pingTarget,
+            m_ipVersion,
+            m_interval,
+            m_pingEngineFactory
+        );
 
         auto viewportWidget = ComponentSystem::getObject<ViewportRibbonGroup>();
         double newViewportSize = DefaultWindowSize;
@@ -187,6 +187,7 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::deactivated() -> void {
             &ViewportRibbonGroup::viewportWindowChanged,
             this,
             &Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onViewportWindowChanged
+
         );
     }
 
@@ -254,4 +255,57 @@ void Nedrysoft::RouteAnalyser::RouteAnalyserEditor::onLatencyValueChanged(
         LatencyRibbonGroup::LatencyType type,
         double value) {
 
+}
+
+auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::contextId() -> int {
+    return m_contextId;
+}
+
+auto Nedrysoft::RouteAnalyser::RouteAnalyserEditor::generateOutput(
+        Nedrysoft::RouteAnalyser::OutputType type,
+        Nedrysoft::RouteAnalyser::OutputTarget target ) -> void {
+
+    if (type==Nedrysoft::RouteAnalyser::OutputType::TableAsText) {
+    } else if (type==Nedrysoft::RouteAnalyser::OutputType::TableAsPDF) {
+    } else if (type==Nedrysoft::RouteAnalyser::OutputType::TableAsImage) {
+    } else if (type==Nedrysoft::RouteAnalyser::OutputType::TableAsCSV) {
+    } else if (type==Nedrysoft::RouteAnalyser::OutputType::GraphsAsImage) {
+    } else if (type==Nedrysoft::RouteAnalyser::OutputType::GraphsAsPDF) {
+    } else if (type==Nedrysoft::RouteAnalyser::OutputType::TableAndGraphsAsImage) {
+    } else if (type==Nedrysoft::RouteAnalyser::OutputType::TableAndGraphsAsPDF) {
+/*        QPrinter printer(QPrinter::HighResolution);
+
+        printer.setOutputFormat(QPrinter::PdfFormat);
+        printer.setOutputFileName("/Users/adriancarpenter/Desktop/pingnoo.pdf");
+
+        //printer.setPageMargins(12, 16, 12, 20, QPrinter::Millimeter);
+        //printer.setFullPage(false);
+
+        QPainter painter(&printer);
+
+        double xscale = printer.pageRect().width() / double(m_editorWidget->width());
+        double yscale = printer.pageRect().height() / double(m_editorWidget->height());
+        double scale = qMin(xscale, yscale);
+
+        //painter.translate(printer.paperRect().center());
+        //painter.scale(scale, scale);
+        //painter.translate(-m_editorWidget->width()/ 2, -m_editorWidget->height()/ 2);
+
+        int yOffset = 0;
+
+        painter.scale(4, 4);
+
+        QTextDocument doc;
+
+        for (auto plot : m_editorWidget->m_plotList) {
+plot->setPlottingHint()
+            plot->render(&painter);
+            painter.translate(0, 400);
+        }
+
+        //m_editorWidget->m_scrollArea->render(&painter);
+        */
+    }
+
+    qDebug() << "generateOutput";
 }

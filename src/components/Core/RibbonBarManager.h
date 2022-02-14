@@ -24,13 +24,17 @@
 #ifndef PINGNOO_COMPONENTS_CORE_RIBBONBARMANAGER_H
 #define PINGNOO_COMPONENTS_CORE_RIBBONBARMANAGER_H
 
+#include "Command.h"
 #include "IRibbonBarManager.h"
 
 #include <QMap>
+
+#include <RibbonAction>
 #include <RibbonWidget>
 
 namespace Nedrysoft { namespace Core {
     class RibbonPage;
+    class RibbonActionProxy;
 
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     struct RibbonPageVisibility {
@@ -54,10 +58,8 @@ namespace Nedrysoft { namespace Core {
         public:
             /**
              * @brief       Constructs a RibbonBarManager with the supplied Ribbon Widget.
-             *
-             * @param[in]   ribbonWidget the ribbon widget.
              */
-            RibbonBarManager(Nedrysoft::Ribbon::RibbonWidget *ribbonWidget=nullptr);
+            RibbonBarManager();
 
             /**
              * @brief       Destroys the RibbonBarManager.
@@ -99,13 +101,34 @@ namespace Nedrysoft { namespace Core {
              */
             auto selectPage(QString id) -> bool override;
 
+            /**
+             * @brief       Registers a ribbon action with the manager.
+             *
+             * @note        The return value from this is the RibbonAction subclass RibbonActionProxy, this acts
+             *              as a broker between the event and the real action.  Only one slot at a time is
+             *              connected to the ribbonEvent signal, upon context changes the selected action
+             *              is modified.  At any time, emitting the signal from the proxy will actually emit
+             *              the currectly connected signal.
+             *
+             * @param[in]   action the action to register.
+             * @param[in]   commandId the command identifier for this action.
+             * @param[in]   contextId the identifier of the command.
+             *
+             * @returns     the action instance.
+             */
+            auto registerAction(
+                Nedrysoft::Ribbon::RibbonAction *action,
+                QString commandId,
+                int contextId = Nedrysoft::Core::GlobalContext
+            ) -> Nedrysoft::Ribbon::RibbonAction * override;
+
         public:
             /**
-             * @brief       Attaches the ribbon to this instance.
+             * @brief       Attaches the ribbon widget to this instance.
              *
              * @param[in]   ribbonWidget the ribbon widget.
              */
-            auto setRibbonWidget(Nedrysoft::Ribbon::RibbonWidget *ribbonWidget) -> void;
+            auto setRibbonBar(Nedrysoft::Ribbon::RibbonWidget *widget) -> void override;
 
             /**
              * @brief       Called when a group is added to a page.
@@ -121,6 +144,11 @@ namespace Nedrysoft { namespace Core {
 
             Nedrysoft::Ribbon::RibbonWidget *m_ribbonWidget;
             QMap<QString, Nedrysoft::Core::RibbonPage *> m_pages;
+
+            QMap<QString, Nedrysoft::Core::RibbonActionProxy *> m_commandMap;
+            QMap<QString, Nedrysoft::Ribbon::RibbonAction *> m_actionMap;
+            //QMap<int, Nedrysoft::Core::RibbonAction *> m_actions;
+            //QMap<QString, QWidget*> m_widgets;
 
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
             QList<RibbonPageVisibility> m_visibleList;

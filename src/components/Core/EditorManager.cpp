@@ -25,6 +25,7 @@
 
 #include "EditorManager.h"
 
+#include "IContextManager.h"
 #include "IEditor.h"
 
 #include <QCheckBox>
@@ -180,6 +181,12 @@ Nedrysoft::Core::EditorManager::EditorManager(EditorManagerTabWidget *tabWidget)
             newEditor->activated();
         }
 
+        auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
+
+        if (contextManager) {
+            contextManager->setContext(newEditor->contextId());
+        }
+
         previousEditor = newEditor;
     });
 }
@@ -214,4 +221,18 @@ auto Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) -> int {
     });
 
     return 0;
+}
+
+auto Nedrysoft::Core::EditorManager::currentEditor() -> IEditor * {
+    auto currentWidget = m_tabWidget->currentWidget();
+
+    if (!currentWidget) {
+        return nullptr;
+    }
+
+    if (!m_editorMap.contains(currentWidget)) {
+        return nullptr;
+    }
+
+    return m_editorMap[currentWidget];
 }

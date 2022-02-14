@@ -34,9 +34,14 @@
 #include "IRouteEngineFactory.h"
 #include "LatencySettings.h"
 #include "PlotScrollArea.h"
+#include "RouteAnalyser.h"
 #include "RouteDiscoveryWidget.h"
 #include "RouteTableItemDelegate.h"
 
+#include <CoreConstants>
+#include <ICommand>
+#include <ICommandManager>
+#include <IContextManager>
 #include <IGeoIPProvider>
 #include <IHostMasker>
 #include "IHostMaskerManager"
