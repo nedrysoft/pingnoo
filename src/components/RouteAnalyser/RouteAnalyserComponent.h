@@ -75,6 +75,13 @@ class NEDRYSOFT_ROUTEANALYSER_DLLSPEC RouteAnalyserComponent :
          */
         auto contextId() -> int;
 
+        /**
+         * @brief       Shows the clipboard menu.
+         *
+         * @param[in]   position the screen position for the menu.
+         */
+        auto handleClipboardMenu(QPoint position) -> void;
+
     public:
         /**
          * @brief       The initialiseEvent is called by the component loader to initialise the component.

@@ -23,16 +23,12 @@
 
 #include "RibbonBarManager.h"
 
-#include "ICommand.h"
 #include "ICommandManager.h"
-#include "ICore.h"
 #include "RibbonActionProxy.h"
 #include "RibbonPage.h"
 
-#include <RibbonDropButton>
-
 constexpr auto RibbonOrderProperty = "nedrysoft.ribbon.order";
-#include <QDebug>
+
 Nedrysoft::Core::RibbonBarManager::~RibbonBarManager() {
     qDeleteAll(m_pages);
 }
@@ -141,11 +137,47 @@ auto Nedrysoft::Core::RibbonBarManager::selectPage(QString id) -> bool {
 }
 
 auto Nedrysoft::Core::RibbonBarManager::registerAction(
-        RibbonAction *action,
+        Nedrysoft::Ribbon::RibbonAction *action,
         QString commandId,
-        int contextId) -> Nedrysoft::Core::ICommand * {
+        int contextId) -> Nedrysoft::Ribbon::RibbonAction * {
 
-    return nullptr;
+    auto actionName = QString("%1.%2").arg(commandId).arg(contextId);
+
+    auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
+
+    assert(contextManager!=nullptr);
+
+    if (m_commandMap.contains(commandId)) {
+        if (!m_actionMap.contains(actionName)) {
+            m_actionMap[actionName] = action;
+        }
+
+        if (contextId==contextManager->context()) {
+            m_commandMap[commandId]->setActive(action);
+        }
+
+        return m_commandMap[commandId];
+    }
+
+    auto newActionProxy = new RibbonActionProxy;
+
+    connect(
+        contextManager,
+        &Nedrysoft::Core::IContextManager::contextChanged,
+        [=](int newContext, int previousContext) {
+            auto actionName = QString("%1.%2").arg(commandId).arg(newContext);
+
+            newActionProxy->setActive(m_actionMap[actionName]);
+    });
+
+    m_commandMap[commandId] = newActionProxy;
+    m_actionMap[actionName] = action;
+
+    if (contextId==contextManager->context()) {
+        newActionProxy->setActive(action);
+    }
+
+    return newActionProxy;
 }
 
 auto  Nedrysoft::Core::RibbonBarManager::setRibbonBar(Nedrysoft::Ribbon::RibbonWidget *widget) -> void {

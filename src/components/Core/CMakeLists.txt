@@ -84,9 +84,8 @@ pingnoo_add_sources(
     Menu.h
     RibbonBarManager.cpp
     RibbonBarManager.h
-        RibbonAction.h
-        RibbonActionProxy.cpp
-        RibbonActionProxy.h
+    RibbonActionProxy.cpp
+    RibbonActionProxy.h
     RibbonGroup.cpp
     RibbonGroup.h
     RibbonPage.cpp

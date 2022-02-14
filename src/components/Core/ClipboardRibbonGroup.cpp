@@ -23,17 +23,14 @@
 
 #include "ClipboardRibbonGroup.h"
 
-#include "Command.h"
 #include "CoreConstants.h"
 #include "ICommandManager.h"
 #include "RibbonBarManager.h"
-#include "RibbonAction.h"
+#include "RibbonAction"
 
 #include "ui_ClipboardRibbonGroup.h"
 
 #include <QMenu>
-
-#include <QDebug>
 
 Nedrysoft::Core::ClipboardRibbonGroup::ClipboardRibbonGroup(QWidget *parent) :
         QWidget(parent),
@@ -53,77 +50,23 @@ Nedrysoft::Core::ClipboardRibbonGroup::ClipboardRibbonGroup(QWidget *parent) :
     auto ribbonBarManager = Nedrysoft::Core::RibbonBarManager::getInstance();
 
     if (ribbonBarManager) {
-        auto clipboardCopyAction = new RibbonAction;
+        auto clipboardCopyAction = new Nedrysoft::Ribbon::RibbonAction;
 
-        clipboardCopyAction->setEnabled(true);
-        clipboardCopyAction->setMenuRole(QAction::ApplicationSpecificRole);
-
-        auto clipboardCopyCommand = ribbonBarManager->registerAction(
+        auto proxyAction = ribbonBarManager->registerAction(
             clipboardCopyAction,
             Nedrysoft::Core::Constants::RibbonCommands::ClipboardCopy
         );
 
-        connect(ui->copyButton, &Nedrysoft::Ribbon::RibbonDropButton::clicked, [=](bool dropdown) {
-#warning("HERE: we need to handle the action.  Add COmmandManager and ICommmand style objects?")
-        });
-    }
-
-#if 0
-    m_copyCommand = new QAction(
-        Nedrysoft::Core::Constants::commandText(tr("Copy"))
-    );
-
-    m_copyCommand->setEnabled(true);
-    m_copyCommand->setMenuRole(QAction::ApplicationSpecificRole);
-
-    ICommandManager *commandManager = ICommandManager::getInstance();
-
-    if (commandManager) {
-        auto command = commandManager->registerAction(m_copyCommand, Nedrysoft::Core::Constants::Commands::Copy);
-
-        connect(ui->copyButton, &Nedrysoft::Ribbon::RibbonDropButton::clicked, [=](bool dropdown) {
-            qDebug() << "triggered" << dropdown << "context" << IContextManager::getInstance()->context();
-
-            command->action()->trigger();
-        });
-        /*auto commandManager->findCommand(Nedrysoft::Core::Constants::Commands::Copy);
-
-        auto copyCommand = commandManager->registerAction(m_copyCommand, Nedrysoft::Core::Constants::Commands::Copy);
-
-        m_copyCommand->trigger();
-        /*
-        connect(ui->copyButton, &Nedrysoft::Ribbon::RibbonDropButton::clicked, [=](bool dropdown) {
-            if (!dropdown) {
-                return;
+        connect(
+            clipboardCopyAction,
+            &Nedrysoft::Ribbon::RibbonAction::ribbonEvent,
+            [=](Nedrysoft::Ribbon::Event *event) {
+                // do nothing for now in the global context.
             }
+        );
 
-            QMenu menu;
-            QPoint menuPosition = ui->copyButton->rect().bottomLeft();
-
-            menuPosition = mapToGlobal(menuPosition);
-
-            auto copyTableAsText = menu.addAction(tr("Copy Table as Text"));
-            auto copyTableAsPDG = menu.addAction(tr("Copy Table as PDF"));
-            auto copyTableAsImage = menu.addAction(tr("Copy Table as Image"));
-            auto copyTableAsCSV = menu.addAction(tr("Copy Table as CSV"));
-            auto copyGraphsAsImage = menu.addAction(tr("Copy Graphs as Image"));
-            auto copyGraphsAsPDF = menu.addAction(tr("Copy Graphs as PDF"));
-            auto CopyTableAndGraphsAsImage = menu.addAction(tr("Copy Table and Graphs as Image"));
-            auto CopyTableAndGraphsAsPDF = menu.addAction(tr("Copy Table and Graphs as PDF"));
-
-            menu.addAction(copyTableAsText);
-            menu.addAction(copyTableAsPDG);
-            menu.addAction(copyTableAsImage);
-            menu.addAction(copyTableAsCSV);
-            menu.addAction(copyGraphsAsImage);
-            menu.addAction(copyGraphsAsPDF);
-            menu.addAction(CopyTableAndGraphsAsImage);
-            menu.addAction(CopyTableAndGraphsAsPDF);
-
-            menu.exec(menuPosition);
-        });*/
+        ui->copyButton->setAction(proxyAction);
     }
-#endif
 }
 
 Nedrysoft::Core::ClipboardRibbonGroup::~ClipboardRibbonGroup() {

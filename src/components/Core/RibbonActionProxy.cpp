@@ -37,11 +37,11 @@ auto Nedrysoft::Core::RibbonActionProxy::setActive(RibbonAction *action) -> void
 
     m_action = action;
 
-    if (action) {
-        setMenuRole(action->menuRole());
-    }
-
     connectAction();
+}
+
+auto Nedrysoft::Core::RibbonActionProxy::activeAction() -> Nedrysoft::Ribbon::RibbonAction * {
+    return m_action;
 }
 
 auto Nedrysoft::Core::RibbonActionProxy::disconnectAction() -> void {
@@ -51,9 +51,9 @@ auto Nedrysoft::Core::RibbonActionProxy::disconnectAction() -> void {
 
     disconnect(
         this,
-        qOverload<Nedrysoft::Core::RibbonEvent *>(&Nedrysoft::Core::RibbonActionProxy::triggered),
+        &Nedrysoft::Core::RibbonActionProxy::ribbonEvent,
         m_action,
-        qOverload<Nedrysoft::Core::RibbonEvent *>(&Nedrysoft::Core::RibbonAction::triggered)
+        &Nedrysoft::Ribbon::RibbonAction::ribbonEvent
     );
 }
 
@@ -64,8 +64,8 @@ auto Nedrysoft::Core::RibbonActionProxy::connectAction() -> void {
 
     connect(
         this,
-        qOverload<Nedrysoft::Core::RibbonEvent *>(&Nedrysoft::Core::RibbonActionProxy::triggered),
+        &Nedrysoft::Core::RibbonActionProxy::ribbonEvent,
         m_action,
-        qOverload<Nedrysoft::Core::RibbonEvent *>(&Nedrysoft::Core::RibbonAction::triggered)
+        &Nedrysoft::Ribbon::RibbonAction::ribbonEvent
     );
 }

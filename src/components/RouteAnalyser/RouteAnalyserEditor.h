@@ -41,6 +41,22 @@ namespace Nedrysoft { namespace RouteAnalyser {
     class RouteAnalyserComponent;
     class RouteAnalyserWidget;
 
+    enum class OutputTarget {
+        File,
+        Clipboard
+    };
+
+    enum class OutputType {
+        TableAsText,
+        TableAsPDF,
+        TableAsImage,
+        TableAsCSV,
+        GraphsAsImage,
+        GraphsAsPDF,
+        TableAndGraphsAsImage,
+        TableAndGraphsAsPDF
+    };
+
     /**
      * @brief       The RouteAnalyserEditor class provides the editor for a route analysis.
      */
@@ -93,6 +109,16 @@ namespace Nedrysoft { namespace RouteAnalyser {
              * @param[in]   interval the interval time period.
              */
             auto setInterval(double interval) -> void;
+
+            /**
+             * @brief       Generates an output to the given destination.
+             * @param[in]   type the type of the output.
+             * @param[in]   target the target for the output.
+             */
+            auto generateOutput(
+                Nedrysoft::RouteAnalyser::OutputType type,
+                Nedrysoft::RouteAnalyser::OutputTarget target
+            ) -> void;
 
         public:
             /**
