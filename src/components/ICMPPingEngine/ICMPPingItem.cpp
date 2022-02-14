@@ -55,7 +55,6 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingItem::startTimer() -> void {
     m_transmitEpoch = QDateTime::currentDateTime();
 }
 
-#pragma message("not noEDE")
 auto Nedrysoft::ICMPPingEngine::ICMPPingItem::stopTimer() -> void {
     m_elapsedTime = m_elapsedTimer.nsecsElapsed();
 }
