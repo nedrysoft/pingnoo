@@ -33,11 +33,11 @@
 namespace Nedrysoft { namespace Ribbon {
     class RibbonDropButton;
     class RibbonWidget;
+    class RibbonAction;
 }}
 
 namespace Nedrysoft { namespace Core {
     class IRibbonPage;
-    class RibbonAction;
 
     /**
      * @brief       The IRibbonBarManager interface describes an object that handles the creation of ribbon bars.
@@ -104,18 +104,20 @@ namespace Nedrysoft { namespace Core {
              *
              * @param[in]   widget the drop button widget.
              * @param[in]   commandId the command identifier for this button.
+             *
+             * @returns     the created action.
              */
-            /*virtual auto registerWidget(
-                Nedrysoft::Ribbon::RibbonDropButton *widget,
-                QString commandId
-            ) -> void = 0;*/
-
             virtual auto registerAction(
-                RibbonAction *action,
+                Nedrysoft::Ribbon::RibbonAction *action,
                 QString commandId,
                 int contextId = Nedrysoft::Core::GlobalContext
-            ) -> Nedrysoft::Core::ICommand * = 0;
+            ) -> Nedrysoft::Ribbon::RibbonAction * = 0;
 
+            /**
+             * @brief       Sets the ribbon windget that is managed by this instance.
+             *
+             * @param[in]   widget the ribbon widget instance.
+             */
             virtual auto setRibbonBar(Nedrysoft::Ribbon::RibbonWidget *widget) -> void = 0;
 
             // Classes with virtual functions should not have a public non-virtual destructor:

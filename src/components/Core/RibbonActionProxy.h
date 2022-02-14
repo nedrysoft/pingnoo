@@ -24,10 +24,9 @@
 #ifndef PINGNOO_COMPONENTS_CORE_RIBBONACTIONPROXY_H
 #define PINGNOO_COMPONENTS_CORE_RIBBONACTIONPROXY_H
 
-#include "RibbonAction.h"
-
 #include <QAction>
 #include <QPointer>
+#include <RibbonAction>
 
 namespace Nedrysoft { namespace Core {
     /**
@@ -37,7 +36,7 @@ namespace Nedrysoft { namespace Core {
      *              can be switched depending on the current context of the application.
      */
     class RibbonActionProxy :
-            public RibbonAction {
+            public Nedrysoft::Ribbon::RibbonAction {
 
         private:
             Q_OBJECT
@@ -59,11 +58,11 @@ namespace Nedrysoft { namespace Core {
             auto setActive(RibbonAction *action) -> void;
 
             /**
-             * @brief       This signal is emitted when the action is triggered.
+             * @brief       Retuns the currently active action.
              *
-             * @param[in]   dropdown true if the drop down was triggered; otherwise false.
+             * @returns     the current active action being proxied.
              */
-            Q_SIGNAL void triggered(Nedrysoft::Core::RibbonEvent *event);
+            auto activeAction() -> Nedrysoft::Ribbon::RibbonAction *;
 
         protected:
             /**
@@ -79,7 +78,7 @@ namespace Nedrysoft { namespace Core {
         private:
             //! @cond
 
-            QPointer<Nedrysoft::Core::RibbonAction> m_action;
+            QPointer<Nedrysoft::Ribbon::RibbonAction> m_action;
 
             //! @endcond
     };

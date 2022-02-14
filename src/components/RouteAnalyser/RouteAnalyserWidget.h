@@ -55,6 +55,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
     class PlotScrollArea;
     class RouteTableItemDelegate;
     class RouteDiscoveryWidget;
+    class RouteAnalyserEditor;
 
     /**
      * @brief       The RouteAnalyserWidget class provides the main widget for a route analyser.
@@ -218,6 +219,7 @@ namespace Nedrysoft { namespace RouteAnalyser {
              */
             QMap<Nedrysoft::RouteAnalyser::PingData::Fields, QPair<QString, QString> > &headerMap();
 
+            friend class Nedrysoft::RouteAnalyser::RouteAnalyserEditor;
         private:
             //! @cond
 

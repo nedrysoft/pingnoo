@@ -63,6 +63,13 @@ namespace Nedrysoft { namespace Core {
              */
             virtual auto openEditor(IEditor *editor) -> int = 0;
 
+            /**
+             * @brief       Gets the currently active editor.
+             *
+             * @returns     the current editor or nullptr if no editor is open.
+             */
+            virtual auto currentEditor() -> Nedrysoft::Core::IEditor * = 0;
+
             // Classes with virtual functions should not have a public non-virtual destructor:
             virtual ~IEditorManager() = default;
     };

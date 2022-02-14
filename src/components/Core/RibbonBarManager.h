@@ -26,10 +26,10 @@
 
 #include "Command.h"
 #include "IRibbonBarManager.h"
-#include "RibbonAction.h"
 
 #include <QMap>
 
+#include <RibbonAction>
 #include <RibbonWidget>
 
 namespace Nedrysoft { namespace Core {
@@ -104,17 +104,23 @@ namespace Nedrysoft { namespace Core {
             /**
              * @brief       Registers a ribbon action with the manager.
              *
+             * @note        The return value from this is the RibbonAction subclass RibbonActionProxy, this acts
+             *              as a broker between the event and the real action.  Only one slot at a time is
+             *              connected to the ribbonEvent signal, upon context changes the selected action
+             *              is modified.  At any time, emitting the signal from the proxy will actually emit
+             *              the currectly connected signal.
+             *
              * @param[in]   action the action to register.
              * @param[in]   commandId the command identifier for this action.
              * @param[in]   contextId the identifier of the command.
              *
-             * @returns     the command instance.
+             * @returns     the action instance.
              */
             auto registerAction(
-                RibbonAction *action,
+                Nedrysoft::Ribbon::RibbonAction *action,
                 QString commandId,
                 int contextId = Nedrysoft::Core::GlobalContext
-            ) -> Nedrysoft::Core::ICommand * override;
+            ) -> Nedrysoft::Ribbon::RibbonAction * override;
 
         public:
             /**
@@ -139,9 +145,10 @@ namespace Nedrysoft { namespace Core {
             Nedrysoft::Ribbon::RibbonWidget *m_ribbonWidget;
             QMap<QString, Nedrysoft::Core::RibbonPage *> m_pages;
 
-            QMap<QString, Nedrysoft::Core::RibbonActionProxy *> m_proxyActions;
-            QMap<int, Nedrysoft::Core::RibbonAction *> m_actions;
-            QMap<QString, QWidget*> m_widgets;
+            QMap<QString, Nedrysoft::Core::RibbonActionProxy *> m_commandMap;
+            QMap<QString, Nedrysoft::Ribbon::RibbonAction *> m_actionMap;
+            //QMap<int, Nedrysoft::Core::RibbonAction *> m_actions;
+            //QMap<QString, QWidget*> m_widgets;
 
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
             QList<RibbonPageVisibility> m_visibleList;

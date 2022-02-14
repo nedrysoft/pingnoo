@@ -222,3 +222,17 @@ auto Nedrysoft::Core::EditorManager::openEditor(IEditor *editor) -> int {
 
     return 0;
 }
+
+auto Nedrysoft::Core::EditorManager::currentEditor() -> IEditor * {
+    auto currentWidget = m_tabWidget->currentWidget();
+
+    if (!currentWidget) {
+        return nullptr;
+    }
+
+    if (!m_editorMap.contains(currentWidget)) {
+        return nullptr;
+    }
+
+    return m_editorMap[currentWidget];
+}

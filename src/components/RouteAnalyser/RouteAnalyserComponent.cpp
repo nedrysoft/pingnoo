@@ -62,7 +62,8 @@
 #include <QGuiApplication>
 #include <QScreen>
 #endif
-#include <RibbonDropButtonAction>
+#include <RibbonAction>
+#include <RibbonDropButton>
 #include <QVBoxLayout>
 #include <PopoverWindow.h>
 
@@ -127,14 +128,10 @@ auto RouteAnalyserComponent::finaliseEvent() -> void {
 
     if (m_viewportGroupWidget) {
         Nedrysoft::ComponentSystem::removeObject(m_viewportGroupWidget);
-
-        //delete m_viewportGroupWidget;
     }
 
     if (m_latencyGroupWidget) {
         Nedrysoft::ComponentSystem::removeObject(m_latencyGroupWidget);
-
-        //delete m_latencyGroupWidget;
     }
 
     if (m_newTargetAction) {
@@ -206,42 +203,31 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
                 auto ribbonBarManager = Nedrysoft::Core::IRibbonBarManager::getInstance();
 
                 if (ribbonBarManager) {
-                    auto clipboardCopyAction = new Nedrysoft::Core::RibbonAction;
+                    auto clipboardCopyAction = new Nedrysoft::Ribbon::RibbonAction;
 
-                    auto command = ribbonBarManager->registerAction(
+                    ribbonBarManager->registerAction(
                         clipboardCopyAction,
                         Nedrysoft::Core::Constants::RibbonCommands::ClipboardCopy,
                         m_editorContextId
                     );
 
-#warning("HERE: we need to register our command handler for the command id for our context.");
-#warning("HERE: we need to implement IRibbonCommand and all other equivilent objects for this");
-#if 0
-                    QMenu menu;
-                    QPoint menuPosition = ui->copyButton->rect().bottomLeft();
+                    connect(
+                        clipboardCopyAction,
+                        &Nedrysoft::Ribbon::RibbonAction::ribbonEvent,
+                        [=](Nedrysoft::Ribbon::Event *generalEvent) {
 
-                    menuPosition = mapToGlobal(menuPosition);
+                            if (generalEvent->type()==Nedrysoft::Ribbon::EventType::DropButtonClicked) {
+                                auto event =
+                                    reinterpret_cast<Nedrysoft::Ribbon::DropButtonClickedEvent *>(generalEvent);
 
-                    auto copyTableAsText = menu.addAction(tr("Copy Table as Text"));
-                    auto copyTableAsPDG = menu.addAction(tr("Copy Table as PDF"));
-                    auto copyTableAsImage = menu.addAction(tr("Copy Table as Image"));
-                    auto copyTableAsCSV = menu.addAction(tr("Copy Table as CSV"));
-                    auto copyGraphsAsImage = menu.addAction(tr("Copy Graphs as Image"));
-                    auto copyGraphsAsPDF = menu.addAction(tr("Copy Graphs as PDF"));
-                    auto CopyTableAndGraphsAsImage = menu.addAction(tr("Copy Table and Graphs as Image"));
-                    auto CopyTableAndGraphsAsPDF = menu.addAction(tr("Copy Table and Graphs as PDF"));
-
-                    menu.addAction(copyTableAsText);
-                    menu.addAction(copyTableAsPDG);
-                    menu.addAction(copyTableAsImage);
-                    menu.addAction(copyTableAsCSV);
-                    menu.addAction(copyGraphsAsImage);
-                    menu.addAction(copyGraphsAsPDF);
-                    menu.addAction(CopyTableAndGraphsAsImage);
-                    menu.addAction(CopyTableAndGraphsAsPDF);
-
-                    menu.exec(menuPosition);
-#endif
+                                if (event->dropDown()) {
+                                    handleClipboardMenu(
+                                        event->button()->mapToGlobal(event->button()->rect().bottomLeft())
+                                    );
+                                }
+                            }
+                        }
+                    );
                 }
             }
         });
@@ -471,4 +457,79 @@ auto RouteAnalyserComponent::initialisationFinishedEvent() -> void {
 
 auto RouteAnalyserComponent::contextId() -> int {
     return m_editorContextId;
+}
+
+auto RouteAnalyserComponent::handleClipboardMenu(QPoint position) -> void {
+    QMenu menu;
+
+    auto editorManager = Nedrysoft::Core::IEditorManager::getInstance();
+
+    auto routeAnalyserEditor =
+        qobject_cast<Nedrysoft::RouteAnalyser::RouteAnalyserEditor *>(editorManager->currentEditor());
+
+    if (routeAnalyserEditor==nullptr) {
+        return;
+    }
+
+    auto copyTableAsText = menu.addAction(tr("Copy Table as Text"));
+    auto copyTableAsPDF = menu.addAction(tr("Copy Table as PDF"));
+    auto copyTableAsImage = menu.addAction(tr("Copy Table as Image"));
+    auto copyTableAsCSV = menu.addAction(tr("Copy Table as CSV"));
+    auto copyGraphsAsImage = menu.addAction(tr("Copy Graphs as Image"));
+    auto copyGraphsAsPDF = menu.addAction(tr("Copy Graphs as PDF"));
+    auto CopyTableAndGraphsAsImage = menu.addAction(tr("Copy Table and Graphs as Image"));
+    auto CopyTableAndGraphsAsPDF = menu.addAction(tr("Copy Table and Graphs as PDF"));
+
+    menu.addAction(copyTableAsText);
+    menu.addAction(copyTableAsPDF);
+    menu.addAction(copyTableAsImage);
+    menu.addAction(copyTableAsCSV);
+    menu.addAction(copyGraphsAsImage);
+    menu.addAction(copyGraphsAsPDF);
+    menu.addAction(CopyTableAndGraphsAsImage);
+    menu.addAction(CopyTableAndGraphsAsPDF);
+
+    auto selectedAction = menu.exec(position);
+
+    if (selectedAction==copyTableAsText) {
+        routeAnalyserEditor->generateOutput(
+            Nedrysoft::RouteAnalyser::OutputType::TableAsText,
+            Nedrysoft::RouteAnalyser::OutputTarget::Clipboard
+        );
+    } else if (selectedAction==copyTableAsPDF) {
+        routeAnalyserEditor->generateOutput(
+            Nedrysoft::RouteAnalyser::OutputType::TableAsPDF,
+            Nedrysoft::RouteAnalyser::OutputTarget::Clipboard
+        );
+    } else if (selectedAction==copyTableAsImage) {
+        routeAnalyserEditor->generateOutput(
+            Nedrysoft::RouteAnalyser::OutputType::TableAsImage,
+            Nedrysoft::RouteAnalyser::OutputTarget::Clipboard
+        );
+    } else if (selectedAction==copyTableAsCSV) {
+        routeAnalyserEditor->generateOutput(
+            Nedrysoft::RouteAnalyser::OutputType::TableAsCSV,
+            Nedrysoft::RouteAnalyser::OutputTarget::Clipboard
+        );
+    } else if (selectedAction==copyGraphsAsImage) {
+        routeAnalyserEditor->generateOutput(
+            Nedrysoft::RouteAnalyser::OutputType::GraphsAsImage,
+            Nedrysoft::RouteAnalyser::OutputTarget::Clipboard
+        );
+    } else if (selectedAction==copyGraphsAsPDF) {
+        routeAnalyserEditor->generateOutput(
+            Nedrysoft::RouteAnalyser::OutputType::GraphsAsPDF,
+            Nedrysoft::RouteAnalyser::OutputTarget::Clipboard
+        );
+    } else if (selectedAction==CopyTableAndGraphsAsImage) {
+        routeAnalyserEditor->generateOutput(
+            Nedrysoft::RouteAnalyser::OutputType::TableAndGraphsAsImage,
+            Nedrysoft::RouteAnalyser::OutputTarget::Clipboard
+        );
+    } else if (selectedAction==CopyTableAndGraphsAsPDF) {
+        routeAnalyserEditor->generateOutput(
+            Nedrysoft::RouteAnalyser::OutputType::TableAndGraphsAsPDF,
+            Nedrysoft::RouteAnalyser::OutputTarget::Clipboard
+        );
+    }
 }
