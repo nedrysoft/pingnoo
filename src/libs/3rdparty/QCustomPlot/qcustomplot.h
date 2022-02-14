@@ -153,29 +153,11 @@ class QCPPolarGraph;
 /*!
   The QCP Namespace contains general enums, QFlags and functions used throughout the QCustomPlot
   library.
-  
+
   It provides QMetaObject-based reflection of its enums and flags via \a QCP::staticMetaObject.
 */
-#ifndef Q_MOC_RUN
 namespace QCP {
-#else
-class QCP { // when in moc-run, make it look like a class, so we get Q_GADGET, Q_ENUMS/Q_FLAGS features in namespace
-  Q_GADGET
-  Q_ENUMS(ExportPen)
-  Q_ENUMS(ResolutionUnit)
-  Q_ENUMS(SignDomain)
-  Q_ENUMS(MarginSide)
-  Q_FLAGS(MarginSides)
-  Q_ENUMS(AntialiasedElement)
-  Q_FLAGS(AntialiasedElements)
-  Q_ENUMS(PlottingHint)
-  Q_FLAGS(PlottingHints)
-  Q_ENUMS(Interaction)
-  Q_FLAGS(Interactions)
-  Q_ENUMS(SelectionRectMode)
-  Q_ENUMS(SelectionType)
-public:
-#endif
+  Q_NAMESPACE
 
 /*!
   Defines the different units in which the image resolution can be specified in the export
@@ -200,7 +182,7 @@ enum ExportPen { epNoCosmetic     ///< Cosmetic pens are converted to pens with 
 /*!
   Represents negative and positive sign domain, e.g. for passing to \ref
   QCPAbstractPlottable::getKeyRange and \ref QCPAbstractPlottable::getValueRange.
-  
+
   This is primarily needed when working with logarithmic axis scales, since only one of the sign
   domains can be visible at a time.
 */
@@ -211,7 +193,7 @@ enum SignDomain { sdNegative  ///< The negative sign domain, i.e. numbers smalle
 
 /*!
   Defines the sides of a rectangular entity to which margins can be applied.
-  
+
   \see QCPLayoutElement::setAutoMargins, QCPAxisRect::setAutoMargins
 */
 enum MarginSide { msLeft     = 0x01 ///< <tt>0x01</tt> left margin
@@ -227,9 +209,9 @@ Q_DECLARE_FLAGS(MarginSides, MarginSide)
   Defines what objects of a plot can be forcibly drawn antialiased/not antialiased. If an object is
   neither forcibly drawn antialiased nor forcibly drawn not antialiased, it is up to the respective
   element how it is drawn. Typically it provides a \a setAntialiased function for this.
-  
+
   \c AntialiasedElements is a flag of or-combined elements of this enum type.
-  
+
   \see QCustomPlot::setAntialiasedElements, QCustomPlot::setNotAntialiasedElements
 */
 enum AntialiasedElement { aeAxes           = 0x0001 ///< <tt>0x0001</tt> Axis base line and tick marks
@@ -250,7 +232,7 @@ Q_DECLARE_FLAGS(AntialiasedElements, AntialiasedElement)
 
 /*!
   Defines plotting hints that control various aspects of the quality and speed of plotting.
-  
+
   \see QCustomPlot::setPlottingHints
 */
 enum PlottingHint { phNone              = 0x000 ///< <tt>0x000</tt> No hints are set
@@ -264,9 +246,9 @@ Q_DECLARE_FLAGS(PlottingHints, PlottingHint)
 
 /*!
   Defines the mouse interactions possible with QCustomPlot.
-  
+
   \c Interactions is a flag of or-combined elements of this enum type.
-  
+
   \see QCustomPlot::setInteractions
 */
 enum Interaction { iNone              = 0x000 ///< <tt>0x000</tt> None of the interactions are possible
@@ -284,7 +266,7 @@ Q_DECLARE_FLAGS(Interactions, Interaction)
 
 /*!
   Defines the behaviour of the selection rect.
-  
+
   \see QCustomPlot::setSelectionRectMode, QCustomPlot::selectionRect, QCPSelectionRect
 */
 enum SelectionRectMode { srmNone    ///< The selection rect is disabled, and all mouse events are forwarded to the underlying objects, e.g. for axis range dragging
@@ -296,7 +278,7 @@ enum SelectionRectMode { srmNone    ///< The selection rect is disabled, and all
 /*!
   Defines the different ways a plottable can be selected. These images show the effect of the
   different selection types, when the indicated selection rect was dragged:
-  
+
   <center>
   <table>
   <tr>
@@ -308,7 +290,7 @@ enum SelectionRectMode { srmNone    ///< The selection rect is disabled, and all
   </tr>
   </table>
   </center>
-  
+
   \see QCPAbstractPlottable::setSelectable, QCPDataSelection::enforceType
 */
 enum SelectionType { stNone                ///< The plottable is not selectable
@@ -318,8 +300,22 @@ enum SelectionType { stNone                ///< The plottable is not selectable
                      ,stMultipleDataRanges ///< Any combination of data points/ranges can be selected
                     };
 
+  Q_ENUM_NS(ExportPen)
+  Q_ENUM_NS(ResolutionUnit)
+  Q_ENUM_NS(SignDomain)
+  Q_ENUM_NS(MarginSide)
+  Q_FLAG_NS(MarginSides)
+  Q_ENUM_NS(AntialiasedElement)
+  Q_FLAG_NS(AntialiasedElements)
+  Q_ENUM_NS(PlottingHint)
+  Q_FLAG_NS(PlottingHints)
+  Q_ENUM_NS(Interaction)
+  Q_FLAG_NS(Interactions)
+  Q_ENUM_NS(SelectionRectMode)
+  Q_ENUM_NS(SelectionType)
+
 /*! \internal
-  
+
   Returns whether the specified \a value is considered an invalid data value for plottables (i.e.
   is \e nan or \e +/-inf). This function is used to check data validity upon replots, when the
   compiler flag \c QCUSTOMPLOT_CHECK_DATA is set.
@@ -331,7 +327,7 @@ inline bool isInvalidData(double value)
 
 /*! \internal
   \overload
-  
+
   Checks two arguments instead of one.
 */
 inline bool isInvalidData(double value1, double value2)
@@ -340,9 +336,9 @@ inline bool isInvalidData(double value1, double value2)
 }
 
 /*! \internal
-  
+
   Sets the specified \a side of \a margins to \a value
-  
+
   \see getMarginValue
 */
 inline void setMarginValue(QMargins &margins, QCP::MarginSide side, int value)
@@ -359,10 +355,10 @@ inline void setMarginValue(QMargins &margins, QCP::MarginSide side, int value)
 }
 
 /*! \internal
-  
+
   Returns the value of the specified \a side of \a margins. If \a side is \ref QCP::msNone or
   \ref QCP::msAll, returns 0.
-  
+
   \see setMarginValue
 */
 inline int getMarginValue(const QMargins &margins, QCP::MarginSide side)
@@ -378,23 +374,12 @@ inline int getMarginValue(const QMargins &margins, QCP::MarginSide side)
   return 0;
 }
 
-
-extern const QMetaObject staticMetaObject; // in moc-run we create a static meta object for QCP "fake" object. This line is the link to it via QCP::staticMetaObject in normal operation as namespace
-
 } // end of namespace QCP
 Q_DECLARE_OPERATORS_FOR_FLAGS(QCP::AntialiasedElements)
 Q_DECLARE_OPERATORS_FOR_FLAGS(QCP::PlottingHints)
 Q_DECLARE_OPERATORS_FOR_FLAGS(QCP::MarginSides)
 Q_DECLARE_OPERATORS_FOR_FLAGS(QCP::Interactions)
-Q_DECLARE_METATYPE(QCP::ExportPen)
-Q_DECLARE_METATYPE(QCP::ResolutionUnit)
-Q_DECLARE_METATYPE(QCP::SignDomain)
-Q_DECLARE_METATYPE(QCP::MarginSide)
-Q_DECLARE_METATYPE(QCP::AntialiasedElement)
-Q_DECLARE_METATYPE(QCP::PlottingHint)
-Q_DECLARE_METATYPE(QCP::Interaction)
-Q_DECLARE_METATYPE(QCP::SelectionRectMode)
-Q_DECLARE_METATYPE(QCP::SelectionType)
+//no need to use Q_DECLARE_METATYPE on enum since Q_ENUM_NS adds enum as metatype automatically
 
 /* end of 'src/global.h' */
 
