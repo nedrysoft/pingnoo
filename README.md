@@ -18,17 +18,6 @@ Pingnoo is an open-source combined traceroute and ping application for analysing
 <img alt="the pingnoo user interface" src="https://user-images.githubusercontent.com/55795671/103213760-96965c80-4906-11eb-98ee-34658db89b4c.gif"/>
 
 ---
-##Donations
-
-Any donations are gratefully received. The kindness of some commercial software & services companies has reduced the costs I incur. I still have to pay for code signing certificates, developer accounts, hardware, electricity, development tools that aren't available for free (or free for OSS).
-
-I am trying to expand the software as much as I can. I have a list of features I will implement, and I have received great feedback and suggestions from people actively using the software.
-
-***There absolutely is no obligation for you to donate***, you are free to use or share this software or its source code under the terms of the GPLv3, but every little bit helps!
-
-[![Donate with Bitcoin](https://en.cryptobadges.io/badge/big/1EDYnME2Ke4k1EThnHYJcpPk4DUzC8ALmc)](https://en.cryptobadges.io/donate/1EDYnME2Ke4k1EThnHYJcpPk4DUzC8ALmc)
-
----
 
 ## Installation
 
@@ -379,9 +368,14 @@ Also, the development of pingnoo is made possible with the following commerciall
 -   [Araxis Merge](https://www.araxis.com/merge) - Araxis kindly provided the license for free for the project.
 -   [Outline](https://www.getoutline.com/) - A note-taking app that supports rich content and based on Markdown, the application is open-source but hosted accounts are available.
 
-## Thanks
+---
+##Buy me a coffee
 
-This project is a grateful recipient of a micro-grant from [icculus](https://icculus.org/microgrant/2020/) who provide micro-grants each year for eligible open-source projects.
+If you'd like to buy me a coffee, you can do this over at Ko-Fi by following [this](https://ko-fi.com/nedrysoft#) link. 
+
+[Take Me To Ko-Fi](https://ko-fi.com/nedrysoft#)
+
+Thanks :)
 
 ## License
 
