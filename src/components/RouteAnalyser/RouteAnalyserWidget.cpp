@@ -323,7 +323,6 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onPingResult(Nedrysoft::Rout
                 PingData::Fields::AverageLatency <<
                 PingData::Fields::CurrentLatency;
 
-
             for (auto field : fields) {
                 if (m_maximumMap.contains(field)) {
                     auto currentMax = m_maximumMap[field];

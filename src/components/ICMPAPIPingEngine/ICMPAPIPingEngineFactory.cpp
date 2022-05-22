@@ -91,8 +91,9 @@ auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::saveConfiguration()
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::loadConfiguration(QJsonObject configuration) -> bool {
     Q_UNUSED(configuration)
 
-    return ( false );
+    return false;
 }
+
 auto Nedrysoft::ICMPAPIPingEngine::ICMPAPIPingEngineFactory::deleteEngine(
         Nedrysoft::RouteAnalyser::IPingEngine *engine) -> bool {
 

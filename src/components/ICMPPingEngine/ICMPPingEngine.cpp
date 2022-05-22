@@ -306,14 +306,13 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::timeoutRequests() -> void {
 
         auto elapsedTime = pingItem->elapsedTime();
 
-        if ((elapsedTime/1e6) > d->m_timeout) {
+        if (elapsedTime > d->m_timeout/1000.0) {
             if (pingItem->lock()) {
                 if (!pingItem->serviced()) {
                     QHostAddress hostAddress;
 
                     pingItem->setServiced(true);
-                    pingItem->unlock();
-#pragma message("should this /1000?")
+
                     Nedrysoft::RouteAnalyser::PingResult pingResult(
                             pingItem->sampleNumber(),
                             Nedrysoft::RouteAnalyser::PingResult::ResultCode::NoReply,
@@ -324,11 +323,11 @@ auto Nedrysoft::ICMPPingEngine::ICMPPingEngine::timeoutRequests() -> void {
                             -1);
 
                     Q_EMIT result(pingResult);
-
-                    i.remove();
-                } else {
-                    pingItem->unlock();
                 }
+
+                i.remove();
+
+                pingItem->unlock();
             }
         }
     }
@@ -389,6 +388,7 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
         pingItem->lock();
 
         if (!pingItem->serviced()) {
+
             auto pingResult = Nedrysoft::RouteAnalyser::PingResult(
                 pingItem->sampleNumber(),
                 resultCode,
@@ -399,10 +399,13 @@ void Nedrysoft::ICMPPingEngine::ICMPPingEngine::onPacketReceived(
                 -1
             );
 
+            pingItem->setServiced(true);
+
+            pingItem->unlock();
+
             Q_EMIT Nedrysoft::ICMPPingEngine::ICMPPingEngine::result(pingResult);
 
-            pingItem->setServiced(true);
-            pingItem->unlock();
+            removeRequest(pingItem);
         } else {
             pingItem->unlock();
         }

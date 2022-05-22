@@ -238,6 +238,8 @@ auto Nedrysoft::Core::Menu::insertGroup(QString groupIdentifier) -> void {
 auto Nedrysoft::Core::Menu::appendCommand(QString commandIdentifier, QString groupIdentifier) -> void {
     auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
 
+    assert(commandManager != nullptr);
+
     auto command = commandManager->findCommand(commandIdentifier);
 
     if (command) {
@@ -247,6 +249,8 @@ auto Nedrysoft::Core::Menu::appendCommand(QString commandIdentifier, QString gro
 
 auto Nedrysoft::Core::Menu::insertCommand(QString commandIdentifier, QString groupIdentifier) -> void {
     auto commandManager = Nedrysoft::Core::ICommandManager::getInstance();
+
+    assert(commandManager != nullptr);
 
     auto command = commandManager->findCommand(commandIdentifier);
 
