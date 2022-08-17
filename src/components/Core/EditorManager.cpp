@@ -183,7 +183,7 @@ Nedrysoft::Core::EditorManager::EditorManager(EditorManagerTabWidget *tabWidget)
 
         auto contextManager = Nedrysoft::Core::IContextManager::getInstance();
 
-        if (contextManager) {
+        if (contextManager && newEditor) {
             contextManager->setContext(newEditor->contextId());
         }
 
