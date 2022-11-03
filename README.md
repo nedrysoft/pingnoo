@@ -369,7 +369,7 @@ Also, the development of pingnoo is made possible with the following commerciall
 -   [Outline](https://www.getoutline.com/) - A note-taking app that supports rich content and based on Markdown, the application is open-source but hosted accounts are available.
 
 ---
-##Buy me a coffee
+## Buy me a coffee
 
 If you'd like to buy me a coffee, you can do this over at Ko-Fi by following [this](https://ko-fi.com/nedrysoft#) link. 
 
